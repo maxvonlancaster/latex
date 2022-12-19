@@ -1,0 +1,125 @@
+File: 		ar.txt
+Purpose:	Description of the ar font and package bundle
+Author:		Claudio Beccari, Politecnico di Torino, Turin, Italy
+E-mail:		beccari@polito.it
+Date:		21 april 1998 (on the 2751st anniversary of Rome)
+
+
+Copyright 1998,1999,2000 Claudio Beccari
+
+The programs  contained  in  this  bundle  can  be  redistributed and/or
+modified under the terms of the LaTeX Project Public License Distributed
+from  CTAN  archives  in  directory  macros/latex/base/lppl.txt;  either
+version 1 of the License, or any later version.
+
+
+
+The ar font and package bundle  is  used to insert the "aspect ratio" symbol
+in any text and formula dealing with (presumably) aeronautics.  The  "aspect
+ratio"  symbol  is a ligature among a capital A and a capital R, much as the
+\AE  command  produces  a  ligature  among  a capital A and a capital E. The
+ligature AR as a means of  indicating  the "aspect ratio" is meaningful only
+in mathematics, so that  only  the  inclined  (italic)  form  is  available,
+although  the  METAFONT  source  statements were written in such a way as to
+produce the symbol in any font family, series and shape.
+
+The .mf files are for the generation of the AR ligature in the same sizes as
+the standard math-italic fonts; the  ar.sty  package  (or option in terms of
+the old LaTeX209 terminology) is for the necessary definitions.  In practice
+as a final user you should start your LaTeXe document with:
+
+\documentclass[...]{book}% or whatever other document class
+\usepackage{ar}
+...
+\begin{document}
+...
+\end{document}
+
+If you prefer to use LaTeX in its 209 version or in compatibility mode,  you
+start with:
+
+\documentstyle[...,ar]{book}% or whatever other document style
+...
+\begin{document}
+...
+\end{document}
+
+The "aspect ratio" symbol is simply obtained by using the command 
+
+\AR
+
+indifferently in math mode or in text mode.
+
+Remember, though, that with true LaTeX209 the \AR command produces a  single
+sized  symbol  (by  default  10pt), and if you want another size you have to
+edit ar.sty and change the string
+
+at 10pt
+
+with, say, 
+
+at 12pt
+
+This is so rudimentary that you'd  better  start using LaTeXe, where all the
+size changes are correctly dealt with  by  the  New  Font  Selection  Scheme
+(NFSS) without your intervention.
+
+
+The bundle contains the following files:
+	ar5.mf
+	ar6.mf
+	ar7.mf
+	ar8.mf
+	ar9.mf
+	ar10.mf
+	ar12.mf
+	ar.sty
+	ar.txt
+
+Move the .mf file somewhere  where  METAFONT  can find them; this depends on
+the TeX-METAFONT system you are using, but if you  cope  with  the  official
+TDS directory scheme, you might place them in 
+
+\texmf\fonts\source\local\ar
+
+(you should probably create/add the "branch" local\ar).
+
+Similarly move ar.sty in a  directory  searched by LaTeX, possibly, with the
+official TDS system, in
+
+\texmf\tex\latex\misc
+
+If your system requires it (as with MikTeX, for instance) you  might  choose
+to run such an application as
+
+configure -u
+
+in  order  to  let  the executables know about the files you added and where
+they are.
+
+Depending on the system  you  are  using, at  this  point  you might need to
+generate the font .tfm and .pk files, but if you are using a  modern  system
+such  as  MikTeX,  for  example,  you  need  not  worry any more and you can
+directly use the ar.sty package.   As  soon  as the latex executable finds a
+reference to \AR, it controls the existance of the suitable .tfm file,  and,
+should  it  be  missing  (not  yet  generated),  it  shells  out  to another
+application, maketfm, that produces the  necessary  file and moves it in the
+proper subdirectory.  Similarly when you preview and/or print your document,
+the accompanying  drivers  (yap,  dvips,  etc.)  run  the  application  that
+produces  the  .pk  files  suited  for  the  screen and/or the printer pixel
+density.
+
+If you do not have such modern tools, it is necessary  to  run  METAFONT  by
+hand or by  means of a  script or batch or command  file in order to produce
+the fundamental .tfm files and the pixel files suited to your printer and/or
+screen; your scripts should move the .tfm files where they belong,  and  the
+.pk  files  where  your  drivers  can  find  them.  Please read the relevant
+documentation that acompanies your software;  it  is difficult to give error
+free instructions valid for any  operating system, any system configuration,
+and any software.
+
+
+Happy LaTeXing!
+
+
+

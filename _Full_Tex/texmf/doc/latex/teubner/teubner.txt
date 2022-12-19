@@ -1,0 +1,124 @@
+             THE TEUBNER PACKAGE VERSION 3.0 OF APRIL 2010
+                 EXTENSION FOR PHILOLOGICAL TYPESETTING
+
+
+Copyright  2001-2004-2010 Claudio Beccari
+
+The programs contained in this bundle can be  distributed and/or modified
+under the terms of the LaTeX Project Public License (LPPL),  version 1.3c 
+dated 2008-05-04 or later as it appears in 
+                     CTAN/macros/latex/base/lppl.tex.
+
+
+This bundle contains the following files
+
+teubner.txt          this file
+teubner.dtx          documented TeX file
+teubner.ins          installation file
+teubner-doc.pdf      documentation file
+
+File teubner-doc.pdf  is the documentation file  that  shows what can be 
+done with this extension package and displays several examples.
+Version 3.x of the teubner package contains many new enhancements, among 
+which  it's worth  noting  the new  extended  accent macros  (that avoid 
+kerning  problems that show up using the ligature mechanism) and the new 
+macros  that allow  to use  the LGR encoded CBgreek fonts in conjunction 
+with other PostScript scalable fonts;  the compatibility  with the Times 
+eXtended  and  the  Palatino  eXtended  fonts,  accessible  through  the 
+packages  txfonts and pxfonts,  are already built in;  the compatibility 
+with  the Latin  Modern  fonts was already available with version 2.x of 
+the teubner package.
+
+In  order  to  use  this  extension  package  with  LaTeX  you  have  to
+install  it.  May be the  very installation of your  (recent) TeX system 
+distribution  already  provided  for  it;  may  be  your  TeX  system is 
+configured  to load  missing  packages  on the fly.  In any case you can 
+check and possibly run your Package Manager (with MiKTeX follow the path 
+Programs|MiKTeX Settings|Packages;   with TeXlive and MacTeX   (if their 
+installation  configuration was not the default one,  that is a complete
+installation) run tlmgr).  If you feel more comfortable to do everything 
+by yourself and/or want to make a personal installation, run teubner.ins
+through  LaTeX;  the  generated  files are  teubner.sty  and LGRaccents-
+glyphs.def; they must be moved where TeX-the-program can find them. This 
+depends very much on your particular  implementation  of the TeX system, 
+but if your system copes with the standard TeX directory  structure  and   
+with a multiplicity of different root directory structures, you probably   
+have a localtexmf root, or a /texmmf in your Home directory containing a 
+TeX directory which on turn contains a latex directory. Under the latter  
+one create a new directory named, say, teubner and move there teubner.sty 
+and LGRaccents-glyphs.def.
+
+I suggest you to create  a  directory  teubner  in  the doc directory of
+the locally rooted structure  and move there  both teubner-doc.pdf   and
+teubner.pdf  that you  get  by running pdflatex directly on teubner.dtx.
+
+For what concerns fonts,  they should already be installed with a recent 
+TeX system distribution; this means that there are already all the files 
+TeX-the-program needs in order to do its work; there is one point, though, 
+that requires full attention;  the default  installation  loads only the 
+PostScript  fonts in size 10pt;  all other  sizes  are are  obtained  by 
+reducing or enlarging  that single size.  The teubner package copes with 
+this situation if you specify the "10pt" option when calling this package, 
+but if you want to have perfect optical sizes,  then you should download 
+from  CTAN  the full  collection  and install it in your  computer.  The 
+details  for this installation  require you read  with due attention the 
+instructions  that  come  with  your  TeX system distribution;  it's not 
+difficult,  but it requires to be very careful at every step.  Remember,  
+though, that your Package Manager can do all the work for you.
+
+It's important  to control that you have the latest CBgreek fonts;  even  
+if you got them pre-installed with  your TeX system distribution, may be  
+they  are  not  the latest  version. The full collection has been redone 
+in the year 2007; the reduced collection is a subset of the full one. 
+Earlier distributions, dated at least 2002, might be compatible;  if you 
+get something strange is happening with the CBgreek fonts, verify if your 
+fonts are up to date.
+
+Another question you might ask yourself:  is my TeX system complete  and
+up to date? The fact you installed a TeX system and you did not have the
+CB fonts may be an index that you still have the babel package locked at
+a  version  number  earlier than 3.7. I suggest you to upgrade  your TeX
+system to the most up to date one you can find on CTAN.
+
+Connected to this point there is the question of the updated metric files 
+related  to the Lipsian  fonts; if your TeX system distribution has been 
+updated  to what  is available  on CTAN  by May 2010,  your distribution 
+already  contains the updated tfm files.  Otherwise, please, update your
+CBgreek fonts.
+
+After all these steps are done,  you  are  ready  to  use  your  teubner
+extensions;  it will not be  easy at the beginning,  because  there  are 
+hundreds  of new commands.  Be sure to have already thoroughly read  the 
+documentation file teubner-doc.pdf and that you have the hard copy close 
+to you. 
+
+Remember,  though,  that most commands  are Latin names or abbreviations 
+that  should  be familiar  to any philologist  specialized in classical/
+ancient European languages, such as classical Greek, Latin, et cetera.
+
+This set of extension  commands  has been tested  in several  documents;
+nevertheless I prepared them as a hobby, trying to help a friend philolo-
+gist. I hope this package may be useful also to you, but I must disclaim 
+any liability for any unwanted results you might get, including the worst  
+possible things that may happen to anybody using a computer.  
+
+I will not write down any strong disclaimer sentence in capital letters,  
+because it should be absolutely evident that I did something  I consider
+useful,  but is up to you  to decide to use it and face the consequences
+(... which nevertheless I hope they are what you expected).
+
+If you find this package of some utility and you find some errors and/or    
+some glitches,  please write me by e-mail (see below).  If you'd like me 
+to realize some other commands,  please send me  by e-mail  your request  
+together with a scanned image containing the visual result you'd like to 
+obtain. I don't guarantee I'll be able to satisfy your request, but I'll 
+give it a try.  In any case  don't ask for things LaTeX can't do; and if 
+you use LaTeX, you know what are its pros and cons.
+
+Happy philological LaTeXing!
+
+Claudio Beccari                                  Turin, 20 of June 2010
+Former Professor of Electronics
+Politecnico di Torino, Italy
+claudio dot beccari at gmail dot com
+

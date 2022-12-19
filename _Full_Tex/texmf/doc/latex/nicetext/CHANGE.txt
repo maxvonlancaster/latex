@@ -1,0 +1,133 @@
+______________________________________________________________________
+nicetext RELEASE v0.41  2010/04/05   SUMMARY: documentation changes, 
+                                     corrected `niceverb.sty', 
+                                     added third-party example
+
+     FILES.txt          2010/04/05   changed name (for ...), updated, 
+                                     corrected
+   README(.txt)         2010/04/05   typo fix ("http."), correction
+   CHANGE.LOG           2010/04/05   updated
+   CHANGE.txt           2010/04/05   new copy of CHANGE.LOG
+ arseneau.tex/pdf       2010/04/05   added `optional.sty'
+ fifinddo.sty    v0.4a  2010/04/04   copyright updated
+ niceverb.sty    v0.41  2010/04/05   stamp v0.33 -> v0.4, 
+                                     corrected \AutoCmdInput
+ nicetext.tex/pdf       2010/04/05   corrected
+
+______________________________________________________________________
+nicetext RELEASE v0.4   2010/03/30   SUMMARY: `% ' commenting style 
+                                     supported, applied to packages 
+                                     by Donald Arseneau, extended 
+                                     formatting through specific 
+                                     replacements, also with 
+                                     substr.sty, improved setup for 
+                                     \MakeDocCorrHook
+
+-   FILES               2010/03/30   updated
+   README               2010/03/30   updated
+   CHANGE.LOG           2010/03/30   updated
+  NNOUNCE.txt           2010/03/30   updated
+  RELEA03.txt           2010/03/30   renamed
+
+-  fifinddo.sty  v0.4   2010/03/29   setup for replacement chaining 
+                                     and \MakeDocCorrectHook 
+                                     improved: \SetPatternCodes, 
+                                     \ResetPatternCodes, 
+                                     \SetCorrectHookJob, 
+                                     \SetCorrectHookJobLast
+   fifinddo.pdf         2010/03/29   updated
+   fdtxttex.tex         2010/03/30   updated
+   fdtxttex.tpl         2010/03/30   updated
+
+-   makedoc.sty  v0.4   2010/03/30   `% ' commenting style supported,
+                                     \ResetCodeLineNumbers,
+                                     use \ResetPatternCodes
+    makedoc.pdf         2010/03/30   updated, fixed
+    makedoc.cfg         2010/03/29   unchanged
+    makedoc.tpl         2010/03/23   unchanged
+  mdoccheat.pdf         2010/03/30   updated, renamed mdoccheat.tex
+   mdoccorr.cfg         2010/03/29   uses new fifinddo commands
+
+-  niceverb.sty  v0.4   2010/03/29   auto mode: \AddToNoVerbList, 
+                                     safer restoring of underscore
+   niceverb.pdf         2010/03/29   updated
+
+-  arseneau.tex         2010/03/30   first CTAN release
+   arseneau.pdf         2010/03/30   first CTAN release
+     sample.txt         2010/03/22   unchanged
+     substr.tex         2010/03/30   extended formatting by specific
+                                     replacments using new fifinddo
+                                     commands; corrections
+     substr.pdf         2010/03/30   first CTAN release
+
+______________________________________________________________________
+nicetext RELEASE v0.3   2010/03/23   SUMMARY: `makedoc' simplified, 
+                                     `niceverb' robustified, 
+                                     `fifinddo' re-implemented 
+                                     & slightly enhanced,
+                                     txt to TeX dialogue & templates
+
+-   FILES               2010/03/23   first CTAN release 
+   README               2010/03/23   updated
+   CHANGE.LOG           2010/03/23   updated
+  NNOUNCE.TXT           2010/03/23   updated
+
+-  fifinddo.sty  v0.31  2010/03/23   replacement chaining improved: 
+                                     \PrependExpandableAllReplacer;
+                                     works with character codes > 127; 
+                                     setup-setup unified
+   fifinddo.pdf         2010/03/23   updated
+   fdtxttex.tex         2010/03/22   first CTAN release
+   fdtxttex.tpl         2010/03/23   first CTAN release
+    mkfddoc.tex                      removed
+
+-   makedoc.sty  v0.3   2010/03/19   bundling to standalone commands
+    makedoc.pdf         2010/03/23   updated & much extended
+                                     (list of script commands)
+    makedoc.cfg         2010/03/20   no longer essential
+    makedoc.tpl         2010/03/23   first CTAN release
+  mdoccheat.pdf         2010/03/21   first CTAN release
+   mdoccorr.cfg         2010/03/23   replaces `mdcorr.cfg', uses 
+                                     \Prepend...
+
+-  niceverb.sty  v0.32  2010/03/23   robustified, incl. 
+                                     `hyperref' compatibility
+                                     & dis-/re-enabling
+   niceverb.pdf         2010/03/23   much extended
+
+-    sample.txt         2010/03/22   first CTAN release
+     substr.tex         2010/03/18   first CTAN release
+
+______________________________________________________________________
+nicetext RELEASE  0.2   2009/04/15   add `fifinddo' and `makedoc' for 
+                                     txt -> latex preprocessing
+
+-    README             2009/04/15   updated
+     CHANGE.LOG         2009/04/15   new
+
+-  fifinddo.sty  v0.3   2009/04/15   first CTAN release
+   fifinddo.pdf         2009/04/15
+    mkfddoc.tex         2009/04/15
+
+-   makedoc.sty  v0.2   2009/04/13   first CTAN release 
+    makedoc.pdf         2009/04/15
+    makedoc.cfg         2009/04/15
+     mdcorr.cfg         2009/04/15
+
+-  niceverb.sty  v0.2   2009/04/15   strengthened \SimpleVerb, 
+                                     \sf detection after `(', 
+                                     more for \niceverbNoVerList
+   niceverb.pdf         2009/04/15   adjusted to new doc generation 
+                                     method, mentioning it, 
+                                     motivation extended,
+                                     more examples
+
+______________________________________________________________________
+nicetext RELEASE  0.1   2009/02/23:  first CTAN releases of 
+                                     `niceverb' and `wiki'
+
+-  niceverb.sty  v0.1   2009/02/21
+   niceverb.pdf         2009/02/23
+
+-      wiki.sty  v0.2   2008/07/02 
+  wikicheat.pdf         2009/01/17

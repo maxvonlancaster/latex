@@ -1,0 +1,280 @@
+* WinEdt News.txt
+Last modified on Tuesday, April 29, 2008  16:19
+__________________________________________________________________
+
+
+WinEdt 5.6: a beta version of the next official release!
+
+------------------------------------------------------------------
+
+WinEdt 5 [Build 20080429 (v. 5.6)] (Beta 1)
+===========================================
+
+- The Accessories menu for MiKTeX and TeX Live Configuration
+has been redone. Console applications now call new common
+macros in Exec\TeX folder. A new macro ExeCompiler.edt in Exec
+folder takes care of actual execution as defined in the
+Execution Modes. By default console applications run in
+WinEdt's Console docked at the bottom of WinEdt's Window. The
+appearance and position of this Window can be adjusted through
+the Appearance| Docking and Highlighting| Forms Dialogs (just
+like Tree and Gather Control). Visibility of WinEdt console can
+be toggled through a new menu item in the Accessories Menu
+(Ctrl+Shift+C).
+
+  Note that Console allows keyboard input. When Activated and
+  Focused it captures keyboard input. To give focus back to the
+  Active MDI Window, use ESC key of click on the text or use
+  Ctrl+Shift+C to hide and disable the console. Only one
+  application at the time can be run in WinEdt's Console (which
+  is usually what you want when you are compiling a TeX
+  Document).
+
+Execution Modes dialog allows you to change default properties
+pertaining to the execution of TeX accessories. In particular,
+you can disable the "WinEdt Console" option and press "Apply to
+All" button to establish previous mode of execution using a
+separate Windows Console. For some applications this may be a
+preferred method... At this stage it is up to beta testers to
+experiment and provide feedback and solutions. My testing with
+MiKTeX 2.7 and TeX Live 2007 did not reveal any problems with
+the new default settings.
+
+- The accessories menu and toolbar contains "Compile" and
+"Compile Selected" items (F9 and Shift+F9). At the moment these
+two items can be configured in the Execution Modes (compile to
+dvi, ps or pdf and use 3 different methods to create pdf).
+Advanced users may take a look at the macros that do the job
+(the same set is used for MiKTeX and TeX Live) and come up with
+improvements and new ideas how to quickly configure these two
+items. The "Compile" item should be defined for the most common
+kind of compilation that you encounter for your work. That may
+vary from one user to another...
+
+- It is not required that TeXify item in the accessories menu
+contains texify.exe as an executable (in particular, TeX Live
+has no texify.exe!). You could specify your favorite TeX
+Compiler (eg. xelatex.exe) and possibly enable 3 custom
+iterations in the Execution Modes to let WinEdt's Macro run
+BibTeX and MakeIndex up to 3 times (as required to get compiled
+document up-to-date).
+
+- Redirection of TeX Aux files to another folder may not work
+with all accessories and TeX Systems (this was also the case in
+5.5). It assumes that they support *-directory=dir switches and
+that Aux folder already contains subfolders for documents
+placed relative to the main file. If you encounter problems
+with this you should consult the macros and the documentation/
+help for TeX accessory in question and see if you can come up
+with an elegant solution (eg. by using the command prompt to
+achieve what you want). And if it cannot be done than you'll
+have to give up this feature or resort to some brute force
+solution in order to allow such accessory process files in
+"remote/non-default" folders... If you cannot find the way to
+accomplish the task from the Command Prompt then it is unlikely
+that a WinEdt macro can do anything about it!
+
+- Toolbar has been slightly modified / rearranged and images
+used in the default settings have been "enhanced" with gradient
+brush. This should give slightly better appearance on Vista
+although you should not compare it to the appearance of Office
+2007. WinEdt does not have that kind of resources to put into
+the appearance and professional design of GUI. Even the current
+improvements require your computer to support 24 or 32 bit
+bitmaps or else the new icons may look worse than the simple
+16-color old ones. Keep this in mind if you are considering
+upgrading on an old machine...
+
+- WinEdt Macro engine was subject to substantial changes that
+were required to accommodate and ever increasing number of
+macro functions. The old case sentence executing code on the
+stack was stretched to the limit and something had to be done
+about it. The users should not notice any difference except for
+improved macro execution speed and performance. Just in case
+you should know this as it is always possible that some
+unintentional change in the behavior of macro scripts might
+result from this... If so, we'll deal with it.
+
+- New macros for execution of console applications (inside
+WinEdt's Interface):
+
+  RunConsole("Command","Folder","Caption", no_Reset,no_Show: 0..1);
+  SetConsoleText("Text", GOTO_End,Append: 0..1);
+  GetConsoleText(Register: 0..9);
+  SetConsoleInfo("Info Caption");
+  GetConsoleInfo(Register: 0..9);
+  ShowConsole(Visible: -1..1, test_Visibility: 0..1);
+  FocusConsole(Focused: -1..1, test_Focus: 0..1);
+  ResetConsole;
+  IfConsoleRunning("Then Macro","Else Macro");
+
+- ShowExecutionModes macro function has been stripped of
+parameters for extra files that are no longer used (not
+compatible with the old one!!!):
+
+  ShowExecutionModes('Execution Modes - MiKTeX',>
+    '%b\Exec\MiKTeX\ExeMode.edt',>
+    '%b\Exec\MiKTeX\ExeMode_Backup.edt',>
+    '%b\Exec\MiKTeX\ExeMode_Custom.edt',>
+    '%b\Exec\MiKTeX\ExeMode_Default.edt',>
+      1); // Extended Mode with Extra Pages for TeX System and TeX Output
+
+- Execution Modes Interface has been redone to allow new
+options with WinEdt console execution.
+
+- New macro to remove extra/ redundant spaces from the command
+line (except inside double-quotes):
+
+  TrimCommandLine("Command", Register: 0..9);
+
+- Search -> Hide Errors Menu Command (CtrL+Shift+E) now hides
+the console as well:
+
+  ShowErrorLog(0);ShowConsole(-1);
+
+- Tree and Gather interface now allows some extended processing
+and specifications in order to include more useful information
+pertaining to Bibliography Items:
+
+    EXTENDED="@{}()\"
+    EXITEMS="author,title,year,@"
+    EXLINELIMIT=16
+    CAPTION="%?: %!?"
+
+If you don't want this in the Tree or Gather comment out this
+lines and use
+
+    CAPTION="%?"
+
+to display only bib label. Extra processing might be a bit
+slower in huge bibliography files (data bases). In Gather form
+docked at the bottom long captions with Author, Title,... make
+sense.
+
+- Macro GDIPopup has an extra 0..1 parameter. Specify 1 if you
+want extended Bib Captions in this interface (response to
+\cite{}). Extended captions must be enabled for Gather
+interface or else GDIPopup interface always shows short
+captions.
+
+- A new Global Options under the [ENVIRONMENTS] section:
+
+  WRAP_SOFT_COMMENTS=0 // Do not Wrap Comments in Soft Mode!
+
+This property is automatically on in Semi-Soft Wrapping (where
+wrapping such lines would cause problems with compilation!).
+
+- Tree Branches now allow specification of # which is expanded
+to the number of items inside. For Example:
+
+  BRANCH="Bibliography (# Items)"
+
+Repeat ## twice to include character # in this string (if
+required).
+
+- Input Directives (Tree.ini) now allow specification of the
+CAPTION. Advanced users can change the way the filename will
+appear in the tree (eg. by stripping off the PATH or Filetype
+similar to the FILENAME directive). Custom processing takes
+place after FILENAME has been processed. %? refers to the
+unprocessed caption (filename)...
+
+- New Switch for comments in LaTeX Documents:
+
+  \begin{comment} .... \end{comment}
+
+- New Switch for verbatim: \verb/?/...
+
+- A few enhancements to MUI (including multiple selections in
+list boxes as documented in Macro Manual).
+
+- HTML Compiler now calls TtH for TeX Mode (before it was
+disabled for this mode and it only worked for HTML Help Files).
+
+- WinEdt now comes with LaTeX Help e-book (HTML File with
+documentation for LaTeX and other TeX Accessories). WinEdt's
+Help Menu has an interface for it in its Help Menu...
+
+==================================================================
+
+Bug Fixes:
+==========
+
+- A problem with finding files in the project tree when PATH is
+being used in WinEdt's Input Directives has been fixed. GetTree
+macro now correctly qualifies such files (as do other functions
+that depend on such files such as FindInFiles).
+
+- \#{...} and \#~{...} RegEx filters now allows expressions
+that span over one line if the expression contains > or **.
+
+- A Bug with \# RegEx in FindInString has been fixed.
+
+- A caret if now properly positioned when large extra line
+spacing is specified in Preferences| Font Dialog...
+
+- A bug for LstGetItem has been fixed (it now correctly returns
+an item as specified by the index parameter).
+
+- Word Count now properly ignores text in softly wrapped
+comments (bug fix)...
+
+- A delimiter matching bug with (unlikely) constructions like
+$\$$ or $$\$$$ has been fixed.
+
+- WinEdt (in the background) is now properly displayed in the
+taskbar on Vista even if it is running a modal dialog...
+
+- Windows Classic Appearance Fixes:
+  - Unwanted Horizontal Bar no longer appears when not
+    unnecessary in softly wrapped documents!
+  - A Refresh Oddity with Document Tabs after WinEdt has been
+    resized has been fixed.
+
+==================================================================
+
+Todo List for this version:
+===========================
+
+- todo: SetFontSize macro...
+
+- todo: MoveLine Up or Down Macro...
+
+- todo: Revisit Word Left and Right Commands (like word!)?
+
+- todo: Revisit GlobalReturn responses in Tree.
+
+- todo: Update Help and Macro Manual
+
+  (including Keywords and Macro Dictionary)
+
+  InsLine(4); // to be Documented...
+
+- todo: Finish the "darn" Environments...
+  // One day .....................................................
+  SPELLING_MODE                                                 19
+  SPELLING                                                      20
+  HIGHLIGHTING_MODE                                             21
+  HIGHLIGHTING                                                  22
+  FONT_MODE                                                     23
+
+==================================================================
+
+Then tackle folding for 5.7....
+
+__________________________________________________________________
+
+
+WinEdt 5 [Build 20071003 (v. 5.5)] (Official Release)
+=====================================================
+
+(see History.txt)...
+
+__________________________________________________________________
+
+
+The file "...WinEdt\Doc\History.txt" contains a complete
+history of additions and fixes since the release of WinEdt32
+(from Y2K on)...
+
+__________________________________________________________________

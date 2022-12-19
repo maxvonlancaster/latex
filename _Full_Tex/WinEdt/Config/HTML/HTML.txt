@@ -1,0 +1,68 @@
+__________________________________________________________________________
+
+                    Configuration component Update
+                            for HTML
+
+                           for WinEdt 5.2
+                           ==============
+
+                            Release 1.0
+                         December 13, 2000
+
+                       by Denis Stan\v{c}er
+                 E-mail: Denis.Stancer@CARNet.hr
+
+                http://jagor.sce.hr/~denis/winedt
+__________________________________________________________________________
+
+WinEdt 5 has the support for HTML Mode already build in its
+default settings. The HTML component and this document which
+highlights its features was adapted from Denis Stancer's
+contribution. For more information on other components and the
+latest updates as prepared and maintained by Denis please visit:
+
+  http://jagor.srce.hr/~denis/winedt/
+__________________________________________________________________________
+
+HTML 4.01 is W3C's reformulation of HTML 4.0 in XML (not in SGML).
+The main change is the recommendation to use lowercase elements and attributes.
+
+HTML configuration component update contains the following:
+
+ In component root directory:
+    - html.txt                  This document
+    - complete.edt              Macro for completing container elements, e.g. <p>
+                                (Used by << active string)
+    - date.edt                  Macro for updating a date/time stamp. It searches
+                                for <!-- bdate -->*<!-- edate --> and replaces the *
+                                with current date/time
+    - docwiz.edt                Wizard that helps writing documents
+    - linkwiz.edt               Wizard that helps writing links and anchors
+    - listwiz.edt               Wizard that helps writing lists
+    - tblwiz.edt                Wizard that helps writing tables
+__________________________________________________________________________
+
+* Menu
+  ====
+
+    Insert      -   4 wizards are added, date stamp is added, icons added
+                    minor shortcut bugs fixed
+    Accessories -   HTML Preview has %P\%N.html?%P\%N.htm in requires File field
+    Help        -   HTML help added
+__________________________________________________________________________
+
+* Active Strings
+  ==============
+
+    <?>         - The element (anything inside <>) is lowercased
+    <<          - Using complete.edt macro the innermost container is closed
+                  e.g. if you type      <p><em><strong><big>Text</big><<
+                  the result will be    <p><em><strong><big>Text</big></strong>
+                  and if you continue   <p><em><strong><big>Text</big></strong><<
+                  the result will be    <p><em><strong><big>Text</big></strong></em>
+                  This macro takes care of placeholders, i.e. elements that do not
+                  have end tags (area, base, basefont, br, col, frame, hr, img, input,
+                  isindex, link, meta, param)
+    '           - (tick space space) there is an error in WinEdt's default setting,
+                  i.e. it is set as tick space space space (one space too much)
+__________________________________________________________________________

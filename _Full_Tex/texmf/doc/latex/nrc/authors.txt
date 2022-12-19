@@ -1,0 +1,109 @@
+The National Research Council (NRC) Research Press provides the
+following class files for the benefit of its authors:
+
+   nrc1.cls is for single-column layouts
+   nrc2.cls is for double-column journal layouts
+
+These are generated via the nrc.ins + nrc.dtx files. See the README
+file for details. The userguide is also available and should be
+downloaded in an appropriate format. 
+
+
+      AUTHORS ARE STRONGLY ADVISED TO REPLACE THEIR FORMER
+        VERSIONS OF THE CLASS FILES WITH THESE NEW ONES. 
+
+    THE NEW USERGUIDE SHOULD ALSO BE DOWNLOADED AND PRINTED. 
+
+
+The latest versions of all files have a great number of improvements
+and enhancements over the previous versions.
+
+Old version of nrc.dtx: 2000/07/26 v1.3j.7c
+New version of nrc.dtx: 2002/11/19 v2.0
+
+Old version of nrc.ins: 2000/10/02
+New version of nrc.ins: 2002/11/19
+
+Old version of userguide: 21 NOV 2000
+New version of userguide: 18 NOV 2002
+
+======================================================================
+
+   This note (AUTHORS.txt) focusses on author-specific elements
+   in the userguide, and avoid common pitfalls.
+
+
+1. UPDATING AND GENERATING NEW CLASS FILES
+
+   Use the README file to generate the necessary class files and
+   instructions on where they should be stored on your machine. 
+
+   Check CTAN periodically for updates in the directory:
+
+      tex-archive/macros/latex/contrib/supported/nrc
+
+
+2. DOCUMENTATION
+  
+   The Userguide has two main components: information on creating and
+   coding a file (sections 1 through 5), and additional information
+   for in-house staff (from section 6 to the end). 
+
+
+3. CLASS OPTIONS
+
+   There are no new options. However, there is a simplification of
+   options for authors.
+
+   The publicly available class files automatically activate
+   author-specific codes, and de-activate in-house codes (the log file
+   will provide information/warnings if the latter are accessed). It
+   is no longer necessary to explicitly insert author-specific codes
+   such as
+
+                genTeX     usecmfonts     type1rest
+
+   See section 2.1 for details.
+
+
+4. ADDITIONAL PACKAGES
+
+   Experience has shown that the following packages (all available
+   from CTAN) are consistently used and provide the additional
+   functionality authors (and the NRC Research Press) most often
+   require:
+
+      graphicx     rotating      
+      amsmath      amssymb     bm
+      cite         babel
+
+   As well, tables benefit from the additional options available in
+   the array package. 
+
+
+   Any other packages which authors find helpful MUST accompany their
+   submissions. This is particularly important where submissions are
+   using old versions of packages --- production staff only have
+   access to new versions on CTAN; should they have to acquire the
+   additional (and latest) packages themselves, these may not always
+   work in the same way as an older version. Of course, authors are
+   encouraged to use current versions of all additional packages. 
+
+
+   Additional author-specific macros should be gathered together in
+   the preamble area, after all other packages have been loaded. See
+   section 3.2 for details. 
+
+
+5. MACROS
+
+   a. New macros: 
+        - \IDnote                        (Section 4.1)
+        - \PACS and \PACS* (for Physics) (Section 4.2)
+
+   b. Revised macros: 
+        - \correspond                    (Section 4.1)
+        - headings now to 5 levels       (Section 4.3)
+
+   c. Retired macros: 
+        - \AddressNote                   (Section 4.1)

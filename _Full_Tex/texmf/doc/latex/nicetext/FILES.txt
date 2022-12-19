@@ -1,0 +1,47 @@
+FILES IN CTAN DIRECTORY /macros/latex/contrib/nicetext:
+
+ FILES.txt      present file
+README          summary
+README.txt      copy of README
+
+fifinddo.sty    parsing and file handling
+ makedoc.sty    package to documentation preprocessing
+mdoccorr.cfg    txt to TeX macros
+niceverb.sty    minimal documentation markup
+    wiki.sty    Wikimedia-like markup
+
+SUBDIRECTORIES:
+
+demo              automatically generated documentation ...
+|__arseneau.pdf     of packages by Donald Arseneau
+|____substr.pdf     of Harald Harders' substr.sty
+
+doc               documentation
+|____CHANGE.LOG     bundle changes
+|____CHANGE.txt     copy of CHANGE.LOG in case
+|___NNOUNCE.txt     announcement for present release
+|__RELEAS03.txt     announcement for previous release
+|__fifinddo.pdf     for fifinddo.sty
+|___makedoc.pdf     for makedoc.sty
+|_mdoccheat.pdf     lists makedoc+fifinddo commands
+|__niceverb.pdf     for niceverb.sty
+|_wikicheat.pdf     lists wiki.sty features
+
+docsrc            documentation sources
+|__fifinddo.tex
+|___makedoc.tex
+|___makedoc.cfg     shared style settings
+|__mdocchea.tex
+|__niceverb.tex
+|_wikicheat.tex
+
+run               dialogues/templates/examples
+|__arseneau.tex     typesets documentation of ...
+|__fdtxttex.tex     dialogue for txt to TeX etc.
+|__fdtxttex.tpl     fifinddo script for txt to TeX etc.
+|___makedoc.tpl     makedoc script for txt to TeX
+|____sample.txt     watch its TeX enhancement
+|____substr.tex     typesets substr.sty documentation
+
+__________________________
+this file 2010/04/05, U.L.

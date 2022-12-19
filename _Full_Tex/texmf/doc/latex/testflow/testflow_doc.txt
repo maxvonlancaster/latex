@@ -1,0 +1,1802 @@
+
+testflow_doc.txt V1.0 2002/04/15
+
+Note: This text file uses UNIX line feed conventions. When (human)
+reading this file on other platforms, you may have to use a text 
+editor that can handle lines terminated by the UNIX line feed
+character (0x0A).
+
+written by Michael Shell
+mshell@ece.gatech.edu
+
+See the CTAN distribution website for current contact information
+and the latest version:
+http://www.ctan.org/tex-archive/macros/latex/contrib/supported/IEEEtran/
+
+
+This is the documentation and user guide for testflow.tex which is designed
+to test the "print work flow" of LaTeX systems. Originally constructed for
+users of the IEEEtran.cls file, the information contained here has broad
+applicability to anyone wishing to obtain correct PS/PDF output on LaTeX
+systems. IEEEtran users often have more difficulty in this regard than the
+average LaTeX user as IEEE documents use Times Roman for the main text and
+Computer Modern for mathematics - a combination notorious for causing
+trouble with some dvips configurations.
+
+Please note that specific recommendations are subject of frequent change,
+so that their timeliness cannot be guaranteed. Nevertheless, this guide
+might be helpful even if not always quite up to date.
+
+Testflow.tex is based on Rainer Schoepf's testpage.tex, the standard LaTeX
+test page which is included with most LaTeX systems.
+
+
+                    *** Legal Notice ***
+This information is offered as-is without any warranty either expressed or
+implied; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE! User assumes all risk. The opinions expressed
+here are entirely that of the author(s).
+
+The testflow package may be distributed and/or modified under the terms of
+the LaTeX Project Public License, either version 1.2 or, at your option,
+any later version. The latest version of this license can be found at:
+http://www.latex-project.org/lppl.txt
+
+Copyright by Michael Shell, 2002
+
+
+
+
+                    *** OVERVIEW ***
+
+Getting correct PostScript (PS) or Portable Document Format (PDF) output
+("post processing") from LaTeX systems can be surprisingly difficult. 
+A number of factors have conspired to create this situation.
+
+First of all, TeX, the underlying engine of LaTeX, is designed to do
+typesetting only (arrange boxes of objects) and not to handle the
+description of those objects that are to be typeset (pdfTeX not 
+withstanding). It is a stunning revelation to many LaTeX users to realize
+that TeX, being able to create the most beautiful documents, is totally
+blind! This design choice gives TeX much immunity to changes in the
+rapidly evolving computer font/printing world. 
+
+However, there is a price to be paid for this benefit. Because, in TeX, the
+act of typesetting a document and the act of describing what the typeset
+objects (glyphs, images, etc.) look like, are two different things, it is
+possible to do one perfectly (run LaTeX) and yet fail miserably in the other
+task (make printable output).
+
+IT IS NOT ENOUGH TO ENSURE THAT THE .tex FILE IS CORRECT. A USER MUST ALSO
+ENSURE THAT THE APPLICATIONS WHICH GENERATE THE PRINTABLE FILES FROM LaTeX
+OUTPUT ARE CORRECTLY CONFIGURED FOR THE CURRENT STATE OF PRINTING
+TECHNOLOGY.
+
+Secondly, a rather large number of "interaction" bugs have surfaced as
+changing PS/PDF writers, readers and fonts interact with each other in
+factorially increasing ways. Compounding this problem even further is the
+fact that software vendors are sometimes slow to correct flaws in their
+products which affect only free software like LaTeX.
+
+Finally, most books on LaTeX do not provide adequate information about
+making printable files from LaTeX.
+
+It should be noted that this author's LaTeX system is from the teTeX UNIX
+(Linux) based distribution and uses dvips and Ghostscript to obtain PDF
+output. A lot of the information contained here is from that perspective.
+However, most of this information is broadly applicable to other platforms
+such as MS Windows (MiKTeX, etc.). Option names provided by the graphical
+interfaces to the PS/PDF utilities almost always correspond closely to
+those provided by the basic UNIX command prompt interface.
+
+Most lacking is information related to the commercial applications like
+YandY, VTeX, PCTeX, and Adobe Acrobat as the cost of obtaining various
+versions of each is prohibitive. Furthermore, purchasers of these systems
+expect, and are entitled to, some degree of support from the software
+manufacturer. So, technical support information like this document tends
+to be more vital to the users of the free systems.
+
+
+
+
+                    *** TERMINOLOGY ***
+
+Some definitions are in order for those users who are not familiar with the
+terminology used here.
+
+<texmf>:
+This refers to the root directory of a TeX installation. For example,
+for many UNIX users this often is /usr/share/texmf or
+/usr/local/teTeX/share/texmf 
+For MiKTeX it often is: c:\texmf
+
+PostScript (PS): 
+A programming language, developed by Adobe Inc., that is designed for the
+mathematical description of the shapes of lines, curves, and other elements
+of letters, figures and images. PostScript interpreters, which can run
+PostScript code, are often found in high-end printers. Within such
+printers, the act of running the PostScript program produces a bitmap of
+pixels (this process is called rasterization) which represent the pixelized
+image that is to be formed (with ink or toner) on the printed page.
+
+Portable Document Format (PDF): 
+Also developed by Adobe Inc., PDF is a kind of subset of PostScript. PDF is
+not a programming language as it lacks PostScript's conditional branching
+ability. PDF does have very good support for indexes and hyperlinks. It is
+designed to be a document archiving and sharing format.
+
+[Side note: PostScript and PDF are important, even if the target printer
+ does not understand PostScript, because these languages are the primary
+ means by which portable, precisely typeset, print documents are described
+ today. When using non-PostScript printers, the application that is used to
+ print the PS/PDF file does, possibly with help from another application or
+ driver, the conversion from PS/PDF to the native printer tongue. With some
+ recent modern "brain-dead" printers, the host CPU even does the entire
+ rasterization for the printer.]
+
+Font substitution:
+The process of using a different font, usually for purposes of viewing or
+printing, from that which a document originally used. Font substitution
+can occur when the font is not available, or when its use is otherwise
+not possible or discouraged.
+
+Font embedding:
+The process of placing the description of the glyphs that make up a font,
+into a file that uses these glyphs. This allows the file to be
+viewed/printed on a system that would otherwise not have access to the
+needed fonts. The main disadvantage is an increase in the size of the file.
+
+Font subsetting:
+The process of embedding only those glyphs that are actually used in a
+font, rather than all of the glyphs in that font. Files that use subsetting
+can be smaller than those in which the full font is embedded. Subsetted
+fonts are given new, unique names within the document in which they are
+subsetted.  Many commercial font licenses require font subsetting for any
+document containing the commercial font in order to reduce the possibility
+of font "piracy".
+
+Maximum subset percentage:
+For PDF making applications, the percentage of glyphs in a font that must
+be used beyond which the entire font is embedded instead of just a subset.
+For example, if the maximum subset percentage is 75%, and 77% of the glyphs
+in a font are used in a document file, the entire font may be embedded
+rather than just a subset. Thus, to always ensure subsetting, the maximum
+subset percentage should be set to 100% (or to 99% if that is the maximum
+value allowed).
+
+Adobe Acrobat:
+This is Adobe's application family for creating, viewing and printing PDF
+files. Adobe Acrobat Distiller, available only at cost, is used to make PDF
+from PostScript. Those using the full version of Adobe Acrobat should use
+Adobe Distiller, not Adobe Pdfwriter, to make high quality PDF.
+
+Adobe Acrobat Reader:
+Adobe Acrobat Reader is a free utility from Adobe
+(see: http://www.adobe.com/products/acrobat/readstep2.html) 
+that can be used to view and print PDF files. Because Acrobat Reader is
+ubiquitous, it is important that all PS/PDF LaTeX output that is intended
+to be shared with others should work with it - if at all possible.
+Furthermore, because Acrobat Reader can be used to show useful font
+information about the PDF files it renders, it is useful as a diagnostic
+tool.
+
+Ghostscript:
+Ghostscript is a freely available (the most recently released versions are
+subject to a few months of commercial use restrictions) PostScript
+interpreter and translator (see www.ghostscript.com). Ghostscript is the
+underlying engine behind many applications, especially those in the UNIX
+world, that can view PostScript/PDF. Ghostscript can also convert
+PostScript to other formats, such as PDF or to various printer languages.
+It can be thought of as a free alternative to Adobe's Acrobat Distiller
+family.
+
+Type 1 font:
+In the context of this document, a font in which the glyphs are described
+in vector form in the PostScript language. This type of font is desirable
+because the glyphs will be rendered by the printer as precisely as is
+possible for the given printer resolution.
+
+Type 3 font:
+In the context of this document, a font in which the glyphs are described
+in bitmap form. This type of font is undesirable because the glyphs will be
+rendered a bitmaps that often have inferior resolution and quality to that
+attainable by the printer. The result can be "jaggedly" looking text.
+
+Base PostScript fonts (also known as the "base 13" or "base 14" fonts):
+The fonts that are guaranteed to be resident in every PostScript (and PDF)
+interpreter/viewer/printer. These include Times Roman, Helvetica, Courier,
+with their bold, italic and italic+bold variants, and Symbol. (In LaTeX,
+using the PostScript fonts via times.sty: Times Roman = \rmfamily; 
+Helvetica = \sffamily; and Courier = \ttfamily.) In addition to these 13,
+PDF readers also must also contain the ZapfDingbats font for a total of 14.
+Generally speaking, the base 14 fonts are not required to be embedded
+within a PDF file. A special thanks to Henry Churchyard for his clear
+description of this state of affairs.
+
+Nimbus fonts:
+It may come as a surprise to many people, but the base 14 fonts are 
+copyrighted and cannot be used for the purposes of document creation
+without buying a license to use them from Adobe. This license fee is also
+buried within the cost of every "Genuine Adobe PostScript" printer (or 
+cartridge or SIMM or Distiller program) that is sold. Fortunately, in the
+early 1990's the URW font company generously donated their professional
+quality type 1 clones of the base 14 fonts to the X Consortium. These 
+"Nimbus" fonts can now be used without having to pay royalty fees and are
+the base 14 fonts that are distributed with the free versions of LaTeX and
+Ghostscript. The differences between the "real" Adobe base 14 and the
+Nimbus fonts are, to the vast majority of LaTeX users, insignificant.
+
+Computer Modern (CM) fonts:
+The famous Dr. Donald E. Knuth, TeX's creator, also created a set of fonts
+to go with it. These Computer Modern fonts are very extensive in that they
+contain a comprehensive set of mathematical symbols. The Computer Modern
+fonts that Knuth released were created in the METAFONT language - which was
+also developed by Knuth. Unfortunately, METAFONT never became widely
+available in printers (like PostScript did). For these reasons, the
+rasterization of the Computer Modern fonts (conversion from METAFONT to
+type 3 bitmap) is often the default behavior of many LaTeX systems when
+generating PostScript using dvips. When LaTeX systems use such type 3
+fonts, the resulting PostScript (or PDF) file will not always yield the
+best quality possible on every printer because the rasterization process
+can be optimal only for a given printer resolution.
+
+BlueSky fonts: 
+In 1997, Blue Sky Research Inc., in conjunction with the American
+Mathematical Society (AMS) and YandY Inc., released its professional
+quality type 1 (PostScript) versions of the Computer Modern fonts into the
+public domain. The BlueSky fonts have since been widely distributed with
+the free LaTeX systems. However, these systems are often not configured to
+use the BlueSky fonts by default. There is also another freely available
+set of type 1 Computer Modern fonts that are known as the BaKoMa fonts.
+The BaKoMa fonts are generally considered to be inferior in quality to the
+BlueSky fonts, so the latter is usually preferred.
+
+
+
+                    *** USING THE TESTFLOW FILES ***
+
+The testflow suite consists of five main files in addition to this
+documentation. 
+
+testflow.tex is to be compiled on the user's system after which a
+testflow.ps and/or testflow.pdf output is to be produced. When being
+compiled, testflow will prompt the user for the desired paper size. US
+letter users should answer with "letterpaper" and A4 paper users should
+respond with "a4paper". The user will then be asked if testflow is to also
+test the picture and lasy fonts. Most users should answer "yes", even if
+they infrequently use these fonts.
+
+testflow_ctl_LTR.ps, testflow_ctl_LTR.pdf, testflow_ctl_A4.ps, and
+testflow_ctl_A4.pdf are "control" PostScript and PDF files, in US letter
+and A4 paper sizes, from a (hopefully) known good source. Because PDF is
+the primary means by which print documents are shared, the user will
+probably be interested only in the PDF versions. However, the PostScript
+versions are provided as a way to determine if the problem is occuring when
+creating PostScript or when creating PDF. For instance, if a (dvips) user
+is having a problem making a good PDF from testflow.tex, but can make a
+good testflow.pdf from testflow_ctl_LTR.ps, then chances are the problem is
+with their dvips or fonts (that got embedded in the PostScript file) and
+not the application that is making PDF from PostScript. The PostScript
+versions use level 1 PostScript and so should be compatible with all
+PostScript interpreters. The control PDF files use PDF level 1.3 and should
+work properly with Acrobat Reader versions 4.0.5 or later.
+
+The idea is to have the user try to compare their output to the control
+files in order to determine if there is a problem and, if so, where it
+is occurring.
+
+The testflow test suite cannot catch every possible type of error, but it
+is designed to detect the problems LaTeX users are most likely to encounter.
+
+BECAUSE MANY PS/PDF GENERATION BUGS SHOW UP ONLY WHEN PRINTING. IT IS NOT
+ENOUGH TO VERIFY THAT THE FILES "LOOK OK" ON SCREEN. The on-paper
+appearance of the control files should be carefully compared to that
+created and printed on the user's system from testflow.tex. Be sure that
+the application that is used to print the PDF file (i.e., Acrobat Reader)
+does not scale the page - i.e., ensure that any "fit to page" or 
+"shrink/expand" printing options are not selected.
+
+TESTFLOW.TEX IN NO WAY DEPENDS ON IEEETRAN.CLS OR ANY OTHER LATEX CLASS OR
+PACKAGE OTHER THAN THE BASIC ARTICLE CLASS. Problems with testflow will be
+caused by configuration problems with the user's LaTeX setup - not problems
+within class files.
+
+Be forewarned that testflow.tex is designed to trigger many known bugs in
+PS/PDF generator applications.
+
+
+
+
+                   *** INTERPRETING THE RESULTS ***
+
+There are several things that testflow is designed to check. Carefully go
+through each of the items below to ensure that they are correct for the
+testflow.pdf that was created on the LaTeX system to be tested. The
+testflow PS/PDF control files serve as "correct" reference examples.
+
+It is assumed that Acrobat Reader is what is used to view/print the PDF
+files.
+
+
+
+*** Margins and Indicated Paper Size***
+
+Testflow provides both metric (mm) and imperial (0.1in) rulers to indicate
+the distance from the edges of the main text area to the edges of the
+paper. Testflow should have 1in (25.4mm) margins on all four edges. Note
+that most printers cannot print within less than 0.3in (8mm) to the edges
+of the paper, so the rulers will usually not be visible all the way to the
+edges of a printed page.
+
+NOT ACCEPTABLE: THE FOUR MARGINS ARE NOT EQUAL ON SCREEN OR ON PAPER.
+Printers do not have perfect mechanical accuracy, so offsets of 0.25in
+(6mm) or so may be acceptable in print. However, gross errors here should
+be investigated and corrected. 
+
+NOT ACCEPTABLE: WHEN VIEWING THE PDF FILE, ADOBE ACROBAT READER INDICATES
+A PAPER SIZE THAT IS NOT CORRECT. (It should be 8.5inX11in for US letter, 
+and about 8.26inX11.69in [210mmX297mm] for A4 pages.)
+
+BY FAR THE MOST COMMON CAUSE OF INCORRECT MARGINS AND/OR INCORRECT
+INDICATED PAPER SIZES IS THAT FACT THAT PDFTEX AND/OR DVIPS AND/OR
+GHOSTSCRIPT (PS2PDF) HAVE BEEN CONFIGURED FOR A DEFAULT PAPER SIZE
+THAT IS DIFFERENT FROM THAT USED IN THE LATEX DOCUMENT.
+
+PdfTeX/PdfLaTeX users should read the application configuration section
+below for information on configuring pdfTeX.
+
+dvips can be told to use a certain paper type via the command line:
+
+dvips -t letterSize -o myfile.ps myfile
+or
+dvips -t A4size -o myfile.ps myfile
+
+[Note the difference in the capitalization of the first letter of "Size"
+ is common in the paper size commands of the dvips' configuration files.]
+
+However, if the default paper size is not what is normally used, it is
+better to modify dvips' configuration files. This is especially important
+to US letter paper users as dvips is typically set up to default to A4
+paper. See the application configuration section below for more
+information on configuring dvips.
+
+Ghostscript (ps2pdf) also has a command line option to set the paper size:
+
+ps2pdf -sPAPERSIZE=a4 myfile.ps myfile.pdf
+
+Ghostscript users should read the application configuration section below
+for information on configuring and using Ghostscript. Advice for Adobe
+Distiller is similar to that for Ghostscript.
+
+
+[Side note: HP Laserjet II/III users should take note that a design flaw
+ in the Canon SX engine can cause these venerable older printers to shift
+ text (downward) on pages that quickly follow a previous page. The problem,
+ which affects SX based printers with "high-mileage", is caused by the
+ magnetization of the paper control solenoid levers coupled with the
+ degradation of the solenoid stop pad material.] 
+
+
+
+*** Line Widths ***
+
+All of the tick marks on all of the rulers have identical line thickness.
+Some tick marks should not appear to be thicker than others. This problem
+may be visible in the Acrobat Reader display, especially under normal
+magnifications such as 125%, as well as in its print (most obviously in 
+the small tick marks on the metric rulers).
+
+ACCEPTABLE, BUT UNDESIRABLE: SOME OF THE TICK MARKS ARE THICKER THAN
+OTHERS.
+
+This problem is the result of the way the PostScript algorithm handles the
+rasterization of lines (and other constructs). The PostScript rasterization
+policy is that, if *any* part of a pixel is touched by a line, then that
+pixel is turned on. So, depending upon where a line falls, its thickness
+can vary by the width of a printer's pixel. (Thanks to Michael Fryd for his
+excellent post on this topic in 1990.) 
+
+This is why dvips features a device resolution parameter (e.g., "-D") that
+"snaps" image objects to the pixel grid of the user's printer. The problem
+with this approach is that one has to know the printer's resolution in
+advance, and, therefore, file portability is slightly compromised.
+
+For instance, to make good PostScript for a 300dpi printer, one could do:
+
+dvips -D300 -o myfile.ps myfile
+
+However, for PDF converters, and printers with other than 300dpi
+resolution, the resulting PostScript file will be less than optimal.
+
+This guide assumes that the user wishes to ultimately make PDF and use that
+as a portable format to distribute documents (after all that's why they
+call it Portable Document Format). So, to make a PostScript file that is
+more suitable for PDF conversion, dvips should be told to use a very fine
+grid:
+
+dvips -D7200 -o myfile.ps myfile
+
+The testflow PostScript control files take this latter approach, and so
+they may have less than perfectly consistent line thicknesses when printed
+to printers with lower resolutions (especially below 600dpi). However, the
+testflow control PDF files should print very well on any decent printer.
+
+The line thickness anomalies are also aggravated by the fact that dvips
+treats lines as filled rectangles instead of drawn lines. Fortunately, 
+Timothy Van Zandt developed an alternative dvips line drawing algorithm
+and made it publicly available.
+
+See the section below on dvips configuration for information on how to
+configure dvips to obtain Postscript for making PDF with consistent line
+thicknesses
+
+
+
+*** Fonts ***
+
+Because Adobe Acrobat Reader can be used to display font information for
+PDF files, it is useful as a diagnostic tool. View the testflow.pdf under
+Acrobat Reader. Enlarge the window size and/or zoom out so that the entire
+page is visible at once. This step is necessary as Acrobat Reader may need
+to see the entire page before full font information is available. Now,
+select File->Document Info->Fonts->List All Fonts
+
+Every font should be listed as a Type 1 or Type 1C. Any type 3 fonts that
+are listed will likely be rendered as a bitmap. The result will be
+"jaggedly" looking text. Type 1 fonts are typically in vector form, which
+means that they will always be properly rendered at their sharpest for
+every printer.
+
+Every font, with the allowable exception of those in the Times and Courier
+(which may be named as "Nimbus") families, should be listed as "Embedded"
+preferably "Embedded Subset".
+
+NOT ACCEPTABLE: SOME FONTS ARE LISTED AS TYPE 3
+This problem is most often caused by the fact that dvips has not been
+configured to use the Type 1 versions of the Computer Modern fonts - also
+known as the BlueSky fonts. Most LaTeX systems already have these fonts
+installed, so it is usually just a matter of telling dvips to use them.
+See the dvips font configuration section below for details.
+
+NOT ACCEPTABLE: FONTS, OTHER THAN THOSE IN THE BASE POSTSCRIPT FAMILIES,
+(TIMES AND COURIER FOR TESTFLOW) ARE NOT LISTED AS BEING EMBEDDED IN THE
+"USED FONT" COLUMN. Fonts other than the base PostScript fonts must be
+embedded or else these fonts may not be viewable in the PDF file on other
+platforms. See the Ghostscript and pdfTeX configuration sections below for
+details. The advice for Adobe Distiller users is similar to that of 
+Ghostscript. An additional discussion on this topic can also be found in
+the "The Large Times Roman Italic" section below.
+
+
+
+*** The Ligature Test ***
+
+Two sentences are given. Both should read "The office was affected by the
+five flawed mufflers.". The first sentence uses ligatures for the ffi, ff,
+fi, fl, and fll letter sequences and so will be slightly shorter than the
+one below it which does not use ligatures.
+
+NOT ACCEPTABLE: BRITISH POUND (STERLING) SYMBOLS OR OTHER STRANGE
+CHARACTERS APPEAR IN THE SENTENCE THAT USES LIGATURES. This is caused by a
+dvips setup that enables the "G1" option. This dvips feature was designed
+to work around a bug in the obsolete Acrobat Reader 3.0 series. "G1" should
+no longer be used as it wreaks havoc on documents that use fonts other than
+Computer Modern. Either force dvips on the command line to use "G0":
+
+dvips -G0 -o myfile.ps myfile
+
+or, better yet, alter its configuration to turn off the G1 option. 
+
+In particular, MiKTeX's dvips config.pdf file enables G1 with a "G" line. 
+The offending line should be commented out.
+
+dvips versions 5.86h and later have been revised so as to not cause this
+problem even when using the -G1 option with non-Computer Modern fonts.
+ 
+See the dvips configuration section below for details. 
+
+
+
+*** The Large Delimiter and Operator Test ***
+
+The matrix should be enclosed in brackets. The equation to the right of it
+should be enclosed in parentheses. The equation should have a summation
+symbol.
+
+NOT ACCEPTABLE: SOME PARTS OR ALL OF THE BRACKETS, PARENTHESES OR SUMMATION
+SYMBOLS ARE MISSING. This is caused by bugs in Acrobat reader 4.0.0 and
+prior and/or versions of Ghostscript prior to 6.50. The solution is to
+upgrade both these applications.
+
+
+
+*** The Minus Sign Test ***
+
+The equation shown should yield a true statement.
+
+NOT ACCEPTABLE: SOME OF THE MINUS SIGNS ARE MISSING, ESPECIALLY IN THE
+SUPERSCRIPTS. Acrobat readers prior to Version 4.0.5 have this problem. So
+does Ghostscript versions prior to 6.50. The solution is to upgrade both
+these applications.
+
+Note: If the minus signs look like underscores, but display properly when
+"zoomed in" - this is not a bug, but an Acrobat Reader feature that 
+"Greeks" text that is smaller than a certain amount. To turn this bogus
+thing off, select File->Preferences->General and deselect the "Greek Text"
+option.
+
+
+
+*** The Math Italic Glyphs ***
+
+The LaTeX math symbols \Gamma, \Psi, \Omega, \gamma, \psi are shown in 
+\mathnormal (italic) shape with the text \t{} tie-after accent at the end
+of the group. These glyphs are in the "control character" positions of
+their font files. 
+
+NOT ACCEPTABLE: SOME OF THE SYMBOLS ARE MISSING OR WRONG. Versions of
+Acrobat Reader prior to 4.0.5 and Ghostscript versions prior to 6.50
+assume that these positions will always contain control characters
+and never will have a valid glyph. As a result, these glyphs will not
+display or print properly. The solution is to upgrade both these
+applications.
+
+
+
+*** The Large Times Roman Italic ***
+
+ACCEPTABLE, BUT NOT IDEAL: IT IS PROBABLY OK IF THE STYLE OF THE "z"
+DIFFERS FROM THAT OF THE TESTFLOW CONTROL PDF FILE (WHICH EMBEDS THE BASE
+14 FONTS).
+
+A standard PostScript Times Roman italic lower case "z" has a curly bottom.
+However, a Times New Roman "z" has a straight bottom. (Note that "new" here
+does not mean that this is a newer or otherwise improved font - just one
+that is slightly different and whose copyright is owned by a different
+party.)
+
+This test illustrates a little known "feature" of Acrobat Reader. Microsoft
+has pressured Adobe to make Acrobat Reader (even UNIX versions) perform
+certain font substitutions on the base 14 PostScript fonts when they are
+not embedded in the PDF file. However, when printing to a PostScript
+printer, the original base 14 fonts will still be used.
+
+This idiotic policy means that, if the base 14 fonts are not embedded in
+the PDF file, when using a PostScript printer, what is printed by the
+printer will not be the same as that seen on screen, but will be the same
+as is called for in the original LaTeX source of the document. But, for a
+non-PostScript printer, what is printed by the printer will be the same as
+that seen on screen, but will not be exactly the same as is called for in
+the original LaTeX source of the document. 
+
+Everybody got that? What a mess!
+
+For this reason, Adobe now recommends that all fonts, including the base
+14, should be embedded and subsetted in the PDF files.
+
+For a statement by Adobe, see:
+http://www.pdfzone.com/news/adobefontstatement.html
+
+Additional information on the topic can be found in:
+ftp://ftp.tug.org/mail-archives/pdftex/2000.10.gz
+(in the entries starting on October 4th)
+Thanks to Nelson H. F. Beebe of the University of Utah for posting about
+this issue.
+
+
+[Side note: Some of the earlier PostScript interpreters, such as the Adobe
+ level 1 PostScript Cartridge for the HP LaserJet II and the HP level 1
+ PostScript Cartridge for the LaserJet III, used a Times Roman italic z
+ with a flat bottom, but it was curly in bold italic.]
+
+
+If the "z" has a straight bottom as displayed on screen, it is a sign that
+the standard base 14 fonts have NOT been embedded and that Acrobat Reader
+has substituted, without the user's consent, some of the base 14 fonts.
+This is ordinarily not too much of problem, but there is an issue to be
+aware of: SOME OF THE SUBSTITUTE FONTS DO NOT HAVE ALL OF THE GLYPHS OF THE
+ORIGINAL FONTS AND MAY NOT BE DISPLAYED ON SCREEN, OR IN THE PRINT OF A
+NON-POSTSCRIPT PRINTER! Most of the missing glyphs involve math symbols,
+so this is rarely a problem under LaTeX which usually uses the much more
+mathematically extensive (non-base 14) Computer Modern fonts for
+mathematics.
+
+THE ONLY WAY TO ENSURE THAT A PDF FILE WILL ALWAYS BE RENDERED ON THE
+ACROBAT READER SCREEN EXACTLY AS IT WAS CREATED, AND AS IT WILL BE PRINTED,
+IS TO EMBED AND SUBSET THE BASE 14 FONTS INTO THE PDF FILE. Subsetting
+provides an additional safeguard against potential font substitution as
+subsetted fonts are given unique names. Note that embedding the base 14
+fonts will increase the size of the resultant PDF file.
+
+Ghostscript versions 7.01 and later will embed the base 14 fonts (Nimbus)
+when asked to embed and subset all fonts under a PDF level 1.3 or higher.
+
+Those using the full version of Adobe Acrobat should use Adobe Distiller,
+not Adobe pdfwriter, to make PDf. Recent versions of Adobe Distiller will 
+embed and subset the base 14 fonts if the "PrintOptimized" or
+"PressOptimized" settings are selected. The former is probably preferable
+to the latter in most cases. See the the Adobe Distiller parameter manual:
+
+http://partners.adobe.com/asn/developer/acrosdk/DOCS/distparm.pdf
+
+for more details.
+
+
+
+*** The GS Kerning Test ***
+
+A footnote sized sentence is displayed:
+
+``The Problematic" little quotes.
+
+NOT ACCEPTABLE: THE QUOTE MARKS "CRASH INTO" THE "P" OR ARE TOO CLOSE TO
+THE WORD "LITTLE".
+
+This is caused by a bug in the PDF level 1.2 output of Ghostscript versions
+7.00-7.04. It should be fixed in version 7.05 or later. A work around is to
+use only PDF level 1.3 output via the use of -dCompatibilityLevel=1.3 when
+making PDF using Ghostscript.
+
+Do not ignore this problem because it looks like a small defect. There are
+other manifestations that are much more severe.
+
+
+
+*** The Picture and Lasy Fonts Test [Optional] ***
+
+LaTeX has a special set of fonts used to construct simple pictures and a
+set of fonts (the "lasy" fonts) with rarely used symbols. The original
+release of the type 1 versions (BlueSky) of these fonts contained some,
+normally harmless, extraneous information within the font files. However,
+Acrobat Readers in the 5.0 series are intolerant of this extra information
+and will generate a "font error" when printing to a PostScript printer.
+There may or may not be noticeable problems in the resulting print.
+
+NOT ACCEPTABLE: ACROBAT READER 5.X GENERATES A FONT ERROR WHEN PRINTING TO
+A POSTSCRIPT PRINTER.
+
+This error message may not a reliable indicator of whether or not the
+user's LaTeX picture and lasy fonts have the offending data as an error
+message may not be triggered unless the document uses a certain number of
+glyphs from the affected fonts and Acrobat Readers after 5.0.5 may not be
+sensitive to it. 
+
+The purpose of the picture/lasy fonts test is to trigger this error on 
+Acrobat Reader versions 5.0.0 and 5.0.5. There is nothing in particular in
+the picture test that the user need look for.
+
+The picture and lasy fonts are located in the 
+<texmf>/fonts/type1/bluesky/cm/ directory and consist of the lasy*.pfb,
+lcircle*.pfb and line*.pfb files.
+
+To correct this problem, a new set of LaTeX picture and lasy fonts were
+released on June 6, 2001. It is easy to tell the difference between the old
+and new fonts via their file sizes. Two examples are shown here:
+
+Font File       Old      New 
+         
+line10.pfb     10898    11036
+
+lasy10.pfb      4684     4822
+
+The latest version of the BlueSky font files can be obtained for free at:
+
+http://www.ctan.org/tex-archive/fonts/cm/ps-type1/bluesky/
+
+Upgrading is as simple as replacing the old .pfb files in
+<texmf>/fonts/type1/bluesky/cm with the new ones.
+
+There are other, less commonly used, fonts that may have other problems.
+For example, in December 2000, an update was made to the txfonts:
+ftp://ctan.tug.org/tex-archive/fonts/txfonts/
+as the older txfonts caused error messages in dvips versions prior to
+5.86d.
+
+Ghostscript 6.50, dvips 5.86d and later may automatically correct some font
+errors and shield the user from some font related problems. However, users
+are strongly urged to upgrade to the corrected font sets.
+
+
+
+
+          *** APPLICATION VERSION AND CONFIGURATION INFORMATION ***
+
+*** Acrobat Reader ***
+ - version information -
+NOT ACCEPTABLE: ACROBAT READERS PRIOR TO VERSION 4.0.5
+
+Anything before version 4.0.5 is too buggy to be considered as even
+remotely usable with PDF documents created with LaTeX systems.
+
+Determining the application number on Windows platforms is easy. See the
+upper left corner of the Acrobat Reader startup banner, or the 
+Help->About_Acrobat_Reader window, for the 3 digit version number - i.e.,
+5.0.5.
+
+However, determining the version of Acrobat reader is not always trivial
+because Acrobat Readers under UNIX may not display a version number. The
+version may have to be inferred from the date. For Acrobat readers under
+Linux go to the Help->About_Acrobat_Reader window. It should display a date
+of January 2000 or later - this will mean version 4.0.5 or later.
+
+ - configuration information - 
+When printing from Acrobat Reader, make sure that there are not any
+selected "fit to page", "shrink page" or "expand page" options. Otherwise,
+the print WILL be altered in size. The File->Page_Setup menu should be
+checked to ensure that the page size is correct before printing. A4 paper
+users should take note that Acrobat Reader has a very vile bug that resets
+the printer page size to US letter every time Acrobat Reader is restarted.
+The author does not know a workaround for Windows users, but UNIX users can
+use a startup ("wrapper") script that resets the default Acrobat Reader
+printer page size before starting Acrobat Reader. An example script with
+documentation in the comments is shown here:
+
+
+#!/bin/sh
+#
+# No warranty expressed or implied. User assumes all risk.
+# 
+# This is a start script for Acrobat Reader that adjusts the default
+# page size for the printer settings in the user's ~/.acrorc file
+# before starting acroread. There is a long standing bug, that has
+# been reported to Adobe numerous times over more than a 4 year period,
+# in Acrobat Reader in that it will not write the user's choice of
+# printer paper size to the .acrorc file, but will instead always
+# record the US letter paper size when exiting. This is most
+# infuriating to users of other paper types such as A4 as they will
+# then have to select their paper size again every time acroread is
+# restarted.
+#
+# If this isn't a good example of the problems with closed source
+# software, I don't know what is.
+#
+# Within the .acrorc file, there is an entry:
+# *PaperSize:   0
+# that determines what paper size acroread will default to on startup.
+# The integer codes are as follows:
+#
+#  0 = letter
+#  1 = tabloid
+#  2 = ledger
+#  3 = legal
+#  4 = executive
+#  5 = A3
+#  6 = A4
+#  7 = A5
+#  8 = B4
+#  9 = B5
+# 10 = other
+#
+# The idea is to call perl to parse the .acrorc and replace the
+# PaperSize integer code with what the user desires and then start
+# acroread. This script may be called "acroread" and located in the
+# $PATH search before the real acroread, or called something else
+# like "acrostart".
+#
+# Below in the perl line, the number that follows the \t  will be the
+# value PaperSize is set to - adjust as needed. Also, adjust the exec
+# path to point to the acroread executable\start script.
+#
+# This script was originally posted by Moritz Barsnick in 2000/07.
+# Comments added by Michael Shell in 2002/04 for use in the LaTeX
+# testflow documentation.
+#
+# Known limitation: If one goes into the Acrobat Reader File->PageSetup
+# menu and then presses <Cancel> - Acrobat Reader will set it back to
+# US letter! So, always press <OK> instead to keep the existing page
+# size.
+#
+# Alternatively, one could use a .acrorc2 file and use cp to overwrite
+# .acrorc entirely, but this would not allow _any_ options to be saved
+# from the acroread menus.
+#
+perl -i.perlbak -pe 's/^\*PaperSize:.*$/\*PaperSize:\t6/' "$HOME"/.acrorc;
+exec /usr/local/Acrobat4/bin/acroread "$@"
+
+
+When printing to a PostScript printer, it may be safest to use the Level 1
+option as the Level 2 and Level 3 options are suspected of producing
+incorrect output in some circumstances. It is currently unknown if this
+issue was fixed in the Acrobat Reader 5.x series and later.
+
+
+
+*** dvips ***
+ - version information -
+RECOMMENDED: DVIPS VERSION 5.85 OR LATER
+
+Users can identify their dvips version via "dvips -version".
+
+dvips versions prior to 5.86f have a bug in the subsetting code which can,
+with some fonts, cause problems. The symptom will be font related error
+messages like:
+
+"Second number not found in Char string of /FontName" 
+or
+"XX Subr not found", etc.
+
+However, these bugs will manifest themselves only when using fonts that
+have subtle problems or that have been reencoded multiple times (a single
+glyph is used in more than one font). IEEEtran users should not encounter
+this problem unless unusual fonts are used. A work around is to use the
+dvips -j0 option which turns off subsetting. A longer term solution is to
+upgrade dvips - see the "Upgrading LaTeX Applications" section below for
+information on how to update dvips.
+
+ - default paper size configuration -
+In <texmf>/dvips/config there is a file named config.ps. (Note that UNIX
+users will require root privileges to alter this file.) Edit config.ps
+using a text editor. Toward the latter part of the file, there are lines
+that begin with "@". These control the paper size selections. The first
+set of these lines determines the default paper size dvips will use. If
+this first set of lines does not specify the desired default paper size,
+another set of lines can be moved or entered into the first position.
+For example, putting:
+
+@ letterSize 8.5in 11in
+@+ %%PaperSize: Letter
+
+(with a blank line before and after) as the first set of "@" lines will 
+make dvips will default to using US letter paper. 
+
+Now, there are two types of dvips paper size commands. The first type adds
+only paper size *comments* to the PostScript output:
+
+@ A4size 210mm 297mm
+@+ %%PaperSize: A4
+
+The @+ line says to place the PostScript comment "%% PaperSize: A4" into
+the output file. Such PostScript DSC (Document Structuring Convention)
+comments are just hints, or suggestions about which type of paper to use.
+In fact many/most PostScript interpreters (Ghostscript, printers) will just
+ignore these and use their own default paper sizes. In a way, this is
+desirable as the comments will not cause any problems if the PostScript
+file is then printed on paper of different size than the comments suggest.
+
+A second type of dvips paper size command adds a PostScript command which
+actively sets and enforces a given paper size:
+
+@ a4 210mm 297mm
+@+ ! %%DocumentPaperSizes: a4
+@+ %%BeginPaperSize: a4
+@+ a4
+@+ %%EndPaperSize
+
+Note the three comments (The "!" just means place the comment at the
+beginning of the PostScript file.) and the "a4" PostScript command.
+
+Therefore, PostScript produced via "dvips -t A4size ..." is different
+from that produced with "dvips -t a4 ...". The former may not always
+be automatically identified as wanting A4 paper, the latter may demand A4
+- causing some printers to refuse to print on anything other than A4 paper.
+
+For instance, ps2pdf (Ghostscript) will have to be told the paper size to
+use when processing PostScript files using the first case (without paper
+size commands). However, ps2pdf will override command line and/or default
+paper selections if it encounters a PostScript paper size command from the
+second case. See the Ghostscript configuration section below for more
+details.
+
+Traditionally, the first case has been favored to avoid compatibility
+problems (with some buggy older printers). However, there is an increasing
+tendency to use the second case as it prevents confusion as to what paper
+size a PostScript file "wants". Always use the first case if you think users
+might ever want to print on a different paper type, use the second case only
+if you know this will never happen.
+
+There is another dvips paper size issue. The "recommended display window
+area" of a PostScript file is contained in a comment known as the
+"BoundingBox". A BoundingBox line (for A4) looks like:
+
+%%BoundingBox: 0 0 595 842
+
+The BoundingBox's coordinates are in X0 Y0 X1 Y1 form where X0,Y0 is the
+lower left and X1,Y1 is the upper right of the image. The BoundingBox
+coordinates must be integers and are in units of 1/72 inch (a PostScript
+point, i.e., a LaTeX bp unit). The values used here by dvips are taken from
+the lengths given next to the names in its paper size definitions.
+
+Now, for US letter paper all is well as:
+
+X1 = 8.5in * 72bp/in = 612 bp
+Y1 =  11in * 72bp/in = 792 bp
+
+But, for A4:
+
+X1 = 210mm/25.4mm/in * 72bp/in = 595.28 bp
+Y1 = 297mm/25.4mm/in * 72bp/in = 841.89 bp
+
+Now, how should one round? Under normal circumstances, one would say to
+round to the closest integer. However, if the BoundingBox is ever smaller
+than its contents, some of the image may be clipped. (In practice this may
+never happen as printers can not print so close to the edge of the paper
+anyway.) Well, guess what: current versions (5.86g and prior) of dvips
+always round up and Adobe and Ghostscript round to the closest integer.
+So, for A4, the dvips made BoundingBox will be:
+
+%%BoundingBox: 0 0 596 842
+
+While most PostScript interpreters will expect:
+
+%BoundingBox: 0 0 595 842
+
+Normally, this is of no consequence. One minor notable issue is that the
+UNIX gv (V3.5.8) program uses the BoundingBox to determine the paper size
+(if no PostScript paper size commands are present) - and does not recognize
+a PS file as wanting A4 if it sees 596 instead of 595. 
+The workaround is to use:
+
+@ A4size 594.99bp 841.99bp
+
+instead of 210mm 297mm for A4 measurements. 
+
+[Those outside the US are probably laughing at this point [pun intended], 
+ but it should be pointed out that this is a standards issue, not a units
+ issue. Ghostscript versions prior to 7.05 have a very similar problem - 
+ if they compiled with the -DA4 option, A4 PDF pages produced with ps2pdf
+ will be scaled down by about 1%.]
+
+Versions of dvips after 5.86g will behave like Adobe and GhostScript, 
+so the work around will then no longer be needed. Thanks to Tomas Rokicki
+and Markus Kuhn for finding these little bugs and getting them fixed.
+
+With all this in mind, for US letter paper users, a good first set of dvips
+config.ps paper size definitions might look like:
+
+
+@ lettersize 8.5in 11in
+@+ %%PaperSize: Letter
+
+@ letter 8.5in 11in
+@+ ! %%DocumentPaperSizes: Letter
+@+ %%BeginPaperSize: Letter
+@+ letter
+@+ %%EndPaperSize
+
+@ a4size 594.99bp 841.99bp
+@+ %%PaperSize: A4
+
+@ a4 594.99bp 841.99bp
+@+ ! %%DocumentPaperSizes: a4
+@+ %%BeginPaperSize: a4
+@+ a4
+@+ %%EndPaperSize
+
+
+A4 users would want to move the "a4size" block to the first position so
+that it will be the default. It might also be a good idea to add
+"letterSize", "A4size", "A4Size" and "A4" entries so that it will not
+matter how a user or script capitalizes the letters in the dvips paper
+size definition names.
+
+
+ - type 1 font configuration - 
+Most LaTeX systems already have the Type 1 versions of the Computer Modern
+fonts (BlueSky fonts). But, if needed, they can be obtained free of charge
+from:
+
+http://www.ctan.org/tex-archive/fonts/cm/ps-type1/bluesky/
+
+However, many LaTeX systems have dvips configurations that are not enabled
+to use the BlueSky fonts. To enable their use, dvips' config.ps file should
+have the following lines (and they should not be commented out):
+
+p +bsr.map
+p +bsr-interpolated.map
+p +hoekwater.map
+
+
+It is normally not needed nor desirable to embed the base 14 fonts into
+PostScript files as these are guaranteed to be present in every PostScript
+printer and viewer. Furthermore, Acrobat Reader cannot view PostScript, and
+therefore is incapable of substituting fonts therein. So dvips' default
+settings regarding the base PostScript fonts need not be changed.
+
+ - other configuration - 
+Other lines which are worthy to be present in dvips' config.ps include:
+
+D 7200
+
+(If dvips output is usually converted to PDF, rather than printed directly.)
+This effectively prevents dvips from making adjustments based on an assumed
+printer resolution.
+
+dvips versions 5.86g and later provide increased security against malicious
+DVI code (Yes, it is possible to put executable commands in dvi files!). 
+The z option disables the execution of such code. It is a good idea to put
+in the z now, even for systems with older versions of dvips (which will 
+silently ignore the z option.)
+
+z
+
+There should NOT be any G option lines like:
+
+G
+
+in config.ps or config.pdf. Remove or comment out with "%" any such lines.
+ 
+[Note: dvips versions 5.86h and later have been revised so as to not cause
+ this problem even when using the -G1 option with non-Computer Modern
+ fonts.]
+
+In order to implement Timothy Van Zandt's dvips line thickness fix, create
+a file named "alt-rule.pro" in the <texmf>/dvips/base directory containing
+the following code and comments:
+
+
+% Timothy Van Zandt's alt-rule.pro algorithm to draw rules using
+% Postscript's stroke rather than fill. This allows the resulting
+% lines to have a more uniform thickness.
+TeXDict begin
+/QV {
+  gsave newpath /ruleY X /ruleX X
+  Rx Ry gt
+  { ruleX ruleY Ry 2 div sub moveto Rx 0 rlineto Ry }
+  { ruleX Rx 2 div add ruleY moveto 0 Ry neg rlineto Rx }
+  ifelse
+  setlinewidth 0 setlinecap stroke grestore
+} bind def
+end
+
+
+Now, activate it by inserting the following lines into the 
+<texmf>/dvips/config.ps file (just before the @ lines is a good place):
+
+
+% Use Timothy Van Zandt's alt-rule.pro algorithm to draw rules using
+% Postscript's stroke rather than fill. This allows the resulting
+% lines to have a more uniform thickness. It seems to work well with
+% no adverse effects.
+% tex.pro or texc.pro is loaded by default (texc.pro will be used
+% if the Z option is used to compress bitmaps, but we need to call 
+% tex.pro/texc.pro here because it must be loaded before the 
+% alt-rule.pro patch). See: http://zandtwerk.insead.edu/tex2pdf.html
+% for more details.
+% use tex.pro if the dvips Z option is not used
+h tex.pro
+% or use texc.pro if the dvips Z option is used
+% (If in doubt, just use tex.pro - things will work in any case.)
+% h texc.pro
+h alt-rule.pro
+
+
+After config.ps has been configured as described above, the user can make
+good PostScript that is suitable for PDF conversion via:
+
+dvips -o myfile.ps myfile
+
+without the need to call any "-Ppdf" options.
+
+To make PostScript for printing directly to a PostScript printer, one
+should call dvips like:
+
+dvips -D600 -o myfile.ps myfile
+
+where the "-D" option specifies the resolution (in dots per inch) of the 
+printer.
+
+Additional dvips configuration information can be found in the dvips user's
+manual which is available at:
+
+http://www.ctan.org/tex-archive/dviware/dvips/
+
+
+
+*** Ghostscript (Adobe Distiller PDF settings are similar) ***
+ - version information -
+ 
+NOT ACCEPTABLE: GHOSTSCRIPT VERSIONS prior to 6.50
+
+Users can identify their Ghostscript version via "gs -version". Anything
+prior to 6.50 will cause no end of grief when used with LaTeX. GhostScript
+has some impressive progress after the 6.00 release. 6.5x is considered to
+be quite stable, but it does not embed the base 14 fonts. The new 7.0x
+series has a lot of new features, but also came with a lot of new bugs. 
+7.04 still has at least two bugs that can bite LaTeX users. Both of these
+are related to letter kerning (spacing).
+
+The first bug seems to affect the certain small caps fonts such as the AMS
+cmcsc8. This bug has been identified, squashed, and should not be in the
+7.05 or later releases. It does not seem to affect the standard text fonts
+used by LaTeX2e, IEEEtran.cls, book.cls, etc. as these use a scaled cmcsc10
+for \scshape which does not seem to trigger the bug. However, users of the
+various AMS classes should watch out for problems. The symptom with be
+improper letter spacing (kerning) and is most noticeable in words of
+certain lengths that have "av" or "ta" letter sequences in them. The
+problem only appears in print - the text will be displayed properly on
+Acrobat Reader's screen.
+
+The second bug causes spacing problems around certain glyphs like quote
+marks and ligatures when PDF level 1.2 output is used. This bug is
+currently being investigated and should be fixed in 7.06. A workaround is
+to always use PDF level 1.3 output which will not have this problem.
+
+Versions 7.04 and later feature an improved security mechanism. This
+mechanism can prevent versions of xdvi prior to 22.40j (currently under 
+development) from being able to display graphics files referenced by
+relative paths. i.e., 
+
+\includegraphics{../myfigs/afig.eps}
+
+would not be shown and an error message like:
+
+gs: Error: /invalidfileaccess in --file--
+
+will be issued.
+
+A workaround is to to use absolute paths like:
+
+\includegraphics{/home/myaccount/myfigs/afig.eps}
+
+or to set the TEXINPUTS environment variable (UNIX) to point to the
+directories where the graphic files are and then to avoid placing paths in
+the .tex file altogether:
+
+\includegraphics{afig.eps}
+
+Other options include: "downgrading" to Ghostscript 7.03 or prior.
+
+Versions of Ghostscript after 7.04 may have even more security enhancements
+and all of a dvi file's PostScript figures may not show up under older
+versions of xdvi. (At some point in the future, probably with xdvi version
+22.40j, the most recent releases of xdvi and Ghostscript will be back on
+speaking terms. ;) 
+
+A similar problem may also affect the "gv" viewer (3.5.8 and prior).
+
+
+ - configuration information - 
+A recommended set of command line options when using GhostScript to make
+PDF from PostScript is (adjust PAPERSIZE as needed, e.g., a4):
+(Note: Commands like this are one long line - line feeds had to be added in
+this document to keep line lengths reasonable.)
+
+gs -dSAFER -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sPAPERSIZE=letter 
+-dPDFSETTINGS=/printer -dCompatibilityLevel=1.3 -dMaxSubsetPct=100
+-dSubsetFonts=true -dEmbedAllFonts=true -sOutputFile=myfile.pdf myfile.ps
+
+The Ghostscript "-dPDFSETTINGS=/printer" is similar to the Acrobat
+Distiller "Print Optimized" settings. Some of the other parameters such
+as "-dEmbedAllFonts=true" are implied by it, but it is a good idea to be
+explicit about them so as not to rely on default values.
+
+Note: some Ghostscript options begin with "-s" (strings) others begin with
+"-d" (values). Ghostscript's "pdfwrite" device is like Acrobat's Distiller,
+and should not be confused with the inferior Acrobat "Pdwriter" device.
+
+The ps2pdf script should be modified to reflect the above choices of PDF
+level and font embedding/subsetting. For instance, a good ps2pdf script on
+a UNIX system might look like:
+
+#!/bin/sh
+# Convert PostScript to PDF using LaTeX recommended parameters.
+# Adjust default PAPERSIZE as needed.
+exec ps2pdfwr -sPAPERSIZE=letter -dPDFSETTINGS=/printer
+-dCompatibilityLevel=1.3 -dMaxSubsetPct=100 -dSubsetFonts=true 
+-dEmbedAllFonts=true "$@"
+
+Note that the Ghostscript ps2pdfwr script in turn adds the -dSAFER
+-dNOPAUSE -dBATCH -sDEVICE=pdfwrite and -sOutputFile options and then calls
+gs.
+
+
+Windows based Ghostscript installations use ps2pdf.bat batch files in the
+"gs\gsX.YZ\lib" (where X.YZ is the version number of Ghostscript)
+subdirectory in the Ghostscript install directory.  Users of these should
+update them to use the recommended parameters. For example, the PDF level
+line in ps2pdf.bat should be changed to 1.3:
+
+echo -dCompatibilityLevel#1.3 >_.at
+
+This is important as Ghostscript will *not* embed the base 14 fonts under
+PDF level 1.2. Furthermore, PDF level 1.2 is useful only for Acrobat 
+Reader versions prior to 4.0 - which are too buggy to handle PDF from LaTeX
+anyway.
+
+Then, the other recommended Ghostscript options can be added to 
+ps2pdfxx.bat (this file is called by ps2pdf.bat, ps2pdf12.bat and
+ps2pdf13.bat, hence the "xx" in the filename):
+
+echo -q -dSAFER -dNOPAUSE -dBATCH -sPAPERSIZE=letter -dPDFSETTINGS=/printer
+-dMaxSubsetPct=100 -dSubsetFonts=true -dEmbedAllFonts=true
+-sDEVICE#pdfwrite >_.at2
+
+
+Because additional command line options can override previous ones, it is
+easy enough to override ps2pdf's default options if needed:
+
+ps2pdf -sPAPERSIZE=a4 myfile.ps myfile.pdf
+
+Note that PostScript files containing PostScript commands that are direct
+orders to set the paper size ("a4", "letter", etc.) will countermand any 
+ps2pdf options to the contrary.
+
+The Ghostscript -dFIXEDMEDIA option can be used to "lock" the paper size
+selection and prevent any PostScript paper size operators in the .ps file
+from overriding the ps2pdf options. For example,
+
+ps2pdf -sPAPERSIZE=a4 -dFIXEDMEDIA myfile.ps myfile.pdf
+
+*will* force an A4 paper size for myfile.pdf even if myfile.ps contains
+hardcoded paper size commands for a different paper type (like from using
+the dvips "-t letter" option as opposed to the "-t letterSize" option. See
+the dvips configuration section for more details).
+
+It is not recommended that -dFIXEDMEDIA be used in the ps2pdf script itself
+as this will prevent the user from being able to alter the paper size with
+ps2pdf command line options. Furthermore, it is unusual to override a
+PostScript file in this fashion - such as to force a file to print on a
+paper type it was not designed for.
+
+Additional information can be found in the Ghostscript ps2pdf documentation
+at: 
+
+http://www.cs.wisc.edu/~ghost/doc/index.htm
+
+For example, usage information, including a very informative section on
+paper size control, for version 7.04 can be found at:
+
+http://www.cs.wisc.edu/~ghost/doc/AFPL/7.04/Use.htm
+
+There is also a section in the above link concerning how to modify
+Ghostscript's gs_init.ps file 
+(e.g., /usr/share/ghostscript/7.04/lib/gs_init.ps)
+so that Ghostscript's default paper size (that is, what it defaults to
+without any options) can be changed to something different from US letter.
+This may be of use to those A4 users who use GhostScript to convert
+PostScript to many different formats rather than just PDF.
+
+Info related specifically to p2pdf conversion can be found at: 
+
+http://www.cs.wisc.edu/~ghost/doc/AFPL/7.04/Ps2pdf.htm 
+
+as well as in the Adobe Distiller parameter manual:
+
+http://partners.adobe.com/asn/developer/acrosdk/DOCS/distparm.pdf
+
+
+Note that a new Ghostscript upgrade or installation will likely overwrite
+any changes to the ps2pdf scripts. For this reason, it might be a good idea
+to create ps2pdf scripts with different file names - like "ps2pdfmy",
+and/or save copies of them in a directory outside the one in which they are
+currently located.
+
+Users of graphical interfaces to Ghostscript (such as gsview) should set
+the options/preferences for PDF output in accordance with the
+recommendations above. 
+
+For gsview, these are located in the File->Convert->Properties menu.
+"-dFIXEDMEDIA" corresponds to gsview's "Fixed Page Size" option.
+
+
+
+*** pdfTeX *** 
+
+The traditional way to produce PDF under LaTeX, is to use dvips followed
+by ps2pdf. However, some users use pdflatex.
+
+[Note: pdflatex is just pdftex called with a different name - the pdftex
+ application actually does double duty.]
+
+ - version information -
+
+NOT ACCEPTABLE: pdfTeX VERSIONS PRIOR TO 2001/08/06 (versions before 1.00)
+
+pdfTeX's version information can be obtained via:
+
+pdftex --version
+
+The version code of interest is the group of numbers and letters after "pi"
+in the first line displayed. i.e., 
+
+"pdfTeX (Web2C 7.3) 3.14159-0.13c"
+
+indicates version 0.13c. There may also be an obvious date code within in
+the version information - especially on the beta releases.
+
+
+In 2001, several problems with pdfTeX's font subsetting code where
+discovered that caused pdfTeX not to work properly with some fonts as well
+as with Acrobat Reader 5.0. Older versions are potentially even more
+problematic and can yield PDF that will not correctly render minus signs
+and some Greek symbols under Acrobat Reader.
+
+These issues were fixed with the 2001/08/06 (1.00a pretest) and later
+releases of pdfTeX. See the "Upgrading LaTeX Applications" section below
+for information on how to update pdfTeX.
+
+
+ - default paper size configuration -
+pdfTeX and pdfLaTeX's default paper size is determined by the configuration
+file <texmf>/pdftex/config/pdftex.cfg. Within it, lines like:
+
+page_width 8.5in
+page_height 11in
+
+determine the default paper size.
+
+ - type 1 font configuration -
+pdfTeX's pdftex.cfg configuration file is much like dvips' as fonts are
+concerned. It is important that the following lines be present and
+uncommented:
+
+map +bsr.map              % CM/AMS fonts
+map +bsr-interpolated.map % additional sizes
+map +hoekwater.map        % additional fonts from Taco Hoekwater
+
+so that the BlueSky Type 1 Computer Modern fonts will be used.
+
+pdfTeX can also be configured to embed the base 14 fonts (Nimbus) by
+replacing the line (usually the first of the map lines to appear in
+pdftex.cfg):
+
+map acrobat-std-adobe-buildin.map
+
+with:
+
+map acrobat-std-urw-kb.map
+
+This basically tells pdfTeX to use and embed the Nimbus fonts instead of
+relying on the (substituted) fonts that are built into Acrobat Reader.
+
+Note: Some acrobat-std-urw-kb.map files (this will be located in 
+<texmf>/dvips/config) have a mistake in two lines:
+
+usyr StandardSymL <psyr.pfb
+.
+.
+uzdr Dingbats <pzdr.pfb
+
+These should instead read:
+
+psyr StandardSymL <psyr.pfb
+
+and 
+
+pzdr Dingbats <pzdr.pfb
+
+
+Note that pdfTeX will name these embedded fonts like  "NimbusRomNo9L-Regu",
+while Ghostscript will use the more traditional name "Times Roman".
+
+Some pdfTeX installations also have a mistake in the map files related to
+the Lucida font. See the section below on upgrading pdfTeX for more
+information.
+
+
+
+*** xdvi ***
+
+xdvi's default paper size is determined by its configuration file:
+
+<texmf>/xdvi/XDvi
+
+Within this file, the default paper size can be set with a line like:
+
+XDvi*paper:us
+
+for US letter or
+
+XDvi*paper:a4
+
+for A4 paper.
+
+As stated in more detail in the Ghostscript section, versions of xdvi prior
+to 22.40j can cause Ghostscript versions 7.04 and later to issue an error:
+
+gs: Error: /invalidfileaccess in --file--
+
+for graphic files that are referenced via relative paths. e.g.,:
+
+\includegraphics{../myfigs/afig.eps}
+
+
+Note: The lucida.map file for xdvi in <texmf>/xdvi may have a mistake.
+See the section below on upgrading pdfTeX for more information about this
+commonly found typo in the lucida map files.
+
+
+
+*** YAP ***
+
+The paper size can be selected in the menu:
+
+View ->Options->Display 
+
+
+
+
+                  *** UPGRADING LaTeX APPLICATIONS ***
+
+Upgrading LaTeX applications and utilities is not always a trivial matter.
+
+Users with commercial versions of LaTeX should consult the vendor for
+upgrade availability.
+
+
+Users of the Windows-based MiKTeX and fpTeX should consult the web sites
+for their distributions: http://www.miktex.org/ and http://www.fptex.org/
+respectively.
+
+Also note that fpTeX has another site featuring stand-alone executables:
+
+ftp://ftp.dante.de/pub/fptex/standalone/
+
+This later site may more recent files and could also be of interest to
+non-fpTeX Windows users.
+
+
+Linux users with RPM-based systems (Red Hat, etc.) will find a large number
+of teTeX RPMS at:
+
+http://www.rpmfind.net/linux/rpm2html/search.php?query=tetex&submit=Search
+ 
+there are also a tetex-xdvi rpms:
+
+http://www.rpmfind.net/linux/rpm2html/search.php?query=tetex-xdvi&submit=Search
+
+and tetex-dvips rpms:
+
+http://www.rpmfind.net/linux/rpm2html/search.php?query=tetex-dvips&submit=Search
+ 
+among others. These lists might have to be examined carefully to determine
+which is the most recent and most applicable to a given existing
+installation. Red Hat users should note that Red Hat's "RawHide" rpm
+releases are usually more recent than the standard versions from Red Hat.
+
+
+
+*** Manually Upgrading Individual Applications ***
+
+Because the full LaTeX distributions can be very large downloads and their
+installation may overwrite existing configuration files, and because 
+sometimes a user wants to update "just one little thing", it often happens
+that a user wants to manually update an individual application.
+
+The information below gives some tips on how to do this. It should be
+mentioned that it is not possible to cover every detail here and any user
+wanting to undertake this approach should have a basic knowledge of system
+administration on their respective OS platform as well as a basic
+understanding of the location of the files (executables, configuration,
+etc.) for the application that is to be upgraded.
+
+
+There is a large number of very recent precompiled executables for many
+different OS platforms at:
+
+http://www.tug.org/texlive/tlprod/Master/bin/
+
+The .fmt and .pool files (explained in the teTeX section below) for these
+executables can be found at:
+
+http://www.tug.org/texlive/tlprod/Master/texmf/web2c/
+
+
+
+ - Manually Upgrading teTeX Applications From Source -
+
+teTeX users can update applications by compiling from source. The appeal of
+this approach is that it provides a way to obtain extremely recent releases
+and allows a great deal of manual control. Users familiar with open source
+software will feel much at home with this approach.
+
+The most recent official teTeX source releases are located at:
+
+ftp://dante.ctan.org/pub/tex/systems/unix/teTeX/current/distrib/sources/
+
+The files of interest will be of the form "teTeX-src..." as these contain
+the source code for the executables. The other files of the form
+"teTeX-texmf..." and "teTeX-texmfsrc..." contain the various LaTeX font,
+sty, metafont source, etc. files and should not be needed just to upgrade
+applications.
+
+The beta versions can lead the official releases by a year or more. Users
+should therefore give serious consideration to using a recent beta version
+because they often fix known bugs in the previous official releases.
+
+The beta release can be found at:
+
+ftp://dante.ctan.org/pub/tex/systems/unix/teTeX-beta/
+  
+and the files of interest are of the form "teTeX-src-beta...tar.gz" and are
+about 10MB in size.
+ 
+ 
+- Tips for Compiling/Installing Applications from teTeX Source File -
+[beta version illustrated here]
+
+unpack the tar file (tar xvfz teTeX-src-beta...tar.gz) in a temporary work
+directory. Let <tetexsrc> designate the top level directory of the unpacked
+source tree. It is recommended that all the unpacking, configuration and
+compiling steps NOT be done by the root user. Start by changing to the top
+directory of the source tree: 
+
+cd <tetexsrc>
+
+the file "INSTALL" contains valuable installation instructions. However, it
+will be assumed here that the user wants to build the applications and then
+copy them out manually - so a more manual approach than that described in
+INSTALL is used here. The INSTALL file also has an appendix with a note on
+moving binaries (executables) around - read that information too. 
+Now,
+
+./configure --datadir=/usr/share
+
+where datadir is the directory in which the existing <texmf> directory is 
+(or would be) located (that is the *parent* of <texmf>). 
+Then:
+
+make
+
+to compile the source code. Any compile problems are usually the result of
+not having a recent enough version of gcc or make. 
+
+
+== DANGEROUS BEND ==
+Do NOT run "make install", unless one intends to update every application,
+as this will start an install script that copies _all_ the installable
+files to whatever "-prefix=", et. al. was set to during configuration
+(prefix defaults to /usr/local/teTeX). Note that all UNIX systems do not
+use the same teTeX directory structures! For instance, Red Hat Linux 6.0
+uses /usr/share/texmf for the <texmf> directory and puts the executables
+directly into /usr/bin, while many other UNIX systems use 
+/usr/local/teTeX/texmf as <texmf> and puts the executables in 
+/usr/local/teTeX/bin. The latter schema makes upgrades much easier (because
+the teTeX files are consolidated in one place), but requires a more
+complicated $PATH, $MANPATH, etc. Altering the teTeX layout of an existing
+system will likely mean that other upgrade packages that are designed for
+that system (rpm, etc.) will no longer work.
+
+Any user contemplating a "make install" is strongly advised to carefully
+read INSTALL, ./configure --help and set all the needed ./configure
+options. If something should go wrong with a "wholesale" upgrade, such as
+overwritten customized configuration files, recovery could be difficult.
+Always make backups. You have been warned.
+====================
+
+
+After the compilation is complete, the user may rummage through the source
+code and pick out just the executables of interest. To copy the files to
+the needed system directories, the user will need to be root.
+
+Let <texexec>, <texman1>, <texinfo> designate the directories where the
+teTeX executables, man1 pages, and info pages, respectively are kept on
+the existing system.
+
+For Red Hat these are:
+
+<texexec> = /usr/bin
+<texman>  = /usr/man/man1
+<texinfo> = /usr/info
+
+while for many other UNIX systems they are like:
+
+<texexec> = /usr/local/teTeX/bin
+<texman>  = /usr/local/teTeX/man
+<texinfo> = /usr/local/teTeX/info
+
+The "which" command can be used to to find out where the existing
+executables are. It is recommended that the new ones go in the same
+directories as the old ones otherwise some applications may not be able to
+properly find their configuration files (long story). The user may wish to
+retain copies of the old executables, perhaps putting version numbers in
+their names, so that they can be used again if something goes wrong. e.g.,
+
+mv <texexec>/dvips <texexec>/dvips585
+
+The user may want to update the UNIX documentation as well. Man pages for
+user executables end in ".1" (e.g., dvips.1) Info pages for the executables
+end in ".info". There may be more than one info page, the additional pages
+will be indicated by appended numbers. (e.g., "dvips.info-1") Info and man
+pages are sometimes compressed and have a ".gz" suffix. Compressed and
+non-compressed sets are interchangeable.
+
+
+
+dvips:
+The new dvips binary, man and info pages will be in: <tetexsrc>/texk/dvipsk
+
+The new dvips .pro files will likely be identical to the originals 
+(in <texmf>/dvips/base), unless they are very old (pre 5.86). The only
+"gotcha" here is that sometimes the originals have been modified. If this
+is suspected, it might be good to keep the original .pro files. One very
+common modification is to have tex.pro and texc.pro rotate landscape the
+"other way" to prevent landscape pages from appearing upside down. This is
+accomplished by changing the default /landplus90{false} to
+/landplus90{true} in both tex.pro and texc.pro (usually located in the
+third line). It is recommended by this author that these be set to "true"
+as this produces a "right side up" page under standard Ghostscript on UNIX.
+The ".lpro" source code files are used to make the .pro files during teTeX
+source compilation. So these should be changed as well if these changes are
+to appear in the .pro files of the <tetexsrc> if "make" is ever run again.
+There is information about this topic at: 
+http://www.radicaleye.com/dvips.html
+
+It is probably a good idea to retain the other (.map, etc.) original dvips
+configuration files.
+
+
+
+xdvi:
+The xdvi executable is a bit unusual in that it is started by a shell
+script "xdvi" which in turn calls the "real" xdvi binary executable
+"xdvi.bin". The new xdvi executables are located in 
+<tetexsrc>/texk/xdvik.
+
+Upgrading from the source tree is usually as easy as
+
+cp <tetexsrc>/texk/xdvik/xdvi.bin <texexec>/xdvi.bin
+
+The original <texexec>/xdvi start script can usually be retained.
+To change it as well:
+
+cp <tetexsrc>/texk/xdvik/xdvi-sh <texexec>/xdvi
+
+The new xdvi man page is located in the same directory as the new
+executable. xdvi does not seem to have an info page.
+
+The new configuration and map files are in <tetexsrc>/texk/xdvik/texmf
+and probably should be copied over to <texmf>/xdvi after saving
+the originals:
+
+cp <tetexsrc>/texk/xdvik/texmf/* <texmf>/xdvi
+
+The old XDvi config file should the reviewed and its customized settings
+should be carried over into the new one (or the original retained as-is).
+Newer versions of xdvi use a xdvi.cfg file that may not be present in older
+xdvi setups.
+
+Note: The lucida.map file for xdvi in <texmf>/xdvi may have a mistake in
+which eight lines have an "850" when it should be ".850". See the section
+below on upgrading pdfTeX for more information about this commonly found
+typo in the lucida map files.
+
+
+
+pdfTeX (TeX, eTeX, Omega similar):
+
+[Note: "pdflatex" is usually just a symbolic link to "pdftex" -
+ pdflatex will be thus be updated if pdftex is.]
+
+The new pdftex executable is located in <tetexsc>/texk/web2c
+Its new man pages are in <tetexsc>/texk/web2c/man. pdftex does not seem to
+have an info page. (but, LaTeX does - it is in <tetexsc>/texk/tetex).
+ 
+The pdftex.pool file must also be updated:
+
+cp <tetexsc>/texk/web2c/pdftex.pool <texmf>/web2c/pdftex.pool
+
+Now, applications like TeX, pdfTeX, LaTeX, do not read and process their
+ASCII initialization language definition files when they are run. Instead
+these language definitions are read once, and their memory images are saved
+for later use as format (.fmt) files. This technique reduces the required
+start-up time because extensive parsing is not needed. However, if the
+application executable changes, the format file for it will likely no
+longer be correct. 
+
+If the correct format file is incorrect or missing, pdftex will error with:
+
+ "(Fatal format file error; I'm stymied)"
+ or
+ "I can't find the format file `pdflatex.fmt'!"
+ 
+These format files are not included in the teTeX source files as they
+depend on the plain TeX, latex.ltx, etc. files on the user's system.
+
+Making and installing complete new set can be as easy as calling 
+fmtutil (as root):
+
+ fmtutil --all
+
+A fmtutil utility is included in the teTeX source, see the
+<tetexsc>/texk/tetex directory.
+
+However, users wanting a more manual approach can have pdftex make its own
+format files. Two will be needed: pdftex.fmt and pdflatex.fmt
+
+To make pdftex.fmt, change to a work directory and issue:
+
+ pdftex --ini plain
+ 
+at the "*" prompt enter:
+ 
+ \dump
+ 
+This will make a pdftex.fmt.
+ 
+To make pdflatex.fmt, do:
+ 
+ pdftex -ini -fmt=pdflatex latex.ltx
+ 
+(Don't worry if you get a warning about old LaTeX source files - they
+ aren't any older than what you have been using. ;)
+
+Then, copy both these .fmt files to <texmf>/web2c
+ 
+See the pdftex support page for the pdfTeX user manual FAQ:
+
+http://www.tug.org/applications/pdftex/
+
+for more info.
+
+
+If the new (or old one for that matter!) pdftex gives errors like:
+ 
+"Warning: pdflatex (file <texmf>/dvips/config/lucidabr.map): invalid entry
+ for `hlcbot8rn': too big value of ExtendFont (850)"
+ 
+it has detected a typo mistake that appeared in thousands of teTeX systems.
+Earlier versions of pdftex would not indicate a problem unless the affected
+fonts were actually used. More recent versions of pdftex will always report
+the error every time pdftex is executed. So, the problem may suddenly
+appear after a pdftex upgrade.
+
+In <texmf>/dvips/config, there are two files: lucidabr.map and psfonts.map.
+(pdftex "eavesdrops" on many of dvips' configuration files.)
+
+In each of these ASCII files there are about eight lines, all related to
+the Lucida font family, that look somewhat like:
+
+hlcbot8rn LucidaTypewriterBoldOblique "850 ExtendFont ....
+
+The "850"'s are incorrect. They should be ".850" like:
+
+hlcbot8rn LucidaTypewriterBoldOblique ".850 ExtendFont ....
+
+Changing all the instances to ".850" will fix the problem. 
+
+The lucida.map file for xdvi in <texmf>/xdvi may have these same typos.
+
+
+
+       *** TESTFLOW CONTROL PS/PDF FILE BUILD CODE INFORMATION ***
+
+A "build code" can be seen when the testflow control PS/PDF files are
+viewed. Below is a list of these build codes and information about what
+applications and configurations were used to create each of them:
+
+(Build code 0000 designates a non-control (user made) PS/PDF file.)
+
+
+****** Version 1.0 Build code 0003 ****** 
+Creation Date:        Apr. 17, 2002
+Operating system:     Red Hat Linux 6.0
+Test picture fonts:   yes
+LaTeX2e version:      TeX (Web2C 7.3) 3.14159
+dvips version:        5.86g 
+Ghostscript version:  7.04
+
+Computer Modern font: BlueSky, type 1, June 6, 2001 revision
+Base PostScript font: Nimbus (in the PDF only) from GhostScript
+
+work flow:            latex->dvips->Ghostscript (ps2pdf)
+
+notable dvips parameters: D7200, alt-rule.pro
+
+Ghostscript ps2pdf parameters: -dPDFSETTINGS=/printer 
+-dCompatibilityLevel=1.3 -dMaxSubsetPct=100 -dSubsetFonts=true
+-dEmbedAllFonts=true
+
+- additional testflow_ctl_A4 parameters -
+
+ps (dvips):     @ a4size 594.99bp 841.99bp
+                @+ %%PaperSize: A4
+
+pdf (ps2pdf):   -sPAPERSIZE=a4
+
+
+- additional testflow_ctl_LTR parameters -
+
+ps (dvips):     @ lettersize 8.5in 11in
+                @+ %%PaperSize: Letter
+
+pdf (ps2pdf):   -sPAPERSIZE=letter
+ 
+******************************************
+
+===========================================================================
+
+ That's all folks ;)
+
+ mds
+

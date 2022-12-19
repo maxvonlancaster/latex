@@ -1,0 +1,12 @@
+If you have received this package via electronic mail routed through
+brain-damaged EBCDIC gateways, some characters may be altered.
+
+------------------------------------------------------------------------
+	 %   percent		37
+	 \   backslash		92
+	 ^   circumflex		94
+	 `   backquote		96
+	{ }  curly braces	123, 125
+	 |   vertical bar	124
+	 ~   tilde		126
+------------------------------------------------------------------------

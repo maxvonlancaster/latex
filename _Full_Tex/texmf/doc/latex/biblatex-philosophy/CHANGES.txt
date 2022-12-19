@@ -1,0 +1,47 @@
+________________________________________________
+Changes for version 0.4b:
+________________________________________________
+- added examples
+- added code to get the correct baselineskip when changing the 
+font size of the 'annotation' filed 
+
+________________________________________________
+Changes for version 0.4c:
+________________________________________________
+- the styles are now compatible with biblatex 0.9
+
+________________________________________________
+Changes for version 0.5:
+________________________________________________
+- added the localization file "italian-philosophy.lbx"
+- new bibliography style "philosophy-verbose:
+   Files included:
+   * philosophy-verbose.bbx
+   * philosophy-verbose.cbx
+   * philosophy-verbose-doc.tex
+   * philosophy-verbose-test.tex
+- new options: origparens, origbrackets, latinemph (only for philosophy-verbose)
+- changed options: scauthors, scauthorsbib, scauthorscite
+- renamed the file "biblatex-philosophy-doc.tex" to "philosophy-authoryear-doc.tex"
+
+________________________________________________
+Changes for version 0.6:
+________________________________________________
+- added support for english;
+- added file philosophy-standard.bbx
+- new documentation;
+
+________________________________________________
+Changes for version 0.7:
+________________________________________________
+- Removed package options colonloc, origparens, origbrackets
+- Added package options: origfieldsformat, publocformat, commacit, inbeforejournal, romanvol, volnumformat
+- Added citation commands: \sdcite, \ccite
+- Updated documentation
+
+________________________________________________
+Changes for version 0.7a:
+________________________________________________
+- Added command: \volumfont
+- Added citation command: \footcitet
+- Updated documentation

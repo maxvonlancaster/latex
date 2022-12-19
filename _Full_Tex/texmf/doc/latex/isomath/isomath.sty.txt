@@ -1,0 +1,326 @@
+isomath.sty: Math for scientists
+********************************
+
+:Copyright: © 2008, 2010 Günter Milde
+:Licence:   This work may be distributed and/or modified under the
+            conditions of the `LaTeX Project Public License`_, either
+            version 1.3 of this license or (at your option) any later version.
+
+:Identification:
+ ::
+
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{isomath}
+  [2010/08/23 v0.4 math according to ISO 31]
+  
+:Abstract:  The `isomath` package enables formatting Greek and Latin
+            letters as symbols for vectors, matrices, and tensors
+            in the typefaces recommended for scientific papers
+            by the International Standard ISO 31.
+
+History
+=======
+
+.. class:: borderless
+
+===  ============  ========================================================
+0.1    2008-09-25  first public version.
+0.2    2008-10-02  bugfix: a usage example was uncommented;
+\                  updated documentation;
+\                  define \mathsans only if OMLmathsans is true;
+\                  option reuseMathalphabets -> reuseMathAlphabets.
+0.3    2009-06-19  documentation update;
+\                  fix OMLmathrm and OMLmathsans definitions;
+\                  switch license to LPP.
+0.4    2010-08-23  split user documentation from literate source;
+\                  option ``scaled``;
+\                  documentation update.
+===  ============  ========================================================
+
+.. contents::
+
+
+Requirements
+============
+
+fixmath.sty
+-----------
+The package fixmath_ by Walter Schmidt defines Greek letters as symbols
+of type ``\mathalpha`` and takes them from the ``letters`` SymbolFont in
+``\mathnormal`` (as opposed to ``operators`` in ``fontmath.ltx``).
+
+fixmath_ also defines the ``\mathbold`` alphabet, setting it to ``cmm``.
+This definition will be overwritten with a configurable value for
+the font family below.
+::
+
+  \RequirePackage{fixmath}
+  
+  
+kvoptions.sty
+-------------
+The kvoptions_ package in the oberdiek_ bundle facilitates the setup of
+package options and provides a key=value interface (based on keyval_)::
+
+  \RequirePackage{kvoptions}
+  
+  
+Options
+=======
+
+rmdefault
+---------
+Family for roman math fonts. Must be available in OML
+encoding. The default is to use the corresponding text font family
+(``\rmdefault``).
+::
+
+  \DeclareStringOption[\rmdefault]{rmdefault}
+  
+sfdefault
+---------
+Family for sans-serif math fonts. The default selects `CM Bright`, as
+most sans serif fonts are not available in OML encoding::
+
+  \DeclareStringOption[cmbr]{sfdefault}
+  
+scaled
+------
+The sans-serif fonts, ``fav`` (Arev), ``llcmss`` (LX Fonts), and
+``iwona`` can be scaled with the ``scaled`` option.
+::
+
+  \DeclareStringOption[1.0]{scaled}
+  % Use a key definition like in inconsolata.sty (cf. also helvet.sty)?
+  % \define@key{isomath}{scaled}[1.0]{\def\isomath@scaled{s*[#1]}}
+  
+  
+reuseMathAlphabets
+------------------
+The definition of new `math alphabets`_ can lead to a “too many math
+alphabets used in version normal” error.
+
+As a workaround, this option tells `isomath` to re-use the existing
+``\mathbf`` and ``\mathsf`` alphabets for *italic* bold and sans-serif
+bold.
+::
+
+  \DeclareBoolOption{reuseMathAlphabets}
+  
+  
+OMLmath*
+--------
+The following options cause `isomath` to (re)define the corresponding 
+`math alphabets`_ in OML encoding::
+
+  \DeclareBoolOption{OMLmathrm}
+  \DeclareBoolOption{OMLmathbf}
+  \DeclareBoolOption{OMLmathsf}
+  \DeclareBoolOption{OMLmathsans}
+  \DeclareBoolOption{OMLmathtt}
+  
+Setting these options enables access to small Greek letters in
+different shapes with e.g. ``\mathrm{\pi}`` **if an OML encoded font
+is available**. Currently, only the mathdesign_ fonts support roman in
+OML encoding.
+
+With some packages, these options can result in a “too many math alphabets
+used in version normal” error.
+
+Process Options
+---------------
+Process the options with ``kvoptions`` extensions::
+
+  \ProcessKeyvalOptions*
+  
+  
+Declarations
+============
+
+
+Math alphabets
+--------------
+
+In math, LaTeX uses “absolute” fontnames instead of a selection by
+family, shape, and weight because typefaces have a semantic meaning
+(see fntguide_).
+
+`isomath` defines a math alphabet for every required font variant and
+optionally re-defines the standard math alphabets in `OML` font encoding.
+
+Unfortunately, the number of math alphabets in one math version is
+limited to 16, so we have to be carefull not to exceed this. The
+``reuseMathAlphabets`` option reduces this number by two, with the
+side effect of italic shape with ``\mathbf`` and ``\mathsf`` commands::
+
+  \ifisomath@reuseMathAlphabets
+    \PackageWarningNoLine{isomath}{%
+      Re-using math alphabet `mathsf' for \protect \mathboldsans
+      \MessageBreak and `mathbf' for \protect \mathbold
+    }
+  \fi
+  
+mathbold
+~~~~~~~~
+The *italic bold* math alphabet is named ``\mathbold`` like in
+fixmath_ and related packages. With the reuseMathAlphabets_ option,
+the roman bold math alphabet ``\mathbf`` is redefined and
+``\mathbold`` made an alias (overwriting existing definitions)::
+
+  \ifisomath@reuseMathAlphabets
+    \DeclareMathAlphabet{\mathbf}{OML}{\isomath@rmdefault}{bx}{it}
+    \def\mathbold{\mathbf}
+  \else
+    \DeclareMathAlphabet{\mathbold}{OML}{\isomath@rmdefault}{bx}{it}
+  \fi
+  
+mathsans
+~~~~~~~~
+For *italic sans-serif*, we define a new alphabet named ``\mathsans`` (in
+analogy to ``\mathbold``). As this typeface is not required by ISO 31, it
+is only defined if the ``OMLmathsans`` option is set::
+
+  \ifisomath@OMLmathsans
+    \DeclareMathAlphabet{\mathsans}{OML}{\isomath@sfdefault}{m}{it}
+  \fi
+  
+mathboldsans
+~~~~~~~~~~~~
+A *sans serif slanted bold* alphabet is needed for tensor symbols. 
+With the reuseMathAlphabets_ option, the upright sans serif math
+alphabet ``\mathsf`` is redefined and ``\mathboldsans`` made an
+alias::
+
+  \ifisomath@reuseMathAlphabets
+    \DeclareMathAlphabet{\mathsf}{OML}{\isomath@sfdefault}{bx}{it}
+    \def\mathboldsans{\mathsf}
+  \else
+    \DeclareMathAlphabet{\mathboldsans}{OML}{\isomath@sfdefault}{bx}{it}
+  \fi
+  
+Redefine standard alphabets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Redefine standard alphabets in `OML` font encoding
+if the corresponding `OMLmath*`_ option is true::
+
+  \ifisomath@OMLmathrm
+    \SetMathAlphabet{\mathrm}{normal}{OML}{\isomath@rmdefault}{m}{n}
+  \fi
+  \ifisomath@OMLmathbf
+    \SetMathAlphabet{\mathbf}{normal}{OML}{\isomath@rmdefault}{b}{n}
+  \fi
+  \ifisomath@OMLmathsf
+    \SetMathAlphabet{\mathsf}{normal}{OML}{\isomath@sfdefault}{m}{n}
+  \fi
+  \ifisomath@OMLmathtt
+    \SetMathAlphabet{\mathtt}{normal}{OML}{\ttdefault}{m}{n}
+  \fi
+  
+Command aliases
+---------------
+
+The following macros allow semantic markup of mathematical symbols.
+The argument is typeset as proposed by ISO 31 and
+`Typefaces for Symbols in Scientific Manuscripts`_.
+
+\\vectorsym
+~~~~~~~~~~~
+Symbols for vectors are typeset *boldface italic*::
+
+  \newcommand{\vectorsym}{\mathbold}
+  
+For easier writing or to make existing documents conform to the standard,
+you might want to re-define the standard ``\vec`` command after loading this
+package (cf. the Examples section of the documentation).
+
+Attention: Some fonts (CM, Latin Modern, ...) have old-style figures in
+their math italic version. The Null vector must not be written ``\vec{0}``
+in this case. Use e.g. ``\mathbf{0}``, ``\boldsymbol{0}`` (with AMS math) or
+``\bm{0}`` (with boldmath). The latter two variants provide also a failsafe
+alias for a bold vector.
+
+\\matrixsym
+~~~~~~~~~~~
+Symbols for matrices are typeset *boldface italic*, i. e. in the same face
+as vectors. ::
+
+  \newcommand{\matrixsym}{\mathbold}
+  
+  
+\\tensorsym
+~~~~~~~~~~~
+Symbols for tensors are *sans-serif bold italic*::
+
+  \newcommand{\tensorsym}{\mathboldsans}
+  
+     
+Font mappings
+-------------
+
+Some font packages provide matching text and math font but do not
+define a substitution in their ``*.fd`` files.
+
+We define the substitutions needed for the math alphabet definitions
+in this package. Ideally, these should become part of the package's
+``*.fd`` files.
+
+For details about the font definition macros see the fntguide_.
+
+Mathpazo (Palatino) ppl <-> zplm ::
+
+  \DeclareFontFamily{OML}{ppl}{\skewchar\font127}
+  \DeclareFontShape{OML}{ppl}{m}{it}{<-> ssub * zplm/m/it}{}
+  \DeclareFontShape{OML}{ppl}{bx}{it}{<-> ssub * zplm/b/it}{}
+  
+  
+Scaling
+~~~~~~~
+Scale the ``fav`` (Arev), ``llcmss`` (LX Fonts), and ``iwona`` fonts
+by the value of the ``scaled`` option.
+
+To get scaled versions of a font, you cannot use the ``ssub``
+`size function`, but must use the empty function or ``s`` with the font
+file as argument [found by experiment, GM 2010-01-28].
+
+Arev (see omlzavm.fd): fav <-> zavm ::
+
+  \DeclareFontFamily{OML}{fav}{\skewchar\font127}
+  \DeclareFontShape{OML}{fav}{m}{it}{<-> s * [\isomath@scaled] zavmri7m}{}
+  \DeclareFontShape{OML}{fav}{bx}{it}{<-> s * [\isomath@scaled] zavmbi7m}{}
+  
+LX Fonts (see lxfonts.sty): llcmss -> llcmm ::
+
+  \DeclareFontFamily{OML}{llcmss}{\skewchar\font'177}
+  \DeclareFontShape{OML}{llcmss}{m}{it}{<-> s * [\isomath@scaled] lcmmi8}{}
+  \DeclareFontShape{OML}{llcmss}{bx}{it}{<-> s * [\isomath@scaled] lcmmib8}{}
+  
+Ivona (see ``omliwona.fd``)::
+
+  \DeclareFontFamily{OML}{iwona}{}
+  \DeclareFontShape{OML}{iwona}{m}{it}{<-> s * [\isomath@scaled] mi-iwonari}{}
+  \DeclareFontShape{OML}{iwona}{bx}{it}{<-> s * [\isomath@scaled] mi-iwonabi}{}
+  
+No declarations below this point::
+
+  \endinput
+  
+.. Links
+.. *****
+
+.. _LaTeX Project Public License: http://www.latex-project.org/lppl.txt
+.. _arev: http://dante.ctan.org/CTAN/help/Catalogue/entries/arev.html
+.. _cmbright: http://dante.ctan.org/CTAN/help/Catalogue/entries/cmbright.html
+.. _fixmath: http://dante.ctan.org/CTAN/help/Catalogue/entries/fixmath.html
+.. _fntguide: http://dante.ctan.org/CTAN/macros/latex/doc/fntguide.pdf
+.. _hvmath: http://dante.ctan.org/CTAN/help/Catalogue/entries/hvmath.html
+.. _iwona: http://dante.ctan.org/CTAN/help/Catalogue/entries/iwona.html
+.. _keyval: http://dante.ctan.org/CTAN/help/Catalogue/entries/keyval.html
+.. _kvoptions: http://dante.ctan.org/CTAN/help/Catalogue/entries/kvoptions.html
+.. _lxfonts: http://dante.ctan.org/CTAN/help/Catalogue/entries/lxfonts.html
+.. _mathdesign: http://dante.ctan.org/CTAN/help/Catalogue/entries/mathdesign.html
+.. _mathematical alphanumeric symbols:
+    http://www.unicode.org/charts/PDF/U1D400.pdf
+.. _oberdiek: http://dante.ctan.org/CTAN/help/Catalogue/entries/oberdiek.html
+.. _`Typefaces for Symbols in Scientific Manuscripts`:
+   http://physics.nist.gov/Document/typefaces.pdf

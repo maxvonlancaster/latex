@@ -1,0 +1,461 @@
+__________________________________________________________________________
+
+               MUI (Macro graphical User Interface)
+
+                             Plug-in
+                          for WinEdt 5.x
+                          ==============
+
+                           Release 1.5
+                         January 20, 2005
+
+                       by Denis Stan\v{c}er
+                  E-mail: Denis.Stancer@srce.hr
+
+                      http://www.winedt.org/
+__________________________________________________________________________
+
+
+WinEdt is a great editor, addons and components make it even better.
+But WinEdt does not (Yet!) provide a full access to elemental GUI
+components from its macro language. So I wrote a little program that
+shows a dialog according to object definitions.
+
+Installation
+============
+
+Run the installation file and follow the instructions.
+
+Usage
+=====
+
+Usage: MUI.exe <file_name>
+
+<file_name> is the name of the file containing object definitions
+in the form:
+
+  MUI<object>(<parameter1>,<parameter2>,<parameter3>);
+
+
+<object> is one of the standard GUI objects:
+    Label,
+    EditBox,
+    LabelEditBox,
+    CheckBox,
+    RadioButton,
+    ComboBox,
+    LabelComboBox,
+    ListBox,
+    EditBrowseFile,
+    EditBrowseForlder
+
+<parameter1> is usually the text that will show up in the object, if the
+<object> requires more than one text item separate them with
+horizontal bar |.
+
+<parameter2> usually sets the initial state of the <object>
+(if omitted 0 is assumed).
+
+ NOTE: The format is quite liberal now, thanks to RegEx.
+       Any valid WinEdt ("'`) delimiter can be used, EXCEPT
+       vertical bar | because it is used as a list separator
+       and * used in filter definitions for open dialog.
+       User can put spaces in any reasonable place also.
+
+ ANY SYNTAX ERROR IS JUST IGNORED WITHOUT ANY WARNING!!!
+
+mui.exe will make a DDE connection and set named registers
+to selected items: MUI<object>1..MUI<object>9
+
+The variable MUIOK holds the state of the clicked button, i.e.
+if the OK button is clicked MUIOK is set to 1 and if Cancel
+button is clicked MUIOK is set to 0;
+
+Title
+=====
+
+MUITitle("<title>");
+
+Shows: nothing! Sets the MUI window title to <title>.
+Sets: nothing.
+Limit: 1
+
+Examples:
+
+MUITitle("Options");
+
+
+Width
+=====
+
+MUIWidth(<width>);
+
+Shows: nothing! Sets the MUI window width to <width>
+       (only if <width> is greater then 250).
+Sets: nothing.
+Limit: 1
+
+Examples:
+
+MUIWidth(300);
+
+
+Tabs
+====
+
+MUITab("<tab_name>");
+
+Shows: Aranges the components in tabs.
+Sets: MUIActiveTab to index of last shown tab
+Limit: 1 (it is set only if there were tabs)
+
+Examples:
+
+MUITab("Size");
+
+Tab activation
+==============
+
+MUIActiveTab(<tab_number>);
+
+Shows: nothing! The specified tab is shown first. Default is 1.
+       This is usefull for error correcting, i.e. if an error 
+       occures on third tab we show to user that tab instead of
+       first.
+Sets: nothing.
+Limit: none
+
+Examples:
+
+MUIActiveTab(2);
+
+
+Label
+=====
+
+MUILabel("<label_text>");
+
+Shows: <label_text>.
+Sets: nothing.
+Limit: 60
+
+Examples:
+
+MUILabel("Text");
+MUILabel('Enter a name:');
+MUILabel(`Options:`);
+
+
+EditBox
+=======
+
+MUIEditBox("<predefined_text>", Disabled:0..1);
+
+Shows: Edit box with <predefined_text>. If you want an empty
+       edit box put an empty string ("" or ''). Optional parameter
+       disabled (defaults to 0) controls if the edit box can be
+       edited or not.
+Sets: MUIEditBox1..MUIEditBox25 to entered value
+Limit: 25 (together with MUILabelEditBox)
+
+Examples:
+
+MUIEditBox('Your name');
+    - show an edit box with text: Your name
+MUIEditBox('');
+    - show an empty edit box
+MUIEditBox("Value",1);
+    - show a disabled edit box with text: Value
+
+LabelEditBox
+============
+
+MUILabelEditBox("<label_text>", "<predefined_text>", Disabled:0..1);
+
+Shows: Same as MUIEditBox but with a label <label_text>
+       in front of it.
+Sets: MUIEditBox1..MUIEditBox25 to entered value
+Limit: 25 (together with MUIEditBox)
+
+Examples:
+
+MUILabelEditBox('Your name: ', '');
+    - show a label "Your name" and an empty edit box
+MUILabelEditBox('', '');
+    - show an empty edit box - same as MUIEditBox('');
+MUILabelEditBox("Disabled:", "Value",1);
+    - show a disabled edit box with text Value and label Diasbled
+
+
+CheckBox
+========
+
+MUICheckBox("<label_text>", Selected:0..1);
+
+Shows: Check box with <label_text>. The check box is initially
+       checked if optional parameter selected (defaults to 0 ) is
+       set to 1.
+Sets: MUICheckBox1..MUICheckBox25 to 0 (unchecked) or 1 (checked)
+Limit: 25
+
+Examples:
+
+MUICheckBox("Unchecked",0);
+    - show a check box, initially unchecked
+MUICheckBox("Checked",1);
+    - show a check box, initially checked
+
+
+RadioButton
+============
+
+MUIRadioButton("<option_1>|<option_2>|..|<option_n>",Selected:0..n,"<title>");
+
+Shows: A group of radio buttons <option_1>, <option_2>, ..., <option_n>
+       (NOTE: options are delimited with horizontal bar |. You can
+        escape the delimiter with \. If you need \ as the last character
+        in an option item use \\. All other characters on other positions
+        have their usual meaning). Optional parameter (defaults to 0)
+       designates the initially checked radio button, 0 means none.
+       The second optional parameter (defaults to empty string "")
+       sets the radio button group title.
+Sets: MUIRadioButton1..MUIRadioButton9 to selected option
+Limit: 9 groups, 99 overall radio buttons
+
+
+Examples:
+
+MUIRadioButton('One|Two|Three|Four|Five',0);
+  - show five radio buttons, none of them is checked
+MUIRadioButton('One|Two|Three|Four|Five',2);
+  - show five radio buttons, the second one is checked
+MUIRadioButton('One|Two|Three|Four|Five',3,'Number');
+  - show five radio buttons, the third one is checked and
+    the group is titled Number
+
+ComboBox
+========
+
+MUIComboBox("<option_1>|<option_2>|..|<option_n>",Selected:0..n);
+
+Shows: A group of radio buttons <option_1>, <option_2>, ..., <option_n>
+       (NOTE: options are delimited with horizontal bar |. You can
+        escape the delimiter with \. If you need \ as the last character
+        in an option item use \\. All other characters on other positions
+        have their usual meaning). Optional parameter (defaults to 0)
+       designates the initially selected item, 0 means none.
+Sets: MUIComboBox1..MUIComboBox9 to selected option
+Limit: 9 (together with MUILabelComboBox)
+
+Examples:
+
+MUIComboBox('One|Two|Three|Four|Five',0);
+  - show a combo box with five items, none of them is selected
+MUIComboBox('One|Two|Three|Four|Five',2);
+  - show a combo box with five items, the second item is selected
+
+LabelComboBox
+=============
+
+MUILabelComboBox("<label_text>", "<option_1>|<option_2>|..|<option_n>",Selected:0..n);
+
+Shows: Same as MUIComboBox but with a label <label_text>
+       in front of it.
+Sets: MUIComboBox1..MUIComboBox9 to selected option
+Limit: 9 (together with MUIComboBox)
+
+Examples:
+
+MUILabelComboBox('Number:', 'One|Two|Three|Four|Five',0);
+  - show a combo box with five items, none of them is selected and label Number
+MUILabelComboBox('', 'One|Two|Three|Four|Five',2);
+  - show a combo box with five items, the second item is selected -
+    same as MUIComboBox('', 'One|Two|Three|Four|Five',2);
+
+
+ListBox
+=======
+
+MUIListBox("<option_1>|<option_2>|..|<option_n>",Selected:0..n,Height:57..n);
+
+Shows: A listbox filled with <option_1>, <option_2>, ..., <option_n>
+       (NOTE: options are delimited with horizontal bar |. You can
+        escape the delimiter with \. If you need \ as the last character
+        in an option item use \\. All other characters on other positions
+        have their usual meaning) and additional three buttons -
+       Insert, Edit, Delete. Optional parameter selected (defaults
+       to 0) sets the initially selected item in the list.
+       Second optional parameter sets the height of the listbox object
+       (not counting the buttons.
+
+Sets: MUIListBox1..MUIListBox9 to horizontal bar | delimited list
+      of items (NOTE: all |'s in items are escaped with \. If the
+      \ is the last character of the item it becomes \\).
+Limit: 9
+
+Examples:
+
+MUIListBox("A|B|C|D|E|F");
+    - show a list box (with edit buttons) with six items,
+      none is initially selected
+MUIListBox("i|ii|iii|iv",2);
+    - show a list box (with edit buttons) with four items,
+      second item is initially selected
+
+MUIListBox("I|II|III|IV|V",1,80);
+    - show a list box (with edit buttons) with five items,
+      first item is initially selected and the height of
+      the list is 80 pixels
+
+
+MUIEditBrowseFile
+=================
+
+MUIEditBrowseFile("<predefined_text>","<filter_definitions>",Flags);
+
+Shows: An edit box, filled with <predefined_text>, and a button
+       which shows a system Open dialog and filles
+       the edit box with chosen folder path.
+       <filter_definitions> (defaults to "All files(*.*)|*.*")
+       are of the form "Description|*.ext". This parameter must be
+       present!
+       Flags:
+       0    - default dialog
+       1    - show the ReadOnly checkbox
+Sets: MUIEditBrowse1..MUIEditBrowse25
+Limit: 25 (together with MUILabelEditBrowseFile, MUIEditBrowseFolder and MUILabelEditBrowseFolder)
+
+Examples:
+
+MUIEditBrowseFile("C:\","");
+    - show an edit box filled with C:\ and a button. Open dialog
+      has all files filter only
+MUIEditBrowseFile("","All files(*.*)|*.*|Text files(*.txt)|*.txt", 1);
+    - show an empty edit box and a button. Open dialog has all filles
+      and text files filters. Also ReadOnly check box is displayed
+
+MUILabelEditBrowseFile
+======================
+
+MUILabelEditBrowseFile("<label_text>", "<predefined_text>","<filter_definitions>",Flags);
+
+Shows: Same as MUIEditBrowseFile but with a label <label_text>
+       in front of it
+Sets: MUIEditBrowse1..MUIEditBrowse25
+Limit: 25 (together with MUIEditBrowseFolder, MUILabelEditBrowseFolder and MUIEditBrowseFile)
+
+Examples:
+
+MUILabelEditBrowseFile("Your root:", "C:\", "");
+    - show a label, an edit box filled with C:\ and a button. Open dialog
+      has all files filter only
+MUILabelEditBrowseFile("", "","All files(*.*)|*.*|Text files(*.txt)|*.txt", 1);
+    - same as MUIEditBrowseFile("","All files(*.*)|*.*|Text files(*.txt)|*.txt", 1);
+
+MUIEditBrowseFolder
+===================
+
+MUIEditBrowseFolder("<predefined_text>",Flags);
+
+Shows: An edit box, filled with <predefined_text>, and a button
+       which shows a system browse for folder dialog and filles
+       the edit box with chosen folder path.
+       Flags:
+       0    - default dialog
+       1    - show the edit box
+       10   - show the "New Folder" button
+Sets: MUIEditBrowse1..MUIEditBrowse25
+Limit: 25 (together with MUILabelEditBrowseFolder, MUIEditBrowseFile and MUILabelEditBrowseFile)
+
+MUIEditBrowseFolder("C:\");
+    - show an edit box filled with C:\ and a button. Browse for
+      folder dialog is default one
+MUIEditBrowseFolder("D:\",1);
+    - show an edit box filled with D:\ and a button. Browse for
+      folder dialog has an edit box
+MUIEditBrowseFolder("",11);
+    - show an empty edit box and a button. Browse for folder dialog
+      has edit box and "New Folder" button
+      
+MUILabelEditBrowseFolder
+========================
+
+MUILabelEditBrowseFolder("<predefined_text>",Flags);
+
+Shows: Same as MUIEditBrowseFile but with a label <label_text>
+       in front of it.
+Sets: MUIEditBrowse1..MUIEditBrowse25
+Limit: 25 (together with MUIEditBrowseFolder, MUIEditBrowseFile and MUILabelEditBrowseFile)
+
+MUILabelEditBrowseFolder("Path:", "C:\");
+    - show a label, an edit box filled with C:\ and a button. Browse for
+      folder dialog is default one
+MUILabelEditBrowseFolder("", "", 11);
+    - same as MUIEditBrowseFolder("", 11);
+
+
+MUILink
+======
+
+MUILink("<label_text>", "<url_or_mail>", "<description>");
+
+Shows: Underlined label <label_text> which behaves like a link
+       to <url_or_mail>. Optional <description> is put in front of 
+       the actual link.
+       NOTE: <url_or_mail> is handed to OS so
+       anything that works in Start->Run... should work here.
+Sets: nothing.
+Limit: 25
+
+History
+=======
+
+03.09.2002 1.00 Initial release
+01.10.2002 1.01 Bug fixes:
+                 * The application did not return a status.
+                   MUIOK named register added for that purpose
+                 * Problems to include quotation characters in strings,
+                   i.e. "Enter 'name' here" would show: name
+                 * The label width in MUICheckBox and MUIRadioButton was not
+                   properly set
+                 * MUIEditBox did not set %$("MUIEditBox1");
+                   but %$("MUIEdit1");
+                 * MUICheckBox did not set the variable to "0" or "1",
+                   but to the "<label text>"
+                 * If a double quote was in any of resulting strings
+                   (e.g. in MUIEditBox) the WinEdt reported an error.
+                   Now the quoting character is * and it is escaped
+                   if found in resulting string
+                 * Labels did not wrap and adjust their height
+                 * Dialog vertical positioning was wrong
+                New:
+                 * "\|" can be used in option fields (RadioButton,
+                   ComboBox and ListBox) if it is escaped to show
+                   a "|", if (for some reason) you need a "\" as the
+                   last character in the item use "\\|" as delimiter
+                 * "|" is escaped in list box items, it becomes "\|",
+                   if the last character in an item is "\" it becomes "\\"
+                 * Second optional parameter added to ListBox for listbox
+                   height in pixels
+                 * MUI keywords highlighting added.
+                 * New installation
+20.03.2003 1.1  Bug fixes:
+                 * macro did not show if a semicolon (;) was in a string argument
+                 * item separator (|) in RadioButton, ComboBox and ListBox
+                  did not work properly when escaped
+                New:
+                 * MUILink added
+20.06.2003 1.11 Bug fixes:
+                 * Installtion section in this file was missing.
+10.10.2003 1.12 Bug fixes:
+                 * RadioButton allowed only 0-9 numbers as selected button. 
+                   Expanded to 0-99.
+03.11.2004 1.5  New:
+                 * // at BOLN is treated as comment
+                 * Tab support added
+                   - MUITab defines a new tab
+                   - MUIActiveTab sets the active tab
+                 * MUILabelEditBox, MUILabelComboBox, MUILabelEditBrowseFile and MUILabelEditBrowseFolder added
+                 * Limits on components have been raised
+20.01.2005 1.5  New:
+                 * New installation program.

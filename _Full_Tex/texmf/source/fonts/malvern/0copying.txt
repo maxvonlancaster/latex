@@ -1,0 +1,31 @@
+			      = COPYING =
+
+Malvern 1.2 is copyright (c) 1991-4 P. Damian Cugley.  
+
+0. In accordance with British copyright law, P. Damian Cugley has
+asserted the moral right to be identified as the author of this
+software.
+
+1. You can use, copy and distribute this software verbatim without fee
+provided that this copyright notice and permissions are preserved, and
+provided neither my name nor the the name of Oxford University are used
+in any related promotion or publicity without prior, written permission.
+
+2. You can modify this software provided (a) you make no deletions; (b)
+you mark all changes clearly (including altering the maversion string);
+and (c) you don't distribute it.
+
+3. This software is provided for free, on an "as-is" basis, without
+express or implied warranty.
+
+The intention of (2) is to prevent a proliferation of incompatable
+versions.  Commenting out code does not count as a deletion.  If you
+have bug fixes or reports or any comments, please send mail to
+<malvern@comlab.ox.ac.uk>.  This is a mailing list which you can join by
+sending a request to <malvern-request@comlab.ox.ac.uk>.
+
+Damian Cugley
+Oxford University Computing Laboratory, Parks Road, Oxford OX1 3QD, UK
+<damian.cugley@comlab.ox.ac.uk>
+
+COPYING 1.2.0 1994/10/11

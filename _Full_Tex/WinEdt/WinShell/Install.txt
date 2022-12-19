@@ -1,0 +1,47 @@
+WinEdt 5.5 has been Installed on your System
+============================================
+
+This is the default configuration (project file is not loaded
+during the installation - it will be loaded after you restart
+the program). To finish the installation upgrade proceed as
+follows:
+
+Start the Configuration Wizard (Options Menu):
+
+  - Create or update additional Links and Shortcuts to WinEdt
+  - (Optionally) Create or update any filetype associations
+  - (Optionally) Create or Update your User Profile
+  - Restart WinEdt
+
+
+IMPORTANT: You should Update User Profile if you have
+previously installed WinEdt and created a user profile for an
+older version!
+
+
+If you have upgraded over an older version of WinEdt and you
+chose not to install the new default settings most of your old
+settings have been preserved. You should, however, consider
+loading a few updated default components if you want to take
+advantage of new functionality. In particular, you should load
+the new default Options Menu, Help Menu, and Background Schemes
+(extended Highlighting Dialog). Such components (including
+individual menus) can be chosen and installed from Options ->
+Maintenance -> Default interface.
+
+  HINT: As long as you have executed Options -> Maintenance ->
+  Backup menu command you can switch between the new default
+  settings and your custom (backed up) ones. The Restore menu
+  item (in the same menu) provides the same interface as the
+  "Default" one except that components are now imported from
+  your Backup. Backup is never overwritten during WinEdt
+  upgrades! It should be created before you install a new
+  version over the old one (if preserving your old custom
+  settings is a concern)...
+
+
+IMPORTANT: Check the Configuration Wizard and its Help. It
+explains how to configure and (if necessary) diagnose and
+troubleshoot any problems with your TeX installation...
+
+------------------------------------------------------------------------

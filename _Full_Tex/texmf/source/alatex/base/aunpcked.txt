@@ -1,0 +1,9 @@
+%
+% The following files will be unpacked by running TeX on
+% aunpack.ins. 
+%
+
+alatex.ltx
+metaclas.cfg
+
+\endinput

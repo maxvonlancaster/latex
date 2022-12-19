@@ -1,0 +1,36 @@
+Received via email on April 9, 1997 from lisa@ktalk.com
+citation begin>>
+
+We have two different products: Texport, which converts from LaTeX/TeX to
+Word, and Publishing Companion, which converts from Word to LaTeX/TeX.
+Equations (greek letters, math symbols, etc.) and text are converted, other
+kinds of graphics not. When converting from  LaTeX to Word, equations are
+converted 90-95% well. From Word -> LaTeX they came out only 60-70% because
+Word equations format is encrypted.
+
+Both Texport and Publishing run under Windows 3.x or Win'95, using Word 6.x
+or later versions, on a IBM PC.  Each of these products work together with
+our math editor, MathEdit, which let you create/edit/correct equations and
+then save them in various graphics format: WMF (which is the best for Word),
+BMP, TIFF, EPS and/or TeX/LaTeX code. In the conversion process, our macros
+insert the equations graphics into the final document (when convert from
+LaTeX to Word) or merge together the equations LaTeX code and the text (when
+convert from Word to LaTeX).
+
+For more information, please visit our web site at:
+http://www.ktalk.com
+
+We have also a working demo of MathEdit which you can download. (This demo
+permits you only equations not document conversion).
+If you don't have Internet access, call us back for more details.
+Please use the following:
+lisa@ktalk.com or
+ktalk@aol.com
+
+Looking forward to work with you!
+K-Talk Communications, Inc.
+Columbus, Ohio 43212  USA
+Fax:   (614) 488-9505
+Phone: (614) 488-8818
+
+<<citation end

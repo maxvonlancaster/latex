@@ -1,0 +1,77 @@
+Confproc is a LaTeX2e package providing a new document-class together
+with various tools (Perl and Unix/bash scripts) for building conference
+proceedings, or concatenating any set of PDFs with a table of contents,
+index, bookmarks and general bibliography. The LaTeX2e class is mainly
+based on the 'pdfpages' package for PDF papers inclusion, and the
+'hyperref' package for creating proper links, bookmarks and general
+bibliography back references. It also uses many other packages for fine
+tuning the table of contents, bibliography and index of authors.
+The added value of this class is in the time saved to quickly design
+conference proceedings or any collection of PDFs.
+
+________________________________________________________________
+New in version 0.7 (major update) - In short:
+- key-value options for the class and \procpaper{} function
+- tested with TeXLive 2008-2010
+- can insert papers with any number of pages
+- various new class options (hyperref, geometry, binding=Xmm, 
+  checktitle, checkauthor, showmarginlines, showpapernumber,
+  colorheaders=red, pdftk)
+- documentation reorganized with more examples (incremental learning) 
+- new 2-minute summary of commands and options (confproc-short.tex)
+- new Unix/bash scripts: exportIndividualPDFs.sh, countnbpages.sh
+
+________________________________________________________________
+New in version 0.7 (major update) - In details:
+
+- class:
+  - class options: interface re-designed to make use of key-values 
+    style ('kvoptions' package)
+  - tested with TeXLive 2008, 2009 and 2010 (as of July 18th, 2010)
+  - code clarified, using key-values ('keyval' package) and 
+    \ifthenelse ('xifthen' package)
+
+- PDF insertion: 
+  - command \procpaper[]{} with 1 argument (file name) and 8 
+    optional arguments replaces \cmdDescribe{\insertprocpaper} with 
+    its 9 arguments. This re-design also makes use of key-values style 
+    options (using keyval)
+  - removed the limitation to a minimum of 2 pages and a maximum of 
+    8 pages (now 1 to anything)
+
+- class options:
+  - hyperref/geometry: can now directly pass options to the 'hyperref' 
+    and 'geometry' packages with the new hyperref={<option list>} and 
+    geometry={<option list>} options
+  - added 'papers=empty' option and mode. This offers a much faster 
+    fake paper insertion, compared to 'papers='raft} ('draft' mode of 
+    'pdfpages', but not checking if pages actually exist)
+  - added new options for layout fine tuning and debug: 
+    - 'binding=Xmm' to indicate the binding of the paperback version
+    - 'checktitle' and 'checkauthor' to overlay the title and author 
+      list onto the 1st page of each paper, for checking the 
+      consistency of the table of contents with individual PDF papers
+    - 'showmarginlines' to draw the margin lines (so that one can 
+      match each page fits the template)
+    - 'showpapernumber' to show the paper number below the page number
+    - 'colorheaders=red' to color the header/footer
+    - 'pdftk' to output commands for later setting PDF metadata of 
+      individual PDFs
+    - 'verbose' and 'debug' are now different options, and their 
+      output texts have been clarified and now makes use of \PackageInfo 
+      and \PackageWarning
+  - options' default values: reset to simplify the most possible the 
+    first tests
+
+- documentation:
+  - added a 2-minutes summary of commands and options (confproc-short.tex)
+  - added a second (and simpler) example
+  - improved & re-organized for incremental learning, and clarified 
+    with margin notes and color code (using gray/black color code to 
+    show differences between successive version of the code, and using 
+    the 'colordoc' package for color code)
+
+- scripts: added Unix/bash scripts for more functionalities, such as:
+  - exportIndividualPDFs.sh: extracts individual paper with new page 
+    numbers and proper metadata 
+  - countnbpages.sh: counts number of pages in each individual PDF paper 

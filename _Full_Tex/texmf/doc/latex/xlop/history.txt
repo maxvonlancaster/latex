@@ -1,0 +1,55 @@
+10 janvier 2004 version 0.01-beta01
+---------------
+  Division posée.
+
+28 janvier 2004 version 0.01-beta02
+---------------
+  Quatre opérations posées et en ligne.
+
+5 février 2004 version 0.01-beta03
+--------------
+  Ajout de la division euclidienne.
+
+3 mars 2004 version 0.01-beta04
+-----------
+  Ajout de plein de détails de présentations.
+  Changement complet de certains algorithmes et du codage interne des
+  nombres développés.
+  Manuel de l'utilisateur.
+  Première version envoyée aux beta-testeurs. Un grand merci à :
+    Pascal Chantriaux
+    Marc Chaudemanche
+    Olivier Deutsch
+    Paul Gaborit
+    Martine Gautier
+    Yvon Henel
+    Christophe Jorssen
+    Ahmed Kadi
+    Josselin Noirel
+    Olivier Viennet
+    Damien Wyard
+
+26 mai 2004 version 0.1
+-----------
+  Refonte complète du code
+  Ajout de certains détails de présentation.
+    syntaxe "à la keyval" des paramètres ;
+    correction de bogues de la version 0.01-beta04 ;
+    manipulations de chiffres ;
+    \opexpr ;
+    changement de codage des noms de nombre.
+  Première version publique.
+
+25 juin 2004 version 0.2
+------------
+  Correction de bogues
+  Style pour le séparateur décimal
+
+6 avril 2005 version 0.21
+------------
+  Correction d'un bogue sur la division
+
+4 janvier 2006 version 0.22
+------------
+  Correction d'un bogue sur l'affichage de la multiplication posée
+

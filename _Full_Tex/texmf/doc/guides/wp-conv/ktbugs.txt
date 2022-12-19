@@ -1,0 +1,39 @@
+Why K-Talk's software doesn't work for me
+Author: W.Hennings@fz-juelich.de
+last update: May 25, 1998
+
+Distinguish two groups of causes why K-Talk's software
+doesn't work for me:
+
+A. General Problems --
+
+1. K-Talk's software uses their own formula editor "MathEdit", 
+   which is incompatible with Microsoft's equation editor. 
+   Therefore if I convert a LaTeX file to word, only users
+   having K-Talk's MathEdit are able to use the converted file.
+
+2. On the PC wordprocessor side, K-Talk's software primarily uses 
+   the WordPerfect 5.1 format. MS Word users must install 
+   extra macros for conversion to a "tagged document file".
+   These macros however are written for Word6 and 
+   need some dlls belonging to word6 which I don't have 
+   because I have word7(95). So I could not get them running.
+
+3. Capacity: on converting the "LaTeX2e Kurzbeschreibung" 
+   (from CTAN, "l2kurz.tex" plus include-files) 
+   I get the error message "file l2k2.tex too large to include".
+   As LaTeX is intended for large documents, a professional converter
+   should be able to convert large documents!
+ 
+B. Localization Problems --
+
+1. In addition to being not compatible with MS word versions later than 
+   word6, the word macros need to be localized if one doesn't have 
+   the English version of Word.
+
+2. TexPort doesn't recognize German umlauts used in german.sty
+
+
+
+
+

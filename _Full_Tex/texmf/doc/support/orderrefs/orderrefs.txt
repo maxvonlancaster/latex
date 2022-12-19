@@ -1,0 +1,132 @@
+
+
+
+ORDERREFS(1L)                                       ORDERREFS(1L)
+
+
+NAME
+       orderrefs  -  order  the references in a LaTeX document in
+       order of citation
+
+SYNOPSIS
+       orderrefs [options] [file]
+
+DESCRIPTION
+       Orderrefs rearranges the bibitems in a LaTeX file  in  the
+       order in which they are cited.
+
+       It determines the order of citations from the aux file, so
+       as to be immune from the many possibilities of  the  \cite
+       commands being redefined by macro packages.  Therefore you
+       should run latex on the LaTeX file before  running  order-
+       refs,  in  order to ensure that the aux file exists and is
+       up-to-date.   Uncited  bibitems  and  bibitems   with   an
+       explicit label are kept in the order they are in the orig-
+       inal file, after the list of ordered bibitems.
+
+       If the bibitems are correctly ordered, no change  is  made
+       to  the files.  If they need to be reordered, the original
+       LaTeX file is replaced by a file with the  reordered  bib-
+       items,  and  a  backup  copy is made of the original LaTeX
+       file, in a file with the same name as the LaTeX file,  but
+       with .bak added.
+
+       The  bibitems  are identified as being in a LaTeX environ-
+       ment with a name that, by default,  is  "thebibliography".
+       In the LaTeX file, it is assumed that the \begin{thebibli-
+       ography}, the \end{thebibliography}, and the \bibitem com-
+       mands all start a line preceeded at most by white space.
+
+
+ORDERREFS OPTIONS AND ARGUMENTS
+       file   At most one file can be specified.  If no files are
+              specified, orderrefs will print a brief  help  mes-
+              sage.
+
+              If  a  file is specified without an extension, then
+              the ".tex" extension is automatically  added,  just
+              as LaTeX does.  (e.g.  If you specify:
+
+                   orderrefs foo
+
+              then  orderrefs will operate on the file "foo.tex".
+
+       -b name
+              synonym for --bibname=name
+
+       --bibname=name
+              specifies name of LaTeX environment containing  the
+              bibliography.  (Default: "thebibliography".)
+
+
+
+
+                           2 June 2004                          1
+
+
+
+
+
+ORDERREFS(1L)                                       ORDERREFS(1L)
+
+
+       -a file
+              synonym for --auxfile=file
+
+       --auxfile=file
+              specifies  name  of  .aux  file.   (Default is con-
+              structed from name of  LaTeX  file  with  extension
+              .aux.)
+
+       -h, --help
+              Print help information.
+
+       -v, --version
+              Show version information
+
+EXAMPLES
+       To  reorder the citations in the file thesis.tex first run
+       latex on it:
+
+              latex thesis
+
+       then orderrefs:
+
+              orderrefs thesis
+
+       If the bibliography is in a file refs.tex which  is  input
+       from the main file thesis.tex then you should do
+
+              latex thesis
+
+              orderrefs --auxfile=thesis.aux refs
+
+
+
+AVAILABILITY
+       See the home page at
+
+                   http://www.phys.psu.edu/~collins/soft-
+              ware/orderrefs/
+
+
+
+SEE ALSO
+       latex(1).
+
+BUGS
+       None known.
+
+IDENTIFICATION
+       Current   version    by   John   Collins    (collins    at
+       phys.psu.edu).  (Version 1.00).
+
+
+
+
+
+
+
+                           2 June 2004                          2
+
+

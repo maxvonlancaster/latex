@@ -1,0 +1,13 @@
+                    WK LaTeX Tools Installation Guide
+ 
+                           27 November 1996
+
+INSTALLATION
+
+To install the mpfnmark package just run tex/latex on 
+
+  mpfnmark.ins
+
+an follow the instructions.
+
+--- Copyright 1996   The WK LaTeX Project.  All rights reserved ---

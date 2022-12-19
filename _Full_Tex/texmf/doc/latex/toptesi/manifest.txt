@@ -1,0 +1,61 @@
+manifest.txt (version 5.01)
+Copyright 2008-2010 Claudio Beccari
+
+This work may be distributed and/or modified under the conditions of
+the LaTeX Project Public License, either version 1.3 of this license or
+(at your option) any later version. The latest version of this license
+is in http://www.latex-project.org/lppl.txt and version 1.3 or later is
+part of all distributions of LaTeX version 2003/12/01 or later.
+
+This work itself and every derived work are subject to the above
+licence, except the file toptesi.cfg that, although part of the work,
+may be modified at will by the user.
+
+This work has the LPPL maintenance status "author-maintained".
+
+This work consists of the files listed in manifest.txt
+
+This work consists of the following files
+    manifest.txt
+    toptesi.dtx
+    toptesi.ins
+    toptesi-doc.pdf
+    README
+
+The files derived from the work are the following:
+
+    toptesi.cls
+    toptesi.sty
+    topcoman.sty
+    topfront.sty
+    toptesi.cfg
+    trieste.txt
+    topsiz14.clo
+
+The documentation in English may be derived by running LaTeX on
+toptesi.dtx. The documentation in Italian is contained in
+toptesi-doc.pdf. These documentations are complementary to one another.
+
+The logos of the Institutes of Technology of Turin (Politecnico
+di Torino), Bari, Lausanne and Grenoble, of the Universities of Trieste,
+Torino,  Bologna, Bari, Bergamo, Brescia, Genova, Palermo, Padova,
+Pisa, Piemonte Orientale, Roma-1, Roma-2, Roma-3, Salerno, and
+Urbino belong to the corresponding universities and are generally
+of free usage. They are distributed for the convenience of the
+users of this work; other logos may be downloadable from the sites
+of other universities.
+
+In any case, before using any logo, the user must inquire at the 
+relevant University in order to find out if there are
+any prominent or subtle limitations in the use of their logo. The
+fraudulent or improper use of these logos is in the complete
+responsibility of the user.
+
+The file
+
+    toptesi-example.tex
+
+is an example of the usage of this work; it may be used as a template,
+but in itself it is not part of this Work
+
+The file toptesi-example.xmpdata is an example of the contents and format of the metadata that must be included into the same directatory as the thesis main file in order to be able to use pdflatex for typesetting a file that hopefully is PDF/A-1b compliant, that is in the "weak" archivable PDF format.

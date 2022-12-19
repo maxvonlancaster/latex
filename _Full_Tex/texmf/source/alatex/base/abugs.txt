@@ -1,0 +1,16 @@
+
+
+			 ALaTeX Error Reports
+ 
+			   21 January 1996
+		      Matt Swift <swift@bu.edu>
+
+
+Before you report an error please check that The problem is with
+ALaTeX and not LaTeX.  Try reproducing the problem with LaTeX.  If you
+can, the problem is with LaTeX, so please see the file bugs.txt in the
+LaTeX distribution.
+
+If you think you have found a bug in ALaTeX, please send a full report
+including the relevant .tex and .log files by email to Matt Swift
+<swift@bu.edu>.

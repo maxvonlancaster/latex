@@ -1,0 +1,24 @@
+%
+% The following files form the mpfnmark package of 1996/11/27.
+%
+%
+% Documentation:
+% --------------
+%
+% 00readme.txt    --  The distribution guide. START BY READING THIS FILE.
+% manifest.txt    --  This file.
+% install.txt     --  How to install the mpfnmark package.
+% bugs.txt        --  How to submit a bug report for WK LaTeX software.
+%
+% Kernel files:
+% -------------
+%
+% mpfnmark.dtx    --  Code for new footnotemarkers.
+%
+% Installation scripts:
+% ---------------------
+%
+% mpfnmark.ins    --  Installation script for the mpfnmark package.
+%
+% --- Copyright 1996   The WK LaTeX Project.  All rights reserved ---
+

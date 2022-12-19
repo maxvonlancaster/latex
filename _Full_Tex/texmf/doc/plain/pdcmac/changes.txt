@@ -1,0 +1,239 @@
+Thu Apr  6 12:32:28 1995  Damian Cugley  <pdc@booth35.ecs>
+
+	* pdcguide.tex: Added dtxtags to file lists and TAGS to Makefile
+	targets.  Shortened a couple of table entries by a word each so
+	that the GPL doesn't overflow onto the next page.
+
+	* maamac.dtx (\toksa): Added definition of toksa
+
+	* pdcfmt2.dtx (\alphabetletter): Added missing backslash.
+
+	* pdcoput5.dtx (section{Routines for balanced columns}): Removed
+	spurious space from \makepartialpage
+
+	* dtxtags: New shellscript, generates an etags-format tags file.
+	* makefile.in (mostlyclean): Added support for dtxtags.
+
+
+Thu Mar 30 17:16:01 1995  Damian Cugley  <pdc@booth10.ecs>
+
+	* Release 1.1
+
+	* makefile.in (dist): Made version.txt format prettier.
+
+	* Changed all header comments to say doc/plain/pdcmac for the sake
+	of TWG-TDS 0.61.
+
+Tue Mar 28 13:18:47 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdccode.dtx: Recognizes the "locker" field of RCS id.
+	Puts line numbers in headline.
+
+	* pdcfsel.dtx: Tidied documentation.  Changed \fsel_... to \FSEL...
+
+Fri Mar 24 17:08:36 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+
+	* pinstall: Created a shellscript `pinstall' to replace `install'
+	command on systems without GNU `install'.  Trying to keep track of
+	all the stupid variants of `install' is pointlessly difficult.
+	* configure: uses 'pinstall' script if not gnu 'install'.
+	* makefile.in (install): much simplified by assuming either GNU
+	"install" or my "pinstall".  Changed "mkdirhier" ro "pmkdir" at
+	the same time.  Added manpages for the three shellscripts included
+	with the package.
+	
+	* pdcmisc.dtx (section{PDCIMTH}): Added version ID \message.
+
+	* makefile.in: Added new target, version.txt, which is the version
+	IDs of all the DTX files.  Checked all the DTX files in to RCS (at
+	long last).
+
+Thu Mar 16 12:52:02 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdccode.dtx: notepars now allow \rightskip to shrink.
+
+	* pdcfmt2.dtx: chased down some overfull hboxes
+
+	* pdcsty.dtx (section{Starting up}): Changed name of pdcmasub to
+	the more sensible pdccmsub.
+
+Tue Mar 14 12:58:09 1995  Damian Cugley  <pdc@booth8.ecs>
+
+	* pdcadobe.dtx: Corrected definition or rbrace.
+
+Thu Mar  9 16:42:07 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcmisc.dtx (pdccmsub.dtx): new name for pdcmasub.dtx.
+	\currency, \orda, \ordo, \florin, \brdecimal, \permille.
+
+Wed Mar  8 16:53:36 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcsty.dtx (\abstract): Stop from generating underfull
+        hbox.
+
+	* pdcadobe.dtx (\brdecimal): Removed spurious redefinition.
+
+	* pdcguide.tex: Added list of file suffixes.  Added
+	pdcadobe.{dtx,tex} and pdcl1maa.{dtx,tex} to lists of files.
+	Added PostScript title for when POstScript fonts available.
+
+Mon Mar  6 16:54:15 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcl1maa.dtx: New file
+
+	* pdcsty.dtx: Chased down some overful hboxes.
+
+Fri Mar  3 18:12:02 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+        * pdcfmt2.dtx (verbatim): added \ttminus, so that PostScript fonts
+	used as typewriter fonts can change hyphens to minus signs.
+
+	* pdcsty.dtx: Added use of \asyfam, etc.  
+
+	* pdcadobe.dtx: Tested with pdcguide and tested ISO Latin-1
+	support, found several bugs.
+
+Thu Mar  2 18:08:48 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcsty.dtx: Added rudimentary  support for PostScript fonts.
+
+	* pdcadobe.dtx: New file!!
+
+Tue Feb 28 10:17:40 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcsty.dtx: Removed attempts to make a Concrete style; there
+	really doesn't seem to be much point.  Put more of the common code
+	in pdc{lft,doc}1.tex.
+
+	* pdcguide.tex: reorganized sections, expanded user guide and
+	installation sections.
+
+Mon Feb 27 14:43:43 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcguide.tex: Made it into a "doc" not a "lft"; expanded
+	installation section (unfinished)
+
+	* pdccode.dtx: Added summary to end of file, and some backgorund
+	info at the start.
+	(section{Layout}): CHanged width to 72 \tentt characters not 36
+	\tenrm ems.
+
+Fri Feb 24 18:55:30 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcguide.tex: Removed use of PostScript fonts -- now does a
+	title using the circlew10 font!
+
+Thu Feb 23 16:50:33 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* install.txt: new file
+
+	* configure (INSTALL): sets INSTALL and INSTALL_DATA to "cp
+	-p" and puts package name at end of "$docdir". 
+
+	* magrman.tex (\twocolgr): adjusted to use new \rigidbalance syntax
+
+	* pdcoput5.dtx (section{Making a page vbox}): adjust colht by
+	
+	(section{Routines for balanced coumns}): \rigidpalane no longer
+	takes an argukent for the width of the completed columns; instead
+	one should enclose \rigidbalance in \hbox to ...{...}.  Eliminated
+	some variables (\RGDfirstcol etc.).
+
+	*depth* of topbox and partialpage as well as height.
+
+	* pdccode.dtx: New file, which generates tmp.tex (the Makefile
+	checks it isn't truncated before renaming it to pdccode.tex).
+	(section{Code sections}): added \~ for a tilde in expanded lines.
+
+	Changed text width and suppressed parindent at start of sections.
+	Copied verbatim text from pdcfmt2.dtx.  Added \filelocker; this is
+	empty if the file has been checked in.
+
+Wed Feb 22 15:46:06 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcoput5.dtx: Added section headings and brief comments on the
+	rest of the file.  Seached out overfull hboxes in the text so
+	far.
+	
+	(section{Routines for balanced coumns}): Added
+	\rigidbalancedpartialpage.
+
+Thu Feb 16 18:04:55 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcfmt2.dtx: Adjusted a little so that it now TeXs without hbox
+        warnings.
+
+	* pdccode.tex: Changed to allow ragged-right printing inside
+	footnotes.  Added \title and \author commands, and set \everycode
+	and \evercodeline so that some common code at the start of DTX
+	files is factored out.
+
+Wed Feb 15 15:45:30 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcsty.dtx (section{Starting up}): pdcoput->pdcoput5
+
+	* configure (cfgdate): Configuration shellscript, made by cutting
+	down the pdctt configure script.
+
+	* pdcoput5.dtx: Changed name to prevent conflict with old version
+	of pdcoput (since the calling interface is changing).
+
+Tue Feb 14 12:20:41 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcoput.dtx (section{How to make one column}): Change to just
+	use vertical mode material to do illustrations insteasd of
+	separate <dimen> and caption arguments.  Added \topillustration
+	and \botillustration commands.
+
+	* pdcsty.dtx (section{Layout}): foomarge->foomg to match pdcoput.dtx
+
+	* config.status.sh: placeholder for configuration script.
+
+Mon Feb 13 14:23:50 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcoput.dtx: New file, made from pdcoput.tex 4.1.7.
+
+Fri Feb 10 13:46:10 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdcguide.tex: Added a copy of the GNU GPL to the end.
+
+	* copying.tex: new file -- a formatted copy of copying.txt, which
+	is the GNU General Public License.
+
+	* *.dtx: Updated header comments to include GPL.
+
+Thu Feb  9 10:38:59 1995  Damian Cugley  <pdc@boothp1.ecs>
+
+	* pdccode2.tex: a new version of pdccode that allows multiple
+	files to be generated.
+
+	* pdcsty.dtx:  replaces ma55doc.dtx, pdccm*.dtx.  Uses pdccode2 to
+	generate multiple files.  Sectioning commands go in pdcdoc1.tex
+	and pdclft1.tex.
+
+	* pdcguide.tex: new file
+
+Sat Dec  3 16:26:00 1994  P. Damian Cugley  (pdc@alleged)
+
+	* pdccode.tex:
+	Set the vertical margins so that files may be printed on American
+	paper without losing any of the print.
+
+	* pdcfsel.dtx: 
+	Added a title line on the first page.  Removed the dependency of
+	the code file on pdcutil.tex by adding definitions for \expcs and
+	\noexpcs.
+
+Fri Dec  2 00:55:38 1994  P. Damian Cugley  (pdc@alleged)
+
+	* pdccode.tex:
+	Changed \rcs...\end to \rcs...\endrcs for consistency with other
+	macros that go \foo...\endfoo.
+
+	* pdcfsel.dtx: Removed spurious definiton of \n.  Changed
+	\rcs...\end to \rcs...\endrcs.  Changed name of \ldfont to
+	\loadfont.  Removed \setmag.  Now produces pdcfsel.tex not xx.tex.
+
+	* pdccode.tex: checked in with -k by pdc at 1994/12/02 00:50:24
+

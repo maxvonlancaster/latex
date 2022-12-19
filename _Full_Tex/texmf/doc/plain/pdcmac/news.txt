@@ -1,0 +1,14 @@
+news.txt -*-text-*- Time-stamp: <pdc 1995-04-06>
+
+
+Changes to the PDCMAC package since Release 1.0
+
+* Support for Emacs tags added
+
+The shellscript "dtxtags" generates a tags file in the style of etags(1).
+
+* Bug fixes
+
+** Nested numbered lists will work beyond (e)
+** partial pages don't have spurious space added
+** Maamac.tex can be used on its own (it lacked a definition of \toksa)

@@ -1,0 +1,92 @@
+
+
+		      ALaTeX Installation Guide
+
+ 
+			    21 January 1996
+		      Matt Swift <swift@bu.edu>
+
+SUMMARY
+=======
+ 
+This file contains the installation instructions for the ALaTeX
+document preparation system.
+ 
+In order to install ALaTeX, you must have a working installation of
+LaTeX2e.  More information on LaTeX may be found at
+http://www.cogs.susx.ac.uk/cgi-bin/texfaq2html.
+
+In summary, to install ALaTeX, you will:
+ 
+ * Generate the ALaTeX format and standard metaclass.
+
+ * Put the ALaTeX files where ALaTeX can read them.
+
+ * Check the installation.
+
+When one of these steps depends on your TeX distribution, you may find
+help on how to do it in a <system>.txt file in the LaTeX distribution.
+
+
+GENERATING THE ALATEX FORMAT
+============================
+ 
+To create the ALaTeX format,
+
+ * Run TeX on the file `aunpack.ins'.  This will create two new files
+   called `alatex.ltx' and `metaclas.cfg'.
+
+ * Invoke iniTeX with a first line of `&latex alatex.ltx'.  This will
+   create a format file called `alatex.fmt'.  Alternatively, you can
+   do this by typing `&latex' to iniTeX's `**' prompt, then typing
+   `\input alatex.ltx', and renaming the file `texput.fmt' to
+   `alatex.fmt'.
+
+ * Copy or move the format file `alatex.fmt' to the TeX formats
+   directory, and copy or move the standard metaclass `metaclas.cfg'
+   into a standard TeX input path.
+   
+ * If you use the Unix web2c distribution of TeX, you may wish to
+   create a link from `alatex' to `virtex', and define
+   TEXINPUTS.alatex to have the same or similar value as
+   TEXINPUTS.latex2e in the file texmf.cnf.  On other platforms, you
+   must do something else to use the ALaTeX format.
+
+
+CHECKING THAT THE INSTALLATION WORKED
+=====================================
+ 
+To make sure that the installation has worked, you may run
+ALaTeX on the document `ltxcheck.tex' which came in the base directory
+of your LaTeX2e distribution.
+
+Notice that the dialog will refer to LaTeX2e, but the banner ought to
+announce that you have invoked ALaTeX.
+
+This will produce a number of messages, each of which should be `OK'.
+If any of them are `BAD', I suggest trying seeing whether the same
+error occurs when you run LaTeX on `ltxcheck.tex'.  If so, see the
+PROBLEMS section of the install.txt file in the LaTeX distribution.
+If not, then please see the file abugs.txt in the ALaTeX distribution
+and submit a bug report.
+ 
+If all the messages are `OK' then you are finished!
+
+
+GENERATING THE DOCUMENTATION
+============================
+
+Process `alatex.tex' with LaTeX and (optionally) Makeindex to produce
+documentation of ALaTeX and its standard metaclass.  If you generate
+the index, use the index style gind.ist that came in the base
+directory of your LaTeX2e distribution (though it might have been
+moved elsewhere during installation).
+
+
+UNIX
+====
+
+On a Unix system, it will be easiest to use the Makefile I have
+written.  Look over the variables at the top of the Makefile and
+adjust them as necessary.  Invoke "make" with no arguments to see a
+list of targets.

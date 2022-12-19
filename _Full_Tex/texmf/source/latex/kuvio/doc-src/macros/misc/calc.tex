@@ -1,0 +1,70 @@
+%  calc.tex
+%  Anders G S Svensson
+%  $Date: 1994/08/18 00:55:29 $
+%  $Revision: 1.0 $
+
+\chardef\CalccodE=\catcode`\@
+\catcode`\@=11
+
+%  Get superscript height right. Plain has
+%
+%     \def\sin{\mathop{\rm sin}\nolimits}
+%
+%  etc, but \sin^2 x and \cos^2 x should have the superscript at the same
+%  height.
+%
+\def\sin{\mathop{\smash{\rm sin}}\nolimits}  
+\def\cos{\mathop{\smash{\rm cos}}\nolimits}
+\def\tan{\mathop{\smash{\rm tan}}\nolimits}
+\def\csc{\mathop{\smash{\rm csc}}\nolimits}
+\def\sec{\mathop{\smash{\rm sec}}\nolimits}
+\def\cot{\mathop{\smash{\rm cot}}\nolimits}
+\def\invsin{\sin^{-1}}  \def\arcsin{\mathop{\smash{\rm arcsin}}\nolimits}
+\def\invcos{\cos^{-1}}  \def\arccos{\mathop{\smash{\rm arccos}}\nolimits}
+\def\invtan{\tan^{-1}}  \def\arctan{\mathop{\smash{\rm arctan}}\nolimits}
+\def\invcsc{\csc^{-1}}  \def\arccsc{\mathop{\smash{\rm arccsc}}\nolimits}
+\def\invsec{\sec^{-1}}  \def\arcsec{\mathop{\smash{\rm arcsec}}\nolimits}
+\def\invcot{\cot^{-1}}  \def\arccot{\mathop{\smash{\rm arccot}}\nolimits}
+
+%  First partials
+%
+\def\p#1\wrt#2{{\def\@@tmp{#1}\partial \ifx\@@tmp\empty \else #1\fi
+                        \over \partial #2}}
+\let\fp\p  %  "partial wrt"
+%
+%  Second partials
+%  \sp is for superscripts!
+%
+\def\spar#1\wrt#2#3{{\def\@@tmp{#1}\partial^2 \ifx\@@tmp\empty \else \!#1 \fi
+                           \over \partial #2 \partial #3}}
+\let\smp\spar  % Second mixed partial
+\def\spp#1\wrt#2{{\def\@@tmp{#1}\partial^2 \ifx\@@tmp\empty \else \!#1 \fi
+                          \over \partial #2^2}} % "2nd pure partial..."
+%
+%  Ordinary first derivatives
+%
+\def\d#1\wrt#2{{\def\@@tmp{#1}d \ifx\@@tmp\empty \else #1 \fi
+                        \over d #2}}
+\let\fd\d
+%
+%  Ordinary second derivatives
+%
+\def\sd#1\wrt#2#3{{\def\@@tmp{#1}d^2 \ifx\@@tmp\empty \else \!#1 \fi
+                           \over d #2 d #3}}
+\let\smd\sd
+\def\spd#1\wrt#2{{\def\@@tmp{#1}d^2 \ifx\@@tmp\empty \else \!#1 \fi
+                          \over d #2^2}}
+
+\let\grad\nabla
+\let\implies\Longrightarrow
+
+%  Unit vectors
+%
+\def\unit#1{\hat{#1}}
+\def\ui{\unit \imath}
+\def\uj{\unit \jmath}
+\def\uk{\unit k}
+\def\ue{\unit e}        % \ue_1,...,\ue_n
+
+
+\catcode`\@=\CalccodE

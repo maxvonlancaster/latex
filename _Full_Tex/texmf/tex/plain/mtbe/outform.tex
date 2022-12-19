@@ -1,0 +1,149 @@
+%%% File: OutForm.tex
+%%% From `Mathematical TeX by Example' by Arvind Borde
+%%% (c) 1993, Academic Press.
+%%% Contents: The format commands for the `output' pages (i.e., right hand)
+%%% of the Examples in Chapter 2 of `Mathematical TeX by Example'.
+
+\input StdPage   % The file containing the standard MTBE page specifications.
+
+%----------------------------------------------------------------------------
+%%% TYPEFACE NAMES:
+
+% Note: most typeface names used in this file have been defined in `StdPage'.
+\font\sevenit=cmti7                       % For book titles in the margin.
+\font\ExampleTitleFont=cmbx12 scaled\magstep1 % For Example Titles.
+\font\ExampleTypeFont=cmsl12 scaled \magstep2 % For Example Types.
+\font\ExampleTypeCal=cmsy10 scaled \magstep3  % For `Cal' in Example Types.  
+\font\SmExampleTypeCal=cmsy7 scaled \magstep3 % For scriptsize Cal. 
+\font\BigEightsy=cmsy8 scaled \magstep3       % For small Cal. 
+\def\ExampleTypeFonts{\textfont2=\ExampleTypeCal 
+                    \scriptfont2=\SmExampleTypeCal
+                    \let\Eightsy\BigEightsy \ExampleTypeFont}
+
+%----------------------------------------------------------------------------
+%%% MISCELLANEOUS:
+
+\def\EnoughAlready{$$\vdots$$ \EndPage}
+
+%---------------------------------------------------------------------------_%
+%%% EXAMPLE COMMANDS:
+
+\newtoks\Author             % To store the name of the author of the source.
+\newtoks\BookTitle          % To store the name of the book/journal.
+\newtoks\PublishInfo        % To store publisher information.
+\newtoks\CopyrightDate      % To store information about the copyright date.
+\newtoks\Example            % To store information about the example.
+\newtoks\ExampleType        % To store information about the example type.
+\newcount\ExampleNumber     % For the example number.
+\newcount\StartExample      % Start-of-example indicator.
+\newdimen\LMarginOdd        % Left margin on odd-numbered pages.
+\newdimen\LMarginEven       % Left margin on even-numbered pages.
+
+\outer\def\NewExample{\hsize\StdHsize  \vsize\StdVsize  \parindent\indsize
+            \StartExample=1
+            \LMarginOdd=.625in  \LMarginEven=.625in  \voffset0in
+            \headline={\hfil}\global\advance\ExampleNumber by1
+            \leftline{\ExampleTypeFonts\the\ExampleType} 
+            \vskip2pc\relax
+            \message{+\the\ExampleNumber+}
+            \setbox0=\hbox{\ExampleTitleFont 1}\dimen0=-\ht0
+            \divide\dimen0 by2 \advance\dimen0 by.75pt
+            \dimen1=-\dimen0 \advance\dimen1 by1pt
+            \centerline{\vrule width8pc height\dimen1 depth\dimen0
+            {\ExampleTitleFont \ \ Example \the\ExampleNumber\ \ }\vrule 
+             width8pc height\dimen1 depth\dimen0 }
+             \Example={\the\ExampleNumber}% 
+            \vskip1pc\relax \noindent
+            From {\tenit \the\BookTitle}
+            \edef\Test{\the\Author}%
+            \ifx\Test\empty \else \EndLine 
+               {\spaceskip.3333em\relax
+               \LCSmCaps{\the\Author}} \fi
+            \edef\Test{\the\PublishInfo}%
+            \ifx\Test\empty \else \EndLine {\tenrm\the\PublishInfo}\fi
+            \edef\Test{\the\CopyrightDate}%
+            \ifx\Test\empty \else\unskip{\tenrm,\ \the\CopyrightDate}\fi
+            \vskip1pc\relax \noindent \ignorespaces}
+\def\ShortExample <#1>{\medbreak
+       \line{\vrule width.4pt depth2.6pt height.4pt\hrulefill
+            \vrule width.4pt depth2.6pt height.4pt}\nointerlineskip
+       \leftline{\Eightbf (Page #1)} 
+            \nobreak}
+\def\EndShortExample{\nobreak\vskip-1pt
+       \line{\vrule width.4pt depth0pt height3pt\hrulefill
+             \vrule width.4pt depth0pt height3pt}\medbreak}
+\def\NegVspace{\ifvmode\nointerlineskip\fi
+          \nobreak\vskip-3pt\relax} % Reduces space.
+
+%---------------------------------------------------------------------------_%
+%%% TOWARDS THE OUTPUT ROUTINE:
+
+\newdimen\RMargin          % The right margin size.
+\newdimen\BotMargin        % The bottom margin size.
+\newcount\ChapIndicator    % For compatibility with BookForm.tex
+
+\def\Issue{}
+\def\Volume #1,#2(#3){\def\Issue{{\fivebf #1},#2(#3)}}
+\def\lcopyr{\leavevmode\hbox{{\fivesy\char'15}\llap{\fiverm c\kern.3em }}}
+
+\def\StandardPage{\vbox{\makeheadline\pagebody\makefootline 
+        \advance\BotMargin by-24pt\vglue\BotMargin}}
+\def\RightMarginStuff{\vbox{\parskip0pt \hsize.75in \advance\hsize by-.4pt
+                    \parindent0pt \hbadness5000 \raggedleft \pretolerance10000 
+                    \vbox to 0pt{\vskip-.5in
+                      \rightline{\TopofRMarg{\MarginFont
+                      Example~\:\the\Example}}\vss}
+                    \dimen0=\vsize \advance\dimen0 by \BotMargin
+                    \advance\dimen0 by\voffset
+                    \nointerlineskip
+                    \vbox to \dimen0{\null \vskip.25in 
+                                    \baselineskip 6 pt \fiverm Source:
+                                    \smallskip
+                                    {\sevenit \baselineskip8pt \the\BookTitle
+                                    \smallskip }
+                                    \edef\Test{\the\Author}
+                                    {\ifx\Test\empty \removelastskip \else
+                                      \spaceskip=.1667em\relax
+                                      \let\ZZ=\& \def\&{\:\ZZ\:}
+                                      \uppercase\expandafter{\the\Author} \fi
+                                    \smallskip}
+                                    \edef\Test{\the\CopyrightDate}
+                                    \ifx\Test\empty \else
+                                       \lcopyr\ \the\CopyrightDate\break \fi
+                                    \edef\Test{\the\PublishInfo}
+                                    \ifx\Test\empty \Issue \else
+                                        \the\PublishInfo \fi
+                                    \advance\dimen0 by-\StdVsize
+                                    \vskip\dimen0 \vfill}}}
+\def\AugmentedPage{\vbox{\ifnum\StartExample=1 
+         \headline={\hfil}\footline={\hfil\SmallPnoFont\Folio\hfil}%
+         \def\makefootline{\baselineskip36pt \line{\the\footline}}%
+         \StandardPage 
+       \else 
+         \ifnum\ChapIndicator=1 \else\footline={\hfil}\fi
+         \ifodd\pageno \dimen0=-\LMarginOdd \else \dimen0=-\LMarginEven \fi  
+         \advance\dimen0 by6.625in \hbox to \dimen0
+         {\StandardPage \hskip\RMargin \BotCornerVrule \hss
+         \RightMarginStuff }\nointerlineskip
+         {\dimen0=\hsize \advance\dimen0 by\RMargin \advance\dimen0 by.4pt
+              \hbox to \dimen0{\hfil \BotCornerHrule}}
+        \fi}\global\StartExample=0 }% _%
+\def\MarkPageCorner{\def\BotCornerVrule{\vrule height36pt width.4pt depth0pt} 
+                  \def\BotCornerHrule{\vrule width36.4pt height.4pt depth0pt}}
+\def\DontMarkPageCorner{\def\BotCornerVrule{\hskip-\RMargin} 
+                        \def\BotCornerHrule{}}
+
+% Here comes a small cheat:
+\def\plainoutput{\ifodd\pageno \RMargin=\LMarginEven \else 
+                   \RMargin=\LMarginOdd \fi % Assuming mirror symmetry.
+                 \shipout\AugmentedPage 
+                  \advancepageno \global\advance\RealPno by2
+                  \ifnum\outputpenalty>-20000 \else\dosupereject\fi}%
+
+% Defaults:
+\DontMarkPageCorner  
+\BotMargin=0pt
+
+%----------------------------------------------------------------------------
+\catcode`\@=14   % Need this in places.
+\endinput

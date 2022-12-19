@@ -1,0 +1,792 @@
+%% $Id: zwpagelayout.tex 290 2008-12-26 17:43:49Z zw $
+\input utf8-t1 % encTeX required
+\documentclass[11pt]{article}
+\usepackage{zwgetfdate}
+\usepackage[footskip=30pt,topmargin=2cm,leftmargin=2cm,rightmargin=5cm,botmargin]{zwpagelayout}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,array,dcolumn,verbatim,graphicx}
+\usepackage[figuresright]{rotating}
+\usepackage[protrusion=false,expansion=true,stretch=8,shrink=24,step=4]{microtype}
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{\z@}{1.5em}}
+\makeatother
+\extrarowheight 2pt
+\mubytein 0 % important due to bug in url.sty
+\usepackage[pdftitle=Page\ Layout\ with\ Crop\ Marks, pdfauthor=Zdenek\ Wagner,
+            pdfkeywords={page layout,\ crop marks},
+            bookmarks,bookmarksopen,bookmarksopenlevel=2]{hyperref}
+\mubytein 1 \mubyteout 1 \mubytelog 1
+
+\marginparwidth\UserRightMargin
+\advance\marginparwidth -1cm
+\advance\marginparwidth-\marginparsep
+
+\def\mg#1{\ifvmode\leavevmode\fi\marginpar{\texttt{#1}}\ignorespaces}
+\def\cmg#1{\mg{\char`\\#1}}
+\def\omg#1{\ifvmode\leavevmode\fi\marginpar{\raggedright\hspace{0pt}\opt{#1}}\ignorespaces}
+\def\opt#1{\texorpdfstring{\textmd{\textsc{#1}}}{#1}}
+\let\pkg\textsc
+\DeclareRobustCommand\cmd[1]{\texttt{\char`\\#1}}
+\def\ie.{i.\,e.\@}
+\def\eg.{e.\,g.\@}
+\def\true{\bool{true}}
+\def\false{\bool{false}}
+\def\bool#1{\texorpdfstring{\textit{#1}}{#1}}
+\def\is{\unskip\nobreak\space =\penalty200 \space\ignorespaces}
+
+\makeatletter
+\newcommand*\papdims[2][.]{\bgroup
+    \def\zw@papdim##1,##2\zw@{\sepunit{##1}#1\sepunit{##2}}%
+    \setkeys{zwpl}{#2}%
+    \expandafter\zw@papdim\zwpl@papersize\zw@\egroup}
+
+\newcommand*\sepunit[2][\,]{\def\zw@a{}\def\zw@x{#1}\def\zw@y{}\def\zw@z{}\zw@sepunit#2\zw@}
+\def\zw@sepunit#1{\ifx#1\zw@
+      \let\next\zw@sep@finished
+    \else
+      \edef\zw@a{\zw@a\zw@y}\edef\zw@y{\zw@z}\edef\zw@z{#1}\let\next\zw@sepunit
+    \fi \next}
+\def\zw@sep@finished{\zw@a\zw@x\mbox{\zw@y\zw@z}}
+\makeatother
+
+\def\krat{\,\ensuremath{\times}\,}
+
+\newcolumntype{x}{D{.}{\krat}{-1}}
+\def\xx#{\multicolumn{1}{c|}}
+
+\let\zwcomma\,
+\def\,{\texorpdfstring{\zwcomma}{}}
+
+\begin{document}
+\hyphenation{allow-with-height-switching}
+\title{Page Layout with Crop Marks}
+\author{Zdeněk Wagner\\\url{http://icebearsoft.euweb.cz}}
+\date{Package date: \DateOfPackage{zwpagelayout}}
+\maketitle
+
+\begin{abstract}\noindent
+This package was developed as a typographers toolbox offering the most important features for
+everyday work. First it allows setting the paper size as well as the page layout. The next
+important feature is the ability of printing crop marks both with \TeX~+~dvips or (x)dvipdfm(x) and with pdf\TeX.
+Finally it is possible to reflect pages both horizontally and vertically.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+Users will probably ask: ``Why another page layout package? Is not \pkg{geometry} all what we
+need?'' The answer to this question is not easy. The \pkg{geometry} package provides a lot of
+features, maybe even too many features. However, some features are missing. Packages for crop marks
+can also be found but correct positioning of the crop marks requires cooperation with the
+page layout package. It is therefore natural to integrate both these functions into a single
+package.
+
+The package is useful also for preparation of book covers. It places the marks showing the position
+of a spine and optionally flaps. If you want to see whether the spine and the front and back cover
+contents are properly aligned, you can display the frames. Moreover, it is often necessary to
+create a proof of the cover while the book is not yet finished and the thickness of the spine is
+not known and can be only approximated. You can thus leave the paper width empty and the package
+will calculate it from the page width, the flap width and the spine thickness. Whenever the final
+value of the spine thickness is known, you change it in the list of options and the whole layout
+will adapt automatically.
+
+The package is a result of a long-term development inspired by author's everyday needs. It is a
+collection of macros that were manually copied from document to document, later placed into private
+packages and finally it matured into a package prepared for general use.
+
+Being a result of development it may happen that you may be in the same situation in which I was
+myself. The book was finished and the last task was to add the crop marks. Removing layout
+definition from a document and replacing it with a different package may cause errors and one more
+proof-reading is time consuming and expensive. This package therefore allows the page layout logic
+to be switched off and just add the crop marks provided the paper dimensions are correctly
+supplied. The details will be explained later when describing the package options.
+
+\section{Usage}
+The package is loaded simply by:
+
+\vb
+\verb;\usepackage[;$\langle$options$\rangle$\verb;]{zwpagelayout};
+
+\vb
+Remember that the options cannot be given later, all of them must be present either here or as
+options to the \cmd{documentclass} command. The package will set some dimensions based upon
+\cmd{normalsize}. The package that modifies font sizes must therefore be loaded before
+\pkg{zwpagelayout}.
+
+\section{Option values}
+
+Some options accept a value. If the option is not specified, it may have a \textbf{default} value. For ease of use an
+option may be given without a value. It will then have a \textbf{standard} value. The default and standard
+values will be given in the option description.
+
+\section{Paper size and orientation}
+The first task of the package is to define paper size and orientation. Remember that the package is
+intended for use in real life where we cannot be limitted to standard papers sizes. However, the
+standard paper sizes are used quite often and we must be able to use them too. The options were
+tested with pdf\TeX, \pkg{dvips} as well as \pkg{(x)dvipdfm(x)}.
+
+\subsection{Orientation}\label{orientation}
+\omg{AllowWidthHeightSwitching}
+The package usually accepts the dimentsions as they are, \ie. width and height of the page. The
+orientation cannot be changed. If you wish to have the possibility to change the orientation, you
+have to use this option. It is used automatically with all standard paper sizes (see
+section~\ref{standard}). You will rarely specify it yourself.
+
+\omg{Portrait}\omg{Landscape}
+These options sets the paper orientation, \opt{Portrait} is the default. They can be used only if
+\opt{AllowWidthHeightSwitching} was specified, otherwise they are ignored.
+
+\subsection{Paper size}
+The package option defines the trimmed paper size. If the crop marks are added, the real paper size
+will be added. Dimensions \cmd{paperwidth} and \cmd{paperheight} will thus contain the values that
+will subsequently be sent to the driver. If you for any reason wish to know the trimmed dimensions,
+you can calculate them as follows:
+
+\begin{center}
+trimmed width = \cmd{paperwidth} -- 2\cmd{hoffset}
+
+trimmed height = \cmd{paperheight} -- 2\cmd{voffset}
+\end{center}
+
+\subsubsection{Generic paper size}
+\omg{papersize}
+Option \opt{papersize} is used to define arbitrary paper size. You define it as a pair of two
+dimensions, the width and the height. The numbers are separated by a comma, therefore the
+specification must be enclosed within braces, \eg.
+
+\begin{verbatim}
+\usepackage[papersize={200mm,100mm}]{zwpagelayout}
+\end{verbatim}
+
+The above written command sets the paper width to 200\,mm and the paper height to 100\,mm, \ie. the
+paper orientation will be landscape. Now consider the following:
+
+\begin{verbatim}
+\usepackage[papersize={200mm,100mm},
+    AllowWidthHeightSwitching]{zwpagelayout}
+\end{verbatim}
+
+Since the width/height switching is allowed and the default orientation is portrait (option
+\opt{Portrait} is the default), the width will be 100\,mm and the height will be 200\,mm.
+
+You can achieve the same result as the first command by the lengthy code:
+
+\begin{verbatim}
+\usepackage[papersize={200mm,100mm},
+    AllowWidthHeightSwitching,Landscape]{zwpagelayout}
+\end{verbatim}
+
+You see that the command may become confusing. You should better not use
+\opt{AllowWidthHeightSwitching} together with \opt{papersize}.
+
+If the \opt{papersize} option is not used, it defaults to the A4 size, \ie. to paper dimensions \papdims[\krat]{a4}.
+
+If the book cover is being typeset, we want to calculate at least the width. The detailed
+explanation will be given in section~\ref{missing}. Here we put just as an example:
+
+\begin{verbatim}
+\usepackage[papersize={,200mm},spine=15mm,textwidth=14cm,
+            margins]{zwpagelayout}
+\end{verbatim}
+
+It is even possible to calculate both dimensions using \eg.
+
+\begin{verbatim}
+\usepackage[papersize,spine=15mm,textwidth=14cm,textheight=20cm,
+            margins]{zwpagelayout}
+\end{verbatim}
+
+\subsubsection{Standard paper sizes}\label{standard}
+\omg{a0\,\ldots}\omg{\ldots\,c10}\omg{executive}\omg{legal}\omg{letter}
+Options \opt{a0}\ldots\opt{a10}, \opt{b0}\ldots\opt{b10}, \opt{c0}\ldots\opt{c10} are used to
+select paper size according to the A, B or C series where the dimensions are rounded to integers in
+milimeters. For instance, the A6 size is \papdims[\krat]{a6}. The package also supports paper sizes
+\opt{executive} (\papdims[\krat]{executive}), \opt{legal} (\papdims[\krat]{legal}), and
+\opt{letter} (\papdims[\krat]{letter}). If one of these options is used,
+\opt{AllowWidthHeightSwitching} and \opt{Portrait} are assumed. The page orientation may be
+switched by option \opt{Landscape} (see section~\ref{orientation}).
+
+\section{Page layout options}
+These options define the layout of the odd page. The layout of the even page is assumed to be a mirror image.
+The values of \cmd{oddsidemargin} and \cmd{evensidemargin} are calculated from the values of the options.
+
+\subsection{Margins}
+This set of options us used to define margin sizes.
+Remember that all margins are measured from the top left corner of the paper, not from 1in border which is
+the \textsc{dvi} origin!
+
+\subsubsection{Option \opt{margins}, standard 0\,mm}
+\omg{margins}
+This option sets all margins (top, left, right, bottom) to the specified size. You will not be able to change
+some of the margin to another size. If you need different size for any margin, you have to set all of them
+separately and not use this option. Notice that almost everything may be calculated automatically, thus it is
+not necessary to specify all values.
+
+\subsubsection{Option \opt{topmargin}, default 1\,in}
+\omg{topmargin}
+This option sets the value of \cmd{topmargin}.
+
+\subsubsection{Option \opt{botmargin}, standard \opt{topmargin}}
+\omg{botmargin}
+This option specifies the size of the margin below the running footer.
+
+\subsubsection{Option \opt{leftmargin}, default --1\,in}
+\omg{leftmargin}
+This option sets the value of the margin at the left side of an odd page (and the margin at the right side of
+an even page). Negative value means that the value was not given.
+
+\subsubsection{Option \opt{rightmargin}, default --1\,in}
+\omg{rightmargin}
+This is the size of the right side of an odd page. Similarly the negative value means that the option was not
+specified.
+
+\subsection{Text dimensions}
+The following options are used to specify the height and width of the text.
+
+\subsubsection{Option \opt{textwidth}, default --1\,in}
+\omg{textwidth}
+This option specifies the width of the text without marginal notes. Its meaning is different for
+book covers. The option specifies the width of the cover without the extra spine (\opt{xsipne}),
+flap (\opt{flap}) and trimming (\opt{xtrim} or \opt{trim}).
+
+\subsubsection{Option \opt{textheight}, default --1\,in}
+\omg{textheight}
+This option specifies the total height of the text including the header and footer.
+
+\subsubsection{Option \opt{headheight}, default 0\,mm}
+\omg{headheight}
+This option specifies the height of the running head.
+
+\subsubsection{Option \opt{headsep}, default 0\,mm}
+\omg{headsep}
+This is the value of \cmd{headsep}.
+
+\subsubsection{Option \opt{footskip}, default 0\,mm}
+\omg{footskip}
+This option specifies the value of \cmd{footskip}.
+
+\subsubsection{Option \opt{topskip}\texorpdfstring{, default \cmd{topskip}}{}}
+\omg{topskip}
+This option enables changing the value of \cmd{topskip}. It is rarely needed. However, the value of
+\cmd{topskip} is usually less than \cmd{baselineskip} which may cause problems in some page layout schemes.
+Since we have already written that font sizes must be defined before \pkg{zwpagelayout} is loaded, you can
+safely specify \verb;topskip=\baselineskip;.
+
+\subsubsection{Option \opt{strictheight}, default \false, standard \true}
+\omg{strictheight}
+The value of the \LaTeX\ dimension \cmd{textheight} is calculated from the values of the options and later
+adjusted so that together with \cmd{topskip} it represents an integer number of lines. This may not be
+desirable in some cases. This option instructs the package not to perform any adjustment and accept the
+calculated value.
+
+\subsubsection{Option \opt{adjustfootskip}, default \true, standard \true}
+\omg{adjustfootskip}
+If option \opt{strictheight} is not given, the calculated value of \cmd{textheight} is decreased to the nearest
+integer multiple of \cmd{baselineskip}. The difference is then added to \cmd{footskip} in order to preserve to
+total height. If \opt{adjustfootskip} is set to \false, the difference is added to \cmd{headsep} instead.
+
+\begin{figure}[bt]
+\noindent
+\includegraphics{adjustfoot}\hfill
+\includegraphics{adjusthead}
+
+\medskip
+\caption{Compensation of \cmd{textheight} by changing \cmd{footskip} (on the left) and
+\cmd{headsep} (on the right)}\label{adj}
+\end{figure}
+
+The difference betweem these two options is shown in figure~\ref{adj}. Adjustment of \cmd{footskip}
+was achieved by:
+
+\medskip
+\begin{verbatim}
+\usepackage[c8,margins=6mm,headheight=4mm,headsep=4mm,
+   croplength=3mm,cropgap=2mm,
+   cropmarks,cropframe,croptitle=Adjust\ footskip]{zwpagelayout}
+\end{verbatim}
+
+\medskip \noindent
+The sample on te right side of the figure was created by:
+
+\medskip
+\begin{verbatim}
+\usepackage[c8,margins=6mm,headheight=4mm,headsep=4mm,adjustheadsep,
+   croplength=3mm,cropgap=2mm,
+   cropmarks,cropframe,croptitle=Adjust\ headsep]{zwpagelayout}
+\end{verbatim}
+
+\subsubsection{Option \opt{adjustheadsep}, default \true, standard \true}
+\omg{adjustheadsep}
+This is a complementary option to \opt{adjustfootskip}.
+
+\section{Crop marks}\label{cropmarks}
+The crop marks must appear outside the print area. The package assumes that \cmd{paperheight} and
+\cmd{paperwidth} contain the page size after trimming. These dimensions will then be increased and the page
+will be shifted by setting \cmd{hoffset} and \cmd{voffset}. If you wish to print the crop marks using
+\opt{zwpagelayout}, you must not change values of \cmd{hoffset} and \cmd{voffset}.
+
+The values of \cmd{hoffset} and \cmd{voffset} will be set to the sum of \opt{croplength} and \opt{cropgap}, see the following
+text.
+
+\subsection{Basic crop marks options}
+Options described in this section define basic behaviour of the crop marks.
+
+\subsubsection{Option \opt{onlycropmarks}, default \false, standard \true}
+\omg{onlycropmarks}
+It may happen that a document is already finished and proof-read and just the crop marks have to be added.
+By specifying option \opt{onlycropmarks} you instruct the package to ignore all page layout options and
+interpret the crop marks options only. You just have to ensure that \cmd{paperheight} and \cmd{paperwidth} are
+set to the dimensions of the trimmed page before the \pkg{zwpagelayout} package is loaded and \cmd{hoffset} and
+\cmd{voffset} are left at their default values.
+
+\subsubsection{Option \opt{cropmarks}, default \false, standard \true}
+\omg{cropmarks}
+This option asks for creation of the crop marks.
+
+\subsubsection{Option \opt{nocropmarks}, default \true, standard \true}
+\omg{nocropmarks}
+This is a complementary option to \opt{cropmarks}.
+
+\subsubsection{Option \opt{croplength}, default 5\,mm}
+\omg{croplength}
+This option specifies the length of the crop mark.
+
+\subsubsection{Option \opt{cropgap}, default 5\,mm}
+\omg{cropgap}
+This is the space that must be left blank between the crop marks and the trimmed page.
+
+\subsubsection{Option \opt{spine}}
+\omg{spine}
+This option is used for designing book covers. It specifies the width of the book spine. You can
+even request a zero width but negative values will have disastrous results.
+
+\subsubsection{Option \opt{xspine}}
+\omg{xspine}
+This option defines the extra space adjacent to the spine so that the book can be safely opened.
+This space should not be used for printing logos etc., because they will soon be damaged by
+frequent use of the book. The option is ignored unless \opt{spine} is used.
+
+\subsubsection{Option \opt{flap}}
+\omg{flap}
+This is another option for book covers. It specifies the width of the flap. If \opt{spine} is
+given, the book cover is supposed to have flaps of equal sizes on both sides. Sometimes you do not
+have flaps and the back cover remains empty, thus you do not like to prepare the design of it, you
+just wish to design the spine and the front cover. This can be acheved by specifying \opt{flap} as
+the spine thickness and omitting \opt{spine}.
+
+\subsubsection{Options \opt{trim}, \opt{xtrim}, \opt{ytrim}}
+\omg{trim}\omg{xtrim}\omg{ytrim}
+The paper or canvas used for printing the book covers is folded to the inner side yet part of it
+will be visible. Such part is specified by \opt{xtrim} in horizontal direction and \opt{ytrim} in
+vertical direction. You can use \opt{trim} to set both of them to the same value.
+
+\subsubsection{Option \opt{cropframe}, default \false, standard \true}
+\omg{cropframe}
+When designing a book cover we often wish to verify whether all elements are properly aligned.
+Option \opt{cropframe} can be used to print the frames. It is active only if \opt{cropmarks} was
+specified.
+
+\subsubsection{Option \opt{nocropframe}, default \true, standard \true}
+\omg{nocropframe}
+This is a complementary option to \opt{cropframe}.
+
+\subsubsection{Option \opt{cropstyle}}\label{cropstyle}
+\omg{cropstyle}
+This option selects the style of the crop marks. Currently only the \textit{default} style is
+defined, thus the option is only useful if you write your own extension.
+
+\subsubsection{Option \opt{croptitle}}
+\omg{croptitle}
+This option defines the text that should be printed on each page. It may \eg. be the title of the
+document. Remember that all spaces are gobbled when parsing the options. The spaces must therefore
+be specified as \verb*;\ ;.
+
+\subsubsection{Option \opt{cropseparator}}
+\omg{cropseparator}
+This is the separator between the title and the page number. Its default value is \verb;:\quad;.
+
+\subsubsection{Option \opt{pagenumberfirst}, default \false, standard \true}
+\omg{pagenumberfirst}
+Each page contains the title followed by the separator and the page number. If you set this
+option to \true, the order will be reversed.
+
+\subsubsection{Option \opt{pagenumberlast}, default \true, standard \true}
+\omg{pagenumberlast}
+This is a complementary option to \opt{pagenumberfirst}.
+
+\subsubsection{Option \opt{usepagenumbers}, default \true, standard \true}
+\omg{usepagenumbers}
+This option requests printing the page numbers.
+
+\subsubsection{Option \opt{nopagenumbers}, default \false, standard \true}
+\omg{nopagenumbers}
+This is a complementary option to \opt{usepagenumbers}.
+
+\iffalse
+\subsubsection{Option \opt{cropfontsize}}
+\omg{cropfontsize}
+This option defines the font size command issued just before the title and page number are printed.
+The default command is \verb;\fontsize{10}{10};.
+
+\subsubsection{Option \opt{cropfont}}
+\omg{cropfont}
+This option contains the command to select a font for the title and the page number. The default
+command is \cmd{normalfont}.
+\fi
+
+\subsubsection{Option \opt{nobleedclip}, default \false, standard \true}
+\omg{nobleedclip}
+The pages are clipped to the bleed box so that graphics does not collide with the crop marks. Since
+the package must work also with \pkg{dvips}, the PDF operators are not used and the crop marks area
+outside the bleed box is just overpainted with white rectangles. The \pkg{color} package is thus
+required and will be loaded automatically. If you set \opt{nobleedclip} to \true, the pages will
+not be clipped. It may be useful if you know that nothing extends to the crop marks area and the
+\pkg{color} package may clash with other packages required by your document.
+
+
+\subsection{Color support for crop marks}
+The package is able to produce basic color support, namely it prints the names of separations. The
+color support is implemented via a few options. Color printing is performed using the \pkg{color}
+package that is loaded automatically. The package does not use predefined color names.
+
+\omg{color}
+Option \opt{color} asks for the color support. Without setting this option to \true\ all other
+color options are silently ignored.
+
+\omg{colormodel}
+Option \opt{colormodel} defines the color model used. Its default value is \texttt{cmyk}. You will
+rarely need to change it.
+
+\omg{cropcolor}
+Option \opt{cropcolor} specifies the color to be used for the crop marks. Remember that the crop
+marks must be visible on all separations, thus it might not be sufficient to print them in black.
+As default their color is mixed of 100\,\% of all components of the current color model. Since the
+default model is \texttt{cmyk}, the default value of this option is \verb;{1,1,1,1};. Notice that the
+syntax conforms to the requirements of the \pkg{color} package.
+
+\omg{colors}
+Option \opt{colors} assigns names to the color components of the current model. Specification of
+each color must be enclosed in curly brackets. The color name is followed by a colon and comma
+separated values conforming to the syntax of the \pkg{color} package. It will be clear from the
+following examples.
+
+Suppose that for some strange reason you prepare the document in the RGB space. Your specification
+will then be:
+
+\medskip
+
+\begin{verbatim}
+\usepackage[cropmarks,color,colormodel=rgb,cropcolor={1,1,1},
+    colors={{RED:1,0,0},{GREEN:0,1,0},{BLUE:0,0,1}},
+    croptitle=RGB\ example]{zwpagelayout}
+\end{verbatim}
+
+\medskip
+
+Now we show a more realistic example. The document should be printed in custom colors. Since the
+true specification of custom colors requires much work and is rarely worth the trouble, we make use
+of the CMYK model. We will use cyan instead of Pantone 298 (blue), magenta instead of Pantone 213
+(red), black will remain black and the yellow separation will be unused. The crop marks should not
+produce anything on the yellow separation and we should provide proper color names. The
+specification will therefore look as:
+
+\medskip
+
+\begin{verbatim}
+\usepackage[cropmarks,color,cropcolor={1,1,0,1},
+    colors={{Pantone\ 298\ (blue):1,0,0,0},
+            {Pantone\ 213\ (red):0,1,0,0},{Black:0,0,0,1}},
+    croptitle=Example\ with\ custom\ colors]{zwpagelayout}
+\end{verbatim}
+
+\medskip
+
+Notice that the \opt{colormodel} option was not specified. Its default value was used. The
+\opt{cropcolor} option left zero for the yellow separation.
+
+\section{Calculation of missing dimensions}\label{missing}
+The package can either calculate paper size from the page layout dimensions or calculate missing
+page layout dimensions if the paper size and some dimensions are known. It operates separately for
+the height and width. You can \eg. define the paper height and calculate the text height from it
+and the margins but specify all width layout dimensions and calculate the paper width.
+
+When designing simple pages it is better to define the paper size and calculate some page layout
+dimensions. However, for bok covers it is recommended to calculate at least the paper width from
+the layout dimensions of the front cover, the spine and the flap width.
+
+\subsection{Calculation of the paper size}
+Remember that paper size can be calculated only if all page layout dimensions for the corresponding
+orientation (height, width) are specified. There is no diagnostics for warning you if some
+important options are missing, the resukt will just be wrong or the package may even report an
+error. All dimensions are considered \emph{without} the area for the crop marks.
+
+\subsubsection{Paper height}
+Calculation of the paper height is very simple. The formula is:
+
+\medskip
+\cmd{paperheight} = \opt{topmargin} + \opt{textheight} + \opt{botmargin} + 2 \opt{ytrim}
+
+\medskip \noindent
+Remember that \opt{textheight} includes also \cmd{headheight}, \cmd{headsep}, and \cmd{footskip}.
+It is not necessary to specify \opt{ytrim}, the package checks the existence of this option and
+removes it from the formula if not given.
+
+\subsubsection{Paper width}
+Algorithm for calculating the paper width differs for simple pages and book covers. In the simple
+case the paper width is calculated as follows:
+
+\medskip
+\cmd{paperwidth} = \opt{leftmargin} + \opt{textwidth} + \opt{rightmargin}
+
+\medskip \noindent
+The value of \cmd{textwidth} will be equal to \opt{textwidth}. The same value will be stored in
+macro \cmd{UserWidth}, see section~\ref{crop.macros}.
+
+If the book cover is designed, the \opt{textwidth} option refers to the width of the text at the
+front cover but \opt{leftmargin} and \opt{rightmargin} are used to set \cmd{oddsidemargin} and
+\cmd{evensidemargin}. It is therefore better to set these options to zero, or alternatively to the
+same value as \opt{flap} or \opt{xtrim} if the corresponding area will be left empty. The value of
+\cmd{textwidth} will then be calculated from the final paper width by:
+
+\medskip
+\cmd{textwidth} = \cmd{paperwidth} -- \opt{leftmargin} -- \opt{rightmargin}
+
+\medskip
+If the \opt{flap} option is used without the \opt{spine} option in order to emulate the front cover
+and spine with an empty back cover, the paper width is calculated as:
+
+\medskip
+\cmd{paperwidth} = \opt{leftmargin} + \opt{flap} + \opt{textwidth} + \opt{xtrim} +
+\opt{rightmargin}
+
+\medskip \noindent
+The value of \opt{xtrim} may be omitted. The value of \opt{xspine} will be silently ignored. It is
+not allowed to have just the spine, the front cover and the flap while leaqving the back cover
+empty.
+
+The case of a book cover with the spine given is a bit more complicated:
+
+\medskip
+\textit{width} = \opt{xspine} + \opt{textwidth} + \opt{flap} + \opt{xtrim}
+
+\cmd{paperwidth} = \opt{leftmargin} + \opt{spine} + 2 \textit{width} + \opt{rightmargin}
+
+\medskip \noindent
+Options \opt{xspine}, \opt{flap}, and \opt{xtrim} need not be specified if these elements are not
+needed.
+
+\subsection{Calculation of page layout dimensions}\label{calc.pg.layout}
+Algorithm for calculating the page layout dimensions is intended for simple pages, not for book
+covers. Options \opt{xtrim}, \opt{ytrim}, \opt{spine}, \opt{xspine}, and \opt{flap} are silently
+ignored but will be taken into account when producing the crop marks. You can still make use of
+this algorithm if you understand what you are doing and if you wish to do extra calculations
+yourself.
+
+The dimensions may be overdetermined. In such a case the algorithm disregards one of the dimensions
+and calculates it.
+
+\subsubsection{Vertical dimensions}\label{vert.dim}
+The algorithm first looks whether \opt{textheight} was given. If not it is assumed that the user
+wishes to have it calculated from the paper height and the margins. If the \opt{botmargin} option was
+not set, it will be set to the same valu as \opt{topmargin}.
+
+In the second step the package looks whether \opt{botmargin} is defined, either by the user or from
+the previous step. If so, the text height is calculated, otherwise the bottom margin is calculated
+from the top margin and the text height. As a matter of fact, the bottom margin is never used by
+\TeX.
+
+Finally the value of \cmd{textwidth} is reduced by \cmd{headheight}, \cmd{headsep}, and
+\cmd{footskip}. If \opt{strictheight} is \cmd{false}, the values are later adjusted according to
+options \opt{adjustfootskip} and \opt{adjustheadsep} so that \cmd{textheight} -- \cmd{topskip} is
+an integer multiple of \cmd{baselineskip}.
+
+\subsubsection{Horizontal dimensions}
+The sum of the horizontal dimensions must be equal to the paper width according to the relation:
+
+\medskip
+\opt{leftmargin} + \opt{textwidth} + \opt{rightmargin} = \cmd{paperwidth}
+
+\medskip \noindent
+If all three dimensions are specified, \opt{textwidth} is disregarded and calculated from the other
+dimensions. If any two dimensions are given, the missing one is calculated from the above formula.
+If only one dimension is given, it is assumed that both margins have the same size and the above
+formula is applied. It is even possible to omit all dimensions. In such a case the margins are
+assumed to have the same size as \opt{topmargin} and the text width can thus be calculated.
+
+\section{Page reflection}
+\omg{Reflect\-Horizontally}
+\omg{ReflectVertically}
+We sometimes need to print the whole document as a mirror image. Although there are external tools
+that can provide such a job taking PDF or PS as input, it is useful to do everything in a single
+step. The package provides options \opt{ReflectHorizontally} for horizontal reflection and
+\opt{ReflectVertically} for vertical reflection, respectively. If you specify both, some drivers
+may interpret both of them and print rotated 180$^{\circ}$, some interpret only one of them and
+some driver may get totally confused. Remember that these options are intended for printing only.
+The hypertext links made by the \pkg{hyperref} package will be wrong. If you wish to rotate parts
+of texts and preserve hyperlinks, use \pkg{rotating} instead.
+
+\section{Useful macros}\label{macros}
+The package offers two types of useful macros. The macros from the first group help in designing
+the document. However, as mentioned in the Introduction, the package may be deployed in already
+existing document just for adding the crop marks. In order to reduce the risk of conflicts with
+other packages these macros are unavailable if the \opt{onlycropmarks} option is used. The second
+group contains macros that are primarily used in the crop mark generation. They are always visible.
+
+\subsection{Userspace macros}\label{user.macros}
+As written above, macros of this group are available only if the \opt{onlycropmarks} option was not
+used. It is not planned to make any interface for providing them even with the \opt{onlycropmarks}
+option. If the document is already finished, you do not need them. If you write a new document, it
+is preferable to use the whole package for defining the page layout. The macros will than be
+available.
+
+\cmg{topskip}
+\cmg{Vcorr}
+\TeX\ should use integer arithmetic but some implementations, \eg. em\TeX, violate this rule. This
+makes processing the text faster but may have bad results. If you combine text with boxes and fixed
+size glues the height of which is an integer multiple of \cmd{baselineskip}, the round-off errors
+may add a few scaled points, the page overflows and as a result is made one line shorter and
+underfull vbox is reported. For this reason tiny shrink is added to \cmd{topskip}, its
+size is \the\topskip. Yet it may not be sufficient in some cases. We therefore provide vertical
+skip macro \cmd{Vcorr} the size of which is shrinkable zero. The meaning of \cmd{Vcorr} is {\tt
+\meaning\Vcorr}.
+
+\cmg{vb}
+We often need a vertical skip the size of which is a multiple of \cmd{baselineskip}. Macro \cmd{vb}
+serves this very purpose. It accepts an optional argument in square brackets which denotes the
+multiple of \cmd{baselineskip}. The default value is~1. The command also contains compensation
+shrinkage. Some packages activate several characters, even those which could be used in numerical
+and dimension specifications. Hyphens and dots are temporarily deactivated within the optional
+argument of the \cmd{vb} macro. You thus can comfortably specify negative as well as fractional
+dimensions.
+
+\cmg{NewOddPage}
+\LaTeX\ provides \cmd{cleardoublepage} for moving the next text to the beginning of the odd page.
+However, you have no control over the page style of the inserted empty even page. This feature is
+enabled in the \cmd{NewOddPage} macro. Its syntax is:
+
+\medskip
+\verb;\NewOddPage*[;$\langle$style$\rangle$\verb;];
+
+\medskip\noindent
+Optional parameter $\langle$style$\rangle$ defines the style of the empty even page that should be
+fed to the \cmd{thispagestyle} command. The default is \texttt{empty}. The starred version displays
+a warning in the log file if an empty page was inserted.
+
+\cmg{SetOddPageMessage}
+This macro sets the contents of the message that should be displayed as a warning if an empty page
+was inserted as a result of \cmd{NewOddPage*}. The macro acts as \cmd{gdef}. This means that the
+definition is global and you can therefore have only one message unless you redefine it. The body
+of the message may contain macros. They will be expanded when the message is being written. You can
+use \cmd{MessageBreak} in order to split the text into several lines.
+
+\cmg{NewEvenPage}
+Generally speaking, you should not start a chapter on an even page but there are cases when it is
+desirable. Imagine the situation when each chapter starts with a full page illustration on the left
+and with its title page on the right. In such cases you need to start at the even page but \LaTeX\
+does not contain any direct tool for doing it. This package provides the \cmd{NewEvenPage} with the
+same syntaxe as \cmd{NewOddPage}.
+
+\cmg{SetEvenPageMessage}
+Similarly this macro serves for setting the message text that appears if an empty page was inserted
+as a result of the \cmd{NewEvenPage*} macro.
+
+\subsection{Crop mark macros}\label{crop.macros}
+\cmg{clap}
+\TeX\ offers zero-width horizontal boxes with contents overlapping to the right (\cmd{rlap}) or to
+the left (\cmd{llap}). The \pkg{zwpagelayout} package frequently needs a zero-width box with the
+contents centered overlapping evenly to both sides. The package thus provides macro \cmd{clap} and
+makes it available for the user.
+
+\cmg{CropFlap}
+\cmg{CropSpine}
+\cmg{CropXSpine}
+\cmg{CropXtrim}
+\cmg{CropYtrim}
+\cmg{UserWidth}
+\cmg{UserLeftMargin}
+\cmg{UserRightMargin}
+It was written in the Introduction that the package allows to prepare the book cover before the
+exact dimensions are known. Later we just adapt the values of the package options and everything is
+recalculated automatically. As a matter of fact, it could not happen if we did not refer to
+selected dimensions in the document symbolically. Thus the values of some options are available in
+macros: \cmd{CropFlap}\is\opt{flap}, \cmd{CropSpine}\is\opt{spine}, \cmd{CropXSpine}\is\opt{spine},
+\cmd{CropXtrim}\is\opt{xtrim}, \cmd{CropYtrim}\is\opt{ytrim},
+\cmd{UserWidth}\is\opt{textwidth}, \cmd{UserLeftMargin}\is\opt{leftmargin},
+\cmd{UserRightMargin}\is\opt{rightmargin}.
+
+The use of these macros can be shown by an example. The book cover with flaps displayed in
+Figure~\ref{cover} was prepared by the following code:
+
+\medskip
+\verbatiminput{coversample}
+
+\begin{sidewaysfigure}[p]
+\centerline{\includegraphics{coversample}}
+
+\caption{Sample of a book cover with flaps}\label{cover}
+\end{sidewaysfigure}
+
+Remember that these macros contain only the dimensions that were specified in the \cmd{usepackage}
+command, not those that were calculated by the algorithm described in section~\ref{calc.pg.layout}.
+If a shortcut option was used, all real dimensions are defined, \ie. the \opt{margins} option fills
+all four margin options, \opt{topmargin}, \opt{leftmargin}, \opt{rightmargin}, \opt{botmargin}, and
+the \opt{trim} option fills both \opt{xtrim} and \opt{ytrim}. You can take advantage of it to make
+your document more general. You can \eg. define the book cover in two variants, with or without
+flaps, using this trick:
+
+\medskip
+\begin{verbatim}
+\ifcat$\CropFlap$
+  % no flaps
+\else
+  \vbox to \textheight{\hsize\CropFlap
+    Flap text
+  }\hss
+\fi
+\end{verbatim}
+
+\medskip
+
+\cmg{thePageNumber}
+Macro \cmd{thePageNumber} is used to print the page number together with the crop mark text. We have
+already shownd that it may be suppressed by the \opt{nopagenumbers} option. Another possibility is
+to redefine it. We can \eg. define the book title with the \opt{croptitle} option and use the
+text ``Cover'' instead of the page number when typesetting the cover. Usage of this macro is also
+demonstrated in Figure~\ref{cover}.
+
+\section{Customizing crop styles}
+This section is intended for real \TeX perts. The package tries to provide a lot of options that
+enable to customize the default crop style. Try to live with them because here you are touching the
+very guts of the package. If you squeeze them badly, your document will suffer from strange
+problems the source of which will be difficult to trace. However, if you like tough challenges and
+your stomach is strong enough, then read on, but remember, you have been warned.
+
+You ask for a different crop style by the \opt{cropstyle} option as described in
+section~\ref{cropstyle} on page~\pageref{cropstyle}. Assume that you load the package with:
+
+\medskip
+\begin{verbatim}
+\usepackage[cropmarks,cropstyle=special,...]{zwpagelayout}
+\end{verbatim}
+
+\cmg{cropstyle@special}
+You will then have to define macro \cmd{cropstyle@special}. The package first patches the footer in
+all page styles. A zero-width, zero-height, zero-depth box is added to the beginning of the footer.
+The actual point is set to the lower left corner of the paper as defined by \cmd{paperheight} and
+\cmd{paperwidth}. If \opt{nobleedclip} was not used, the area outside the bleed box is erased. The
+current color is set according to \opt{cropcolor} option and the font is selected. Afterwards the
+\cmd{cropstyle@special} macro is called.
+
+As already noted, the intention is to discourage users from writing their own crop styles. We will
+therefore only mention that the package defines a few useful macros that can be used in the crop
+style definition. If your temptation to design your own crop style is really strong, you should
+better study the package internals yourself.
+
+\enlargethispage*{2in}
+
+\section{License}
+The package can be used and distributed according to the \LaTeX\ Project Public License version~1.3 or later the
+text of which can be found at the \texttt{License.txt} file in the \texttt{doc} directory or at
+\url{http://www.latex-project.org/lppl.txt}
+
+\end{document}

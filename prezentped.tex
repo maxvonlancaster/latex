@@ -1,0 +1,307 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{graphicx}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+\graphicspath{ {images/} }
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+\usecolortheme{orchid}
+\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+%\newcommand{\proof}[1]{{\bf \sffamily Доведення.} #1\hfill$\diamondsuit$}
+%\newcommand{\eop}{\hfill$\diamondsuit$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Грецькi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\a{\alpha}       \def\b{\beta}   \def\g{\gamma}   \def\d{\delta}
+\def\e{\varepsilon}  \def\f{\varphi} \def\w{\omega}   \def\s{\sigma}
+\def\x{\xi}          \def\y{\eta}    \def\z{\zeta}    \def\c{\chi}
+\def\l{\lambda}      \def\m{\mu}     \def\n{\nu}      \def\k{\varkappa}
+\def\r{\varrho}      \def\t{\tau}    \def\i{\iota}    \def\p{\psi}
+\def\th{\theta}
+\def\G{\Gamma}       \def\D{\Delta}  \def\F{\Phi}     \def\W{\Omega}
+\def\SS{\Sigma}       \def\L{\Lambda} \def\P{\Psi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Писанi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\ca{{\cal A}} \def\cb{{\cal B}} \def\cc{{\cal C}} \def\cd{{\cal D}} \def\cy{{\cal Y}}
+\def\cf{{\cal F}} \def\ch{{\cal H}} \def\cu{{\cal U}} \def\cv{{\cal V}}
+\def\cw{{\cal W}} \def\cl{{\cal L}} \def\ct{{\cal T}} \def\cs{{\cal S}}
+\def\cg{{\cal G}} \def\ck{{\cal K}} \def\cm{{\cal M}} \def\cp{{\cal P}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Потовщенi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\br{{\mathbb R}} \def\bc{{\mathbb C}} \def\bn{{\mathbb N}}
+\def\bz{{\mathbb Z}} \def\bd{{\mathbb D}} \def\bi{{\mathbb I}}
+\def\bq{{\mathbb Q}} \def\obr{\ov{{\mathbb R}}}
+\def\bs{{\mathbb S}} \def\bp{{\mathbb P}} \def\bl{{\mathbb L}}
+\def\bb{{\mathbb B}}  \def\ba{{\mathbb A}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Операцiї та функцiї %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Cup{\bigcup\limits}    \def\Cap{\bigcap\limits}    \def\iy{\infty}
+\def\Prod{\prod\limits}     \def\Sum{\sum\limits}
+\def\<{\subseteq}           \def\>{\supseteq}           \def\*{\times}
+\def\ov{\overline}          \def\Int{{\rm int}}       \def\Cl{{\rm cl}}
+\def\pr{{\rm pr}}         \def\copr{{\rm copr}}     \def\dim{{\rm dim}}
+\def\fr{{\rm fr}}         \def\ext{{\rm ext}}       \def\st{{\rm st}}
+\def\os{\stackrel{\underline{\phantom{\subset}}}{\subset}}
+\def\diam{{\rm diam}}     \def\span{{\rm span}}     \def\co{{\rm co}}
+\def\absco{{\rm absco}} \def\sup{\mathop{\rm sup}\limits}
+\def\inf{\mathop{\rm inf}\limits}  \def\lim{\mathop{\rm lim}\limits}
+\def\Lim{\mathop{\rm Lim}\limits}  \def\stm{\setminus}  \def\xp{{\rm xp}}
+\def\toto{\stackrel{\longrightarrow}{\scriptstyle\longrightarrow}}
+\def\lra{\Longleftrightarrow}    \def\la{\Leftarrow}  \def\ra{\Rightarrow}
+\def\wg{\wedge}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iнше %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\dis{\displaystyle}
+\def\~{\tilde}
+\def\wt{\widetilde}
+\def\#{\prec}
+\def\ua{U^\alpha}
+\def\ub{U^\beta}
+\def\va{V^\alpha}
+\def\vb{V^\beta}
+\def\lt{\ell_\iy(T)}
+\def\sp{{\rm sp}}
+\def\pr{{\rm pr}}
+\def\ssq{\subseteq}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+%\usepackage{mathpazo}
+
+%\usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!2}{blue!3}
+% \beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+{\usebeamercolor{sidebar}}
+\setbeamertemplate{sidebar canvas left}[horizontal shading]
+[left=white,middle=sidebar.bg,right=white]
+\setbeamertemplate{sidebar canvas right}[horizontal shading]
+[left=white,middle=sidebar.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{}}}
+
+\title[Функціональний аналіз \\ Лекція №9. Поточково і рівномірно обмежені оператори]
+{Функціональний аналіз \\ Лекція №9. Поточково і рівномірно обмежені оператори}
+
+
+\author[Мельник В.С.]{\textbf{Мельник В.С.}}
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+
+
+\begin{frame}{План}
+
+
+\begin{enumerate}
+\item Означення
+\item Теорема Осґуда
+\item Доведення теореми Осґуда
+\item Поточково і рівномірно обмежені оператори
+\itemПринцип рівномірної обмеженості 
+\end{enumerate}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{1. Означення}
+
+\begin{block}{}
+Розглянемо довільну сім`ю $(f_{i})_{i\in I}$ функцій $f_{i} : X\longrightarrow \mathbb{R}$, визначених на множині $X$. Вона називається поточково обмеженою, якщо для кожної точки $x$ з $X$ існує таке число $\gamma_{x}\geq 0$, що $|f_{i}(x)|\leq \gamma_{x}$ для всіх індексів $i$ з $I$. Множину $\{f_{i}(x): i\in I\}$ називають орбітою точки $x$ для сім`ї $(f_{i})_{i\in I}$. Таким чином, поточкова обмеженість сім`ї $(f_{i})_{i\in I}$ означає, що для неї всі орбіти $\{f_{i}(x): i\in I\}$ є обмеженими числовими множинами.
+\end{block}
+
+\begin{block}{}
+Нехай $E\subseteq X$. Сім`я $(f_{i})_{i\in I}$ називається рівномірно обмеженою на множині $E$, якщо існує таке число $\gamma$, що для всіх $i\in I$ і для всіх $x\in E$ виконується нерівність $|f_{i}(x)|\leq \gamma$.
+\end{block}
+\end{frame}
+
+
+\begin{frame}{1. Означення (продовження)}
+
+\begin{block}{}
+Припустимо, що $X$~--- це топологічний простір і $x_{0}\in X$. Сім`я $(f_{i})_{i\in I}$ функцій $f_{i} : X\longrightarrow \mathbb{R}$ називається рівномірно обмеженою в точці $x_{0}$, якщо існує такий окіл $U$ точки $x_{0}$ в $X$, що ця сім`я рівномірно обмежено на $U$. Множину всіх тих точок $x$ з $X$, в яких сім`я $(f_{i})_{i\in I}$ рівномірно обмежена, ми будемо позначати символом $B(f_{i}:i\in I)$. Зрозуміло, що ця множина є відкритою в $X$.
+\end{block}
+
+\includegraphics[height=4cm]{ex.eps}
+
+\end{frame}
+
+
+\begin{frame}{2. Теорема Осґуда}
+
+\begin{block}{}
+У тому випадку, коли функції $f_{i}$ неперервні, між поточковою та рівномірною обмеженістю існує зв`язок, про який йдеться у наступному твердженні, що носить назву теорема Осґуда.
+\end{block}
+
+\begin{exampleblock}{Теорема 1.}
+Нехай $X$~--- повний метричний простір і $(f_{i})_{i\in I}$~--- поточково обмежена сім`я неперервних функцій $f_{i} : X\longrightarrow \mathbb{R}$. Тоді множина $G=B(f_{i}:i\in I)$ всіх точок з $X$, в яких сім`я $(f_{i})_{i\in I}$ ріномірно обмежена, є відкритою і всюди щільною в просторі $X$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+\begin{frame}{3. Доведення теореми Осґуда}
+
+\begin{block}{}
+Для кожної точки $x$ з $G$ існує такий її відкритий окіл $U_{x}$, на якому сім`я $(f_{i})_{i\in I}$ рівномірно обмежена. Оскільки відкрита множина є околом кожної своєї точки, то $U_{x}\subseteq G$, отже, множина $G$ відкрита.
+
+Доведемо, що $\overline{G}=X$. Нехай $U$~--- відкрита непорожня множина в $X$. Покажемо, що $G\cap U \neq {\O}$. Для цього для кожного номера $n$ розглянемо множини $$F_{n}=\{x\in X:(\forall i\in I)(|f_{i}(x)|\leq n)\}.$$ Всі вони є замкненими у просторі $X$. Справді, для кожного $s\in I$ множина $$F_{n,i}=\{x\in X:|f_{i}(x)|\leq n\}=f_{i}^{-1}([-n,n])$$ замкнена в $X$, як прообраз замкненої підмножини $[-n,n]$ числової прямої при неперервному відображенні $f_{i} : X\longrightarrow \mathbb{R}$. Але $$F_{n}=\cap \{F_{n,i},i\in I\},$$ отже, і множина $F_{n}$ замкнена, бо перетин довільної сім`ї замкнених множин залишається замкненим.
+\end{block}
+\end{frame}
+
+
+
+\begin{frame}{3. Доведення теореми Осґуда (продовження)}
+
+\begin{block}{}
+Для кожної точки $x\in X$ існує таке число $\gamma_{x}$, що $|f_{i}(x)|\leq \gamma_{x}$ для кожного $i\in I$ . Зрозуміло, що $\gamma_{x} \leq n$ для деякого натурального числа $n$. Тому $x\in F_{n}$, отже, $\cup \{F_{n},n=1..\infty\}=X.$
+
+Розглянемо відкриті множини $G_{n}=\textit{int}F_{n}$ і покладемо $H=\cup \{G_{n},n=1..\infty\}$. Виявляється, що $H=G$. Справді, якщо $x\in H$, то існує такий номер $n$, що $x\in G_{n}$. Множина $G_{n}$~--- це відкритий окіл точки $x$ і $G_{n}\subseteq F_{n}$, а значить, $|f_{i}(u)|\leq n$ для будь-яких $i\in I$ та $u\in G_{n}$. Тому $x\in G$. Навпаки, якщо $x\in G$, то існує такий окіл $U_{x}$ точки $x$ і таке число $\gamma$, що $|f_{i}(u)|\leq\gamma$ для всіх $i\in I$ і для всіх $u\in U_{x}$. Взявши такий номер $n$, що $\gamma \leq n$, ми одержимо, що $|f_{i}(u)|\leq n$ для всіх $i\in I$ і $u\in U_{x}$, отже, $U_{x} \subseteq F_{n}$. Звідси випливає, що $x\in \textit{int}F_{n}=G_{n}$, а значить, $x\in H$.
+\end{block}
+\end{frame}
+
+
+\begin{frame}{3. Доведення теореми Осґуда (завершення)}
+
+
+\begin{block}{}
+Таким чином, нам залишається показати, що $U\cap G_{m} \neq {\O}$ для деякого $m$. Оскільки $U=\bigcup\limits_{n=1}^{\infty} U\cap F_{n}$ і за теоремою Бера про категорію $U$ це множина другої в $X$, то існує такий номер $m$, що множина $U\cap F_{m}$ десь щільна, тобто відкрита множина $V=\textit{int} \overline{U\cap F_{m}}$ непорожня.  Оскільки $V\subseteq \overline{U\cap F_{m}}$, то $V\subseteq \overline{F_{m}}=F_{m}$, адже множина $F_{m}$ замкнена, звідки випливає, що $V\subseteq G_{m}$ . Крім того, $V\subseteq \overline{U}$, отже, $W=V\cap U \neq {\O}$. Тоді ${\O}\neq W\subseteq U\cap G_{m}$, отже, $U\cap G_{m} \neq {\O}$. Таким чином, $U\cap G\neq {\O}$, а це і показує нам, що множина $G$ всюди щільна в $X$.
+\end{block}
+
+\end{frame}
+
+
+
+
+\begin{frame}{4. Поточково і рівномірно обмежені оператори}
+
+\begin{block}{}
+Сім`я $(A_{i})_{i\in I}$ лінійних неперервних операторів $A_{i} :X\rightarrow Y$, що діють з нормованого простору $X$ у нормований простір $Y$ називається поточково обмеженою, якщо для кожного $x$ з $X$ числова сім`я $(||A_{i}x||)_{i\in I}$ є обмеженою в $\mathbb{R}$, і рівномірно обмеженою, якщо сім`я $(||A_{i}||)_{i\in I}$ з норм  операторів $A_{i}$ є обмеженою. Розглянемо на $X$ неперервні функції $f_{i}(x)=||A_{i}x||$. Очевидно, що поточкова обмеженість сім`ї операторів $A_{i}$ означає поточкову обмеженість сім`ї функцій $f_{i}$. Далі, $$||A_{i}||=sup\{||A_{i}x||,||x||\leq1\}=sup\{f_{i}(x),||x||\leq1\}$$ Тому рівномірна обмеженість сім`ї операторів $A_{i}$ рівносильна рівномірній обмеженості сім`ї функцій $f_{i}$ на одиничній кулі $U_{X}=\{x\in X:||x||\leq1\}$ простору $X$.
+\end{block}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{5. Принцип рівномірної обмеженості}
+
+\begin{exampleblock}{Теорема 2.}
+Нехай $X$~--- банахів простір, $Y$~--- нормований простір і $(A_{i})_{i\in I}$ поточково обмежена сім`я лінійних неперервних операторів $A_{i} :X\rightarrow Y$. Тоді ця сім`я є і рівномірно обмеженою, тобто існує така константа $\gamma$, що $||A_{i}||\leq \gamma$ для кожного $i$ з $I$.
+\end{exampleblock}
+
+
+
+
+
+\end{frame}
+
+
+
+
+\end{document}
+
+
+\begin{figure}[h]
+\center{\includegraphics[scale=0.65]{ex.jpg}}
+\caption{Залежностi максимумiв динамiчної провiдностi $\sigma_{12}$, $\tilde{\sigma}_{12}$ та поглиненої
+енергiї поля $\Omega_{12}$, $\tilde{\Omega}_{12}$ вiд концентрацiї $n_{0}$ без (штрихова лiнiя) та з урахуванням
+(суцiльна лiнiя) змiнного просторового заряду.}
+\label{fig:image}
+\end{figure}

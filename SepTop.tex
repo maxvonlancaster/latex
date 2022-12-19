@@ -1,0 +1,151 @@
+\documentclass[10pt]{book}
+\sloppy
+\renewcommand\thesection{\arabic{section}}
+\setlength{\voffset}{-30mm} \setlength{\hoffset}{-20mm}
+\setlength{\textwidth}{170mm} \setlength{\textheight}{240mm}
+\usepackage[cp1251]{inputenc} \usepackage[T2A]{fontenc}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amssymb} \usepackage{amsthm} \usepackage{amsmath}
+\begin{document}
+\setcounter{equation}{0}
+\large
+\twocolumn[УДК 123.456
+\begin{center}
+{\Large \bf \copyright 2019 р. \,\,  Маслюченко В. К., Мельник В. С. \\ Maslyuchenko V., Melnyk V.\/}
+\bigskip
+
+Чернівецький національний університет імені Юрія Федьковича
+\end{center}
+
+\begin{center}
+{\bf Нарізно неперервні проміжні функції і хрест-топологія (Separately continuous intermediate functions and plus-topology)\/}
+\end{center}
+
+\begin{center}
+\parbox{15cm}{\normalsize \parindent=0.5cm
+Введено поняття нарізної пари Гана $(g,h)$ на добутку $X\times Y$ топологічних просторів і знайдено умови існування проміжної нарізно неперервної функції $f:X\times Y\rightarrow \mathbb{R}$ для кожної такої пари.
+
+\bigskip
+
+We introduce the notion of separate Hahn's pair $(g,h)$ on the product $X\times Y$ of topological spaces and find the conditions of existance of intermediate separately continuous function $f:X\times Y\rightarrow \mathbb{R}$ for each of these pairs.}
+\end{center}
+
+\bigskip
+] \markboth{}{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Вступ.}
+
+Класична теорема Гана про проміжну функцію [1] твердить, що для метричного простору $X$ і напівнеперервних відповідно зверху і знизу функцій $g:X\rightarrow \mathbb{R}$ і $h:X\rightarrow \mathbb{R}$, таких, що $g(x)\leq h(x)$ на $X$, існує неперервна функція $f:X\rightarrow \mathbb{R}$, для якої $g(x)\leq f(x)\leq h(x)$ на $X$. Пару $(g,h)$ напівнеперервних відповідно зверху і знизу функцій $g,h:X\rightarrow \mathbb{R}$ на топологічному просторі $X$, таких, що $g(x)\leq h(x)$ на $X$ ми називаємо [2] \textit{парою Гана} на $X$. Функція $f:X\rightarrow \mathbb{R}$, для якої $g(x)\leq f(x)\leq h(x)$ на $X$, називається \textit{проміжною} для пари $(g,h)$.
+
+Ця теорема Гана у XX столітті дістала значний розвиток. Після того як Ж. Д'єдонне [3] переніс її на випадок паракомпактного простору $X$, Г. Тонґ [4,5] та М. Катетов [6,7] встановили, що для довільного $T_{1}$-простору $X$ існування проміжної неперервної функції $f:X\rightarrow \mathbb{R}$ для кожної пари Гана $(g,h)$ на $X$ є характеристичною ознакою нормальності простору $X$. Це твердження ми називатимемо теоремою Гана-Д`єдонне-Тонґа-Катетова.
+
+В останній час з'явилися нові аналоги та модифікації теореми Гана про проміжну функцію. Так, у праці [8] було встановлено, що для кожної пари Гана $(g,h)$ на відрізку $[a,b]$, в якій функції $g$ і $h$ зростають, існує проміжна зростаюча неперервна функція. В роботі [9] досліджувалося питання про існування проміжної афінної функції $f:X\rightarrow \mathbb{R}$ на векторному просторі $X$ для опуклих відповідно вгору і вниз функцій $g$ і $h$ на $X$. Нарешті, в статті [2] вивчалося питання про існування на проміжках числової прямої проміжних кусково лінійних чи нескінченно диференційовних функцій, що задовольняють певні додаткові умови.
+
+Аналогічно до пари Гана можна ввести поняття нарізної пари Гана $(g,h)$, в якій $g:X\times Y\rightarrow \mathbb{R}$~--- нарізно напівнеперервна зверху функція, а $h$~--- знизу, причому $g(p)\leq h(p)$ на $X\times Y$. Виникає природне питання: за яких умов на простори $X$ і $Y$ для кожної нарізної пари Гана $(g,h)$ існує така нарізно неперервна функція $f:X\times Y\rightarrow \mathbb{R}$, що $g(p)\leq f(p)\leq h(p)$ на $X\times Y$. Тут ми даємо повну відповідь на це питання, з`ясувавши, що для цього необхідно і достатньо, щоб добуток $X\times Y$, наділений так званою хрест-топологією, був нормальним. Ми наводимо також приклад нормального добутку з хрест-топологією.
+
+
+
+
+\section{Хрест-топологія.}
+
+Нехай $X$ і $Y$~--- топологічні простори. Множина $W\subseteq X\times Y$ називається \textit{нарізно відкритою}, якщо для кожної точки $p=(x,y)\in W$ існують околи $U$ та $V$ точок $x$ та $y$ у просторах $X$ та $Y$ відповідно, такі, що $(\{x\}\times V)\cup(U\times \{y\})\subseteq W$. Легко перевірити, що система $\mathcal{C}$, що складається з нарізно відкритих множин, утворює топологію на добутку $X\times Y$, яка називається хрест-топологією на $X\times Y$.
+
+Ми використовуємо звичні позначення: $C(X,Y)$~--- простір всіх неперервних функцій $f:X\rightarrow Y$ і $CC(X\times Y, Z)$~--- простір нарізно неперервних функцій $f:X\times Y\rightarrow Z$. Ми позначаємо також $C(X)=C(X,\mathbb{R})$ і $CC(X\times Y, \mathbb{R})=CC(X\times Y)$ для числової прямої $\mathbb{R}$.
+
+\textbf{Лема 1.} Нехай $X$, $Y$ і $Z$~--- топологічні простори, $\mathcal{C}$~--- хрест-топологія на добутку $X\times Y$ і $Q=(X\times Y,\mathcal{C})$. Тоді $CC(X\times Y, Z)=C(Q,Z)$.
+
+\textit{Доведення.} $\subseteq$). Нехай $f\in CC(X\times Y, Z)$. Розглянемо відкриту множину $W$ у просторі $Z$, і доведемо, що $f^{-1}(W)$~--- відкрита в $Q$. Нехай $p_{0}=(x_{0},y_{0})\in f^{-1}(W)$. Тоді $z_{0}=f(p_{0})=f^{x_{0}}(y_{0})=f_{y_{0}}(x_{0})\in W$. Оскільки $f^{x_{0}}$ та $f_{y_{0}}$~--- неперервні і $W$~--- відкритий окіл точки $z_{0}$ в $Z$, то існують окіл $U$ точки $x_{0}$ в $X$ та окіл $V$ точки $y_{0}$ в $Y$ такі, що $f^{x_{0}}(V)\subseteq W$ і $f_{y_{0}}(U)\subseteq W$. Отже, $f((\{x_{0}\}\times V)\cup(U\times \{y_{0}\}))=f^{x_{0}}(V)\cup f_{y_{0}}(U)\subseteq W$, а звідси $(\{x_{0}\}\times V)\cup(U\times \{y_{0}\})\subseteq f^{-1}(W)$. Таким чином, маємо, що $f^{-1}(W)\in \mathcal{C}$, отже, $f\in C(Q,Z)$.
+
+$\supseteq$). Розглянемо $f\in C(Q,Z)$ та $p_{0}=(x_{0},y_{0})\in X\times Y$. Нехай $W$~--- відкритий окіл точки $z_{0}=f(x_{0},y_{0})$ в $Z$. Тоді, оскільки $f^{-1}(W)\in \mathcal{C}$ і $p_{0}\in f^{-1}(W)$, то існують околи $U$ точки $x_{0}$ в $X$ та $V$ точки $y_{0}$ в $Y$, такі, що $(\{x_{0}\}\times V)\cup(U\times \{y_{0}\})\subseteq f^{-1}(W)$. Звідси маємо, що $f^{x_{0}}(V)\cup f_{y_{0}}(U)=f((\{x_{0}\}\times V)\cup(U\times \{y_{0}\}))\subseteq W$. Таким чином, $f^{x_{0}}(V)\subseteq W$ і $f_{y_{0}}(U)\subseteq W$, що дає нам неперервність $f^{x_{0}}$ в точці $y_{0}$ та $f_{y_{0}}$ в точці $x_{0}$, отже, $f\in CC(X\times Y,Z)$.
+
+
+
+\section{Напівнеперервні функції.}
+
+\textbf{Лема 2.} Нехай $\mathcal{T}^{u}$ /$\mathcal{T}^{l}$/~--- топологія на $\mathbb{R}$, що складається з множин $(-\infty,c)$ /$(c,+\infty)$/, де $-\infty\leq c\leq+\infty$, а $C^{u}(X)$ /$C^{l}(X)$/~--- простір усіх напівнеперервних зверху /знизу/ функцій $f:X\rightarrow\mathbb{R}$. Тоді $C^{u}(X)=C(X,\mathbb{R}^{u})$ /$C^{l}(X)=C(X,\mathbb{R}^{l})$/, де $\mathbb{R}^{u}=(\mathbb{R},\mathcal{T}^{u})$ /$\mathbb{R}^{l}=(\mathbb{R},\mathcal{T}^{l})$/.
+
+\textit{Доведення.} $\subseteq$) Нехай $f\in C^{u}(X)$. Розглянемо $c\in \mathbb{R}$, і доведемо, що множина $E(f<c)=f^{-1}((-\infty,c))$ відкрита в $X$. Нехай $x_{0}\in E(f<c)$, тобто $f(x_{0})< c$. З напівнеперервності зверху функції $f$ легко вивести, що існує окіл $U$ точки $x_{0}$ в $X$, такий, що для довільного $x\in U$ виконується $f(x)<c$. Отже, $E(f<c)$ містить окіл кожної своєї точки, а значить, є відкритою множиною для кожного $c\in \mathbb{R}$. Таким чином, $f\in C(X,\mathbb{R}^{l})$.
+
+$\supseteq$) Нехай $f\in C(X,\mathbb{R}^{u})$, $x_{0}\in X$, $y_{0}=f(x_{0})$ і $\varepsilon>0$. Оскільки множина $U=f^{-1}((-\infty,y_{0}+\varepsilon))$ відкрита в $X$ і $x_{0}\in U$, то $U$~--- це окіл точки $x_{0}$ в $X$. При цьому $f(x)<f(x_{0})+\varepsilon$ для кожного $x\in U$, отже функція $f$ напівнеперервна зверху в точці $x_{0}$.
+
+Введемо наступні позначення: $C^{u}C^{u}(X\times Y)$~--- простір усіх нарізно напівнеперервних зверху функцій $f:X\times Y\rightarrow \mathbb{R}$, $C^{l}C^{l}(X\times Y)$~--- простір усіх нарізно напівнеперервних знизу функцій $f:X\times Y\rightarrow \mathbb{R}$, $C^{u}(T)$~--- це простір напівнеперервних зверху функцій $f:T\rightarrow \mathbb{R}$, $C^{l}(T)$~--- це простір напівнеперервних знизу функцій $f:T\rightarrow \mathbb{R}$.
+
+\textbf{Лема 3.} Для довільних топологічних просторів $X$ та $Y$ маємо, що $C^{u}C^{u}(X\times Y)=C^{u}(Q)$ і $C^{l}C^{l}(X\times Y)=C^{l}(Q)$.
+
+\textit{Доведення.} Нехай $f\in C^{u}C^{u}(X\times Y)$, $x\in X$ і $y\in Y$. Оскільки $f^{x}\in C^{u}(Y)$ і $f_{y}\in C^{u}(X)$, то за лемою 2 $f^{x}\in C(Y,\mathbb{R}^{u})$ і $f_{y}\in C^{u}(X,\mathbb{R}^{u})$, звідки випливає, що $f_{y}\in C(X,\mathbb{R}^{u})$. Таким чином, врахувавши ще й лему 1, маємо: $f\in CC(X\times Y, \mathbb{R}^{u})=C(Q,\mathbb{R}^{u})=C^{u}(Q)$. Доведення в інший бік аналогічне.
+
+
+
+\section{Проміжна нарізно неперервна функція.}
+
+Пару $(g,h)$ напівнеперервних відповідно зверху і знизу функцій $g,h:X\rightarrow \mathbb{R}$ на топологічному просторі $X$, таких, що $g(x)\leq h(x)$ на $X$ ми називаємо парою Гана на $X$. Пару $(g,h)$ функцій $g\in C^{u}C^{u}(X\times Y)$, $h\in C^{l}C^{l}(X\times Y)$ на добутку $X\times Y$, таких, що $g(p)\leq h(p)$ на $X\times Y$ ми називаємо нарізною парою Гана на $X\times Y$.
+
+\textbf{Лема 4.} Пара $(g,h)$ функцій на добутку $X\times Y$ є нарізною парою Гана тоді і тільки тоді, коли вона є парою Гана на просторі $Q=(X\times Y,\mathcal{С})$.
+
+\textit{Доведення.} Одразу випливає з леми 3, оскільки $g\in C^{u}C^{u}(X\times Y) = C^{u}(Q)$ та $h\in C^{l}C^{l}(X\times Y) = C^{l}(Q)$
+
+\textbf{Лема 5.} Нехай $X$, $Y$~--- $T_{1}$-простори, $\mathcal{C}$~--- хрест-топологія. Тоді $Q=(X\times Y, \mathcal{C})$~--- $T_{1}$-простір.
+
+\textit{Доведення.} Доведемо, що одноточктова множина $\{p\}$, $p=(x,y)\in Q$, є  замкненою. Нехай $q=(u,v)\in Q$ і $q\neq p$. Тоді $x\neq u$ або $y\neq v$. Припустимо, що $x\neq u$. Тоді існує відкритий окіл $U$ точки $u$, такий, що $x\notin U$. Зрозуміло, що $W=U\times Y$~--- це відкритий окіл точки $q$ в $Q$, такий, що $p\notin W$. Отже, $\{p\}$~--- замкнена.
+
+\textbf{Теорема 1.} Нехай $X$ та $Y$~--- $T_{1}$-простори. Тоді кожна нарізна пара Гана $(g,h)$ на добутку $X\times Y$ має проміжну нарізно неперервну функцію тоді і тільки тоді, коли простір $Q=(X\times Y, \mathcal{C})$ є нормальним.
+
+\textit{Доведення.} За лемою 5 маємо, що простір $Q=(X\times Y, \mathcal{C})$~--- $T_{1}$-простір, за лемою 4 маємо, що кожна нарізна пара Гана $(g,h)$ є парою Гана на $Q$ і навпаки. Таким чином, у випадку нормального простору $Q$, за теоремою Гана-Д`єдонне-Катетова-Тонґа, існує проміжна для пари Гана $(g,h)$ неперервна функція $f$, та навпаки, з існування проміжної неперервної функції для кожної пари Гана випливає нормальність простору $Q$.
+
+
+\section{Приклад нормальної хрест топології на добутку.}
+
+\textbf{Теорема 2.} Нехай $T$ та $S$~--- дискретні простори, $X=\alpha T=T\cup\{\infty\}$, та $Y=\alpha S=S\cup\{\infty\}$~--- компактифікації Александровва цих просторів, $\mathcal{C}$~--- хрест-топологія на $X\times Y$ і $Q=(X\times Y, \mathcal{C})$. Тоді $Q$~--- нормальний топологічний простір.
+
+\textit{Доведення.} Нехай $A$ і $B$~--- замкнені множини в $Q$ і $A\cap B={\O}$. Доведемо, що існують відкриті в $Q$ множини $U$ і $V$, такі, що $A\subseteq U$, $B\subseteq V$ і $U\cap V={\O}$.
+
+Позначимо $w=(\infty,\infty)$. Розглянемо випадок, коли $w\in A$. Множина $H=Q\setminus B$~--- це відкритий окіл точки $w$ в $Q$. Тому існують такі скінченні підмножини $T_{0}=\{t_{1},...,t_{n}\}$ і $S_{0}=\{s_{1},...,s_{m}\}$ множин $S$ і $T$ відповідно, що для їх доповнень $X_{0}=X\setminus T_{0}$ та $Y_{0}=Y\setminus S_{0}$ виконується включення $(\{\infty\}\times Y_{0})\cup(X_{0}\times\{\infty\})\subseteq H$. Для $t\in T$ і $s\in S$ покладемо $p_{t}=(t,\infty)$ і $q_{s}=(\infty,s)$. Розглянемо множини $T_{1}=\{t\in T_{0}:p_{t}\in A\}$, $S_{1}=\{s\in S_{0}:q_{s}\in A\}$, $X_{1}=X_{0}\cup T_{1}$, $Y_{1}=Y_{0}\cup S_{1}$, $T_{2}=\{t\in T_{0}:p_{t}\in B\}$ і $S_{2}=\{s\in S_{0}:q_{s}\in B\}$. За побудовою $(\{\infty\}\times Y_{1})\cup(X_{1}\times\{\infty\})\subseteq H$, адже $A\subseteq H$. Для довільних точок $t\in X_{1}$ і $s\in Y_{1}$ існують такі відкриті околи $V_{t}$ і $U_{s}$ точки $\infty$ у просторах $Y$ і $X$ відповідно, що $\{t\}\times V_{t}\subseteq H$, $U_{s}\times \{s\}\subseteq H$, $V_{t}\cap S_{2}={\O}$ і $U_{s}\cap T_{2}={\O}$.  Покладемо $U'=\bigcup\limits_{t\in X_{1}}^{}\{t\}\times V_{t}$, $U''=\bigcup\limits_{s\in Y_{1}}^{}\{s\}\times U_{s}$, $U'''=A\cap(T\times S)$ і $U=U'\cup U''\cup U'''$. Легко перевірити, що множина $U$ відкрита в $Q$ і $A\subseteq U \subseteq H$.
+
+Оскільки множина $G=Q\setminus A$ відкрита в $Q$ і $(T_{2}\times \{\infty\})\cup(\{\infty\}\times S_{2})\subseteq G$, бо $B\cap A={\O}$, то для довільних $t\in T_{2}$ і $s\in S_{2}$ існують такі відкриті у просторах $Y$ і $X$ околи $\widetilde{V}_{t}$ і $\widetilde{U}_{t}$ точки $\infty$ відповідно, що виконуються включення $V'=\bigcup\limits_{t\in T_{2}}^{}\{t\}\times \widetilde{V}_{t}\subseteq G$ і $V''=\bigcup\limits_{s\in S_{2}}^{}\{s\}\times \widetilde{U}_{s}\subseteq G$. Множини $V'$ і $V''$ будуть відкритими в $Q$, як і множина $V'''=B\cap(T\times S)$, а з ними і множина $V=V'\cup V''\cup V'''$. При цьому $B\subseteq V$. Доведемо, що $U\cap V={\O}$. По перше, $U'\cap V'$ і $U''\cap V''={\O}$, адже $X_{1}\cap T_{2}={\O}$ і $Y_{1}\cap S_{2}={\O}$. Далі, $U'''\cap V'''={\O}$, бо $A\cap B={\O}$, а $U'''\subseteq A$ і $V'''\subseteq B$. Крім того, $U'\cap V''={\O}$, бо $V_{t}\cap S_{2}={\O}$ при $t\in X_{1}$, так само $V'\cap U''={\O}$, бо $T_{2}\cap U_{s}={\O}$ при $s\in Y_{1}$. Нарешті, $(U'\cup U'')\cap V'''={\O}$, бо $U'\cap U'' \subseteq H=Q\setminus B$, а $V'''\subseteq B$. Подібно до цього $(V'\cup V'')\cap U'''={\O}$, бо $V'\cap V'' \subseteq G=Q\setminus A$, а $U'''\subseteq A$. Таким чином, множини $U$ і $V$ шукані.
+
+У випадку $w\in B$ множини $A$ і $B$ міняються місцями. Нарешті, нехай $w\notin  A\cup B$. Тоді існують такі скінченні підмножини $T_{0}=\{t_{1},...,t_{n}\}$ і $S_{0}=\{s_{1},...,s_{n}\}$ множин $T$ і $S$ відповідно, що $(\{\infty\}\times Y_{0})\cup(X_{0}\times\{\infty\})\cap A\cup B={\O}$, де $X_{0}=X\setminus T_{0}$ і $Y_{0}=Y\setminus S_{0}$. Розглянемо множини $T_{1}=\{t\in T_{0}:p_{t}=(t,\infty)\in A\}$, $T_{2}=\{t\in T_{0}:p_{t}=(t,\infty)\in B\}$, $S_{1}=\{s\in S_{0}:q_{s}=(s,\infty)\in A\}$ і $S_{2}=\{s\in S_{0}:q_{s}=(s,\infty)\in B\}$. Для кожного $t\in T_{1}$ існує такий відкритий окіл $V_{t}$ точки $\infty$ у просторі $Y$, що $\{t\}\times V_{t}\subseteq H=Q\setminus B$ і $V_{t}\cap S= {\O}$. А для кожного $s\in S_{1}$ існує такий відкритий окіл $U_{s}$ точки $\infty$ у просторі $X$, що $U_{s}\times \{s\}\subseteq H$ і $U_{s}\cap T_{2}={\O}$. Так само будуються відкриті околи $\widetilde{U}_{s}$ і $\widetilde{V}_{t}$ точки $\infty$ у просторах $X$ і $Y$ відповідно, що $\{t\}\times \widetilde{V}_{t}\subseteq G = Q\setminus A$, $\widetilde{U}_{s}\times \{s\}\subseteq G$, $\widetilde{V}_{t}\cap S_{1}={\O}$ і $\widetilde{U}_{s}\cap T_{1}={\O}$ для довільних $t\in T_{2}$ і $s\in S_{2}$. Легко перевірити, що множини $U=(\bigcup\limits_{t\in T_{1}}^{}(\{t\}\times V_{t}))\cup(\bigcup\limits_{s\in S_{1}}^{} U_{s}\times \{s\})\cup(A\cap (T\times S))$ та $V=(\bigcup\limits_{t\in T_{2}}^{}(\{t\}\times \widetilde{V}_{t}))\cup(\bigcup\limits_{s\in S_{2}}^{} \widetilde{U}_{s}\times \{s\})\cup(B\cap (T\times S))$ будуть шуканими.
+
+
+
+
+
+
+
+\bigskip
+
+{\normalsize\centerline{СПИСОК ЛІТЕРАТУРИ}
+\medskip
+
+1. {\it Hahn H. \/} Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.Wien. Math. - naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+2. \textit{Маслюченко В.К., Маслюченко О.В., Мельник В.С.}  Існування проміжних кусково лінійних та нескінченно диференційовних функцій// Бук. мат. журн.~--- 2016.~--- \textbf{4}, №3-4.~---  С.93-100.
+
+3. {\it Dieudonne J.\/} Une g\'{e}n\'{e}ralisation des espaces compacts // J. de Math. Pyres et Appl.~--- 1944.~--- \textbf{23}.~--- P.65-76.
+
+4. \textit{Tong H.} Some characterizations of normal and perfectly normal spaces // Bull.Amer.Math.Soc.~--- 1948.~--- \textbf{54}.~--- P.65.
+
+5. \textit{Tong H.} Some characterizations of normal and perfectly normal spaces // Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+
+6. \textit{Katetov M.} On real-valued functions in topological spaces // Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+
+7. \textit{Katetov M.} Correction to 'On real-valued functions in topological spaces' // Fund.Math.~--- 1953.~--- \textbf{40}.~--- P.203-205.
+
+8. {\it Маслюченко В.К., Петей С.П.\/} Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+
+9. {\it Маслюченко В.К., Мельник В.С.\/} Теореми про проміжну афінну функцію для опуклої і вгнутої функцій // Бук. мат. журн. — 2016. — \textbf{4},№1. — С.110-116.
+
+
+
+\end{document} 

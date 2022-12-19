@@ -1,0 +1,653 @@
+%% $Id: pst-func-doc.tex 64 2008-12-08 22:14:27Z herbert $
+\documentclass[11pt,english,BCOR10mm,DIV13,bibliography=totoc,parskip=false,smallheadings
+    headexclude,footexclude,oneside]{pst-doc}
+\usepackage[utf8]{inputenc}
+\usepackage{pst-optic,pst-text}
+\usepackage{hyperref}
+\let\pstOpticFV\fileversion
+\lstset{pos=t,wide=true,language=PSTricks,basicstyle=\footnotesize\ttfamily}
+\let\belowcaptionskip\abovecaptionskip
+%
+\begin{document}
+
+\title{\texttt{pst-optic}}
+\subtitle{Lenses and Mirrors -- examples; v.\pstOpticFV}
+
+\author{Manuel Luque \\Herbert Vo\ss}
+\docauthor{Herbert Vo\ss}
+\date{\today}
+\maketitle
+
+\tableofcontents
+
+\clearpage
+
+\part{Lenses}
+\section{A simple colored System}
+
+\begin{itemize}
+\item $\mathrm{\overline{AB} = 2\ cm}$
+\item $\mathrm{\overline{OA} = -10\ cm}$
+\item $\mathrm{\overline{OF'} = 3,333\ cm}$
+\item $\mathrm{\overline{XO} = 2\ cm}$
+\end{itemize}
+
+\begin{LTXexample}
+\begin{pspicture}(-8.5,-3)(8.5,3)
+\rput(0,0){\lens[focus=3.333,OA=-10,AB=2,XO=2,xLeft=-8.5,xRight=8.5,rayColor=red]}
+\pnode(!XO 2.5){L1} \pnode(!XO -2.5){L2}
+\psOutLine[length=2](L1)(B'){END} \psBeforeLine[length=2](B')(L2){START}
+\pspolygon[style=rayuresJaunes,linestyle=none](B)(L1)(END)(START)(L2)
+\rput(0,0){\lens[focus=3.333,OA=-10,AB=2,XO=2,xLeft=-8.5,xRight=8.5,rayColor=red,arrowsize=0.2]}
+\end{pspicture}
+\end{LTXexample}
+\xLcs{psOutLine}\xLcs{psBeforeLine}
+
+\clearpage
+\section{A Magnifier}
+
+\begin{LTXexample}
+\begin{pspicture}(-8,-5)(8,3)
+\rput(0,0){\lens[lensGlass=true,lensWidth=0.4,focus=4,AB=0.5,OA=-2.8,XO=2,drawing=false]
+  \psline[linewidth=0.5pt](xLeft)(xRight)}
+\pnode(!XO 2.5){L1} \pnode(!XO -2.5){L2}
+\psOutLine[length=5.5,linestyle=none](B')(L1){END1}
+\psBeforeLine[length=6,linestyle=none](L2)(B'){START}
+\pspolygon[style=rayuresJaunes,linestyle=none](B)(L1)(END1)(START)(L2)
+\psline[linewidth=1.5\pslinewidth,arrowinset=0]{->}(A)(B)
+\uput[270](A){A} \uput[90](B){B}
+\psline[linewidth=1.5\pslinewidth,arrowinset=0,linestyle=dashed]{->}(A')(B')
+\uput[270](A'){$\mathrm{A'}$} \uput[90](B'){$\mathrm{B'}$}
+\psset{linecolor=red,arrowsize=0.2}
+\pcline[nodesepB=-4](B)(O)%			Mittelpunktstrahl
+\psline[linecolor=red,linestyle=dashed](B)(B')%	ruckwaertige Verlaengerung
+\Arrows(B)(O)%					Mittelpunktstrahl
+\psOutLine[length=2,arrows=->](B)(O){END6}%	Mittelpunktstrahl
+\psline(B)(I)(F')\psOutLine(I)(F'){END2}\Arrows(I)(F')\Arrows(B)(I)
+\psOutLine[length=1,linestyle=dashed](I')(B'){END3}
+\psline[linestyle=dashed](B)(F)\psline(B)(I')\Arrows[arrows=->>](B)(I')
+\psline[linestyle=dashed](B')(I')\psline[linestyle=dashed](B')(I)
+\psOutLine[length=2,arrows=->>](B')(I'){END4}\psOutLine[length=4](B')(I'){END5}
+\rput(8,0){\psset{linecolor=black}\eye}
+\end{pspicture}
+\end{LTXexample}
+\xLcs{psOutLine}\xLcs{psBeforeLine}\xLcs{eye}\xLcs{lens}\xLcs{Arrows}
+
+\clearpage
+\section{Two Lenses}
+
+This is a simple system with two lenses, where the \Lcs{lens} macro is used only once. 
+The second lense (the left one) is drawn by the \Lcs{psline} macro.
+
+\begin{LTXexample}
+\begin{pspicture}(-8,-5)(8,3)
+\rput(0,0){\lens[lensScale=0.6,drawing=false,focus=1.5,OA=-1,XO=5,nameF={},nameFi={},AB=-1]
+  \psline[linewidth=1pt](xLeft)(xRight)} %image intermediaire A1B1 au foyer F'1
+\psline{->}(4,0)(4,-1) %lentille 2
+%	\psline[linewidth=2\pslinewidth,linecolor=blue]{<->}(5,1.5)(5,-1.5)
+%On place les points essentiels
+\pnode(-6,0){O1} \pnode(-6,2.5){E1L1} \pnode(-6,-2.5){E2L1}
+\pnode(4,0){A1} \pnode(4,-1){B1}
+\rayInterLens(O1)(B1){5}{Inter1L2}%intersection de O1 avec la lentille L2
+\pcline[nodesepB=-2](Inter1L2)(O1)%rayon venant de l'infini jusqu'e la lentille L2
+\Parallel(B1)(O1)(E1L1){B1infty}%rayon parallele au precedent et passant par E1L1
+\Parallel(B1)(O1)(E2L1){B2infty}%rayon passant par E2L2
+%intersection de la droite passant par E1L1 et B1 avec la lentille L2
+\rayInterLens(E1L1)(B1){5}{InterE1B1L2}\psline(E1L1)(InterE1B1L2)
+%intersection de la droite passant par E2L2 et B1 avec la lentille L2
+\rayInterLens(E2L1)(B1){5}{InterE2B1L2}
+\psline(E2L1)(InterE2B1L2)
+\psline[linestyle=dashed]{->}(A')(B')\psline[linestyle=dashed](InterE1B1L2)(B')
+\psline[linestyle=dashed](InterE2B1L2)(B')\psline[linestyle=dotted](B')(O)
+\psOutLine[length=3](B')(InterE1B1L2){END}\psBeforeLine[length=3](InterE2B1L2)(B'){START}
+\pspolygon[style=rayuresJaunes,linestyle=none](B1infty)(E1L1)(InterE1B1L2)%
+  (END)(START)(InterE2B1L2)(E2L1)(B2infty)
+\uput[90](A'){$\mathrm{A'}$}\uput[270](B'){$\mathrm{B'}$}
+\uput[90](A1){$\mathrm{A_1}$}\uput[270](B1){$\mathrm{B_1}$}
+\uput[225](O1){O1}\uput[45](O){O2}\uput[90](F){$\mathrm{F_2}$}
+\uput{0.4}[150](F'){$\mathrm{F'_2}$}\uput{0.6}[90](A1){$\mathrm{F'_1}$}
+\psline[linecolor=red](B1infty)(E1L1)(InterE1B1L2)(END)
+\psline[linecolor=red](B2infty)(E2L1)(InterE2B1L2)(START)
+\rput(8,0){\eye}
+\psline[linewidth=2\pslinewidth,linecolor=blue,arrowsize=0.2,arrowinset=0.5]{<->}(-6,-2.5)(-6,2.5)
+\end{pspicture}
+\end{LTXexample}
+\xLcs{psOutLine}\xLcs{psBeforeLine}\xLcs{eye}\xLcs{lens}\xLcs{Arrows}\xLcs{rayInterLens}
+
+\clearpage
+\section{Real Image}
+
+\begin{LTXexample}
+\begin{pspicture*}(-7.5,-3)(7.5,3)
+\rput(0,0){\lens[lensGlass=true,lensWidth=0.5,lensType=DVG,XO=0,AB=2,OA=-4,focus=-6,spotAi=270,spotBi=90]%
+  \psline[linewidth=1pt](xLeft)(xRight)}
+\psline[linecolor=red,linestyle=dashed](I')(F)% Verlaengerung des Brennstrahls
+\psOutLine[length=7](B')(I){END}\psBeforeLine[length=7](I')(B'){START}% permet de definir START
+\pspolygon[style=rayuresJaunes,linestyle=none](B)(I)(END)(START)(I')
+\psline(B)(I)(END) \psline(B)(I')(START)
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{psOutLine}\xLcs{psBeforeLine}\xLcs{lens}
+
+\clearpage
+\section{Virtual Image}
+
+\begin{LTXexample}
+\begin{pspicture*}(-7.5,-6.5)(7.5,7.5)
+\rput(0,0){\lens[lensType=DVG,lensWidth=0.75,lensHeight=7,focus=-2,OA=-6,AB=4,XO=-1,lensGlass=true,
+    rayColor=red,yBottom=-5,yTop=5,drawing=false]
+  \psline[linewidth=1pt](xLeft)(xRight)}
+\pnode(!XO 2.9){L1} \pnode(!XO -2.5){L2}
+{ \psset{length=4,linestyle=none}
+  \psOutLine(B')(L1){A1}  \psOutLine(B')(L2){A2}
+  \pspolygon[style=rayuresJaunes,linestyle=none](B)(L1)(A1)(A2)(L2)
+  \psset{linecolor=red,linestyle=solid}
+  \psline(B)(L1)(A1)  \psline(B)(L2)(A2) \psline[linestyle=dashed](B')(L1)
+  \psline[linestyle=dashed](B')(L2) }
+\psline[linestyle=dashed]{->}(A)(B) \psline{->}(A')(B')
+\uput[90](B){B}\uput[90](B'){$\mathrm{B'}$}\uput[270](A){A}\uput[270](A'){$\mathrm{A'}$}
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{psOutLine}\xLcs{psBeforeLine}\xLcs{lens}
+
+\clearpage
+\section{A Microscope}
+
+\begin{LTXexample}
+\begin{pspicture}(-7.5,-5.5)(7.5,3)
+\rput(0,0){\lens[focus=1.5,OA=-2,AB=0.5,XO=-5,lensGlass=true,lensWidth=0.4,
+   yBottom=-4,yTop=4,drawing=false,lensScale=0.4,nameF=F_1,nameFi=F'_1]
+  \psline[linewidth=1pt](xLeft)(xRight)}
+\pnode(! XO 1){UPlens1} \pnode(! XO -1){DOWNlens1}
+\Transform
+\rput(0,0){\lens[focus=2,XO=3,lensGlass=true,lensWidth=0.4,yBottom=-4,yTop=4,drawing=false,
+        nameF=F_2,nameFi=F'_2,spotF=90,spotFi=90]}
+\psline{->}(A1)(B1)\psline{->}(A'1)(B'1)\uput[270](A1){A}\uput[90](B1){B}
+\uput[270](B'1){$\mathrm{B_1}$}\uput{0.7}[90](A'1){$\mathrm{A_1}$}
+{\psset{linecolor=red}
+ \rayInterLens(I11)(B'1){3}{Inter1L2}\rayInterLens(B1)(O1){3}{Inter2L2}
+ \rayInterLens(UPlens1)(B'1){3}{Inter3L2}\rayInterLens(DOWNlens1)(B'1){3}{Inter4L2}
+ \psline(B1)(I11)(B'1)(Inter1L2)\psline(B1)(Inter2L2)\psline(B1)(UPlens1)(Inter3L2)
+ \psline(B1)(DOWNlens1)(Inter4L2)
+ \psset{length=5}
+ \Parallel(B'1)(O)(Inter3L2){B1inftyRigth}\Parallel(B'1)(O)(Inter4L2){B2inftyRigth}
+ \Parallel(B'1)(O)(Inter2L2){B3inftyRigth}\Parallel(B'1)(O)(Inter1L2){B3inftyRigth}
+ {\psset{length=-5,linestyle=dashed}
+  \Parallel(B'1)(O)(Inter3L2){B1inftyLeft}\Parallel(B'1)(O)(Inter4L2){B2inftyLeft}
+  \Parallel(B'1)(O)(Inter2L2){B3inftyLeft}\Parallel(B'1)(O)(Inter1L2){B3inftyLeft}
+  \pcline[nodesep=6](B'1)(O)}
+ \pspolygon[style=rayuresJaunes,linestyle=none](B1)(UPlens1)(Inter3L2)%
+ 	(B1inftyRigth)(B2inftyRigth)(Inter4L2)(DOWNlens1)
+ \psline(B1)(UPlens1)(Inter3L2)(B1inftyRigth)\psline(B2inftyRigth)(Inter4L2)(DOWNlens1)(B1)}
+\rput(7,0){\eye}
+\end{pspicture}%
+\end{LTXexample}
+\xLcs{psOutLine}\xLcs{psBeforeLine}\xLcs{lens}\xLcs{rayInterLens}\xLcs{Parallel}
+
+
+\clearpage
+\section{Telescope}
+
+\begin{LTXexample}[wide=false]
+\telescope[mirrorFocus=10,posMirrorTwo=8,yBottom=-8]
+\end{LTXexample}
+
+\xLcs{telescope}
+\begin{LTXexample}[wide=false]
+\telescope[mirrorFocus=6,posMirrorTwo=5,yBottom=-5]
+\end{LTXexample}
+
+\clearpage
+\section{Lightspeed measured by Foucault}
+1849 Foucault (1819-1868) determines with the following configuration the speed of the light.
+
+
+
+\begin{LTXexample}
+\begin{pspicture}(-8,-3.2)(7,4.5)
+\rput(0,0){\lens[lensWidth=1,lensGlass=true,lensHeight=6,focus=4,drawing=false,AB=2.5]}
+{\psset{linewidth=0.5pt,linestyle=dashed,arrowsize=5pt,arrows=|<->|}
+ \psline(-8,0)(4,0)\pcline(-7.75,-3)(0,-3)\lput*{:U}{2f} 
+ \pcline(0,-3)(4,-3)\lput*{:U}{f}\pcline(7,0)(7,4)\lput*{:U}{f}
+ \pcline(4,5)(5,5)\lput*{:U}{s}\pcline(5.25,2.3)(5.25,2.8)\lput*{:U}{s} }
+\uput[90](0,3){\Large L}\uput[45](-7.7,3){\Large B}\uput[45](-7.7,-2){\Large E}
+\uput[270](3,-0.5){\Large D}\uput[-45](4,0){\Large A=F}\uput[270](3,2){\Large S}
+\uput[90](4,4){\Large Sp}\uput[90](3.5,3.25){\Large B'}\uput[0](6.3,2.25){\Large B''}
+\uput[-90](6,1.1){\Large M}\psarc[linewidth=0.5pt](-7.75,2.5){0.5}{-90}{0}\qdisk(-7.55,2.3){1pt}
+\rput{210}(F'){\mirrorTwo}
+{\psset{fillstyle=solid,fillcolor=lightgray}
+ \rput{210}(4,2.5){\psframe(-1,0)(1,0.2)}\psframe(-8,-3)(-7.75,3)
+ \psframe(3,4)(3.8,4.2)\psframe(4.2,4)(5,4.2) }
+{\psset{linewidth=1pt,linecolor=red,arrows=->,arrowsize=5pt}
+ \arrowLine[linecolor=blue,arrowOffset=-0.2](F')(4,2.5){2}
+ \arrowLine[linecolor=blue,arrowOffset=-0.2](4,2.3)(6,2.3){1}
+ \qdisk(6,2.3){2pt}
+ \psline[linestyle=dashed,arrows=-](F')(5.1,4)\psline[linestyle=dashed,arrows=-](5,2.8)(6,2.8)
+ \arrowLine(4,4)(F'){3}\arrowLine[linecolor=blue,arrowOffset=-0.2](I)(F'){2}
+ \arrowLine(F')(I){2}\arrowLine[linecolor=blue,arrowOffset=-0.3](-7.75,2.5)(I){3}
+ \arrowLine(I)(-7.75,2.5){3} }
+\psframe(5.5,1.1)(6.5,3.5)
+\multido{\r=1.3+0.2}{12}{\psline(6.1,\r)(6.5,\r)}
+\end{pspicture}
+\end{LTXexample}
+
+Sp chink; \\
+D rotating mirror;\\
+L collecting lens;\\
+E end mirror;\\
+S half diaphanous mirror;\\
+M scale
+
+
+\clearpage
+\part{Mirrors}
+
+\section{High Beam Light\label{beamlight}}
+\begin{LTXexample}
+\begin{pspicture}(-1.5,-5.5)(10,5.5)
+\rput(0,0){\beamLight[drawing=false,mirrorDepth=4.75,mirrorWidth=0.1,mirrorHeight=10,linecolor=lightgray]}
+\makeatletter
+\pst@getcoor{Focus}\pst@tempf
+\psset{linewidth=1pt,linecolor=red}
+\multido{\n=60+5}{18}{%
+  \mirrorCVGRay[linecolor=red,mirrorDepth=4.75,mirrorHeight=10,linewidth=1pt](Focus)(!%
+    /XF \pst@tempf pop \pst@number\psxunit div def \n\space cos XF add \n\space sin neg){Endd1}
+  \psOutLine[arrows=->,length=.25](Endd1)(Endd1''){Endd2}%
+  \mirrorCVGRay[linecolor=red,mirrorDepth=4.75,mirrorHeight=10,linewidth=1pt](Focus)(!%
+    /XF \pst@tempf pop \pst@number\psxunit div def \n\space cos XF add \n\space sin ){End1}
+  \psOutLine[arrows=->,length=.25](End1)(End1''){End2}}
+\makeatletter
+\end{pspicture}
+\end{LTXexample}
+\xLcs{beamLight}\xLcs{mirrorCVGRay}\xLcs{psOutLine}
+\clearpage
+\section{Low Beam Light}
+
+
+\begin{LTXexample}
+\begin{pspicture}(-1.5,-5)(10,5)
+\rput(0,0){\beamLight[drawing=false,mirrorDepth=4.75,mirrorWidth=0.1,mirrorHeight=10,linecolor=lightgray]}
+\psset{linewidth=1pt,linecolor=red}
+\multido{\n=70+5}{20}{%
+   \psline(2.75,-0.2)(! \n\space cos 2.75 add \n\space sin )
+   \mirrorCVGRay[linecolor=red,mirrorDepth=4.75,mirrorHeight=10,linewidth=1pt](2.75,-0.2)%
+     (!  \n\space cos 2.75 add \n\space sin ){End1}
+ \psOutLine[arrows=->,length=.25](End1)(End1''){End2}}
+\end{pspicture}
+\end{LTXexample}
+\xLcs{beamLight}\xLcs{mirrorCVGRay}\xLcs{psOutLine}\xLkeyword{mirrorDepth}\xLkeyword{mirrorHeight}
+
+
+
+\clearpage
+\part{Refraction}
+
+\section{Vertical Medium}
+
+Refrectionnumbers are $n_1=1$ and $n_2=1.5$:
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-5,-3)(5,3)
+\pnode(-1,-2.5){A}\pnode(1,-2.5){B}\pnode(1,2.5){C}\pnode(-1,2.5){D}
+%	\rotateFrame(A)(B)(C)(D){10}
+\uput[-135](A){A}\uput[-45](B){B}\uput[45](C){C}\uput[135](D){D}
+\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)(D)
+% 1.
+\refractionRay(-3,-3)(-2,-2)(D)(A){1}{1.5}{END}
+\psset{linecolor=red,linewidth=2pt,arrowsize=5pt,arrows=->}
+\arrowLine(-3,-3)(END){2}\ABinterCD(END)(END')(C)(B){Out}
+\arrowLine(END)(Out){1}\refractionRay(END)(Out)(C)(B){1.5}{1}{Q}
+\arrowLine(Q)(Q'){1}\psOutLine[length=2](Q)(Q'){End}
+% 2.
+\refractionRay(-3,0)(-2,0)(A)(D){1}{1.5}{END}
+\psset{linecolor=green,linewidth=2pt,arrowsize=5pt,arrows=->}
+\arrowLine(-3,0)(END){2}\ABinterCD(END)(END')(C)(B){Out}
+\arrowLine(END)(Out){1}\refractionRay(END)(Out)(C)(B){1.5}{1}{Q}
+\arrowLine(Q)(Q'){1}\psOutLine[length=2](Q)(Q'){End}
+% 3.
+\refractionRay(-3,3)(-2,2)(D)(A){1}{1.5}{END}
+\psset{linecolor=blue,linewidth=2pt,arrowsize=5pt,arrows=->}
+\arrowLine(-3,3)(END){2}\ABinterCD(END)(END')(C)(B){Out}
+\arrowLine(END)(Out){1}\refractionRay(END)(Out)(C)(B){1.5}{1}{Q}
+\arrowLine(Q)(Q'){1}\psOutLine[length=2](Q)(Q'){End}
+\end{pspicture}
+\end{LTXexample}
+\xLcs{refractionRay}\xLcs{arrowLine}\xLcs{ABinterCD}\xLkeyword{length}
+
+\clearpage
+\section{Horizontal Medium}
+Refrectionnumbers are $n_1=1$ and $n_2=1.5$:
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-5,-4)(5,3)
+\pnode(-2.5,-1){A}\pnode(2.5,-1){B}\pnode(2.5,1){C}\pnode(-2.5,1){D}
+%\rotateFrame(A)(B)(C)(D){10}
+\uput[-135](A){A}\uput[-45](B){B}\uput[45](C){C}\uput[135](D){D}
+\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)(D)
+% 1.
+\refractionRay(-3,3)(-2,2)(C)(D){1}{1.5}{END}
+\psset{linecolor=red,linewidth=2pt,arrowsize=5pt,arrows=->}
+\arrowLine(-3,3)(END){2}\ABinterCD(END)(END')(B)(A){Out}
+\arrowLine(END)(Out){1}\refractionRay(END)(Out)(B)(A){1.5}{1}{Q}
+\arrowLine(Q)(Q'){1}\psOutLine[length=2](Q)(Q'){End}
+% 2.
+\refractionRay(0,3)(0,1)(C)(D){1}{1.5}{END}
+\psset{linecolor=green,linewidth=2pt,arrowsize=5pt,arrows=->}
+\arrowLine(0,3)(END){2}\ABinterCD(END)(END')(A)(B){Out}
+\arrowLine(END)(Out){1}\refractionRay(END)(Out)(B)(A){1.5}{1}{Q}
+\arrowLine(Q)(Q'){1}\psOutLine[length=2](Q)(Q'){End}
+% 3.
+\refractionRay(3,3)(2,2)(C)(D){1}{1.5}{END}
+\psset{linecolor=blue,linewidth=2pt,arrowsize=5pt,arrows=->}
+\arrowLine(3,3)(END){2}\ABinterCD(END)(END')(B)(A){Out}
+\arrowLine(END)(Out){1}\refractionRay(END)(Out)(B)(A){1.5}{1}{Q}
+\arrowLine(Q)(Q'){1}\psOutLine[length=2](Q)(Q'){End}
+\end{pspicture}
+\end{LTXexample}
+\xLcs{refractionRay}\xLcs{arrowLine}\xLcs{ABinterCD}
+
+\clearpage
+
+\section{Parallel Rays and a sloping medium}
+Refrectionnumbers are $n_1=1$ and $n_2=1.5$:
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-7,-1)(5,6)
+\pnode(0,0){A}\pnode(2,0){B}\pnode(2,5){C}\pnode(0,5){D}
+\rotateFrame(A)(B)(C)(D){40}
+\uput[-135](A){A}\uput[-45](B){B}\uput[30](C){C}\uput[135](D){D}
+\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)(D)
+\psset{linecolor=red,linewidth=2pt,arrowsize=5pt,arrows=->}
+\multido{\r=1.10+0.28}{8}{%
+  \refractionRay(-6.00,\r)(-3.00,\r)(A)(D){1}{1.5}{End}
+  \arrowLine(-6.00,\r)(End){2}\ABinterCD(End)(End')(C)(B){Out}
+  \arrowLine(End)(Out){1}\refractionRay(End)(Out)(C)(B){1.5}{1}{Q}
+  \psline(Q)(Q')\psOutLine[length=3](Q)(Q'){End}}
+\end{pspicture}
+\end{LTXexample}
+\xLcs{refractionRay}\xLcs{arrowLine}\xLcs{ABinterCD}\xLcs{polygon}
+
+\clearpage
+
+\section{A Prisma}
+Refrectionnumbers are $n_1=1$ and $n_2=1.5$:
+
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-7,0)(5,6)
+\pnode(-3,1){A}\pnode(1,1){B}\pnode(-1,5){C}\uput[-135](A){A}\uput[-45](B){B}\uput[30](C){C}
+\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)
+\psset{linecolor=red,linewidth=2pt,arrowsize=5pt,arrows=->}
+\multido{\rA=0.6+0.2,\rB=1.5+0.2}{7}{%
+  \refractionRay(-6,\rA)(-4,\rB)(C)(A){1}{1.5}{END}\arrowLine(-6,\rA)(END){2}
+  \ABinterCD(END)(END')(C)(B){Out}\arrowLine(END)(Out){1}
+  \refractionRay(END)(Out)(C)(B){1.5}{1}{Q}\psline(Q)(Q')\psOutLine[length=3](Q)(Q'){End}}
+\end{pspicture}
+\end{LTXexample}
+\xLcs{refractionRay}\xLcs{arrowLine}\xLcs{ABinterCD}\xLcs{psOutLine}
+
+
+\section{A Prisma for Dispersion}
+The following figure shows the light dispersion with realistic values for the refractions numbers of the different light colors.
+\bigskip
+
+\begin{tabular}{ @{}l l l l l l @{}}
+ & darkblue & bluegreen & yellow & red & darkred \\
+$n$ for glass & 1.528 & 1.523 & 1.517 & 1.514 & 1.511 
+\end{tabular} 
+
+\begin{landscape}
+\begin{LTXexample}[wide=false]
+\begin{pspicture}[showgrid=true](-7,0)(14,6)
+\pnode(-6,1){A}\pnode(-2,1){B}\pnode(-4,5){C}\uput[-135](A){A}\uput[-45](B){B}\uput[30](C){C}
+\pnode(12.5,0.5){E1}\pnode(12.5,5.5){E2}
+\psframe[fillcolor=lightgray,fillstyle=solid](E1)(12.75,5.5)\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)
+\psset{linecolor=black,linewidth=2pt,arrowsize=5pt,arrows=->}
+\pnode(-7,1){P1}\pnode(-6,2){P2}\ABinterCD(P1)(P2)(C)(A){END}\arrowLine(P1)(END){2}
+\psset{linecolor=blue,linewidth=0.5pt,arrowsize=2pt,}
+\refractionRay(P1)(P2)(C)(A){1}{1.528}{END}\ABinterCD(END)(END')(C)(B){Out}\arrowLine(END)(Out){1}
+\refractionRay(END)(Out)(C)(B){1.528}{1}{Q}\psline(Q)(Q')\ABinterCD(Q)(Q')(E1)(E2){END}\arrowLine(Q)(END){4}\qdisk(END){1.5pt}
+\psset{linecolor=green}
+\refractionRay(P1)(P2)(C)(A){1}{1.523}{END}\ABinterCD(END)(END')(C)(B){Out}\arrowLine(END)(Out){1}
+\refractionRay(END)(Out)(C)(B){1.523}{1}{Q}\psline(Q)(Q')\ABinterCD(Q)(Q')(E1)(E2){END}\arrowLine(Q)(END){4}\qdisk(END){1.5pt}
+\psset{linecolor=yellow}
+\refractionRay(P1)(P2)(C)(A){1}{1.517}{END}\ABinterCD(END)(END')(C)(B){Out}\arrowLine(END)(Out){1}
+\refractionRay(END)(Out)(C)(B){1.517}{1}{Q}\psline(Q)(Q')\ABinterCD(Q)(Q')(E1)(E2){END}\arrowLine(Q)(END){4}\qdisk(END){1.5pt}
+\psset{linecolor=red}
+\refractionRay(P1)(P2)(C)(A){1}{1.511}{END}\ABinterCD(END)(END')(C)(B){Out}\arrowLine(END)(Out){1}
+\refractionRay(END)(Out)(C)(B){1.511}{1}{Q}\psline(Q)(Q')\ABinterCD(Q)(Q')(E1)(E2){END}\arrowLine(Q)(END){4}\qdisk(END){1.5pt}
+\end{pspicture}
+\end{LTXexample}
+\end{landscape}
+
+
+\clearpage
+\section{Refration with different Angles}
+Refrectionnumbers are $n_1=1$ and $n_2=1.5$:
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-6,-5)(6,5)
+\pnode(-6,-1){A}\pnode(6,-1){B}\pnode(6,1){C}\pnode(-6,1){D}
+\uput[-135](A){A}\uput[-45](B){B}\uput[30](C){C}\uput[135](D){D}
+\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)(D)
+\psline[linewidth=0.5pt](0,-5)(0,5)
+\psset{linecolor=red,linewidth=1.5pt,arrowsize=5pt,arrows=->}
+\multido{\n=30+5}{25}{%
+  \refractionRay(5;\n)(0,1)(C)(D){1}{1.5}{END}\arrowLine(5;\n)(END){2}
+  \ABinterCD(END)(END')(B)(A){Out}\arrowLine(END)(Out){1}
+  \refractionRay(END)(Out)(B)(A){1.5}{1}{Q}\psline(Q)(Q')\psOutLine[length=3](Q)(Q'){End}}
+\end{pspicture}
+\end{LTXexample}
+
+
+
+
+
+\clearpage
+\section{Great difference in the Refractionsnumbers}
+
+Refrectionnumbers are $n_1=1$ and $n_2=4$:
+
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-5,-1)(2,6)
+\pnode(0,0){A}\pnode(2,0){B}\pnode(2,5){C}\pnode(0,5){D}\rotateFrame(A)(B)(C)(D){45}
+\uput[-135](A){A}\uput[-40](B){B}\uput[45](C){C}\uput[135](D){D}
+\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)(D)
+\refractionRay(-2.5,-1)(-2,1)(A)(D){1}{4}{END}
+\psset{linecolor=red,linewidth=2pt,arrowsize=5pt,arrows=->}
+\arrowLine(-2.5,-1)(END){2}\ABinterCD(END)(END')(C)(B){Out}\arrowLine(END)(Out){1}
+\refractionRay(END)(Out)(C)(B){4}{1}{Q}\arrowLine(Q)(Q'){1}\psOutLine[length=2](Q)(Q'){End}
+\end{pspicture}
+\end{LTXexample}
+
+
+\clearpage
+
+\section{Total Reflection}
+
+Refrectionnumbers are $n_1=2$ and $n_2=1$:
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-8,-3)(8,6)
+\pnode(-8,1.5){A}\pnode(8,1.5){B}\uput[45](A){A}\uput[135](B){B}\pnode(0,0){START}
+\psframe[fillcolor=lightgray,fillstyle=solid,linecolor=blue](-8,-1.5)(B)
+\psset{linecolor=red,linewidth=1.5pt,arrowsize=5pt,arrows=->}
+%	\multido{\n=20+5}{16}{%
+\multido{\n=20+5}{29}{%
+ \refractionRay(START)(1;\n)(A)(B){1.5}{1}{END}\arrowLine(START)(END){2}
+ \arrowLine(END)(END'){1}\psOutLine[length=3](END)(END'){Q}\arrowLine(END')(Q){3}}
+\end{pspicture}
+\end{LTXexample}
+
+\clearpage
+
+
+\section{Total Reflection with a sloping medium}
+
+Refrectionnumbers are $n_1=2$ and $n_2=1$:
+
+
+\begin{LTXexample}
+\begin{pspicture}[showgrid=true](-8,-6)(8,6)
+\pnode(-6,1.5){A}\pnode(6,1.5){B}\pnode(6,-1.5){C}\pnode(-6,-1.5){D}
+\rotateFrame(A)(B)(C)(D){30}\uput[90](A){A}\uput[135](B){B}\pnode(0,0){START}
+\pspolygon[fillcolor=lightgray,fillstyle=solid,linecolor=blue](A)(B)(C)(D)
+\psset{linecolor=red,linewidth=1.5pt,arrowsize=5pt,arrows=->}
+\multido{\n=50+5}{29}{%
+  \refractionRay(START)(1;\n)(A)(B){2}{1}{END}\arrowLine(START)(END){2}
+  \arrowLine(END)(END'){1}\psOutLine[length=3](END)(END'){Q}\arrowLine(END')(Q){3}}
+\end{pspicture}
+\end{LTXexample}
+
+\clearpage
+
+\part{Spherical Optic}
+
+
+\section{Refraction at a Spherical Surface}
+
+\subsection[Simple Example]{Construction for finding the position of the image point P' of a point object P formed by refraction at a sperical surface}
+
+
+\begin{LTXexample}
+\begin{pspicture*}[showgrid=true](-10,-4)(3,4)
+\rput(0,0){\lensSPH[lensType=CVG,lensHeight=12,lensWidth=10,yBottom=-6,yTop=6,xLeft=-6,xRight=6,drawing=false]}
+\psset{linecolor=red,linewidth=1.5pt,dotstyle=|}
+\pnode(-9,0){P}\psdots(P)\uput[-90](P){P}\psline(P)(xRight)\lensSPHRay(P)(-5,2){1}{9}{Q}
+\psline(P)(Q)(Q')\psdots(Q)\uput[90](Q){B}\ABinterCD(Q)(Q')(0,0)(5,0){P'}
+\psdots(Q')\uput[-90](P'){P'}\psline[linewidth=0.5pt,linecolor=black](Center')(Q)
+\psline[linewidth=0.5pt,linecolor=black](Q)(Q|0,0)\psdots(Center')\uput[-90](Center'){C}
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{lensSPH}\xLcs{lensSPHRay}\xLcs{ABinterCD}
+
+
+\clearpage
+\subsection[Height of an Image]{Construction for determining the height of an image formed by refraction at a sperical surface}
+
+\begin{LTXexample}
+\begin{pspicture*}[showgrid=true](-13,-3)(3,5)
+\rput(0,0){\lensSPH[lensType=CVG,lensHeight=12,lensWidth=10,yBottom=-4,yTop=4,xLeft=-5,xRight=5,drawing=false]}
+\psset{linecolor=red,linewidth=1.5pt,dotstyle=|}
+\pnode(-12,0){P}\psdots(P)\uput[-90](P){P}\pnode(-12,4){Q}\psdots(Q)\uput[90](Q){Q}
+\psline[linecolor=blue,linewidth=3pt,arrows=->](P)(Q)\psline(P)(xRight)
+\lensSPHRay(Q)(Center'){1}{9}{S1}\lensSPHRay(Q)(-5,0){1}{9}{S2}%
+\psline(Q)(S1')\psline(Q)(S2)(S2')\ABinterCD(Q)(S1')(S2)(S2'){Q'}
+\pnode(Q'|0,0){P'}\psline[linecolor=blue,linewidth=3pt,arrows=->](P')(Q')
+\uput[90](P'){P'}\uput[-90](Q'){Q'}\psdots(Center')\uput[90](Center'){C}
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{lensSPH}\xLcs{lensSPHRay}\xLcs{ABinterCD}
+
+
+\clearpage
+\section{Thin Convergent Lenses}
+
+If the two spherical surfaces are close enough we can call such a lense a 
+\textbf{thin lens}. The following figure shows the behaviour of such a lense with real rays.
+
+\begin{LTXexample}
+\psset{xunit=0.75cm}
+\begin{pspicture*}[showgrid=true](-10,-4)(10,4)
+\rput(0,0){\lensSPH[lensType=CVG,lensHeight=7,lensWidth=1.25,yBottom=-5,yTop=5,xLeft=-12,xRight=12,%
+  AB=2,OA=-9,refractA=1,refractB=2,drawing=true,rayColor=red]}
+\end{pspicture*}
+\end{LTXexample}
+\xLkeyword{refractA}\xLkeyword{refractB}\xLkeyset{lensType=CVG}\xLkeyword{AB}
+
+\clearpage
+
+\section{Thick Convergent Lenses}
+
+There is no real image possible.
+
+\begin{LTXexample}
+\begin{pspicture}(-10,-4)(10,4)
+\rput(0,0){\lensSPH[lensType=CVG,lensHeight=7,lensWidth=2,yBottom=-5,yTop=5,xLeft=-12,xRight=12,%
+  AB=2,OA=-9,refractA=1,refractB=2,drawing=true,rayColor=red]}
+\end{pspicture}
+\end{LTXexample}
+\xLkeyword{refractA}\xLkeyword{refractB}\xLkeyset{lensType=CVG}\xLkeyword{AB}
+
+
+\clearpage
+
+\section{Thin Divergent Lenses}
+If the two spherical surfaces are close enough we can call such a lense a \textbf{thin lens}. The following figure shows the behaviour of such a lense with real rays.
+
+\psset{unit=1cm}
+\begin{LTXexample}
+\begin{pspicture*}[showgrid=true](-6,-3)(6,3)
+\rput(0,0){\lensSPH[lensType=DVG,lensWidth=0.1,lensDepth=0.2,AB=1,OA=-5,drawing=true,rayColor=red]}
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{lensSPH}\xLkeyset{lensType=DVG}\xLkeyword{AB}
+
+
+\clearpage
+
+\section{Thick Divergent Lenses}
+
+There is no real image possible.
+
+\begin{LTXexample}
+\begin{pspicture*}[showgrid=true](-6,-3)(6,3)
+\rput(0,0){\lensSPH[lensType=DVG,lensWidth=1,lensDepth=1,AB=1,OA=-5,drawing=true,rayColor=red]}
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{lensSPH}\xLkeyset{lensType=DVG}\xLkeyword{AB}
+
+\clearpage
+\section{\nxLcs{mirrorCVG}}
+
+\begin{LTXexample}
+\begin{pspicture*}[showgrid=true](-1,-5)(8,5)
+\rput(0,0){\mirrorCVG[mirrorType=SPH,drawing=false,yBottom=-4,yTop=4,mirrorHeight=8,mirrorDepth=3]
+  \qdisk(Center){2pt}\qdisk(Focus){2pt}
+  \uput[-90](Center){Center}\uput[-90](Focus){F}\psline(O)(xRight)}
+\multido{\rA=-3.50+0.25}{5}{%
+  \mirrorCVGRay[mirrorType=SPH,linecolor=red](6,\rA)(4,\rA){E}
+  \psOutLine[linecolor=red,length=4](E')(E''){EEnd}}
+\multido{\rA=-2.25+0.25}{19}{%
+  \ABinterSPHLens(6,\rA)(4,\rA)(Center){Ptemp}
+  \reflectionRay[mirrorType=SPH](5,\rA)(Ptemp){E}
+  \psline[linecolor=red](6,\rA)(Ptemp)(E)\psOutLine[linecolor=red,length=6](Ptemp)(E){EEnd}}
+\multido{\rA=2.50+0.25}{5}{%
+  \mirrorCVGRay[mirrorType=SPH,linecolor=red](6,\rA)(4,\rA){E}
+  \psOutLine[linecolor=red,length=4](E')(E''){EEnd}}
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{mirrorCVG}\xLkeyset{mirrorType=SPH}\xLcs{ABinterSPHLens}\xLcs{refractionRay}
+
+
+\clearpage
+\section{\nxLcs{mirrorDVG}}
+
+
+\begin{LTXexample}
+\begin{pspicture*}[showgrid=true](-5,-5)(8,5)
+\rput(0,0){%
+  \mirrorDVG[mirrorType=SPH,drawing=false,yBottom=-4,yTop=4,mirrorHeight=8,mirrorWidth=0.25,mirrorDepth=2.5]
+  \qdisk(Center){2pt}\qdisk(Focus){2pt}\uput[-90](Center){C}\uput[-90](Focus){F}
+  \psline(xLeft)(xRight)}
+\multido{\rA=-3.00+0.25}{25}{%
+  \ABinterSPHLens(7,\rA)(4,\rA)(Center){Ptemp}\reflectionRay[mirrorType=SPH](5,\rA)(Ptemp){E}
+  \arrowLine[linecolor=red,linewidth=1.5pt](7,\rA)(Ptemp){1}
+  \psline[linecolor=red,arrows=->,linewidth=1.5pt](Ptemp)(E)
+  \psOutLine[linecolor=red,length=6,linewidth=1.5pt,arrows=->](Ptemp)(E){EEnd}
+  \psOutLine[linecolor=red,length=3,linestyle=dashed,linewidth=0.5pt](E)(Ptemp){EEnd}}
+\end{pspicture*}
+\end{LTXexample}
+\xLcs{mirrorDVG}\xLkeyset{mirrorType=SPH}\xLcs{ABinterSPHLens}\xLcs{refractionRay}
+
+\bgroup
+\raggedright
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{pst-optic-doc}
+\egroup
+
+\printindex
+
+\end{document}

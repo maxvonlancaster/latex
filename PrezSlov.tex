@@ -1,0 +1,397 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+%\usecolortheme[named=CarnationPink]{structure}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme{structureitalicserif}
+%\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo}
+
+% \usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!1}{blue!5}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+%\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+%{\usebeamercolor{yellow}}
+%\setbeamertemplate{sidebar canvas left}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+%\setbeamertemplate{sidebar canvas right}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{Про рівномірну відстань до різних функціональних класів}}]
+
+\title{On the intermediate function}
+
+
+\author[Маслюченко В.К., Мельник В. С. ]{Маслюченко В.К., Мельник В. С. \\ Чернівецький національний університет ім. Юрія Федьковича}
+
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+\begin{frame}{1. Пари Гана.}
+
+\begin{block}{Означення}
+Ми кажемо, що $(g,h)$~--- це \textit{пара Гана} на топологічному просторі $X$, якщо $g:X\rightarrow \mathbb{R}$ і $h:X\rightarrow \mathbb{R}$~--- це неперервні відповідно зверху і знизу функції, такі, що $g(x)\leq h(x)$ на $X$. Якщо $g(x)<h(x)$ на $X$, то пара Гана $(g,h)$ називається \textit{строгою}. Функція $f:X\rightarrow \mathbb{R}$ називається \textit{проміжною} для пари Гана $(g,h)$ на $X$, якщо $g(x)\leq f(x)\leq h(x)$ на $X$ і \textit{строго проміжною}, якщо $g(x)<f(x)<h(x)$ при $g(x)<h(x)$ і $g(x)=f(x)=h(x)$ при $g(x)=h(x)$.
+\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}{2. Теорема Гана.}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Hahn H.} Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+\end{thebibliography}
+
+\begin{exampleblock}{Теорема 1.}
+Для метричного простору $X$ і пари Гана $(g,h)$ на $X$, існує проміжна неперервна функція $f:X\rightarrow \mathbb{R}$ для цієї пари Гана.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+\begin{frame}{3. Розвиток теореми Гана.}
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Tong H. } Some characterizations of normal and perfectly normal spaces // Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Katetov M.} On real-valued functions in topological spaces // Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Dowker C. H.} On countably paracompact spaces // Canad. J. Math.~--- 1951.~--- \textbf{3}.~--- P.219-224.
+\end{thebibliography}
+
+
+\begin{exampleblock}{Теорема 2 (Гана-Д'єдонне-Катетова-Тонґа.)}
+$T_{1}$-простір $X$ буде нормальним тоді і тільки тоді, коли для довільної пари Гана на $X$ існує проміжна неперервна функція $f:X \rightarrow \mathbb{R}$ на $X$.
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{4. Теореми Даукера-Катетова і Майкла.}
+
+\begin{exampleblock}{Теорема 3, (Даукер, Катетов)}
+$T_{1}$-простір $X$ нормальний і зліченно паракомпактний тоді і тільки тоді, коли для кожної строгої пари Гана $g,h:X\rightarrow \mathbb{R}$, існує неперервна строго проміжна функція $f$.
+\end{exampleblock}
+
+
+\begin{exampleblock}{Теорема 4, Майкл}
+$T_{1}$-простір $X$ досконало нормальний тоді і тільки тоді, коли для кожної пари Гана $g,h:X\rightarrow \mathbb{R}$, існує неперервна строго проміжна функція $f$.
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{ Michael E.} Continuous selections I // Ann. of Math.~--- 1956.~--- \textbf{63}.~--- P.361–382.
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{5. Застосування теореми Гана}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Benyamini Y., Lindenstrauss J. }  Geometric nonlinear functional analysis. V.1.~--- Amer.Math.Soc., 2000.~--- 488p.
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В. К., Мельник В. С. } Про рівномірне відхилення від
+простору неперервних функцій // Збірник праць Ін-ту математики НАН України~--- Київ: Інститут математики НАН України.~--- 2014.~--- \textbf{11},№3~--- С.173-181.
+\end{thebibliography}
+
+\begin{exampleblock}{Теорема 5.}
+Нехай $X$~--- нормальний простір і $f:X\rightarrow \mathbb{R}$~--- довільна функція. Тоді $d(f,C(X))=\frac{1}{2}||\omega_{f}||$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+\begin{frame}{6. Проміжна $C^{\infty}$-функція на відрізку}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В.К., Маслюченко О.В., Мельник В.С. }  Існування проміжних кусково лінійних та нескінченно диференційовних функцій, Бук. мат. журн., \textbf{4} (3-4) (2016), 93-100.
+\end{thebibliography}
+
+\begin{exampleblock}{Theorem 8.}
+Нехай ($ g $, $ h $) строга пара Гана на невиродженому відрізку $[a,b]$ числової прямої, і $\gamma\in (g(a),h(a))$. Тоді існує строго проміжна $C^{\infty}$-функція $f:[a,b]\rightarrow \mathbb{R}$ для пари $(g,h)$, локально стала на кінцях відрізка, і $f(a)=\gamma$.
+\end{exampleblock}
+
+\begin{exampleblock}{Theorem 9.}
+Нехай ($ g $, $ h $) строга пара Гана на невиродженому проміжку $X$ числової прямої, $x_{0}\in X$ і $y_{0}\in (g(x_{0}),h(x_{0}))$. Тоді існує строго проміжна $C^{\infty}$-функція $f:X\rightarrow \mathbb{R}$ для пари $(g,h)$, така, що $f(x_{0})=y_{0}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{7. Проміжні диференційовні функції на паралелепіпедах.}
+
+\begin{exampleblock}{Лема 1.}
+Для кожного невиродженого обмеженого відкритого паралелепіпеда $Q=(a_{1},b_{1})\times...\times(a_{n},b_{n})$ в $\mathbb{R}^{n}$ існує така $C^{\infty}$-функція $\varphi:\mathbb{R}^{n}\rightarrow \mathbb{R}$, що $\varphi(x)\geq 0$ на $\mathbb{R}^{n}$ і $\textmd{supp}\varphi=Q$.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 10.}
+Нехай $X=[a_{1},b_{1}]\times...\times[a_{n},b_{n}]$~--- замкнений паралелепіпед в $\mathbb{R}^{n}$, $(g,h)$~--- строга пара Гана на $X$, $x_{0}\in X$ і $g(x_{0})<y_{0}<h(x_{0})$. Тоді існує така строго проміжна для пари $(g,h)$ нескінченно диференційовна функція $f:X\rightarrow \mathbb{R}$, що $f(x_{0})=y_{0}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}{8. Диференційовність за Фреше.}
+
+\begin{block}{Означення}
+Нехай $X$ і $Y$ дійсні нормовані простори і $f:X\rightarrow Y$~--- відображення. Воно називається \textit{диференційовним за Фреше у точці} $x$ з $X$, якщо існує такий оператор $A$ з $L(X,Y)$, що  $$\lim\limits_{h\rightarrow  0}^{}\frac{f(x+h)-f(x)-Ah}{||h||}=0.$$ Такий оператор визначається однозначно, він називається \textit{похідною Фреше} відображення $f$ у точці $x$ і позначається символом $f'(x)$. Диференційовні за Фреше відображення $f:X\rightarrow Y$ ми будемо називати просто \textit{диференційовними}, що означає диференційовність за Фреше у кожній точці $x\in X$.
+\end{block}
+
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{9. Асплундові простори.}
+
+\begin{block}{Означення}
+Дійсний банаховий простір $X$ називається асплундовим, якщо для довільного його сепарабельного підпростору $L$ і спряжений з ним простір $L^{*}$ сепарабельний. Зокрема, асплундовим буде і сепарабельний дійсний банаховий простір $X$ з сепарабельним спряженим $X^{*}$.
+\end{block}
+
+
+\begin{exampleblock}{Теорема 11}
+Для сепарабельного дійсного банахового простору $X$ наступні умови рівносильні:
+
+(i) спряжений простір $X^{*}$ сепарабельний (тобто $X$~--- асплундовий простір);
+
+(ii) на $X$ існує диференційовна за Фреше при $x\neq 0$ норма, яка еквівалентна до вихідної норми простору $X$.
+\end{exampleblock}
+
+
+\begin{thebibliography}{10}
+\bibitem{2}\textbf{Deville R., Godefroy G., Zizler V.} Smoothness and Renormings in Banach Spaces.~--- Longman Scientific \& Technical, 1993.~--- 359 p.
+\end{thebibliography}
+\end{frame}
+
+
+
+
+\begin{frame}{10. Диференційовність за Фреше.}
+
+\begin{exampleblock}{Теорема 12, Ленг}
+Нехай $A$ і $B$~--- непорожні неперетинні замкнені множини у дійсному сепарабельному гільбертовому просторі $X$. Тодій існує така $C^{\infty}$-функція $\varphi:X\rightarrow [0,1]$, що $\varphi(x)=1$ на $A$ і $\varphi(x)=0$ на $B$.
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Ленг С.} Введение в теорию дифференцируемых многообразий // 1967.
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{11. Існування нескінченно диференційовної проміжної функції на сепарабельному гільбертовому просторі.}
+
+\begin{exampleblock}{Теорема 13.}
+Нехай $X$~--- сепарабельний гільбертовий простір і $(U_{j})_{j\in J}$~--- відкрите покриття простору $X$. Тоді існує локально скінченне $C^{\infty}$-розбиття одиниці $(\varphi_{i})_{i\in I}$ на $X$, яке підпорядковане цьому покриттю.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 14.}
+Нехай $X$~--- сепарабельний гільбертовий простір і $(g,h)$~--- строга пара Гана на $X$. Тоді існує $C^{\infty}$-функція $f:X\rightarrow \mathbb{R}$, яка буде строго проміжною для пари $(g,h)$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+\begin{frame}{12. Побудова диференційовних за Фреше функцій з обмеженим носієм.}
+
+\begin{exampleblock}{Лема 2.}
+Нехай $X$~--- дійсний нормований простір з диференційовною за Фреше при $x\neq 0$ нормою $p(x)=||x||$, $\varphi(t)=e^{\frac{1}{t^{2}-1}}$ при $|t|<1$ і $\varphi(t)=0$ при $|t|\geq1$, $I=\int\limits_{-1}^{1}\varphi(t)dt$, $\psi(t)=\int\limits_{-\infty}^{t}\varphi(s)ds$, $0<r<R$, $\gamma(t)=2\frac{t-r}{R-r}-1$, $g(t)=1-\psi(\gamma(t))$, $x_{0}\in X$, $f(x)=g(p(x-x_{0}))$ на $X$ і $M=\frac{2}{eI}$. Тоді $f:X\rightarrow [0,1]$~--- це диференційовна за Фреше функція, для якої $f(x)=1$ при $||x-x_{0}||<r$ і $f(x)=0$ при $||x-x_{0}||\geq R$.
+\end{exampleblock}
+
+\begin{exampleblock}{Лема 3.}
+Нехай $X$~--- сепарабельний асплундовий простір і $G$~--- відкрита непорожня і обмежена множина в $X$. Тоді існує диференційовна за Фреше функція $f:X\rightarrow [0,1]$, така, що $\textmd{supp}f=G$.
+
+Тут $\textmd{supp}f=\{x\in X:f(x)\neq 0\}$~--- носій функції $f$.
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{13. Диференційовне розбиття одиниці}
+
+
+
+\begin{exampleblock}{Теорема 15.}
+Нехай $X$~--- сепарабельний асплундовий простір і $(U_{j})_{j\in J}$~--- його відкрите покриття, що складається з обмежених множин $U_{j}$. Тоді існує локально скінченне розбиття одиниці $(\varphi_{i})_{i\in I}$ на $X$, яке підпорядковане покриттю $(U_{j})_{j\in J}$ і складається з диференційовних за Фреше функцій $\varphi_{i}:X\rightarrow [0,1]$.
+\end{exampleblock}
+
+
+
+\end{frame}
+
+
+\begin{frame}{14. Проміжна диференційовна функція.}
+
+
+
+\begin{exampleblock}{Теорема 16.}
+Нехай $X$~--- сепарабельний асплундовий простір, $g:X\rightarrow \mathbb{R}$~--- строга пара Гана на $X$. Тоді існує така диференційовна за Фреше функція $f:X\rightarrow \mathbb{R}$, що $g(x)<f(x)<h(x)$ на $X$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{15. Проміжна многозначна функція.}
+
+
+\begin{exampleblock}{Теорема 17.}
+Нехай $X$ нормальний простір і $(G,H)$ ~--- пара Гана, така, що $G(x)=[g_{1}(x),g_{2}(x)]$ і $H(x)=[h_{1}(x),h_{2}(x)]$ для кожного $x\in X$. Тоді існує проміжна для $(G,H)$ неперервна функція $F:X\rightarrow \mathbb{R}$ така що $F(x)=[f_{1}(x),f_{2}(x)]$ на $X$, де функції $f_{1}$ і $f_{2}$ є неперервними.
+\end{exampleblock}
+
+
+
+\begin{exampleblock}{Теорема 18.}
+Нехай $X$~--- топологічний простір, $(g,h)$~--- пара Гана на $X$, $G(x)=(-\infty,g(x)]$ і $H(x)=(-\infty,g(x)]$, і пара Гана $(G,H)$ має промфжну неперервну функцію $F:X\rightarrow \mathbb{R}$. Тоді пара Гана $(g,h)$ такоє має проміжну неперервну функцію $f:X\rightarrow \mathbb{R}$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Дякую за увагу!}
+\end{frame}
+
+\end{document}
+

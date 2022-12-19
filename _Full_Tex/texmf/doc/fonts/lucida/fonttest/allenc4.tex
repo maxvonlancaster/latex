@@ -1,0 +1,42 @@
+%testfont stuff
+%
+\vsize10in
+\voffset-.5in\eject
+\let\noinit!\input testfox
+\let\xtables\xtable
+\def\head#1{\def\header{#1\par}}
+\def\FontPage #1{\vbox\bgroup\def\fontname{#1}\header\startfont\xtable \egroup\vfill}
+\def\FontPageS#1{\vbox\bgroup\def\fontname{#1}\header\startfont\xtables\egroup\vfill}
+\head{Cyrillic X2 container}
+\FontPage {rxrm1000}
+\FontPage {rxcc1000}
+\FontPageS{rxti1000}
+\FontPageS{rxss1000}
+\FontPageS{rxtt1000}
+
+\break
+\head{Cyrillic XS Old Slav container}
+\FontPage {rsrm1000}
+\FontPage {rscc1000}
+\FontPageS{rsti1000}
+\FontPageS{rsss1000}
+\FontPageS{rstt1000}
+
+\break
+\head{Cyrillic Unicode page}
+\FontPage {ucr10}
+\FontPage {uccsc10}
+\FontPageS{ucti10}
+\FontPageS{ucss10}
+\FontPageS{uctt10}
+
+\break
+\head{Cyrillic Trash container}
+\FontPage {txrm1000}
+\FontPage {txcc1000}
+\FontPageS{txti1000}
+\FontPageS{txss1000}
+\FontPageS{txtt1000}
+
+\end
+%end of file

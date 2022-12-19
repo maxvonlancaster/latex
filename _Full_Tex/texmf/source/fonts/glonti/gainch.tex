@@ -1,0 +1,17 @@
+% fontinst script for cmcinch
+\input fontinst.sty
+\input fnstcorr
+\input cyralias
+
+\declareencoding{ASCII CAPS AND DIGITS}{cminch}
+\declareencoding{CMCYR CAPS}{cmcinch}
+\declaresize{72}{<72.27>}
+
+\installfonts
+
+\installfamily{T2A}{cgin}{}
+
+\installfont{gainch}{cminch,cmcinch}{gainch}{T2A}{cgin}{n}{m}{72}
+
+\endinstallfonts
+\bye

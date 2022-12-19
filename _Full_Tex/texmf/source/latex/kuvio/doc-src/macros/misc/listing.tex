@@ -1,0 +1,67 @@
+%  listing.tex
+%  Anders G S Svensson
+%  $Date: 1995/08/11 10:15:30 $
+%  $Revision: 1.4 $
+
+\chardef\ListingcodE=\catcode`\_
+\catcode`\_=11
+
+\def\__bailout__{\message{again}\catcode`\_=\ListingcodE \endinput}
+
+\ifx\__agss_listing__\relax
+\else
+   \let\__agss_listing__\relax
+   \let\__bailout__\relax
+\fi
+
+\__bailout__
+
+%%%%%%%%%%
+
+\newcount\listinglineno  \listinglineno=0
+\newdimen\listingindent  \listingindent=30pt
+\newdimen\listingskip    \listingskip=12pt
+\newread\_listingfile
+
+\font\ninett=cmtt9
+
+\def\_listing#1{%
+   \ifeof\_listingfile
+      \immediate\closein\_listingfile
+      \def\_next{\egroup\csname end#1\endcsname}%
+   \else
+      \def\_next{%
+         \def\_action{\expandafter\expandafter
+            \csname #1line\endcsname\_tmp}%
+         \expandafter\_action\csname #1endline\endcsname
+         \immediate\read\_listingfile to \_tmp
+         \_listing{#1}}%
+   \fi
+   \_next}
+
+\def\newlisting#1{%
+   \expandafter\def\csname #1\endcsname##1{\bgroup
+      \def\do####1{\catcode`####1=12}\dospecials
+      \frenchspacing
+      \immediate\openin\_listingfile=##1
+      \vbadness10000\csname #1tt\endcsname\csname every#1\endcsname
+      \ifeof\_listingfile \else \immediate\read\_listingfile to \_tmp \fi
+      \_listing{#1}}%
+   \expandafter\def\csname every#1\endcsname{\par
+      \parindent=\listingindent\leavevmode\parskip=0pt
+      \baselineskip=\listingskip\listingspaces}
+   \expandafter\let\csname #1line\endcsname\leavevmode
+   \expandafter\let\csname #1endline\endcsname\par
+   \expandafter\let\csname end#1\endcsname\par
+   \expandafter\let\csname #1tt\endcsname\ninett}
+
+\let\listingspaces\obeyspaces
+
+\newlisting{listing}
+\def\listingline{\leavevmode\linemarker}
+
+\def\linemarker{\advance\listinglineno by 1 
+   \llap{\hbox to 15pt{\hbox to 0pt{\hss\sevenrm\the\listinglineno}\hfil}}}
+\def\nolinenumbers{\let\linemarker\relax}
+
+\catcode`\_=\ListingcodE

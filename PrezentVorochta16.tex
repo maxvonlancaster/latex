@@ -1,0 +1,299 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+%\usecolortheme[named=CarnationPink]{structure}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme{structureitalicserif}
+%\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo}
+
+% \usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!1}{blue!5}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+%\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+%{\usebeamercolor{yellow}}
+%\setbeamertemplate{sidebar canvas left}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+%\setbeamertemplate{sidebar canvas right}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{Про рівномірну відстань до різних функціональних класів}}]
+
+\title{Теореми про проміжну функцію для опуклих функцій}
+
+
+\author[Маслюченко В.К., Мельник В. С. ]{Маслюченко В.К., Мельник В. С. \\ Чернівецький національний університет ім. Юрія Федьковича}
+
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+\begin{frame}{1. Теорема Гана про проміжну функцію}
+
+\begin{exampleblock}{Теорема 1}
+Для нормального простору $X$, неперервної зверху функції $g:X\rightarrow \mathbb{R}$ і неперервної знизу функції $h:X\rightarrow \mathbb{R}$, таких, що $g(x)\leq h(x)$ на $X$, існує така неперервна функція $f:X\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $X$.
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Hahn H.} Uber halbstetige und unstetige Funktionen // Sitzungsberichte Akad.Wiss.Wien.Math.~---naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+\end{thebibliography}
+
+
+\end{frame}
+
+
+
+\begin{frame}{2. Розвиток і застосування теореми Гана}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Tong H. } Some characterizations of normal and perfectly normal spaces // Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Katetov M.} On real-valued functions in topological spaces // Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В. К., Мельник В. С. } Про рівномірне відхилення від
+простору неперервних функцій // Збірник праць Ін-ту математики НАН України~--- Київ: Інститут математики НАН України.~--- 2014.~--- \textbf{11},№3~--- С.173-181.
+\end{thebibliography}
+
+\begin{exampleblock}{Теорема 2}
+Нехай $X$~--- нормальний простір і $f:X\rightarrow \mathbb{R}$~--- довільна функція. Тоді $d(f,C(X))=\frac{1}{2}||\omega_{f}||$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+\begin{frame}{3. Аналог теореми Гана для зростаючих функцій}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В.К., Петей С.П. }  Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+\end{thebibliography}
+
+\begin{exampleblock}{Теорема 3}
+Нехай $g:[a,b]\rightarrow \mathbb{R}$~--- неперервна зверху зростаюча функція, а \\ $h:[a,b]\rightarrow \mathbb{R}$--- неперервна знизу зростаюча функція і $g(x)\leq h(x)$ на $[a,b]$. Тоді існує така неперервна зростаюча функція $f:[a,b]\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $[a,b]$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+\begin{frame}{4. Опуклі функції}
+
+\begin{block}{Означення}
+Функція $f:E\rightarrow \mathbb{R}$, яка визначена на опуклій підмножині $E$ деякого дійсного векторного простору $X$, називається \textit{опуклою} або \textit{опуклою вниз}, якщо для довільних елементів $x_{1}$ і $x_{2}$ з $E$ і будь-яких скалярів $\lambda_{1}$ і $\lambda_{2}\geq0$, таких, що $\lambda_{1}+\lambda_{2}=1$, виконується нерівність $$f(\lambda_{1}x_{1}+\lambda_{2}x_{2})\leq\lambda_{1}f(x_{1})+\lambda_{2}f(x_{2}).$$
+Якщо завжди виконується протилежна нерівність $\geq$, то функція називається \textit{вгнутою} або \textit{опуклою вгору}.
+\end{block}
+
+\begin{block}
+
+Легко перевірити, що функція $f:E\rightarrow \mathbb{R}$ буде опуклою /вгнутою/ тоді і тільки тоді, коли її \textit{строгий надграфік} $$Gr^{+}(f)=\{(x,y):x\in E\quad \textmd{і} \quad y>f(x)\}$$  /\textit{строгий  підграфік}
+$$ Gr^{-}(f)=\{(x,y):x\in E\quad \textmd{і} \quad y<f(x)\}/ $$ буде опуклою множиною в добутку $X\times\mathbb{R}$.
+\end{block}
+
+\end{frame}
+
+
+
+\begin{frame}{5. Проміжна функція для опуклих функцій і відокремлення опуклих множин}
+
+\begin{block}{Означення}
+Функція $f:X\rightarrow \mathbb{R}$ називається \textit{афінною}, якщо існує такий лінійний функціонал $\varphi:X\rightarrow \mathbb{R}$, що $$f(x)=\varphi(x)+\gamma$$ на $X$ для деякого числа $\gamma\in\mathbb{R}$. Афінна функція на множині $E$ — це звуження на $E$ деякої афінної функції на $X$.
+\end{block}
+
+\begin{exampleblock}{Теорема 4}
+Нехай $X$ — дійсний векторний простір, $E$ — опукла множина в $X$, \\ $g:E\rightarrow \mathbb{R}$ — вгнута і $h:E\rightarrow \mathbb{R}$ — опукла функції, такі, що $g(x)\leq h(x)$ на $E$. Тоді для того щоб існувала така афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$, необхідно і досить, щоб множини $A=Gr^{-}(g)$ і $B=Gr^{+}(h)$ відокремлювались деякою гіперплощиною в добутку $X\times\mathbb{R}$. Якщо до того ж $X$ — це топологічний векторний простір і внутрішність множини $E$ непорожня, то для існування неперервної афінної функції $f:E\rightarrow \mathbb{R}$, такої, що $g(x)\leq f(x)\leq h(x)$ на $E$ необхідно і досить, щоб множини $A$ і $B$ відокремлювались замкненою гіперплощиною в $X\times\mathbb{R}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+\begin{frame}{6. Перша теорема про проміжну функцію для опуклих функцій}
+
+
+\begin{block}{}
+
+Нагадаємо класичну теорему про відокремлення опуклих множин, одна з яких відкрита. Її можна знайти в будь-якій книжці про ТВП.
+\end{block}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В.К. } Елементи теорії двоїстості. — Чернівці: Рута, 2005. — 160с.
+\end{thebibliography}
+
+\begin{exampleblock}{Теорема 5}
+Нехай $A$ і $B$ — непорожні відкриті множини в ТВП $X$, причому множина $A$ відкрита і $A\cap B\neq \varnothing$. Тоді існує лінійний неперервний функціонал $f:X\rightarrow \mathbb{R}$ і число $\alpha\in \mathbb{R}$, такі, що $A\subseteq G_{\alpha}=\{x\in X:f(x)<\alpha\}$, $B\subseteq F^{\alpha}=\{x\in X:f(x) \geq \alpha\}$, зокрема, $A$ і $B$ відокремлюються гіперплощиною $H_{\alpha}=f^{-1}(\alpha)$.
+\end{exampleblock}
+
+
+\begin{block}{}
+
+З теорем 4 і 5 негайно випливає:
+\end{block}
+
+\begin{exampleblock}{Теорема 6}
+Нехай $E$ — відкрита опукла множина в дійсному топологічному векторному просторі $X$, $g:E\rightarrow \mathbb{R}$ — вгнута функція, $h:E\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$, і одна з функцій $g$ чи $h$ неперервна. Тоді існує така неперервна афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+\begin{frame}{7. $C$-внутрішні точки}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Данфорд Н.,  Шварц Дж. } Линейные операторы. Общая теория. — М.: ИЛ, 1962. — 896с.
+\end{thebibliography}
+
+\begin{block}{Означення}
+Точка $a$ називається \textit{$C$-внутрішньою точкою} множини $E$ у дійсному ВП $X$, якщо для кожного $x\in X$ існує таке $\delta>0$, що $a+\lambda x\in E$, як тільки $|\lambda|\leq \delta$.
+\end{block}
+
+\begin{exampleblock}{Теорема 7}
+Нехай $A$ і $B$ — диз'юнктні опуклі підмножини дійсного ВП $X$, причому $A$ має $C$-внутрішню точку. Тоді існує ненульовий лінійний функціонал $f:X\rightarrow \mathbb{R}$, що відокремлює $A$ від $B$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}{8. Друга теорема про проміжну функцію для опуклих функцій}
+
+\begin{block}{}
+
+З теорем 4 і 7 негайно випливає:
+\end{block}
+
+\begin{exampleblock}{Теорема 8}
+Нехай $E$ — опукла множина в дійсному векторному просторі $X$, \\ $g:E\rightarrow \mathbb{R}$ — вгнута функція, $h:E\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$, і одна з множин $A=Gr^{-}g$ чи $B=Gr^{+}g$ має $C$-внутрішню точку в добутку $X\times \mathbb{R}$. Тоді існує така афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+\begin{frame}{9. Третя теорема про проміжну функцію для опуклих функцій}
+
+\begin{thebibliography}{10}
+\bibitem{1} Математическая энциклопедия. Т.1. — М.:1977. — 1152 ст.
+\end{thebibliography}
+
+
+\begin{exampleblock}{Теорема 9}
+Нехай $A$ і $B$ — довільні диз'юнктні опуклі множини у дійсному ВП $X$. Тоді існує ненульовий лінійний функціонал $f:X\rightarrow \mathbb{R}$, який відокремлює $A$ від $B$.
+\end{exampleblock}
+
+\begin{block}{}
+
+З теорем 4 і 9 випливає:
+\end{block}
+
+\begin{exampleblock}{Теорема 10}
+Нехай $E$ — опукла множина в дійсному ВП $X$, $g:E\rightarrow \mathbb{R}$ — вгнута функція, $h:E\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$. Тоді існує така афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Дякую за увагу!}
+\end{frame}
+
+\end{document}
+

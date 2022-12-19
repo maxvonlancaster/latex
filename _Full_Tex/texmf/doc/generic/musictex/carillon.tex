@@ -1,0 +1,1296 @@
+% \input musixtex
+% \input musixcpt
+% \input musixsty
+\shortauthor{D. Taupin}
+\title{Carillon triste}
+\fullauthor{Daniel TAUPIN}
+\othermention{Improvis\'e vers 1960\\Compos\'e en 1991}
+\maketitle
+\vsize 275mm
+
+\def\testpgs{5}%
+%
+\parindent 12mm
+%
+\tracingstats=2\relax
+%
+\nbporteesi=2\relax
+\def\nbinstruments{1}%
+\global\cleftoksi={{6}{0}{0}{0}}%
+%
+\signaturegenerale{-3}\relax % trois bemols a la clef
+\def\quatretemps{\generalmeter{\meterfrac{4}{2}}}%
+\def\troistemps{\generalmeter{\meterfrac{3}{2}}}%
+\def\deuxtemps{\generalmeter{\meterfrac{2}{2}}}%
+%\check
+\def\instrumenti{Piano}
+%\check
+\deuxtemps
+\def\fff{{f}\kern -1pt{f}\kern -1pt{f}}%
+\def\ff{{f}\kern -1pt{f}}%
+\def\gluemaxskip{6pt}%
+%
+% formes frequentes
+%
+%\check
+% au moins deux croches basses et hautes
+\def\dqbl#1#2{\Ibl0{#1}{#2}1\qb0{#1}\tqb0{#2}}%
+\def\dqbh#1#2{\Ibu0{#1}{#2}1\qh0{#1}\tqh0{#2}}%
+%
+% trois doubles croches hautes
+\def\tqbbl#1#2#3#4{\ibbl0{#2}{#1}\qb0{#2}\qb0{#3}\tqb0{#4}}%
+\def\tqbbu#1#2#3{\Ibbu0{#1}{#3}2\qh0{#1}\qh0{#2}\tqh0{#3}}%
+\def\Tqbbh{\Tqbbu}%
+\def\Tqbh{\Tqbu}%
+\def\tqbbL#1#2#3#4#5{\ibbl0{#2}{#1}\qb0{#3#4}\tqb0{#5}}%
+\def\tqbbH#1#2#3#4#5{\ibbu0{#2}{#1}\qh0{#3#4}\tqh0{#5}}%
+\def\tqbL#1#2#3#4#5{\ibl0{#2}{#1}\qb0{#3#4}\tqb0{#5}}%
+\def\tqbH#1#2#3#4#5{\ibu0{#2}{#1}\qh0{#3#4}\tqh0{#5}}%
+%au moins quatre croches basses et hautes
+\def\qqbl#1#2#3#4#5{\ibl0{#2}{#1}\qb0{#2#3#4}\tqb0{#5}}%
+\def\qqbL#1#2#3#4#5#6{\ibl0{#2}{#1}\qb0{#3#4#5}\tqb0{#6}}%
+\def\qqbu{\qqbh}\def\qqbh#1#2#3#4#5{\ibu0{#2}{#1}\qh0{#2#3#4}\tqh0{#5}}%
+\def\qqbH#1#2#3#4#5#6{\ibu0{#2}{#1}\qh0{#3#4#5}\tqh0{#6}}%
+%
+% quatre doubles croches
+\def\qqbbh#1#2#3#4#5{\ibbu0{#2}{#1}\qh0{#2}\qh0{#3}\qh0{#4}\tqh0{#5}}\relax
+\def\qqbbH#1#2#3#4#5#6{\ibbu0{#2}{#1}\qh0{#3}\qh0{#4}\qh0{#5}\tqh0{#6}}\relax
+\def\qqbbu{\qqbbh}\def\qqbbb{\qqbbl}%
+\def\qqbbl#1#2#3#4#5{\ibbl0{#2}{#1}\qb0{#2}\qb0{#3}\qb0{#4}\tqb0{#5}}\relax
+\def\qqbbL#1#2#3#4#5#6{\ibbl0{#2}{#1}\qb0{#3}\qb0{#4}\qb0{#5}\tqb0{#6}}\relax
+%\check
+% octave basse en blanche
+\def\bohl#1{\zh{`#1}\hl{'#1}}%
+\def\bohu#1{\zh{`#1}\hu{'#1}}%
+\def\sohl#1{\zh{'#1}\hl{`#1}}%
+\def\sohu#1{\zh{'#1}\hu{`#1}}%
+%
+\def\bozh#1{\zh{`#1'#1}}%
+\def\bozq#1{\zq{`#1'#1}}%
+\def\boql#1{\zq{`#1}\ql{'#1}}%
+\def\boqu#1{\zq{`#1}\qu{'#1}}%
+% octave sup. en croches u
+\def\soqh#1{\zq{'#1}\qh0{`#1}}%
+\def\soqb#1{\zq{'#1}\qb0{`#1}}%
+\def\soqu#1{\zq{'#1}\qu{`#1}}%
+\def\soql#1{\zq{'#1}\ql{`#1}}%
+%\check
+%
+\def\interfacteur{11}%
+\computewidths
+\staffbotmarg=5\Interligne %
+\def\sfhu#1{\lsf #1\hu #1}%
+\def\sfwu#1{\lsf #1\wh #1}%
+\def\sfhl#1{\usf #1\hl #1}%
+\def\sfwl#1{\usf #1\wh #1}%
+\def\Sfwu#1{\zw{'#1}\usf{#1}\wh{!#1}}%
+\def\Sfwp#1{\pt{'#1}\zw{#1}\pt{!#1}\usf{#1}\wh{#1}}%
+\def\LPED{\kern -\internote\PED\kern \internote}%
+\def\lPED{\zcharnote{-5}{\hbox to 2.4\internote{\hss\Ped\kern -2pt}}}%
+\def\PEDDEP{\PED\sk\sk\sk\DEP\pause}%
+\def\PEDpDEP{\PED\sk\sk\sk\DEP\sk}%
+%
+\debutmorceau\autolines {10}56\global\advance\linesinpage by 1\relax
+\hyphenpenalty -50\relax
+\notes|\Uptext{\moyen\kern -20pt Largo \rm(\metron{\qu}{60})}\enotes
+\vnotes 0.2\elemskip\zmidtwotext{\kern -5mm\ppff\fff}\enotes
+\zglu\notes\PEDDEP|\sfhu N\enotes
+\temps\notes\PEDpDEP|\sfhu a\enotes
+% mesure 2
+\barre\notes\PEDDEP|\sfhu c\enotes
+\temps\notes\PEDpDEP|\sfhu d\enotes
+% mesure 3
+\barre\NOtes\PED\sk\sk\pointdorgue b\pause\DEP|\pointdorgue m\lsf N\hup N\sk\sk\soupir\enotes
+% mesure 4
+\barre\notes\PEDDEP|\sfhu N\enotes
+\temps\notes\PEDpDEP|\sfhu a\enotes
+% mesure 5
+\barre\notes\PEDDEP|\sfhu c\enotes
+\temps\notes\PEDpDEP|\sfhu d\enotes
+% mesure 6
+\barre\NOtes\PED\sk\sk\pointdorgue b\pause\DEP|\pointdorgue m\lsf N\hup N\sk\sk\soupir\enotes
+% mesure 7
+\barre\notes\PEDDEP|\sfhu N\enotes
+\temps\notes\PEDpDEP|\sfhu a\enotes
+% mesure 8
+\barre\notes\PEDDEP|\sfhu c\enotes
+\temps\notes\PEDpDEP|\sfhu d\enotes
+% mesure 9
+\barre\NOtes\PED\sk\sk\pause\sk\DEP\sk|\sfwu e\enotes
+% mesure 10
+\troistemps\changecontext\notes\PEDDEP|\sfhu d\enotes
+\temps\notes\PEDpDEP|\sfhu e\enotes
+\temps\notes\PEDpDEP|\sfhu c\enotes
+% mesure 11
+\deuxtemps\changecontext\Notes\PED\sk\sk\pause\sk\DEP\sk|\sfwu N\enotes
+% mesure 12
+\barre\Notes\PED\sk\sk\pause\sk\DEP\sk|\sfwu N\enotes
+% mesure 13
+\def\bassC{\kern -\internote\PED\kern \internote\soupir\sk\boqu C\DEP\sk}%
+\def\bassG{\kern -\internote\PED\kern \internote\soupir\sk\boqu G\DEP\sk}%
+\def\BassC{\bohu C\sk\DEP}%
+\def\BassG{\bohu G\sk\DEP}%
+%
+\barre\notes\kern -\internote\PED\kern \internote\soupir\uptext{\ppff pp \it il basso}|\pointdorgue m\sfwu N\enotes
+\temps\notes\BassC\enotes
+\temps\notes\pointdorgue d\soupir|\enotes
+% mesure 14
+\autolines 856\relax
+\barre\notes\bassC|\uptext{\ppff\fff}\sfhu N\enotes
+\temps\notes\bassC|\sfhu a\enotes
+% mesure 15
+\barre\notes\bassC|\sfhu c\enotes
+\temps\notes\bassC|\sfhu d\enotes
+% mesure 16
+\troistemps\changecontext\notes\kern -\internote\PED\kern \internote\soupir|\sfwu N\enotes
+\temps\notes\BassC\sk\soupir\enotes
+\temps\notes\hpause\sk|\hpause\enotes
+% mesure 17
+\deuxtemps\changecontext\notes\uptext{\ppff pp}\bassC|\uptext{\ppff\fff}\sfhu N\enotes
+\temps\notes\bassC|\sfhu a\enotes
+% mesure 18
+\barre\notes\bassC|\sfhu c\enotes
+\temps\notes\bassC|\sfhu d\enotes
+% mesure 19
+\barre\notes\LPED\soupir|\sfwu e\enotes
+\temps\notes\BassC\enotes
+\temps\notes\soupir\enotes
+\advance\barsinline by 1\relax
+% mesure 20
+\troistemps\changecontext\notes\bassC|\sfhu d\enotes
+\temps\notes\bassC|\sfhu e\enotes
+\temps\notes\bassC|\sfhu c\enotes
+% mesure 21
+\deuxtemps\changecontext\notes\LPED\soupir|\sfwu N\enotes
+\temps\notes\BassG\enotes
+\temps\notes\soupir|\enotes
+% mesure 22
+\barre\notes\LPED\soupir|\sfwu N\enotes
+\temps\notes\BassG\enotes
+\temps\notes\soupir|\enotes
+% mesure 23
+\troistemps\changecontext\notes\LPED\soupir|\pointdorgue m\sfwu N\enotes
+\temps\notes\pointdorgue a\BassC\enotes
+\temps\notes\soupir\hpause|\sk\hpause\enotes
+\advance\barsinline by 1\relax
+% mesure 24
+\deuxtemps\changecontext\autolines{14}36\relax
+\notes\PED\zcharnote H{\ppff fff}\sfwl N|\dsoupir
+\uptext{\ppff p}\ibu0c5\qh0N\tqh0e\enotes
+\temps\notes|\tqbH5fcge\enotes
+\temps\notes|\tqbL5hjgn\enotes
+\temps\notes\sk\DEP|\tqbL{-9}jljg\enotes
+% mesure 25
+\barre\notes\PED\sfwl a|\dsoupir\ibu0c5\qh0M\tqh0c\enotes
+\temps\notes|\tqbH5eafc\enotes
+\temps\notes|\tqbL5ehfj\enotes
+\temps\notes\sk\DEP|\tqbL{-9}lomj\enotes
+% mesure 26
+\barre\notes\PED\sfwl c|\dsoupir\ibu0d5\qh0a\tqh0f\enotes
+\temps\notes|\tqbH5gchf\enotes
+\temps\notes|\tqbL5ijhm\enotes
+\temps\notes\sk\DEP|\tqbL{-9}hjhf\enotes
+% mesure 27
+\barre\notes\PED\sfwl d|\dsoupir\ibu0d5\qh0a\tqh0f\enotes
+\temps\notes|\tqbH5gchf\enotes
+\temps\notes|\tqbL5ikhm\enotes
+\temps\notes\sk\DEP|\tqbL{-9}hkhf\enotes
+% mesure 28
+\barre\notes\PED\itenu0N\sfwl N|\dsoupir\ibu0a5\qh0L\tqh0c\enotes
+\temps\notes|\tqbH5eNec\enotes
+\temps\notes|\Tqbh gej\enotes
+\temps\notes\sk\DEP|\Tqbl glj\enotes
+% mesure 29
+\barre\notes\PED\tten0\wh N|\Tqbl nsq\enotes
+\temps\notes|\tqbL{-9}mnlj\enotes
+\temps\notes|\Tqbl gjg\enotes
+\temps\notes\sk\DEP|\tqbH{-5}fegc\enotes
+% mesure 30
+\barre\notes\PED\sfwl N|\dsoupir\ibu0c5\qh0N\tqh0e\enotes
+\temps\notes|\tqbH5fcge\enotes
+\temps\notes|\tqbL5gjgn\enotes
+\temps\notes\sk\DEP|\tqbL{-9}jljg\enotes
+% mesure 31
+\barre\notes\PED\sfwl a|\dsoupir\ibu0c5\qh0M\tqh0c\enotes
+\temps\notes|\tqbH5eafc\enotes
+\temps\notes|\tqbL5ehfj\enotes
+\temps\notes\sk\DEP|\tqbL{-9}lomj\enotes
+% mesure 32
+\barre\notes\PED\sfwl c|\dsoupir\ibu0d5\qh0a\tqh0f\enotes
+\temps\notes|\tqbH5gchf\enotes
+\temps\notes|\tqbL5hjhm\enotes
+\temps\notes\sk\DEP|\tqbL{-9}hjhf\enotes
+% mesure 33
+\barre\notes\PED\sfwl d|\dsoupir\ibu0d5\qh0a\tqh0f\enotes
+\temps\notes|\tqbH5gchf\enotes
+\temps\notes|\tqbL5hkhm\enotes
+\temps\notes\sk\DEP|\tqbL{-9}hkhf\enotes
+% mesure 34
+\barre\notes\PED\itenu0e\sfwl e|\dsoupir\ibu0e9\qh0c\tqh0g\enotes
+\temps\notes|\tqbH5iejg\enotes
+\temps\notes|\tqbH5kljn\enotes
+\temps\notes\sk\DEP|\Tqbl lqn\enotes
+% mesure 35
+\barre\notes\tten0\wh e|\Tqbl sus\enotes
+\temps\notes|\Tqbl qsq\enotes
+\temps\notes|\tqbL{-3}mnlq\enotes
+\temps\notes|\tqbL{-9}lnlj\enotes
+% mesure 36
+\troistemps\autolines{17}26\relax
+\changecontext\notes\PED\usf d\hl d|\dsoupir\qsk\ibu0h{-5}\qh0h\tqh0f\enotes
+\temps\notes\sk\DEP|\Tqbh khf\enotes
+\temps\notes\PED\usf e\hl e|\dsoupir\qsk\na i\ibu0i{-5}\qh0i\tqh0g\enotes
+\temps\notes\sk\DEP|\Tqbh lig\enotes
+\temps\notes\PED\usf c\hl c|\dsoupir\qsk\ibu0h{-5}\qh0g\tqh0e\enotes
+\temps\notes\sk\DEP|\Tqbh jge\enotes
+% mesure 37
+\deuxtemps
+\changecontext
+\notes\PED\sfwl N|\dsoupir\ibu0c5\qh0N\tqh0e\enotes
+\temps\notes|\tqbH5fcge\enotes
+\temps\notes|\tqbL5gjgn\enotes
+\temps\notes\sk\DEP|\tqbL{-9}jljg\enotes
+% mesure 38
+\barre\autolines{14}36\relax
+\notes\PED\sfwl N|\dsoupir\ibu0c5\qh0N\tqh0d\enotes
+\temps\notes|\bigna b\tqbH5fbgd\enotes
+\temps\notes|\bigna i\tqbL5gign\enotes
+\temps\notes\sk\DEP|\tqbL{-9}jkig\enotes
+% mesure 39
+\barre\notes\PED\itenu0N\sfwl N|\dsoupir\ibu0c5\qh0N\tqh0e\enotes
+\temps\notes|\tqbH5gcge\enotes
+\temps\notes|\tqbH5jjgl\enotes
+\temps\notes|\tqbL5jjnl\enotes
+% mesure 40
+\barre\notes\tten0\pointdorgue c\wh N|\Tqbl qsq\enotes
+\temps\notes|\tqbL{-9}mnlj\enotes
+\temps\notes|\Tqbl gjg\enotes
+\temps\notes\sk\DEP|\rlap{\sk\sk\pointdurgue b}\tqbH{-4}gegc\qsk\enotes
+% mesure 41
+%
+\def\motif#1#2#3#4{\zbarre\notes|\lsf{#1}\qqbbu{-9}{#1}{#2}{#3}{#4}\enotes
+\temps\notes\rlap{\sk\sk\sk\DEP}\qqbbu{-9}{!`#1}{#2}{#3}{#4}\enotes}%
+\def\cinqx#1{\rlap{\sk\zcharnote{#1}{\it 5}}}%
+%
+\alapage\autolines{9}66\relax
+\notes\uptext{\ppff pp}\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJLN}|\uptext{\ppff\fff}\sfwu N\enotes
+\temps\notes\qqbbl9JLNc\enotes
+\motif gecN\relax
+% mesure 42
+\barre\notes\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJMa}|\sfwu a\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif hfca\relax
+% mesure 43
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 44
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\sfwu d\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif khfd\relax
+% mesure 45
+\barre\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JCJL}|\itenl0N\sfwu N\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\ccl e\tqbbu gjl\enotes
+% mesure 46
+\barre\notes|\tten0\zhl N\Qqbbl nljg\enotes
+\temps\notes|\qqbbu{-9}gecN\enotes
+\zbarre\notes|\qqbbu{-9}gecN\enotes
+\temps\notes\rlap{\sk\sk\DEP}\qqbbu{-9}{!`g}ecN\enotes
+% mesure 47
+\barre\notes\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJLN}|\uptext{\ppff\fff}\sfwu N\enotes
+\temps\notes\qqbbl9JLNc\enotes
+\motif gecN\relax
+% mesure 48
+\barre\notes\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJMa}|\sfwu a\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif hfca\relax
+% mesure 49
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 50
+ \def\atnextline{\autolines{8}76}\relax
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\sfwu d\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif khfd\relax
+% mesure 51
+\barre\notes\LPED\qsoupir{\transpose=-7\tqbbH9JCJL}|\itenl0e\sfwu e\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\qqbbl{4}lnus\enotes
+% mesure 52
+\barre\notes|\tten0\zhl e\qqbbl{-9}qnlj\enotes
+\temps\notes|\qqbbH0ngnlj\enotes
+\zbarre\notes|\raise \Interligne\rlap{\hpause}\qqbbl{-9}gecN\enotes
+\temps\notes\sk\sk\DEP|\qqbbl{-4}gedc\enotes
+% mesure 53
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\sfwu d\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif khfd\relax
+% mesure 54
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJLN}|\sfwu e\enotes
+\temps\notes\qqbbl9{=I}LN{=b}\enotes
+\zbarre\notes|\lsf l\qqbbu{-9}l{=i}ge\enotes
+\temps\notes\rlap{\sk\sk\sk\DEP}\qqbbu{-9}{!`l}ige\enotes
+% mesure 55
+\def\atnextline{\autolines966}%
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 56
+\barre\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JG{=I}K}|\sfwu N\enotes
+\temps\notes\qqbbl9G{=I}KN\enotes
+\zbarre\notes|\lsf g\qqbbu{-9}gd{=b}N\enotes
+\temps\notes\rlap{\sk\sk\sk\DEP}\qqbbu{-9}{!`g}dbN\enotes
+% mesure 57
+\barre\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JG{=I}L}|\sfwu N\enotes
+\temps\notes\qqbbl9G{=I}LN\enotes
+\zbarre\notes|\lsf g\qqbbu{-9}ge{=b}N\enotes
+\temps\notes\qqbbu{-9}{!`g}ebN\enotes
+% mesure 58
+\barre\notes\LPED\qsoupir{\transpose=-7\tqbbH9JCJL}|\itenl0N\sfwu N\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\qqbbl{4}lnus\enotes
+% mesure 59
+\troistemps\changecontext\notes|\tten0\zw N\qqbbl{-9}qnlj\enotes
+\temps\notes|\qqbbH0ngnlj\enotes
+\temps\notes|\qqbbu{-9}gecN\enotes
+\zbarre\notes\transpose=-7\relax\qqbbu{-9}gecN\enotes
+\temps\Notes\BassC\sk|\qsk\hpause\enotes
+%
+% mesure 60
+\def\motif#1#2#3#4{\zbarre\notes|\usf{!'#1}\qqbbl{-9}{#1}{#2}{#3}{#4}\enotes
+\temps\notes\sk\sk\sk\DEP|\qqbbu{-9}{!#1}{#2}{#3}{#4}\enotes}%
+%
+\alapage\autolines{9}66\relax
+\notes\uptext{\ppff mf}\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJLN}|\uptext{\ppff\fff}\Sfwu N\enotes
+\temps\notes\qqbbl9JLNc\enotes
+\motif gecN\relax
+% mesure 61
+\barre\notes\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJMa}|\Sfwu a\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif hfca\relax
+% mesure 62
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 63
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu d\enotes
+\temps\notes\qqbbl9KMad\enotes
+\motif khfd\relax
+% mesure 64
+\barre\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JCJL}|\itenu1g\itenl0N\Sfwu N\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\ccl e\tqbbu gjl\enotes
+% mesure 65
+\barre\notes|\tten0\tten1\zh g\zhl N\qqbbh{-9}nljg\enotes
+\temps\notes|\qqbbu{-9}gecN\enotes
+\zbarre\notes|\qqbbu{-9}gecN\enotes
+\temps\notes\rlap{\sk\sk\DEP}\qqbbu{-9}{!`g}ecN\enotes
+% mesure 66
+\barre\notes\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJLN}|\uptext{\ppff\fff}\Sfwu N\enotes
+\temps\notes\qqbbl9JLNc\enotes
+\motif gecN\relax
+% mesure 67
+\barre\notes\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJMa}|\Sfwu a\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif hfca\relax
+% mesure 68
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 69
+ \def\atnextline{\autolines{8}76}\relax
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu d\enotes
+\temps\notes\qqbbl9KMad\enotes
+\motif khfd\relax
+% mesure 70
+\barre\notes\LPED\qsoupir{\transpose=-7\tqbbH9JCJL}|\itenl0e\itenu1l\Sfwu e\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\qqbbl{4}lnus\enotes
+% mesure 71
+\barre\notes|\tten0\tten1\zh l\zhl e\qqbbH{-9}oqnlj\enotes
+\temps\notes|\qqbbH0ngnlj\enotes
+\zbarre\notes|\raise \Interligne\rlap{\hpause}\qqbbl{-9}gecN\enotes
+\temps\notes\sk\sk\sk\DEP|\qqbbl{-4}gedc\enotes
+% mesure 72
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu d\enotes
+\temps\notes\qqbbl9KMad\enotes
+\motif khfd\relax
+% mesure 73
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJLN}|\Sfwu e\enotes
+\temps\notes\qqbbl9{=I}LN{=b}\enotes
+\def\motif#1#2#3#4{\zbarre\notes|\usf{!'#1}\qqbbl{-9}{#1}{#2}{#3}{#4}\enotes
+\temps\notes\sk\sk\sk\DEP|\qqbbu{-9}{!#1}{#2}{#3}{#4}\enotes}%
+\motif l{=i}ge\relax
+% mesure 74
+\def\atnextline{\autolines966}%
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 75
+\barre\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JG{=I}K}|\Sfwu N\enotes
+\temps\notes\qqbbl9G{=I}KN\enotes
+\zbarre\notes|\usf{!'g}\qqbbl{-9}gd{=b}N\enotes
+\temps\notes\sk\sk\sk\DEP|\qqbbu{-9}{g}d{=b}N\enotes
+% mesure 76
+\barre\advance\elemskip 1pt\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JG{=I}L}|\Sfwu N\enotes
+\temps\notes\qqbbl9G{=I}LN\enotes
+\zbarre\notes|\lsf{!'g}\qqbbu{-9}ge{=b}N\enotes
+\temps\notes\sk\sk\sk\DEP|\qqbbu{-9}{g}ebN\enotes
+% mesure 77
+\barre\notes\LPED\qsoupir{\transpose=-7\tqbbH9JCJL}|\itenl0N\itenu1g\Sfwu N\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\qqbbl{4}lnus\enotes
+% mesure 78
+\troistemps\changecontext\notes|\tten0\tten1\zw g\zw N\qqbbH{-9}oqnlj\enotes
+\temps\notes|\qqbbH0ngnlj\enotes
+\zbarre\notes|\qqbbu{-9}gecN\enotes
+\temps\notes\transpose=-7\relax\qqbbu{-9}gecN\enotes
+\temps\notes\BassC\qsk|\qsk\hpause\enotes
+%
+% mesure 79
+\alapage
+\autolines{25}2{\testpgs}\relax
+\znotes\zmidtwotext{\kern -3.5mm\ppff ff}|\raise 9\Interligne
+\llap{\moyen  appassionato\kern -1.5cm}\uptext{\kern -\internote\rm(\metron{\qu}{80})}\enotes
+%
+%\check
+\newif\ifsupa\supafalse
+\def\accord#1#2#3#4#5#6#7{\normalnotesize
+\notes\rlap{\qsk\whp{!`#1}}\smallnotesize
+\raise -2\Interligne\llap{\LPED\sk}\ibbu0{#1}9\qh0{`#1!#1#2}\tqh0{#3}\relax
+|\normalnotesize\zwp{#5}\zwp{#6}\zwp{#7}\relax
+\usf{!'#5}\whp{!'#5}\smallnotesize\ibbu0{!#5}9\qh0{#5#6}\tqh0{#7}\enotes
+ %\check 1
+\temps\smallnotesize\notes
+\Qqbbu{!#4}{!'#2}{!'#3}{!'#4}|\Qqbbu{!'#5}{!'#5}{!'#6}{!'#7}\enotes
+%\check 1
+\temps\notes
+|\rlap{\ibbl0{!''#2}8\qb0{#2}\qb0{#3}\qb0{#4}\tqb0{!'''#2}}\relax
+\ibbu0{!''#5}7\qh0{!''#5}\qh0{#5}\qh0{#6}\tbu0\qh0{#7}\enotes
+%\check 1
+\temps\notes|\rlap{\ibbl0{!'''#3}{-9}\qb0{!'''#3#2`#4}\tqb0{!''#3}}\relax
+\ibbu0{!'''#5}{-9}\qh0{!'''#5`#7#6}\tqh0{#5}\enotes
+%\check 1
+\temps\notes
+\ifsupa|\rlap{\ibbl0{!'#4}{-9}\qb0{!''#2`#4#3}\tqb0{#2}}\relax
+\else\ibbu0{!''#3}{-9}\qh0{!''#3#2`#4}\tqh0{#3}|\fi
+\ibbu0{!''#5}{-9}\qh0{!''#5`#7#6}\tqh0{#5}\enotes
+%\check 1
+\temps\notes\raise -2\Interligne
+\rlap{\sk\sk\DEP}\ibbu0{#4}{-9}\qh0{#4#3#2}\tqh0{!`#4}\relax
+|\ibbu0{!'#5}{-9}\qh0{!'#5`#7#6}\tqh0{#5}\enotes
+}%
+%
+%\check
+\accord CEGJNce\relax
+% mesure 80
+\barre\accord CFHJacf\relax
+% mesure 81
+\barre\supatrue\accord CFHJcfh\relax
+% mesure 82
+\barre\accord CFHJdfh\relax
+% mesure 83
+\def\Accord#1#2#3#4#5#6#7{\normalnotesize
+\notes\rlap{\qsk\whp{!`#1}}\smallnotesize
+\raise -2\Interligne\llap{\LPED\sk}\ibbu0{#1}9\qh0{!`#1!#1#2}\tqh0{#3}\relax
+|\zwp{#5#6#7}\relax
+\usf{!'#5}\whp{!'#5}\smallnotesize\ibbu0{!#5}9\qh0{#5#6}\tqh0{#7}\enotes
+%\check 1
+\smallnotesize\temps\notes\ibbu0{'#2}9\qh0{!#4'#2#3}\tqh0{!'#4}\relax
+|\ibbu0{!'#5}8\qh0{!'#5#5#6}\tqh0{#7}\enotes
+%\check 1
+\temps\notes|\rlap{\ibbl0{!''#2}8\qb0{#2#3#4}\tqb0{!'''#2}}\relax
+\ibbu0{!''#5}7\qh0{!''#5#5#6}\tqh0{#7}\enotes}\relax
+%
+\barre\Accord CEGJNce\relax
+\temps\notes|\qsk\octfin{22}{12}\rlap{\qqbbl9gjln}\qqbbu8nnqs\enotes
+\temps\notes|\rlap{\qqbbl{-9}qnlj}\qqbbu{-9}usqn\enotes
+\temps\notes|\rlap{\qqbbl{-9}gecN}\qqbbu{-9}nljg\enotes
+% mesure 84
+\barre\notes\qqbbu{-9}ecNL|\qqbbu{-9}nljg\enotes
+\temps\notes\qqbbu{-9}cNLJ|\qqbbu{-9}ljge\enotes
+\temps\notes\qqbbu{-9}NLJG|\zcharnote{a}{\DIMin}\qqbbu{-9}jgec\enotes
+\temps\notes\qqbbu{-9}LJGE|\qqbbu{-9}gecN\enotes
+\temps\notes\qqbbu{-9}JGEC|\qqbbu{-9}ecNL\enotes
+\normalnotesize\temps\notes\boqu C\DEP\qsk|\qu J\enotes
+% mesure 85
+\barre\supafalse\notes\zmidtwotext{\ppff ff}\enotes
+\accord CEGJNce\relax
+% mesure 86
+\barre\accord CFHJacf\relax
+% mesure 87
+\barre\supatrue\accord CFHJcfh\relax
+% mesure 88
+\barre\accord CFHJdfh\relax
+% mesure 89
+\barre\Accord CEGJegj\relax
+\temps\notes|\qsk\octfin {20}{8}\rlap{\qqbbl0gljg}\qqbbH0qsnsq\enotes
+\temps\notes|\rlap{\qqbbl{-9}ecNL}\qqbbu{-9}nljg\enotes
+\temps\notes|\rlap{\qqbbl{-9}{!'c}NLJ}\qqbbu{-9}{!'l}jge\enotes
+% mesure 90
+\barre\notes\qqbbu{-9}gecN|\qqbbu{-9}qnlj\enotes
+\temps\notes\qqbbu{-9}ecNL|\qqbbu{-9}nljg\enotes
+\temps\notes\qqbbu{-9}cNLJ|\zcharnote{c}{\DIMin}\qqbbu{-9}ljge\enotes
+\temps\notes\qqbbu{-9}NLJG|\qqbbu{-9}jgec\enotes
+\temps\notes\qqbbu{-9}LJGE|\qqbbu{-9}gecN\enotes
+\normalnotesize\temps\notes\rlap{\qu J}\boqu C\DEP\sk|\enotes
+% mesure 91
+\barre\normalnotesize
+\addspace{ -0.25\elemskip}\notes\rlap{\qsk\whp{!`C}}\smallnotesize
+\raise -2\Interligne\llap{\LPED\sk}\ibbu0{C}9\qh0{`C!CF}\tqh0{H}\relax
+|\zwp{d}\zwp{f}\zwp{h}\relax
+\usf{!'d}\whp{!'d}\smallnotesize\ibbu0{!d}9\qh0{df}\tqh0{h}\enotes
+%\check
+\temps\smallnotesize\notes
+\ibbu0{K}9\qh0{!K'FH}\tqh0{!'K}\relax
+|\ibbu0{!'d}8\qh0{!'d}\qh0{d}\qh0{f}\tqh0{h}\enotes
+%\check
+\temps\notes
+|\qsk\octfin{20}8\rlap{\ibbl0{!'F}8\qb0{F}\qb0{H}\qb0{K}\tqb0{!''F}}\relax
+\ibbu0{!'d}7\qh0{!'d}\qh0{d}\qh0{f}\tbu0\qh0{h}\enotes
+%\check
+\temps\notes|\rlap{\ibbl0{!''H}{-9}\qb0{!''HF`K}\tqb0{!'H}}\relax
+\ibbu0{!''d}{-9}\qh0{!''d`hf}\tqh0{d}\qsk\enotes
+%\check
+\temps\notes
+\ifsupa|\rlap{\ibbl0{!'K}{-9}\qb0{!''F`KH}\tqb0{F}}\relax
+\else\ibbu0{!''H}{-9}\qh0{!''HF`K}\tqh0{H}|\fi
+\ibbu0{!''d}{-9}\qh0{!''d`hf}\tqh0{d}\enotes
+%\check
+\temps\notes\raise -2\Interligne
+\rlap{\sk\sk\DEP}\ibbu0{K}{-9}\qh0{KHF}\tqh0{!`K}\relax
+|\ibbu0{!'d}{-9}\qh0{!'d`hf}\tqh0{d}\enotes
+% mesure 92
+\barre\normalnotesize\notes\rlap{\qsk\whp{!`C}}\smallnotesize
+\raise -2\Interligne\llap{\LPED\sk}\ibbu0{C}9\qh0{!`C!CG}\tqh0{=I}\relax
+|\bigna i\zwp{e}\zwp{g}\zwp{i}\relax
+\usf l\whp l\smallnotesize\Ibbu0{!e}{!i}3\qh0{eg}\tqh0{=i}\enotes
+%\check
+\temps\smallnotesize\notes
+\ibbu0{!'G}9\qh0{!L'G=I}\tqh0{!'L}\relax
+|\ibbu0{!'e}8\qh0{!'e}\qh0{e}\qh0{g}\tqh0{=i}\enotes
+%\check
+\temps\notes
+|\qsk\octfin{!'s}8\rlap
+{\ibbl0{!'G}8\qb0{G}\qb0{I}\qb0{L}\tqb0{!''G}}\relax
+\ibbu0{!'e}7\qh0{!'e}\qh0{e}\qh0{g}\tbu0\qh0{=i}\enotes
+%\check
+\notes|\rlap{\ibbl0{!''I}{-9}\qb0{!''IG`L}\tqb0{!'I}}\relax
+\ibbu0{!''e}{-9}\qh0{!''e`ig}\tqh0{e}\qsk\enotes
+%\check
+\temps\notes
+\ifsupa|\rlap{\ibbl0{!'L}{-9}\qb0{!''G`LI}\tqb0{G}}\relax
+\else\ibbu0{!''I}{-9}\qh0{!''IG`L}\tqh0{I}|\fi
+\ibbu0{!''e}{-9}\qh0{!''e`ig}\tqh0{e}\enotes
+%\check
+\temps\notes\raise -2\Interligne
+\rlap{\sk\sk\DEP}\ibbu0{L}{-9}\qh0{LIG}\tqh0{!`L}\relax
+|\ibbu0{!'e}{-9}\qh0{!'e`ig}\tqh0{e}\enotes
+% mesure 93
+\barre\accord CFHJcfh\relax
+% mesure 94
+\barre\normalnotesize\supafalse
+\notes\rlap{\qsk\whp{!`G}}\smallnotesize
+\raise -2\Interligne\llap{\LPED\sk}\ibbu0B9\qh0{!`G!=BD}\tqh0{G}\relax
+|\normalnotesize\bigna b\zwp{N}\zwp{b}\zwp{d}\relax
+\usf{!'N}\whp{!'N}\smallnotesize\ibbu0{!N}9\qh0{Nb}\tqh0{d}\enotes
+%\check
+\smallnotesize\temps\notes
+\ibbu0{!'D}9\qh0{!'=BDG}\tqh0{!''=B}\relax
+|\ibbu0{!'N}8\qh0{!'N}\qh0{N}\qh0{=b}\tqh0{d}\enotes
+%\check
+\temps\notes
+|\rlap{\ibbl0{!''D}8\qb0{D}\qb0{G}\qb0{!'''=B}\tqb0{D}}\relax
+\ibbu0{!''N}7\qh0{!''N}\qh0{N}\qh0{=b}\tbu0\qh0{d}\enotes
+%\check
+\temps\notes|\rlap{\ibbl0{!'''G}{-9}\qb0{!'''GDB}\tqb0{!''G}}\relax
+\ibbu0{!'''N}{-9}\qh0{!'''N`db}\tqh0{N}\enotes
+%\check
+\temps\notes\ibbu0{!''D}{-9}\qh0{!''DB`G}\tqh0{D}\relax
+|\ibbu0{!''N}{-9}\qh0{!''N`db}\tqh0{N}\enotes
+%\check
+\temps\notes\raise -1.5\Interligne\rlap
+{\sk\sk\DEP}\ibbu0{!'B}{-9}\qh0{!'B`GD}\tqh0{B}\relax
+|\ibbu0{!'N}{-9}\qh0{!'N`db}\tqh0{N}\enotes
+% mesure 95
+\def\atnextline{\autolines{25}1{\testpgs}}\relax
+\barre\supafalse\normalnotesize
+\notes\rlap{\qsk\whp{!`G}}\llap{\LPED\off{0.5\noteskip}}\smallnotesize
+\Ibbu0{!`G}{!G}3\qh0{!`G!=BE}\tqh0{G}\relax
+|\zwp{N}\bigna b\zwp{b}\zwp{e}\relax
+\usf{!'N}\whp{!'N}\smallnotesize\Ibbu0{!N}{!e}2\qh0{!Nb}\tqh0{e}\enotes
+%\check
+\smallnotesize\temps\notes
+\Ibbu0{!'B}{!''B}3\qh0{!'=BEG}\tqh0{!''=B}\relax
+|\Ibbu0{!'N}{!'e}3\qh0{!'N}\qh0{N}\qh0{=b}\tqh0{e}\enotes
+%\check
+\temps\notes
+|\rlap{\Ibbl0{!''E}{!'''E}3\qb0{!''EG}\qb0{!'''=B}\tqb0{E}}\relax
+\Ibbu0{!''N}{!''e}3\qh0{!''NN=b}\tbu0\qh0{e}\enotes
+%\check
+\temps\notes|\rlap{\Ibbl0{!'''G}{!''G}3\qb0{!'''GEB}\tqb0{!''G}}\relax
+\Ibbu0{!'''N}{!''N}3\qh0{!'''N`eb}\tqh0{N}\enotes
+%\check
+\temps\notes\Ibbu0{!''E}{!'E}3\qh0{!''EB`G}\tqh0{E}|\relax
+\Ibbu0{!''N}{!'N}3\qh0{!''N`eb}\tqh0{N}\enotes
+%\check
+\temps\notes\raise -1.5\Interligne\rlap
+{\sk\sk\DEP}\Ibbu0{!'B}{!B}3\qh0{!'B`GE}\tqh0{B}\relax
+|\Ibbu0{!'N}{!N}3\qh0{!'N`eb}\tqh0{N}\enotes
+% mesure 96
+\def\atnextline{\autolines{23}2{\testpgs}}\relax
+\barre\znotes\zcharnote{e}{\rlap{\DIMin}\kern 12\elemskip\DIMin}\enotes\relax
+\Accord CEGJNce\relax
+\temps\notes|\qsk\octfin{22}{12}\rlap{\qqbbl9gjln}\qqbbu8nnqs\enotes
+\temps\notes|\rlap{\qqbbl{-9}qnlj}\qqbbu{-9}usqn\enotes
+\temps\notes|\rlap{\qqbbl{-9}gecN}\qqbbu{-9}nljg\enotes
+% mesure 97
+\barre\notes\qqbbu{-9}ecNL|\qqbbu{-9}nljg\enotes
+\temps\notes\qqbbu{-9}cNLJ|\qqbbu{-9}ljge\enotes
+\temps\notes\qqbbu{-9}NLJG|\zcharnote{a}{\DIMin}\qqbbu{-9}jgec\enotes
+\temps\notes\qqbbu{-9}LJGE|\qqbbu{-9}gecN\enotes
+\temps\notes\qqbbu{-9}JGEC|\qqbbu{-9}ecNL\enotes
+\normalnotesize
+\temps\notes\pointdorgue N\itenu0{!`C}\transpose=0\relax\boqu C\DEP\qsk
+  |\pointdorgue m\qu J\enotes
+\suspmorceau
+% mesure 98
+\def\interfacteur{9}\computewidths
+\preprmorceau\normalnotesize\autolines{18}36\relax
+\Notes\tten0\zmidtwotext{\ppff mf}\qqbH9C{!`C}{!C}GJ|\uptext{\it
+  espressivo}\enotes
+\temps\Notes\qqbH9MLNce\enotes
+\temps\Notes|\ibu0j5\qh0g\lsf j\qh0j\lsf l\qh0l\lsf m\tqh0m\enotes
+% mesure 99
+\barre\Notes\qqbH9E{!`E}{!E}IL|\Ilegu2q\usf n\whp n\enotes
+\temps\Notes|\qqbl9Nbeg\enotes
+\temps\Notes|\qqbl7ilmn\enotes
+% mesure 100
+\deuxtemps
+\changecontext\Notes\qqbH9I{!`I}{!I}KM|\hl m\enotes
+\temps\Notes\qqbl8N{=b}df|\hl n\enotes
+% mesure 101
+\barre\autolines{14}46\relax
+\Notes\qqbl{-9}gecN|\zcharnote s{\vrule width 0pt height 7pt}\hl l\enotes
+\temps\Notes\qqbl6a{_b}df|\hl m\enotes
+% mesure 102
+\barre\Notes\qqbl{-7}ecba|\wh n\enotes
+\temps\Notes\qqbL{8}LNLef|\sk\sk\sk\tleg2\enotes
+% mesure 103
+\barre\Notes\qqbL{-9}egdbN|\Ilegu2r\hl p\enotes
+\temps\Notes\bigna a\qqbl6aceg|\hl q\enotes
+% mesure 104
+\troistemps\changecontext\Notes\bigaccid\sh f\qqbl{-9}fd{=a}{^M}\relax
+|\tleg2\bigna o\wh o\enotes
+\temps\Notes\qqbu3KJKM\enotes
+\temps\Notes\qqbl6acd{f}|\hpause\enotes
+% mesure 105
+\deuxtemps\changecontext\Notes\qqbu{-9}ebNK|\Ilegu2p\wh n\enotes
+\temps\Notes\qqbH9NLNbe\enotes
+% mesure 106
+\barre\Notes\bigaccid\qqbl{-9}fd{=b}a|\hl m\enotes
+\temps\Notes\bigaccid\qqbl{-9}NK{=I}G|\hl n\enotes
+% mesure 107
+\barre\autolines{13}46\Notes\qqbl9HLac|\hl l\enotes
+\temps\Notes\qqbl9KM{_b}d|\hl m\enotes
+% mesure 108
+\barre\Notes\qqbl{-7}ecbN|\tleg2\wh n\enotes
+\temps\Notes\qqbl{9}KN{=b}h\enotes
+% mesure 109
+\barre\autolines{13}56\relax
+\Notes\qqbl{-8}fd{=b}a|\Ilegu2q\hl m\enotes
+\temps\Notes\qqbl8Ndfg|\hl n\enotes
+% mesure 110
+\barre\Notes\Qqbl ecaL|\tleg2\wh j\enotes
+\temps\Notes\usf e\Qqbl ecNL\enotes
+% mesure 111
+\barre\Notes\usf f\Qqbl fdaM|\sk\sk\sk\pause\enotes
+\temps\Notes\usf g\Qqbl gd{=b}N\enotes
+% mesure 112
+\barre\Notes\sk\sk\sk\pause|\lsf h\Qqbu hfca\enotes
+\temps\Notes|\lsf f\Qqbu fdaM\enotes
+% mesure 113
+\barre\Notes\zcharnote{c}{\CREsc}\sk\sk\sk\pause|\lsf g\Qqbu ge{=b}N\enotes
+\temps\Notes\zmidtwotext{\it rit.}|\lsf g\Qqbu gdbN\enotes
+% mesure 114
+\troistemps\alaligne\autolines{25}26\relax
+\znotes\zmidtwotext{\kern -7mm\ppff ff}|\raise 8\Interligne
+\llap{\moyen  appassionato\kern -2cm}\uptext{\kern -7mm\rm
+(\metron{\qu}{75--80})}\enotes
+%
+\supafalse
+%\check
+\accord CEGJNce\relax
+% mesure 115
+\barre\accord CFHJacf\relax
+% mesure 116
+\barre\supatrue\accord CFHJcfh\relax
+% mesure 117
+\barre\accord CFHJdfh\relax
+\suspmorceau
+% mesure 118
+\def\interfacteur{11}\computewidths
+\preprmorceau\normalnotesize\notes\rlap{\qsk\whp{!`E}}\smallnotesize
+\raise -3\Interligne\llap{\LPED\sk}\ibbu0{F}9\qh0{!`E!EI}\tqh0{L}\relax
+|\zwp{g}\zwp{i}\zwp{l}\relax
+\usf{!'g}\whp{!'g}\smallnotesize\ibbu0{!g}9\qh0{gi}\tqh0{l}\enotes
+%\check
+\temps\smallnotesize\notes
+\ibbu0{!'I}9\qh0{!'GI'E}\tqh0{!''G}\relax
+|\ibbu0{!'g}8\qh0{!'g}\qh0{g}\qh0{i}\tqh0{l}\enotes
+%\check
+\temps\notes|\qsk
+\octfin{!'r}{8}\rlap{\ibbl0{!'I}8\qb0{I}\qb0{L}\qb0{!''G}\tqb0{I}}\relax
+\ibbu0{!'g}7\qh0{!'g}\qh0{g}\qh0{i}\tbu0\qh0{l}\enotes
+%\check
+\notes|\rlap{\ibbl0{!''L}{-9}\qb0{!''LIG}\tqb0{!'L}}\relax
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\enotes
+%\check
+\temps\notes\qsk
+\ifsupa|\qsk\rlap{\ibbl0{!''G}{-9}\qb0{!''IG`L}\tqb0{I}}\relax
+\else\ibbu0{!''G}{-9}\qh0{!''GE`I}\tqh0{G}|\fi
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\enotes
+%\check
+\temps\notes\raise -2\Interligne
+\rlap{\sk\sk\DEP}\ibbu0{!'G}{-9}\qh0{!'G`LI}\tqh0{G}\relax
+|\ibbu0{!'g}{-9}\qh0{!'g`li}\tqh0{g}\enotes
+%
+% mesure 119
+\normalnotesize\deuxtemps\changecontext\notes\smallnotesize\qqbbH9FBF{=I}K\relax
+|\llap{\zq f\zql m\kern 1.5pt}\smallnotesize\smallnotesize\qqbbH0kk{=i}ki\enotes
+\temps\notes\smallnotesize
+ \qqbbl4M{=b}db|\llap{\zq g\zql n\kern 1.5pt}\smallnotesize\qqbbH0kkiki\enotes
+\temps\notes\smallnotesize
+ \qqbbl{-9}caLJ|\llap{\zq e\zql l\kern 1.5pt}\smallnotesize\qqbbH0jjhjh\enotes
+\temps\notes\smallnotesize
+ \qqbbu{-9}MK{_I}F|\llap{\zq f\zql m\kern 1.5pt}\smallnotesize\qqbbH0kk{_i}ki\enotes
+%
+% mesure 120
+\autolines{20}2{\testpgs}\relax
+\normalnotesize\troistemps\changecontext\notes\rlap{\qsk\whp{!`E}}\smallnotesize
+\raise -3\Interligne\llap{\LPED\sk}\ibbu0{E}9\qh0{`E!EG}\tqh0{I}\relax
+|\zwp{g}\zwp{i}\zwp{l}\relax
+\usf{!'g}\whp{!'g}\smallnotesize\ibbu0{!g}9\qh0{gi}\tqh0{l}\enotes
+%\check
+\smallnotesize\temps\notes
+\ibbu0{!'G}9\qh0{!'EGI}\tqh0{!''E}\relax
+|\ibbu0{!'g}8\qh0{!'g}\qh0{g}\qh0{i}\tqh0{l}\enotes
+%\check
+\temps\notes|\qsk
+\octfin{!'r}{8}\rlap{\ibbl0{!'G}8\qb0{G}\qb0{I}\qb0{!''E}\tqb0{G}}\relax
+\ibbu0{!'g}7\qh0{!'g}\qh0{g}\qh0{i}\tbu0\qh0{l}\enotes
+%\check
+\notes|\rlap{\ibbl0{!''I}{-9}\qb0{!''IGE}\tqb0{!'I}}\relax
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\enotes
+%\check
+\temps\notes\qsk
+\ifsupa|\qsk\rlap{\ibbl0{!''E}{-9}\qb0{!''GE`I}\tqb0{G}}\relax
+\else\ibbu0{!''G}{-9}\qh0{!''GE`I}\tqh0{G}|\fi
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\enotes
+%\check
+\temps\notes\raise -3\Interligne
+\rlap{\sk\sk\DEP}\ibbu0{!'E}{-9}\qh0{!'E`IG}\tqh0{E}\relax
+|\ibbu0{!'g}{-9}\qh0{!'g`li}\tqh0{g}\enotes
+%
+% mesure 121
+\normalnotesize\generalmeter{\meterfrac{1}{2}}\changecontext
+\notes\smallnotesize\qqbbH9C{!`G}{!D}GI|\llap{\zq i\zql p\kern 1.5pt}\smallnotesize\qqbbH0nnknk\enotes
+\temps\notes\smallnotesize\qqbbl9JLNc|\llap{\zq j\zql q\kern 1.5pt}\smallnotesize\qqbbH0nnlnl\enotes
+%
+% mesure 122
+\normalnotesize\troistemps\changecontext\autolines{27}2{\testpgs}\relax
+\notes\rlap{\qsk\whp{!`D}}\smallnotesize
+\llap{\LPED\sk}\ibbu0{D}9\qh0{`D!D^F}\tqh0{H}\relax
+|\normalnotesize\bigsh m\zwp{h}\zwp{k}\zwp{m}\relax
+\usf{!'h}\whp{!'h}\smallnotesize\ibbu0{!h}9\qh0{hk}\tqh0{m}\enotes
+%\check
+\smallnotesize\temps\notes
+\ibbu0{!'F}9\qh0{!'D^FH}\tqh0{!''D}\relax
+|\ibbu0{!'h}8\qh0{!'h}\qh0{h}\qh0{k}\tqh0{^m}\enotes
+%\check
+\temps\notes
+|\qsk\octfin{22}8\rlap{\ibbl0{!'F}8\qb0{^F}\qb0{H}\qb0{!''D}\tqb0{^F}}\relax
+\ibbu0{!'h}7\qh0{!'h}\qh0{h}\qh0{k}\tbu0\qh0{^m}\enotes
+%\check
+\notes|\rlap{\ibbl0{!''H}{-9}\qb0{!''HFD}\tqb0{!'H}}\relax
+\ibbu0{!''h}{-9}\qh0{!''h`mk}\tqh0{h}\qsk\enotes
+%\check
+\temps\notes
+\ifsupa|\rlap{\ibbl0{!''D}{-9}\qb0{!''FD`H}\tqb0{F}}\relax
+\else\ibbu0{!''F}{-9}\qh0{!''FD`H}\tqh0{F}|\fi
+\ibbu0{!''h}{-9}\qh0{!''h`mk}\tqh0{h}\enotes
+%\check
+\temps\notes\rlap{\sk\sk\DEP}\ibbu0{!'D}{-9}\qh0{!'D`HF}\tqh0{D}\relax
+|\ibbu0{!'h}{-9}\qh0{!'h`mk}\tqh0{h}\enotes
+%
+% mesure 123
+\barre\notes\rlap{\qsk\whp{!`E}}\smallnotesize
+\raise -2\Interligne\llap{\LPED\sk}\ibbu0{E}9\qh0{!`E!EG}\tqh0{I}\relax
+|\normalnotesize\zwp{g}\zwp{i}\zwp{l}\relax
+\usf{!'g}\whp{!'g}\smallnotesize\ibbu0{!g}9\qh0{gi}\tqh0{l}\enotes
+%\check
+\smallnotesize\temps\notes
+\ibbu0{!'G}9\qh0{!'EGI}\tqh0{!''E}\relax
+|\ibbu0{!'g}8\qh0{!'g}\qh0{g}\qh0{i}\tqh0{l}\enotes
+%\check
+\temps\notes|\qsk
+\octfin{!'s}{8}\rlap{\ibbl0{!'G}8\qb0{G}\qb0{I}\qb0{!''E}\tqb0{G}}\relax
+\ibbu0{!'g}7\qh0{!'g}\qh0{g}\qh0{i}\tbu0\qh0{l}\enotes
+%\check
+\notes|\rlap{\ibbl0{!''I}{-9}\qb0{!''IGE}\tqb0{!'I}}\relax
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\enotes
+%\check
+\temps\notes\qsk
+\ifsupa|\qsk\rlap{\ibbl0{!''E}{-9}\qb0{!''GE`I}\tqb0{G}}\relax
+\else\ibbu0{!''G}{-9}\qh0{!''GE`I}\tqh0{G}|\fi
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\enotes
+%\check
+\temps\notes\raise -3\Interligne
+\rlap{\sk\sk\DEP}\ibbu0{!'E}{-9}\qh0{!'E`IG}\tqh0{E}\relax
+|\ibbu0{!'g}{-9}\qh0{!'g`li}\tqh0{g}\enotes
+%
+% mesure 124
+\deuxtemps\changecontext
+\autolines{20}3{\testpgs}\relax
+\notes\smallnotesize\qqbbH9FBF{=I}K\relax
+|\normalnotesize\llap{\zq f\zql m\kern 1.5pt}\smallnotesize\qqbbH0kk{=i}ki\enotes
+\temps\notes\smallnotesize\qqbbl4M{=b}db|\normalnotesize
+  \llap{\zq g\zql n\kern 1.5pt}\smallnotesize\qqbbH0kkiki\enotes
+\temps\notes\smallnotesize\qqbbl{-9}caLJ|\normalnotesize
+  \llap{\zq e\zql l\kern 1.5pt}\smallnotesize\qqbbH0jjhjh\enotes
+\temps\notes\smallnotesize\qqbbu{-9}MK{_I}F|\normalnotesize
+  \llap{\zq f\zql m\kern 1.5pt}\smallnotesize\qqbbH0kk{_i}ki\enotes
+%
+% mesure 125
+\normalnotesize\xbarre\notes\rlap{\qsk\whp{!`E}}\smallnotesize
+\raise -2\Interligne\llap{\LPED\sk}\ibbu0{E}9\qh0{!`E!EG}\tqh0{I}\relax
+|\zwp{g}\zwp{i}\zwp{l}\relax
+\usf{!'g}\whp{!'g}\smallnotesize\ibbu0{!g}9\qh0{gi}\tqh0{l}\enotes
+%\check
+\smallnotesize\temps\notes
+\ibbu0{!'G}9\qh0{!L'GI}\tqh0{!'L}\relax
+|\ibbu0{!'g}8\qh0{!'g}\qh0{g}\qh0{i}\tqh0{l}\enotes
+%\check
+\temps\notes
+|\qsk\octfin{!'s}8\rlap{\ibbl0{!'G}8\qb0{G}\qb0{I}\qb0{L}\tqb0{!''G}}\relax
+\ibbu0{!'g}7\qh0{!'g}\qh0{g}\qh0{i}\tbu0\qh0{l}\enotes
+%\check
+\notes|\rlap{\ibbl0{!''I}{-9}\qb0{!''IG`L}\tqb0{!'I}}\relax
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\qsk\enotes
+%\check
+% mesure 126
+\xbarre\notes
+\ifsupa|\rlap{\ibbl0{!'L}{-9}\qb0{!''G`LI}\tqb0{G}}\relax
+\else\ibbu0{!''I}{-9}\qh0{!''IG`L}\tqh0{I}|\fi
+\ibbu0{!''g}{-9}\qh0{!''g`li}\tqh0{g}\enotes
+%\check
+\temps\notes\raise -2\Interligne
+\rlap{\sk\sk\DEP}\ibbu0{L}{-9}\qh0{LIG}\tqh0{!`L}\relax
+|\ibbu0{!'g}{-9}\qh0{!'g`li}\tqh0{g}\enotes
+%
+\temps\notes\qqbbH9HDHKM|\normalnotesize
+  \llap{\zq f\zql m\kern 1.5pt}\smallnotesize\qqbbH0kkhkh\enotes
+\temps\notes\qqbbl{-9}{=b}NLI|\normalnotesize
+  \llap{\zq g\zql n\kern 1.5pt}\smallnotesize\qqbbH0kk{=i}ki\enotes
+%
+% mesure 127
+\troistemps\changecontext\autolines{25}2{\testpgs}\relax
+\Accord CGJLceg\relax
+\temps\notes|\qsk\octfin{22}{12}\rlap{\qqbbl9gjln}\Qqbbu qnqs\enotes
+\temps\notes|\rlap{\qqbbl{-9}qnlj}\qqbbu{-9}usqn\enotes
+\temps\notes|\rlap{\qqbbl{-9}gecN}\qqbbu{-9}nljg\enotes
+% mesure 128
+\barre\notes\qqbbu{-9}ecNL|\qqbbu{-9}nljg\enotes
+\temps\notes\qqbbu{-9}cNLJ|\qqbbu{-9}ljge\enotes
+\temps\notes\qqbbu{-9}NLJG|\zcharnote{a}{\DIMin}\qqbbu{-9}jgec\enotes
+\temps\notes\qqbbu{-9}LJGE|\qqbbu{-9}gecN\enotes
+\temps\notes\qqbbu{-9}JGEC|\qqbbu{-9}ecNL\enotes
+\normalnotesize
+\temps\notes\boqu C\DEP\qsk|\qu J\enotes
+%
+% mesure 129
+\deuxtemps\pchangecontext\autolines876\relax\addspace{-0.25\elemskip}%
+\notes
+\uptext{\kern -6mm\ppff mf}\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJLN}|\uptext{\ppff f}\Sfwu N\enotes
+\temps\notes\qqbbl9JLNc\zmidtwotext{\it diminuendo}\enotes
+\motif gecN\relax
+% mesure 130
+\xbarre\addspace{ -0.3\elemskip}\relax
+\notes\LPED\qsoupir\zmidtwotext{\it poco\ \ a\ \ poco}\relax
+\cinqx N{\transpose=-7\qqbbH9JCJMa}|\Sfwu a\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif hfca\relax
+% mesure 131
+\xbarre\addspace{-0.3\elemskip}\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 132
+\xbarre\addspace{-0.3\elemskip}\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu d\enotes
+\temps\notes\qqbbl9KMad\enotes
+\motif khfd\relax
+% mesure 133
+\barre\notes\LPED\qsoupir
+{\transpose=-7\Tqbbu CJL}|\itenu1g\itenl0N\Sfwu N\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\ccl e\Tqbbu gjl\enotes
+% mesure 134
+\barre\notes|\tten0\tten1\zh g\zhl N\qqbbh{-9}nljg\enotes
+\temps\notes|\qqbbu{-9}gecN\enotes
+\zbarre\notes|\qqbbu{-9}gecN\enotes
+\temps\notes\rlap{\sk\sk\DEP}\qqbbu{-9}{!`g}ecN\enotes
+% mesure 135
+\barre\notes\LPED\qsoupir\uptext{\ppff mp}\relax
+\cinqx N{\transpose=-7\qqbbH9JCJLN}|\uptext{\ppff mf}\Sfwu N\enotes
+\temps\notes\qqbbl9JLNc\enotes
+\motif gecN\relax
+% mesure 136
+\alaligne\autolines966\notes\LPED\qsoupir
+\cinqx N{\transpose=-7\qqbbH9JCJMa}|\Sfwu a\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif hfca\relax
+% mesure 137
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 138
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu d\enotes
+\temps\notes\qqbbl9KMad\enotes
+\motif khfd\relax
+% mesure 139
+\barre\notes\LPED\qsoupir{\transpose=-7\tqbbH9JCJL}|\itenl0e\itenu1l\Sfwu e\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\qqbbl{4}lnus\enotes
+% mesure 140
+\barre\notes|\tten0\tten1\zh l\zhl e\qqbbH{-9}oqnlj\enotes
+\temps\notes|\qqbbH0ngnlj\enotes
+\zbarre\notes|\raise \Interligne\rlap{\hpause}\qqbbl{-9}gecN\enotes
+\temps\notes\sk\sk\sk\DEP|\qqbbl{-4}gedc\enotes
+% mesure 141
+\barre\notes\LPED\zmidtwotext{\ppff mp}\qsk\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu d\enotes
+\temps\notes\qqbbl9KMad\enotes
+\motif khfd\relax
+% mesure 142
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJLN}|\Sfwu e\enotes
+\temps\notes\qqbbl9{=I}LN{=b}\enotes
+\motif l{=i}ge\relax
+% mesure 143
+\barre\notes\LPED\qsoupir
+\cinqx a{\transpose=-7\qqbbH9JCJMa}|\Sfwu c\enotes
+\temps\notes\qqbbl9JMac\enotes
+\motif jhfc\relax
+% mesure 144
+\barre\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JG{=I}K}|\Sfwu N\enotes
+\temps\notes\qqbbl9G{=I}KN\enotes
+\motif gd{=b}N\relax
+% mesure 145
+\barre\notes\LPED\qsoupir
+{\transpose=-7\tqbbH9JG{=I}L}|\Sfwu N\enotes
+\temps\notes\qqbbl9G{=I}LN\enotes
+\motif ge{=b}N\relax
+% mesure 146
+\barre\notes\LPED\qsoupir{\transpose=-7\tqbbH9JCJL}|\itenl0N\itenu1g\Sfwu N\enotes
+\temps\notes\qqbbl9GJLN\enotes
+\zbarre\notes|\qqbbl9cegj\enotes
+\temps\notes|\qqbbl{4}lnus\enotes
+% mesure 147
+\troistemps\changecontext\notes|\tten0\tten1\zw g\zw N\qqbbH{-9}oqnlj\enotes
+\temps\notes|\qqbbH0ngnlj\enotes
+\temps\notes|\qqbbu{-9}gecN\enotes
+\zbarre\notes\transpose=-7\relax\qqbbu{-9}gecN\enotes
+\temps\notes\qu C\DEP\soupir\qsk|\qsk\hpause\enotes
+%
+% mesure 148
+\deuxtemps\pchangecontext\autolines{16}36\notes\LPED\qsoupir
+\zmidtwotext{\ppff p}\Tqbbh CJL|\qsk\wh g\enotes
+\temps\notes\cu N|\sk\transpose=7\Tqbbh JLN\enotes
+\temps\notes|\transpose=7\Qqbbu cNLJ\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu G\dsoupir\enotes
+%
+% mesure 149
+\barre\notes\LPED\qsoupir\Tqbbh CJM|\qsk\wh h\enotes
+\temps\notes\cu a|\sk\transpose=7\Tqbbu JMa\enotes
+\temps\notes|\transpose=7\Qqbbu caMJ\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu H\dsoupir\enotes
+%
+% mesure 150
+\barre\notes\LPED\qsoupir\Tqbbh CJM|\qsk\wh j\enotes
+\temps\notes\cu a|\sk\transpose=7\Tqbbu JMa\enotes
+\temps\notes|\transpose=7\Qqbbu caMJ\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu H\dsoupir\enotes
+%
+% mesure 151
+\barre\notes\LPED\qsoupir\Tqbbh CJM|\qsk\wh k\enotes
+\temps\notes\cu a|\sk\transpose=7\Tqbbu KMa\enotes
+\temps\notes|\transpose=7\Qqbbu daMK\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu H\dsoupir\enotes
+%
+% mesure 152
+\barre\notes\LPED\qsoupir\Tqbbh{!`C}{!C}E|\qsk\itenu1g\wh g\enotes
+\temps\notes\Qqbbu GJLN\enotes
+\temps\notes|\Qqbbu cegj\enotes
+\temps\notes|\Qqbbu ljge\enotes
+%
+% mesure 153
+\barre\notes|\tten1\pt g\zhl g\Qqbbu jgec\enotes
+\temps\notes|\Qqbbu gecN\enotes
+\temps\notes\Qqbbu ecNL\enotes
+\temps\notes\cu J\DEP\dsoupir|\soupir\enotes
+%
+% mesure 154
+\barre\notes\LPED\qsoupir\Tqbbh CJL|\qsk\wh g\enotes
+\temps\notes\cu N|\sk\transpose=7\Tqbbu JLN\enotes
+\temps\notes|\transpose=7\Qqbbu cNLJ\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu G\dsoupir\enotes
+%
+% mesure 155
+\barre\notes\LPED\qsoupir\Tqbbh CJM|\qsk\wh h\enotes
+\temps\notes\cu a|\sk\transpose=7\Tqbbu JMa\enotes
+\temps\notes|\transpose=7\Qqbbu caMJ\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu H\dsoupir\enotes
+%
+% mesure 156
+\barre\notes\LPED\qsoupir\Tqbbh CJM|\qsk\wh j\enotes
+\temps\notes\cu a|\sk\transpose=7\Tqbbu JMa\enotes
+\temps\notes|\transpose=7\Qqbbu caMJ\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu H\dsoupir\enotes
+%
+% mesure 157
+\barre\notes\LPED\qsoupir\Tqbbh CJM|\qsk\wh k\enotes
+\temps\notes\cu a|\sk\transpose=7\Tqbbu KMa\enotes
+\temps\notes|\transpose=7\Qqbbu  daMK\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu H\dsoupir\enotes
+%
+% mesure 158
+\barre\notes\LPED\qsoupir\Tqbbh{!`C}{!C}E|\qsk\itenu1l\wh l\enotes
+\temps\notes\Qqbbu GJLN\enotes
+\temps\notes|\Qqbbu cegj\enotes
+\temps\notes|\Qqbbu ljge\enotes
+%
+% mesure 159
+\barre\notes|\tten1\pt l\zhl l\Qqbbu jgec\enotes
+\temps\notes|\Qqbbu gecN\enotes
+\temps\notes\Qqbbu ecNL\enotes
+\temps\notes\cu J\DEP\dsoupir|\soupir\enotes
+%
+% mesure 160
+\troistemps\changecontext\autolines{22}26\relax
+\notes\LPED\qsoupir\Tqbbh CJM|\qsk\hl k\enotes
+\temps\notes\cu a\sk\DEP|\sk\transpose=7\Tqbbu JMa\enotes
+\temps\notes\LPED\qsoupir\Tqbbh CJN|\qsk\hl l\enotes
+\temps\notes\bigna b\cu b\sk\DEP|\sk\transpose=7\bigaccid\Tqbbu LN{=b}\enotes
+\temps\notes\LPED\qsoupir\Tqbbh CJL|\qsk\hl j\enotes
+\temps\notes\bigsh M\cu M\sk\DEP|\sk\Tqbbu ace\enotes
+%
+% mesure 161
+\deuxtemps\changecontext
+\notes\LPED\qsoupir\Tqbbh CJL|\qsk\wh g\enotes
+\temps\notes\cu N|\sk\transpose=7\Tqbbh JLN\enotes
+\temps\notes|\transpose=7\qqbbh{-9}cNLJ\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu G\dsoupir\enotes
+% mesure 162
+\barre\autolines{16}36\notes\LPED\qsoupir\Tqbbh CJL|\qsk\wh g\enotes
+\temps\notes\cu N|\sk\transpose=7\bigna I\Tqbbh {I}LN\enotes
+\temps\notes|\transpose=7\bigaccid\qqbbh{-9}{=b}NLI\enotes
+\temps\Notes\sk\DEP|\transpose=7\cu G\dsoupir\enotes
+%
+% mesure 163
+\barre\notes\LPED\qsoupir\cinqx b\qqbbH9C{!`C}{!C}EG|\qsk\itenu1g\wh g\enotes
+\temps\notes\qqbbH9LJLNc\enotes
+\temps\notes\qqbbh{-9}ecNL\enotes
+\temps\notes\qqbbh{-9}cNLJ\enotes
+%
+% mesure 164
+\barre\notes\qqbbh{-9}NLJG|\tten1\hup g\enotes
+\temps\notes\qqbbh{-9}LJGE\enotes
+\temps\Notes\qu C\DEP\enotes
+\temps\Notes\soupir|\soupir\enotes
+%
+% mesure 165
+\suspmorceau
+\def\interfacteur{10}\computewidths
+\preprmorceau\autolines{14}46\relax
+\notes\LPED\uptext{\it pi\`u dolce}\wh N|\dsoupir\dqbh Ne\enotes
+\temps\notes|\tqbH6ecge\enotes
+\temps\notes|\Tqbh jgl\enotes
+\temps\notes\sk\DEP|\tqbH6ljnl\enotes
+% mesure 166
+\barre\notes\LPED\wh a|\dsoupir\dqbh af\enotes
+\temps\notes|\tqbH6echf\enotes
+\temps\notes|\Tqbh jhm\enotes
+\temps\notes\sk\DEP|\tqbH6ljom\enotes
+% mesure 167
+\barre\notes\LPED\wh c|\dsoupir\dqbh ch\enotes
+\temps\notes|\tqbH6gfjh\enotes
+\temps\notes|\Tqbh mjo\enotes
+\temps\notes\sk\DEP|\tqbH6pmqo\enotes
+% mesure 168
+\barre\notes\LPED\wh d|\dsoupir\dqbh dh\enotes
+\temps\notes|\tqbH6gfkh\enotes
+\temps\notes|\Tqbh mko\enotes
+\temps\notes\sk\DEP|\tqbH6pmro\enotes
+% mesure 169
+\barre\notes\LPED\itenu0N\wh N|\dsoupir\dqbh Ne\enotes
+\temps\notes|\tqbH6ecge\enotes
+\temps\notes|\Tqbh jgl\enotes
+\temps\notes|\Tqbh jnl\enotes
+% mesure 170
+\barre\notes\tten0\hlp N|\tqbL6nqns\enotes
+\temps\notes|\Tqbl qus\enotes
+\temps\notes\sk\DEP|\Tqbl qsq\enotes
+\temps\notes\soupir|\Tqbl nlj\enotes
+% mesure 171
+\barre\notes\LPED\wh N|\dsoupir\dqbh Ne\enotes
+\temps\notes|\tqbH6ecge\enotes
+\temps\notes|\Tqbh jgl\enotes
+\temps\notes\sk\DEP|\tqbH6ljnl\enotes
+% mesure 172
+\barre\notes\LPED\wh a|\dsoupir\dqbh af\enotes
+\temps\notes|\tqbH6echf\enotes
+\temps\notes|\Tqbh jhm\enotes
+\temps\notes\sk\DEP|\tqbH6ljom\enotes
+% mesure 173
+\barre\notes\LPED\wh c|\dsoupir\dqbh ch\enotes
+\temps\notes|\tqbH6gfjh\enotes
+\temps\notes|\Tqbh mjo\enotes
+\temps\notes\sk\DEP|\tqbH6pmqo\enotes
+% mesure 174
+\barre\notes\LPED\wh d|\dsoupir\dqbh dh\enotes
+\temps\notes|\tqbH6gfkh\enotes
+\temps\notes|\Tqbh mko\enotes
+\temps\notes\sk\DEP|\tqbH6pmro\enotes
+% mesure 175
+\barre\notes\LPED\itenl0e\wh e|\dsoupir\dqbh Ne\enotes
+\temps\notes|\tqbH6ecge\enotes
+\temps\notes|\Tqbh jgl\enotes
+\temps\notes|\tqbH6ljnl\enotes
+% mesure 176
+\barre\notes\tten0\wh e|\tqbL5nqns\enotes
+\temps\notes|\Tqbl qus\enotes
+\temps\notes|\Tqbl qsq\enotes
+\temps\notes\sk\DEP|\Tqbl nlj\enotes
+% mesure 177
+\troistemps\changecontext\autolines{15}36\relax
+\addspace{-0.3\elemskip}\relax
+\notes\LPED\hl d|\dsoupir\dqbh dh\enotes
+\temps\notes\sk\DEP|\tqbH5ifkh\enotes
+\temps\notes\LPED\hl e|\dsoupir\dqbh cg\enotes
+\temps\notes\sk\DEP|\tqbH5ie{=i}g\enotes
+\temps\notes\LPED\hl c|\dsoupir\dqbh ch\enotes
+\temps\notes\sk\DEP|\tqbH5h{^f}jh\enotes
+% mesure 178
+\deuxtemps\changecontext   \addspace{-0.5\elemskip}\relax
+\notes\LPED\wh N|\dsoupir\dqbh Ne\enotes
+\temps\notes|\tqbH6ecge\enotes
+\temps\notes|\Tqbh jgl\enotes
+\temps\notes\sk\DEP|\tqbH6ljnl\enotes
+% mesure 179
+\barre\notes\LPED\wh N|\dsoupir\dqbh Nd\enotes
+\temps\notes|\tqbH6e{=b}gd\enotes
+\temps\notes|\Tqbh {=i}gk\enotes
+\temps\notes\sk\DEP|\tqbH6link\enotes
+% mesure 180
+\alaligne\autolines{15}46\relax
+\notes\LPED\itenu0N\wh N|\dsoupir\dqbh Ne\enotes
+\temps\notes|\tqbH6ecge\enotes
+\temps\notes|\Tqbh jgl\enotes
+\temps\notes|\tqbH6ljnl\enotes
+% mesure 181
+\barre\notes\pointdorgue b\tten0\wh N|\tqbL6nqns\enotes
+\temps\notes|\Tqbl qsq\enotes
+\temps\notes|\tqbL0lnln\enotes
+\temps\notes\sk\DEP|\pointdorgue m\ql j\sk\enotes
+% mesure 182
+\barre\autolines{12}66\relax
+\notes\zcharnote c{\ppff pp}\bassC|\hu N\enotes
+\temps\notes\bassC|\hu a\enotes
+% mesure 183
+\barre\notes\bassC|\hu c\enotes
+\temps\notes\bassC|\hu d\enotes
+% mesure 184
+\troistemps\changecontext
+\notes\LPED\soupir|\wh N\enotes
+\temps\notes\BassC\sk\soupir\enotes
+\temps\notes\hpause\sk|\hpause\enotes
+% mesure 185
+\deuxtemps\changecontext\notes\bassC|\hu N\enotes
+\temps\notes\bassC|\hu a\enotes
+% mesure 186
+\alaligne\autolines{11}66\relax
+\notes\bassC|\hu c\enotes
+\temps\notes\bassC|\hu d\enotes
+% mesure 187
+\barre\notes\LPED\soupir|\wh E\enotes
+\temps\notes\BassC\enotes
+\temps\notes\soupir\enotes
+% mesure 188
+\troistemps\changecontext\notes\bassC|\hu d\enotes
+\temps\notes\bassC|\hu e\enotes
+\temps\notes\bassC|\hu c\enotes
+% mesure 189
+\deuxtemps\changecontext \addspace{-0.3\elemskip}\relax
+\notes\LPED\soupir|\Uptext{\it senza rallentare}\wh N\enotes
+\temps\notes\BassG|\enotes
+\temps\notes\soupir|\enotes
+% mesure 190
+\barre\notes\LPED\soupir|\wh N\enotes
+\temps\notes\zmidtwotext{\DImin}\BassG\enotes
+\temps\notes\soupir|\enotes
+% mesure 191
+\barre\notes\LPED\soupir|\wh N\enotes
+\temps\notes\BassC\enotes
+\temps\notes\soupir|\enotes
+%
+\finmorceau   \rightline{\sl \aujourdhui}\eject
+\endinput
+
+
+
+
+
+

@@ -1,0 +1,355 @@
+%Format: PDF
+
+\documentclass[a4paper,11pt]{article}
+
+\addtolength{\textwidth}{10mm}
+\addtolength{\oddsidemargin}{-5mm}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{.5\baselineskip}
+
+\usepackage{tabvar}
+%\usepackage[FlechesPS]{tabvar}
+%\usepackage[FlechesMP]{tabvar}
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}}{}
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+  \Large\bfseries Exemples de tableaux de variations avec \texttt{tabvar}
+\end{center}
+
+Un exemple simple : 
+$\displaystyle f(x)=\frac{x^3+2}{2x} \qquad f'(x)=\frac{x^3-1}{x^2}$.
+
+\[\begin{tabvar}{|C|CCCCCCCCC|} \hline
+ x    &-\infty &   &-\sqrt[3]{2} &   & 0       &   & 1  &    &+\infty      
+\\ \hline
+f'(x) &        & - &             & - & \dbarre & - & 0  & +  & 
+\\ \hline
+\niveau{3}{3}f(x)  
+      &+\infty                       &\decroit 
+      &0                             &\decroit
+      &\discont{-\infty}{<}{+\infty} &\decroit
+      &\frac{3}{2}                   &\croit
+      &+\infty
+\\ \hline
+\end{tabvar}\]
+
+Le codage du tableau est le suivant :
+\begin{verbatim}
+\[\begin{tabvar}{|C|CCCCCCCCC|} \hline
+ x    &-\infty &  &-\sqrt[3]{2} &  &0       &  & 1 &  &+\infty      
+\\ \hline
+f'(x) &        &- &             &- &\dbarre &- & 0 &+ & 
+\\ \hline
+\niveau{3}{3}f(x)  
+      &+\infty                       &\decroit 
+      &0                             &\decroit
+      &\discont{-\infty}{<}{+\infty} &\decroit
+      &\frac{3}{2}                   &\croit
+      &+\infty
+\\ \hline
+\end{tabvar}\]
+\end{verbatim}
+
+L'argument optionnel de \verb|\discont| n'a pas été utilisé, on obtiendrait
+une meilleure présentation en lui donnant la valeur~1, ce qui écarterait
+d'un interligne les valeurs $+\infty$ et~$-\infty$, mettant ainsi
+les trois valeurs~$+\infty$ sur la même ligne.
+
+D'autre part, $f(x)$ est placé au niveau~3 par la commande \verb|\niveau|.
+Si on souhaitait que $f(x)$ soit placé plus bas, au niveau~2 par exemple,
+il faudrait coder :\\
+\verb|\niveau{2}{3}f(x)} &\niveau{3}{3}+\infty}|
+
+Voici le résultat obtenu avec ces deux modifications :
+\[\begin{tabvar}{|C|CCCCCCCCC|} \hline
+ x    &-\infty &  &-\sqrt[3]{2} &  &0       &  & 1 &  &+\infty      
+\\ \hline
+f'(x) &        &- &             &- &\dbarre &- & 0 &+ & 
+\\ \hline
+\niveau{2}{3}f(x)  
+      &\niveau{3}{3}+\infty             &\decroit 
+      &0                                &\decroit
+      &\discont[1]{-\infty}{<}{+\infty} &\decroit
+      &\frac{3}{2}                      &\croit
+      &+\infty
+\\ \hline
+\end{tabvar}\]
+
+Une présentation plus traditionnelle du tableau de variations serait la
+suivante (on renonce à l'utilisation de \verb|\discont| et on remplace
+la colonne \texttt{C} par trois colonnes \texttt{LCR}, la colonnne
+centrale contenant une double barre).  On ajoute également des filets
+verticaux pour les valeurs remarquables de la fonction ou de sa dérivée
+grâce à la commande \verb|\barre{}|%
+\footnote{Cette commande n'est disponible que depuis la version 1.1 (mai~2007)
+  de \texttt{tabvar}.}
+(argument \emph{obligatoire}, éventuellement vide).
+
+\[\begin{tabvar}{|C|CCCCLCRCCCC|} \hline
+ x    &-\infty &  &-\sqrt[3]{2} &  & &0       & &  & 1         &  &+\infty
+\\ \hline
+f'(x) &        &- & \barre{}    &- & &\dbarre & &- & \barre{0} &+ & 
+\\ \hline
+\niveau{2}{3}f(x)  
+      &\niveau{3}{3}+\infty                    &\decroit 
+      &\barre{0}                               &\decroit
+      &-\infty  &\dbarre &\niveau{3}{3}+\infty &\decroit
+      &\barre{\frac{3}{2}}                     &\croit
+      &+\infty
+\\ \hline
+\end{tabvar}\]
+
+Le codage est le suivant :
+\begin{verbatim}
+\[\begin{tabvar}{|C|CCCCLCRCCCC|} \hline
+ x    &-\infty &  &-\sqrt[3]{2} &  & &0       & &  & 1         &  &+\infty
+\\ \hline
+f'(x) &        &- & \barre{}    &- & &\dbarre & &- & \barre{0} &+ & 
+\\ \hline
+\niveau{2}{3}f(x)  
+      &\niveau{3}{3}+\infty                    &\decroit 
+      &\barre{0}                               &\decroit
+      &-\infty  &\dbarre &\niveau{3}{3}+\infty &\decroit
+      &\barre{\frac{3}{2}}                     &\croit
+      &+\infty
+\\ \hline
+\end{tabvar}\]
+\end{verbatim}
+
+Noter la présence de la seconde commande \verb|\niveau| pour
+positionner le terme \verb|+\infty| au niveau~3 après la discontinuité.
+
+\newpage
+Un exemple de courbe paramétrée :
+$\displaystyle x(t)= t + \frac{1}{t}\qquad y(t) = t + \frac{1}{2t^2}$.
+
+\[
+\begin{tabvar}{|C|CCRCCCCCC|} \hline
+ t    &-\infty &   &-1  &   & 0       &   & 1  &   &+\infty      
+\\ \hline
+x'(t) &        &+  & 0  & - & \dbarre & - & 0  & + & 
+\\ \hline
+\niveau{1}{3}
+x(t) &-\infty                                &\croit 
+           &-2                               &\decroit 
+           &\discont[1]{-\infty}{<}{+\infty} &\decroit 
+           &2                                &\croit
+           &+\infty
+\\ \hline
+\niveau{1}{3}
+y(t) &-\infty            &\croit 
+           &-\frac{1}{2} &\croit
+           &+\infty      &\decroit
+           &\frac{3}{2}  &\croit
+           &+\infty
+\\ \hline
+y'(t) &        &+  &2   & + & \dbarre & - & 0  &+   &             
+\\ \hline
+\end{tabvar}
+\]
+
+Le codage est le suivant :
+\begin{verbatim}
+\[\begin{tabvar}{|C|CCRCCCCCC|} \hline
+ t    &-\infty &   &-1  &   & 0       &   & 1  &   &+\infty      
+\\ \hline
+x'(t) &        &+  & 0  & - & \dbarre & - & 0  & + & 
+\\ \hline
+\niveau{1}{3}
+x(t) &-\infty                                &\croit 
+           &-2                               &\decroit 
+           &\discont[1]{-\infty}{<}{+\infty} &\decroit 
+           &2                                &\croit
+           &+\infty
+\\ \hline
+\niveau{1}{3}
+y(t) &-\infty            &\croit 
+           &-\frac{1}{2} &\croit
+           &+\infty      &\decroit
+           &\frac{3}{2}  &\croit
+           &+\infty
+\\ \hline
+y'(t) &        &+  &2   & + & \dbarre & - & 0  &+   &             
+\\ \hline
+\end{tabvar}\]
+\end{verbatim}
+
+\newpage
+Le même tableau de variations en présentation \og traditionnelle \fg.
+
+\[\begin{tabvar}{|C|CCCCRCLCCCC|} \hline
+ t    &-\infty &  &-1        &  & &0       & &  & 1        &  &+\infty
+\\ \hline
+x'(t) &        &+ &\barre{0}
+                             &- & &\dbarre & &- &\barre{0} &+ & 
+\\ \hline
+\niveau{1}{3}
+x(t) &-\infty                                       &\croit 
+           &\barre{-2}                              &\decroit 
+           &-\infty  &\dbarre &\niveau{3}{3}+\infty &\decroit 
+           &\barre{2}                               &\croit
+           &+\infty
+\\ \hline
+\niveau{1}{3}
+y(t) &-\infty                         &\croit 
+           &-\frac{1}{2}              &\croit
+           &+\infty &\dbarre &+\infty &\decroit
+           &\barre{\frac{3}{2}}       &\croit
+           &+\infty
+\\ \hline
+y'(t) &        &+ &2         &+ & &\dbarre & &- &\barre{0} &+ &             
+\\ \hline
+\end{tabvar}\]
+
+Le codage est le suivant :
+\begin{verbatim}
+\[\begin{tabvar}{|C|CCCCRCLCCCC|} \hline
+ t    &-\infty &  &-1        &  & &0       & &  & 1        &  &+\infty
+\\ \hline
+x'(t) &        &+ &\barre{0}
+                             &- & &\dbarre & &- &\barre{0} &+ & 
+\\ \hline
+\niveau{1}{3}
+x(t) &-\infty                                       &\croit 
+           &\barre{-2}                              &\decroit 
+           &-\infty  &\dbarre &\niveau{3}{3}+\infty &\decroit 
+           &\barre{2}                               &\croit
+           &+\infty
+\\ \hline
+\niveau{1}{3}
+y(t) &-\infty                         &\croit 
+           &-\frac{1}{2}              &\croit
+           &+\infty &\dbarre &+\infty &\decroit
+           &\barre{\frac{3}{2}}       &\croit
+           &+\infty
+\\ \hline
+y'(t) &        &+ &2         &+ & &\dbarre & &- &\barre{0} &+ &             
+\\ \hline
+\end{tabvar}\]
+\end{verbatim}
+
+Noter que le type de la colonne $t=-1$ a dû être changé de \texttt{R} à
+\texttt{C} pour permettre l'ajout du filet vertical.
+
+\newpage
+Le même tableau encore, mais cette fois on utilise les flèches
+dessinées en MetaPost.
+\begingroup
+\renewcommand{\FlecheC}{\FlecheCm}
+\renewcommand{\FlecheD}{\FlecheDm}
+\renewcommand{\FlecheH}{\FlecheHm}
+
+\[\begin{tabvar}{|C|CCRCRCLCCCC|} \hline
+ t    &-\infty &  &-1  &   & &0       &  &   & 1 &   &+\infty      
+\\ \hline
+x'(t) &        &+ & 0  & - & &\dbarre &  & - & 0 & + & 
+\\ \hline
+\niveau{1}{3}
+x(t) &-\infty                                       &\croit 
+           &-2                                      &\decroit 
+           &-\infty  &\dbarre &\niveau{3}{3}+\infty &\decroit 
+           &2                                       &\croit
+           &+\infty
+\\ \hline
+\niveau{1}{3}
+y(t) &-\infty                         &\croit 
+           &-\frac{1}{2}              &\croit
+           &+\infty &\dbarre &+\infty &\decroit
+           &\frac{3}{2}               &\croit
+           &+\infty
+\\ \hline
+y'(t) &        &+  &2   & + & & \dbarre & & - & 0  &+   &             
+\\ \hline
+\end{tabvar}\]
+\endgroup
+
+Le choix entre les flèches MetaPost et celles de Michel \textsc{Bovani} se
+fait normalement soit à l'aide des options 
+%\texttt{FlechesMP} ou\texttt{FlechesPS} 
+de \texttt{tabvar} (\verb|\usepackage[FlechesMP]{tabvar}|)
+soit dans le préambule ou dans le fichier \texttt{tabvar.cfg}, à l'aide du
+drapeau \verb|\FlechesMP| : \verb|\FlechesMPtrue| pour les 
+flèches MetaPost (par défaut les flèches 
+\og bovaniennes \fg{} sont utilisées).
+
+Un exemple de fonction non définie partout :
+$\displaystyle f(x) = \sqrt{\frac{x-1}{x+1}}$. 
+
+\[\begin{tabvar}{|C|CCRNLCC|} \hline
+ x    &-\infty &       &-1       &\hspace*{15mm} & 1              &    &+\infty
+\\ \hline
+ f'(x) &       & +     &         &               &+\infty         & +  &
+\\ \hline
+\niveau{1}{2}
+f(x)  &1     &\croit &+\infty   &               
+          &\niveau{1}{2}0 &\croit & 1
+\\ \hline
+\end{tabvar}\]
+
+Le codage est le suivant :
+\begin{verbatim}
+\[\begin{tabvar}{|C|CCRNLCC|} \hline
+ x     &-\infty &  &-1 &\hspace*{15mm} & 1      &  &+\infty
+\\ \hline
+ f'(x) &        &+ &   &               &+\infty &+ &
+\\ \hline
+\niveau{1}{2}
+f(x)  &1     &\croit &+\infty   &               
+          &\niveau{1}{2}0 &\croit & 1
+\\ \hline
+\end{tabvar}\]
+\end{verbatim}
+
+La largeur de la colonne grisée est fixée à~15mm par le \verb|\hspace*{15mm}|
+placé dans une ligne quelconque du tableau. Certains visualiseurs
+(Xdvi par exemple) n'affichent pas correctement les couleurs ;
+en cas de doute, vérifier sur une sortie PostScript ou PDF. 
+
+Noter l'emploi d'une seconde commande \verb|\niveau{1}{2}| pour positionner
+la valeur de~$f$ au point~1 (sans celle-ci, cette valeur serait placée
+au niveau de la valeur précédente, ici~$+\infty$. 
+
+Si on prolongeait la définition de $f$ en posant $f(x)=0$ sur $[-1,1]$
+on aurait le tableau suivant :
+
+\[\begin{tabvar}{|C|CCRCCCCC|} \hline
+ x     &-\infty &       &        &-1      &   & 1      &  &+\infty
+\\ \hline
+ f'(x) &        &+      &        &\dbarre & 0 &+\infty &+ &
+\\ \hline
+\niveau{1}{2}
+f(x)  &1        &\croit &+\infty &\niveau{1}{2}0 
+                                   &\constante &0 &\croit & 1
+\\ \hline
+\end{tabvar}\]
+
+Le codage est le suivant :
+
+\begin{verbatim}
+\[\begin{tabvar}{|C|CCRCCCCC|} \hline
+ x     &-\infty &       &        &-1      &   & 1      &  &+\infty
+\\ \hline
+ f'(x) &        &+      &        &\dbarre & 0 &+\infty &+ &
+\\ \hline
+\niveau{1}{2}
+f(x)  &1        &\croit &+\infty &\niveau{1}{2}0 
+                                   &\constante &0 &\croit & 1
+\\ \hline
+\end{tabvar}\]
+\end{verbatim}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% coding: latin-1
+%%% End: 

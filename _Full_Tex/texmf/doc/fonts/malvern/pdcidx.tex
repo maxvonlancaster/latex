@@ -1,0 +1,133 @@
+%{{{ %M% 1.%I% pdc %E% -- indexing macros
+
+%%Requires: utils.tex
+
+%  This is the interface to the makeindex program
+
+\message{starting index file}
+\newwrite\idxfile
+\openout\idxfile=\jobname.idx
+
+%  Use Knuth's ^ and ^^ notations.
+\newif\ifsilentidx
+\def\idxcirk{\ifmmode\def\next{^}\else\let\next=\idxbegin\fi\next}
+\def\idxbegin{\futurelet\next\idxbeginswitch}
+\def\idxbeginswitch
+{%
+    \ifx\next\idxcirk
+	\let\next=\idxsilent
+    \else
+	\silentidxfalse 
+	\let\next=\idx
+    \fi
+    \next
+}
+\catcode`\^=13 \let^=\idxcirk
+\macappend\verbatimplains{\\\^}
+\def\idxsilent^{\silentidxtrue\idx}
+
+%  ^{foo}  ^|foo|  ^|\foo|  ^<foo>  ^$foo$
+\def\idx{\futurelet\next\idxswitch}
+\def\idxswitch
+{%
+    \begingroup
+	\ifx\next|%
+	    \aftergroup\vidx
+	\else\ifx\next\<%
+	    \aftergroup\angleidx
+	\else\ifx\next$%   $ for bracket matching
+	    \aftergroup\mathsidx
+	\else\ifx\next"%   $ for bracket matching
+	    \aftergroup\quotedidx
+	\else
+	    \aftergroup\normalidx
+	\fi\fi\fi\fi
+    \endgroup
+}
+\def\vidx|%
+{%
+    \catcode`\\=13 % prevent "\" from forming control sequences
+    \futurelet\next\vidxswitch
+}
+\def\vidxswitch%
+{%
+    \catcode`\\=0
+    \ifx\next\empty	%  ^|\foo|
+	\let\next\csidx
+    \else		%  ^|foo|
+	\let\next\noncsidx
+    \fi
+    \next
+}
+{\catcode`\@=0 \catcode`\\=13
+@gdef@csidx\#1|%
+{%
+    @def@next{{@tt@char`@\#1}}%
+    @edef@text{#1}%
+    @emitidx
+}}
+\def\noncsidx#1|%
+{%
+    \def\next{{\tt#1}}%
+    \edef\text{#1}%
+    \emitidx
+}
+{\catcode`\@=0 \catcode`\\=13 @gdef\{}}	% make "\" ifx-equivalent to \empty
+
+\def\angleidx\<#1>%
+{%
+    \def\next{\<#1>}%
+    \def\text{#1}%
+    \emitidx
+}
+\def\mathsidx$#1$%
+{%
+    \def\next{$#1$}%
+    \def\text{#1}%
+    \emitidx
+}
+\def\quotedidx"#1"%
+{%
+    \def\next{""#1""}%
+    \def\text{#1}%
+    \emitidx
+}
+\def\normalidx#1%
+{%
+    \def\text{#1}%
+    \let\next=\text
+    \emitidx
+}
+
+\def\emitidx
+{%
+    \edef\writeit
+      {%
+	\write\idxfile{\string\idx{\expandafter\gobbleARROW\meaning\text
+	    \ifx\text\next\else 
+		@\expandafter\gobbleARROW\meaning\next 
+	    \fi}{\noexpand\folio}}%
+      }%
+    \writeit
+    \ifsilentidx \ignorespaces \else \next \fi
+}
+\def\gobbleARROW#1:->{}
+
+%  The simple case -- write the parameter to the file
+\def\index#1{\def\next{#1}\let\text=\next \silentidxtrue\emitidx}
+{\plain|
+ \gdef\dfnidx#1{\index{#1|idxunderline}}
+ \gdef\qdfnidx#1{\index{#1@""#1""|idxunderline}}
+}
+\def\ttidx#1{^|#1|}
+
+%  Things that go after `|':
+\def\idxunderline#1{$\underline{\hbox{#1}}$}
+\def\see#1#2{{\it see}\space #1}
+
+%}}} %M%
+
+% Local variables:
+% fold-folded-p: t
+% tex-macros-p: t
+% End:

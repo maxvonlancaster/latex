@@ -1,0 +1,127 @@
+\documentclass[a5paper,10pt]{article}
+
+\usepackage[cp1251]{inputenc} % Можна [utf8] для Linux
+\usepackage[english,ukrainian]{babel}
+\usepackage[T2A]{fontenc}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage[dvips]{graphicx}
+
+
+
+%\pagestyle{empty}
+\textwidth=120mm
+\textheight=180mm
+\topmargin=-10mm
+\parskip4pt plus2pt minus2pt
+\oddsidemargin=-10mm
+\evensidemargin=-15mm
+\headsep=0mm
+\headheight=0mm
+\renewcommand{\title}[1]{\begin{center}\textbf{\large #1}\end{center}}
+\renewcommand{\author}[3]{\begin{center}
+\textsc{#1}\\\medskip\textit{#2}\\
+\smallskip\textrm{#3}\end{center}}
+\newcounter{abs}
+\renewenvironment{abstract}{\setcounter{abs}{0}\setcounter{equation}{0}
+\noindent}{}
+\renewcommand{\labelenumi}{\theenumi)}
+\tolerance=3000
+\sloppy
+
+
+
+\newtheorem{theorem}[abs]{Теорема}
+\newtheorem{lemma}[abs]{Лема}
+\newtheorem{definition}[abs]{Означення}
+\newtheorem{question}[abs]{Питання}
+\newtheorem{proposition}[abs]{Твердження}
+\newtheorem{corollary}[abs]{Наслідок}
+\newtheorem{remark}[abs]{Зауваження}
+\newtheorem{example}[abs]{Приклад}
+\newtheorem{problem}[abs]{Проблема}
+
+
+\def\C{{ \mathbb{C}}}
+\def\U{{\mathcal{U}}}
+\def\N{{ \mathbb{N}}}
+\def\R{{ \mathbb{R}}}
+\def\Q{{ \mathbb{Q}}}
+\def\Z{{ \mathbb{Z}}}
+\def\K{{ \mathbb{K}}}
+\def\P{{ \mathcal{P}}}
+\def\W{{ \mathcal{W}}}
+\def\I{{ \mathcal{I}}}
+\def\E{{ \mathcal{E}}}
+\def\A{{ \mathcal{A}}}
+\def\eN{{\mathcal{N}}}
+\def\spn{{ \rm{ span }}}
+
+
+
+\begin{document}
+
+\begin{abstract}
+
+\title{Теореми про проміжну функцію для опуклих функцій}
+\author{Маслюченко В. К.}{Чернівецький національний університет ім. Юрія Федьковича}{vmaslyuchenko@ukr.net}
+\author{Мельник В. С.}{Чернівецький національний університет ім. Юрія Федьковича}{windchange7@gmail.com}
+
+
+Добре відомо [1, с. 105], що для нормального простору $X$, неперервної зверху функції $g:X\rightarrow \mathbb{R}$ і неперервної знизу функції $h:X\rightarrow \mathbb{R}$, таких, що $g(x)\leq h(x)$ на $X$, існує така неперервна функція $f:X\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $X$. Це твердження, яке для метричних просторів довів ще Г. Ган [2], називають теоремою про проміжну функцію. Г. Тонґ [3] і М. Катетов [4] узагальнили результат Гана на випадок нормальних просторів і показали, що теорема про проміжну функцію є характеристичною для нормальності у класі $T_{1}$-просторів. Після цього з`явилося багато модифікацій і узагальнень цієї теореми (див. [5] і вказану там літературу). Недавно в [6] був знайдений новий аналог теореми про проміжну функцію: для зростаючої неперервної зверху функції $g:[a,b]\rightarrow \mathbb{R}$ і зростаючої неперервної знизу функції $h:[a,b]\rightarrow \mathbb{R}$, таких, що $g(x)\leq h(x)$ на $[a,b]$ існує така зростаюча неперервна функція $f:[a,b]\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $[a,b]$. У зв`язку з цим постало природне питання: для яких ще властивостей функцій, крім зростання, можна встановити подібні аналоги теореми про проміжну функцію. Тут ми обговорюємо різні аналоги теореми про проміжну функцію для опуклих функцій.
+
+Нагадаємо, що функція $f:E\rightarrow \mathbb{R}$, яка визначена на опуклій підмножині $E$ деякого дійсного векторного простору $X$ називається \textit{опуклою} або \textit{опуклою вниз}, якщо для довільних елементів $x_{1}$ і $x_{2}$ з $E$ і будь-яких скалярів $\lambda_{1}$ і $\lambda_{2}\geq0$, таких, що $\lambda_{1}+\lambda_{2}=1$, виконується нерівність $$f(\lambda_{1}x_{1}+\lambda_{2}x_{2})\leq\lambda_{1}f(x_{1})+\lambda_{2}f(x_{2}).$$ Якщо завжди виконується протилежна нерівність $\geq$, то функція називається \textit{вгнутою} або \textit{опуклою вгору}. Легко перевірити, що функція $f:E\rightarrow \mathbb{R}$ буде опуклою /вгнутою/ тоді і тільки тоді, коли її \textit{строгий надграфік} $$Gr^{+}(f)=\{(x,y):x\in E\quad \textmd{і} \quad y>f(x)\}$$  /\textit{строгий  підграфік}
+
+\begin{equation}\label{1}
+Ax=b
+\end{equation} 
+ 
+буде опуклою множиною в добутку $X\times\mathbb{R}$. Функція $f:X\rightarrow \mathbb{R}$ називається \textit{афінною}, якщо існує такий лінійний функціонал $\varphi:X\rightarrow \mathbb{R}$, що $$f(x)=\varphi(x)+\gamma$$ на $X$ для деякого числа $\gamma\in\mathbb{R}$. Афінна функція на множині $E$ — це звуження на $E$ деякої афінної функції на $X$.
+
+Наступне твердження зводить питання про існування проміжної афінної функції до теореми про відокремлення опуклих множин.
+
+\begin{theorem}
+Нехай $X$ — дійсний векторний простір, $E$ — опукла множина в $X$, $g:E\rightarrow \mathbb{R}$ — вгнута і $h:E\rightarrow \mathbb{R}$ — опукла функції, такі, що $g(x)\leq h(x)$ на $E$. Тоді для того щоб існувала така афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$, необхідно і досить, щоб множини $A=Gr^{-}(g)$ і $B=Gr^{+}(h)$ відокремлювались деякою гіперплощиною в добутку $X\times\mathbb{R}$. Якщо до того ж $X$ — це топологічний векторний простір і внутрішність множини $E$ непорожня, то для існування неперервної афінної функції $f:E\rightarrow \mathbb{R}$, такої, що $g(x)\leq f(x)\leq h(x)$ на $E$ необхідно і досить, щоб множини $A$ і $B$ відокремлювались замкненою гіперплощиною в $X\times\mathbb{R}$.
+\end{theorem}
+
+Звідси, використавши теорему про відокремлення опуклої відкритої і опуклої множин [7, с. 23], отримуємо такий результат.
+
+\begin{theorem}
+Нехай $E$ — відкрита опукла множина в дійсному топологічному векторному просторі $X$, $g:E\rightarrow \mathbb{R}$ — неперервна вгнута функція, $h:E\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$. Тоді існує така неперервна афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+\end{theorem}
+
+В математичній енциклопедії [8, ст. 797] твердиться, що довільні диз'юнктні опуклі множини у дійсному векторному просторі відокремлюються деякою гіперплощиною. Звідси можна отримати відповідний результат про існування афінної проміжної функції для вгнутої і опуклої функцій $g$ і $h$, заданих на довільній опуклій множині. Є ще теорема про відокремлення опуклих множин, в якій використовується поняття $C$-внутрішньої точки [9, с. 446], яку тут теж можна використати.
+
+
+
+{\small
+\begin{thebibliography}{10}
+
+\bibitem{Label1} Энгелькинг Р. {\it Общая топология.}~--- М.: Мир, 1986.~--- 752 с.
+
+\bibitem{Label2} Hahn H. {\it Uber halbstetige und unstetige Functionen }// Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+\bibitem{Label3} Tong H. {\it Some characterizations of normal and perfectly normal spaces }// Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+
+\bibitem{Label4} Katetov M. {\it On real-valued functions in topological spaces }// Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+
+\bibitem{Label5} Маслюченко В. К., Мельник В. С. {\it Про рівномірне відхилення від
+простору неперервних функцій }// Збірник праць Ін-ту математики НАН України~--- Київ: Інститут математики НАН України.~--- 2014.~--- \textbf{11},№3~--- С.173-181.
+
+\bibitem{Label6} Маслюченко В.К., Петей С.П. {\it Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації} // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+
+\bibitem{Label7} Маслюченко В.К. {\it Елементи теорії двоїстості.} — Чернівці: Рута, 2005. — 160 с.
+
+\bibitem{Label8} {\it Математическая энциклопедия. Т.1.} — М.:1977. — 1152 ст.
+
+\bibitem{Label9} Данфорд Н.,  Шварц Дж. {\it Линейные операторы. Общая теория.} — М.: ИЛ, 1962. — 896с.
+
+\end{thebibliography}}
+
+
+
+\end{abstract}
+
+
+\end{document}
+

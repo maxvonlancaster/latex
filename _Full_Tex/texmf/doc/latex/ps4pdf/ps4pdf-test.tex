@@ -1,0 +1,141 @@
+
+% Rolf Niepraschk, niepraschk@ptb.de, 2003-06-19
+%
+% Test for the LaTeX package `ps4pdf'
+%
+% Process this file with:
+%
+% latex ps4pdf-test.tex 
+% dvips -Ppdf -o ps4pdf-test-pics.ps ps4pdf-test.dvi
+% ps2pdf ps4pdf-test-pics.ps ps4pdf-test-pics.pdf # The "graphics container"
+% pdflatex ps4pdf-test.tex # The resulting pdf document.
+%
+% or use the classical way:
+%
+% latex '\PassOptionsToPackage{inactive}{ps4pdf} \input{ps4pdf-test.tex}'
+% dvips ps4pdf-test
+%
+% (The VTeX compiler does not need the explicitly inactive option.) 	
+
+\listfiles\errorcontextlines=100
+\documentclass[draft]{article}
+\usepackage{calc}
+\usepackage[final]{graphicx}
+\usepackage[final]{ps4pdf}
+
+%\containerName{pictures.pdf}% Default is `\jobname-pics.pdf'
+
+\renewcommand{\textfraction}{0}   \setcounter{totalnumber}{8}
+\renewcommand{\topfraction}{1}    \setcounter{topnumber}{8}     
+\renewcommand{\bottomfraction}{1} \setcounter{bottomnumber}{8} 
+
+\PSforPDF{%  Postscript related commands.
+  \usepackage{pstricks,pst-node,pst-tree,multido}
+  \definecolor{lightblue}{cmyk}{0.65,0.13,0,0}  
+
+  \newcommand\wrongDimGraphic{%
+    \begingroup
+      \psset{unit=1pt}%
+      \begin{pspicture}(-80,-80)(80,80)%
+	\pscircle*[linecolor=red](-28,28){57}% 
+	\pscircle*[linecolor=green](28,28){57}% 
+	\pscircle*[linecolor=blue](0,-28){57}% 
+      \end{pspicture}% 
+    \endgroup
+  }
+
+  \newcommand\wrongDimGraphicX{%
+    \begingroup
+      \psset{unit=.75pt}%
+      \begin{pspicture}(-80,-40)(80,40)%
+	\psline[linecolor=blue,linewidth=28]{<->}(-114,0)(142,0)% 
+      \end{pspicture}% 
+    \endgroup
+  }
+
+  \newcommand\wrongDimGraphicY{%
+    \begingroup
+      \psset{unit=.75pt}%
+      \begin{pspicture}(-40,-80)(40,80)%
+	\psline[linecolor=blue,linewidth=28]{<->}(0,114)(0,-142)% 
+      \end{pspicture}% 
+    \endgroup
+  }
+}
+
+\begin{document}
+
+\section*{\centering Some tests for the `ps4pdf' package}
+
+\begin{figure}[hb]
+  \begin{minipage}[b]{.5\textwidth-.5\columnsep}%                
+    \PSforPDF{\resizebox{\linewidth}{!}{\input{4-10-8.inl}}}
+    \caption{A nice PSTricks graphic}
+  \end{minipage}\hfill
+  \begin{minipage}[b]{.5\textwidth-.5\columnsep}%
+    \centering
+    \PSforPDF{\includegraphics[width=.66\linewidth]{penguin}}
+    \caption{An EPS file}
+  \end{minipage}      
+\end{figure}
+
+\begin{figure}[hb]
+  \setlength\fboxsep{0pt}
+  \begin{minipage}{\textwidth}
+    \begin{minipage}[b]{.5\textwidth-.5\columnsep}%
+      \centering                     
+      \fbox{\PSforPDF{\wrongDimGraphicX}}     
+    \end{minipage}\hfill
+    \begin{minipage}[b]{.5\textwidth-.5\columnsep}%
+      \centering
+      \fbox{\PSforPDF[trim=-26pt 0mm 47pt 0mm]{\wrongDimGraphicX}}
+      % trim= DeltaX_left DeltaY_bottom DeltaX_right DeltaY_top
+    \end{minipage}
+  \end{minipage}   
+  \caption{Trimming in horizontal direction}
+\end{figure}
+
+\begin{figure}[hb]
+  \setlength\fboxsep{0pt}
+  \begin{minipage}{\textwidth}
+    \begin{minipage}[b]{.4\textwidth-.4\columnsep}%
+      \centering                     
+      \fbox{\PSforPDF{\wrongDimGraphicY}}     
+    \end{minipage}\hfill
+    \begin{minipage}[b]{.4\textwidth-.4\columnsep}%
+      \centering
+      \fbox{\PSforPDF[trim=0mm -47pt 0mm 26pt]{\wrongDimGraphicY}}
+      % trim= DeltaX_left DeltaY_bottom DeltaX_right DeltaY_top
+    \end{minipage}
+  \end{minipage}   
+  \caption{Trimming in vertical direction}   
+\end{figure}
+
+\clearpage
+
+\begin{figure}[hb]
+  \setlength\fboxsep{0pt}
+  \begin{minipage}{\textwidth}
+    \begin{minipage}[c]{.5\textwidth-.5\columnsep}%
+      \centering                     
+      \fbox{\PSforPDF{\wrongDimGraphic}}     
+    \end{minipage}\hfill
+    \begin{minipage}[c]{.5\textwidth-.5\columnsep}%
+      \centering
+      \fbox{\PSforPDF[trim=-2mm -2mm 2mm 2mm]{\wrongDimGraphic}}
+      % trim= DeltaX_left DeltaY_bottom DeltaX_right DeltaY_top
+    \end{minipage}
+  \end{minipage}   
+  \caption{Trimming in both directions}   
+\end{figure}
+
+\begin{figure}[hb]
+  \setlength\fboxsep{0pt}
+  \begin{minipage}{\textwidth}    
+    \centering                     
+    \PSforPDF[draft]{\includegraphics[width=.66\linewidth]{penguin}}
+  \end{minipage}
+  \caption{The draft parameter (see also package options draft/final)}   
+\end{figure}
+
+\end{document}

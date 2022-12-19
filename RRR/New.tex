@@ -1,0 +1,827 @@
+%\documentclass[slidescenter,11pt]{beamer}
+%\documentclass[slidescenter,9pt,draft]{beamer}
+\documentclass[slidescenter,9pt,handout]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amsmath,amsfonts,amssymb}
+%\usepackage[latin1]{inputenc}       % allow Latin1 characters
+\usepackage[cp1251]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{amsthm}
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps}
+
+%%%%\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+\usecolortheme{orchid}
+\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+
+
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+%\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+%\usepackage{mathpazo}
+
+%\usepackage[sc]{mathpazo}
+%\usepackage{helvet}
+%\renewcommand{\familydefault}{\sfdefault}
+%\usepackage{pifont}
+
+
+% Use some nice templates
+
+ \beamertemplateshadingbackground{red!2}{blue!3}
+% \beamertemplatetransparentcovereddynamic
+ \beamertemplateballitem
+ \beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+
+
+
+
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+
+
+
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\hypersetup{
+   pdfpagemode={FullScreen}
+  }
+
+
+
+\title[Наближення нарізно неперервних функцій і функціональні обернені задачі]
+{Наближення нарізно неперервних функцій і функціональні обернені задачі}
+
+
+
+\author[Маслюченко В.К.]{\textbf{ Маслюченко В.К.}}
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+ %\pgfdeclareimage[height=0.4cm]{university-logo}{logo-ugr03}
+% \logo{\pgfuseimage{university-logo}}
+
+\begin{document}
+
+%\input kd_not.tex
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+%\section{Основні позначення та означення}
+
+%\subsection{Позначення}
+
+\begin{frame}\frametitle{Заспів}
+\begin{exampleblock}{}
+В теорії наближення нарізно неперервних функцій виділяють два напрямки: поточкові наближення і пошарові рівномірні наближення. В той час коли перший напрямок виник давно, ще в класичних працях А. Лебеґа, Г. Гана, К. Куратовського, і був продовжений у роботах В. Рудіна, Ґ. Вери та інших  математиків, другий напрямок сформувався порівняно недавно, він активно розвивається в дослідженнях математиків Чернівецької школи теорії функцій (В. Маслюченко, В. Михайлюк, О. Карлова, О. Собчук, Г. Волошин та ін.) лише в останньому десятилітті.
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}\frametitle{Нарізно неперервні функції і берівська класифікація: класики}
+
+\begin{exampleblock}{\centerline{Рене Бер (1874 - 1932)}}
+
+1. Baire R. Sur la th\'eorie g\'en\'erale de fonctions de variables r\'eelles// C.R. - 1897. - $\bf 125$. - P.691-694.
+
+2. Baire R. Sur les fonctions discontinues d\'eveloppables ens\'eries de fonctions continues// C.R. - 1898. - $\bf 126$. - P.884-887.
+
+3. Baire R. Sur les fonctions discontinues qui se rattachent aux fonctions  continues// C.R. - 1898. - $\bf 126$. - P.1521-1523.
+
+4. Baire R. Sur la th\'eorie des fonctions discontinues// C.R. - 1899. - $\bf 127$. - P.1010-1013.
+
+5.  Baire R. Sur les fonctions des variables re\'elles// Ann. Mat. Pura Appl., ser.3. - 1899. - $\bf 3$. - P.1-123.
+
+\end{exampleblock}
+
+\begin{block}{\centerline{Анрі Лебеґ (1875 - 1941)}}
+
+6. Lebesque H. Sur
+l'approximation des fonctions// Bull. Sci. Math. - 1898. - $\bf 22$. - P.278-287.
+
+7. Lebesgue H. Sur les fonctions repr\'esentables analytiqment//
+Journ.de Math. s\'er 6. - 1905. - $\bf 1$P.139-216.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}\frametitle{Позначення}
+
+\begin{exampleblock}{}
+
+-- $C(X,Y)$ -- простір неперервних відображень $f: X\rightarrow Y$;
+
+-- $B_1(X,Y)$ -- простір відображень першого класу Бера, тобто поточкових послідовностей границь послідовностей неперервних функцій $f_n: X\rightarrow Y$;
+
+-- $f: X\times Y\rightarrow Z$, $f(x,y)=f^x(y)=f_y(x)$;
+
+-- $CC(X\times Y, Z)=$$$=\{f\in Z^{X\times Y}: (\forall x\in X) (f^x \in C(Y, Z))\wedge (\forall y\in Y)(f_y\in C(X, Z)) \}$$ -- cукупність усіх нарізно неперервних відображень $f: X\times Y\rightarrow Z$;
+
+-- $g(x)=f(x,x)$ -- діагональ відображення $f: X^2 \rightarrow Z$.
+
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{Результати Бера і Лебеґа та їх розвиток}
+
+\begin{alertblock}{\centerline{Теорема 1. (Р.Бер, 1898, 1899)}}
+
+Функція $g: [a,b] \rightarrow \mathbb{R}$ є діагоналлю деякої нарізно неперервної функції $f: [a,b]^2 \rightarrow \mathbb{R}$ тоді і тільки тоді, коли вона є першого класу Бера.
+
+\end{alertblock}
+
+\begin{alertblock}{\centerline{Теорема 2. (A.Лебеґ, 1898)}}
+
+$CC([a,b]\times [c,d], \mathbb{R})\subseteq B_1 ([a,b]\times [c,d], \mathbb{R})$.
+
+\end{alertblock}
+
+\begin{block}{\centerline{Розвиток}}
+
+Г.Ган, К.Куратовський, Д.Монтґомері, В.Моран, Б.Джонсон, Ж.Сан-Ремо, В.Рудін, Ґ.Вера, Р.Генсел, В.Маслюченко, О.Собчук, О.Карлова, Т.Банах та ін.
+
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Узагальнення результату Гана}
+
+\begin{block}{\,}
+
+8. Hahn H. Reele Funktionen. 1. Teil. Punktfunktionen. -- Leipzig: Academische Verlagsgesellschaft M.B.H., 1932. -- 416S.
+
+9. Глушко Г.А., Маслюченко В.К. Функції Гана і класифікація Бера// Мат.Студії. --2011. -- 36, №1. -- С.97-106.
+
+\end{block}
+
+
+\begin{alertblock}{\, }
+
+ $(X,d)$ -- метричний простір,  $x'x''=d(x', x'')$,  $a_1,...,a_n$ -- різні точки з $X$,
+$$
+\psi(x)=\min\{xa_1,...,xa_n\},\,\,\,\psi_k(x)=\max\{2\psi(x)-xa_k,0\},
+$$
+
+$$
+\,\,\,\varphi_{n,k}(x)=\frac{\psi_k(x)}{\sum\limits_{i=1}^n \psi_i(x)}\,\,\,{\mbox{при}}\,\,\,x\neq a_k\,\,\,{\rm i}\,\,\, \varphi_{n,k}(a_k)=1.
+$$
+
+$Z$ -- топологічний векторний простір, $g\in C(X,Z)$,
+
+$$g_n(x)=H_ng(x)=\sum\limits_{k=1}^{n}\varphi_{n,k}(x)g(a_k),$$
+$H_n: C(X,Z)\rightarrow C(X,Z)$ -- оператор Гана.
+\end{alertblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{Узагальнення результату Гана}
+
+\begin{alertblock}{\centerline{Теорема 3}}
+
+Нехай $X$ -- сепарабельний метричний простір, $Z$ -- локально опуклий простір над полем $\mathbb{K}=\mathbb{R}$ або $\mathbb{C}$ i $A=\{a_k:k\in \mathbb{N}\}$ -- всюди щільна в $X$ множина, що
+ складається з різних точок $a_k$. За кожним набором точок $a_1,...,a_n$ побудуємо функції $\varphi_{n,k}$ і відповідний оператор Гана $H_n$.
+
+ \qquad a). Нехай $g \in C(X,Z)$ i $g_n=H_ng$. Тоді $g_n\in C(X,Z)$ і для кожного $x\in X$ $$g_n(x)\rightarrow g(x)$$
+ при $n\rightarrow\infty$ у просторі $Z$.
+
+ \qquad б). Нехай $Y$ -- топологічний простір, $f\in CC(X\times Y,Z)$ i
+ $$f_n(x,y)=(H_nf_y)(x)$$
+ для довільних $(x,y)\in X\times Y$. Тоді $f_n\in C(X\times Y,Z)$ i
+ $f_n(p)\rightarrow f(p)$
+ у просторі $Z$ для кожної точки $p\in X\times Y$. Зокрема, $f\in B_1(X\times Y,Z)$ i $CC(X\times Y,Z)\subseteq B_1(X\times Y,Z)$.
+
+\end{alertblock}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Нова редакція результату Рудіна}
+
+\begin{block}{\,}
+
+10. Rudin W. Lebesgue first theorem// Math. Analysis and Aplications, Part B. Edited by Nachbin. Adv. in Math. Supplem. Studies 78. - Academic Press, 1981. - P.741-747.
+
+\end{block}
+
+\begin{alertblock}{\, }
+
+Нехай $X$ -- метричний простір. Для кожного номера $n$ розглянемо покриття $\mathcal{B}_n$ простору $X$ відкритими кулями
+$$B(x, \frac{1}{n})=\{u\in X: ux<\frac{1}{n}\},$$
+де $x\in X$. Згідно з теоремою Стоуна у кожне покриття $\mathcal{B}_n$ можна вписати відкрите локально скінченне покриття $\mathcal{U}_n$. За теоремою Майкла для кожного $n$ існує розбиття одиниці $(\varphi_{n,i})_{i\in I_n}$, яке підпорядковане покриттю $\mathcal{U}_n$ та складається з ненульових неперервних функцій $\varphi_{n,i}: X\rightarrow [0,1]$. Виберемо в кожному з носіїв $supp \varphi_{n,i}=\{x\in X: \varphi_{n,i}(x)\neq 0\}$ деяку точку $x_{n,i}$.
+
+\end{alertblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{Нова редакція результату Рудіна}
+
+\begin{block}{\, }
+
+Нехай $Z$ -- топологічний векторний простір і $g: X\rightarrow Y$ -- неперервне відображення. Для довільного номера $n$ і для кожного $x$ з $X$ покладемо
+
+$$g_n(x)=(R_ng)(x)=\sum\limits_{i\in I_{n}}\varphi_{n,i}(x)g(x_{n,i}).$$
+
+$R_n: C(X,Z)\rightarrow C(X,Z)$ -- оператори Рудіна.
+
+\end{block}
+
+\begin{alertblock}{\centerline{Теорема 4 }}
+
+Нехай $X$ -- метричний простір, $Z$ -- локально опуклий простір і $R_n$ -- оператори Рудіна.
+
+\qquad a). Нехай $g \in C(X,Z)$ i $g_n=R_ng$. Тоді $g_n(x)\rightarrow g(x)$ при $n\rightarrow\infty$ для кожного $x$ з $X$.
+
+\qquad б). Нехай $Y$ -- топологічний простір, $f\in CC (X\times Y, Z)$ і $f_n(x,y)=(R_nf_y)(x)$. Тоді  $f_n\in C(X\times Y, Z)$ i $f_n(x,y)\rightarrow f(x,y)$ на $X\times Y$, зокрема $CC(X\times Y, Z)\subseteq B_1(X\times Y, Z)$.
+
+\end{alertblock}
+
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Розвиток методу  Рудіна і проблема}
+
+\begin{block}{\,}
+
+11.  Karlova O.,  Maslyuchenko V., Mykhaylyuk V. Equiconnected spaces and Baire classification of separately continuous functions and their analogs// Cent. Eur. J. Math. -- 2012. -- \textbf{10}, №3. -- 1042-1053.
+
+\end{block}
+
+\begin{alertblock}{\centerline{Проблема }}
+
+Чи справджується включення $CC(X\times Y, Z )\subseteq B_1 (X\times Y, Z)$, якщо $X$ -- метричний простір, $Y$ -- топологічний простір, $Z$ -- топологічний векторний простір?
+
+\end{alertblock}
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Метод Лебеґа і рівномірна збіжність}
+
+\begin{block}
+
+ $ g\in C[0,1]\, /g\in C(\mathbb{R})/$  $(g_n=L_ng)$ $g_n\in C[0,1]\, /g_n\in C(\mathbb{R})/$  $Gr(g_n)$ -- ламана з вершинами у точках $(\frac{k}{n}, g(\frac{k}{n}))$ при  $k=0,1,\ldots, n \, /k\in \mathbb{Z}/$.
+
+ \end{block}
+
+\begin{block}{\centerline{А.Лебеґ}}
+
+6. {Lebesque H.} Sur l'approximation des fonctions/ H. Lebesque // Bull.
+Sci. Math. -- 1898. -- $\bf 22$. -- P.278-287.
+\newline
+
+{А.Лебеґ}: $ f\in CC(\mathbb R^{2})\,  i \,  f_n(x,y)=(L_nf^x)(y) \Rightarrow f_n\in C(\mathbb R^2))\, i \, f_n(x,y)\rightarrow f(x,y))\, \mbox{на}\, \mathbb{R}^2$.
+
+\end{block}
+
+\begin{block}{\centerline{М.Цуджі}}
+12. {Tsuji M.} On Bair's Theorem concerning a function $f(x,y)$
+which is continuous with respect to each variable $x$ and $y$/ M. Tsuji  //
+J. Math. Soc. Japan. -- 1951. -- $\bf 2$,  №{3-4}. -- P. 210-212.
+\newline
+
+{М.Цуджі}: $ f\in CC(\mathbb [0,1]^{2})\,  i \,  h_n(x,y)=(L_{2^n}f^x)(y) \Rightarrow h_n\in C [0,1]^2\, i \, h_n^x\rightrightarrows f^x\, \mbox{для кожного }\, x\in[0,1]$.
+
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Застосування многочленів Бернштейна}
+
+\begin{block}{}
+
+13.  Власюк Г.А., Маслюченко В.К.  Многочлени Бернштейна і нарізно
+неперервні функції// Наук. вісник Чернівецького ун-ту.
+  Вип. 336-337. Математика. -- Чернівці: Рута,  2007. --  С.~52-59.
+
+\end{block}
+
+\begin{alertblock}{}
+Многочлени Бернштейна
+$$(B_n g)(y) = \sum\limits_{k=0}^n C_n^k g ( \frac k n ) y^k
+(1-y)^{n-k},$$
+де $g\in C[0,1]$, $C_n^k = \frac {n!} {k!(n-k)!}$
+-- біноміальні коефіцієнти.
+\end{alertblock}
+
+
+
+\begin{exampleblock}{ \centerline{ Теорема Бернштейна, 1912}} % ось як в порожніх дужках
+
+$B_n g
+\rightrightarrows g$ на $[0,1]$ для кожної функції $g \in C[0,1]$.
+\end{exampleblock}
+
+
+\begin{exampleblock}{ \centerline{ Теорема 5}} % ось як в порожніх дужках
+
+Нехай $f \in CC([0,1]^2)$ i $f_n(x,y)
+= (B_n f^x)(y)$ при $(x,y) \in [0,1]^2$ для кожного номера $n$.
+Тоді для кожного $n$ функції $f_n: [0,1]^2 \to \mathbb{R}$
+неперервні за сукупністю змінних, належать до простору $CP([0,1]^2)$ i $f_n^x \rightrightarrows f^x$ на $[0,1]$ для
+кожного $x \in [0,1]$.
+
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{Дві характеризації метризовних компактів}
+
+\begin{block}{\centerline{}}
+$C_u(Y)$, $\|g\|=\max\limits_{y\in Y}|g(y)|$;
+
+$C_p(Y)$, $q_y(g)=|g(y)|$, $y\in Y$
+
+$B_n: C_p[0,1]\rightarrow C_u[0,1]$ -- неперервний і $B_ng\rightarrow g$ в $C_u[0,1]$ для кожного $g\in C[0,1]$
+
+Тотожний оператор $I:C_p[0,1]\rightarrow C_u[0,1]$ є першого класу Бера.
+
+\end{block}
+
+\begin{alertblock}{\centerline{}}
+Компакт $Y$ назвемо {компактом Бернштейна}, якщо тотожний оператор
+$I: C_p(Y) \to C_u(Y)$ належить до $B_1(C_p(Y), C_u(Y))$.
+\end{alertblock}
+
+\begin{block}{}
+
+$f\in CC([0,1]^2)$, $\varphi(x)=f^x$ -- асоційоване з $f$ відображення
+
+$\varphi:X\rightarrow C_p[0,1]$ -- неперервне
+
+$\varphi:X\rightarrow C_u[0,1]$ -- 1-го класу Бера
+
+\end{block}
+
+\begin{alertblock}{\centerline{}}
+Компакт $Y$ назвемо {компактом Бера}, якщо для кожного
+топологічного простору $X$ виконується включення $C(X, C_p(Y))
+\subseteq B_1(X, C_u(Y))$.
+\end{alertblock}
+
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Дві характеризації метризовних компактів}
+
+\begin{exampleblock}{ \centerline{ Теорема 6}} % ось як в порожніх дужках
+Нехай $Y$ -- компакт. Тоді наступні умови
+еквівалентні:
+\newline
+
+(і) $Y$ -- метризовний компакт;
+\newline
+
+(іі) $Y$ -- компакт Бернштейна;
+\newline
+
+(ііі) $Y$ -- компакт Бера.
+\end{exampleblock}
+
+\begin{block}{}
+
+$$(T_n g)(y) =
+\sum\limits_{j=1}^{m_n} \varphi_{n,j}(y)g(y_{n,j}),$$
+
+$g_n=T_n g \to g$ в $C_u(Y)$ для кожного $g \in
+C(Y)$.
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}\frametitle{Нове доведення теореми Бера}
+\begin{exampleblock}{ \centerline{ }} % ось як в порожніх дужках
+
+Нехай $Y$ -- метризовний компакт, $X$ -- довільний топологічний
+простір, $f \in CC(X \times Y)$ i $\varphi : X \to
+C_p(Y)$ -- асоційоване з $f$ відображення.  Оскільки $\varphi \in C(X,
+C_p(Y))$ i $C(X, C_p(Y))\subseteq B_1(X, C_u(Y))$, то $\varphi \in B_1(X, C_u(Y))$. За теоремою Бера-Гана
+ множина $C(\varphi)$ залишкова в $X$. Але з компактності простору $Y$ легко вивести, що $C(\varphi)=C_{Y}(f)$
+Отже, множина $C_Y(f)$ залишкова в $X$, що і треба було довести.
+
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{$\alpha\beta$-неперервні оператори та $\alpha\beta$-простори}
+
+\begin{block}{}
+Для підпростору $L$ простору $C(Y)$ покладемо
+$CL(X\times Y)=\{f\in CC(X\times Y): \varphi(X)\subseteq L\},$
+де $\varphi$ -- асоційоване з $f$ відображення.
+\end{block}
+
+\begin{block}{}
+ $Y$ -- компактний простір.
+\end{block}
+
+\begin{alertblock}{\centerline{}} % ось як в порожніх дужках
+Неперервне відображення $\varphi: X\rightarrow C_p(Y) / \varphi: X\rightarrow C_u(Y)/$  назвемо
+{$p$-неперервним} {$/u$-неперервним} $/$ відображенням.
+\end{alertblock}
+
+
+\begin{alertblock}{\centerline{}} % ось як в порожніх дужках
+$\alpha=p,u$ і  $\beta=p,u$, $s=\alpha\beta$.
+
+Неперервний оператор $A: C_{\alpha}(Y)\rightarrow C_{\beta}(Y) $ називаємо {$s$-неперервним}.
+
+\centerline{\includegraphics[height=1.3cm]{pp-001.jpg}}
+
+\end{alertblock}
+
+\begin{exampleblock}{}
+Оператори Бернштейна $B_n$ -- $pu$-неперервні оператори.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{Зв'язок між $s$-просторами та $as$-просторами}
+
+\begin{alertblock}{\centerline{}} % ось як в порожніх дужках
+Нехай $L$ -- всюди щільний лінійний підпростір простору $C_u(Y)$, $s=\alpha\beta$. Підпростір $L$  називається
+
+--  {$s$-простором} для топологічного простору $X$, якщо для кожного $\alpha$-неперервного відображення $\varphi: X\rightarrow C(Y)$ існує послідовність $\beta$-неперевних відображень  $\varphi_n: X\rightarrow L$, така, що $\varphi_n (x)\rightarrow \varphi(x)$ в $C_u(Y)$ на $X$;
+
+-- {$as$-простором}, якщо існує така послідовність $s$-неперервних операторів $A_n: C(Y)\rightarrow L$, що $A_ng\rightarrow g$ в $C_u(Y)$ для кожного $g\in C(Y)$.
+\end{alertblock}
+
+\begin{exampleblock}{\centerline{Теорема 7}}
+Нехай  $Y$ -- компактний простір і $L$ -- підпростір простору $C(Y)$ i $s\in~\{pp,pu,up,uu\}$. Тоді наступні властивості рівносильні:
+
+(і) $L$ є $as$-простором;
+
+(іі) $L$ є $s$-простором для кожного топологічного простору $X$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Наближення тригонометричними поліномами}
+
+\begin{block}
+
+14. Волошин Г.А., Маслюченко В.К. Про наближення нарізно неперервних функцій, $2\pi$-періодичних відносно другої змінної//Карп. матем.публ. -- 2010. -- {\bf{2}}, №1 -- С. 4-14.
+
+\end{block}
+
+\begin{exampleblock}{\centerline{}}
+
+-- $C_{2\pi}$  --  банаховий простір всіх неперервних $2\pi$-періодичних функцій $g: \mathbb{R}\rightarrow \mathbb{R}$ з нормою $\|g\|=\max_{y\in \mathbb{R}}|g(y)|=\max_{0\leq y\leq 2\pi}|g(y)|;$
+
+-- $CC_{2\pi}(X \times \mathbb{R})$ -- сукупність всіх відображень $f:X \times \mathbb{R} \to \mathbb{R}$, які
+неперервні відносно першої змінної і неперервними та $2\pi$-періодичними   відносно другої;
+
+-- $T$ -- сукупність усіх тригонометричних поліномів $g: \mathbb{R}\rightarrow \mathbb{R}$, тобто функцій
+$g(y)=~a_0+\sum\limits_{k=1}^{n}(a_k cosky + b_k sin ky )$;
+
+-- $CT(X \times \mathbb{R})$ -- це множина тих функцій $f: X \times \mathbb{R}\rightarrow \mathbb{R}$, для яких функції $f_y:  \mathbb{X}\rightarrow \mathbb{R}$  неперервні для кожного $y\in \mathbb{R}$, а функції $f^x: \mathbb{R}\rightarrow \mathbb{R}$ -- це тригонометричнi поліноми для кожного $x\in X$.
+
+\end{exampleblock}
+
+\begin{alertblock}
+
+К.Вейєрштрасс: $g\in C_{2\pi}\Rightarrow \exists( g_n)_{n=1}^{\infty}| g_n\in T\, i \, g_n\rightrightarrows g \, \mbox{на} \, \mathbb{R}$.
+
+\end{alertblock}
+
+\end{frame}
+
+\begin{frame}\frametitle{Застосування многочленів Фейєра }
+
+\begin{alertblock}
+
+Многочлени Фейєра
+$(F_n g)(x)=\frac{1}{\pi}\int \limits_{-\pi}^\pi g(x+t)K_n(t)dt,$
+де $K_n(t)=\frac{2}{n+1}\left(\frac{sin (n+1)\frac{t}{2}}{2 sin \frac{t}{2}}\right)^2$ -- ядро Фейєра.
+\end{alertblock}
+
+
+\begin{exampleblock}{  \centerline{Теорема 8}} % ось як в порожніх дужках
+
+а). Оператори Фейєра $F_n$ є $uu$-неперервними, але не є $pp$-неперервними.
+
+б). Для довільного топологічного простору $X$ і кожної сукупно неперервної і ${2\pi}$-періодичної відносно  другої змінної функції $f: X \times \mathbb{R} \rightarrow \mathbb{R}$ функції
+$$f_n(x,y)=(F_n f^x)(y)$$
+сукупно неперервні і належать до простору $CT(X\times \mathbb{R})$, причому $f^x_n\rightrightarrows f^x$ на $\mathbb{R}$ для кожного $x\in X$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Застосування многочленів Джексона }
+
+\begin{alertblock}
+
+Многочлени Джексона
+$$(J_ng)(y)=\frac{2}{n+1}\sum\limits_{k=0}^n g\left(\frac{2k\pi}{n+1}\right)K_n\left(y-\frac{2k\pi}{n+1}\right),$$
+де $K_n$ -- ядро Фейєра.
+
+\end{alertblock}
+
+\begin{exampleblock}{  \centerline{Теорема 9}} % ось як в порожніх дужках
+
+ а). Оператори Джексона $J_n$ є $pu$-неперервними операторами;
+
+б). Для довільного топологічного простору $X$ i кожної функції $f\in CC_{2\pi}(X \times \mathbb{R})$ функції
+$$f_n(x,y)=(J_n f^x)(y)$$
+сукупно неперервні і належать до простору $CT(X\times \mathbb{R})$, причому $f^x_n\rightrightarrows f^x$ на $\mathbb{R}$ для кожного $x\in X$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Застосування теореми про близькі базиси}
+
+\begin{block}
+
+15. Волошин Г.А., Маслюченко В.К., Маслюченко О.В. Про наближення нарізно і сукупно неперервних функцій//Карп. матем.публ. -- 2010. -- {\bf{2}}, №2 -- С.11-21.
+
+\end{block}
+
+\begin{exampleblock}{\centerline{Теорема про близькі базиси}}
+ Нехай $(x_k)_{k=1}^{\infty}$ -- нормований базис у банаховому просторі $X$ з базисною константою $K$ i $(y_k)_{k=1}^{\infty}$ -- послідовність векторів з $X$, для якої $\sum\limits_{k=1}^{\infty}\|x_k-y_k\|<\frac{1}{2K}$. Тоді і $(y_k)_{k=1}^{\infty}$ -- це базис в $X$, який еквівалентний базису $(x_k)_{k=1}^{\infty}$.
+\end{exampleblock}
+
+\begin{block}{\centerline{}}
+
+Ю.Шаудер (1927): простір $C_u[0,1]$ має базис.
+
+З.Самадені (1982): для довільного метризовного компакта $Y$ простір $C_u(Y)$ має базис.
+\end{block}
+
+\begin{exampleblock}{  \centerline{Теорема 10}} % ось як в порожніх дужках
+
+Кожний всюди щільний в $C_u[0,1]$ лінійний підпростір $L$ є $auu$-простором
+\end{exampleblock}
+
+
+\end{frame}
+
+\begin{frame}\frametitle{Застосування теореми про близькі базиси}
+
+\begin{exampleblock}{  \centerline{Теорема 11}} % ось як в порожніх дужках
+Нехай $Y$ -- такий компактний простір, що простір $C_u(Y)$ має базис і $L$ -- всюди щільний лінійний підпростір  $C_u(Y)$. Тоді $L$ -- це $auu$-простір.
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Теорема 12}} % ось як в порожніх дужках
+Нехай $X$ -- топологічний простір, $Y$ -- метризовний компакт,  $L$ -- всюди щільний лінійний підпростір  $C_u(Y)$, $f: X\times Y\rightarrow \mathbb{R}$ -- сукупно неперервна функція. Тоді існує послідовність сукупно неперервних функцій $f_n: X\times Y\rightarrow \mathbb{R}$, така, що $f_n^x\in L$ для кожного $x\in X$ і номера $n\in \mathbb{N}$ і $f_n^x\rightrightarrows f^x$ на $Y$ для кожного $x\in X$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Топологізація простору нарізно неперервних функцій}
+\begin{exampleblock}{}
+16. Волошин Г.А., Маслюченко В.К. Топологізація простору нарізно неперервних функцій // Карпат. мат. публ.~--- 2013.~--- 5,№2. - С. 199-207.
+\end{exampleblock}
+
+\begin{exampleblock}{}
+Нехай $X$ і $Y$~--- компактні топологічні простори. Розглянемо на векторному просторі $CC(X\times Y)$ дві сім'ї переднорм, поклавши для функції $f\in CC(X\times Y)$ і довільних елементів $x\in X$ і $y\in Y$ $$||f||^{x}=||f^{x}||_{\infty}\textmd{ і }||f||_{y}=||f_{y}||_{\infty}.$$ Локально опуклу топологію $\mathcal{T}$ на просторі $CC(X\times Y)$, що породжується сукупністю переднорм  $$\{||\cdot||^{x}:x\in X\}\cup \{||\cdot||_{y}:y\in Y\}$$ ми називаємо топологією пошарової рівномірної збіжності, бо $f_{n}\rightarrow f$ у просторі $(CC(X\times Y),\mathcal{T})$ тоді і тільки тоді, коли $f_{n}^{x}\rightrightarrows f^{x}$ на $Y$ для кожного $x\in X$ і $(f_{n})_{y}\rightrightarrows f_{y}$ на $X$ для кожного $y\in Y$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+\begin{frame}\frametitle{Рівність $\overline{P}^{s}=\overline{C}^{s}$}
+\begin{exampleblock}{}
+17. Волошин Г.А., Маслюченко В.К., Маслюченко О.В. Про пошарово рівномірне наближення нарізно неперервних функцій многочленами // Мат. вісник НТШ.~--- 2013.~--- \textbf{10}. - С. 135-158.
+\end{exampleblock}
+
+
+\begin{exampleblock}{}
+$X=Y=[0,1]$, $Q=[0,1]^{2}$, $C=C[0,1]^{2}$, $S=CC[0,1]^{2}$ і $P$~--- простір поліномів від двох змінних на $[0,1]^{2}$. $P\subset C\subset S$.
+
+$\overline{E}^{s}$~--- секвенціальне замикання множини $E$ в топологічному просторі.
+
+Проблема: описати $\overline{P}^{s}$ у просторі $S$.
+\end{exampleblock}
+
+\begin{exampleblock}{ \centerline{Теорема 13}}
+$$\overline{P}^{s}=\overline{C}^{s}.$$
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}{Лінійна інтерполяція}
+\begin{exampleblock}{}
+Нехая $A$~--- скінченна підмножина скінченного інтервалу $(a,b)$ числової прямої і $\widetilde{A}=A\cup \{a,b\}$. Занумеруємо елементи $\widetilde{A}$ у порядку зростання: $\widetilde{A}=\{a_{k}: k=0,1,...,n+1\}$. Тоді $A=\{a_{k}:k=1,...,n\}.$
+
+Кожній функції $g:[a,b]\rightarrow \mathbb{R}$ поставимо у відповідність функцію $h=L_{A}g$, графіком якої є ламана з вузлами $(a_{k}, g(a_{k}))$.
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Лема }}
+Нехай $A=\{a_{k}:k\in \mathbb{N}\}$~--- зліченна підмножина інтервала $(a,b)$, яка всюдищільна в ньому, яка всюди щільна в ньому, причому $a_{k}\neq a_{j}$, при $k\neq j$, $A_{n}=\{a_{1},...,a_{n}\}$, $g\in C[a,b]$ і $g_{n}=L_{A_{n}}g$. Тоді $g_{n}\rightrightarrows g$ на $[a,b]$.
+\end{exampleblock}
+
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Застосування лінійної інтерполяції}
+\begin{exampleblock}{  \centerline{Теорема 14.}}
+Нехай $f\in S$ і $A=\{a_{k}:k\in \mathbb{N}\}$~--- зліченна підмножина інтервалу $(0,1)$, яка всюди щільна в ньому і $a_{k}\neq a_{j}$ при $k\neq j$, $A_{n}=\{a_{1},...,a_{n}\}$ і $f_{n}(x,y)=(L_{A_{n}}f_{y})(x)$ для $(x,y)\in [0,1]^{2}$. Тоді $f_{n}\in C$ для кожного $n$, $(f_{n})_{y}\rightrightarrows f_{y}$ на $[0,1]$ для кожного $y\in [0,1]$, $f_{n}^{x}\rightrightarrows f^{x}$ для кожного $x\in C_{Y}(f)$, де $Y=[0,1]$, і $f_{n}^{x}\rightarrow f^{x}$ дискретно для кожного $x\in \widetilde{A}=A\cup \{0,1\}$.
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Наслідок.}}
+Нехай $f\in S$ і проекція множини $D(f)$ на вісь абсцис чи ординат не більш ніж зліченна. Тоді $f\in \overline{C}^{s}$.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Розвиток методу лінійної інтерполяції}
+
+\begin{exampleblock}{}
+18. Волошин Г.А., Маслюченко В.К. Про лінійну інтерполяцію векторнозначних функцій, яка зберігає звуження // Прикарп. вісн. НТШ. Число.~--- 2015.~--- 1(29).~--- С. 11-19.
+
+19. Волошин Г.А., Маслюченко В.К. Секвенціальне замикання простору сукупно неперервних функцій у просторі нарізно неперервних функцій // Укр. мат. журн.,~--- 2016.~--- \textbf{68}, №2.~--- С.156-161.
+
+20. Волошин Г.А., Маслюченко В.К. Пропошарово рівномірну апроксимацію нарізно неперервних функцій // Бук. мат. журн.~--- 2016.~--- \textbf{4}, №1-2.~--- С.18-25.
+
+21. Волошин Г.А., Маслюченко В.К. До питання про ппошарово рівномірне наближення нарізно неперервних функцій// Мат. вісн. НТШ.~--- 2016.~--- \textbf{13}.~--- С. 40-47.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Рівність $\overline{C}^{s}=S$}
+\begin{exampleblock}{}
+22. Karlova O., Mykhaylyuk V. Baire classification of fragmented maps and approximation of separately continuous functions// European Journal of Mathematics,~--- 2016.~--- \textbf{3} (1)~--- p. 87-110.
+
+23. Банах Т. Про секвенціальне замикання множини неперервних функцій у просторі нарізно неперервних функцій// Бук.мат.журн.~--- 2015.~--- \textbf{3}, №3-4~--- с. 27-32.
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Теорема 15.}}
+$\overline{C}^{s}=S.$
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}\frametitle{Функціонально обернена задача для сукупно неперервних функцій}
+\begin{exampleblock}{}
+Якщо для простоти розглянути функцію $f:[0,1]^{2}\rightarrow \mathbb{R}$, яка неперервна відносно другої змінної, то для неї можна визначити функції $\alpha_{n}(x)= E_{n}(f^{x})$ на $[0,1]$, де  $E_{n}$ -- найкраще рівномірне наближення многочленами степеня $\leq n$, а  $f^{x}(y)=f(x,y)$ на $[0,1]$. Можна показати, що для сукупно неперервної функції $f$ функцій $\alpha_{n}:[0,1]^{2}\rightarrow \mathbb{R}$ неперервні. Аналогічно до оберненої задачі Бернштейна можна поставити питання [13]: чи для кожної спадної послідовності невід'ємних неперервних функцій  $\alpha_{n}:[0,1]^{2}\rightarrow \mathbb{R}$, яка поточково прямує до нуля, існує така сукупно неперервна функція $f:[0,1]^{2}\rightarrow \mathbb{R}$, що $E_{n}(f^{x})=\alpha_{n}(x)$ на $[0,1]$ для кожного $ n$? Ця задача досі ще не розв'язана, отримано лише позитивний результат для скінченного числа функцій $\alpha_{0}, \alpha_{1},...,\alpha_{n}$.
+\end{exampleblock}
+
+\begin{exampleblock}{}
+24. Волошин Г.А., Маслюченко В.К. Функціональне узагальнення однієї теореми Бернштейна // Мат. студії.~--- 2010.~--- \textbf{33},№2.~--- C. 220-224.
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}\frametitle{Функціонально обернена задача для нарізно неперервних функцій.}
+\begin{exampleblock}{}
+Для нарізно неперервних функцій $f:[0,1]^{2}\rightarrow \mathbb{R}$ функції $\alpha_{n}(x)= E_{n}(f^{x})$ можуть бути розривними, але обов'язково належать до першого класу Бера. Постає природне питання про опис функціональних  послідовностей $(\alpha_{n})_{n=1}^{\infty} $ і для нарізно неперервних функцій. Тут нетривіальною є уже нульова обернена задача про опис функції  $\alpha_{0}(x)= E_{0}(f^{x})$ для нарізно неперервних функцій, яка розв'язана в [25].
+\end{exampleblock}
+
+\begin{exampleblock}{}
+25. Волошин Г.А., Маслюченко В.К., Мельник В.С. Пари Гана і нульова обернена задача // Мат. студії.  –- 2017.  -- 48, №1. -- С.74-81.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Формули для $E_{0}(f)$}
+\begin{exampleblock}{}
+Для довільної функції $f:X\rightarrow \mathbb{R}$, заданої на множині $X$ розглянемо числа $$M(f)=\sup\limits_{x\in X}^{} f(x)\textmd{, }m(f)=\inf\limits_{x\in X}^{} f(x)\textmd{ і } E_{0}(f)=\inf\{||f-c||:c\in \mathbb{R}\}.$$
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Теорема 16.}}
+Нехай $X$~--- непорожня множина, $f:X\rightarrow \mathbb{R}$~--- обмежена функція і $\mu=\frac{1}{2}(M(f)-m(f))$. Тоді $E_{0}(f)=\mu$, при цьому стала функція $c_{0}=\frac{1}{2}(M(f)+m(f))$ є єдиною серед сталих функцій, для якої використовується рівність $$E_{0}(f)=\mu=||f-c_{0}||.$$
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Пари Гана}
+\begin{exampleblock}{}
+Парою Гана на топологічному просторі $X$ ми називаємо таку пару $(g,h)$ функцій $g,h:X\rightarrow \mathbb{R}$, що $g(x)\leq h(x)$ на $X$, $g$~--- напівнеперервна зверху, $h$~--- напівнеперервна знизу. Будь-яка функція $f:X\rightarrow \mathbb{R}$, для якої $g(x)\leq f(x)\leq h(x)$ на $X$ називається проміжною для пари Гана $(g,h)$. Відомо, що $T_{1}$-простір $X$ є нормальним тоді і тільки тоді, коли кожна пара Гана $(g,h)$ на $X$ має неперервну проміжну функцію. Це твердження ми називаємо теоремою Гана-Д'єдонне-Тонґа-Катетова чи, коротше, теоремою Гана, який довів існування проміжної неперервної функції для кожної пари Гана у випадку метричного простору $X$.
+\end{exampleblock}
+
+\begin{exampleblock}{}
+26. Hahn H. Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.\\Wien.Math.~---naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+27. Мельник В.С. Рівномірні відстані до різних функціональних класів та розвиток теореми Гана про проміжні функції// дис. канд. фіз.-мат. наук~--- Чернівці 2018. ~--- 111c. 
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Пара Гана, що пов'язана з нарізно неперервною функцією}
+\begin{exampleblock}{  \centerline{Теорема 16.}}
+Нехай $X$~--- топологічний простір, $Y$~--- непорожня множина, $f:X\times Y\rightarrow \mathbb{R}$~--- неперервна за першою змінною і обмежена за другою змінною функція, а $g(x)=\inf\{f^{x}:y\in Y\}$ і $h(x)=\sup\{f^{x}(y):y\in Y\}$ на $X$. Тоді $(g,h)$~--- пара Гана на $X$.
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Наслідок.}}
+Нехай $X$~--- топологічний простір, $Y$~--- непорожній компактний простір, $f:X\times Y\rightarrow \mathbb{R}$~--- нарізно неперервна функція і $g(x)=\min\limits_{y\in Y}^{}f^{x}(y)$, а $h(x)=\max\limits_{y\in Y}^{}f^{x}(y)$ на $X$. Тоді $(g,h)$~--- пара Гана на $X$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Побідова нарізно неперервної функції з даними максимумами чи мінімумами}
+\begin{exampleblock}{}
+Для довільної функції $f:X\times Y\rightarrow \mathbb{R}$ визначимо функції $$S_{f}(x)=\sup\limits_{y\in Y}^{}f(x,y) та I_{f}(x)=\inf\limits_{y\in Y}^{}f(x,y).$$
+Використовуючи один результат Тонґа про поточкову апроксимацію напівнеперервних функцій монотонними послідовностями неперервних функцій на досконало нормальному просторі $X$ і метод побудови нарізно неперервної функції з даною діагоналлю, що належить до першого класу Бера, ми отримуємо таку теорему.
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Теорема 17.}}
+Нехай $h: X\rightarrow \mathbb{R}$ -- напівнеперервна знизу функція, що задана на досконало нормальному просторі $X$ з нормальним квадратом $X^2$, в якому діагональ $\Delta=\{(x,x): x\in X\}$ є $G_{\delta}$-множиною, і $h_0: X\rightarrow \mathbb{R}$ -- неперервна функція, для якої $h_0(x)\leq h(x)$ на $X$. Тоді існує така нарізно неперервна функція $f: X^2\rightarrow \mathbb{R}$, що $h_0(x)\leq f(x,y)\leq h(x)$ на $X^2$ i $S_f(x)=h(x)$ на $X$.
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}\frametitle{Побудова нарізно неперервної функції з даною парою Гана, що з нею пов'язана}
+\begin{exampleblock}{  \centerline{Теорема 18.}}
+Нехай $X=[a, b]$,  $Y=[c, d]$, де $a<b$, $c<d$ i $(g,h)$ -- довільна пара Гана на відрізку  $X$.  Тоді існує така нарізно неперервна функція $f: X\times Y\rightarrow\mathbb{R}$, що $(I_f, S_f)=(g, h)$.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Нарізно неперервні функції з даним нульовим наближенням}
+\begin{exampleblock}{}
+Для кожної нарізно неперервної функції $f: [a,b]\times [c,d]\rightarrow \mathbb{R}$ її нульове найкраще наближення $\alpha_f$ визначається на відрізку $X=[a,b]$ формулою
+$$\alpha_f(x)=\frac{M(f^x)-m^(f^x)}{2}.$$
+\end{exampleblock}
+
+\begin{exampleblock}{  \centerline{Теорема 19.}}
+Для довільного прямокутника $P=X\times Y$, де $X=[a, b]$ i $Y=[c, d]$ і кожної невід'ємної напівнеперервної знизу функції $\varphi: X \rightarrow \mathbb{R}$ існує така нарізно неперервна функція $f: P \rightarrow \mathbb{R}$, що $\alpha_f=\varphi$.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+\begin{frame}\frametitle{}
+
+\Huge \centerline{Дякую за увагу!}
+
+\end{frame}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+%

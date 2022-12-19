@@ -1,0 +1,432 @@
+% pdcoput.tex 4.1.6 1994/07/20 -- output routines for Stomping Scene
+% Copyright 1994 P. Damian Cugley
+
+%%% @TeX-macro-file {
+%%%   filename       = "pdcoput.tex",
+%%%   version        = "4.1.6",
+%%%   date           = "1994/07/20",
+%%%   package        = "Malvern 1.1",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "TeX, plain TeX, output routine",
+%%%   supported      = "Maybe",
+%%%   abstract       = "An output routine for Plain TeX docs.",
+%%%   dependencies   = "pdcutil.tex",
+%%% }
+
+%  See the Malvern Handbook (maman.tex) for more info about Malvern.
+%  This software is available freely but without warranty.
+%  See the file COPYING for details.
+
+%{{{ pdcoput.tex
+%{{{  preamble
+\ifx\utilsversion\UNDEFINED \input pdcutil \fi
+
+\begingroup\catcode`\%=12 \toks0={\endgroup
+    \def\pdcoputversion{4.1.6 <pdc 1994/07/20>}
+}\the\toks0
+\message{\pdcoputversion}
+
+%}}}  preamble
+%{{{  parameters
+
+\newdimen\paperwd \newdimen\paperht 	% Size of paper
+\newdimen\bodywd \newdimen\bodyht	% size of page body (text etc.)
+\newdimen\gridwd \newdimen\gridht	% size of grid slots
+\newdimen\colwd \newdimen\colht		% width & height of text columns
+
+\newdimen\topmarge	\topmarge=20mm
+\newdimen\outmarge	\outmarge=20mm
+\newdimen\innmarge	\innmarge=20mm
+\newdimen\botmarge	\botmarge=27mm
+%  Size of top, bottom, inner and outer margins between paper edge and
+%  edge of page body.
+%  botmarge is an approximation -- the margin at bottom will be
+%  increased slightly in order to make \bodyht a good value wrt
+%  \baselineskip.
+
+\newskip\headlineskip 	% distance betw baselines of headline & 1st body line
+\newskip\footlineskip	% ditto for footline
+\headlineskip=10mm \footlineskip=10mm
+
+\newdimen\outputrule	\outputrule=0.1mm % default thickness for rules
+
+\newdimen\caprule	\caprule=\outputrule
+\newskip\capsep		\capsep=5mm
+%  rule and separation between caption and body text
+
+\newdimen\colrule	\colrule=\outputrule
+\newdimen\colsep	\colsep=5mm
+%  ditto for between columns
+
+\newcount\ncols		\ncols=1
+%  Number of columns
+
+\newbox\partialpage  % stores partial pages when balancing columns
+
+\newbox\topbox \newbox\botbox	% vboxes placed around body
+\newbox\leftbox \newbox\rightbox % hboxes placed around body
+
+\chardef\pagebox=255
+
+\let\collist\empty		% list macro of \makecolumns
+\let\pagelist\empty		% list macro of \makepages
+
+\newtoks\everypage	% expanded at start of vbox being shipped out 
+\newtoks\everycaption	% expanded at start of every caption
+
+%}}}  parameters
+%{{{  make a column (vbox)
+
+\newdimen\toptotal \newdimen\bottotal
+
+% Helper macro -- calculate total size of space + caption for
+% top/bot of a column
+%  #1  <dimen name>	caculate total into here
+%  #2  <8-bit number>	place cap in this box
+%  #3  <dimen>		space to be left
+%  #4	text		text of caption, or empty
+\def\calctotal#1#2#3#4%
+{%
+    \setbox#2=\vbox{\the\everycaption#4}%
+    #1=\ht#2%
+    \advance#1\baselineskip \advance#1-1sp
+    \divide#1\baselineskip \multiply#1\baselineskip
+    \advance#1#3%
+    \ifdim#1>0pt \advance#1\capsep \fi
+}
+
+% Create one column of stuff of height \colht, as a vbox
+% If \capsep=\baselineskip and captions done in fonts of same
+% baselineskip as body, then baselines should all line up neatly
+% (this takes some doing!).
+%  #1  <dimen>		space at top of col
+%  #2  text		text of top caption, or empty
+%  #3  <8-bit number>	box to make middle out of
+%  #4  text		text of bot cap, or empty
+%  #5  <dimen>		space at bottom of col
+\def\makecolumn#1#2#3#4#5%
+{%
+    \vbox to \colht
+      {
+	\calctotal\toptotal0{#1}{#2}%
+	\calctotal\bottotal2{#5}{#4}%
+	%
+	%  Chop off enough text to fill in gap:
+	%
+	\dimen0=\colht 
+	\ifvoid\footins\else	% allow space for footnotes
+	    \advance\dimen0-\ht\footins
+	    \advance\dimen0-\skip\footins
+	\fi
+	\ifvoid\topins\else	% allow for a \topinsert as well
+	    \advance\dimen0-\ht\topins
+	    \advance\dimen0-\skip\topins
+	\fi
+	\advance\dimen0-\toptotal
+	\advance\dimen0-\bottotal
+	%
+	\splittopskip=\topskip
+	\splitmaxdepth=\maxdepth
+	\setbox1=\vsplit#3to\dimen0
+	%
+	%  Sandwich it all together:
+	\kern\toptotal
+	\ifdim \toptotal>0pt   
+	    \vbox to 0pt
+	      {
+		\vss
+		\box0
+%%%%		\kern-\dp\strutbox
+		\capseprule
+		\kern-\dp\strutbox
+	 	\kern\baselineskip
+		\kern-\topskip
+	      } 
+	\fi
+	\ifvoid\topins\else \unvbox\topins \vskip\skip\topins \fi
+	\dimen0=\dp1	% this will be prevdepth for bot caption
+	\ifvoid1 \vfil \else \unvbox1 \fi
+	\ifvoid\footins \else
+	    \vskip\skip\footins
+	    \footnoterule
+	    \dimen0=\dp\footins  %  revise prevdepth-to-be
+	    \unvbox\footins
+	\fi
+	\ifdim \bottotal>0pt
+	    \vbox to 0pt
+	      {
+		\prevdepth=\dimen0
+		\capseprule
+		\vtop{\unvbox2 }
+		\vss
+	      } 
+	\kern\bottotal
+	\fi
+	\kern-\dimen0
+      }%
+}
+
+\def\capseprule
+{%
+    \hbox to \colwd
+      {%
+	\dimen0=0.5ex \advance\dimen0-0.5\caprule
+	\dimen1=\dimen0 \advance\dimen1\caprule
+	\strut
+	\vrule height \dimen1 depth-\dimen0 width\colwd
+      }%
+}
+
+%}}}  make a column
+%{{{  make body part of page (hbox)
+
+%  Generate a column of text to be put in the current page body
+\def\makecolumnfromcollist#1%
+{%
+    \ifx\collist\empty
+	\makecolumn{0pt}{}{#1}{}{0pt}%
+    \else
+	\glop\temp\collist
+	\temp
+    \fi
+}
+
+\def\makebody#1%
+{%
+    \hbox to \bodywd
+      {%
+	\ifvoid\leftbox\else 
+	    \box\leftbox 
+	    \hfil \vrule width \colrule \hfil 
+	\fi
+	\counta=\ncols
+	\makecolumnfromcollist{#1}%
+	\loop \ifnum\counta>1
+	    \hfil  \vrule width \colrule depth 0pt  \hfil
+	    \makecolumnfromcollist{#1}%
+	    \advance\counta -1
+	\repeat
+	\ifvoid\rightbox\else 
+	    \hfil \vrule width \colrule \hfil 
+	    \box\rightbox 
+	\fi
+      }%
+}
+
+%}}}  make insides of page (hbox)
+%{{{  make a page (vbox)
+
+%  Generate a box to be shipped out as the current page.  Used in \output.
+\def\makepage
+{%
+    \vbox
+      {
+	\special{papersize=\the\paperwd,\the\paperht}%
+	\colht=\bodyht \advance\colht-\ht\partialpage
+	\advance\colht-\ht\topbox \advance\colht-\ht\botbox
+	\the\everypage
+	\makeheadline \nointerlineskip
+	\box\partialpage
+	\box\topbox
+	\ifx\pagelist\empty
+	    \makebody\pagebox
+	\else
+	    \glop\temp\pagelist 
+	    \temp
+	\fi
+	\unvbox\botbox
+	\makefootline
+      }%
+}
+
+%  Generate vertical meterial with zero height to produce the headline.
+%  Expanded at very top of vbox being shipped out,
+%  immediately after the \everypage tokens have been read.
+%  Used in \makepage.
+\def\makeheadline
+{
+    \vbox to 0pt
+      {
+	\skip0=\topskip \advance\skip0-2\ht\strutbox 
+	\advance\skip0-\headlineskip
+	\vskip\skip0
+	\hbox to \bodywd{\strut\the\headline}
+	\vss
+      }
+}
+
+%  Generate vertical material that gives the footline of the page.
+%  Expanded immediately after the botbox, as the last thing in the
+%  box that is shipped out.  (Does not need to be zero-height).
+\def\makefootline
+{{
+    \baselineskip=\footlineskip
+    \hbox to \bodywd{\the\footline}
+}}
+
+%}}}  make a page (vbox)
+%{{{  output
+
+\def\ssoutput
+{%
+    \ifodd\pageno \hoffset=\innmarge \else \hoffset=\outmarge \fi
+    \advance\hoffset-1 true in
+    \voffset=\topmarge
+    \advance\voffset-1truein
+    \shipout\makepage \advancepageno 
+    \ifnum\outputpenalty>-20000 \else \dosupereject \fi
+    \unvbox\pagebox
+}
+
+\output={\ssoutput}
+
+%}}}  output
+%{{{  automated column setting
+
+%  User macro -- set paper size and other corresponding dimens
+%  Use when body font + baselineskip have already been selected.
+%  #1  <dimen>  width
+%  #2  <dimen>  height
+\def\setpaper#1#2%
+{%
+    \paperwd=#1%
+    \paperht=#2%
+    \calcbodywdht
+    \calctopskip
+}
+
+%  helper macro -- set bodywd, bodyht
+\def\calcbodywdht
+{
+    \bodywd=\paperwd \advance\bodywd-\outmarge \advance\bodywd-\innmarge
+    \bodyht=\paperht \advance\bodyht-\topmarge \advance\bodyht-\botmarge
+    \calctopskip
+}
+
+%  set topskip to suit current font
+%  bodyht is munged to be of the form N*baselineskip + topskip
+\def\calctopskip
+{
+    \setbox0=\hbox{Xbl()!gyJQ,}
+    \topskip=\ht0 \maxdepth=\dp0
+    \advance\bodyht-\topskip \divide\bodyht \baselineskip
+    \multiply\bodyht \baselineskip \advance\bodyht\topskip
+}
+
+%  helper macro
+%  set hsize and vsize appropriate to current #cols, topskip, bodyht,
+%  and bodywd
+%  if bodyht = N * baselineskip + topskip, for some N, then set 
+%  vsize to ncols * (N + 1) * baselineskip - baselineskip + topskip
+\def\sethsizevsize
+{
+    \hsize=\colwd
+    \vsize=\bodyht 
+    \advance\vsize-\topskip \advance\vsize\baselineskip \multiply\vsize\ncols 
+    \advance\vsize-\baselineskip \advance\vsize\topskip
+}
+
+%  User macro
+% divide into grid of n, with k grid widths making 1 column of body
+%  #1  <number>  number of grid slots making up body width
+%  #2  <number>  number of grid slots making up one column
+%   so there will be floor(#1/#2) body columns per page
+\def\setnkgrid#1#2%  
+{%
+    \gridwd=\bodywd 
+    \advance\gridwd-#1\colsep \advance\gridwd\colsep \divide\gridwd by #1
+    \colwd=#2\gridwd \advance\colwd#2\colsep \advance\colwd-\colsep
+    \ncols=#1 \divide\ncols#2
+    \gridht=\baselineskip
+    \capsep=\gridht
+    \sethsizevsize
+}
+
+%  User macro
+%  divide into n columns
+%  #1  <number>  number of columns per page
+\def\setncolumns#1%
+{%
+    \colwd=\bodywd
+    \advance\colwd-#1\colsep \advance\colwd\colsep \divide\colwd by #1
+    \gridwd=\colwd
+    \ncols=#1
+    \sethsizevsize
+}
+
+\def\setpaperA#1%
+{
+    \ifcase#1
+	\setpaper{841mm}{1189mm}\or	% A0
+	\setpaper{594mm}{841mm}\or	% A1
+	\setpaper{420mm}{594mm}\or	% A2
+	\setpaper{297mm}{420mm}\or	% A3
+	\setpaper{210mm}{297mm}\or	% A4
+	\setpaper{148mm}{210mm}		% A5
+    \else
+	\errmessage{Dunno how big DIN A#1 paper is, sorry.}
+    \fi
+}
+%  default settings (using default font):
+\setpaperA4
+\setncolumns1
+
+%}}}  automated column setting
+%{{{  balancing columns
+
+%  Knuth's rigid balancing routine  TeXbook App. D Sec. 7 (p. 396--397)
+
+\newcount\RGDncols \newdimen\RGDtopskip \newif\ifRGDfirstcol
+\newtoks\RGDsep
+
+%  Take a rigid, regular box, and split into several approx equal
+%  columns.  Produces assignments followed by a box -- this can be
+%  retrieved using \lastbox.
+%  #1  <8-bit number>	box to chop
+%  #2  <number>   	#columns to make
+%  #3  <dimen>		value of \topskip for box
+%  #4  <dimen>		width of the whole shebang
+%  #5  TeX code		what goes between columns (e.g., \hfil)
+\def\rigidbalance#1#2#3#4#5%
+{%
+    \setbox0=\box#1\relax \RGDncols=#2\relax \RGDtopskip=#3\relax \RGDsep={#5}%
+    \hbox to #4\relax
+      {%
+	\splittopskip=\RGDtopskip \vbadness=10000 
+	\RGDfirstcoltrue
+	\valign{##\vfil\cr \doRGDsplits}%
+      }%
+}
+
+%  recursive helper function for above - produces the valign's body
+\def\doRGDsplits
+{%
+    \ifnum\RGDncols>0 
+	%  if not first folumn, put in separator
+	\ifRGDfirstcol 
+	    \global\RGDfirstcolfalse 
+	\else
+	    \noalign{\the\RGDsep}%
+	\fi
+	%  split off one column (see TeXbook for justification
+	%  for this value of \dimen0):
+	\dimen0=\ht0  \divide\dimen0 \RGDncols  \advance\dimen0 \RGDtopskip
+	\setbox1=\vsplit0 to \dimen0
+	\unvbox1
+	%
+	\global\advance\RGDncols-1
+	\cr
+	\doRGDsplits
+    \fi
+}
+
+%}}}  balancing columns
+%}}} pdcoput.tex
+%Local variables:
+%fold-folded-p: t
+%tex-macros-p: t
+%End:

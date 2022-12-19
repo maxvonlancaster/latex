@@ -1,0 +1,8 @@
+\newcommand{\setpagenumber}[1]{
+  \newcommand{\paperswitch}{#1}
+    \ifnum\paperswitch=01 {\setcounter{page}{1}}\fi
+    \ifnum\paperswitch=02 {\setcounter{page}{7}}\fi
+    \ifnum\paperswitch=03 {\setcounter{page}{13}}\fi	
+    \ifnum\paperswitch=04 {\setcounter{page}{17}}\fi
+    \ifnum\paperswitch=05 {\setcounter{page}{23}}\fi
+}

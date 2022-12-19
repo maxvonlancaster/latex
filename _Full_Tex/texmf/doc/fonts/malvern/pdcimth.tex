@@ -1,0 +1,25 @@
+% pdcimth.tex 1.1.2 91/12/12 -- make maths use text italic family for letters
+%  Very few RL families have separate maths and text italic fonts.
+
+%  count0 -- mathcode for current u.c. char
+%  count1 -- mathcode for current l.c. char
+%  count2 -- ASCII code of current u.c. char
+%  count3 -- ASCII code of current l.c. char
+%  count4 -- number of character left to redefine
+
+\begingroup  %  preserve values of count registers
+
+    \count0=\itfam \multiply\count0 256 \advance\count0"7000 \count1=\count0
+    \advance\count0+`A \advance\count1+`a
+    \count2=`A \count3=`a
+    \count4=26
+
+    \loop
+    \ifnum\count4>0
+	\advance\count4-1
+	\global\mathcode\count2=\count0 \global\mathcode\count3=\count1
+	\advance\count0+1 \advance\count1+1
+	\advance\count2+1 \advance\count3+1
+    \repeat
+
+\endgroup

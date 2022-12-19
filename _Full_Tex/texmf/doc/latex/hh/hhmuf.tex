@@ -1,0 +1,414 @@
+\documentclass[11pt]{article}
+\usepackage{hhmuf}                  % for presentation
+\usepackage{verbatim}               % for verbatim displaying of examples
+\usepackage{xspace}                 % for ease of typing
+
+\makeatletter
+
+\setlength\parindent\z@
+\setlength\parskip{.5\baselineskip}
+
+% The following has been copied from my personal tools style file hhutils.sty
+% (NB: This is _not_ the same file as the public style file hhutils0.sty!)
+
+\setcounter{errorcontextlines}{10}     % For ease of debugging.
+\def\0#1.{\oldstylenums{#1}}           % For ease of typing.
+\def\packagename#1{{\sffamily #1}}     % For consistent displaying of
+                                       % package names. To be redefined
+                                       % by the editor if desired.
+\chardef\@ttbs="5C                     % This the only way I could figure
+\def\macroname#1{{\ttfamily\@ttbs#1}}  % out to get the right backslashes
+                                       % when displaying macro names
+                                       % (math \backspace is too thin).
+\def\envirname#1{{\ttfamily #1}}       % For consistent etc.
+\def\scheiding{\par                    % Because I cannot help to show my
+                                       % `stamp' in and out of season.
+                                       % Remove the stamps it you cannot
+                                       % stand them.
+  \nobreak\addvspace{18pt plus 6pt minus 6pt}%
+  \nobreak\centerline{{\unitlength1pt\begin{picture}(0,0)%
+       \thicklines
+       \put(-10,2.5){\line(1,-1){10}}\put(-10,2.5){\line(1,1){10}}%
+       \put(10,2.5){\line(-1,-1){10}}\put(10,2.5){\line(-1,1){10}}%
+       \put(-5,7.5){\line(0,-1){10}}\put(5,7.5){\line(0,-1){10}}%
+       \put(-5,0){\line(2,1){10}}%
+     \end{picture}}}%
+  \addvspace{18pt plus 6pt minus 6pt}}
+
+% The following are document specific macros defined for ease of typing:
+
+\def\hhmuf{\packagename{hhmuf}\xspace}
+\def\={\verb=}
+\def\<#1>{\macroname{#1}}
+\def\:{\linebreak[1]}
+
+% The following input definitions used for examples:
+
+\makeatother
+
+\title{\hhmuf\ --- Manual}
+\author{Herman Haverkort\\\normalsize\normalfont\texttt{hermanh@cistron.nl}}
+\date{May 1995 -- Addresses corrected March 1999}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+The \hhmuf package contains the {\em multinote system}, which provides
+an alternative to the usual dull footnote system. It is not meant
+to be used by conservatives! \hhmuf's multinotes can be used in
+forbidden modes and can be repeated easily. When repeating multinotes,
+the \hhmuf macros make sure the same marker is used throughout,
+while preventing repeated notes from being typeset twice on the same
+page. \hhmuf's multinotes do not use counters, numbers or alphabetic
+characters to represent them: they use sets of symbols without a
+well-defined order.
+
+To be able to use \hhmuf one should have the files
+\texttt{hhmuf.sty}, \texttt{hhqueue.sty} and \texttt{hhutils0.sty} available.
+Both files can be obtained from the library of my website at
+http://come.to/hh and from \textsc{ctan}.
+
+\section{The Principal Macros}
+
+\hhmuf does not set footnotes directly. First they should be defined,
+then they can be typeset once or several times, and finally they should
+be fired.
+
+\=\mufhire =\textit{label}\=:{=\textit{text}\=}= defines a footnote
+  \textit{label} to have contents \textit{text}. A footnote marker is
+  reserved for the exclusive use by this footnote. Neither the marker
+  nor the text will be typeset yet. Note that labels should
+  not contain commas, periods or colons!
+
+\=\muf =\textit{label}\=:{}= typesets the previously defined footnote
+  \textit{label}. If one tries to typeset the same footnote several times
+  on the same page, \hhmuf tries to ensure that the actual note
+  at the foot of the page is typeset only once. If the in-text footnote
+  marker is followed by a comma or period, then the comma or period is
+  automatically typeset under the marker, which generally looks better
+  than after the marker.
+
+\=\muffire =\textit{label}\=:= frees the footnote's label and marker,
+  to enable their use for footnotes which will be defined later on.
+
+To ease the typesetting of incidental footnotes, the following abbreviations
+are provided. \=\muf=\:\=:{=\textit{text}\=}= acts as an abbreviation
+for hiring, typesetting and firing a note using a temporary label.
+\=\muf= \textit{label}\=:{=\textit{text}\=}= acts as an abbreviation
+for hiring and typesetting a footnote.
+
+\section{Use of Footnotes in Forbidden Environments}
+
+One is said to be in a forbidden environment when \TeX\ is constructing
+some box. Attempts to insert a footnote when in a forbidden environment
+fail: the in-text marker is set all right, but the actual note is not
+inserted at the foot of the page. \hhmuf solves this problem for
+its multinotes by saving all footnotes called from a forbidden environment
+and typesetting them after the environment is left. This is implemented
+at several levels of automation: the interface of the highest ones will be
+presented here.
+
+Suppose we have a short sentence containing a \hhmuf style footnote, and
+want to \<fbox> it, like this:
+\begin{verbatim}
+\fbox{%
+  Short sentence with footnote\muf:{Just an example.}.%
+}
+\end{verbatim}
+The result will be like \fbox{Short sentence with footnote\muf:{Just
+an example.}.}: there is no note at the foot of the page. The solution
+is to use the following \TeX\ code instead of the listing above:
+\begin{verbatim}
+\fbox{\mufoff
+  Short sentence with footnote\muf:{Another example.}.%
+}\muffin
+\end{verbatim}
+The result will be like \fbox{\mufoff
+  Short sentence with footnote\muf:{Another example.}.%
+}\muffin: now the footnote appears at the foot of the page indeed.
+The macro couple \<mufoff> -- \<muffin> did the job. Note that
+\<mufoff> is called \emph{inside} the forbidden environment, while
+\<muffin> is called \emph{outside} the forbidden environment.
+
+If the forbidden environment used arises from the expansion of a
+\LaTeX\ environment, then there is an easier way to get the footnotes
+right. Suppose we defined a \LaTeX\ environment for \<fbox>ing short
+sentences:
+\begin{verbatim}
+\newenvironment{fboxed}{\sbox0\bgroup}{\egroup\fbox{\box0}}
+\end{verbatim}
+\newenvironment{fboxed}{\sbox0\bgroup}{\egroup\fbox{\box0}}
+Then the following:
+\begin{verbatim}
+\begin{fboxed}%
+  Short sentence with footnote\muf:{Third example.}.%
+\end{fboxed}
+\end{verbatim}
+will yield \begin{fboxed}%
+  Short sentence with footnote\muf:{Third example.}.%
+\end{fboxed}: there is no note at the foot of the page.
+The solution is to protect the forbidden environment by
+\=\mufoff=\:\=[fboxed]=. From now on all \hhmuf style footnotes appearing
+in \envirname{fboxed} environments will be handled correctly automatically.
+So when \=\mufoff=\:\=[fboxed]= has been processed,
+\begin{verbatim}
+\begin{fboxed}%
+  Short sentence with footnote\muf:{Last example.}.%
+\end{fboxed}
+\end{verbatim}
+will yield the proper result \mufoff[fboxed]\begin{fboxed}%
+  Short sentence with footnote\muf:{Last example.}.%
+\end{fboxed}, with a note at the foot of the page, as expected.
+
+Both ways of calling footnotes from forbidden environments allow
+nesting of forbidden environments, automatic protections and
+\<mufoff> -- \<muffin> couples.
+
+\section{Local Footnote Hiring}
+
+\=\mufend=\:\={=\textit{group}\=}= muffires all footnotes which had been
+defined since the corresponding call to \=\mufbegin=\:\={=\textit{group}\=}=.
+Thus \<mufbegin> and \<mufend> establish some kind of footnote definition
+environment, called a \textit{mufgroup}. Mufgroups can be nested, but if
+you do nest them, nest them properly. So this is not permitted:
+\begin{verbatim}
+\mufbegin{A}%
+  \mufbegin{B}%
+\mufend{A}%
+  \mufend{B}%
+\end{verbatim}
+while this is OK:
+\begin{verbatim}
+\mufbegin{A}%
+  \mufbegin{B}%
+  \mufend{B}%
+\mufend{A}%
+\end{verbatim}
+Whenever you enter a new group all footnotes which had already been
+defined are frozen. You cannot fire them until the new group is closed
+with \<mufend>. So the following is OK:
+\begin{verbatim}
+\mufhire F:{Foo}%
+\mufbegin{B}%
+\mufend{B}%
+\muffire F:%
+\end{verbatim}
+while this is not:
+\begin{verbatim}
+\mufhire F:{Foo}%
+\mufbegin{B}%
+  \muffire F:%
+\mufend{B}%
+\end{verbatim}
+Whenever you are in a group, you cannot redefine footnotes which have
+been defined already in some outer group, because in that case you
+would have to muffire the footnote, which is not allowed. You cannot
+even define a new footnote which is local to the group but gets the
+same label as some footnote which has been defined in some outer group
+(e.g. a global footnote). The \hhmuf macros are not that smart. So the
+following is not allowed:
+\begin{verbatim}
+\mufhire F:{Foo}%
+\mufbegin{A}%
+  \mufhire F:{bar}%
+\end{verbatim}
+If you have closed all the groups you had opened (or if you never
+opened any), then you are in the outermost, nameless group. You can
+close that group with \=\mufend{}=. It will muffire all footnotes you
+had defined, and automatically reopen a outermost nameless group.
+So it is a kind of: \<muffire> \textsc{all}.
+
+\section{Customizing \hhmuf}
+
+\subsection{References to Footnotes}
+
+\<mufword> defines the word which is used in references to multinotes.
+By default it is `footnote'; redefine it if you like, preferably by
+defining an appropriate language option.
+
+\subsection{In-text Markers}
+
+\<@makemufword> defines how to format a footnote's marker (in the text, not
+in the insertion at the foot of the page). Its default definition is:
+\begin{verbatim}
+\def\@makemufmark#1{\hbox{$^{#1}$}}
+\end{verbatim}
+Redefine it if you like.
+
+\subsection{Handling of Following Punctuation Marks}
+
+All in-text markers are typeset using the macro \<@covermufpunct>, which
+gets the marker setting macro as its first and only argument.
+By default \<@covermufpunct> will pull periods and commas following a
+footnote's marker under that marker. With some definitions of \<@makemufmark>
+this will not be desirable: \<@covermufpunct> should be redefined then,
+for example by:
+\begin{verbatim}
+\def\@covermufpunct{}
+\end{verbatim}
+
+\subsection{Footnote formatting}
+
+\<@makemuftext> defines how to format a footnote. It takes two arguments:
+\=#1= is the footnote's marker; \=#2= is the footnote text.
+Redefine it if you like.
+
+\subsection{Set of Markers to be Used}
+
+To make it easier to choose out of the numerous possibilities for
+footnote markers I defined some sets of markers which can be selected by
+using the appropriate option, for example:
+\begin{verbatim}
+\usepackage{hhmuf}[circlox]
+\end{verbatim}
+The recognized options are the following:
+
+\begin{tabular}{lrll}\hline
+option id. & size & description & packages needed\\\hline
+black    &  8 & black symbols                      & \packagename{amssymb} \\
+circlox  & 12 & circle and box symbols             & \packagename{amssymb} \\
+fuss     & 10 & miscellaneous symbols              & \packagename{amssymb} \\
+geometry & 10 & geometrical symbols                & \packagename{amssymb} \\
+misc     & 19 & miscellaneous symbols (default set)& none                  \\
+music    &  3 & music symbols                      & none                  \\
+strokes  &  8 & symbols made of thin strokes       & \packagename{amssymb} \\
+\hline\end{tabular}
+
+Take care that you do not select a set which is too small for your purposes.
+
+You can also define your own set of markers to be used. The following
+provides an example:
+\begin{verbatim}
+\h@initqueue{mufsyms@avail}{%
+  \\{\blacklozenge}%
+  \\{\square}%
+  \\{\blacktriangledown}%
+  \\{\vartriangle}%
+  \\{\blacksquare}%
+  \\{\triangleleft}%
+  \\{\blacktriangle}%
+  \\{\lozenge}%
+  \\{\blacktriangleleft}%
+  \\{\triangledown}}
+\end{verbatim}
+
+The symbols are specified as arguments of \=\\=.
+Please note that it makes no sense to use symbols with a well-defined
+order: the muf macros will not respect it.
+
+\section{Failures and Possible Causes}
+
+Failure:
+\begin{verbatim}
+! Package hhmuf Warning: Refusing to redefine multinote `LABEL'.
+(hhmuf)                  Muffire it first.
+\end{verbatim}
+Cause:\\
+If you defined a footnote labelled \=LABEL=, using \<muf> or \<mufhire>,
+you should call \=\muffire LABEL:= before defining another footnote having
+the same label.
+
+Failure:
+\begin{verbatim}
+! Package hhmuf Warning: Out of multinote symbols.
+(hhmuf)                  Using `?' instead.
+\end{verbatim}
+Cause:\\
+A marker is assigned to each footnote which has been defined. Because
+the number of markers is limited, you will run out of markers if
+too many footnotes have been defined at the same time. To prevent this
+from happening, use \<muffire> to undefine footnotes as soon as you
+do not need them anymore.
+Keep in mind that each call to \=\muf:{TEXT}= in a forbidden environment
+(even without a explicit label) reserves a marker, which will not be
+released until the forbidden environment is left.
+
+Failures:
+\begin{verbatim}
+! Package hhmuf Warning: Reference to undefined multinote `LABEL'.
+\end{verbatim}
+\begin{verbatim}
+! Package hhmuf Warning: Cannot type-set multinote `LABEL':
+(hhmuf)                  it is not defined.
+\end{verbatim}
+\begin{verbatim}
+! Package hhmuf Warning: Cannot muffire multinote `LABEL':
+(hhmuf)                  it is not defined.
+\end{verbatim}
+Cause:\\
+Should be evident. If it is not, please check if you did not close
+the group in which the multinote was defined already (using \<mufend>).
+One other mistake you could have made, is calling \=\muffire LABEL:=
+somewhere between \=\muf LABEL:{=\textit{optional text}\=}= in a
+protected forbidden environment and the closure of that environment.
+Note that if the multinote LABEL is undefined, calling for example
+\=\muf LABEL:{}= results in two warnings: one for the in-text
+multinote reference marker (`Reference to undefined...'), and another
+for the type-setting of the footnote itself (`Cannot type-set...').
+
+Failure:
+\begin{verbatim}
+! Package hhmuf Warning: Reference to undefined multinote `tmp_'.
+\end{verbatim}
+Cause:\\
+You used \=\muf:{}=, which does not make any sense.
+
+Failure:
+\begin{verbatim}
+! Package hhmuf Warning: Multinote `LABEL' was defined at level 1,
+(hhmuf)                  so cannot muffire it at level 3.
+\end{verbatim}
+(and similar messages)\\
+Cause:\\
+Since you defined the multinote LABEL, you opened another group which
+is still open. It is not possible to undefine the multinote then.
+Muffire it before opening the current group, or after closing it.
+
+Failure:
+\begin{verbatim}
+! Package hhmuf Warning: Refusing to end multinote group `GROUPA' by
+(hhmuf)                  \mufend{GROUPB}.
+\end{verbatim}
+(and similar messages)\\
+Cause:\\
+This warning should be caused by mismatched \<mufbegin>s and \<mufend>s.
+Remember mufgroups should be properly nested.
+
+Failure:\\
+The footnote's marker appears all right, but the text is missing.
+
+Cause:\\
+You used \<muf> or \<muffin> in some `forbidden' environment. The
+constraints are the same as for ordinary \LaTeX\ footnotes, unless
+the environment is protected by \=\mufoff=\:\=[=\textit{environment name}\=]=.
+
+Failure:\\
+A footnote text is set although it should not be there.
+
+Cause:\\
+You probably forgot some \<muffin> some time ago, so that the footnote
+texts, which should have been set by that \<muffin>, are set by a following
+\<muffin>.
+
+Failure:\\
+A footnote text appears twice on the same page.
+
+Cause:\\
+\LaTeX\ could have floated a identical footnote from the previous page to
+this one which cannot be detected by the multinote macros.
+Another possible cause is probably the multinote macros getting the
+the page number of the in-text marker wrong. This problem is very
+much like the inability to start the footnote numbering every page
+(which --- by the way --- is no problem if you use multinotes, because
+they use a shift-system for their numbering). This problem can be
+solved, and probably will be solved as soon as I encounter it in
+practice.
+In both cases correct the error `manually' by using \<mufsymonly> once
+instead of \<muf>.
+
+\end{document}
+
+

@@ -1,0 +1,95 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{cmap}
+\usepackage[cp1251]{inputenc}
+\usepackage[english, ukrainian, russian]{babel}
+\usepackage[left=2cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amssymb}
+
+\begin{document}
+
+
+\fontsize{14}{24pt}\selectfont
+
+
+
+
+
+Відомо, що рівномірна відстань від довільної функції $f:X\rightarrow \mathbb{R}$, заданої на нормальному просторі $X$, до простору $C(X)$ всіх неперервних функцій $g:X\rightarrow \mathbb{R}$ рівна $\frac{1}{2}||\omega_{f}||$, де $\omega_{f}(x_{0})$~--- коливання функції $f$ в точці $x_{0}$, а $|| h||=\sup\limits_{x\in X}^{}|h(x)|$.
+
+Цей результат для метризовних просторів фактично встановив Г.Ган [1], явно його не сформулювавши. Для паракомпактного простору $X$, обмеженої функції $f:X\rightarrow \mathbb{R}$ і простору $C_{b}(X)$ всіх обмежених неперервних функцій $g:X\rightarrow \mathbb{R}$ рівність $d(f,C_{b}(X))=\frac{1}{2}||\omega_{f}||$ була доведена в монографії [2]. Загальна версія була отримана в праці [3]. Доведення базується на теоремі Гана-Д'єдонне-Тонґа-Катетова.
+
+\newpage
+
+На сьогодні відомо дуже багато аналогів неперервності: квазінеперервність, ледь неперервність, тощо. Тому природно поставити питання про знаходження відстані від довільної функції $f:X\rightarrow \mathbb{R}$ до інших функціональних класів. Така робота була розпочата в [4], де були знайдені відстані $d(f,K_{0}(\mathbb{R}))$ від деяких конкретних функцій $f:X\rightarrow \mathbb{R}$ до простору $K_{0}(\mathbb{R})$ всіх квазінеперервних у точці $0$ функцій $g:X\rightarrow \mathbb{R}$. Для розглядуваних там функцій $f$ виконувалася рівність $D(f)={0}$ ($D(f)$~--- це множина точок розриву функції $f$). Так, для функції $f(x)=\textmd{sgn}x$: $d(f,K_{0}(\mathbb{R}))=d(f,K(\mathbb{R}))=\frac{1}{2}$ (найближча квазінеперервна функція~--- це функція $g:\mathbb{R}\rightarrow \mathbb{R}$, для якої $g(x)=\frac{1}{2}$ при $x\geq 0$ і $g(x)=-\frac{1}{2}$ при $x<0$), а для функції $f(x)=\sin \frac{1}{x}$ при $x\neq 0$ і $f(0)=b$, де $| b|>1$, $d(f,K_{0}(\mathbb{R}))=\frac{| b|-1}{2}=d(f,K(\mathbb{R}))$. Тут ми значно розвиваємо ці результати.
+
+\newpage
+
+
+Нехай $X$ і $Y$~--- топологічні простори, $f:X\rightarrow Y$~--- відображення і $x_{0}\in X$.
+
+\textbf{Означення 1}. Відображення $f:X\rightarrow Y$ називається квазінеперервним у точці $x_{0}$ з $X$, якщо для довільних околів $U$ і $V$ точок $x_{0}$ і $y_{0}=f(x_{0})$ у просторах $X$ і $Y$ відповідно існує відкрита непорожня множина $G$ в $X$, така, що $G\subseteq U$ і $f(G)\subseteq V$. $f:X\rightarrow Y$ називається квазінеперервним, якщо воно квазінеперервне в кожній точці $x$ з $X$
+
+Зокрема, функція $f:X\rightarrow \mathbb{R}$ буде квазінеперервною у точці $x_{0}$ з $X$, якщо для довільного $\varepsilon>0$ і довільного околу $U$ точки $x_{0}$ у просторі $X$ існує непорожня множина $G$ в $X$, така, що $G\subseteq U$ і $f(G)\subseteq (f(x_{0})-\varepsilon,f(x_{0})+\varepsilon)$.
+
+Сукупність усіх квазінеперервних у точці $x_{0}$ дійснозначних функцій $f:X\rightarrow \mathbb{R}$ ми позначаємо символом $K_{x_{0}}(X)$.
+Будь-яка неперервна в точці $x_{0}\in X$ функція $f$ є квазінеперервною в цій точці. Обернене твердження не вірне. Наприклад, функція $f$, яка рівна нулю при $x=0$ та $\sin\frac{1}{x}$ при $x\neq 0$ є квазінеперервною в точці $0$, але не є неперервною в цій точці.
+
+\newpage
+
+
+Нехай $E\subseteq \mathbb{R}$, $x_{0}\in E$, $f:E\rightarrow \mathbb{R}$, $D_{f}=E$ та $x_{0}$ гранична справа для $E$ (тобто $\forall \delta>0|E\cap (x_{0},x_{0}+\delta)\neq\emptyset$). Позначимо $\underline{l}=\underline{f}(x_{0}+0)=\sup\limits_{\delta>0}^{}\inf\limits_{x_{0}<x<x_{0}+\delta}^{}f(x)$, та  $\overline{l}=\overline{f}(x_{0}+0)=\inf\limits_{\delta>0}^{}\sup\limits_{x_{0}<x<x_{0}+\delta}^{}f(x)$.
+
+\textbf{Означення 2.} Символом $K_{x_{0}}^{+}$ позначимо множину всіх квазінеперервних у точці $x_{0}$ функцій $f:[x_{0},+\infty)\rightarrow \mathbb{R}$.
+
+\textbf{Теорема 1.} Нехай $f:[x_{0},+\infty)\rightarrow \mathbb{R}$~--- функція, $D(f)\subseteq{x_{0}}$ та $y_{0}=f(x_{0})\notin [\underline{l},\overline{l}]$. Тоді $$d(f,K_{x_{0}}^{+})=\frac{1}{2}\min\{\mid \underline{l}-y_{0}\mid,\mid \overline{l}-y_{0}\mid\}=\Delta$$.
+
+\newpage
+
+\textbf{Означення 3.} Позначимо через $K^{*}_{x_{0}}(\mathbb{R})$ сукупність усіх двосторонньо квазінеперервних в точці $x_{0}$ функцій $f:\mathbb{R}\rightarrow\mathbb{R}$.
+
+\textbf{Теорема 2.} Нехай $f:\mathbb{R}\rightarrow\mathbb{R}$~--- функція, $D(f)={x_{0}}$, $y_{0}=f(x_{0})\notin [\underline{f}(x_{0}-0)=\underline{l^{-}},\overline{f}(x_{0}-0)=\overline{l^{-}}]\cup [\underline{l^{+}}=\underline{f}(x_{0}+0),\overline{l^{+}}=\overline{f}(x_{0}+0)]$. Позначимо: $$\Delta_{+}=\frac{1}{2}\min\{|\underline{l^{+}}-y_{0}|,|\overline{l^{+}}-y_{0}|\}$$ $$\Delta_{-}=\frac{1}{2}\min\{|\underline{l^{-}}-y_{0}|,|\overline{l^{-}}-y_{0}|\}$$
+
+Тоді $d(f,K^{*}_{x_{0}}(\mathbb{R}))=\min\{\Delta_{+},\Delta_{-}\}=\Delta.$
+
+
+\newpage
+
+
+\textbf{Означення 4.} Нехай $f:X\rightarrow Y$~--- відображення топологічного простору $X$ в топологічний простір $Y$, $D\subseteq X$, $x_{0}\in \overline{D}$, $\mathcal{U}_{x_{0}}$~--- система всіх околів точки $x_{0}$ в $X$ і $f:D\rightarrow Y$~--- відображення. Перетин $C(f,x_{0})=\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}\overline{f(U\cap D)}$ називається граничною множиною відображення $f$ у точці $x_{0}$.
+
+Для $f:X\rightarrow Y$ і точки $x_{0}\in X$ ($x_{0}\in\overline{ X\setminus \{x_{0}\} }$), покладемо $\dot{f}=f|_{X\setminus \{x_{0}\}}$ і $\dot{U}=U\setminus \{x_{0} \}$. Будемо розглядати граничні множини: $C(\dot{f},x_{0})=\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}f(\dot{U})$.
+
+
+\textbf{Теорема 3.} Нехай $X$~--- топологічний простір, $x_{0}\in X$, $\{ x_{0} \}$~--- замкнена множина в $X$, $x_{0}\in \overline{X\setminus \{ x_{0} \}}$, $f:X\rightarrow \mathbb{R}$~--- деяка функція і $C(\dot{f},x_{0})$~--- гранична множина функції $\dot{f}=f|_{X\setminus \{x_{0}\}}:X\setminus \{x_{0}\}\mathbb{R}$ зі значеннями в розширеній числовій прямій $\overline{\mathbb{R}}=\mathbb{R}\cup \{+\infty,-\infty\}$. Тоді:
+
+а) Якщо $D(f)\subseteq\{ x_{0} \}$ і $f(x_{0})\in C(\dot{f},x_{0})$, то $f\in K_{x_{0}}(X)$;
+
+б) Якщо $f(x_{0})\notin C(\dot{f},x_{0})$, то $f\notin K_{x_{0}}(X)$.
+
+
+
+\newpage
+
+
+\textbf{Теорема 4.} Нехай $X$~--- топологічний простір з першою аксіомою зліченності, $x_{0}$~--- неізольована точка в $X$, для якої множина $\{ x_{0} \}$~--- замкнена, і $f:X\rightarrow \mathbb{R}$~--- обмежена функція, для якої $D(f)\subseteq\{ x_{0} \}$, та $\dot{f}=f|_{X\setminus \{x_{0}\}}$. Тоді: $$d(f,K_{x_{0}}(X))=\frac{1}{2}\rho(f(x_{0}),C(\dot{f},x_{0}))=\delta$$
+
+
+
+\newpage
+
+
+\begin{center}
+\textbf{Література}
+\end{center}
+
+1. Hahn H. Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.\\Wien.Math.~---naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+2.  Benyamini Y., Lindenstrauss J. Geometric nonlinear functional analysis. V.1.~--- Amer.Math.Soc., 2000.~--- 488p.
+
+3. Мельник В. Навколо теореми Гана-Д`єдонне-Тонґа-Катетова // Матеріали студ. наук. конф. ЧНУ. 17 - 19 квітня 2013. Фіз.-мат. науки.~--- Чернівці: ЧНУ, 2013.~--- С. 441-442.
+
+4.  Мельник В. Про відстань до множин квазінеперервних або ледь неперервних у нулі функцій // Матеріали студ. наук. конф. ЧНУ. 5 - 6 квітня 2012. Фіз.-мат. науки.~--- Чернівці: ЧНУ, 2012.~--- С. 341-342.
+
+
+\end{document}
+

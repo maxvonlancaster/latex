@@ -1,0 +1,1025 @@
+\documentclass{article}
+
+\usepackage[monospacemath]{mmasym}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\raggedbottom 
+
+\font\TTT=ptmr7t at 7pt
+\newcount\cno
+\def\TT{\T\setbox0=\hbox{\char\cno}\ifdim\wd0>0pt
+   \box0\lower4pt\hbox{\TTT\the\cno}\else
+   \ifdim\ht0>0pt \box0\lower4pt\hbox{\TTT\the\cno}\fi\fi
+   \global\advance\cno by1
+}
+\def\showfont#1{\font\T=#1 at 10pt\global\cno=0
+ \tabskip1pt plus2pt minus1pt\halign to\textwidth{&\hss\TT ##\hss\cr
+ \multispan{16}\hfil \texttt{Font #1}\hfil\cr\noalign{\smallskip}
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+ &&&&&&&&&&&&&&&\cr
+}}
+
+
+\begin{document} 
+
+\title{
+The \MathLogo{} Virtual Font Package\\
+\MathLogo{} fonts for \LaTeXe{}\\
+1.0 Release}
+\date{26 September 1997}
+\author{Jens-Peer Kuska}
+\maketitle
+
+\section{Introduction}
+
+\MathLogo{} comes with a full set of mathematical 
+fonts in PostScript format. These fonts can be used
+to typeset mathematical texts together with the standard 
+PostScript font, Times-Roman. To use the fonts together
+with \TeX{} and the macro package \LaTeXe{} \cite{LTeXComp}, more 
+than just the plain PostScript Type1 fonts are needed. \TeX{}
+must be informed about the dimensions of the characters and,
+for typesetting mathematics, \TeX{} needs the information on how
+to change the sizes of the operators and delimiters coded in the fonts \cite{TeXBook}.
+
+\TeX{} provides the virtual font mechanism to borrow 
+characters from certain fonts and to assemble new ones. 
+\MathLogo{} has introduced some new symbols like 
+$\ii=\sqrt{-1}$ and $\ee$ for the base of the natural logarithm and
+the mathematical alphabets $\mathbb{DoubleStruck}$, $\mathfrak{Gothic}$
+and $\mathcal{Script}$ with lower case letters. Similar mathematical
+alphabets can be found in the font sets of the American Mathematical
+Society. The virtual fonts \textsf{zw*.vf}, \textsf{zw*.tfm} and
+the style file \textsf{mmasym.sty} replace the standard computer modern
+fonts with the Times-Roman family for normal text, Helvetica family for 
+sansserif text, and the Courier family for monotype text. 
+The four mathematical fonts for
+operators, letters, symbols and extensible symbols are replaced by the
+virtual fonts of the \textsf{zwa} family. The first 128 characters of the
+new fonts conform to the standard \TeX{} encoding for mathematical 
+fonts. Some of the slots with higher character codes are used for the
+new symbols. The main part of \textsf{mmasym.sty} deals with the
+setup of the new symbols.
+
+The virtual fonts where created with Alan Jeffrey's fontinst package \cite{GrComp}.
+
+\section{Files and Installation}
+
+To use the fonts an DVI-driver that understands virtual fonts like 
+\textsf{dvips} is needed.
+The new fonts all start with the \textsf{zw} letters. The combination
+with Times is indicated by the letter \textsf{a}, the mono spaced fonts
+by the letter \textsf{c}. A single 
+character follows for the kind of font and the next character
+refers to the weight of the font.
+\begin{center}
+\begin{tabular}{|rll | c | l|}
+\hline\hline
+\textsf{zwa}&\textsf{r}&\textsf{m} & OT1 & medium weight operator\\
+\textsf{zwa}&\textsf{m}&\textsf{m} & OML & medium weight math italic\\
+\textsf{zwa}&\textsf{y}&\textsf{m} & OMS & medium weight symbol\\
+\textsf{zwa}&\textsf{v}&\textsf{m} & OMX & medium weight math extensions\\
+\hline
+\textsf{zwc}&\textsf{r}&\textsf{m} & OT1 & Courier medium weight operator\\
+\textsf{zwc}&\textsf{m}&\textsf{m} & OML & Courier medium weight math italic\\
+\textsf{zwc}&\textsf{y}&\textsf{m} & OMS & Courier medium weight symbol\\
+\textsf{zwc}&\textsf{v}&\textsf{m} & OMX & Courier medium weight math extensions\\
+\hline
+\textsf{zwa}&\textsf{r}&\textsf{b} & OT1 & bold operator\\
+\textsf{zwa}&\textsf{m}&\textsf{b} & OML & bold math italic\\
+\textsf{zwa}&\textsf{y}&\textsf{b} & OMS & bold symbol\\
+\textsf{zwa}&\textsf{v}&\textsf{b} & OMX & bold math extensions\\
+\hline
+\hline
+\textsf{zwc}&\textsf{r}&\textsf{b} & OT1 & Courier bold operator\\
+\textsf{zwc}&\textsf{m}&\textsf{b} & OML & Courier bold math italic\\
+\textsf{zwc}&\textsf{y}&\textsf{b} & OMS & Courier bold symbol\\
+\textsf{zwc}&\textsf{v}&\textsf{b} & OMX & Courier bold math extensions\\
+\hline
+\textsf{zws} & & \textsf{m}         &  U  &  keyboard and text symbols \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{sloppypar}
+\TeX{} needs the font metric files (\textsf{*.tfm}),
+the virtual fonts (\textsf{*.vf}) and the native 
+font metric files from the \MathLogo{} fonts (i{.}e{.} 
+\textsf{Math1.tfm}, \textsf{Math2.tfm}, \ldots).
+\LaTeXe{} needs the font definition files 
+\textsf{OT1zw*r.fd}, \textsf{OMLzw*m.fd}, \textsf{OMSzw*y.fd} and
+\textsf{OMXzw*v.fd} to access the fonts. Additionally, the 
+font definitions for the Times-Roman (\textsf{OT1ptm.fd}), Helvetica
+(\textsf{OT1phv.fd}) and Courier fonts (\textsf{OT1pcr.fd})  are needed
+for the style file \textsf{mmasym.sty}.	The last three files comes usual
+with the \LaTeXe{} packages in the \textsf{psnfss} directory.
+\end{sloppypar}
+A DVI driver creating PostScript output must be informed 
+to download the Type 1 \MathLogo{} fonts. For \textsf{dvips} this is done by
+adding the map file \textsf{mma.map}
+%
+\begin{verbatim}
+Math1       Math1       <Math1.pfa
+Math1-Bold  Math1-Bold  <Math1-Bold.pfa
+Math2       Math2       <Math2.pfa
+Math2-Bold  Math2-Bold  <Math2-Bold.pfa
+Math3       Math3       <Math3.pfa
+Math3-Bold  Math3-Bold  <Math3-Bold.pfa
+Math4       Math4       <Math4.pfa
+Math4-Bold  Math4-Bold  <Math4-Bold.pfa
+Math5       Math5       <Math5.pfa
+Math5-Bold  Math5-Bold  <Math5-Bold.pfa
+Math1Mono      Math1Mono <Math1Mono.pfa
+Math1Mono-Bold Math1Mono-Bold <Math1Mono-Bold.pfa
+Math2Mono      Math2Mono <Math2Mono.pfa
+Math2Mono-Bold Math2Mono-Bold <Math2Mono-Bold.pfa
+Math3Mono      Math3Mono <Math3Mono.pfa
+Math3Mono-Bold Math3Mono-Bold <Math3Mono-Bold.pfa
+Math4Mono      Math4Mono <Math4Mono.pfa
+Math4Mono-Bold Math4Mono-Bold <Math4Mono-Bold.pfa
+Math5Mono      Math5Mono <Math5Mono.pfa
+Math5Mono-Bold Math5Mono-Bold <Math5Mono-Bold.pfa
+\end{verbatim}
+%
+to the \textsf{config.ps} file with
+\begin{verbatim}
+p+ mma.map
+\end{verbatim}
+Additionally the environment variables of \textsf{dvips} must be updated to
+append the directory with the fonts.
+
+
+\textbf{Important Note:} 
+This map file includes the \MathLogo{} fonts into your PostScript output and
+these fonts can be extracted from the resulting PostScript file. 
+If the PostScript file is
+sent to people without a \MathLogo{} license, Wolfram Research, Inc., will
+probably interpret this as a violation of its copyright.
+
+One way to avoid this problem is to make the fonts available to 
+your resident PostScript interpretor 
+(Your PostScript interpretor might be your copy of GhostScript,
+your PostScript printer, or some other PostScript rasterizing system.)
+and then to not include the 
+fonts into your PostScript file.  
+The file would then contain only
+references to the appropriate \MathLogo{} fonts instead of 
+the fonts themselves.
+
+Once the fonts are available to your PostScript interpretor,
+you need not include them into your PostScript file, and you
+can freely distribute your PostScript file. 
+Only the people who already have the 
+\MathLogo{} fonts will be able to correctly 
+view your PostScript file.  This behavior can
+be achieved with the following revised mapping file.
+
+\goodbreak
+
+\begin{verbatim}
+Math1       Math1
+Math1-Bold  Math1-Bold
+Math2       Math2
+Math2-Bold  Math2-Bold
+Math3       Math3 
+Math3-Bold  Math3-Bold
+Math4       Math4
+Math4-Bold  Math4-Bold
+Math5       Math5
+Math5-Bold  Math5-Bold
+Math1Mono      Math1Mono 
+Math1Mono-Bold Math1Mono-Bold
+Math2Mono      Math2Mono 
+Math2Mono-Bold Math2Mono-Bold
+Math3Mono      Math3Mono
+Math3Mono-Bold Math3Mono-Bold 
+Math4Mono      Math4Mono
+Math4Mono-Bold Math4Mono-Bold
+Math5Mono      Math5Mono
+Math5Mono-Bold Math5Mono-Bold
+\end{verbatim}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+If the \MathLogo{} fonts aren't available to your PostScript
+interpretor,
+\textsf{dvips} must find the  fonts for inclusion and
+the environment variable \texttt{DVIPSHEADERS} must include
+the \MathLogo{} font directory that contains the Type 1 fonts.
+
+To setup the fonts for GhostScript two things must be done. At first add 
+the PostScript fonts to the \textsf{fontmap} file in the GhostScript 
+directory. This is done simply by appending the lines:
+\begin{verbatim}
+/Math1-Bold       (Math1-Bold.pfa);
+/Math1            (Math1.pfa);
+/Math1Mono-Bold   (Math1Mono-Bold.pfa);
+/Math1Mono        (Math1Mono.pfa);
+/Math2-Bold       (Math2-Bold.pfa);
+/Math2            (Math2.pfa);
+/Math2Mono-Bold   (Math2Mono-Bold.pfa);
+/Math2Mono        (Math2Mono.pfa);
+/Math3-Bold       (Math3-Bold.pfa);
+/Math3            (Math3.pfa);
+/Math3Mono-Bold   (Math3Mono-Bold.pfa);
+/Math3Mono        (Math3Mono.pfa);
+/Math4-Bold       (Math4-Bold.pfa);
+/Math4            (Math4.pfa);
+/Math4Mono-Bold   (Math4Mono-Bold.pfa);
+/Math4Mono        (Math4Mono.pfa);
+/Math5-Bold       (Math5-Bold.pfa);
+/Math5            (Math5.pfa);
+/Math5Mono-Bold   (Math5Mono-Bold.pfa);
+/Math5Mono        (Math5Mono.pfa);
+\end{verbatim}
+to the font map. The second step is to tell GhostScript where the fonts can be found.
+This is typical done by setting/appending the directory with the \MathLogo{} fonts
+(typical \textsf{/usr/local/mathematica/SystemFiles/Fonts/Type1})
+to the \verb|GS_LIB| environment variable in Your login shell script.
+
+All the stuff comes in an archive file \textsf{mmafnt.zip}
+with a TDS conform structure. Change to the directory where the
+\textsf{texmf} directory resides and unzip it with the full directory
+information. Modify the \textsf{config.ps} file and 
+the \texttt{DVIPSHEADERS} environment variable and this document
+should compile with \LaTeXe.
+
+To use the package with your own files add the line
+\begin{verbatim}
+\usepackage{mmasym}
+\end{verbatim}
+%
+to the preamble of your \LaTeXe{} document.
+
+
+\section{Typesetting \MathLogo{} Notebooks}
+
+Apart from the production of bitmap free \TeX{} output You may use
+mono spaced mathematical fonts. This is of limited interest
+in usual mathematical texts but needed  for typesetting the \texttt{In[]} and
+\texttt{Out[]} cells of \MathLogo{} notebooks.
+For that propose \textsf{mmasym.sty} introduce two new mathematic styles.
+The \textsf{mmasym.sty} package has an option \texttt{monospacemath}.
+If the package is loaded with:
+
+\begin{verbatim}
+\usepackage[monospacemath]{mmasym}
+\end{verbatim}
+
+the monospaced fonts will be present and two new mathversions are defined.
+For medium weight mono spaced output the math-style \texttt{mono} is 
+introduced and for bold mono spaced mathematics the \texttt{monobold}.
+By default the mono spaced fonts will not be loaded.
+\begin{sloppypar}
+Like the \texcmd{boldmath} or \verb|\mathversion{bold}| the command
+\texcmd{monomath} or \verb|\mathversion{mono}| and \texcmd{monoboldmath}
+or \verb|\mathversion{monobold}| will switch to the new styles. Remember
+that the switch must be outside of a mathematical formula.
+Typesetting notebooks will need mutch more macros than \textsf{mmasym.sty}
+introduces. Here are a few examples	of the different styles.
+\end{sloppypar}
+
+\def\half{{1\over 2}}
+
+\def\mathsample{\fbox{\begin{minipage}{0.95\textwidth}
+\noindent The Dirac equation for a free particle:
+\[ \ii \hbar {\partial \psi\over
+              \partial t} = {\hat H}_f \psi = 
+	\left( \dsc\, {\hat{\vec \alpha}}\,{\hat{\vec p}} + m_0\, \dsc^2\, {\hat \beta}\right)\psi
+\]
+\noindent
+The integral representation of Bessel function $J_\nu(z)$ :
+\begin{eqnarray}
+J_\nu(z)&=&{1\over
+          \pi}\int_0^\pi \cos( z \sin(\theta)-\nu\,\theta)\,\dd\theta\nonumber\\
+		  &&\qquad-
+		  {\sin(\nu\pi)\over
+		   \pi} \int_0^{\infty} \ee^{z \sinh t - \nu\,t}\,\dd t
+		   \,\, (|\arg z|<{1\over 2}\pi)\nonumber
+\end{eqnarray}
+The expansion of Coulomb wave functions in terms of Bessel-Clifford functions:
+\[
+F_L(\eta,\varrho)=C_L(\eta) {(2\,L+1)!\over
+                             (2\,\eta)^{2\,L+1}} \varrho^{-L} 
+							 \sum_{k=2\,L+1}^\infty b_k t^{k/2} I_k(2\sqrt{t})
+\]
+with $b_{2\,L+1}=1$, $b_{2\,L+2}=0$ and 
+$4\eta^2\,(k-2\,L)\,b_{k+1}+k\,b_{k-1} + b_{k-2}=0$.
+
+\noindent A radical idenity:
+\[
+\sqrt{\half}\cdot\sqrt{\half+\half\,\sqrt{\half}}\cdot
+\sqrt{
+  \half +\half\sqrt{
+    \half+\half\sqrt{\half}
+   }
+ }\ldots = {2\over \pi}	
+\]
+\end{minipage}
+}
+}
+
+\begin{figure}
+\mathsample
+\caption{The normal mathematics style}
+\end{figure}
+
+\begin{figure}
+\boldmath\mathsample
+\caption{The bold mathematics style}
+\end{figure}
+
+\begin{figure}
+\monomath\mathsample
+\caption{The mono mathematics style}
+\end{figure}
+
+\begin{figure}
+\monoboldmath\mathsample
+\caption{The mono bold mathematics style}
+\end{figure}
+\mathversion{normal}
+
+\begin{sloppypar}
+One difference between the mono spaced output and the fonts used for
+``The \MathLogo{} Book'' is that the variables typesetted in italic.
+This is the correct behavior for mathematics but it looks strange
+for constructs like 
+\mathversion{mono}$$Expand[(x^2+1)^{100}]$$\mathversion{normal}
+\end{sloppypar}
+
+I recommend definitions like
+\begin{verbatim}
+\newcommand{\Expand}{{\mathop{\mathrm{Expand}}}}
+\end{verbatim}
+
+\newcommand{\Expand}{{\mathop{\mathrm{Expand}}}}
+
+to get \mathversion{mono}$$\Expand[(x^2+1)^{100}].$$\mathversion{normal}
+
+
+
+\section{Symbol Names}
+
+The \MathLogo{} names, in most cases, are too long. The \TeX{}
+command for a symbol is the name of the 
+corresponding AMS font symbol
+if it exists, otherwise a \MathLogo{} alias or name is used.
+Negated relations start always with the letter \texttt{n} and
+the \TeX{}, AMS-\TeX{} name follows. Even if it not explicit
+listed in the following tables, an alias due to the \MathLogo{}
+naming convention may exist.
+
+\begin{sloppypar}
+For the additional alphabets the full \MathLogo{} name, the aliases
+of the frontend, the AMS font switching mechanism using \verb|\mathcal{}|
+for script, \verb|\mathfrak{}| for \MathLogo{}s gothic, and
+\verb|\mathbb{}| for double struck characters, are all working. For
+single letters I recommend the alias of the frontend because the
+macros for character replacement in the \verb|\mathcal{}|, \verb|mathbb{}|
+and \verb|\mathfrak{}| commands are a bit time consuming.
+\end{sloppypar}
+
+\begin{thebibliography}{9}
+\bibitem{GrComp} Michel Gossens, Sebastian Rahtz, Frank Mittlebach,
+                 \textit{The \LaTeX{} Graphics Companion}, Addison-Wesley, 1997
+\bibitem{LTeXComp} Michel Gossens, Frank Mittlebach, Alexander Samarin,
+                 \textit{The \LaTeX{} Companion}, Addison-Wesley, 1994
+\bibitem{TeXBook} Donald E. Knuth, \textit{The \TeX{}book}, Addison-Wesley, 1984
+\end{thebibliography}
+
+\appendix
+
+\section{Character Tables}
+
+The following tables give the reference of the defined characters and symbols
+when the \textsf{mmasym.sty} package is used. 
+
+\def\charrow#1#2#3{\texcmd{#1} & \texcmd{#2} & $#3$ & {\boldmath $#3$}\\}
+
+\begin{table}
+\caption{Additional Characters}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Name & Alias & normal & bold \\
+\hline
+\charrow{ee}{ExponetialE}{\ee}
+\charrow{ii}{ComplexI}{\ii}
+\charrow{jj}{ComplexJ}{\jj}
+\charrow{dd}{DifferentialD}{\dd}
+\charrow{DD}{CapitalDifferentialD}{\DD}
+\charrow{DoublePi}{}{\DoublePi}
+\charrow{EulerGamma}{}{\EulerGamma}
+\charrow{ScriptDotlessI}{}{\ScriptDotlessI}
+\charrow{ScriptDotlessJ}{}{\ScriptDotlessJ}
+\hline
+\charrow{HBar}{hbar}{\hbar}
+\charrow{Mho}{}{\Mho}
+\charrow{lambdaslash}{}{\lambdaslash}
+\charrow{Angstroem}{}{\Angstroem}
+\hline
+\charrow{beth}{}{\beth}
+\charrow{daleth}{}{\daleth}
+\charrow{gimel}{}{\gimel}
+\hline
+\charrow{Digamma}{}{\Digamma}
+\charrow{Stigma}{}{\Stigma}
+\charrow{Koppa}{}{\Koppa}
+\charrow{Sampi}{}{\Sampi}
+\charrow{digamma}{}{\digamma}
+\charrow{stigma}{}{\stigma}
+\charrow{koppa}{}{\koppa}
+\charrow{sampi}{}{\sampi}
+\charrow{varkappa}{}{\varkappa}
+\charrow{Euler}{euler}{\Euler}
+\charrow{Micro}{}{\Micro}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\def\SDCharRow#1#2#3#4{\texcmd{#1} & \texcmd{#2} &
+                 $\csname #2\endcsname$  
+				 &\texcmd{#3} & \texcmd{#4} &
+                 $\csname #4\endcsname$ \\}
+
+\def\DCharRow#1#2#3#4{\texcmd{#1} & \texcmd{#2} &
+                 $\csname #2\endcsname$ 
+				 & {\boldmath $\csname #1\endcsname$} 
+				 &\texcmd{#3} & \texcmd{#4} &
+                 $\csname #4\endcsname$ 
+				 & {\boldmath $\csname #3\endcsname$}\\}
+\begin{table}
+\caption{Script Characters, 
+the \texcmd{mathcal} can be used to get 
+several $\mathcal{Script}$ characters.}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\SDCharRow{ScriptCapitalA}{scA}{ScriptA}{sca}
+\SDCharRow{ScriptCapitalB}{scB}{ScriptB}{scb}
+\SDCharRow{ScriptCapitalC}{scC}{ScriptC}{scc}
+\SDCharRow{ScriptCapitalD}{scD}{ScriptD}{scd}
+\SDCharRow{ScriptCapitalE}{scE}{ScriptE}{sce}
+\SDCharRow{ScriptCapitalF}{scF}{ScriptF}{scf}
+\SDCharRow{ScriptCapitalG}{scG}{ScriptG}{scg}
+\SDCharRow{ScriptCapitalH}{scH}{ScriptH}{sch}
+\SDCharRow{ScriptCapitalI}{scI}{ScriptI}{sci}
+\SDCharRow{ScriptCapitalJ}{scJ}{ScriptJ}{scj}
+\SDCharRow{ScriptCapitalK}{scK}{ScriptK}{sck}
+\SDCharRow{ScriptCapitalL}{scL}{ScriptL}{scl}
+\SDCharRow{ScriptCapitalM}{scM}{ScriptM}{scm}
+\SDCharRow{ScriptCapitalN}{scN}{ScriptN}{scn}
+\SDCharRow{ScriptCapitalO}{scO}{ScriptO}{sco}
+\SDCharRow{ScriptCapitalP}{scP}{ScriptP}{scp}
+\SDCharRow{ScriptCapitalQ}{scQ}{ScriptQ}{scq}
+\SDCharRow{ScriptCapitalR}{scR}{ScriptR}{scr}
+\SDCharRow{ScriptCapitalS}{scS}{ScriptS}{scs}
+\SDCharRow{ScriptCapitalT}{scT}{ScriptT}{sct}
+\SDCharRow{ScriptCapitalU}{scU}{ScriptU}{scu}
+\SDCharRow{ScriptCapitalV}{scV}{ScriptV}{scv}
+\SDCharRow{ScriptCapitalW}{scW}{ScriptW}{scw}
+\SDCharRow{ScriptCapitalX}{scX}{ScriptX}{scx}
+\SDCharRow{ScriptCapitalY}{scY}{ScriptY}{scy}
+\SDCharRow{ScriptCapitalZ}{scZ}{ScriptZ}{scz}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Double Struck Characters, 
+the \texcmd{mathbb} can be used to get 
+several $\mathbb{DoubleStruck}$ characters.}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\SDCharRow{DoubleStruckCapitalA}{dsA}{DoubleStruckA}{dsa}
+\SDCharRow{DoubleStruckCapitalB}{dsB}{DoubleStruckB}{dsb}
+\SDCharRow{DoubleStruckCapitalC}{dsC}{DoubleStruckC}{dsc}
+\SDCharRow{DoubleStruckCapitalD}{dsD}{DoubleStruckD}{dsd}
+\SDCharRow{DoubleStruckCapitalE}{dsE}{DoubleStruckE}{dse}
+\SDCharRow{DoubleStruckCapitalF}{dsF}{DoubleStruckF}{dsf}
+\SDCharRow{DoubleStruckCapitalG}{dsG}{DoubleStruckG}{dsg}
+\SDCharRow{DoubleStruckCapitalH}{dsH}{DoubleStruckH}{dsh}
+\SDCharRow{DoubleStruckCapitalI}{dsI}{DoubleStruckI}{dsi}
+\SDCharRow{DoubleStruckCapitalJ}{dsJ}{DoubleStruckJ}{dsj}
+\SDCharRow{DoubleStruckCapitalK}{dsK}{DoubleStruckK}{dsk}
+\SDCharRow{DoubleStruckCapitalL}{dsL}{DoubleStruckL}{dsl}
+\SDCharRow{DoubleStruckCapitalM}{dsM}{DoubleStruckM}{dsm}
+\SDCharRow{DoubleStruckCapitalN}{dsN}{DoubleStruckN}{dsn}
+\SDCharRow{DoubleStruckCapitalO}{dsO}{DoubleStruckO}{dso}
+\SDCharRow{DoubleStruckCapitalP}{dsP}{DoubleStruckP}{dsp}
+\SDCharRow{DoubleStruckCapitalQ}{dsQ}{DoubleStruckQ}{dsq}
+\SDCharRow{DoubleStruckCapitalR}{dsR}{DoubleStruckR}{dsr}
+\SDCharRow{DoubleStruckCapitalS}{dsS}{DoubleStruckS}{dss}
+\SDCharRow{DoubleStruckCapitalT}{dsT}{DoubleStruckT}{dst}
+\SDCharRow{DoubleStruckCapitalU}{dsU}{DoubleStruckU}{dsu}
+\SDCharRow{DoubleStruckCapitalV}{dsV}{DoubleStruckV}{dsv}
+\SDCharRow{DoubleStruckCapitalW}{dsW}{DoubleStruckW}{dsw}
+\SDCharRow{DoubleStruckCapitalX}{dsX}{DoubleStruckX}{dsx}
+\SDCharRow{DoubleStruckCapitalY}{dsY}{DoubleStruckY}{dsy}
+\SDCharRow{DoubleStruckCapitalZ}{dsZ}{DoubleStruckZ}{dsz}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Gothic Characters, 
+the \texcmd{mathfrak} can be used to get
+$\mathfrak{Gothic}$ characters.}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\DCharRow{GothicCapitalA}{goA}{GothicA}{goa}
+\DCharRow{GothicCapitalB}{goB}{GothicB}{gob}
+\DCharRow{GothicCapitalC}{goC}{GothicC}{goc}
+\DCharRow{GothicCapitalD}{goD}{GothicD}{god}
+\DCharRow{GothicCapitalE}{goE}{GothicE}{goe}
+\DCharRow{GothicCapitalF}{goF}{GothicF}{gof}
+\DCharRow{GothicCapitalG}{goG}{GothicG}{gog}
+\DCharRow{GothicCapitalH}{goH}{GothicH}{goh}
+\DCharRow{GothicCapitalI}{goI}{GothicI}{goi}
+\DCharRow{GothicCapitalJ}{goJ}{GothicJ}{goj}
+\DCharRow{GothicCapitalK}{goK}{GothicK}{gok}
+\DCharRow{GothicCapitalL}{goL}{GothicL}{gol}
+\DCharRow{GothicCapitalM}{goM}{GothicM}{gom}
+\DCharRow{GothicCapitalN}{goN}{GothicN}{gon}
+\DCharRow{GothicCapitalO}{goO}{GothicO}{goo}
+\DCharRow{GothicCapitalP}{goP}{GothicP}{gop}
+\DCharRow{GothicCapitalQ}{goQ}{GothicQ}{goq}
+\DCharRow{GothicCapitalR}{goR}{GothicR}{gor}
+\DCharRow{GothicCapitalS}{goS}{GothicS}{gos}
+\DCharRow{GothicCapitalT}{goT}{GothicT}{got}
+\DCharRow{GothicCapitalU}{goU}{GothicU}{gou}
+\DCharRow{GothicCapitalV}{goV}{GothicV}{gov}
+\DCharRow{GothicCapitalW}{goW}{GothicW}{gow}
+\DCharRow{GothicCapitalX}{goX}{GothicX}{gox}
+\DCharRow{GothicCapitalY}{goY}{GothicY}{goy}
+\DCharRow{GothicCapitalZ}{goZ}{GothicZ}{goz}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\def\samplerow#1#2#3{\texcmd{#1} & $#2$ & $#3$ & $\displaystyle#3$\\ 
+&  &\mathversion{mono} $#3$ &\mathversion{mono} $\displaystyle#3$ \\}
+\begin{table}
+\caption{Integral signs}
+\begin{center}
+\begin{tabular}{|l|l|c|c|}
+\hline
+\TeX-Command  &  &  & \\
+\hline
+\samplerow{int}{\int}{\int_{a}^{b} f(x)\,\dd x}
+\samplerow{oint}{\oint}{\oint_{C} f(\zeta)\,\dd \zeta}
+\samplerow{dbloint}{\dbloint}{\dbloint_{\Gamma} f(u,v)\, \dd u\, \dd v}
+\samplerow{clockoint}{\clockoint}{\clockoint_{\Gamma} f(z)\, \dd z}
+\samplerow{cntclockoint}{\cntclockoint}{\cntclockoint_{\Gamma} f(z)\, \dd z}
+\samplerow{sqrint}{\sqrint}{\sqrint_{\Gamma} f(z)\, \dd z}
+\samplerow{fint}{\fint}{\fint_{-\infty}^{\infty} {f(x)\over x} \, \dd x}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\def\samplearrows#1{%
+\texcmd{#1} & $\csname#1\endcsname$ & $a\csname#1\endcsname b$ \\}
+\def\samplevarrows#1{%
+\texcmd{#1} & $\csname#1\endcsname$ & $\bigm{\csname#1\endcsname}$ 
+                                       $\Bigm{\csname#1\endcsname}$
+									   $\biggm{\csname#1\endcsname}$ 
+									   $\Biggm{\csname#1\endcsname}$ \\}
+\begin{table}
+\caption{Additional and changed arrows 1}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\samplearrows{HookLeftArrow}
+\samplearrows{HookRightArrow}
+\samplearrows{MapsTo}
+\samplearrows{MapsFrom}
+\samplevarrows{MapsUp}
+\samplevarrows{MapsDown}
+\hline
+\samplearrows{ShortUpArrow}
+\samplearrows{ShortDownArrow}
+\samplearrows{ShortRightArrow}
+\samplearrows{ShortLeftArrow}
+\samplearrows{LongLeftArrow}
+\samplearrows{longleftarrow}
+\samplearrows{LongRightArrow}
+\samplearrows{longrightarrow}
+\samplearrows{LongLeftRightArrow}
+\samplearrows{longleftrightarrow}
+\hline
+\samplearrows{DblLongLeftArrow}
+\samplearrows{Longleftarrow}
+\samplearrows{DblLongRightArrow}
+\samplearrows{Longrightarrow}
+\samplearrows{DblLongLeftRightArrow}
+\samplearrows{Longleftrightarrow}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Additional and changed arrows 2}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\samplearrows{RightVectorBar}
+\samplearrows{LeftVectorBar}
+\samplearrows{DownRightVectorBar}
+\samplearrows{DownLeftVectorBar}
+\samplearrows{RightTeeVector}
+\samplearrows{LeftTeeVector}
+\samplearrows{DownRightTeeVector}
+\samplearrows{DownLeftTeeVector}
+\samplearrows{RightArrowBar}
+\samplearrows{LeftArrowBar}
+\samplearrows{leftrightharpoonup}
+\samplearrows{leftrightharpoondown}
+\samplearrows{equilibrium}
+\samplearrows{revequilibrium}
+\samplearrows{Equilibrium}
+\samplearrows{RevEquilibrium}
+\samplevarrows{upharpoonleftup}
+\samplevarrows{upharpoonleftdown}
+\samplevarrows{upharpoonrightup}
+\samplevarrows{upharpoonrightdown}
+\samplevarrows{leftupdownharpoon}
+\samplevarrows{rightupdownharpoon}
+\samplevarrows{UpArrowBar}
+\samplevarrows{DownArrowBar}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Additional and changed arrows 3}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline						 
+\samplevarrows{LeftUpTeeVector}
+\samplevarrows{RightUpTeeVector}
+\samplevarrows{LeftDownTeeVector}
+\samplevarrows{RightDownTeeVector}
+\samplevarrows{LeftUpVectorBar}
+\samplevarrows{RightUpVectorBar}
+\samplevarrows{LeftDownVectorBar}
+\samplevarrows{RightDownVectorBar}
+%
+\samplevarrows{upequilibrium}
+\samplevarrows{uprevequilibrium}
+\hline
+\samplearrows{rightleftarrow}
+\samplearrows{leftrightarrow}
+\hline
+\samplevarrows{uparrowdownarrow}
+\samplevarrows{downarrowuparrow}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\def\samplexarrows#1#2{%
+\texcmd{#1}\textit{[length]} & $\csname#1\endcsname$ & $a\csname#1\endcsname[#2] b$ \\}
+\begin{table}
+\caption{Extensible Horizontal Arrows. 
+All arrows have a length argument.}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\TeX command & Symbol & Example \\
+\hline		   
+\samplexarrows{RightArrowFill}{24pt}
+\samplexarrows{LeftArrowFill}{24pt}
+\samplexarrows{LRArrowFill}{24pt}
+\samplexarrows{DblRightArrowFill}{24pt}
+\samplexarrows{DblLeftArrowFill}{24pt}
+\samplexarrows{DblLRArrowFill}{24pt}
+\samplexarrows{RightHarpoonUpFill}{24pt}
+\samplexarrows{LeftHarpoonUpFill}{24pt}
+\samplexarrows{RightHarpoonDownFill}{24pt}
+\samplexarrows{LeftHarpoonDownFill}{24pt}
+\samplexarrows{LRHarpoonUpFill}{24pt}
+\samplexarrows{LRHarpoonDownFill}{24pt}
+\samplexarrows{EquilibriumFill}{24pt}
+\samplexarrows{RevEquilibriumFill}{24pt}
+\samplexarrows{RightLeftArrowFill}{24pt}
+\samplexarrows{LeftRightArrowFill}{24pt}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Mathematica specials}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\samplearrows{Rule}
+\samplearrows{RuleDelayed}
+\samplearrows{SetDelayed}
+\samplearrows{Equal}
+\samplearrows{Same}
+\hline
+\multicolumn{3}{|c|}{Double brackets}\\
+\hline
+\samplevarrows{lpart}
+\samplevarrows{rpart}
+\samplevarrows{llbracket}
+\samplevarrows{rrbracket}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Dot's as time derivative}
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\texcmd{Dot}   & ${\Dot a}(t)$   & {\boldmath ${\Dot a}(t)$}\\
+\texcmd{DDot}  & ${\DDot a}(t)$  & {\boldmath ${\DDot a}(t)$}\\
+\texcmd{DDDot} & ${\DDDot a}(t)$ & {\boldmath ${\DDDot a}(t)$}\\
+\texcmd{vec} & ${\vec A}$    & {\boldmath ${\vec A}$}\\
+\texcmd{lrvec} & ${\lrvec A}$    & {\boldmath ${\lrvec A}$}\\
+\texcmd{lvec} & ${\lvec A}$    & {\boldmath ${\lvec A}$}\\
+\texcmd{Vec} & ${\Vec A}$    & {\boldmath ${\Vec A}$}\\
+\texcmd{LRVec} & ${\LRVec A}$    & {\boldmath ${\LRVec A}$}\\
+\texcmd{LVec} & ${\LVec A}$    & {\boldmath ${\LVec A}$}\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\def\sampleoverunder#1{
+\texcmd{#1}$\{$\textit{argument}$\}$ 
+            & $\csname#1\endcsname{a+b}$ 
+            & $\csname#1\endcsname{a+b+c}$
+			& $\csname#1\endcsname{a+b+x+y}$ \\}
+\begin{table}
+\caption{Over- and underbraces, brackets \ldots}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\sampleoverunder{overparen}
+\sampleoverunder{underparen}
+\hline
+\sampleoverunder{overbracket}
+\sampleoverunder{underbracket}
+\sampleoverunder{OverBracket}
+\sampleoverunder{UnderBracket}
+\hline
+\sampleoverunder{overbrace}
+\sampleoverunder{underbrace}
+\hline
+\sampleoverunder{overleftarrow}
+\sampleoverunder{overrightarrow}
+\hline
+\sampleoverunder{overleftharpoon}
+\sampleoverunder{overrightharpoon}
+\sampleoverunder{overlrharpoon}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\def\relrow#1{\texcmd{#1} & $ a\csname #1\endcsname b$ \\}
+
+\begin{table}
+\caption{Relations and negated binary relations 1}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\relrow{therefore}
+\relrow{because}
+\relrow{Proportion}
+\relrow{neq}
+\relrow{dotequal}
+\relrow{nasymp}
+\relrow{nequiv}
+\relrow{nsupseteq}
+\relrow{nsubseteq}
+\relrow{nsqsupseteq}
+\relrow{nsqsubseteq}
+\relrow{nleq}
+\relrow{ngeq}
+\relrow{npreceq}
+\relrow{nsucceq}
+\relrow{nsim}
+\relrow{cong}
+\relrow{ncong}
+\relrow{napprox}
+\relrow{nsubset}
+\relrow{nsupset}
+\relrow{nll}
+\relrow{ngg}
+\relrow{nprec}
+\relrow{nsucc}
+\relrow{nin}
+\relrow{nni}
+\relrow{nless}
+\relrow{ngtr}
+\relrow{bumpeq}
+\relrow{Bumpeq}
+\relrow{nbumpeq}
+\relrow{nBumpeq}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Relations and negated binary relations 2}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\relrow{unlhd}
+\relrow{unrhd}
+\relrow{nunlhd}
+\relrow{nunrhd}
+\relrow{backepsilon}
+\relrow{TildeEqual}
+\relrow{NotTildeEqual}
+\relrow{NestedLessLess}
+\relrow{NotNestedLessLess}
+\relrow{NestedGreaterGreater}
+\relrow{NotNestedGreaterGreater}
+\relrow{GreaterLess}
+\relrow{NotGreaterLess}
+\relrow{GreaterTilde}
+\relrow{LessTilde}
+\relrow{NotGreaterTilde}
+\relrow{NotLessTilde}
+\relrow{PrecedesSlantEqual}
+\relrow{SucceedsSlantEqual}
+\relrow{NotPrecedesSlantEqual}
+\relrow{NotSucceedsSlantEqual}
+\relrow{PrecedesTilde}
+\relrow{SucceedsTilde}
+\relrow{NotPrecedesTilde}
+\relrow{NotSucceedsTilde}
+\relrow{RightTriangle}
+\relrow{LeftTriangle}
+\relrow{NotRightTriangle}
+\relrow{NotLeftTriangle}
+\relrow{RightTriangleBar}
+\relrow{LeftTriangleBar}
+\relrow{NotRightTriangleBar}
+\relrow{NotLeftTriangleBar}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\begin{table}
+\caption{Angle}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Name & Alias & normal & bold \\
+\hline
+\charrow{Angle}{angle}{\Angle}
+\charrow{rightangle}{RightAngle}{\rightangle}
+\charrow{measuredangle}{MeasuredAngle}{\measuredangle}
+\charrow{sphericalangle}{SphericalAngle}{\sphericalangle}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\def\texsymrow#1#2{\texcmd{#1} & \csname#1\endcsname &\texcmd{#2} & \csname#2\endcsname\\}
+
+\begin{table}
+\caption{Text symbols, the text symbols are 
+all defined with a closing \texcmd{xspace}.}
+\begin{center}
+\begin{tabular}{|c|c||c|c|}
+\hline
+\texsymrow{MathLogo}{MathIcon}
+\texsymrow{KernelIcon}{Wolf}
+\texsymrow{WatchIcon}{LightBulb}
+\texsymrow{HappySmiley}{NeutralSmiley}
+\texsymrow{SadSmiley}{FreakedSmiley}
+\texsymrow{WaringSign}{AliasDelimiter}
+\hline
+\texsymrow{CommandKey}{ControlKey}
+\texsymrow{AltKey}{ModeOneKey}
+\texsymrow{ModeTwoKey}{CloverLeaf}
+\texsymrow{ReturnIndicator}{DottedSquare}
+\texsymrow{LeftModfied}{RightModfied}
+%
+\texsymrow{EscapeKey}{ReturnKey}
+\texsymrow{ShiftKey}{SpaceKey}
+\texsymrow{BackspaceKey}{HomeKey}
+\texsymrow{PageUpKey}{PageDownKey}
+\texsymrow{EndKey}{TabKey}
+%
+\hline
+\texcmd{DownQuestion} & \DownQuestion & & \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\def\mathtextrow#1{\texcmd{#1} & \csname#1\endcsname & $\csname#1\endcsname$ \\}
+\begin{table}
+\caption{Symbols that exists in math and in text mode.}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\mathtextrow{SpaceIndicator}
+\mathtextrow{RoundSpaceIndicator}
+\mathtextrow{Continuation}
+\mathtextrow{ErrorIndicator}
+\mathtextrow{UnknownGlyph}
+\mathtextrow{SelectionPlaceholder}
+\mathtextrow{Placeholder}
+\mathtextrow{SixPointedStar}
+\mathtextrow{Rectangle}
+\mathtextrow{GrayRectangle}
+\mathtextrow{EmptyRectangle}
+\mathtextrow{Square}
+\mathtextrow{GraySquare}
+\mathtextrow{EmptySquare}
+\mathtextrow{Circle}
+\mathtextrow{GrayCircle}
+\mathtextrow{EmptyCircle}
+\mathtextrow{Ellipsis}
+\mathtextrow{CenterEllipsis}
+\mathtextrow{VerticalEllipsis}
+\mathtextrow{AscendingEllipsis}
+\mathtextrow{DescendingEllipsis}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\clearpage
+\section{Bug Reports}
+
+I have still some free positions in the virtual fonts. All users
+are asked to contribute requests for symbols from the PostScript
+fonts that are missed in the \TeX{} fonts. 
+
+The virtual fonts (spacing, italic correction, placement of super- and
+subscripts, \ldots) as well as the style file \texttt{mmasym.sty} may
+still have some errors. Please report this errors via e-mail to:
+
+\begin{verbatim}
+kuska@osf1.mpae.gwdg.de
+\end{verbatim}
+
+Please start the subject with the string \verb|MMA Font Bug| and attatch
+a \LaTeXe{} file that shows the error. I will try to fix the errors
+as soon as posible.
+
+\section{Copyright}
+
+The copyright of the Type 1 PostSript fonts and the
+afm-files belongs to Wolfram Research Inc. The copygright of
+all files in the ``\MathLogo{} Virtual Font Package'' belongs
+to Jens-Peer Kuska.
+
+The files may be freely copied, distributed and used, 
+provided that no changes whatsoever are made. 
+All users are asked to help keep the virtual font files 
+and the style consistent and ``uncorrupted,''
+identical everywhere in the world. 
+Changes are permissible only
+if the modified file is given a new name, 
+different from the names of existing files, 
+and only if the modified file is clearly 
+identified as not being part of the ``\MathLogo{} 
+Virtual Font Package''.
+    
+The author has tried his best to produce correct 
+and useful macros and fonts, in order to 
+help promote computer science research and
+\MathLogo, but no warranty of any kind should 
+be assumed.
+\end{document} 
+
+

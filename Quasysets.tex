@@ -1,0 +1,125 @@
+\documentclass[12pt, fleqn]{article}
+
+\usepackage[cp1251]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\Ukrainian
+
+\setlength{\voffset}{-20mm} \setlength{\hoffset}{-20mm}
+\setlength{\textwidth}{170mm} \setlength{\textheight}{240mm}
+
+
+\tolerance=10000
+\sloppy
+\begin{document}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\pagestyle{empty}
+\begin{center}
+{\Large {\textbf{Про квазізамкнені множини}}}
+
+\author{Маслюченко В. К.}{Маслюченко В. К.}
+\author{Мельник В. С.}{Мельник В. С.}
+
+\end{center}
+\large
+\bigskip
+
+\textit{Означення 1.} $f:X\rightarrow \mathbb{R}$ квазінеперервна зверху /знизу/ в $x\in X$ якщо $\forall\varepsilon>0$ $\forall U\in \mathcal{U}_{x_{}}$ $\exists G\in \mathcal{T}(U)$ $\forall u\in G$: $f(u)\leq f(x)+\varepsilon$ /$f(u)\geq f(x)-\varepsilon$/ (Де $\mathcal{T}(U)$~--- сукупність всіх відкритих непорожніх підмножин $U$).
+
+\textit{Означення 2.} $A\subseteq X$~--- квазівідкрита /квазізамкнена/ якщо $A\subseteq \overline{(\textmd{int} A)}$ /$a\supseteq \textmd{int}(\overline{A})$/.
+
+Доповнення до квазівідкритої множини буде квазізамкненою.
+
+\textit{Лема 1.} $A\subseteq X$~--- квазівідкрита тоді і тільки тоді, коли $\forall x\in A$ $\forall U\in \mathcal{U}_{x}$ $\exists G\in \mathcal{T}(U)$: $G\subseteq A$.
+
+\textit{Доведення.} $=>)$ Нехай $A\subseteq \overline{\textmd{int} A}$. Тоді для довільного $x\in A$: $x\in \overline{\textmd{int} A}$, отже, для довільного $U\in \mathcal{U}_{x}: G=U\cap \textmd{int}A\neq{\O}$. Маємо, що для довільного $x\in A$ і для кожного $U\in \mathcal{U}_{x}$ існує $G\in \tau(U)$, такий, що $G\subseteq A$.
+
+$<=)$ Маємо, що для довільного $x\in A$ та для довільного $U\in \mathcal{U}_{x}$. Існує $G\in \tau(U)$: $G\subseteq A$. Оскільки $G\subseteq A$ та $G$~--- відкрита множина, то $G\subseteq \textmd{int}A$, а тоді для довільного $x\in A$ та для довільного $U\in \mathcal{U}_{x}$ $U\cap \textmd{int}A\neq{\O}$. Звідси маємо, що $x\in  \overline{\textmd{int} A}$.
+
+\textit{Лема 2.} Якщо $f:X\rightarrow \mathbb{R}$~--- квазінеперервна знизу, то для довільного $\gamma\in \mathbb{R}$ множина $A=\{x\in X: f(x)\leq\gamma\}$ квазівідкрита.
+
+\textit{Доведення.} Розглянемо $B=\{x\in X: f(x)>\gamma\}$. З того що $f(x)>\gamma$ випливає,      що для довільного околу $U$ точки $x$ існує $G\in \tau(U)$ такий, що для довільного $u\in G$: $f(u)>\gamma$. Отже, $G\subseteq B$. За лемою 1 маємо, що $B=\{x\in X: f(x)>\gamma\}$~--- квазівідкрита, отже, $A$~--- квазізамкнена як доповнення до $B$.
+
+\textit{Лема 3.} Нехай $f_{n}:X\rightarrow \mathbb{R}$~--- квазінеперервні зверху. Тоді $f(x)=\inf_{n}f_{n}(x)$~--- квазінеперервна зверху функція.
+
+\textit{Доведення.} Нехай $x\in X$, $\varepsilon>0$, $U$~--- окіл $x$. Існує $n\in \mathbb{N}$, такий, що $f(x)\leq f_{n}(x)<f(x)+\varepsilon$. Оскільки $f_{n}$~--- квазінеперервні в $x$, то існує $G\in \tau(U)$ такий, що для довільного $t\in G$: $f_{n}(t)\leq f(x)+\varepsilon$. Оскільки $f(t)\leq f_{n}(t)$, то $f(t)\leq f(x)+\varepsilon$ для довільного $t\in G$. Маємо, що $f$~--- квазінеперервна зверху в точці $x$.
+
+\textit{Означення 3.} Для довільної множини $A\subseteq X$ позначимо $\textmd{scl}(A)=A\cup \textmd{int}(\overline{A})$~--- квазізамикання множини $A$. Дана множина буде квазізамкненою.
+
+\textit{Означення 4.} ТП $X$ називається семінормальним, якщо для довільних $A,B\subseteq X$ квазізамкнених, таких, що $A\cap B={\O}$ існують квазівідкриті $U,V$, такі, що $A\subseteq U$, $B\subseteq V$ і $U\cap V={\O}$.
+
+\textit{Лема 4.} Нехай $(x_{n})_{n=1}^{\infty}$ і $(y_{n})_{n=1}^{\infty}$~--- дві послідовності чисел з $[0,1]$, $y_{n}\uparrow y$, $x_{n}\downarrow x$ і $x\leq y$. Тоді для $z_{n}=\min\{x_{n},y_{n}\}$, $w_{n}=\max\{z_{1},...,z_{n-1},x_{n}\}$ маємо, що $z=\sup\limits_{n\in \mathbb{N}}^{}z_{n}=\inf\limits_{n\in \mathbb{N}}^{}w_{n}$ і $z\in [x,y]$.
+
+\textit{Теорема 1.} Нехай $A,B$~--- квазізамкнені в семінормальному просторі $X$, та $A\cap B={\O}$. Тоді існує квазінеперервна $f:X\rightarrow [0,1]$, така, що $f|_{A}=0$ та $f|_{B}=1$.
+
+\textit{Доведення.} Простір $X$~--- семінормальний, отже, існують $U_{0}$, $V_{0}$~--- квазівідкриті, такі, що $A\subseteq U_{0}$, $B\subseteq V_{0}$ та $U_{0}\cap V_{0}={\O}$. Маємо, що множина $X\setminus V_{0}$~--- квазізамкнена, отже, $X\setminus V_{0}\supseteq \textmd{int}(\overline{X\setminus V_{0}})$, та $G_{0}$~--- квазівідкрита, отже, $G_{0}\subseteq \overline{\textmd{int} G_{0}}$. Оскільки $G_{0}\subseteq X\setminus V_{0}$, то $\textmd{int} G_{0}\subseteq X\setminus V_{0}$, звідси маємо, що $\overline{\textmd{int} G_{0}}\subseteq \overline{X\setminus V_{0}}$, а отже, $\textmd{int}\overline{\textmd{int} G_{0}}\subseteq \textmd{int}\overline{X\setminus V_{0}}\subseteq X\setminus V_{0}$.
+
+Окрім того, $G_{0}\subseteq \overline{\textmd{int} G_{0}}$, отже, $\overline{G_{0}}\subseteq \overline{\textmd{int} G_{0}}$, звідси $\textmd{int}\overline{G_{0}}\subseteq \textmd{int} \overline{\textmd{int} G_{0}}\subseteq X\setminus V_{0}$. Отже, маємо, що $G_{0}\subseteq X\setminus V_{0}$ та $\textmd{int}\overline{G_{0}}\subseteq X\setminus V_{0}$, таким чином, $G_{0}\cup (\textmd{int} \overline{G_{0}})=A_{1}\subseteq X\setminus V_{0}$. Маємо, що $A_{1}$~--- квазізамкнена, $A_{1}\cap B={\O}$, отже, з семінормальності простору $X$, існують $U_{1}$, $V_{1}$~--- квазівідкриті, такі, що $U_{1}\cap V_{1}={\O}$, $U_{1}\supseteq A_{1}$ та $V_{1}\supseteq B_{1}$. Покладемо $G_{t_{1}}=U_{1}$, $\textmd{scl}(G_{0})=G_{0}\cup (\textmd{int} \overline{G_{0}})\subseteq G_{1}$.
+
+Нехай для деякого $n\geq 2$ вже побудовані $(G_{t_{k}})_{t_{k}\in T_{n}}$, $T_{n}=\{t_{0},...,t_{n-1}\}$, причому $G_{t_{k}}$~--- квазівідкриті, для довільного $t\in T_{n}$ $A\subseteq G_{t}\subseteq X\setminus B$ та для довільних $s,t \in T_{n}$, таких, що $s<t$, виконується $\textmd{scl}(G_{s})=G_{s}\cup(\textmd{int} \overline{G_{s}})\subseteq G_{t}$. Покладемо $t^{-}=\max \{t\in T_{n}:t<t_{n}\}$, $t^{+}=\min\{t\in T_{n}:t>t_{n}\}$, $t^{-}<t<t^{+}$, $\textmd{scl}(G_{t^{-}})\subseteq G_{t^{+}}$. Візьмемо $A_{n}=\textmd{scl}(G_{t^{-}})$, $B_{n}=X\setminus G_{t^{+}}$, $A_{n}\cap B_{n}={\O}$, $A_{n}$ та $B_{n}$~--- квазізамкнені.
+
+Маємо, що існують $U_{n}$, $V_{n}$~--- квазівідкриті, такі, що $A_{n}\subseteq U_{n}$, $B_{n}\subseteq V_{n}$, $U_{n}\cap V_{n}={\O}$. Покладемо $G_{t_{n}}=U_{n}$. Маємо, що $G_{t_{n}}\subseteq X\setminus V_{n}$, тому $\textmd{int}G_{t_{n}}\subseteq X\setminus V_{n}$, а звідси маємо, що $\overline{\textmd{int}G_{t_{n}}}\subseteq \overline{X\setminus V_{n}}$, а тому $\overline{\textmd{int}G_{t_{n}}}\subseteq \overline{X\setminus V_{n}}\subseteq X\setminus V_{0}$. Окрім того, з того, що $G_{t_{n}}\subseteq \overline{\textmd{int}G_{t_{n}}}$ маємо, що $\overline{G_{t_{n}}}\subseteq \overline{\textmd{int}G_{t_{n}}}$, а отже $\textmd{int}\overline{G_{t_{n}}}\subseteq \textmd{int}\overline{\textmd{int}G_{t_{n}}}\subseteq X\setminus V_{n}$. Таким чином, $\textmd{scl} (G_{t_{n}})=G_{t_{n}}\cup(\textmd{int}\overline{G_{t_{n}}})\subseteq X\setminus V_{n}$. Маємо, що для довільних $s,t\in T_{n}$ таких, що $s\leq t^{-}<t_{n}<t^{+}\leq t$:
+$$\textmd{scl}(G_{s})\subseteq \textmd{scl}(G_{t^{-}})\subseteq G_{t_{n}}\subseteq \textmd{scl}(G_{t_{n}})\subseteq G_{t^{+}}\subseteq G_{t}.$$
+
+За методом математичної індукції, ми побудували систему квазівідкритих множин $(G_{t})_{t\in T}$, де $T=[0,1]\cap \mathbb{Q}$ таку, що: 1)$\forall t\in T$ $A\subseteq G_{t}\subseteq X\setminus B$ та 2) $\forall s,t\in T$ з того, що $s<t$ випливає, що $\textmd{scl}(G_{s})\subseteq G_{t}$.
+
+Розглянемо тепер наступну функцію: $$f(x)= \left\{ \begin{array}{c} \inf \{t\in T:x\in G_{t}\},\textmd{ }x\in X\setminus B=G_{1}; \\ 1,\textmd{ }x\in B    \end{array} \right.$$
+
+Маємо, що якщо $x\in A$, то $x\in G_{0}$, $\inf T=0$, отже, $f(x)=0$. Доведемо квазінеперервність $f$.
+
+Візьмемо $x_{0}\in X$ та $\varepsilon>0$. Нехай $0<f(x_{0})<1$, тоді існують $s,t \in T$: $f(x_{0})-\varepsilon<s<f(x_{0})<t<f(x_{0})+\varepsilon$. Візьмемо іще $s',t'\in T$: $f(x_{0})-\varepsilon<s'<s<f(x_{0})<t'<t<f(x_{0})+\varepsilon$. Маємо, що $x_{0}\in G_{t'}$, $x_{0}\in G_{t}$, $x_{0}\notin G_{s'}$, $x_{0}\notin G_{s}$. Оскільки $\textmd{scl}(G_{s'})\subseteq G_{s}$, то $x_{0}\in G_{t'}\setminus G_{s}\subseteq G_{t'}\setminus \textmd{scl}(G_{s'})=A_{t',s'}$~--- квазівідкрита множина. Отже, для довільного $U\in \mathcal{U}_{x_{0}}$ існує $G\in \mathcal{T}(U)$ такий, що $G\subseteq A_{t',s'}$, тобто, для довільного $U$~--- околу $X_{0}$ існує $G\in \mathcal{T}(U)$ такий, що для довільного $x\in G$: $f(x_{0})-\varepsilon<s'<f(x)<t'<f(x_{0})+\varepsilon$.
+
+У випадку, коли $x_{0}\in A$, то $x\in G_{0}$~--- квазівідкрита, отже, для довільного $\varepsilon>0$ та для довільного $U\in \mathcal{U}_{x_{0}}$ існує $G\in \mathcal{T}(U)$ такий, що $G\subseteq G_{0}$, отже, $f|_{G}=0$. Нехай $x_{0}\in B$. Для довільного $\varepsilon>0$ існує $t\in T$: $1-\varepsilon<t<1$. Для $U\in \mathcal{U}_{x_{0}}$ якщо $U\subseteq B$, то $f|_{U}=1$, якщо ж існує $x\in U\setminus B$, то $x\in G_{1}$. Маємо, що $t<1$, отже, $\textmd{scl}(G_{t})\subseteq G_{1}$. Покладемо $E_{t}=X\setminus \textmd{scl}(G_{t})$~--- квазівідкрита, $x_{0}\in B\subseteq E_{t}$, отже, існує $G\in \mathcal{T}(U)$: $G\subseteq E_{t}$, тобто, для довільного $x\in G$: $f(x)>t>1-\varepsilon$. Отже, $f$~--- квазінеперервна на $X$.
+
+\textit{Теорема 2.} Нехай $(g,h)$~--- квазінеперервна пара Гана на семінормальному просторі $X$. Тоді існує $f$~--- квазінеперервна на $X$, така, що $g(x)\leq f(x)\leq h(x)$ на $X$.
+
+\textit{Доведення.} Розглянемо $0<g(X)\leq h(x)<1$~--- загальний випадок можна звести до даного. Для кожної пари цілих чисел $m,n$ $(m<n)$ визначимо $A_{m,n}=\{x\in X: h(x)\leq\frac{m}{n}\}$ та $B_{m,n}=\{x\in X: g(x)\geq\frac{m}{n}+\frac{1}{2n}\}$. Очевидно, що $A_{m,n}\cap B_{m,n}={\O}$, та з леми 2 маємо, що $A_{m,n}$ та $B_{m,n}$~--- квазізамкнені.
+
+Отже, за теоремою 1, існує квазінеперевна функція $f_{m,n}(x)$, така, що $f_{m,n}=\frac{m}{n}+\frac{1}{2n}$ при $x\in A_{m,n}$, $f_{m,n}(x)=1$ при $x\in B_{m,n}$, та $f_{m,n}\geq\frac{m}{n}+\frac{1}{2n}$ для довільного $x\in X$.
+
+Покладемо $f_{n}(x)=\min\{f_{1,n}(x);....;f_{n-1,n}(x)\}$. Функція $f_{n}(x)$ є квазінеперервною зверху на $X$ за лемою 3. Доведемо тепер, що для довільного $x\in X$ виконується $f_{n}(x)\geq g(x)$ і $f_{n}(x)<h(x)+\frac{3}{2n}$.
+
+Якщо $x\in B_{m,n}$, то $g(x)\leq f_{m,n}(x)=1$, якщо ж $x\in X\setminus B_{m,n}$, то $g(x)<\frac{m}{n}+\frac{1}{2n}\leq f_{m,n}(x)$, отже, $f_{n}(x)=\min\limits_{m<n}^{}f_{m,n}(x)\geq g(x)$.
+
+Доведемо, що $f_{n}(x)<h(x)+\frac{3}{2n}$. Для $x\in X$ існує $m<n$ такий, що $\frac{m-1}{n}<h(x)\leq\frac{m}{n}$. Оскільки $h(x)\leq\frac{m}{n}$, то $x\in A_{m,n}$, а отже, $f_{m,n}(x)=\frac{m}{n}+\frac{1}{2n}$. Звідси маємо, що $0\leq f_{n}(x)-h(x)\leq\frac{m}{n}+\frac{1}{2n}-\frac{m-1}{n}=\frac{3}{2n}$, а отже, $f_{n}(x)<h(x)+\frac{3}{2n}$.
+
+Розглянемо функцію $f_{0}(x)=\inf\limits_{n\in \mathbb{N}}^{}f_{n}(x)$. Очевидно, що $f_{0}(x)\geq g(x)$, та, оскільки $f_{n}(x)\leq h(x)+\frac{3}{2n}$ і $f_{0}(x)\leq f_{n}(x)$ для довільного $n\in \mathbb{N}$, маємо, що $g(x)\leq f_{0}(x)\leq h(x)$ для довільного $x\in X$. Окрім того, за лемою 3 $f_{0}(x)$ є квазінеперервною зверху для довільного $x\in X$.
+
+Розглянемо тепер $g^{*}(x)=-h(x)+1$ та $h^{*}(x)=-f_{0}(x)+1$. Функція $g^{*}(x)$ є квазінперервною зверху, $h^{*}(x)$ є квазінеперервною знизу, та $g^{*}(x)\leq h^{*}(x)$ для довільного $x\in X$. Провівши для цих функцій аналогічні побудови, отримаємо $f^{*}_{0}=\inf\limits_{n\in \mathbb{N}}^{}f^{*}_{n}(x)$~--- квазінеперервну зверху, таку, що $g^{*}(x)\leq f^{*}_{0}(x)\leq h^{*}(x)$. Покаладемо $h_{0}=1-f^{*}_{0}$, маємо, що $g(x)\leq f_{0}(x)\leq h_{0}(x)\leq h(x)$, $h_{0}(x)=\sup\limits_{n\in \mathbb{N}}^{} h_{n}(x)$.
+
+Виберемо довільний $x\in X$ і розглянемо випадок, коли для довільного $n\in \mathbb{N}$ $f_{n-1}(x)\leq f_{n}(x)$ і $h_{n+1}(x)\geq h_{n}(x)$ (загальний випадок можна звести до цього перестановкою).
+
+Покладемо $\varphi_{n}(x)=\min\{f_{n}(x),h_{n}(x)\}$, $w_{n}(x)=\max\{\varphi_{1}(x),...,\varphi_{n}(x)\}$, $\psi_{n}(x)=\max\{w_{n}(x),f_{n}(x)\}$. За лемою 4, $\sup\limits_{n\in \mathbb{N}}^{}\varphi_{n}(x)=\inf\limits_{n\in \mathbb{N}}^{}\psi_{n}(x)$. Візьмемо $f(x)=\sup\limits_{n\in \mathbb{N}}^{}\varphi_{n}(x)=\inf\limits_{n\in \mathbb{N}}^{}\psi_{n}(x)$. Маємо, що $f(x)$~--- квазінеперервна в $x$, оскільки $f(x)$~--- квазінеперервна зверху в точці $x$ ($f(x)=\sup\limits_{n\in \mathbb{N}}^{}\varphi_{n}(x)$), і квазінеперервна знизу в точці $x\in X$ ($f(x)=\inf\limits_{n\in \mathbb{N}}^{}\psi_{n}(x)$), та $g(x)\leq f(x)\leq h(x)$, для довільного $x\in X$.
+
+Для функції $f:X\rightarrow Y$ ($X$~--- ТП, $Y$~--- МП) введемо квазиосциляцію наступним чином: $$q_{f}(x)=\sup\limits_{U\in \mathcal{U}_{x}}^{} \inf\limits_{G\in \mathcal{T}(U)}^{} \textmd{diam}(f(G\cup \{x\}))=\sup\limits_{U\in \mathcal{U}_{x}}^{} \inf\limits_{G\in \mathcal{T}(U)}^{} d_{f}^{G}= \sup\limits_{U\in \mathcal{U}_{x}}^{} q_{f,U}.$$
+
+\textit{Лема 5.} $q_{f}(x)=0$ тоді і тільки тоді, коли $f$~--- квазінеперервна в точці $x$.
+
+\textit{Доведення.} =>) Нехай $q_{f}(x)=0$. Тоді для довільного $\varepsilon>0$ $q_{f,U}<\varepsilon$. Отже, для довільного $\varepsilon>0$ і для довільного $U\in \mathcal{U}_{x}$ $q_{f,U}<\varepsilon$. звідси маємо, що для довільного $\varepsilon>0$ і $U\in \mathcal{U}_{x}$ існує $G\in \mathcal{T}(U)$ така, що $d_{f}^{g}<\varepsilon$. Таким чином, для довільного $\varepsilon>0$ і $U\in \mathcal{U}_{x}$ існує $G\in \mathcal{T}(U)$ така, що для довільного $u\in G$ $d(f(u),f(x))<\varepsilon$. Отже, $f$~--- квазінперервна в точці $x$.
+
+<=) Нехай $f$~--- квазінеперервна в точці $x$. Тоді для довільного $\varepsilon>0$ та для довільного $U\in \mathcal{U}_{x}$ існує $G\in \mathcal{T}(U)$ така, що для довільного $u\in G$ $d(f(x),f(u))<\varepsilon$, тобто, для довільного $\varepsilon>0$ та для довільного $U\in \mathcal{U}_{x}$ існує $G\in \mathcal{T}(U)$ така, що $d(f(G\cup\{x\}))<2\varepsilon$. Отже, для довільного $\varepsilon>0$ та для довільного $U\in \mathcal{U}_{x}$ $q_{f,U}=\inf d_{f}^{G}<2\varepsilon$. Звідси маємо, що для довільного $\varepsilon>0$ $q_{f}(x)<2\varepsilon$. Спрямувавши $\varepsilon\rightarrow 0$, маємо, що $q_{f}(x)=0$.
+
+\textit{Теорема 3.} Нехай $X$~--- семінормальний простір, $g:X\rightarrow \mathbb{R}$. Тоді $d(g,K(X))=\frac{1}{2}||q_{f}||=\delta$.
+
+\textit{Доведення.} Покажемо, що $d(g,K(X))\geq \delta$. Якщо $\delta=0$, то $||q_{g}||=0$, отже, $g\in K(X)$ і $d(g,K(X))=0$.
+
+Нехай тепер $\delta>0$. Розглянемо $x\in X$, $U\in \mathcal{U}_{x}$, $G\in \mathcal{T}(U)$, $u,v\in G\setminus \{x\}$ та $f\in K(X)$: $$|g(u)-g(v)|\leq |g(u)-f(u)|+|f(u)-f(v)|+|f(v)-g(v)|\leq 2||f-g||+d_{f}^{G}.$$ Маємо, що для довільного $G\in \mathcal{T}_{U}$: $d_{g}^{G}\leq 2||f-g||+d_{f}^{G}$, звідси, для довільного $U\in \mathcal{U}_{x}$: $q_{g,U}\leq 2||f-g||+q_{f,U}$, отже, $q_{g}(x)\leq 2||f-g||+q_{f}(x)=2||f-g||$ для довільного $x\in X$.
+
+Таким чином, $||f-g||\geq\frac{1}{2}||q_{f}||$, отже, $d(g,K(X))\geq \delta$. Покажемо тепер, що $d(g,K(X))\leq\delta$. Розглянемо функції: $$g_{1}(x)=g^{k}(x)-\delta=\sup\limits_{U\subseteq \mathcal{U}_{x}}^{}\inf\limits_{G\in \mathcal{T}(U)}^{}\sup\limits_{u\in G\cup \{x\}}^{}g(u)+\delta$$ $$g_{2}(x)=g_{k}(x)-\delta=\inf\limits_{U\subseteq \mathcal{U}_{x}}^{}\sup\limits_{G\in \mathcal{T}(U)}^{}\inf\limits_{u\in G\cup \{x\}}^{}g(u)+\delta$$ Доведемо, що $g^{k}(x)$~--- квазінеперервна зверху на $X$. Коли $g^{k}(x)=+\infty$~--- умова квазінперервності зверху виконується. Якщо $g^{k}(x)<\infty$, то для довільного $\varepsilon>0$ виконується $g^{k}(x)+\varepsilon>g^{k}(x)$. За означенням супремуму, для довільного $U\in \mathcal{U}_{x}$, $g^{k}(x)+\varepsilon>\inf\limits_{G\in \mathcal{T}(U)}^{}\sup\limits_{u\in G\cup \{x\}}^{}g(u)$, а звідси маємо, що для довільного $U\in \mathcal{U}_{x}$ існує $G\in \mathcal{T}(U)$ така, що $g^{k}(x)+\varepsilon>\sup\limits_{u\in G\cup \{x\}}^{}g(u)$. Для довільного $y\in G$ маємо, що для довільного $U\in \mathcal{U}_{y}$ існує $G'=G\cap U$~--- відкрита і непорожня, така, що $g^{k}(x)+\varepsilon>\sup\limits_{u\in G\cup \{x\}}^{}g(u)>\sup\limits_{u\in G'}^{}g(u)$, оскільки $G'\subseteq G\cup \{x\}$. Отже, для довільного $U\in \mathcal{U}_{y}$ $g^{k}(x)+\varepsilon>\inf\limits_{G\in \mathcal{T}(U)}}^{}\sup\limits_{u\in G\cup \{x\}}^{}g(u)$, звідси маємо, що $g^{k}(x)+\varepsilon>g^{k}(y)$.
+
+Аналогічно доводиться, що $g^{k}(x)$~--- квазінеперервна знизу. 
+
+Доведемо тепер, що $q_{g}(x)\geq g^{k}(x)-g_{k}(x)$. 
+
+
+
+
+
+
+
+
+\end{document} 

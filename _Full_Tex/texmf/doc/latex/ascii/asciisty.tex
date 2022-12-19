@@ -1,0 +1,679 @@
+%%%%%%%%%%%%%%%%%%%%%% Start of asciisty.tex %%%%%%%%%%%%%%%%%%%%%%
+%%
+%% ASCIIsty.TEX
+%% this is the documentation for ASCII.STY
+%%
+\documentstyle[a4,ascii]{article}
+%%
+\oddsidemargin=0mm
+\evensidemargin=\oddsidemargin
+\textwidth=160mm
+\skip\footins=20pt plus 5pt
+\parindent=1em
+%%
+\pagestyle{myheadings}
+\markright{\underline{R. Ramasubramanian, R.W.D. Nickalls \& M.A. Reed \hspace{4cm} ASCII.sty (v.1)}}
+%%
+\begin{document}
+%%
+\title{
+       {{\bf ASCII.sty} {\small (version 1)}\\
+        A new  style-option
+       and encoded font with  IBM graphics control
+characters for use with \TeX\ \& \LaTeX.}
+       \thanks{This document is {\sc asciisty.tex}}
+      }
+\author{ \\
+        \\
+        \\
+        \\
+        \\
+        R. Ramasubramanian {\small MBBS, FRCAnaes.}
+        \thanks{E-mail: 10016.3245@CompuServe.com}\\
+        {\small \it Department of Anaesthesia,} \\
+        {\small \it University Hospital,} \\
+        {\small \it Queen's Medical Centre,} \\
+        {\small \it Nottingham, UK.}\\
+        {\small \it NG7 2UH}\\
+    \and \\
+         \\
+         \\
+         \\
+         \\
+        R.W.D. Nickalls {\small BSc, PhD, MBBS, FRCAnaes.}
+        \thanks{E-mail: mtzrwn@uk.ac.nottingham.ccc.vax}\\
+        {\small \it Senior Lecturer and Consultant,}\\
+        {\small \it Department of Anaesthesia,} \\
+        {\small \it University Hospital,} \\
+        {\small \it Queen's Medical Centre,} \\
+        {\small \it Nottingham, UK.}\\
+        {\small \it NG7 2UH}\\
+     \and
+        M.A. Reed,
+       \thanks{E-mail: rm111@uk.ac.cambridge.phoenix }\\
+        {\small \it Cambridge University Press,} \\
+        {\small \it Technical Applications Group,} \\
+        {\small \it Printing Division,} \\
+        {\small \it University Printing House,} \\
+        {\small \it Shaftesbury Road,} \\
+        {\small \it Cambridge, UK.}\\
+        {\small \it CB2 2BS} \\
+        }
+\date{\vspace{1.5cm} July 10$^{th}$ 1993}
+\maketitle
+
+\newpage
+{\ }
+\vspace*{4cm}
+\section{The files}
+
+The files (and byte size) contained in the {\sc ascii.sty} distribution disc are as follows:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|l|r|l|}
+\hline
+\multicolumn{1}{|c|}{File name} & \multicolumn{1}{|c|}{Size$^{\ast}$}
+& \multicolumn{1}{|c|}{Description}\\
+\hline
+\sc ascii.sty    & 5805   & The {\sc ascii} style option. \\
+
+\sc asciisty.tex & 27437  & This document. \\
+
+\sc asciisty.dvi & 38796  & Device Independent file for printing this document. \\
+
+\sc ascii-10.tfm & 772    & \TeX\ Font Metric file for {\sc ascii-10} font. \\
+
+\sc ascii.enc    & 2459   & The {\sc ascii-10} Postscript encoding vector used by {\sc afm2tfm} \\
+                 &        & and {\sc ps2pk} to rearrange the font. \\
+
+\sc ascii.fli    & 55121   & Font library containing all the {\sc ascii.pk} fonts.\\
+
+\sc ascii300.pk  & 5140   & 10-point {\sc ascii-10} font file. \\
+
+\sc ascii329.pk  & 5588   & 11-point {\sc ascii-10} font file. \\
+
+\sc ascii360.pk  & 6016   & 12-point {\sc ascii-10} font file. \\
+
+\sc ascii432.pk  & 7068   & 14-point {\sc ascii-10} font file. \\
+
+\sc ascii518.pk  & 8596   & 17-point {\sc ascii-10} font file. \\
+
+\sc ascii622.pk  & 10188  & 21-point {\sc ascii-10} font file. \\
+
+\sc ascii746.pk  & 12336  & 25-point {\sc ascii-10} font file. \\
+
+\sc uktexdig.doc & 1783   & A short note by Sebastian Rahtz. \\
+
+\sc cour.afm     & 29886  & Adobe Font Metric file for {\sc ibm courier} font. \\
+
+\sc cour.pfa     & 128018 & Postscript Font Ascii file for {\sc ibm courier} font. \\
+
+\sc copyrigh.doc & 523    & The copyright notice by IBM. \\
+
+\sc a4.sty       & 11070  & Style option needed for printing this document. \\
+
+\sc readme.doc   & 2987   & Information for unpacking {\sc ascii.sty}. \\
+\hline
+\end{tabular}
+\caption{List of all files.}
+\label{listoffiles}
+\end{center}
+\end{table}
+
+\vfill
+
+\strut\makebox[2in]{\hrulefill}
+
+{\footnotesize
+${\ast}$ The size given here relates to the file size in bytes on IBM compatible PCs.}
+
+\newpage
+
+
+
+\begin{table}[h,t]
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+\rule{0pt}{11pt}  & {\it {\char'023}0} & {\it {\char'023}1} & {\it {\char'023}2} & {\it {\char'023}3} & {\it {\char'023}4} & {\it {\char'023}5} &{\it {\char'023}6} &  {\it {\char'023}7} &  \\
+  \hline
+ \rule{0pt}{11pt} {\it {\char'023}00x} &  & {\ascii \SOH} & {\ascii \STX} & {\ascii \ETX} & {\ascii \EOT} & {\ascii \ENQ} & {\ascii \ACK} & {\ascii \BEL} &{\it{\char'175}0x} \\
+  \cline{1-9}
+\rule{0pt}{11pt}  {\it {\char'023}01x} & {\ascii \BS} & {\ascii \HT} & {\ascii \LF} & {\ascii \VT} & {\ascii \FF} & {\ascii \CR} & {\ascii \SO} & {\ascii \SI} & \\
+  \hline
+ \rule{0pt}{11pt} {\it {\char'023}02x} &   {\ascii \DLE} & {\ascii \DCa} & {\ascii \DCb} & {\ascii \DCc} & {\ascii \DCd} & {\ascii \NAK} & {\ascii \SYN} & {\ascii \ETB} &  {\it {\char'175}1x} \\
+  \cline{1-9}
+\rule{0pt}{12pt}  {\it {\char'023}03x} & {\ascii \CAN} & {\ascii \EM} & {\ascii \SUB} & {\ascii \ESC} & {\ascii \FS} & {\ascii \GS} & {\ascii \RS} & {\ascii \US} & \\
+  \hline
+ \rule{0pt}{12pt} {\it {\char'023}04x} &  & {\ascii !} & {\ascii "} & {\ascii \#} & {\ascii \$} & {\ascii \%} & {\ascii \&} & {\ascii '} & {\it {\char'175}2x} \\
+  \cline{1-9}
+\rule{0pt}{12pt}  {\it {\char'023}05x} & {\ascii (} & {\ascii )} & {\ascii *} & {\ascii +} & {\ascii ,} & {\ascii -} & {\ascii .} & {\ascii /} & \\
+  \hline
+ \rule{0pt}{12pt} {\it {\char'023}06x} & {\ascii 0} & {\ascii 1} & {\ascii 2} & {\ascii 3} & {\ascii 4} & {\ascii 5} & {\ascii 6} & {\ascii 7} & {\it {\char'175}3x} \\
+  \cline{1-9}
+\rule{0pt}{12pt}  {\it {\char'023}07x} & {\ascii 8} & {\ascii 9} & {\ascii :} & {\ascii ;} & {\ascii <} & {\ascii =} & {\ascii >} & {\ascii ?} & \\
+  \hline
+ \rule{0pt}{12pt} {\it {\char'023}10x} & {\ascii @}  & {\ascii A} & {\ascii B} & {\ascii C} & {\ascii D} & {\ascii E} & {\ascii F} & {\ascii G} & {\it {\char'175}4x} \\
+  \cline{1-9}
+\rule{0pt}{12pt}  {\it {\char'023}11x} & {\ascii H} & {\ascii I} & {\ascii J} & {\ascii K} & {\ascii L} & {\ascii M} & {\ascii N} & {\ascii O} & \\
+  \hline
+ \rule{0pt}{12pt} {\it {\char'023}12x} & {\ascii P}  & {\ascii Q} & {\ascii R} & {\ascii S} & {\ascii T} & {\ascii U} & {\ascii V} & {\ascii W} & {\it {\char'175}5x} \\
+  \cline{1-9}
+\rule{0pt}{12pt}  {\it {\char'023}13x} & {\ascii X} & {\ascii Y} & {\ascii Z} & {\ascii \char'133} & {\ascii \char'134} & {\ascii \char'135} & {\ascii \char'136} & {\ascii \char'137} & \\
+  \hline
+ \rule{0pt}{12pt} {\it {\char'023}14x} &{\ascii `}  & {\ascii a} & {\ascii b} & {\ascii c} & {\ascii d} & {\ascii e} & {\ascii f} & {\ascii g} & {\it {\char'175}6x} \\
+  \cline{1-9}
+\rule{0pt}{12pt}  {\it {\char'023}15x} & {\ascii h} & {\ascii i} & {\ascii j} & {\ascii k} & {\ascii l} & {\ascii m} & {\ascii n} & {\ascii o} & \\
+  \hline
+ \rule{0pt}{12pt} {\it {\char'023}16x} & {\ascii p}  & {\ascii q} & {\ascii r} & {\ascii s} & {\ascii t} & {\ascii u} & {\ascii v} & {\ascii w} & {\it {\char'175}7x} \\
+  \cline{1-9}
+\rule{0pt}{12pt}  {\it {\char'023}17x} & {\ascii x} & {\ascii y} & {\ascii z} & {\ascii \char'173} & {\ascii \char'174} & {\ascii \char'175} & {\ascii \char'176} & {\ascii \char'177} & \\
+\hline
+\rule{0pt}{12pt}      & {\it {\char'175}8} & {\it {\char'175}9} & {\it {\char'175}A} & {\it {\char'175}B} & {\it {\char'175}C} & {\it {\char'175}D} & {\it {\char'175}E} & {\it {\char'175}F} &   \\
+  \end{tabular}
+\end{center}
+\caption{The {\sc ascii}-10 font.}
+\end{table}
+
+
+
+
+
+\section{Introduction}
+
+ASCII.STY was developed while we were writing a book on {\it serial
+interfacing}\footnote{Nickalls RWD, Ramasubramanian R,
+Jahan F and Hall R (1994). Interfacing medical equipment to an IBM PC.\newline
+(Cambridge University Press).}.
+We were using \LaTeX\  and  wanted to include the usual table of ASCII
+control
+ codes and their IBM  graphics characters in the Appendix.
+However, in spite of searching all the available archives,
+we were unable to find a \TeX\ font
+ containing {\it all\/} the graphics characters of the 7-bit
+ASCII code (eg.\ {\ascii \SOH\ \CR\ \SO\  \SI\ \FS\ \splitvert\ \DEL}\ etc.).
+
+One of us (Mark Reed) noticed that the  same problem was
+raised in a recent issue UK\TeX\ Digest\footnote{See note by Sebastian Rahtz
+on `AFM files for IBM Courier' in UKTeX Digest, Friday 18 Dec 1992,
+ Vol 92: Issue 47.}, in which it was suggested that a possible solution
+might be to derive the characters from the public domain Postscript
+ {\sc ibm courier} font donated by IBM to the X Consortium.
+
+We therefore downloaded the {\sc ibm courier} font, which consists of
+two files {\sc cour.afm} and {\sc cour.pfa}, and duly got to work extracting
+the characters and generating the necessary {\sc .tfm} and bit-mapped
+{\sc .pk} files.
+
+In practice, however, it was not at all easy owing to a paucity of
+documentation on just exactly how to do this.
+This article therefore details what we did and how we did it, and {\sc ascii.sty} is the result.
+
+In order to avoid any confusion and to clearly distinguish
+the new derivative font from the original IBM {\sc courier} font, this 
+document will refer to the new derivative font as {\sc ascii}-10.
+
+We have restricted our efforts to the first 128 characters of the PC character set because the term ASCII, as used by the original ANSI
+standard\footnote{American National Standard X3.4 (1986). Available from the American National Standards Institute, 1430 Broadway, New York, 10018.}, refers only to the first 128 characters.
+
+
+Those who are interested in unmasking the characters 128--255 in the PC character set may wish to examine some of the other {\sc .afm} files
+ held in the Aston \TeX\ archive  (eg.\ {\sc crb-pc8.afm};
+{\sc cri-pc8.afm}).
+
+
+
+\section{The ASCII font}
+
+Table 1 shows the 10-point {\sc ascii-10} font which we derived from
+the {\sc ibm courier} font.
+Different sizes can be generated using the \TeX\ magstep  procedure.
+
+Each element in the font table can be accessed in the usual way by using
+the \verb!\char! command.
+For example, the style option {\sc ascii.sty} allocates  the
+command \verb!\CR! for the  Carriage Return character as
+ follows.
+
+
+
+\begin{enumerate}
+\item The new font is defined as \verb!\ascii! using
+       \verb!\newfont{\ascii}{ascii-10}!
+
+\item The new command  \verb!\CR! is defined  using
+ \verb!\newcommand{\CR}{\char'015}!.
+
+\end{enumerate}
+
+Now when the command \verb!{\ascii\CR}! is used in the text it produces the
+symbol {\ascii\CR}. The brackets are needed to keep the \verb!\ascii!
+font local.
+
+
+\section{Installing the font files}
+\subsubsection*{Em\TeX\ implementation}
+
+In order to use {\sc ascii.sty} the various font files ({\sc .pk} and
+{\sc.tfm} files) need to be placed in the correct directories, as specified by Em\TeX.
+
+\underline{{\sc ascii-10.tfm} file}: This file goes into
+the usual $\backslash${\sc emtex}$\backslash${\sc tfm} directory.
+
+\underline{{\sc ascii.fli} library}: This library of all {\sc ascii.pk} files goes into
+the usual $\backslash${\sc texfonts} directory.
+
+\subsubsection*{Non-Em\TeX\ implementations}
+For those not using Em\TeX\, the separate {\sc ascii.pk} files are also
+provided.
+Although all the {\sc .pk} files initially have names which indicate the
+dpi size (eg.\ {\sc ascii300.pk}), once correctly located in their respective subdirectories, they must all then
+be renamed so that they all have the same name {\sc ascii-10.pk}.
+
+
+\subsection{Adjusting the {\sc lj.cnf} file}
+
+In order that Em\TeX\ can find all  fonts, the path for the fonts
+in the {\sc lj.cnf} file (in the $\backslash${\sc emtex} directory)
+may need to be altered to accommodate the directory structure of
+$\backslash${\sc texfonts}.
+
+The authors use the following library line (\verb!/pl!) in the {\sc lj.cnf} file.
+\begin{verbatim}
+  /pl=%DVIDRVFONTS%;lj_0;lj_h;lj_1;lj_2;lj_3;lj_4;lj_5a;lj_5b;lj_6;ascii;
+\end{verbatim}
+
+\section{Using {\sc ascii.sty}}
+
+Place {\sc ascii.sty} in the {$\backslash$}{\sc texinput} directory,
+and then use  the style option [{\sc ascii}] in the {$\backslash$}%
+documentstyle command in the usual way.
+{\sc ascii.sty} includes seven magnifications  of the {\sc ascii-10} font
+as follows: magstep 0, half, 1, 2, 3, 4, 5, which are equivalent to point
+sizes 10, 11, 12, 14, 17, 21, 25 respectively.
+Note that the relationship between point size and magstep is such that
+the point size corresponding to magstep {\bf n} is
+$10 \times {1.2}^n$. ie.\ magstep 0 is equal to 10-point size.
+
+Using {\sc ascii.sty}  an {\sc ascii}  character  is most easily
+printed using the \verb#\ascii# command followed by the character
+in the usual way. For example, \verb!{\ascii 5}! will print  the
+number  {\ascii 5} from the {\sc ascii-10} font table.
+The {\sc ascii.sty} style option will  automatically select the font size
+currently being used in the document (eg.\ 10, 11, 12 point).
+For convenience all the control characters except the four DC$_{1-4}$ have
+been allocated  their usual code name (in {\it uppercase\/} letters);
+thus the carriage return symbol ({\ascii\CR})
+is called \verb#\CR#  and would be printed using \verb#{\ascii\CR}#.
+The four Device Control characters DC1, DC2, DC3, DC4  have been 
+allocated the commands \verb!\DCa!, \verb!\DCb!, \verb!\DCc!, \verb!\DCd!,
+since \TeX\ does not allow commands to contain integers.
+
+Two other characters in the {\sc ascii-10} font table which are not
+usually available for \TeX\ users are
+\begin{itemize}
+\item {\ascii\DEL} (\verb!\DEL!) which is printed using
+       \verb!{\ascii\DEL}!.
+\item {\ascii \splitvert} (\verb!\splitvert!) which is printed using
+      \verb!{\ascii\splitvert}!.
+This name was chosen to be in keeping with Knuth's \verb!\vert! which is
+$\vert$.
+\end{itemize}
+
+The standard codes and the coding  used by {\sc ascii.sty} for the control
+ characters are shown in Table~\ref{asciitable}.
+
+
+%*******************
+\begin{table}[h,b,t]
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|c|l|}
+   \hline
+   \multicolumn{7}{|c|}{\bf ASCII control codes} \\
+   \hline
+   \multicolumn{1}{|l|}{\it Dec} &
+   \multicolumn{1}{|l|}{\it Code} &
+   \multicolumn{1}{|l|}{\it Hex} & &
+   \multicolumn{1}{|l|}{\it Name} &
+   \multicolumn{1}{|l|}{\it IBM}   &
+   \multicolumn{1}{|l|}{ {\sc ascii.sty}}   \\
+   \hline
+ 0  & NUL  & 00h & ${}^{\wedge}${\it \symbol{'100}}  &  Null  & --- &  --- \\
+ 1  & SOH  & 01h & ${}^{\wedge}$A & Start of heading & {\asciiXII \SOH} & \verb!\SOH! \\
+ 2  & STX  & 02h & ${}^{\wedge}$B & Start of text  & {\asciiXII \STX} & \verb!\STX! \\
+ 3  & ETX  & 03h & ${}^{\wedge}$C & End of text  & {\asciiXII \ETX} & \verb!\ETX! \\
+ 4  & EOT  & 04h & ${}^{\wedge}$D & End of transmission & {\asciiXII \EOT} & \verb!\EOT! \\
+ 5  & ENQ  & 05h & ${}^{\wedge}$E & Enquiry & {\asciiXII \ENQ} & \verb!\ENQ! \\
+ 6  & ACK  & 06h & ${}^{\wedge}$F & Acknowledge & {\asciiXII \ACK}  & \verb!\ACK! \\
+ 7  & BEL  & 07h & ${}^{\wedge}$G & Bell & {\asciiXII \BEL} & \verb!\BEL! \\
+ 8  & BS   & 08h & ${}^{\wedge}$H & Back space & {\asciiXII \BS} & \verb!\BS!\\
+ 9  & HT   & 09h & ${}^{\wedge}$I & Horizontal tab & {\asciiXII \HT} & \verb!\HT! \\
+ 10  & LF  & 0Ah & ${}^{\wedge}$J & Linefeed & {\asciiXII \LF} & \verb!\LF! \\
+ 11  & VT  & 0Bh & ${}^{\wedge}$K & Vertical tab & {\asciiXII \VT} & \verb!\VT!\\
+12  & FF   & 0Ch & ${}^{\wedge}$L & Formfeed & {\asciiXII \FF} & \verb!\FF! \\
+13  & CR   & 0Dh & ${}^{\wedge}$M & Carriage return & {\asciiXII \CR} &\verb!\CR! \\
+14  & SO   & 0Eh & ${}^{\wedge}$N & Shift out & {\asciiXII \SO} & \verb!\SO!\\
+15  & SI   & 0Fh & ${}^{\wedge}$O & Shift in & {\asciiXII \SI} & \verb!\SI! \\
+16  & DLE  & 10h & ${}^{\wedge}$P & Data link escape & {\asciiXII \DLE} &\verb!\DLE!\\
+17 & DC1   & 11h & ${}^{\wedge}$Q & Device control 1 (XON)  & {\asciiXII \DCa} & \verb!\DCa! \\
+18  & DC2  & 12h & ${}^{\wedge}$R & Device control 2 & {\asciiXII \DCb} & \verb!\DCb! \\
+19 & DC3   & 13h & ${}^{\wedge}$S & Device control 3 (XOFF) & {\asciiXII \DCc} & \verb!\DCc! \\
+20  & DC4  & 14h & ${}^{\wedge}$T & Device control 4 & {\asciiXII \DCd} & \verb!\DCd! \\
+21  & NAK  & 15h & ${}^{\wedge}$U & Negative acknowledge & {\asciiXII \NAK} & \verb!\NAK!\\
+22  & SYN  & 16h & ${}^{\wedge}$V & Synchronous idle & {\asciiXII \SYN} & \verb!\SYN!\\
+23  & ETB  & 17h & ${}^{\wedge}$W & End transmission block & {\asciiXII \ETB} & \verb!\ETB! \\
+24  & CAN  & 18h & ${}^{\wedge}$X & Cancel & {\asciiXII \CAN} & \verb!\CAN! \\
+25  & EM   & 19h & ${}^{\wedge}$Y & End of medium  & {\asciiXII \EM} & \verb!\EM! \\
+26  & SUB  & 1Ah & ${}^{\wedge}$Z & Substitute ( EOF) & {\asciiXII \SUB} & \verb!\SUB!\\
+27  & ESC  & 1Bh & ${}^{\wedge}$[ & Escape & {\asciiXII \ESC} & \verb!\ESC! \\
+28  & FS   & 1Ch & ${}^{\wedge}\backslash$ & File separator & {\asciiXII \FS} & \verb!\FS! \\
+29  & GS   & 1Dh & ${}^{\wedge}$] & Group separator & {\asciiXII \GS} & \verb!\GS! \\
+30  & RS   & 1Eh & ${}^{\wedge}{}^{\wedge}$ & Record separator & {\asciiXII \RS} & \verb!\RS!  \\
+ 31  & US  & 1Fh & ${}^{\wedge}$\_ & Unit separator & {\asciiXII \US} & \verb!\US! \\
+ 124  & ---  & 7Ch & --- & --- & {\asciiXII \splitvert} & \verb!\splitvert! \\
+ 127  & DEL  & 7Fh & --- & Delete & {\asciiXII \DEL} & \verb!\DEL! \\
+\hline
+\end{tabular}
+\end{center}
+\caption{{\sc ascii} table of control characters.}
+\label{asciitable}
+\end{table}
+%*************************
+
+
+
+\subsection{Using other sizes}
+
+When an {\sc ascii} character having a different point size to the one
+being used for the document is required, then a different command without
+integers has to be used.
+
+
+In view of this restriction {\sc ascii.sty} uses Roman numerals to indicate
+both point size (eg.\ \verb!\asciiXII! for 12-point size) and
+magstep number (eg.\ \verb!\asciimsV! for magstep 5), as shown
+in Table~\ref{fontsizes}.
+For example,  a 21-point  heart shape {\asciiXXI \ETX} can be  printed
+using either of the
+commands \verb#{\asciiXXI\ETX}#\ or\ \verb#{\asciimsIV\ETX}#.
+
+\begin{table}[h,t]
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{2}{|c|}{Using point sizes}&
+\multicolumn{2}{|c|}{Using magstep Nos.}\\
+\hline
+10 & {$\backslash$}asciiX   & Zero\ (msZ) & {$\backslash$}asciimsZ \\
+11 & {$\backslash$}asciiXI   & Half\ (msH) & {$\backslash$}asciimsH \\
+12 & {$\backslash$}asciiXII   & 1\ (msI) & {$\backslash$}asciimsI \\
+14 & {$\backslash$}asciiXIV   & 2\ (msII) & {$\backslash$}asciimsII \\
+17 & {$\backslash$}asciiXVII   & 3\ (msIII) & {$\backslash$}asciimsIII \\
+21 & {$\backslash$}asciiXXI   & 4\ (msIV) & {$\backslash$}asciimsIV \\
+25 & {$\backslash$}asciiXXV   & 5\ (msV) & {$\backslash$}asciimsV \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Font size commands for point and magstep.}
+\label{fontsizes}
+\end{table}
+
+
+
+Examples of the characters and sizes given by the commands are shown below.
+
+\medskip
+\hspace*{1cm} The 10 point font: \verb#{\asciimsZ\SO}# and \verb#{\asciiX\SO}#  give {\asciimsZ \SO}
+
+\hspace*{1cm} The 11 point font: \verb#{\asciimsH\SO}# and \verb#{\asciiXI\SO}#  give {\asciimsH \SO}
+
+\hspace*{1cm} The 12 point font: \verb#{\asciimsI\SO}# and \verb#{\asciiXII\SO}#  give {\asciimsI \SO}
+
+\hspace*{1cm} The 14 point font: \verb#{\asciimsII\SO}# and \verb#{\asciiXIV\SO}#  give {\asciimsII \SO}
+
+\hspace*{1cm} The 17 point font: \verb#{\asciimsIII\SO}# and
+ \verb#{\asciiXVII\SO}#  give {\asciimsIII \SO}
+
+\hspace*{1cm} The 21 point font: \verb#{\asciimsIV\SO}# and \verb#{\asciiXXI\SO}#  give {\asciimsIV \SO}
+
+\hspace*{1cm} The 25 point font: \verb#{\asciimsV\SO}# and \verb#{\asciiXXV\SO}#  give {\asciimsV \SO}
+
+
+
+\section {Generating the {\sc ascii} font.}
+
+As indicated earlier, the {\sc ibm courier} font files ({\sc cour.afm}
+and {\sc cour.pfa}) contained all the graphics characters  needed for
+typesetting a 7-bit ASCII table. In order to make use of this font in an
+non-Postscript \TeX\ or \LaTeX\ environment, we needed to generate the
+following:
+\begin{itemize}
+\item A {\sc .tfm} file from the corresponding Postscript {\sc .afm} file.
+\item An MS-DOS binary {\sc .pfb} font file from the corresponding
+       {\sc .pfa} font file
+   (a Unix text file).
+\item A bit-mapped {\sc .pk} font file from the corresponding {\sc .pfb}
+      file.
+\end{itemize}
+
+The first step requires a program called {\sc afm2tfm}; the second step
+requires a program called {\sc t1binary};
+and the third step requires the program {\sc ps2pk}.
+Fortunately, all the programs required for performing these
+conversions on a PC are readily available from {\bf ftp.urc.tue.nl
+[131.155.2.79]} in their /{\sc tex}/{\sc emtex} directory.
+The various steps are shown in Figure~\ref{boxes}.
+
+\begin{figure}[h,t]
+\begin{center}
+%
+% afm2tfm stage
+%
+\vbox{%
+     \framebox{%
+        \vbox{%
+          \hbox{\sc afm2tfm}
+
+          \hbox{+\ \sc cour.afm}
+
+          \hbox{+\ \sc ascii.enc}
+        }
+      }
+      $\longrightarrow$
+%
+      \framebox{\sc ascii-10.tfm}
+%
+}
+
+
+\vspace{1cm}
+
+% .pfa to .pfb stage
+%
+\framebox{%
+  \vbox{%
+    \hbox{\sc t1binary}
+
+    \hbox{+\ \sc cour.pfa}
+
+   \hbox{(Unix text file)}
+  }
+}
+%
+$\longrightarrow$
+%
+\framebox{%
+  \vbox{%
+    \hbox{\sc cour.pfb}
+
+    \hbox{(binary file)}
+  }
+}
+
+\vspace{1cm}
+
+% .pfb to .pk stage
+%
+
+\framebox{%
+  \vbox{%
+    \hbox{\sc ps2pk}
+
+    \hbox{+\ \sc cour.pfb}
+
+    \hbox{+\ \sc cour.afm}
+
+    \hbox{+\ \sc ascii.enc}
+  }
+}
+%
+$\longrightarrow$
+%
+\framebox{%
+  \vbox{%
+    \hbox{\sc ascii300.pk}
+
+    \hbox{(bit-mapped file)}
+  }
+}
+%
+\end{center}
+\caption{Sequence of file changes to generate {\sc ascii-10.tfm} and
+         {\sc ascii300.pk}.}
+ \label{boxes}
+\end{figure}
+
+
+\subsection{Generating the {\sc .tfm} file}
+
+Normally this would  be straightforward since the {\sc afm2tfm} program
+reads a Postscript font metric information file (ie.\ an {\sc .afm} file)
+and produces a {\sc .tfm} file.
+
+\newpage
+In practice, it was not easy to establish which characters were in the
+{\sc cour.afm} file since there was no documentation.
+For example, we could only discover by trial and error that the line
+\begin{verbatim}
+  C -1 ; WX 600 ; N SV040000 ; B 102 96 498 467 ;
+\end{verbatim}
+referred to the {\sc ascii} character {\ascii \US}. Note that the
+\hbox{C --1} code indicates that the  character is {\it not\/} `visible'.
+
+
+Once we had established the relative positions of the characters in the
+{\sc .afm} file, it was fairly easy to generate an `encoding vector'
+file ({\sc ascii.enc}).
+The following is an extract from the {\sc ascii.enc} file:
+\begin{verbatim}
+  /asciiEncoding [
+    /spacenumeric  /SS000000  /SS010000  /heart        /diamond
+    /club          /spade     /bullet    /SM570001     /SM750000
+    /SM750002      /male      /female    /musicalnote  /musicalnotedbl
+    :
+    :
+    /.notdef  /.notdef  /.notdef  /.notdef  /.notdef
+  ] def
+\end{verbatim}
+The {\sc ascii.enc} file contains 128 character names each preceded by
+\verb|/|. 
+The order of the names in this file specifies
+the order of the characters in the \TeX\ font.
+Any character position which is not defined (ie.\ those character positions with a value 
+$>$ 127) are designated \verb|/.notdef|. 
+
+Once we had generated a complete {\sc ascii.enc} file,  the
+ {\sc ascii-10.tfm} file  was generated  using the following command.
+\begin{verbatim}
+  afm2tfm cour.afm -T ascii.enc ascii-10.tfm
+\end{verbatim}
+Newer versions of {\sc afm2tfm} will automatically print out a line
+suitable for inclusion in {\sc psfonts.map} for use with {\sc dvips}.
+IGNORE the automatically generated line and see the section below on using
+{\sc dvips} for more information.
+
+For further information on {\sc afm2tfm}, the reader should refer to the
+documentation which accompanies this program.
+Readers who wish to know more about the codes found in {\sc .afm} files
+ should consult the Postscript Language Reference Manual [the Red Book]
+published by the Adobe Corporation.
+
+\subsection{Conversion of PFA to PFB format}
+
+When {\sc ps2pk} is run on PCs with MS-DOS, the program will only read
+{\sc .pfb} files and not {\sc .pfa} files. In view of this, it was
+necessary to first convert the {\sc .pfa} font file (which is a Unix
+text file), into an  MS-DOS binary ({\sc .pfb}) font file using the
+program {\sc t1binary}, using the following command:
+\begin{verbatim}
+  t1binary cour.pfa cour.pfb
+\end{verbatim}
+
+
+\subsection{Generating the {\sc .pk} bit-mapped file}
+
+The {\sc pfb} file generated in the previous step, can now be used
+by {\sc ps2pk} to produce a {\sc .pk} font file. This is done with
+the following command  (note that
+{\sc ps2pk} requires that  {\sc cour.afm}
+is also in the same subdirectory):
+\begin{verbatim}
+  ps2pk -e ascii.enc cour.pfb ascii300.pk
+\end{verbatim}
+This produces a 10-point {\sc ascii300.pk} file (ie.\ {\sc ascii-10}) for an output device
+with a resolution of 300dpi.
+For further information regarding the command line switches and the use
+of Postscript fonts with \TeX\ and \LaTeX, please read the detailed
+documentation which comes with the {\sc ps2pk} package.
+
+
+\section{Magnifying the {\sc ascii-10} font}
+
+As indicated  earlier, the steps described above will produce the font at
+its optimal 10-point design size ie.\ {\sc ascii-10} (since it was derived
+from the 10-point {\sc ibm courier} font) and for an output device with
+a resolution of 300dpi.
+
+In order to produce an {\sc ascii} table with larger size graphics characters in
+it, additional {\sc .pk} files must be generated (eg.\ {\sc ascii360.pk})
+which contain magnified versions of these characters. This is done using
+{\sc ps2pk} with the \verb|-X| flag as follows.
+\begin{verbatim}
+  ps2pk -e ascii.enc -X360 cour.pfb ascii360.pk
+\end{verbatim}
+Using \verb|-X360| will produce a 12-point font by magnifying a 10-point
+design size font. By varying the \verb|-X| value different magnified sizes
+can be obtained.
+
+When all the necessary {\sc .pk} files have been produced, they can be gathered into a single compact font library ({\sc ascii-10.fli} in this case) using a program called {\sc fontlib}. This program and its documentation may be found in the standard Em\TeX\ package distributed by the Aston \TeX\ archive.
+ 
+\section{Using {\sc ascii-10} with Tomas Rokicki's {\sc dvips}}
+
+Using any Postscript font is extremely easy with {\sc dvips}, and
+{\sc ascii-10} is no exception.
+Simply copy the {\sc cour.afm}, {\sc cour.pfb} and {\sc ascii.enc} files to
+{\sc dvips's} header directory. Then add the following line to the end of
+{\sc psfonts.map}.
+\begin{verbatim}
+  ascii-10 Courier <cour.pfb " asciiEncoding ReEncodeFont " <ascii.enc
+\end{verbatim}
+Don't use the line generated by {\sc afm2tfm} as it will not work!
+
+Once {\sc dvips} has been configured in this way, it will automatically use
+the Postscript outline instead of using a bitmap. This gives much better
+output quality and is resolution independent.
+
+\begin{center}
+$\diamond\diamond\diamond$
+\end{center}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%% End of asciisty.tex %%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{center}
+$\diamond\diamond\diamond$
+\end{center}
+

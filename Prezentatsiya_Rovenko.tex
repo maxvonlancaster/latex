@@ -1,0 +1,359 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+\usecolortheme{orchid}
+\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+%\newcommand{\proof}[1]{{\bf \sffamily Доведення.} #1\hfill$\diamondsuit$}
+%\newcommand{\eop}{\hfill$\diamondsuit$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Грецькi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\a{\alpha}       \def\b{\beta}   \def\g{\gamma}   \def\d{\delta}
+\def\e{\varepsilon}  \def\f{\varphi} \def\w{\omega}   \def\s{\sigma}
+\def\x{\xi}          \def\y{\eta}    \def\z{\zeta}    \def\c{\chi}
+\def\l{\lambda}      \def\m{\mu}     \def\n{\nu}      \def\k{\varkappa}
+\def\r{\varrho}      \def\t{\tau}    \def\i{\iota}    \def\p{\psi}
+\def\th{\theta}
+\def\G{\Gamma}       \def\D{\Delta}  \def\F{\Phi}     \def\W{\Omega}
+\def\SS{\Sigma}       \def\L{\Lambda} \def\P{\Psi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Писанi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\ca{{\cal A}} \def\cb{{\cal B}} \def\cc{{\cal C}} \def\cd{{\cal D}} \def\cy{{\cal Y}}
+\def\cf{{\cal F}} \def\ch{{\cal H}} \def\cu{{\cal U}} \def\cv{{\cal V}}
+\def\cw{{\cal W}} \def\cl{{\cal L}} \def\ct{{\cal T}} \def\cs{{\cal S}}
+\def\cg{{\cal G}} \def\ck{{\cal K}} \def\cm{{\cal M}} \def\cp{{\cal P}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Потовщенi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\br{{\mathbb R}} \def\bc{{\mathbb C}} \def\bn{{\mathbb N}}
+\def\bz{{\mathbb Z}} \def\bd{{\mathbb D}} \def\bi{{\mathbb I}}
+\def\bq{{\mathbb Q}} \def\obr{\ov{{\mathbb R}}}
+\def\bs{{\mathbb S}} \def\bp{{\mathbb P}} \def\bl{{\mathbb L}}
+\def\bb{{\mathbb B}}  \def\ba{{\mathbb A}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Операцiї та функцiї %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Cup{\bigcup\limits}    \def\Cap{\bigcap\limits}    \def\iy{\infty}
+\def\Prod{\prod\limits}     \def\Sum{\sum\limits}
+\def\<{\subseteq}           \def\>{\supseteq}           \def\*{\times}
+\def\ov{\overline}          \def\Int{{\rm int}}       \def\Cl{{\rm cl}}
+\def\pr{{\rm pr}}         \def\copr{{\rm copr}}     \def\dim{{\rm dim}}
+\def\fr{{\rm fr}}         \def\ext{{\rm ext}}       \def\st{{\rm st}}
+\def\os{\stackrel{\underline{\phantom{\subset}}}{\subset}}
+\def\diam{{\rm diam}}     \def\span{{\rm span}}     \def\co{{\rm co}}
+\def\absco{{\rm absco}} \def\sup{\mathop{\rm sup}\limits}
+\def\inf{\mathop{\rm inf}\limits}  \def\lim{\mathop{\rm lim}\limits}
+\def\Lim{\mathop{\rm Lim}\limits}  \def\stm{\setminus}  \def\xp{{\rm xp}}
+\def\toto{\stackrel{\longrightarrow}{\scriptstyle\longrightarrow}}
+\def\lra{\Longleftrightarrow}    \def\la{\Leftarrow}  \def\ra{\Rightarrow}
+\def\wg{\wedge}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iнше %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\dis{\displaystyle}
+\def\~{\tilde}
+\def\wt{\widetilde}
+\def\#{\prec}
+\def\ua{U^\alpha}
+\def\ub{U^\beta}
+\def\va{V^\alpha}
+\def\vb{V^\beta}
+\def\lt{\ell_\iy(T)}
+\def\sp{{\rm sp}}
+\def\pr{{\rm pr}}
+\def\ssq{\subseteq}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+%\usepackage{mathpazo}
+
+%\usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!2}{blue!3}
+% \beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+{\usebeamercolor{sidebar}}
+\setbeamertemplate{sidebar canvas left}[horizontal shading]
+[left=white,middle=sidebar.bg,right=white]
+\setbeamertemplate{sidebar canvas right}[horizontal shading]
+[left=white,middle=sidebar.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{}}}
+
+\title[Декомпозиція неперервності лінійних відображень]
+{Декомпозиція неперервності лінійних відображень}
+
+
+\author[Надія Ровенко \\ Науковий керівник - проф. Маслюченко В.К.]{\textbf{Надія Ровенко  \\ Науковий керівник - проф. Маслюченко В.К.}}
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+\begin{frame}{Приклади декомпозицій неперервності лінійних відображень}
+\begin{block}
+
+Нехай $X, Y$ -- векторні простори, $A: X \rightarrow Y$ -- лінійний оператор.
+
+ Розглянемо його графік $Gr(A) = \{ (x, Ax): x \in X \}.$
+
+\end{block}
+
+\begin{block}{Означення}
+Оператор $A: X \rightarrow Y$ називається оператором  із замкненим графіком, якщо графік $Gr(A)$ оператора $A$ є замкненою множиною в нормованому просторі $Z = X \times Y$.
+\end{block}
+\begin{exampleblock}{Теорема про замкнений графік Стефана Банаха}
+Нехай $X, Y$ -- банахові простори, $A: X \rightarrow Y$ -- лінійне відображення із замкненим графіком. Тоді відображення $A$ неперервне.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{Приклади декомпозицій неперервності лінійних відображень}
+
+Нехай $X, Y$ -- топологічні простори, $x \in X$.
+
+\begin{block}{Означення}
+Відображення $f: X \rightarrow Y$ називається перехідним в точці $x \in X$, якщо для довільного околу $V$ точки $f(x) \in Y$ існують окіл $U$ точки $x$ в $X$ і відкритий окіл $W$ точки $f(x)$ в $Y$, такі, що $W \subseteq V$ і $$U \cap f^{-1}(fr(W)) = \varnothing,$$ де $fr(W)$ -- межа множини $W$.
+\end{block}
+\begin{block}
+
+Зрозуміло, якщо $f$ перехідне в кожній точці $x$ з $X$, то це відображення є перехідним на всьому просторі $X$.
+\end{block}
+
+
+\begin{exampleblock}{Теорема (Маслюченко В.К., Нестеренко В.В.)}
+Нехай $X, Y$ -- топологічні векторні простори, $f: X \rightarrow Y$ -- лінійне перехідне відображення. Тоді $f$ неперервне.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Історія}
+\begin{thebibliography}{10}
+
+\bibitem{1}\textbf{Piotrowski Z.} A survey of results concerning generalized continuity of topological spaces // Acta Math. Univ. Comen. - \textbf{1987-1988}. - 52-53. - P. 91-110.
+\end{thebibliography}
+\begin{thebibliography}{10}
+
+\bibitem{1}\textbf{Neubrunn T.}  Quasi-continuity// Real Anal. Exch.. - \textbf{1988-1989}. - 14, №3. - P.259-306.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+
+\bibitem{1}\textbf{Natkaniez T.} Almost continuity. - Bydgoszcz: Wyzcza Szkola Pedagogiczna w Bydgozczy, \textbf{1992}. - 131p.
+
+\end{thebibliography}
+
+
+\end{frame}
+
+\begin{frame}{Неперервність лінійних ледь неперервних відображень}
+Нехай $X, Y$ -- топологічні простори і $x \in X$.
+\begin{exampleblock}{Означення}
+Відображення $f: X \rightarrow Y$ називається ледь неперервним у точці $x$,  якщо для кожного околу $V$  точки $f(x)$ в $Y$ існує така відкрита непорожня множина $G$ в $X$, що $f(G) \subseteq V$.
+\end{exampleblock}
+\begin{block}
+
+Відображення $f$ називається просто ледь неперервним, якщо воно є таким у кожній точці $x \in X$.
+\end{block}
+
+\begin{block}{Теорема}
+Нехай $X, Y$ -- топологічні векторні простори, $f : X \rightarrow Y$ - лінійне відображення. Тоді наступні умови рівносильні:
+
+(i) $f$ -- ледь неперервне;
+
+(ii) $f$ ледь неперервне в деякій точці;
+
+(iii) $f$ ледь неперервне в нулі.
+\end{block}
+\end{frame}
+\begin{frame}{Неперервність лінійних ледь неперервних відображень}
+\begin{alertblock}{Теорема}
+Нехай $X$  і  $Y$ - топологічні векторні простори над полем $\mathbb{K}$ дійсних чи комплексних чисел і $f: X \rightarrow Y$ - лінійне ледь неперервне відображення. Тоді $f$ неперервне.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Неперервність лінійних квазінеперервних відображень}
+Нехай $X, Y$ -- топологічні простори і $x \in X$.
+\begin{exampleblock}{Означення}
+Відображення $f: X \rightarrow Y$ називається квазінеперервним у точці $x$,  якщо для кожного околу $V$  точки $f(x)$ в $Y$ та кожного околу $U$  точки $x$ в $X$ існує відкрита непорожня множина $G$ в $X$,така, що $G \subseteq U$ та $f(G) \subseteq V$.
+\end{exampleblock}
+
+
+\begin{block}
+
+Відображення $f$ називається квазінеперервним, якщо воно є таким у кожній точці $x \in X$.
+\end{block}
+\begin{block}{Теорема}
+Нехай $X, Y$ -- топологічні векторні простори, $f : X \rightarrow Y$ - лінійне відображення. Тоді наступні умови рівносильні:
+
+(i) $f$ -- квазінеперервне;
+
+(ii) $f$ квазінеперервне в деякій точці;
+
+(iii) $f$ квазінеперервне в нулі.
+\end{block}
+\end{frame}
+\begin{frame}{Неперервність лінійних квазінеперервних відображень}
+\begin{alertblock}{Теорема}
+Нехай $X$  і  $Y$ - топологічні векторні простори над полем $\mathbb{K}$ дійсних чи комплексних чисел і $f: X \rightarrow Y$ - лінійне квазінеперервне відображення. Тоді $f$ неперервне.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Неперервність лінійних майже неперервних відображень}
+
+Нехай $X, Y$ -- топологічні простори і $x \in X$.
+\begin{exampleblock}{Означення}
+Відображення $f: X \rightarrow Y$ називається майже неперервним у точці $x$,  якщо для кожного околу $V$  точки $f(x)$ в $Y$ існує множина $A$ в $X$,така, що $\overline{A}$ -- окіл точки $x$ та $f(A) \subseteq V$.
+\end{exampleblock}
+\begin{block}
+
+Відображення $f$ називається майже неперервним, якщо воно є таким у кожній точці $x \in X$.
+\end{block}
+\begin{alertblock}{Теорема про замкнений графік Властиміла Птака}
+Нехай $X$  і  $Y$ - гаусдорфові локально опуклі простори, причому простір $Y$ суперповний та $f: X \rightarrow Y$ - лінійне майже неперервне відображення, яке має замкнений графік. Тоді $f$ неперервне.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Додаткові означення}
+\begin{exampleblock}{Означення 1}
+
+Підмножина $A$ векторного простору $X$ називається опуклою, якщо вона разом з кожними двома своїми точками $x$ і $y$ містить і відрізок, що їх з'єднує.
+\end{exampleblock}
+\begin{exampleblock}{Означення 2}
+
+Топологічний векторний простір $X$ називається локально опуклим (ЛОП), якщо в ньому існує база з опуклих околів нуля.
+\end{exampleblock}
+\begin{exampleblock}{Означення 3}
+
+Топологічний простір $X$, в якому виконується аксіома віддільності $(T_2):$
+
+для будь-яких двох різних точок $x$ і $y$ з $X$ існують околи $U$ і $V$ відповідно точок $x$ і $y$ в $X$, такі, що $U \cap V = \varnothing$,
+
+
+називається гаусдорфовим.
+\end{exampleblock}
+
+\begin{exampleblock}{Означення 4}
+
+Гаусдорфовий ЛОП $X$ називається суперповним, якщо кожний майже слабко$^*$ замкнений слабко$^*$ всюди щільний в $X^*$ лінійний підпростір простору $X^*$ збігається з $X^*$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Дякую за увагу!}
+\end{frame}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Приклади}
+
+\begin{block}
+
+Для функції $f(x)=\textmd{sgn}x$ відстань $d(f,C(\mathbb{R}))=1$ і функція $g(x)=0$ буде найближчою
+до $f$ неперервною функцією, а для $f(x)=\chi_{(-\infty,0)}b_{1}+\chi_{\{0\}}b_{2}+\chi_{(0,+\infty)}b_{3}$ (де $b_{1},b_{2},b_{3}$~--- довільні дійсні числа, а $\chi$~--- характеристична функція множини) відстань: $$d(f,K_{0}(\mathbb{R}))=d(f,S_{0}(\mathbb{R}))=$$$$=\frac{1}{2}\min\verb|{| | b_{1}-b_{2}|,| b_{2}-b_{3}| \verb|}|.$$
+\end{block}
+
+\end{frame}

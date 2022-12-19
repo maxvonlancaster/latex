@@ -1,0 +1,322 @@
+%
+\documentclass[Proceedings]{ascelike}
+%
+% NOTE: Don't include the \NameTag{<your name>} if you have selected 
+%       the NoPageNumbers option: this leads to an inconsistency.
+\NameTag{Kuhn}
+%
+\begin{document}
+%
+% You will need to make the title all-caps
+\title{STYLE FILES FOR ASCE-LIKE DOCUMENTS}
+%
+\author{
+Matthew R. Kuhn%
+\thanks{
+Dept. of Civ. and Env. Engrg.,
+School of Engrg., Univ. of Portland, 5000 N. Willamette Blvd.,
+Portland, OR  97203. E-mail: kuhn@up.edu.},
+\ Member, ASCE
+%
+% I've found that the \and command doesn't quite work, so just use "and"
+%  such as the following (and don't forget the ending curly brace `}').
+%\\
+%and
+%Younyee Kuhn%
+%\thanks{Flourishing wife of same.},%
+%\ Not a Member, ASCE
+}
+%
+\maketitle
+%
+\begin{abstract}
+This document was produced with the \LaTeX\ typsetting program
+using the document class ``\texttt{ascelike.cls}'' and the
+example document ``\texttt{ascexmpl.tex}''.
+The objective is manuscripts that roughly comply with the
+guidelines of the American Society of Civil Engineers.
+The document class
+produces either double-spaced manuscripts for journal submissions or
+camera-ready manuscripts
+for conference proceedings.
+This document serves as a brief guide to \texttt{ascelike.cls},
+as well as a test of the output that is produced
+by the input file \texttt{ascexmpl.tex}.
+The package is freely available under the LaTeX 
+Project Public License, version 1.1
+\end{abstract}
+%
+% Some keywords, using a new command: \KeyWords{}
+%
+\KeyWords{\LaTeX, ASCE, document class.}
+%
+\section{Introduction}
+The experimental document class ``\texttt{ascelike.cls}''
+produces manuscripts that roughly comply with the
+guidelines of the American Society of Civil Engineers.
+However, it was \emph{not} produced by ASCE, its agents,
+or employees;
+nor is it in any way sanctioned or approved by that organization.
+The program \texttt{ascelike.cls} is distributed under the
+terms of the LaTeX Project Public License Distributed,
+available from the CTAN archives;
+either version 1.1 of the License, or any later version.
+If you modify
+\texttt{ascelike.cls}, you should rename it so that ``contaminated''
+copies are not later disseminated.
+\par
+The document class ``\texttt{ascelike.cls}'' requires the following
+supplementary packages:
+\texttt{ifthen.sty}, \texttt{setspace.sty}, and \texttt{endfloat.sty}
+\emph{Without these files,} \texttt{ascelike.cls} \emph{won't work}.
+These files are typically included in \LaTeX\ distribution, such as the
+\textsf{tetex} and \textsf{MikTex} distributions.
+All three files are also freely available
+from the Comprehensive \TeX\ Archive Network (CTAN) archive,
+through \verb+//http:www.tug.org+, but they may need to be unbundled from
+a \verb+*.dtx+ form.
+In addition, the file \texttt{ascelike.bst} can be used with
+the tool \textsc{Bib}\TeX\ to produce ASCE-like 
+reference citations and entries (with the weird use of
+quotation marks around titles, etc.).
+An example bibliographic data base is given in \texttt{ascexmpl.bib}.
+\par
+In addition to these important files,
+we have found the following packages most useful (and we'll use this
+opportunity to illustrate a \LaTeX\ itemized list):
+%
+\begin{itemize}
+\item
+\texttt{epsfig.sty} and its companion files for incorporating
+encapsulated post\-script (figure) files into the document
+\item
+\texttt{subfigure.sty} for arranging and numbering subfigures
+\item
+\texttt{amstex.sty} and its companion files for the AMS extensions
+to mathematical formatting.
+\end{itemize}
+%
+All of these packages are also freely 
+available from the CTAN archive, 
+but they are included in most \LaTeX\ distributions.
+%
+\section{Input and Options}
+Prepare your \verb+*.tex+ input file as a regular
+\LaTeX\ file using the standard \texttt{article.cls} constructs,
+but, of course, substitute \texttt{ascelike} for \texttt{article}
+as the document class.
+You will, however, likely need to specify a number of options.
+In addition, I've provided two new commands: \verb+KeyWords+ and
+\verb+NameTag+, both of which are described further below.
+Document class \texttt{ascelike.cls} has a the options given
+below (and we'll also use this opportunity to illustrate an enumerated list).
+The \verb+Proceedings|+\-\verb+Journal+ options are the most important;
+the other options are largely incidental.
+%
+\begin{enumerate}
+\item
+\verb+Journal|+\verb+Proceedings+ specify the overall format
+of the output man\-u\-script.  
+\par
+\texttt{Journal} produces double-spaced manuscripts for ASCE journals.
+It places tables and figures at the end of the manuscript, 
+and produces lists of tables and figures.  
+It numbers the appendices with Roman numerals and produces 
+proper headings for
+sections, subsections, subsubsections, appendices, and abstract.
+It produces the proper page margins and numbers the pages.
+\par
+\texttt{Proceedings} produces camera-ready single-spaced manuscripts
+for ASCE conference proceedings.  
+It produces the proper page margins as
+given on the old shiny, 
+camera-ready paper (with the light blue lines) 
+supplied by ASCE. 
+It places figures and tables
+within the text.  It produces proper headings for
+sections, subsections, subsubsections, appendices, and the abstract.
+Pages are numbered, and the bottom left corner can be ``tagged'' with
+the author's name (this can be done by inserting the command
+\verb+\NameTag{<+\emph{your name}\verb+>}+ within the preamble of your
+document.
+\item
+\verb+BackFigs|InsideFigs+ can be used to override 
+the default placement of tables
+and figures in the \texttt{Journal} and \texttt{Proceedings} formats.
+\item
+\verb+SingleSpace|DoubleSpace+ can be used to override 
+the default text spacing in the 
+\texttt{Journal} and \texttt{Proceedings} formats.
+\item
+\verb+10pt|11pt|12pt+ can be used to override the 
+default text size (12pt).
+\item
+\texttt{NoLists} suppresses the inclusion of the lists of tables
+and figures that would normally be included in the \texttt{Journal}
+format.
+\item
+\texttt{NoPageNumbers} suppresses the printing of page numbers.
+\end{enumerate}
+%
+\section{Sections, subsections, equations, etc.}
+I've included this section to test the formating of sections, subsections,
+subsubsections, equations, tables, and figures.
+Section heads are automatically made uppercase, which is great unless
+your section heading contains mathematics, \verb+$<math stuff>$+.
+If your head does contain mathematics, you will need to modify
+\texttt{ascelike.cls}, in particular the line containing the
+\verb+\uppercase+ command.
+%
+\subsection{An Example Subsection}
+No automatic capitalization occurs with subsection headings; 
+you'll need to capitalize the first letter of each word,
+as in ``An Example Subsection.''
+%
+\subsubsection{An example subsubsection}
+No automatic capitalization occurs with subsubsections; 
+you'll need to capitalize only the first letter of the subsubsection heading.
+And now we include an example of a displayed equation (Eq.~\ref{eq:Einstein})
+%
+\begin{equation} \label{eq:Einstein}
+E = m c^{2} \;,
+\end{equation}
+%
+a figure (Fig.~\ref{fig:box_fig}), 
+%
+\begin{figure}
+\centering
+\framebox[3.00in]{\rule[0in]{0in}{1.00in}}
+\caption{An example figure (just a box).  
+This particular figure has a caption with more information 
+than the figure itself, a very poor practice indeed.}
+\label{fig:box_fig}
+\end{figure}
+%
+and a table (Table~\ref{table:assembly}).
+%
+\begin{table}
+\caption{An example table}
+\label{table:assembly}
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{l | l}
+\hline\hline
+\multicolumn{1}{c|}{Assembly Attribute} &
+\multicolumn{1}{c}{Values} \\
+\multicolumn{1}{c|}{(1)} &
+\multicolumn{1}{c}{(2)} \\
+\hline
+Number of particles & 4008 \\
+Particle sizes & Multiple  \\
+Particle size range & $0.45D_{50}^{\:\ast}$ to $1.40D_{50}$ \\
+Initial void ratio, $e_{\mathrm{init}}$ & $0.179$ \\
+Assembly size & $54D_{50} \times 54D_{50} \times 54D_{50}$ \\
+\hline
+\multicolumn{2}{l}{$\ast$ $D_{50}$ represents the median particle diameter} \\
+\hline\hline
+\end{tabular}
+\normalsize
+\end{table}
+%
+\par
+I've added a new command \verb+\KeyWords{<your key words>}+ for
+a labeled list of key words.  
+It can be placed anywhere in the document and produces an unindented
+paragraph.
+%
+\section{Citations and bibliographic entries}
+When used together, \texttt{ascelike.cls} and \texttt{ascelike.bst}
+produce APA~/ \emph{Chica\-go Manual of Style} citations in
+name-date format.
+The code for this format is a modification of the \texttt{chicago.sty} and
+\texttt{chicago.bst} packages.
+I've made available the following citation options:
+\begin{itemize}
+\item
+\verb+\cite{key}+ produces citations with full author 
+list and year \cite{Ireland:1954a}.
+\item
+\verb+\citeNP{key}+ produces citations with full author list and year, 
+but without enclosing parentheses: eg. \citeNP{Ireland:1954a}.
+\item
+\verb+\citeA{key}+ produces citations with only the full 
+author list: e.g. \citeA{Ireland:1954a}
+\item
+\verb+\citeN{key}+ produces citations with the full author list and year, but
+which can be used as nouns in a sentence; no parentheses appear around
+the author names, but only around the year: eg. \citeN{Ireland:1954a}
+states that \ldots
+\item
+\verb+\citeyear{key}+ produces the year information only, within parentheses,
+as in \citeyear{Ireland:1954a}.
+\item
+\verb+\citeyearNP{key}+ produces the year information only,
+as in \citeyearNP{Ireland:1954a}.
+\end{itemize}
+%
+\par
+The example bibliographic data base \texttt{ascexmpl.bib}
+gives examples of bibliographic entries for different document types.
+These entries are from the canonical set in the
+ASCE web document ``Instructions For Preparation Of Electronic Manuscripts'':
+an anonymous book \cite{Moody:1988a}, 
+an anonymous report \cite{FHWA:1991a}, 
+an anonymous newspaper story ("Educators" 1993), 
+an ASCE journal paper \cite{Pennoni:1992a}, 
+a book with editors \cite{Zadeh:1981a}, 
+a building code \cite{ICBO:1988a}, 
+a discussion \cite{Vesilind:1992a}, 
+a doctoral thesis \cite{Chang:1987a}, 
+a paper in a foreign journal \cite{Ireland:1954a}, 
+a paper in a proceedings \cite{Eshenaur:1991a}, 
+a standard \cite{ASTM:1991a}, 
+a translated book \cite{Melan:1913a}, 
+a two-part paper \cite{Frater:1992a,Frater:1992b}, 
+a university report \cite{Duan:1990a}, 
+an untitled item in the Federal Register \cite{FR:1968a}, 
+works in a foreign language \cite{Duvant:1972a,Reiffenstuhl:1982a},
+and software \cite{Lotus:1985a}.  
+%
+\section{Miscellany}
+Many ASCE conference proceedings are now published on CD ROM media.
+I've noticed that instructions on paper formats issued by
+conference organizers often differ from the
+standard ASCE instructions.  
+Fortunately most of the differences can be easily accomodated, such as
+changes in the margins and placement of the authors' addresses.
+As for margins, these can, of course, be altered by using
+\verb+\setlength{<length>}+ commands within the preamble to a document without
+making any changes to \texttt{ascelike.cls}.  
+(See the \LaTeX\ book
+\cite{Lamport:1994a}, its companion \cite{Goossens:1994a}, or
+online web documentation.)
+Authors' addresses can be placed below the title (instead of
+in a footnote) by \emph{not} using the \verb+\thanks+ command.
+%
+%
+% Now we start the appendices, with the new section name, "Appendix", and a 
+%  new counter, "I", "II", etc.
+%
+\appendix
+%
+% Here's the first appendix, the list of references:
+%
+\bibliography{ascexmpl}
+%
+% And now for some pretty impressive notation.  In this example, I have used
+%   the tabular environment to line up the columns in ASCE style.
+%   Note that this and all appendices (except the references) start with 
+%   the \section command
+%
+\section{Notation}
+\emph{The following symbols are used in this paper:}%\par\vspace{0.10in}
+\nopagebreak
+\par
+\begin{tabular}{r  @{\hspace{1em}=\hspace{1em}}  l}
+$D$                    & pile diameter (m); \\
+$R$                    & distance (m);      and\\
+$C_{\mathrm{Oh\;no!}}$ & fudge factor.
+\end{tabular}
+%
+\end{document}

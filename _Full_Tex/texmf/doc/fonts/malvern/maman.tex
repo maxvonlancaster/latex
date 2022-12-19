@@ -1,0 +1,3246 @@
+% maman.tex -- Top level of Malvern documentation
+% Copyright 1994 P. Damian Cugley
+
+%%% @TeX-document {
+%%%   filename       = "maman.tex",
+%%%   version        = "X",
+%%%   date           = "pdc 1994.07.20",
+%%%   package        = "Malvern 1.2",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "Malvern, METAFONT, font, typefont, TeX",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Character programs for the Malvern
+%%%                     font family.",
+%%%   dependencies   = "ma55doc.tex, pdc*.tex, maamac.tex, texnical.tex,
+%%%                     mabib.tex, and many Malvern fonts",
+%%% }
+
+%  This software is available freely but without warranty.
+%  See the file 0copying.txt for details.
+
+%{{{ maman.tex
+%{{{ Preamble
+
+%**start of header
+
+\input ma55doc
+\input pdcidx
+\input pdcdcap
+	
+%{{{   fonts
+
+\twosidedfalse	% change to TRUE for book-style printing, FALSE for 1-sided
+\newif\ifPS \PSfalse	% change to TRUE iff have PostScript fonts
+\newif\iflong \longfalse % chnage to TRUE if you want as longer manual
+
+\newfam\cpfam \newfam\xpfam \newfam\rmbfam \newfam\rmcfam \newfam\grfam
+\newfam\rmxfam \newfam\rmsfam \newfam\cyfam
+\def\extrafontsmap{\f{rmb}{ma55b}\f{rmc}{ma55c}%
+    \@\f{rmx}{fmvmq10}\@\f{rms}{fmvm10}%
+    \f{cp}{ma57a}\f{xp}{ma53a}\f{gr}{ma55g}\f{cy}{ma55c}}
+\xfontset{tiny}\extrafontsmap{7}
+\xfontset{small}\extrafontsmap{9}
+\xfontset{note}\extrafontsmap{10}
+\xfontset{body}\extrafontsmap{12}
+\def\\{\macappend\BODYtemplate} \expandafter\\\expandafter{\extrafontsmap}
+\bodyfonts
+%}}}   fonts
+%{{{   customize footnotes & environments
+
+\def\footnotetextmark#1{{\rmb#1}}
+\def\footnotenotemark#1{{\rmb#1}}
+\def\TOCentrysubsubsec#1#2#3{}
+
+\def\n#1{$ \textfont0=\font #1 $}	
+\mathcode`\.="70AE		% make "." in maths mode centred dot
+	
+%  In the index, references are enclosed in $...$, so
+%  we have to change the "encapsulation" macros:
+\def\idxunderline#1{\underline{#1}}  
+\def\see#1#2{$ {\rmb \char1 } #1 $}
+
+%%%% \everylines={\smallfonts}
+
+\everybnf={\def\>{{\rmb\char1 }}\def\\{{\rmb\char124 }}}
+
+\def\notepar
+{
+    \smallskip
+    \index{note}
+    \begingroup \it
+    \setbox\parbox=\hbox{\it note}
+}
+\def\endnotepar
+{
+    \smallbreak
+    \endgroup
+}
+
+\def\example
+{
+    \penalty\predisplaypenalty
+    \smallskip \parskip=0pt 
+    \obeylines	% every line is indented; blank lines ignored
+    \the\everylines
+    \let\end=\linesend
+}
+\def\endexample
+{
+    \smallbreak \global\noindenttrue
+}
+%}}}   environment tweaking
+%{{{   full-page Part headings
+
+% if in long mode, part headings omitted.
+\def\BIGmap{\f{rm}{ma55a}\@\f{mf}{logo10}}
+\fontset{big}\BIGmap{48}{56pt}{big}{big}
+\ldfont\hugerm{ma75a72}
+
+\def\part#1%
+{%
+\iflong
+    \advance\partno1
+    \mark{{\thesecno}{\thesecno}}
+    \vfill\eject
+    \iflong \line{} \vfill \fi
+    \begingroup
+	\parskip=0pt \parindent=0pt \hyphenpenalty=10000
+        \bigfonts
+	\rightskip=0pt plus 2em 
+	\iflong
+		{\hugerm \thepartno}\bigskip
+	\else
+		\noindent\llap{\thepartno\enspace}%
+	\fi
+	#1 \par
+	\TOCwrite\TOCentrypart{\thepartno}{#1}
+	\counta=\secno \advance\counta1 
+		\mark{{\n{\the\counta}}{\n{\the\counta}}}
+	\iflong \headline={\hfil} \footline={\hfil} \eject \fi
+    \endgroup
+\fi
+}
+%}}}   full-page part headings
+%{{{   symbol tables
+
+\def\symtabrule#1%
+{%
+    \nointerlineskip
+    \moveleft\leftmargin \hbox
+    {%
+	\vrule height #1 width \dimen0 depth 0pt
+    }%
+    \nointerlineskip
+}
+
+\def\symtab
+{%
+    \noindent$$  % matching $$ is in endsymtab
+    \def\dag{{\rm\char170 }}
+    \let\\=\symtabentry  \counta=0
+    \openup1\jot
+    \dimen0\hsize \advance\dimen0\leftmargin
+    \halign to \hsize\bgroup\hskip-\leftmargin
+	\hfil##\unskip\hfil \tabskip=0pt plus 1em minus 0.5em
+		&\quad\tt##\unskip\hfil
+	&&\qquad\hfil##\unskip\hfil&\quad\tt##\unskip\hfil\cr
+	\noalign{\symtabrule{1pt}\medskip}%
+}
+\def\endsymtab
+{%
+        \crcr
+	\noalign{\nobreak\medskip \symtabrule{0.5pt}}%
+    \egroup$$  %% matches $$ in above
+}
+
+\def\symtabentry#1|#2|%
+{%
+    #1&
+    \def\tmp{#2}\expandafter\stripMacro\meaning\tmp
+    \global\advance\counta1 
+    \ifnum\counta=3 
+	\global\counta=0
+	\def\next{\cr}%
+    \else
+	\def\next{&}%
+    \fi
+    \next
+}
+
+\def\stripMacro#1:->{}
+
+%}}}   symbol tables
+%{{{   font tables
+
+%%  Code to typeset a font table -- lifted from my testfont.tex
+
+\newcount\tableN
+\newcount\hexcount
+\def\hexdigit#1{\ifcase#1\relax 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\def\ntablecr
+{%
+    \cr
+    \noalign{\nointerlineskip}
+    \multispan2\hfill &\multispan{33}\hrulefill
+}
+\def\ntable
+{
+    \medskip
+    \begingroup \openup1\jot
+	\def\\{\char\tableN \global\advance\tableN 1}
+	\def\0##1{&\omit&\sevenrm##1}
+	\halign to \hsize
+	  {%
+	    \chartstrut\hss##\tabskip=0pt plus 10pt &
+	    &\hss##\hss&##\vrule\cr
+	    \lower 6.5pt\null
+	    &\00\01\02\03\04\05\06\07\08\09\0A\0B\0C\0D\0E\0F
+	    \ntablecr 
+	    \global\tableN=0
+	    \ntablelines
+	    \crcr
+	  }
+	\medbreak
+    \endgroup
+}
+
+\def\ntablelines
+{%
+    \ifnum\tableN<256 
+	\let\next\ntablecontinuation
+    \else
+	\let\next\relax
+    \fi
+    \next
+}
+
+\newcount\ntabtmp
+
+\def\ntablecontinuation
+{%
+    % Find out if none of this row are defined by making a horizontal
+    % list of all of them preceeded by a penalty of 1; if any of them
+    % are defined then \lastpenalty will be something other than 1:
+	\setbox0=\hbox{\penalty1
+	    \def~{\char\tableN \advance\tableN 1}%
+	    ~~~~~~~~~~~~~~~~\global\ntabtmp=\lastpenalty}%
+    % Now set the row in the table iff ntabtmp # 1:
+	\ifnum\ntabtmp=1 
+	    \global\advance\tableN 16 \let\next=\ntablelines
+	\else
+	    \let\next=\ntablecontinuationcontinuation
+	\fi
+    \next
+}
+
+\def\ntablecontinuationcontinuation
+{%
+    \cr
+    \noalign{\nointerlineskip \penalty5000 }
+    & \hexcount=\tableN \divide\hexcount16 \sevenrm\hexdigit\hexcount
+    &&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&
+    \ntablecr
+    \ntablelines
+}
+
+\def\chartstrut{\lower 0.25\baselineskip \vbox to \baselineskip{}}
+
+%}}}   font tables
+%{{{   aux file
+%%
+%%  Hacks using the ".aux" file to store information between runs
+%%
+%%  This allows cross-references and per-page footnotes.
+%%  Normally I don't bother if a document is short enough not to need
+%%  cross-references or an index.
+%%
+%%  Often TeX must be run twice to get the Xrefs sorted out :-(
+%%
+
+%{{{   xrefs
+
+%  Cross-refernces require two passes; one to write the xref
+%  to the .aux file with \xreflabel, and one to use the resulting \def.
+%  A footnote to the effect that a ref has been omitted is generated.
+%  Perhaps this is not a great idea.
+
+\def\xref#1%
+{%
+    \expcs\ifx{xref-#1}\relax
+	\message{Warning: xref (#1) not known; you will need to TeX
+	this file again}%
+	<<{#1}>>%
+	\footnote{{\rm\dag}}{Cross-references in this document are
+	produced automatically.  The values of Xrefs are written
+	into a file called \jobname.aux, which is read at the start of
+	the next run of \TeX\ on this file.  Unknown Xrefs are replaced with the tag
+	name used within the document, enclosed in guillemets.}%
+	\gdef\xref##1{\expcs\ifx{xref-##1}\relax <<{##1}>>%
+	    \else\csname xref-##1\endcsname\fi}%
+    \else
+	\csname xref-#1\endcsname
+    \fi
+}
+
+%  #1  -- string of characters -- internal label for this xref
+%  #2  -- TeX text -- what is produced by \xref{#1} on subsequent runs.
+\def\xreflabel#1#2%
+{%
+    \edef\tmp{\string\expcs\def{xref-#1}{#2\ on page~\n{\noexpand\folio}}}%
+    \write\auxfile\expandafter{\tmp}%
+}
+
+\def\rcite#1{{\xref{#1}}}		% direct reference
+\def\cite#1{[{\xref{#1}\/}]}		% parenthetically
+\def\ncite#1#2{[{\xref{#1}\/}, #2]}	% with a note
+
+\def\lcite#1%  #1 is \\-list macro of cites!
+{%
+    \def\tmplist{#1}%
+    \lop\tmp\tmplist
+    [{\xref\tmp\def\\##1{, \xref{##1}}\tmplist}]%
+}
+
+%}}}
+%{{{   footnotes -- numbered within pages!
+
+%  Data accumulated during the previous TeX run is used to
+%  number footnotes consecutively within pages.  (Obviously
+%  this fails when footnotes changed -- but the same applies to
+%  xrefs anyway.)
+
+%  This is done by keeping two numbers per footnote -- the reference
+%  number (increases throughout the document, and is used internally)
+%  and the mark number (used in the completed document).
+
+%  Before the first footnote on a given page, the mark number is reset to 0.
+%  This can't be done by simply assigning it during the output routine
+%  because TeX might have set the footnote on the next page just before
+%  shipping out the current one.  Therefore I keep a list -- call it xs
+%  -- of footnotes that were the 1st note on a page during the previous
+%  run.  Thus xs will be an increasing list starting with 1 (because the
+%  1st footnote in a file is automatically the first on a page!)
+
+%  Then the algorithm for each note is to increment the reference
+%  number, and check it against head(xs); if it is equal then set the
+%  mark number to 1 and xs := tail(xs).  Otherwise, it is less than head(xs)
+%  hence on the same page as previously, so increment the mark number.
+
+%  For efficiency (ha!) xs is represented by \notelisthead (a countdef
+%  name, set to head(xs)), and \notelist (a list macro, set to tail(xs)).
+
+\def\notelist{}  % set by reading .aux file
+\newcount\notelisthead
+
+\newcount\notemarkcount
+\newcount\noterefcount
+
+\def\note			% start a footnote
+{%
+    \global\advance\noterefcount1
+    \ifnum\noterefcount=\notelisthead
+	\ifx\notelist\empty
+	    \global\notelisthead=10000
+	\else
+	    \glop\tmp\notelist
+	    \global\notelisthead=\tmp
+	\fi
+	\notemarkcount=0
+    \fi
+    \global\advance\notemarkcount1
+    \edef\tmp{\string\notedatum{\the\noterefcount}{\noexpand\folio}}%
+    \write\auxfile\expandafter{\tmp}%
+    \footnote{\number\notemarkcount}%
+}
+
+
+%  The data in the .aux file is (reference number, folio) pairs
+%  This is converted into a list of reference numbers for which
+%  the folio is different from the preceeding one, stored in macro
+%  \notedatumlastpage.
+
+\def\notedatumlastpage{--!--}
+
+\def\notedatum#1#2%
+{
+    \def\tmp{#2}
+    \ifx\notedatumlastpage\tmp \else
+	\gappend\notelist{#1}
+	\gdef\notedatumlastpage{#2}
+    \fi
+}
+
+%}}}   footnotes
+
+\catcode`@=11
+\inputifexists{\jobname.aux}
+\catcode`@=12
+\newwrite\auxfile \openout\auxfile=\jobname.aux
+
+\ifx\notelist\empty 
+    \notelisthead=10000 	%  No footnote data
+\else 
+    \lop\tmp\notelist \notelisthead=\tmp  %  set up notelisthead
+\fi
+%}}}   aux file
+%{{{   abbrevs
+
+\def\url#1#2#3#4{(\urlnoparens{#1}{#2}{#3}{#4})}
+\def\urlnoparens#1#2#3#4%
+{%
+	URL {\tt#1:\allowbreak
+	//#2/\allowbreak
+	#3/\allowbreak
+	#4}%
+}
+
+\newif\ifkbnames
+
+%  Captions for \topins items
+\newcount\tablecount
+\def\caption#1{\global\advance\tablecount1
+	\medskip\noindent {\bf Table~\n{\the\tablecount}}\quad #1\par}
+
+\def\cmrname#1{{\tt\lowercase{#1}}}
+
+\def\ISO#1{ISO~\n{#1}}
+
+% Use \vn{N} for version number after `\LaTeX' or `NFSS': \LaTeX\vn2e
+%  This is because they prefer no space between name and version ID
+%  whereas I think there ought to be one.
+\def\vn{~\n}
+\def\LaTeXe{\LaTeX\vn2e\note{Note that `\LaTeX\thinspace\n2\lower0.5ex\hbox{\gr
+	e}' and `\LaTeX\vn2e' are the same thing.  The lowered `{\gr e}'
+	is merely an excessively fancy way of saying
+	`e'.}\global\def\LaTeXe{\LaTeX\vn2e}}
+
+\def\texchar#1{\hbox{`{\tt#1}'}}
+\def\oct#1{\hbox{\showmark\'$\it#1$}}
+\def\hex#1{\hbox{\showmark\H\tt#1}}
+	
+\def\TUGboat{{\it TUGboat}}
+
+\def\frac#1/#2%
+{%
+	{\rmb\lowercase{#1}/\uppercase{#2}}%
+}
+
+\def\showmark#1%	#1 is an \accent command
+{\hbox to 0.5em{%
+    \def\typeImark##1{\char##1\relax}%
+    \def\typeIImark##1{\char##1\relax}%
+    \hss #1{}\hss
+}}
+
+
+\def\marginchar#1%
+{%
+    \vadjust
+      {
+	\moveleft\leftmargin \vbox to 0pt
+	  {
+	    \vss
+	    \hbox to \leftmargin{\bigrm \hss#1\hss\hskip1pc}%
+	  }
+      }%
+}
+
+%%  Put this LAST!!
+\active\" \append\verbatimplains\"
+\def"#1"{\hbox{\it#1\/}}
+
+	
+%}}}   abbrevs
+
+\def\package{Malvern~\n{1.2}}
+\def\ttpackage{Malvern-1.2}
+
+%**end of header
+
+%}}}  preamble
+%{{{ Introduction
+%{{{  demo
+
+\vfill\eject
+\begingroup \def\line#1{\hbox to \hsize{\kern-\leftmargin #1}}
+\bigrm \baselineskip=52pt plus 1pt
+\line{A\A\AE BCD\DH E\E FG\hfil.,:;`',,``''}
+\line{HIJKL\L MN\NG O\O\OE\hfil?`!`!?}
+\line{PQRST\TH UV\hfil a\a\ae bcd\dh\vd}
+\line{WXYZ\hfil  e\e f\/ff\/fi\/fl\/ffi\/fflgh\h i\i}
+\line{-\/-->>\hfil   j\j kl\l\vl mn\ng o\o\oe pqrs\ss}
+\line{\copyright\registered\hfil <<--- t\vt\th uvwxy\&z}
+\line{\rbrace\rbrack\char41 \rangle\hfil
+	>\degrees\char42 \trademark\Box \careof \char152\char153
+	\char155 <
+	\hfil \langle\char40 \lbrack\lbrace}
+\line{\spaceskip=0pt plus 1fil
+	\dag\ \ddag\ \P{}\ \S{}\ @\ \#\ \$\ \%\ \&\ \cents\ \pounds\
+	\currency\ \permille\ \yen\ \florin}
+\line{123456\hfil\cdot/+=\times\char175\bullet\hfil\uppercase{1234}}
+\line{7890 \hfil\uppercase{567890}}
+
+\vskip-\prevdepth
+\nointerlineskip
+\vbox to 0pt
+{
+    \vss
+    \centerline{\headingrm 48-pt Malvern 55}
+}
+
+\headline={\hfil}
+
+\eject
+\endgroup
+
+%}}} demo.tex
+	
+\part{Introduction}
+
+\iflong
+%{{{  about TeX and LaTeX
+
+\section{About \TeX\ and \LaTeX}
+
+\subsec{How to pronounce `\TeX'}
+
+	The "X" in "\TeX" is intended to stand for a Greek letter chi
+	({\gr Qq}), which is like the "ch" in Scottish "loch" or German
+	"ach", and is usually pronounced `k' by people whose languages
+	do not include that sound.  Therefore `\TeX' should be
+	pronounced either `te"ch"' or simply `teck'.  It is *not*
+	pronounced `tecks'.
+
+	Moreover, the lowering of the "E" in "\TeX" is intended to
+	remind us that it stands for epsilon ({\gr Ee}).  When it is not
+	possible to print the "E" lowered, \TeX\ should be referred to
+	as `TeX' (but not `Tex' or `TEX').
+
+	^^{Lamport, Leslie} Lamport suggests that "\LaTeX" might be
+	pronounced `lay-\TeX', `lah-\TeX', or even `lay-teks'!  On
+	systems without the capability to exactly reproduce his logo you
+	might try `L\kern-0.2em\raise 0.5ex\hbox{a}\TeX', `La\TeX', or
+	`LaTeX'.
+
+\subsec{\TeX}
+
+	\TeX\ is a powerful and flexible typestting program.  It was
+	devised by ^^{Knuth, Donald E.} Donald~E.\ Knuth with the
+	intention of producing with a computer typeset text (including
+	mathematics and complex tables) as good as that of a
+	professionally-produced book.  \TeX\ goes to extraordinary
+	lengths to produce optimal line-breaks and correctly aligned and
+	spaced mathematics, in a way in which no DTP program currently
+	does.  Because \TeX\ is a free program---that is, anyone can get
+	a copy of the |WEB| code and create a version that runs on their
+	computer---and uses plain text files, it is very widely used for
+	producing documents and exchanging them between different
+	computer systems, especially those containing a lot of
+	mathematical notation.
+
+	Knuth describes \TeX\ in {\it The \TeX book}~\cite{TeXbook}.
+	While this manual lacks the three-level section numbering that
+	computer users are accustomed to, it does describe everything
+	there is to know about \TeX, from writing simple manuscripts to
+	designing macros and producing new formats.
+
+	\TeX\ was designed to be used on a variety of different systems,
+	at a time when the pictorial user-interfaces popular today were
+	still rare.  Therefore \TeX\ is entirely text-based: the user
+	feeds \TeX\ a manuscript with typesetting commands embedded in
+	it, produced with a normal text editor.  \TeX\ operates in a
+	manner similar to a compiler, converting the textual
+	representation of the document into a compact format called DVI
+	(from `device-independent'), analogous to machine code.  The
+	file of DVI information is printed using a separate
+	printer-driver program.
+
+\subsec{\LaTeX}
+
+	\LaTeX\ is a front-end to \TeX, written in \TeX's own macro
+	language.  It is often used in an attempt to evade the full
+	complexity of operating with \TeX.  Strictly speaking, \LaTeX\
+	is a \TeX\ \dfn{format}, that is, a package of \TeX\ macros
+	compiled into a compact form.
+
+	As the first macro package to offer facilities for automated
+	sectioning, bibliography, and table-of-contents generation,
+	\LaTeX\ has become a very popular way of producing technical
+	documents.
+
+	The standard introduction to \LaTeX\ is {\it\LaTeX: A Document
+	Preparation System}~\cite{LaTeX} by the designer of \LaTeX,
+	^^{Lamport, Leslie} Leslie Lamport.  This book includes a
+	summary of the \LaTeX\ macros, but stops short of describing how
+	to go about augmenting \LaTeX's facilities with new styles and
+	style options.
+
+	At the time of writing, two new versions of \LaTeX\ are under
+	development.  \LaTeX\vn3 will be a complete rewrite; in the
+	meantime, \LaTeXe\ will be released as a new standard \LaTeX.
+
+\subsec{Fonts for \TeX}
+
+	The fonts used with \TeX\ documents are described in two parts.
+	The first part, the font metrics (called the TFM file), is used
+	by \TeX\ itself when generating the DVI file.  The second
+	describes how the characters are drawn by the printer; it is in
+	a format that depends on the particular font, driver and
+	printer.  Common formats for the second part of a font
+	description are GF (`generic fonts' produced by \MF), PK
+	(produced from GF files and used by many printer drivers), VF
+	(composite fonts, that is, fonts formed by combining several
+	other fonts), and \PS\ types~$1$ or $3$ (used on \PS\ printers).
+
+
+	Normally, computer fonts are created from designs drawn on paper
+	at a large size (a cap-height of $100\,\rm mm$, say) and then
+	the outlines of the letters are scanned in by locating points
+	along the curves with a probe (or by scanning the shapes and
+	having a program calculate the outlines from the resulting
+	bitmaps).  Normally by the time the font is being scanned, all
+	the design decisions have been taken and the role of the
+	computer operators is merely to produce a faithful rendering in
+	the correct format.
+
+	\MF\ is a program which converts outlines to bitmaps and creates
+	GF files (which contain a bitmap for each glyph).  The outlines
+	are described using \MF's own programming language, with a
+	\dfn{character program} for each letter.  Traditionally \MF\
+	font design delays some aesthetic decisions until well into the
+	programming stage---in Knuth's example ("\MF\/book", Ch.~$5$),
+	sixteen trial letters "I" are generated with different stem
+	widths so that they can be compared against a sample letter "O".
+
+	\MF\ programs can be arbitrarily complex (although the peverse
+	nature of the \MF\ language ensures that any attempt to be too
+	clever is severely punished).  A given program can be used to
+	generate different fonts---light and boldface, for example.
+	Because \MF\ programs know what device the font is being
+	generated for, they can include code intended to make the font
+	digitize well (that is, ensure that the bitmaps resemble the
+	original intention of the designer even on low-resolution
+	devices).  The practical upshot of this is that the facilities
+	of the latest fancy formats for other systems (`multiple
+	masters', `intelligent scaling', `hints') were available in \MF\
+	systems years ago, but the programming skill required to use
+	them prevented them from being widely used.
+
+%}}}  about TeX and LaTeX
+\fi
+%{{{  Nomenclature
+
+\section{Conventions used in this handbook}
+	
+	A distinctive font will be used for examples of literal text
+	such as commands to the computer and the contents and names of
+	text files:
+\begin example
+	|ABCDEFGHIJKLMNOPQRSTUVWXYZ|
+	|abcdefghijklmnopqrstuvwxyz|
+	|0123456789"#$%&@*+-=,.;:?!|
+	|()<>[]{}`'\||/_^~|
+\end example
+	Italic letters are used for the names of some \MF\ variables,
+	for metasyntactic variables, for words mentioned in sentences
+	(such as the word "word" here), and for the titles of books and
+	so on.
+
+	Boldface is sometimes used for \MF\ `sparks'.  A bold italic
+	face is used for the first occurence of technical terms.
+
+\subsec{Citations and references}
+
+	Numbers appearing in square brackets (for example, [$1$]) refer
+	the reader to other sources for more information; they are
+	listed in \xref{bib}.
+
+\subsec{Syntax descriptions}
+
+	Occasional syntax descriptions will be given in the usual
+	^^{Backus--Naur formalism}^{extended Backus--Naur Formalism}
+	(extended BNF, or EBNF): in other words, an extension of the
+	notation described at the start of Chapter~$24$ of the {\it\TeX
+	book} \cite{TeXbook}, `Summary of Vertical Mode'.  Syntactic
+	entities are written with angle brackets, thusly: \langle{\it
+	dimen\/}\rangle.  The arrow `{\rmb\char1}' is read as `is
+	defined as', and the vertical bar `{\rmb\char124}' as `or'.
+	Literal text is enclosed in quotation marks.
+
+	Square brackets on the RHS of the arrow enclose optional text.
+\iflong
+	As an example, take this definition from Chapter~$24$:
+\begin bnf
+	\<unit of measure> \> \<optional spaces> \<internal unit> 
+		\\~\<optional {\tt true}> \<physical unit>.
+
+	\<optional {\tt true}> \> |true| \\ \<empty>.
+
+	\<optional spaces> \> \<empty> \hfil\break 
+		\\ \<space token> \<optional spaces>.
+\end bnf
+	Using brackets the first two rules can be replaced by just one:
+\begin bnf
+	\<unit of measure> \> \<optional spaces> \<internal unit> 
+		\hfil\break
+		\\~[ |true| ] \<physical unit>.
+\end bnf
+\fi
+	Braces enclose text that may repeated, or rather text which may
+	appear any number of times including zero.  
+\iflong
+	For example,
+	\<optional spaces> can be defined as:
+\begin bnf
+	\<optional spaces> \> \{ \<space token> \}.
+\end bnf
+	Or we could rewrite the whole of the above definition of \<unit
+	of measure> as follows:
+\begin bnf
+	\<unit of measure> \> \{ \<space token> \} \<internal unit> 
+		\hfil\break
+		\\~[ |true| ] \<physical unit>.
+\end bnf
+\fi
+	There is no conflict with the use of brace tokens in the
+	{\it\TeX book}\/: all such tokens will be written in quotation
+	marks in syntax rules (`|{|' and `|}|' rather then \lbrace\ and
+	\rbrace), and besides, I~will not be referring to brace tokens.
+
+\iflong
+\subsec{Typefaces, founts and fonts}
+
+	In traditional English usage, a \dfn{typeface} (or \dfn{face})
+	is the design of a set of letters, figures and symbols at any
+	size: an abstract concept.  A \dfn{fount} is an implementation
+	of a typeface at a particular size; normally this refers to a
+	phyiscal object, such as a set of punches or a phototypesetter
+	film strip.  By analogy with "program", I will use "font" for an
+	analagous computer resource, whether it describes a typeface at
+	any size (as a \PS\ scalable font does) or at a particular
+	design size (as \TeX\ fonts do).
+
+\subsec{Italic, slanted, oblique, latin, roman and upright}
+
+	The term \dfn{italic} used to refer to a cursive variation of a
+	typeface.  In phototypesetting days, sanserif faces with no
+	italic could have an obliqued form produced using prisms.
+	Generally \dfn{slanted} was used to mean either italic (if
+	available) or obliqued.  Nowadays almost all faces are supplied
+	with a slanted form; for sanserif fonts these are inconsistently
+	referred to as "italic" or "oblique".  So far as I~know,
+	Computer Modern is the only type family to include three
+	different slanted alphabets---italic, obliqued and so-called
+	`math italic'.
+
+	The word "roman" is used to mean ordinary upright letters, as
+	distinct from italic or bold and the like.  I~shall generally
+	distinguish between this use of "roman" and the use of "latin"
+	to refer to the alphabets derived from the alphabet devised for
+	writing the Latin language in classical times, as compared with
+	the Greek and Cyrillic alphabets, for example.
+
+\iffalse
+\subsec{Families and super-families}
+
+	A family is a collection of typefaces, intended to be compatible
+	with each other.  For example, the ITC Avant-Garde Gothic family
+	has members such as ITC Avant-Garde Gothic Demi and ITC
+	Avant-Garde Gothic Light Oblique, and Univers has family members
+	(also called variants) like Univers~$55$ and Univers~$48$.
+
+	Most families consist of a few different weights of italic and
+	upright faces.  There are a few `super-families', such as ITC
+	Stone, Lucida and Computer Modern, which contain many different
+	variants such as sanserif, typewriter, informal.  ITC Stone
+	Sans, ITC Stone Serif and ITC Stone Informal may be viewed as
+	three separate families that were designed together
+	(collectively a `super-family'); or, ITC Stone can be viewed as
+	is a family with Sans Semibold Italic, Informal Italic and so on
+	as faces within it.
+
+	I~personally prefer the `splitter' approach; it keeps the number
+	of names of font variants a document manager needs to know about
+	relatively small, and does not greatly increase the number of
+	family names, because there are very few super-families compared
+	with the enormous number of normal-sized families.  It also
+	makes the design of menu-based font-selectors more
+	straightforward.  (The names Adobe uses for its fonts indicate
+	that they are `splitters' too.)  Unfortunately, \LaTeX\ was
+	designed on the implicit assumption that `sans serif', `slanted'
+	and `caps and small caps' are variants present in *any* family.
+
+	Super-families are an intuitively pleasant  concept for
+	classifying fonts, but they are not relevant to any
+	document-processing program I~can think of off the top of my
+	head.  That is, given document~$A$ with ITC Stone Serif and Sans
+	and document~$B$ with Palatino and Univers, there's nothing
+	useful that a computer can do with the information that $A$
+	takes all its faces from one super-family and $B$ does not.
+
+\fi	% end of iffalse
+\fi	% end if iflong
+
+\subsec{Composite letters}
+
+	I will use the phrase \dfn{composite letter} to refer to letters
+	which, regardless of their meaning in their respective
+	languages, are *written* (not necessarily typeset) as one of the
+	letters {\it A}--{\it Z} (called a \dfn{base glyph}) with that
+	addition of some sort \dfn{mark}.  Thus composite letters
+	include German umlauts ({\it\"a}, {\it\"o}, {\it\"u}), accented
+	letters in languages like Spanish ({\it\'a}, {\it\'e}, etc.),
+	and special letters like {\it\aa}, {\it\"a} and {\it\"o} in
+	Scandinavian languages.
+
+	As well as marks that go above letters, there are some that go
+	below ({\it\c c}, {\it\a}) and through letters ({\it\l},
+	{\it\o}).  Normally it will be useful to distinguish between
+	composite letters with the mark above them and the latter two
+	categories.  For example, "\A" is the same height as the letter
+	"A", but if the letter "\AA" is to have the same height as "A"
+	then the base glyph must be shrunk slightly.
+
+\subsec{Hyphens and dashes}
+
+	To prevent confusion, I~shall use the word "dash" to refer only
+	to the en- and em-dash symbols (`--' and `---'), and I~will use
+	the word "hyphen" for hyphens (`-').  	
+\iflong
+	Hyphens (produced with
+	one ASCII minus sign) are used in English for joining words
+	("ear-ring", "get-at-able"), to disambiguate a few odd compounds
+	("re-cover", "co-operate"), and when dividing words at the ends
+	of lines.  Short (en) dashes (|--|) are used in joining pairs
+	where there is movement or tension between them ("London--Oxford
+	route", "\n{1980}--\n{85}").  Long (em) dashes (|---|) are used
+	in a similar way to parentheses or a colon.
+\fi
+
+\subsec{Sundry quotation marks}
+
+	In English printing, the ^{quotation marks} are an ^{apostrophe}
+	(') and an ^{inverted comma}---with hot metal typesetting this
+	was a literally a ^{comma} that had been put in place
+	upside-down.  In German, a rather more sensible arrangement is
+	used where two commas start quotations, and two inverted commas
+	close them: ,,so``.  To prevent confusion, I~shall consistently
+	refer to the character `\,`\,' as an inverted comma rather than
+	`^{left quote}', because it is not always a *left* quotation mark:
+\begin display
+	, & comma & ,, & double comma\cr
+	` & inverted comma & ``	& double inverted comma\cr
+	' & apostrophe & '' & double apostrophe\cr
+\end display
+	There is some potential for confusion with regards to the ASCII
+	characters `|`|'and `|'|', used by \TeX\ to stand for an
+	inverted comma and apostrophe respectively.  ASCII was designed
+	with typewriter-like devices in mind, and |'| was intended as a
+	combined neutral single quotation mark, acute accent and
+	apostrophe, which is not quite the same as \TeX's use for it.
+	Traditional UNIX names for these two characters are \dfn{quote}
+	and \dfn{backquote}.
+	
+	When I~am referring to French ^{guillemets}, I~shall use `left
+	guillemet' to refer to the one that points to the left (<<).  In
+	French and many other languages, this is used as an opening
+	quotation mark <<\,thus\,>>; in German it is sometimes used as a
+	closing quotation mark >>so<<.
+	
+\subsec{How to refer to Malvern fonts}
+
+	The name `Malvern' is spelled as a normal proper noun (no fancy
+	typography is necessary).  In English it is pronounced with the
+	accent on the first syllable, with the "a" pronounced as in
+	either "pal" or "pall" (natives of the town it is named after
+	say `*mawl*-v{\rmb\char116 }n', I~tend to pronounce it
+	`*mal*-v{\rmb\char116 }n').  In other languages it may as well
+	be pronounced and declined according to the orthography of the
+	language.
+
+	When describing a particular version of Malvern, convention
+	favours an unbreakable space between name and number:
+	Malvern~$1.1$ is `|Malvern~1.1|' (like Henry~VIII, Occam~$2$,
+	Fortran~$9$X).  The same applies to naming members of the
+	Malvern font family (Malvern~$55$, Malvern~$76$) and Malvern
+	font encoding family (Malvern~A, Malvern~B).  In the latter case
+	the letters need not be italicized.
+
+%}}}   Nomenclature
+%{{{  Numeric style suffixes
+
+\section{Malvern's font names}
+
+%{{{  Univers
+
+\subsec{Numeric style codes}
+
+	The first font family designed as a unit was ^{Univers}.  The
+	designer, Adrien Frutiger\index{Frutiger, Adrien}, introduced
+	two-figure codes to describe the different variations, instead
+	of a names like `bold italic' and `light condensed'.  For
+	example, the `roman' face is called Univers~$55$, italic
+	Univers~$56$, boldface Univers~$75$ and lightweight condensed
+	italic Univers~$38$.  Frutiger has used his system in all his
+	subsequent font families.  ^{Malvern} and other new fonts I~make
+	use a similar system.
+
+%}}}  univers
+%{{{  Malvern suffixes
+
+\subsec{The style codes used with Malvern}
+
+\xreflabel{s-stylecodes}{\S\thesecno}
+	Just as with Frutiger's system, the first digit gives the weight
+	of the font and the second digit gives the width (in the sense
+	of `{\cp compressed}' vs.\ `{\xp expanded}'), as in the
+	following table:
+\begin table \strut$#$\hfil\quad&#\hfil\qquad&$#$\hfil\quad&#\hfil\cr
+	  & \it first digit		&   & \it second digit\cr
+    \noalign{\smallskip}%
+	1 & ultra-light (hairline) 	& 1, 2 & extra expanded \cr
+	2 & extra-light (thin) \cr
+	3 & light 			& 3, 4 & expanded/extended \cr
+	4 & book (semi-light) \cr
+	5 & medium 			& 5, 6 & normal width \cr
+	6 & demi (semi-bold) \cr
+	7 & bold 			& 7, 8 & condensed/compressed \cr
+	8 & extra-bold \cr
+	9 & ultra-bold  		& 9, 0 & extra compressed \cr
+%%%%	0 & black \cr
+\end table
+	The second digit is even for a slanted face, odd for an
+	upright face---so that the italic version of Malvern~$55$ is
+	$56$, and of $19$ is~$10$.
+
+	This in theory gives $90$ styles.  The middle odd-numbered
+	weights ($3$, $5$, and $7$) are expected to be the more commonly
+	used ones.  Similarly, the three middle widths are expected to
+	be used more often than $1$ and~$9$.  The practical upshot of
+	this is (a)~they are more likely to be available as \mc{PK}
+	files and (b)~they are more likely to have had their \MF\
+	programs tested and debugged.
+
+	This system of names only allows one slanted form and cannot
+	distinguish `compressed' from `condensed'.  Normally this
+	fine---before Knuth's Computer Modern came along, it was only
+	heretics with \PS\ or phototypesetters without italics available
+	who would resort to obliqued fonts.  The \MF\ programs that
+	describe Malvern have the capacity to produce `vertical italic'
+	and obliqued forms, but these are not part of the standard
+	Malvern pantheon.  They are *not* intended to be used in normal
+	bookwork.
+%}}}  Malvern suffixes
+%{{{  TeX fonts names
+
+\subsec{\TeX\ font names}
+
+\xreflabel{s-font-names}{\S\thesecno}
+	The question now is how to represent these fonts using
+	reasonably portable \TeX\ font names.  Recall that only
+	lowercase letters and digits can be used, and that names must be
+	limited to a length that even stupid filesystems like ^{MS-DOS}
+	can handle.
+
+	I~have my own system of external font names of the following
+	form:
+\begin bnf
+	^\<font name> \> \<family> \<style> \<encoding> \<size>.
+
+	\<family> \> \{ \<letter> \\ \<digit> \} \<letter>.
+
+	\<style> \> \<digit> \<digit>.
+
+	\<encoding> \> \<letter> [ \<letter> ].
+\end bnf
+	Where a \<size> is the design size in points, possibly including
+	`|p|' as a decimal point, or `|m|' to indicate millimetres:
+\begin bnf
+	^\<size> \> \<points> \\ \<millimetres>.
+
+	\<points> \> \<digits> [ |p| \<digits> ].
+
+	\<millimetres> \> \<digits> |m| [ \<digits> ].
+
+	\<digits> \> \<digit> \{ \<digit> \}.
+\end bnf
+	In the case of Malvern, the \<family> is |ma|.  The \<encoding>
+	describes the subset of all the Malvern characters that this
+	font contains---for example |s| is the \TeX\ Text character set.
+
+	Thus $10$-pt Malvern~$55$ with \TeX\ Text encoding is
+	given the name |ma55s10|, which fits nicely into the eight
+	characters allowed by ^{MS-DOS} filenames.  More eccentric
+	sizes, like $7\cdot2\pt$ have names like |ma55s7p2| (eight
+	characters) or |ma55s12p5| (nine characters).
+
+	Here's a partial list of encoding codes:
+\begin display
+	\tt a&	Malvern A (latin), see \xref{tab-charcodes-a}\cr
+	\tt b&	Malvern B (supplement), see \xref{tab-charcodes-b}\cr
+	\tt c&	Malvern C (Cyrillic), see \xref{tab-charcodes-c}\cr
+	\tt g&	Malvern G (Greek), see \xref{tab-charcodes-g}\cr
+	\tt s&	\TeX\ Text \cite{TeXF1}\cr
+	\tt az&	\TeX\ Text with old-style numerals\cr
+	\tt aa&	\TeX\ Text with small capitals replacing lower case letters\cr
+	\tt ab&	\TeX\ Text with old-style numerals and small capitals\cr
+	\tt ar&	\TeX\ Extended Text---Latin (Cork) \cite{Cork}\cr
+	\tt as&	Cork with old-style numerals\cr
+	\tt at&	Cork with small capitals\cr
+	\tt au&	Cork with old-style numerals and small capitals\cr
+\end display
+	\xreflabel{tab-encoding-codes}{\S\thesecno}
+
+%}}}  TeX fonts names
+%{{{  Berry's scheme
+
+\subsec{Naming Malvern fonts in  Karl Berry's system}
+
+	Karl Berry has described a system for naming fonts newly
+	introduced to the `\TeX\ world' \lcite{\\{Berry}\\{Berry2}}.  A
+	subset of the Karl Berry's syntax for font names is as follows:
+\begin bnf
+	\<font name> \> |fmv| \<style> \<size>.
+
+	\<style> \> \<weight>  \<variant> \{ \<variant> \} [ |r| \\ \<width> ]
+		\hfil\break \\ \<weight> |r| \<width>
+		\hfil\break \\ \<weight>.
+
+	\<weight> \> |t| \\ |i| \\ |l| \\ |k| \\ |m| \\ |d| \\ |b| \\
+		|x| \\ |u| \\ |c|.
+
+	\<variant> \>  |i| \\ |9| \\ |o| \\ |u| \\ |q| \\ |c|.
+
+	\<width> \> |x| \\ |c|.
+
+	\<size> \> \<digit> [ \<digit> ].
+\end bnf
+	This definition is incomplete, because the rules governing the
+	order of variant letters and when variant and width letters may
+	be omitted are complicated\iffalse:
+\begin bullets
+\\
+	If \<variant> letters are present, arrange them in alphabetical
+	order.
+\\
+	If there is a \<variant>, and there is no \<width>, and the
+	last \<variant> is a digit or a valid \<width>, then the
+	trailing |r| must be present.  Otherwise it must be omitted.
+\end bullets
+\else.\fi
+
+	The \<weight> letters listed above correspond to the first
+	digit's values of $1$, \dots, $9$, $0$.  A \<variant> of |i|,
+	|o| or |u| indicates a slanted, obliqued or `upright italic'
+	style instead of upright; |9| is old-style digits; |c| is caps
+	\& small caps; |q| is the Cork encoding (instead of the \TeX\
+	Text encoding).  Fonts with |c| or |q| variants have to be
+	created as virtual fonts, using Alan Jeffrey's ^|fontinst|
+	package (\xref{s-fontinst}).  Fonts using \TeX\ Text encoding
+	may be generated directly with \MF.
+	
+	This gives names like `|fmvm12|' for $12$-point Malvern~$55$,
+	`|fmvdic18|' for Malvern~$68$.  Malvern~\n{55} with old-style
+	numerals would be |fmvm9r10|.  On the other hand, Malvern~\n{68}
+	with old-style numerals would be `|fmvd9ic10|'---nine
+	characters---and we haven't even specified a base encoding yet.
+
+\ifkbnames\else
+\begin notepar
+	As of October~\n{1994}, the font names standard does not allow
+	for combinations for more than two variants (where `variants'
+	includes encodings and font shape) without breaking the
+	\n8-character limit imposed by stupid filesystems like MS-DOS
+	and ISO~\n{9960}.  The only temporary solution I~can offer is to
+	extend the nonstandard `\/{\tt ma}\/-' naming scheme to include
+	encoding codes for the fonts used by plain \LaTeX, NFSS and
+	NFSS\vn2.  Therefore `\/{\tt fmv}\/-' names are not used at
+	present.
+\end notepar
+\fi	
+
+\xreflabel{s-kb-names}{\S\thesecno}
+
+%}}}  Berry's scheme
+%}}}
+%}}} Introduction
+%{{{ Using Malvern
+
+\part{Using Malvern in \TeX\ documents}
+%{{{  LaTeX 2e
+\section{Using Malvern with \LaTeXe\ or NFSS\vn2}
+
+\index{LaTeX2e@\LaTeXe|+}
+\index{NFSS\vn2|+}
+
+\subsec{Background to \LaTeXe}
+
+	The release of the so-called New Font Selection Scheme (^{NFSS})
+	has left the \LaTeX\ world in a slightly confused state, with
+	neither plain \LaTeX\ nor \LaTeX\ augmented with NFSS considered
+	`standard' anymore.  This is partly because \LaTeX+NFSS is not
+	quite compatible with plain \LaTeX, so older documents might
+	have to be edited to suit the new system.
+
+	\LaTeX\ version \n3 is intended to put an end to this confusion,
+	but it will be some time before ^^{LaTeX3@\LaTeX\vn3} \LaTeX\vn3
+	is generally available.  In the meantime a new, `standard'
+	version has been released, called \LaTeXe.  \LaTeXe\ is
+	backwards-compatible with \LaTeX-\n{2.09} documents, using a new
+	syntax to access the newer features.
+
+\subsec{NFSS\vn2}
+
+	\LaTeXe\ includes a new FSS called NFSS\vn2 which uses font
+	family definition ({\tt fd}) files to tell it how to obtain
+	fonts in a given font family and encoding family.  For example,
+	a file describing Cork-encoded Malvern is called `^|T1fmv.fd|':
+	"T\n1" is the NFSS\vn2 code for the Cork encoding, and "fmv" is
+	Karl Berry's code for Malvern.  Once such an {\tt fd} file is
+	installed, to use Malvern fonts in a document you would use
+	something like the following:
+\begin display
+	|\fontencoding{T1}|\cr
+	|\fontfamily{fmv}|\cr
+	|\selectfont|\cr
+\end display
+	This might go in a document preamble, but normally such changes
+	to the overall look of a document belong in a package.
+
+\subsec{Malvern in NFSS\vn2}
+
+	The Malvern includes a sample set of {\tt tfm}, driver, {\tt vf}
+	and {\tt fd} files so that Malvern should be usable with
+	\LaTeXe\ or NFSS\vn2 without very much effort, both with the
+	\TeX\ Text and Cork encodings (OT$1$ and T$1$).  This assumes
+	that
+\begin bullets
+     \\	{\tt dvi} previewers and printer drivers that understand virtual
+	fonts are available;
+     \\ printer fonts (such as {\tt pk} files) will be generated
+	automatically when needed (for example, by invoking a
+	^|MakeTeXPK| script on UNIX-\TeX\ systems).
+\end bullets
+	These files were generated with ^^{Jeffrey, Alan} Alan Jeffrey's
+	^|fontinst| package (see \xref{s-fontinst}).  They do not
+	include support for italic caps-and-small-caps because there is
+	at present no font-shape name for this combination.
+
+\index{LaTeX2e@\LaTeXe|-}
+\index{NFSS\vn2|-}
+
+%}}}  LaTeX 2e
+%{{{  LaTeX/NFSS
+
+\section{Using Malvern with \LaTeX~\n{2.09}}
+
+\index{LaTeX2.09@\LaTeX~\n{2.09}|+}
+
+	In \LaTeX, It is possible to use a font or two in an
+	ad-hoc fashion using the ^|\newfont| command:
+\begin display
+	|\newfont{twlgr}{ma55g12}|\cr
+	|\newcommand{\textgreek}[1]{{\twlgr#1}}|\cr
+\end display
+	Then `|\textgreek{alfa}|' generates `{\gr alfa}'.  The problem
+	here is that fonts loaded this way do not change size
+	automatically when commands like ^|\footnotesize| or ^|\large|
+	are used; as a result they will not work properly in footnotes
+	or section headings.  They also will not work in maths mode.
+		
+\subsec{Using NFSS}
+
+	The so-called New Font Selection Scheme (^{NFSS}) is an
+	extension of \LaTeX~\n{2.09} to make it easier to switch between
+	fonts \cite{NFSS}.  The \LaTeX\ system I have access to does not
+	use NFSS, so I~can not test NFSS code and I~do not know how much
+	documentation on adding new fonts is supplied with the package.
+	I have included \index{Rahtz, Sebastian P.~Q.} Sebastian Rahtz's
+	^|malvern.sty| \cite{nfss-malvern}, and also style files named
+	^|fmvnfss.sty| and ^|fmv9nfss.sty|\note{"Fmv" is Karl Berry's
+	code for Malvern, and "nfss" distinguishes it from the plain
+	\LaTeX\ version and any \LaTeXe\ version.  The digit `$9$' is
+	the Berry code for old style figures.} which are modelled on
+	|malvern.sty|, but which use the fonts included in the Malvern
+	distribution.  They do not have support for the ^|\sc|
+	declaration.
+	
+\subsec{Making fonts change size without NFSS}
+
+	To make fonts that change size properly requires a style file
+	that reprograms plain \LaTeX's size-changing commands (I~shall
+	refer to \LaTeX\ version~\n{2.09} without NFSS as `plain
+	\LaTeX~\n{2.09}', and to \LaTeX~\n{2.09} with NFSS as
+	\LaTeX~\n{2.09} + NFSS').  To do this requires some knowledge of
+	the way plain \LaTeX's size-changing and font-changing commands
+	work \cite{lfonts}.
+
+	The ^{size-changing commands} like |\normalsize| and
+	|\footnotesize| work by calling internal commands |\|"size"|pt|
+	and |\@|"size"|pt|, where "size" is the type size in points,
+	expressed as roman numerals.  For example, in a $10$-pt
+	document, |\normalsize| invokes |\xpt| and |\@xpt| in order.
+	The |\@|"size"|pt| macros are initially defined to expand to
+	nothing.  The |\|"size"|pt| macros link font nicknames |\rm|,
+	|\it| etc.\ with real fonts like |\tenrm| or invocations of
+	|\@getfont|\index{getfont@{\tt\char92\char64 getfont}}.  The
+	macro |\@getfont| allows some fonts to be loaded on demand
+	rather than preloaded when \LaTeX\ starts up (saving some memory
+	when they are not used).  When expanded, |\@getfont| appends
+	assignments to |\@|"size"|pt| that override the definition in
+	|\|"size"|pt|.  The practical upshot of this is that |\@getfont|
+	is only invoked the first time the font is referred to;
+	subsequent uses of that font use the assignment added to
+	|\@|"size"|pt|.
+
+	There are two ways to add new fonts to add new fonts to \LaTeX's
+	lists.  The quick kludge is to let |\@getfont| do the work.  For
+	example, the following code might go in a {\tt sty} file:
+\ifkbnames
+\begin lines
+	|\@getfont{\prm}{0}{\@xpt}{fmvr10}|
+	|\@getfont{\prm}{0}{\@xipt}{fmvr11}|
+	|\@getfont{\prm}{0}{\@xiipt}{fmvr12}|
+\smallskip
+	|\@normalsize|
+\end lines
+\else
+\begin lines
+	|\@getfont{\prm}{0}{\@xpt}{ma55s10}|
+	|\@getfont{\prm}{0}{\@xipt}{ma55s11}|
+	|\@getfont{\prm}{0}{\@xiipt}{ma55s12}|
+\smallskip
+	|\@normalsize|
+\end lines
+\fi
+	This loads the fonts and adds assignments to the |\@|-commands
+	so that they are used in $10$, $11$ and $12$-pt text.  It also
+	has unwanted side-effects like changing the size and current
+	font, which are cancelled out by the
+	^^{normalsize@{\tt\char92\char64 normalsize}} |\@normalsize| at
+	the end.
+
+	A solution that is more efficient if more than a handful of
+	fonts are being changed is to make a copy of |lfonts.tex| and
+	edit it to load Malvern fonts instead of Computer Modern fonts.
+	This approach allows the new fonts to be demand-loaded using
+	^^{getfont@{\tt\char92\char64 getfont}} |\@getfont| and so on.
+	This is used two sample style files included in the
+	distribution, ^|fmvpltx.sty| and ^|fmv9pltx.sty|.\note{"Fmv" is
+	the code for Malvern in Karl Berry's system, and "pltx" short
+	for `plain \LaTeX'.}  They do not include support for the
+	caps-and-small-caps declaration ^|\sc|.
+
+\subsec{Which fonts to use with \LaTeX\ \n{2.09}}
+
+	In the ^{Malvern~\n{1.0}} documentation I~suggested that Malvern
+	fonts with the standardized font names
+	\lcite{\\{Berry}\\{Berry2}} and Cork encoding \cite{Cork} be
+	used with \LaTeX, on the grounds that the Cork encoding is due
+	to become the standard for \LaTeX.  Since then the situation has
+	changed a little.  The introduction of NFSS\vn2 means that
+	future versions of \LaTeX\ will not be tied down to just one
+	encoding scheme after all.  Also, new versions of the
+	font-naming scheme include encoding codes amongst the variant
+	letters, implying that the default is the standard \TeX\ Text
+	encoding.
+
+	It follows that the standard names (starting `{\tt fmv}-')
+	should be used with the standard `\TeX\ Text' encoding when
+	using Malvern fonts with \LaTeX~\n{2.09}, whether with NFSS or
+	not.  This way the macros that work with the old encoding (such
+	as |\ae|, |\'|, and the like) will not need to be changed.
+	NFSS~\n2 will take care of redefining these macros when
+	appropriate.
+
+\ifkbnames\else
+\begin notepar
+	As of October~\n{1994}, the font names standard does not allow
+	for combinations for more than two variants (where `variants'
+	includes encodings and font shape) without breaking the
+	\n8-character limit imposed by stupid filesystems like MS-DOS
+	and ISO~\n{9960}.  The only temporary solution I~can offer is to
+	extend the nonstandard `\/{\tt ma}\/-' naming scheme to include
+	encoding codes for the fonts used by plain \LaTeX, NFSS and
+	NFSS\vn2.  Therefore `\/{\tt fmv}\/-' names are not used at
+	present.
+\end notepar
+\fi
+
+\xreflabel{s-LaTeX-fnames}{\S\thesecno}
+
+\ifkbnames
+	Malvern \n{75} is intended as the boldface counterpart to
+	Malvern~\n{55}, so the font used for \n{10}-pt |\bf| should be
+	|fmvb10| rather than |fmvbrx10|.
+\fi
+
+\index{LaTeX2.09@\LaTeX~\n{2.09}|-}
+%}}}  LaTeX/NFSS
+%{{{  plain TeX -- maamac.tex
+\section{Using Malvern with plain \TeX: {\tt maamac.tex}}
+
+\xreflabel{s-maamac}{\S\thesecno}
+	This ^^{maamac.tex@{\tt maamac.tex}|+} section describes a file
+	^|maamac.tex| of definitions to customize \TeX\ to work with the
+	Malvern~A conventions.  It covers roughly the same territory as
+	Chapter~\n9 of the "\TeX book" \cite{TeXbook}, and assumes you
+	have already have macros in place to load Malvern fonts with the
+	Malvern~A encoding \lcite{\\{TeXB4}\\{TeXE}}.  At a minimum:
+\begin example
+	|\input maamac|
+	|\font rm=ma55a10 \rm|
+\end example
+
+\begin notepar
+	The file |maamac.tex| (`*Ma*lvern *A* *mac*ros') was formerly
+	called simply ^|malvern.tex|.  The new name is intended to be
+	less ambiguous, while still acceptable to file systems with
+	short file names.
+\end notepar
+
+\subsec{Ligatures}
+
+	The letter ligatures "ff", "fi", "fl", "ffi", "ffl" and
+	punctuation ligatures `--', `---', `!`', `?`',
+	`\thinspace``\thinspace' and `\thinspace''\thinspace' work as in
+	Computer Modern.  In addition, |fj| produces "fj" and |<<| and
+	|>>| produce the guillemets `<<' and `>>'.  Note that you must
+	use `|''|' to stand for a double-apostrophe---with Computer
+	Modern, some people use `|"|', which will not work.
+
+\subsec{Special letters}
+	In addition to the special letters "\oe", "\ae", "\aa", "\o",
+	"\l", "\ss", "\i" and "\j" there are:
+\begin display
+	|\A|&\A&|\a|&\a&	Polish "a" with ogonek\cr
+	|\E|&\E&|\e|&\e&	Polish "e" with ogonek\cr
+	|\TH|&\TH&|\th|&\th&	Icelandic thorn\cr
+	|\DH|&\DH&|\dh|&\dh&	Icelandic eth\cr
+	|\NG|&\NG&|\ng|&\ng&	Lappish eng\cr
+	|\vd|&\vd&|\vt|&\vt&	alternatives to "\v d", "\v t"\cr
+	|\vl|&\vl&|\h|&\h&	alternatives to "\v l", "\^h"\cr
+\end display
+	The commands producing composite letters (|\'e| for "\'e",
+	etc.)\ work as before, except that they use different marks on
+	capital letters: "\'E" instead of "\accent8 E"\iflong\space (see
+	\xref{s-composites} for more information)\fi.
+
+\subsec{Sundry symbols}
+
+	The commands |\$|, |\#|, |\%| and |\&| produce `\$', `\#', `\%'
+	and `\&' as in plain \TeX\ (|\$| does not produce a pounds sign
+	`\pounds' in italics).  
+	In addition, the commands |\P|, |\S|, |\dag| and |\ddag| produce
+	signs "\P", "\S", "\dag", "\ddag" that come from the current
+	font rather than the mathematical symbol font.
+
+	There are the following additional symbols:
+\begin display
+	^|\pounds|&	\pounds&	
+		Pounds-sterling sign\cr
+	^|\cents|&	\cents&		
+		Cents sign (alternative to "c")\cr
+	^|\currency|&	\currency&	
+		Currency sign\iflong , see \cite{s-currency}\fi\cr
+	^|\permille|&	\permille&
+		Per-mille (per-thousand) sign\cr
+	^|\yen|&		\yen&
+		Japanese Yen sign\cr
+	^|\florin|&	\florin&
+		Florin sign (alternative to italic "f\/")\cr
+\noalign{\smallbreak}%
+	^|\times|&	\times&		
+		multiplication sign\cr
+	^|\minus|&	\minus&		
+		minus sign\cr
+	^|\langle|, ^|\rangle|& \langle, \rangle& 
+		angle brackets\cr
+	|\{|, |\}|& \{, \}&		
+		braces\cr
+	^|\cdot|&	\cdot&		
+		raised dot (British decimal point)\cr
+	^|\bullet|&	\bullet&	
+		a bullet\cr
+	^|\Box|&		\Box&		
+		a ballot box\cr
+	^|\degrees|&	\degrees&	
+		degrees sign\cr
+\noalign{\smallbreak}%
+	^|\Mc|&		\Mc&
+		`Mac', as in \Mc{Donald}\cr
+	^|\No|&		\No&
+		`Number' or `numero'\cr
+	^|\orda|&	\orda&
+		feminine ordinal numbers\cr
+	^|\ordo|&	\ordo&
+		masculine ordinal numbers\cr
+	^|\careof|&	\careof&
+		indicates indirect address\cr
+	^|\copyright|&	\copyright&	
+		international sign of copyright\cr
+	^|\registered|&	\registered&	
+		registered trade mark sign\cr
+	^|\trademark|&	\trademark&	
+		trade mark sign\cr
+\end display
+	The inclusion of `\times', `\minus', `\degrees', `\cdot' makes
+	it possible to say `\minus17\cdot6\thinspace\degrees C' or
+	`50\thinspace mm \times\ 100\thinspace mm' without using maths
+	mode (and therefore in the current font).  The symbols that are
+	named the same as mathematics symbols in plain \TeX\ use
+	|\ifmmode| so that they can use the plain \TeX\ definition in
+	formulas and the Malvern character in horizontal mode.
+
+\subsec{Old-style and ranging numerals}
+
+	By default, ^{old style numerals} are used: 0123456789.  These
+	are for use in non-technical text, where old style numerals are
+	usual when using serif fonts.  To get ^{ranging numerals}
+	$0123456789$ use one of:
+\begin display
+	|$0123456789$|\cr
+	|$\textfont0=\font 0123456789$|\cr
+	|\uppercase{0123456789}|\cr
+	|\caps{0123456789}|\cr
+\end display
+	The switch to ranging numerals in mathematics mode reflects the
+	assumption that mathematics mode is mainly used in documents
+	with technical content (besides, old style numerals look wrong
+	in anything but the simplest formulas).  Normally a given
+	document should not use both styles---which implies that if you
+	are using formulas then all numerals in the manuscript must be
+	encosed in mathematics delimiters.
+
+\xreflabel{s-ranging}{\S\thinspace\thesecno}
+
+\subsec{Small captials}
+
+	The following macros do not work in \TeX's mouth, meaning that
+	they will not have the intended result when expanded in an
+	|\edef|, for example\iflong
+	\space (see \xref{s-alphabets} for more
+	information)\fi.
+\begin display
+	|\sc{ABC\DH}|&\sc{ABC\DH}&
+		Even small capitals\cr
+	|\mc{ABC\DH}|&\mc{ABC\DH}&
+		Medium capitals\cr
+	|\csc{ABC\DH abc\dh}|&\csc{ABC\DH abc\dh}&
+		Caps and small caps\cr
+	|\caps{ABC\DH abc\dh}|&\caps{ABC\DH abc\dh}&
+		All-capitals\cr
+	|\lc{ABC\DH abc\dh}|&\lc{ABC\DH abc\dh}&
+		Lower case\cr
+\end display
+	^^|\csc| ^^|\sc| ^^|\mc| ^^|\caps| ^^|\lc| For example, I set my
+	postcode with `|\sc{OX1~3QD}|' to get `\sc{OX1~3QD}', and I can
+	write `\csc{PostScript}' with `|\csc{PostScript}|'.  Because the
+	small capital alphabets are included in all styles, we can write
+	`|\csc{\it Fred}|' to get `\csc{\it Fred}', and even produce the
+	\LaTeX\ logo in italics: {\it\LaTeX}.  Note that these macros
+	work differently from the ^|\sc| or ^|\smc| declarations in
+	\LaTeX\ and other formats, which switch to ^|cmcsc10|, a
+	separate caps-and-small-caps font.
+
+	The last two transliterate into capitals and lower case---the
+	differences between these macros and the |\uppercase| and
+	|\lowercase| primitives are:
+\begin bullets
+    \\	|\caps| and |\lc| (and all the others) make assignments, and so
+	can not be expanded in \TeX's mouth; and
+    \\	|\uppercase| and |\lowercase| do not affect letters like {\it\O}
+	and {\it\ae} when they are produced with control sequences (like
+	^|\O| and ^|\ae|).
+\end bullets
+	The practical upshot is that the primitives are useful when
+	implementing strange macros involving creating control sequence
+	names on the fly etc.\ and for introducing strange characters
+	into definitions, whereas to produce an all-capitals headline
+	(or whatever), the macros are better.
+
+	^^{maamac.tex@{\tt maamac.tex}|-}
+
+%}}}   plain TeX -- maamac.tex
+\iflong
+\input texnical
+\fi
+% \input ldfontsdoc
+	
+%}}} Unsing Malvern
+\iflong
+%{{{ Implementing Malvern
+
+\part{Implementing Malvern}
+
+\iffalse % This section largely superceeded by the installation summary
+%{{{  organization of the files
+\section{Organization of the files}
+
+	The implementation of Malvern is split into several files.  The
+	file |ma.mf| is the `root' file, also called the generic driver
+	file.  This reads in |makit.mf| (a collection of macros which
+	describe various pieces of letters), |maparams.mf| (which sets
+	most of the {\it ad hoc} parameters, and |maencode.mf| (which
+	describes the character encoding to be used), before reading in
+	the program files (which contain `character programs' which
+	actually produce the glyphs) and producing the ligature table.
+
+\subsec{The generic driver file}
+
+	The difference between my generic driver file and a driver file
+	like |cmbx12.mf| is that it must have certain variables given
+	values before it is read.  At the very least the internal
+	\MF\ variable $designsize$ (set with the {\bf font\_size}
+	macro) should have a value.  Other variables can be given values
+	to signal to the driver to produce a font other than roman (with
+	the \TeX\ text encoding):
+\begin table $#$\hfil
+	& \quad\vtop{\hsize=0.75\hsize \noindent#\strut\smallskip}\hfil\cr
+weight & Controls the average thickness of the strokes that make up the
+	letterforms.  A value of $1$ means the normal weight, $1\cdot5$
+	is bolder, $0\cdot75$ is lighter.\cr
+hratio & Horizontal ratio: controls the average width of the characters.
+	The shapes of the characters will be squeezed or expanded (as if
+	by a |xscaled| transform) but the thickness of strokes will
+	remain the same.  This is used to obtain compressed or expanded
+	fonts.\cr
+slant & The transform `slanted $slant$' is catenated to
+	$currenttransform$, so that all the glyphs are obliqued.
+	Normally only non-zero if $italicness$ is defined and
+	nonzero.\cr
+italicness & A number from $0$ to $1$, where $1$ represents an italic
+	font (some letters are drawn in a more flamboyant manner) and
+	$0$ a roman font.\cr
+encoding & An integer, used to select one of a set of character
+	encodings for the font (see \xref{s-encoding}).\cr
+\end table
+	If these are left unknown, then $weight$ and $hratio$ default to
+	$1\cdot0$ (medium, normal width), $slant$ and $italicness$
+	default to $0$ (upright) and $encoding$ defaults to $0$ (the
+	standard \TeX\ encoding).
+
+\subsec{Creating a font}
+
+	The procedure for creating Malvern fonts is not much different
+	from normal \MF\ fonts.  Normally the \MF\ program
+	is run with a `first line' (after the `|**|' prompt) along the
+	lines of
+\begin example
+	|\mode=...; font_size 10pt#; weight=1.4; input ma; bye|
+\end example
+	This produces files called something like `|ma.tfm|' and
+	`|ma.200gf|'.  These generic file names must be changed to
+	`|ma65s10.tfm|' and `|ma65s10.200gf|', say, and the |gf| file
+	might need to be converted into a different format used by the
+	printer driver (for example, |GFtoPK| might be used to create a
+	file `|ma65s10.200pk|').
+
+\subsubsec{Automating this process with {\tt mff}}
+
+	This is altogether too much bother, especially if, like me, you
+	must produce fonts on demand rather than installing a large
+	number of them once and for all.  I~use a small UNIX program
+	|mff| which does all the above automatically: it deduces the
+	values for the parameters $weight$ etc.~from the font name.  The
+	command
+\begin example
+	|mff ma65s10|
+\end example
+	will do all the above automagically.  (The tables used to parse
+	the font name are described in a file |mff.rc| shipped with the
+	\MF\ files, and also allow the use of names in Karl
+	Berry's font-naming scheme, such as `|fmvd10|'.)
+	
+	The |mff| is intended to be useful for maintaining any family of
+	\MF\ fonts, not just Malvern\allowbreak---I~use it for all my
+	fonts.  It should be available from the same source that 
+	you obtained Malvern itself (the current version is $2.9$).
+
+\subsubsec{An alternative approach using less-generic driver files}
+
+	It is possible to avoid having to type such long commands to
+	\MF, at the expense of having many more small files lying
+	about.  The setting of parameters is performed by small driver
+	files along these lines:
+\begin lines
+	|% fmvd.mf -- generic driver for demibold Malvern|
+\smallskip	
+	|weight := 1.4; % demibold|
+	|encoding := -200; % Cork TeX Extended Text -- Latin |
+	|input ma|
+	|bye|
+\end lines
+	Then the command line to \MF\ is reduced to
+\begin example
+	|\mode=localfont; font_size 10pt#; input fmvd|
+\end example
+	(The files produced by \MF\ will now have names starting
+	`|fmvd.|', and will still need to be renamed.)  
+
+	This can be taken one step further, by having driver files for
+	every font, thus |fmvd10.mf| would contain just the line
+	`|font_size 10pt#; input fmvd|'.  Then the basename of the |.mf|
+	file is the same as that which the font is to be installed as.
+	(This is less of an advantage than it might at first seem,
+	because installing a font normally requires moving it into a
+	different file area, and therefore a renaming operation.)
+
+\subsubsec{Automating the process with {\tt MFjob}}
+
+	The program |MFjob| is part of em\TeX, a public-domain \TeX\
+	distribution for IBM PS/$1$s and PS/$2$s.  It has the capacity
+	to generate use driver files in the style of |fmvd.mf| above to
+	create fonts at arbitrary sizes.
+
+%}}} organization
+\fi
+%{{{  file names
+\section{File names}
+
+	\MF\ source files for Malvern have names starting with with
+	`|ma|' (for "Malvern").  I have tried to choose names that fit
+	in with MS-DOS's lamentable naming conventions.
+\begin table \tt#\hfil&&\quad#\hfil\cr
+	ma.mf&		Top-level generic driver file\cr
+	maaenc.mf&	Malvern A encoding description\cr
+	mabenc.mf&	Malvern B encoding description\cr
+	macenc.mf&	Malvern C encoding description\cr
+	macy.mf&	Malvern Cyrillic\cr
+	madenc.mf&	Malvern D encoding description\cr
+	maencode.mf&	Malvern encoding vectors\cr
+	mafigs.mf&	glyph programs for numerals\cr
+	magenc.mf&	Malvern G encoding description\cr
+	maglcaps.mf&	glyph programs for Greco-latin capital letters\cr
+	magrcaps.mf&	glyph programs for Greek capital letters\cr
+	magrlc.mf&	glyph programs for Greek lower case\cr
+	makit.mf&	macro definitions\cr
+	malc.mf&	glyph programs for lower case\cr
+	malcco.mf&	glyph programs for lower case Composite-Only\cr
+	malcnc.mf&	glyph programs for lower case Non-Composite\cr
+	mamarks.mf&	glyph programs for marks for making composites\cr
+	maparams.mf&	computing the ad-hoc paramters\cr
+	mapunct.mf&	glyph programs for punctuation\cr
+	masenc.mf&	\TeX\ Text encoding description\cr
+	masyms.mf&	glyph programs for miscellaneous symbols\cr
+\end table
+%}}}  file names
+\iffalse
+%{{{  macro conventions
+\section{Conventions for macros that draw letters}
+
+	Definitions for macros that draw letters are written so that
+	they may be used to draw that letter in an position---for
+	example, so that the program for `c' may be used in drawing
+	`\copyright'.
+
+	By convention the header for letter "a" looks like:
+\begin display
+	|vardef draw_|"a"|@#(expr l, b, r, t, bl)|"other parameters"| =|
+\end display
+	Where $(l, b)$ is the bottom left and $(r,t)$ the top right
+	corner of the cell in which the glyph will be drawn, and $bl$ is
+	the $y$-value of the baseline.  All should be whole numbers.
+	For a normal letter, they are |(l, -d, r, h, 0)|.  The "other
+	parameters" are parameters specific to the letter itself: for
+	example, giving the relative distance between certain features
+	within the letter.
+
+%}}}  macros conventions
+\fi
+
+\iflong 
+\input encoding
+\fi
+% \input multiple
+	
+%}}} Implementing Malvern
+%{{{ About Malvern
+
+\part{About Malvern}
+
+%{{{  design
+\section{The design of the Malvern font}
+
+	This section describes some of the design decisions made for
+	Malvern---this may not be strictly relevant to most people's use
+	of it.  I~will start with general, overall style and then
+	continue to more specific details.
+
+	My main motivation for developing Malvern was that I~was that
+	I~do not use \TeX\ exclusively for technical documents.
+	I~produce  leaflets, booklets and magazines in
+	non-scientific fields, where the determinedly old-fashioned
+	appearance of Computer Modern would jar terribly.  These were
+	the sorts of situations where the simplicity and informality of
+	a sanserif font would be best suited.\note{Americans seem to be
+	more frail than Europeans when it comes to reading sanserif
+	text.  It is true that serif faces---particularly oldstyle and
+	transitional faces---are more readable in continuous text, but
+	the difference is not so great as to override all other design
+	considerations.  (The United States is noted for its addiction
+	to Bodoni, which is neither particularly readable nor
+	particularly legible, and is ugly besides.)  Perhaps this
+	handbook is rather long to be set all in sanserif; I~hope that
+	not too many readers will be struck blind as a result, and that
+	they will allow that it is reasonable for the handbook to act as
+	a showcase for the typeface it describes.}
+
+%{{{   types of sanserif
+\subsec{Types of sanserif font}
+
+	One way of sub-dividing sanserif fonts is into the four flavours
+	\dfn{grotesque}, \dfn{humanist}, \dfn{geometric} and
+	\dfn{neo-grotesque}.  While these are not cut-and-dried
+	divisions (there are many faces with a flavour all their own),
+	they can be a useful approach to thinking about the design of
+	typefaces.
+
+\subsubsec{Grotesque}
+
+	The grotesque styles were created during the Victorian period,
+	when poster printers out-did each other in combining as many
+	different typestyles as possible (one of many examples of how
+	the Victorians, who considered themselves the acme of civility
+	and good taste, exhibited terrible taste).  They were so dubbed
+	because contemporary designers thought they were horribly ugly.
+	Today `grotesque' is simply a label, and has no more inherent
+	meaning than `modern' or `dutch' do when applied to serif
+	styles.  Computer Modern Sans Serif is derived from Computer
+	Modern in the same way that grotesque fonts were derived from
+	the modern fonts (variations on Bodoni) of the time, so it might
+	be described as a grotesque.
+
+\subsubsec{Humanist}
+
+	The humanist styles emerged from the calligraphy revival of the
+	early twentieth century.  They reflected the new emphasis on
+	carefully-crafted letter-shapes and proportions embodied in
+	Edward Johnston's Foundational Hand.  Gill Sans and Johnston's
+	Underground Font---used in all London Regional Transport---are
+	examples.
+
+\subsubsec{Geometric}
+
+	The Bauhaus movement in $1930$s Germany gave rise to geometric
+	styles, in which the letter-shapes were progressively simplified
+	and unified, producing alphabets composed of arcs of circles and
+	straight lines, with many letters sharing components.
+	Latter-day geometric styles retain the appearance of being
+	constructed with ruler and compass, but incorporate subtle
+	shadings and distortions that allow for optical illusions and
+	distortions due to printing technology.  ITC Avant Garde Gothic
+	is an example of a geometric font.
+
+\subsubsec{Neo-Grotesque}
+
+	Finally, neo-grotesques are more refined descendants of the
+	original grotesque typefaces.  Neo-grotesque designs emphasize
+	legibility and uniformity of design.  Their function is to
+	deliver the text of a message to the reader in as unobtrusively
+	as possible---they are ideal for signs, where legibility is of
+	paramount importance (more important than readability, for
+	example).  The British Rail Alphabet---used in airports and the
+	like as well as BR itself---and the ubiquitous Helvetica are
+	neo-grotesque designs.
+
+%}}}   types of sanserif
+%{{{   what flavour is Malvern?
+\subsec{What flavour is Malvern?}
+
+	When designing Malvern, I~was aiming for a mixture of geometric
+	and humanist features.  I~have always liked the look of humanist
+	faces like Johnston's Underground Font.  They are described as
+	crude, but I~think that this gives them more character than the
+	refined and refined neo-grotesques: Helvetica is a very
+	well-designed typeface, but text set in Helvetica looks boring.
+	I~wanted a face that was appealing to read in itself.  
+
+	At the same time I~wanted to make a typeface that was simple and
+	elegant, without (apparant) variation in stroke width and with
+	an emphasis on rounded shapes (I~particularly wanted to have a
+	circular `O').  Since this was my first attempt to design a
+	typesetter font it seemed sensible to aim for character and
+	simplicity rather than sophistication.
+
+%}}}   what flavour is Malvern?
+%{{{   global design features
+\subsec{Global design features}
+
+	There is one feature of Malvern that I~based on the Johnston
+	Underground Font, which is that the bowls and arches of letters
+	join the stems at a large angle, rather than curving toward a
+	tangent with the stem:
+\begin display 
+	\font\sf=cmss17 scaled \magstep1\sf bpnu&
+	\ifPS \font\sf=phvr at 18pt \sf bpnu& \fi
+	\headingrm bpnu \cr
+	\noterm CMSS\n{17}&
+	\ifPS \noterm Helvetica& \fi
+	\noterm Malvern \n{65}\cr
+\end display
+	As well as forming a nice, uncluttered shape, this avoids having
+	to narrow the width of the stroke to avoid dark spots.  (A
+	fortuitous side-effect is that these joins have a good chance of
+	digitizing well at low resolutions.)
+
+	Malvern has rounded terminals---that is, the ends of the strokes\marginchar{nb}
+	are rounded rather than squared off.  Together with the lack of
+	tapering at curve joins, this means that Malvern looks as if it
+	were drawn with a circular pen.  All this makes Malvern rather
+	easier to implement than most typefaces would be, because \MF\
+	has built-in operators to produce just such an effect.  This was
+	not the  reason for choosing to make Malvern look this way,
+	although it did affect my decision to make a stab at producing
+	Malvern rather than some other typeface.
+
+%}}}   global design features
+%{{{   currency sign
+
+\subsec{The ISO currency symbol}
+
+	The symbol `\currency' is the \ISO{646} currency symbol.  It
+	takes the place of the dollar sign in position \n{36} of the
+	\ISO{646} character encoding (which is the international
+	standard equivalent of ASCII).  Thus, in theory, non-Americans
+	should all use \currency\ instead of \${}, and it should stand
+	for the local currency.  (It has been used in some Scandinavian
+	countries at least: I~remember a book on \mc{BASIC} which had
+	\mc{A\currency\ = CHR\currency}($13$) instead of \mc{A\${} =
+	CHR\${}}($13$)).
+
+	Most fonts I~have encountered which have a `\currency'
+	character\marginchar{\currency} draw it as a small circle with
+	the four `ears' at right angles to each other: a small, square,
+	symbol that floats above the baseline like a binary operator.
+	My design is unusual, but I~prefer it, because is is the same
+	approximate size as other currency symbols (and looks like it
+	belongs in the font).
+
+\xreflabel{s-currency}{\S\thesecno}
+
+%}}}  currency sign
+%{{{   odd symbols
+
+\subsec{Sundry oddly shaped symbols}
+
+	With some symbols, like the the per-cent sign, I have
+	deliberately ignored their origins, so `\%' does not much
+	resemble `$0/0$' or `\frac0/0', `\S' does not look much like two
+	`s's stacked on top of each other, and `\pounds' does not look
+	much like a script letter "L".  This is partly in recognition of
+	the fact that they have long since been used as symbols in and
+	of themselves, and the link to their origins is weak.
+
+	So `\%' has similar proportions to other currency-like
+	signs\marginchar{\%\S{}} (\${}, \yen, \P, and the like), while
+	still having two generously-sized, circular rings.  (My first
+	reaction to CM Typewriter was `How can I change that per cent
+	sign?')  The crooked design for the section sign `\S{}' was
+	partly an attempt to ensure that the lines met at large angles,
+	to avoid blots without making it a taller character than the
+	dollar sign.
+
+%}}}  odd symbols
+%}}}  design
+%}}} About Malvern
+\fi
+%{{{ Appendix
+\part{Appendix}
+
+%{{{  encoding
+
+\section{The encoding of Malvern fonts}
+
+
+	An \dfn{encoding} for a computer font is a mapping from a
+	\dfn{character code} (a nonnegative integer less than
+	$256$) to characters in the font.  (Encodings are like the `code
+	pages' defined by ISO standards such as $646$ and $8859$.)
+	Unlike \PS, any given \TeX/\MF\ font has its encoding hard-wired
+	into it, because characters are always referred to by code.
+
+	This section discusses some general aspects of \TeX\ font
+	encodings, and some `standard' font encodings, before describing
+	the Malvern font encodings.  The encoding used is reflected in
+	the external name of the font (see \xref{s-font-names}).
+
+\iflong
+%{{{   in put != output
+
+\subsec{Input and output encodings need not be the same}
+
+\xreflabel{s-input-output}{\S\thesecno}
+	For the purposes of this handbook, we shall only need to discuss
+	the encodings of fonts produced with \MF\ to be used to typeset
+	pages produced by \TeX.  The encoding used to interpret the
+	characters used as input to \TeX\ is usually different, because
+	it is usually dictated by what symbols the computer keyboard has
+	printed on its keys and how they are displayed on the screen,
+	whereas the encodings of fonts referred to by \mc{DVI} files
+	suffer no such restriction.  
+
+	In fact, the encoding used for \TeX's output fonts need have *no
+	connection whatever* to the ASCII character set.  This is
+	important, because good typesetting requires glyphs like `fi',
+	`\thinspace``\thinspace', `\S{}' and the like that do not exist
+	in the ASCII\ or \ISO{8859} characters sets (instead they have
+	characters like `{\rmb\char34 }' and `{\rmb\char94 }' which are
+	not of use in fine printing, except when simulating a computer
+	or typewriter).
+
+	In practice, the (assumed) input encoding and the encoding of
+	latin text fonts will have a common sub-encoding, because it is
+	so much easier if we arrange that the code of common characters
+	is the same as the code of the corresponding character in \TeX's
+	internal encoding.  Thus `A', say, has encoding $65$ in text
+	fonts, matching the character `|A|' in position $65$ of ASCII.
+
+%}}}  input != output
+%{{{   tex text
+
+\subsec{The \TeX\ Text encoding}
+
+	The encoding used for the Computer Modern text fonts is simply
+	called `\TeX\ Text' \cite{MFApp.F}, which has two
+	variations, `\TeX\ Typewriter Text' and `\TeX\ Text without
+	f-ligatures' (if changing the dollar sign into a pounds-sterling
+	sign in \mc{CM} Text-Italic is not counted as a different
+	encoding).  The first two of these are displayed in Appendix~F of
+	the {\it\TeX book}.  
+
+	Knuth stresses that other \TeX\ fonts might have different
+	conventions (addressed with different macros), so perhaps the
+	use of `\TeX' rather than `Computer Modern' in those names
+	should be interpreted as a historical artefact from the days
+	when \TeX\ and Computer Modern were almost synonymous.  (Calling
+	them `CM Text', `CM Typewriter Text' etc.~would not have
+	prevented non-CM fonts from using the CM conventions, of
+	course.)
+
+	The \TeX\ Text encodings were devised when many programs in the
+	\TeX/\MF\ system limited fonts to $128$ characters, and so it
+	only uses the first $128$ codes.  As well as the capital and
+	lowercase alphabets, ranging figures and usual punctuation and
+	symbols, it includes the ligatures used in Englsh-language
+	typesetting ("fi", "ffl", etc.), marks to make composite letters
+	with, and the uppercase ^{Greek} letters that do not have
+	similar Latin letters: {\gr G}\negthinspace, {\gr D},
+	\dots\thinspace, {\gr W}.
+
+	It lacks the Polish ogonek mark (\showmark\ogonek\enspace) used
+	to make "\A", "\E", "\a" and "\e";\note{And Lithuanian "\ogonek
+	i" and "\ogonek u" \cite{Pei}?} guillemets (the quotation marks
+	<< and >>); pounds-sterling and a few other currency-sign-like
+	symbols (like "\yen" and "\P{}").
+
+	
+	Malvern fonts named using \index{Berry, Karl} Karl Berry's
+	standard short font names (|fmv|\dots) use this encoding if no
+	other encoding is specified.
+
+\medskip
+
+	{\rms \ntable}
+\medskip
+\noindent
+	Notes:
+\smallskip
+\halign
+{#\hfil\quad&\hfil#&\quad\hfil#&\quad#\hfil\cr
+	\oct{000}--\oct{012}&\hex{00}--\hex{0A}&$0$--$10$&
+		non-latin Greek letters\cr
+	\oct{022}--\oct{030}&\hex{12}--\hex{18}&$18$--$24$&
+		marks for composite letters\cr
+	\oct{040}&\hex{20}&$32$&
+		slash that makes "\l" and "\L"\cr
+}
+
+%}}}  tex text
+%{{{   Cork
+
+\subsec{The Cork encoding}
+
+	A new proposed standard encoding is described by Michael
+	Ferguson \cite{Cork}.  I shall refer to this as the Cork
+	encoding, because it was devised at the \TeX\ users conference
+	held in Cork in September~$1990$. I~think that it is intended to
+	be used as \TeX's internal encoding as well as for `standard'
+	text fonts.\note{\TeX\ converts documents from the local
+	character set to its own as the first stage of the parsing
+	process---normally the local character set is ASCII, the same as
+	\TeX, so this stage is transparent.  The advantage of extending
+	\TeX's internal encoding to include composite letters, assuming
+	\TeX\ is configured properly, would be that the code for
+	`{\tt\accent'23 e}' on a user's keyboard would be transformed
+	into the code for `\'e' in the Cork encoding.  The disadvantage
+	of using the same encoding for \TeX's internal representation of
+	the input file and in the DVI file is that it requires the \MF\
+	fonts to match ASCII for codes $33$--$126$ (|'|, |-| and |`| are
+	each used in ASCII to stand for several different symbols, so
+	the match can't be exact).  It also requires the input encoding
+	to include characters like `ffl', which are of little or no
+	utility in a computer character set.  I feel it would make more
+	sense to have two encodings.} The Cork encoding includes a large
+	number of composite letters (all those of \ISO{8859/1} and
+	\ISO{8859/2}), so that most European languages can be typeset
+	without using the |\accent| primitive (Esperanto and some
+	European languages are not covered; and it lacks the dotted
+	consonants used when setting Irish in the traditional Celtic
+	alphabet, and dotted/underlined letters used in transliterating
+	Arabic).
+
+	It also includes a duplicate hyphen, and the \dfn{compound word
+	mark} (cwm), an invisible character.  The point of cwm is to
+	allow the breaking of ligatures; in a language like German where
+	the `fl' ligature is sometimes used but is incorrect if the `f'
+	ends a syllable, this would be written as |f^^Wl| (or a control
+	sequence expanding to this).
+
+	The duplicate hyphen is intended as a kludge to cope with the
+	fact that \TeX\ will not break words containing hyphens except
+	at the hyphens, even if those hyphens are really part of a dash
+	ligature.  The relevant paragraph of the article\note{`It
+	includes both a ``dash'' and an explicit ``hyphen char''.  This
+	capability allows font designers the option of replacing the
+	``-'' with an ``='' without losing the dash.  Since the ``-'' is
+	no longer the hyphen char, it allows words with explicit dashes,
+	such as INRS-T\'el\'ecommunications[,] to be hyphenated.'} is
+	unclear because Ferguson uses `dash' without specifying whether
+	he includes hyphens as dashes.  My guess is that the hyphen and
+	its duplicate are expected to both look the same, and that they
+	intend that \TeX\ normally be set up to hyphenate with character
+	$45$ as usual.  People who want to treat hyphens as a normal
+	letter character will set |\hyphenchar| to the duplicate hyphen.
+
+	A discouraging point in the article is that the inclusion of the
+	typewriter-style ugly quotation mark character is described as a
+	desirable feature of the proposed standard:
+\begin quotation
+	This \dots\ removes an irritant in the use of [double quote
+	ligatures] in these fonts.  The font designer can decide whether
+	[``], [''], and [{\rmb\char34 }] are distinguishable.
+\end quotation
+	Presumably the aim here is to make it as easy for \TeX ers to
+	produce lousy typesetting as it is for people using Macintoshes
+	and \MSDOS\ machines.  I can accept that if it is assumed that
+	the same encoding must be used for \TeX's internal encoding as
+	for DVI output, then the ugly-quote character is unavoidable;
+	but it pains me to see it presented primarily as a boon for lazy
+	typists.  One of the worst effects of the `DTP revolution' has
+	been the way in which typewriter-style quotation marks and
+	apostrophes have become common in typeset text, because they are
+	so much easier to generate on a Macintosh than the correct
+	quotation marks.
+
+%	The article also states
+%\begin quotation
+%	The standard also includes |<| |>| in the normal ASCII
+%	location[s].
+%\end quotation
+%	but this does not address the fact that the ASCII symbols `|<|'
+%	and `|>|' are used both as the less-than and greater-than
+%	relations {\rmb<} and {\rmb>} and as angle brackets \langle\ and
+%	\rangle.  These keys might also reasonably be used for single
+%	guillemets < and > or normal (double) guillemets << and >>.  
+
+
+	Future versions of \LaTeX\ will expect fonts using this encoding
+	to exist.  In the Malvern~\n{1.0} documentation I~suggested that
+	\index{Berry, Karl} Karl Berry's names be used for these; there
+	is now a specal code letter `|q|' for the Cork encoding.
+\medskip
+	{\rmx \ntable}
+\medskip
+\noindent
+	Notes:
+\smallskip
+\halign
+{#\hfil\quad&\hfil#&\quad\hfil#&\quad#\hfil\cr
+	\oct{000}--\oct{014}&\hex{00}--\hex{0C}&$0$--$12$&
+		marks for composite letters\cr
+	\oct{015}&\hex{0D}&$13$&
+		German single quotation mark\cr
+	\oct{016}--\oct{017}&\hex{0E}--\hex{0F}&$14$--$15$&
+		single guillemets\cr
+	\oct{027}&\hex{17}&$23$&
+		compound word mark (cwm)\cr
+	\oct{030}&\hex{18}&$24$&
+		ring that combines with \% to make \permille\cr
+	\oct{040}&\hex{20}&$32$&
+		visible space\cr
+	\oct{042}&\hex{22}&$34$&
+		typewriter-style neutral quotation mark\cr
+	\oct{136}&\hex{5E}&$94$&
+		ASCII circumflex\cr
+	\oct{137}&\hex{5F}&$95$&
+		ASCII under{\rmb\char95 }score\cr
+	\oct{176}&\hex{7E}&$126$&
+		ASCII tilde/swung dash\cr
+	\oct{177}&\hex{7F}&$127$&
+		duplicate hyphen\cr
+}
+
+
+
+%}}}  Cork
+%{{{   bag-of-characters
+
+\subsec{The `bag-of-characters' alternative}
+
+	The Cork encoding has as a central assumption that it is
+	possible and overridingly desirable to have *one* encoding that
+	is used in typesetting anything, and that this encoding shall be
+	used for input to \TeX, fonts used in DVI files, and as the
+	output of \MF.  I~am of the opinion that it is not useful or
+	convenient to try to impose One True Encoding on all text fonts.
+
+	In fact, the Cork article does have as an unstated assumption
+	that different fonts are used for different languages (or rather
+	groups of languages): for example, the discussion of the use of
+	the cwm to separate ligatures in German but to join ligatures in
+	other contexts suggests a plethora of fonts with the identical
+	encoding and glyphs but different ligtables.
+
+	I~would argue that if separate fonts are being used then they
+	might as well have different encodings as well.  This would
+	allow a German font to omit, say, "ffl" and "ffi" (not used in
+	German) and perhaps add "ck", "tz", "ch" ligatures.  True {\it
+	Fraktur} faces require more ligatures, but do not include
+	composite letters other than umlauts.  Guillemets for French use
+	should be created with extra space inside them <<\thinspace like
+	so\thinspace>>, whereas Germanic fonts should have guillemets
+	without the extra space >>like so<< \cite{Hart's102}.  Allowing
+	different encodings would put Esperanto, Irish, Lappish, Welsh
+	etc.\ on equal footing with the larger languages.  Assuming that
+	switching between languages already implies a switch in
+	hyphenation tables and other parameters of \TeX, switching fonts
+	as well seems like a minor problem, especially as it allows
+	great benefits.
+
+	Furthermore, the best way within the \TeX\ system to produce
+	several different fonts with almost the same collection of
+	glyphs is to use composite fonts.  A composite font can draw its
+	characters from one or more base fonts.  These base fonts are in
+	effect a bag of characters from which different selections can
+	be drawn to form language-group-specific fonts.  There is no
+	reason for the base font(s) to have the same encoding as the
+	tailored fonts used by \TeX\ itself.
+
+%}}}  bag-of-characters
+\fi
+%{{{   Malvern
+
+\subsec{The Malvern font-encoding conventions}
+
+	The Malvern typeface includes more than $256$ characters, so it
+	follows that no one font will contain every Malvern character.
+	Instead I have coding schemes called Malvern~A, Malvern~B,
+	Malvern~C and Malvern~G.\note{The use of `Malvern' in these
+	names is in order give them a unique name, not to restrict the
+	use of these encodings to Malvern fonts.  If the encoding
+	conventions of later versions of Malvern are different for some
+	reason, then the version number can be appended to distinguish
+	the different encodings, giving `Malvern A $1.0$', say.}
+	Malvern~A is the simple latin text font; it has the base
+	alphabets (that is, it has "A--Z" and the rest but not "\`A--\v
+	Z").  Malvern~C and G are Cyrillic and Greek respectively
+	(Malvern~C is stil incomplete).  Malvern~B is the latin text
+	supplement.  (There might also be a Malvern~E of composite
+	letter glyphs in the future.)
+
+\xreflabel{tab-charcodes}{\S\thesecno}
+
+%}}}  Malvern
+%{{{   macros for table notes
+
+%  Much to my annoyance, the smart play is to give the codes in octal
+%  since TeX can convert to hex and decimal easily.
+
+\def\hexnumber#1%
+{%
+    \hex{\chardef\tmp=#1 \expandafter\striptodoublequote\meaning\tmp}%
+}
+\begingroup\catcode`\"=12 \toks0={\endgroup
+	\def\striptodoublequote#1"{}
+}\the\toks0
+\def\decnumber#1%
+{%
+    \n{\number#1}%
+}
+
+
+\def\noteone#1#2%
+{%
+	\oct{#1}&\hexnumber{'#1}&\decnumber{'#1}&#2\cr
+}
+\def\notetwo#1#2#3%
+{%
+	\oct{#1}, \oct{#2}&
+	\hexnumber{'#1}, \hexnumber{'#2}&
+	\decnumber{'#1}, \decnumber{'#2}&#3\cr
+}
+\def\noterange#1#2#3%
+{%
+	\oct{#1}--\oct{#2}&
+	\hexnumber{'#1}--\hexnumber{'#2}&
+	\decnumber{'#1}--\decnumber{'#2}&#3\cr
+}
+	
+%}}}   macros for table notes
+%{{{   Malvern A
+%{{{   insert table
+
+\pageinsert	% this one is too big for a normal insert
+\ntable
+\medskip
+\noindent
+	Notes:
+\smallskip
+\halign
+{#\hfil\quad&#\hfil&\quad#\hfil&\quad#\hfil\cr
+	\oct{006}--\oct{017}&\hex{086}--\hex{0F}&$6$--$15$&
+		marks for l.c. composites\cr
+	\oct{026}--\oct{027}&\hex{16}--\hex{17}&$22$--$23$&
+		marks for U\&lc composites\cr
+	\oct{060}--\oct{071}&\hex{30}--\hex{39}&$48$--$57$&
+		oldstyle digits\cr
+	\oct{074}, \oct{076}&\hex{3C}, \hex{3E}&$60$, $62$&
+		single guillemets\cr
+	\oct{206}--\oct{217}&\hex{86}--\hex{8F}&$134$--$143$&
+		marks for cap.\ composites\cr
+	\oct{234}&\hex{9C}&$156$& lower-case "d" with hook (\,=\,"\v d")\cr
+	\oct{235}&\hex{9D}&$157$& lower-case "t" with hook (\,=\,"\v t")\cr
+	\oct{236}&\hex{9E}&$158$& lower-case "h" with circumflex\cr
+	\oct{237}&\hex{9F}&$159$& lower-case "L" with hook (\,=\,"\v l"?)\cr
+	\oct{240}&\hex{A0}&$160$& ballot box\cr
+	\oct{244}&\hex{A4}&$164$& ISO-$646$ currency sign\cr
+	\oct{251}&\hex{A9}&$169$& `florin sign' (variant italic "f")\cr
+	\oct{256}&\hex{AE}&$174$& raised dot (British decimal point)\cr
+	\oct{260}--\oct{271}&\hex{B0}--\hex{B9}&$176$--$185$&
+		ranging figures\cr
+	\oct{300}&\hex{C0}&$192$& degrees sign\cr
+	\oct{333}, \oct{335}&\hex{DB}, \hex{DD}&$219$, $221$&
+		angle brackets\cr
+}
+\caption{Malvern A encoding.}
+\xreflabel{tab-charcodes}{Table~\n{\the\tablecount}}
+\endinsert
+%}}}   insert table
+\subsec{Malvern A Encoding}
+
+\xreflabel{tab-charcodes-a}{\S\thesecno}
+	This is the latin text font, containing alphabets, two sets of
+	figures, punctuation marks, various symbols, and some special
+	letters.  Although the eventual plan is that language-group
+	specific fonts be created, this encoding has been designed so
+	that it can be used on its own at a pinch.  As with the \TeX\
+	Text encoding, words with composite letters in them will not
+	hyphenate properly, and any composite-letter characters
+	available on the user's keyboard will have to be made to expand
+	to control sequences to generate that character.
+
+	As well as the usual (large) capitals and lower case alphabets,
+	Malvern has two more capital alphabets: small capitals and
+	medium capitals.  The font is divided into two halves, with the
+	first $128$ slots being an extension of a subset of normal
+	ASCII, and the upper $128$ characters largely `shadowing' the
+	lower half.  For example, small capitals and medium capitals
+	`shadow' the lower case and large capital alphabets (`a' is
+	character \hex{61}, and `\sc{A}' (small cap.)\ is $\hex{61} +
+	\hex{80} = \hex{E1}$).
+
+	There are two sets of digits: old style (\lowercase{1234567890})
+	are the default; to get ranging digits (\uppercase{1234567890})
+	see \xref{s-ranging}.  The usual block of marks (which may be
+	used to make composite letters) is designed to suit the lower
+	case letters, and the shadow set is designed to suit the medium
+	capitals\iflong (see \xref{sec-type-A})\fi.
+
+
+
+%}}}   malvern A
+%{{{   Malvern B
+%{{{    insert table
+
+\topinsert
+	{\rmb \ntable}
+\medskip
+\noindent
+	Notes:
+\smallskip
+\halign
+{#\hfil\quad&\hfil#&\quad\hfil#&\quad#\hfil\cr
+    \noteone{40}{blank space}
+    \noteone{42}{seconds (and ASCII doublequote)}
+    \noteone{45}{Cork's ring for per mille}
+    \noteone{47}{minutes (and ASCII quote)}
+    \noteone{54}{German single quote}
+    \noteone{56}{three-dot ellipsis\dag}
+    \noteone{57}{slash for fractions}
+    \noterange{60}{72}{infoerior figures}
+    \noterange{60}{72}{inferior figures}
+    \notetwo{74}{76}{greater- \& less-than signs}
+    \noterange{101}{105}{Old English caps\dag}
+    \noterange{106}{145}{Old English lower case\dag}
+    \noterange{146}{153}{Ligatures "ch", "ck", "ct", "ft", "ij", "ll"\dag}
+    \noterange{154}{163}{Long "s" and ligatures}
+    \noteone{164}{Schwa}
+    \noterange{165}{173}{Font-specific variant letters}
+    \noterange{134}{137}{Cork glyphs}
+    \noteone{140}{reverse tick (ASCII backquote)}
+    \noteone{240}{Cork visible space}
+    \noterange{241}{246}{ISO \n{8859}/\n{1} glyphs}
+}
+\caption{Malvern B encoding.}
+\endinsert
+%}}}   inster table
+\subsec{Malvern B Encoding}
+
+\xreflabel{tab-charcodes-b}{\S\thesecno}
+	This font is essentially a collection of random symbols and
+	alphabetical characters, some of them mathematical.  I~have not
+	yet settled on a firm design for it---most of it is left as gray
+	areas to be filled in in later versions of Malvern.  Also, even
+	in the final form of this font, some areas will be designated as
+	`font-specific'; other fonts using the Malvern conventions will
+	use them for whatever variant letters and unique characters the
+	designer wishes to include.
+	Superior and inferior---that is, raised and lowered---figures
+	(\lowercase{{\rmb 1234567890}}/\uppercase{{\rmb 123456789}})
+	take the place of the old-style and ranging figures.  The glyphs
+	required by the Cork encoding, such as this visible space
+	`{\rmb\char160 }' and ASCII doublequote `{\rmb\char34 }', are
+	also included here.
+
+
+%}}}   malvern B
+%{{{   Malvern C
+	
+\subsec{Malvern C Encoding}
+
+\xreflabel{tab-charcodes-c}{\S\thesecno}
+	This will be the ^{Cyrillic} subset of Malvern, using the same
+	or simlar conventions to the existing ^|wncy| fonts.  As yet,
+	several of these glyphs are missing.  (Perversely enough, mainly
+	the ones appearing in the Latin and Greek alphabets, so I can
+	only say `AH{\gr G}{\cy LIQ}AH{\cy I}H' by borrowing `A' and `H'
+	from Malvern~A and `{\gr G}' from Malvern~G!)  I'm not really in
+	a good position to produce a good Cyrillic font---I don't have
+	the slightest knowledge of Russian or any other language using
+	the Cyrillic alphabet.
+
+\topinsert
+	{\rmc \ntable}
+\caption{Malvern~C encoding (so far).}
+\endinsert
+
+%}}}   Malvern C
+%{{{   Malvern G
+	
+\subsec{Malvern G encoding}
+
+\xreflabel{tab-charcodes-g}{\S\thesecno}
+	This is the ^{Greek} text font encoding, based largely on the
+	Greek\TeX\ \cite{KD} fonts, so that, for example, `|<'a|||'
+	produces an alpha with breathing, accent and iota subscript:
+	`{\gr <'a\char124 }'.  The document |magrman.tex| in the Malvern
+	distribution describes the use of this font.
+
+\topinsert
+	{\gr \ntable}
+\caption{Malvern G encoding.}
+\endinsert
+
+%}}}   Malvern G
+%}}}  encoding
+\dosupereject
+\iflong
+%{{{   type sizes
+\vfil
+\penalty-100
+\vfilneg
+\section{Sizes of type}
+
+	This is a table of sizes of type, descibed both in \TeX's
+	Anglo-American points ($0\cdot351\,{\rm mm}$ or $0\cdot01383''$)
+	and in millimetres, and also the cap heights for Malvern~55.
+	The choice of point sizes is a mixture of traditional sizes
+	($10\pt$, $12\pt$, \dots, $48\pt$, $60\pt$ etc.) and the sizes
+	Computer Modern fonts are supplied in ($10\pt$, $12\pt$,
+	$17\cdot28\pt$ etc.), and a few sizes that are round figures in
+	metric units ($10\mm$ etc.).
+\medskip
+\moveleft\leftmargin\vbox{\advance\hsize\leftmargin
+\halign to \hsize{\hfil $#$\tabskip=0pt& $#$\hfil \tabskip=0pt plus 1fil&
+    &\quad\hfil $#$\tabskip=0pt& $#$\hfil \tabskip=0pt plus 1fil
+\cr
+	\noalign{\hrule height 1pt \vskip 1.5\jot}%
+		\multispan4Body size\hfil &
+		\multispan4\quad Cap.\ ht\hfil &
+		\multispan8\quad Pixels per em\hfil\cr
+	\noalign{\vskip\jot\nointerlineskip}%
+		\multispan4\hrulefill &
+		\multispan4\quad\hrulefill &
+		\multispan{12}\quad\hrulefill \cr
+		\multispan2pt\hfil &
+		\multispan2\quad mm\hfil &
+		\multispan2\quad pt\hfil &
+		\multispan2\quad mm\hfil &
+		\multispan2\quad $120$ &
+		\multispan2\quad $200$ &
+		\multispan2\quad $300$ &
+		\multispan2\quad $400$ &
+		\multispan2\quad $600$ &
+		\multispan2\quad $1000$\cr
+	\noalign{\vskip\jot \hrule \vskip 1.5\jot}%
+	\input typesizes
+	\noalign{\vskip2\jot \hrule height 1pt}
+}}
+\smallskip
+
+%}}}   type sizes
+\fi
+%{{{   composite letters
+
+\section{Composite letters used in some languages}
+
+	This table lists composite letters listed as being
+	required to typeset several European languages.  This list is
+	not particularly canonical\allowbreak---I~have merely combined
+	the OUP list \cite{ODWEacc}, the resources of my local library,
+	and \TUGboat\ articles \lcite{\\{Bien}\\{Hara}}.  There are
+	probably omissions, especially of composites used in
+	loan-words\allowbreak---and I~would appreciate any information
+	which I~can include in later revisions.
+
+%{{{    macros to do footnotes in table
+
+\newcount\tabcount 
+%\tabcount=7 \multiply\tabcount16 \advance\tabcount\itfam 
+%\multiply\tabcount256 \advance\tabcount`a \advance\tabcount-1
+
+%%  Normally footnotes into a table are lowercase letters
+%%  In this case it seemed better to use numbers given that the
+%%  entries are all letters...
+%%  
+\def\tabnote#1%
+{%
+    \global\advance\tabcount1 
+    \global\edef#1{\footnotetextmark{\the\tabcount}}%
+    #1%
+}
+\def\tabnotetext#1%
+{%
+%    \ifvmode
+%	\noindentfalse
+%	\leavevmode\llap{#1}%
+%    \else 
+%	\unskip \penalty10000 \hbox to \parindent{\hfil#1}%
+%    \fi
+    \par \indent\llap{#1\enspace}%
+    \ignorespaces
+}
+
+%}}}
+%{{{    the table
+
+\medskip
+\moveleft\leftmargin\vbox\bgroup
+\advance\hsize\leftmargin
+\hrule height 1pt
+\vskip2\jot
+\halign to \hsize\bgroup #\unskip\hfil \tabskip=3pt plus 10pt&&#\unskip\hfil\cr
+Czech		& \'a	& \v c \v D\vd\tabnote\czech
+				&\'e\v e&	& \'\i	& \v n	& \'o
+	& \v r\v s \v T\vt\czech
+										& \'u\ringmark u 
+											&	& \'y	& \v z	\cr
+Danish		&\aa &	&	&	&	&	& \o	&	&	&	&	&	& \ae	\cr
+Dutch\tabnote\dutch &	&	&\'e\"e	&	&	&	&\'o\"o	\cr
+English		&\aa\tabnote\angstrom
+			& \c c	&\'e\`e\tabnote\egravenote\"e 
+					&	&\"\i
+							&	&\^o\"o\tabnote\odiaeresis &&&	&	&	& \ae\oe\tabnote\aelig	\cr
+Esperanto 	& 	& \^c	&	& \^g\h	&	& \^\j	&	& \^s	& \u u	\cr
+Finnish		&\aa\"a
+			&	&	&	&	&	& \"o	\cr
+French%\tabnote\frenchnote
+		&\`a\^a	& \c c	& \'e\`e\"e &	&\^\i\"\i
+							&	& \^o	&	& \`u\^u\"u	\cr
+German		& \"a	&	&	&	&	&	& \"o	&	& \"u 	&	&	&	& \ss%\tabnote\eszetnote 
+\cr
+Hungarian	& \'a	&	& \'e	&	&\'\i &	&\'o\"o\H o &	& \'u\"u\H u \cr
+Icelandic	& \'a	&	& \'e	&	&\'\i &	&	&	&	&	&	&	& \th\dh \cr
+Norwegian	&\aa
+			&	&	&	&	&	& \o	&	&	&	&	&	& \ae \cr
+Polish		& \a	& \'c	& \e	&	&	& \l\'n	& \'o	& \'s	&	&	&	& \'z\.z \cr
+Portuguese	& \'a\`a\^a\~a 
+			& \c c	& \'e\`e\^e &	&\'\i\`\i
+							&	& \'o\`o\^o\~o && \'u\`u\"u\tabnote\portuguese \cr
+Romanian	& \`a\^a\u a &	& \`e	&	&\`\i\^\i &&	&\c{s}\c{t}
+										& \`u \cr
+Russian\tabnote\russian &&	&\`e\"e	&	&\u{\i} & 	&
+	&	&	&	& \=y	& \v z 	& \rmb '\thinspace \char34  \cr
+Spanish%\tabnote\spanish
+		& \'a	& 	& \'e	&	&\'\i 
+							& \~n	& \'o	&	& \'u\"u \cr
+Swedish		&\aa\"a &&	&	&	&	& \"o	\cr
+Turkish		& \^a	& \c c	&	&\u{g}
+						&\.I\i\tabnote\turkish \^\i
+							&	& \"o	&\c{s}
+										& \"u \cr
+Welsh%\tabnote\welsh
+		&\^a\'a	&	&\^e\"e	&	&\^\i\"\i
+							&	& \^o\"o &	&\^u	& \^w	& \^y \cr
+\crcr \egroup
+\vskip1\jot
+\hrule height 1pt
+\egroup
+\smallskip
+
+%}}}
+%{{{    text of footnotes
+
+\tabnotetext\czech
+	The letters "\vd" and "\vt" are used as alternatives to placing
+	a \showmark\v on letters with ascenders.  They can also be
+	written \xyaccent{0.4 }{\dimen0=0pt }{13}{d} and \v{t}.
+\tabnotetext\dutch
+	"IJ~ij" counts as one letter.
+\tabnotetext\angstrom
+	"\aa ngstr\"om".
+\tabnotetext\egravenote
+	In poetry, "-\`ed" is us\`ed to show a syllable normally mute is
+	to be separately pronounced \cite{Hart's30}.
+\tabnotetext\odiaeresis 
+	American "co\"operate" (Br. spelling is "co-operate"), "\aa ngstr\"om".
+\tabnotetext\aelig
+	Using the vowel ligatures "\ae" and "\oe" in English words
+	with Latin roots is a Victorian affectation---it is usual
+	nowadays to write "aesthetic", not "\ae sthetic"
+	\cite{Hart's62}.  Americans write "esthetic", of
+	course.
+\tabnotetext\portuguese
+	The letter "\"u" is used in Brazil but not in Portugal
+	\cite{Hart's135}.
+\tabnotetext\russian
+	These are letters used in transliterating Russian and the other
+	languages that use the Cyrillic alphabet (Belorussian etc.)
+	\cite{Hart's120}.
+\tabnotetext\turkish
+	In Turkish, "I~\i" and "\.I~i" are separate letters.  Sometimes
+	"\ringmark \i" or "\=\i" is used in manuscripts to indicate~"\i"
+	\cite{Hart's135}.
+
+%\tabnotetext\spanish
+%	The digraphs "ch" and "ll" count as single letters.
+%\tabnotetext\welsh
+%	Has $7$~digraphs: "ch", "dd", "ff", "ng" (ranked after "g"),
+%	"ll", "ph", "rh" (except after vowels), "th".
+%\tabnotetext\eszetnote
+%	"Es-zet", or `sharp "s"', originating as a {\it Fraktur\/}
+%	ligature for long "s" and "z" ("\char157 3"), but treated as
+%	"ss" in alphabetizing, and the upper-case equivalent is "SS".
+%\tabnotetext\ocircumflex 
+%	This is inconsistently used for words naturalized from French --
+%	"role" (no circumflex) but "m\^el\'ee" \cite{ODWE}.
+
+%}}}
+%}}}   composite letters
+\iflong
+%{{{  list maamac.tex
+\section{Listing of {\tt malvern.tex}}
+
+	This is a complete listing of |maamac.tex|, a file of \TeX\
+	definitions that redefine the usual accent commands etc.\ and
+	make some other definitions appropriate to the Malvern encoding.
+	It might be used by plain~\TeX
+
+\everylisting{\smallfonts}
+\listing{maamac.tex}
+%}}}  malvern.tex
+\fi
+%{{{  installation hints
+
+\section{Installation summary}
+
+\subsec{Getting Malvern via FTP}
+
+	Malvern should be available from CTAN (the
+	Comprehensive \TeX\ Archive Network), in directory
+	|fonts/malvern|.
+
+	Where appropriate, Malvern now uses the same naming convention
+	as GNU software, so there should be a bundled distribution
+	called something like
+\begin display
+	{\tt\ttpackage.tar.gz}
+\end display
+	The file, as the suffix suggests, is a |tar| archive compressed
+	with GNU Zip, and on UNIX systems will likely be unpacked with
+	something like
+\begin display
+	{\tt zcat \ttpackage.tar.gz \char`\| tar xvf -}
+\end display
+
+	A version which has been `patched' will have a version ID like
+	`$1.2.05$', the `$05$' being the \dfn{patch level}.  You apply
+	the patches (with ^^{Wall, Larry} Larry Wall's ^|patch|
+	program) in order (patch $01$ first, then $02$, and so on) to
+	the main distribution.  Patch files have names like
+	`|malvern-1.2-patch05|'.
+
+	There is a document |dvi/install.dvi| included in teh package
+	that contains installation hints.
+
+\subsec{Generic driver file}
+	Malvern is unusual amongst \MF\ families in that it is supplied
+	with one {\it generic driver file} instead of one driver file
+	for each size and style the family comes in.\note{The package
+	also includes a selection of driver files.} The generic driver
+	file ({\tt ma.mf}) inspects the values of variables like
+	"designsize" and "weight" and gives the ad-hoc parameters
+	appropriate values, before reading the program files.  On some
+	UNIX systems a small program called ^|mff| can be used to
+	generate fonts using this system.  Otherwise other measures will
+	have to be taken, described below.
+
+\subsec{Malvern encodings}
+	Malvern uses a nonstandard encoding---in fact a family of
+	encodings, for example, Malvern~A (latin alphabets) and
+	Malvern~G (Greek).  To create fonts for use with \LaTeXe\ and
+	the NFSS\vn2 font selection macros, use ^^{Jeffrey, Alan} Alan
+	Jeffrey's ^|fontinst| package \cite{fontinst} (see also
+	\xref{s-fontinst}).  This generates the |fd| files and virtual
+	fonts so that Malvern fonts may be used in the same way as other
+	\LaTeXe\ families.  (The glyphs needed to make fonts with the
+	Cork (T$1$) encoding are in Malvern~A and Malvern~B.)  This has
+	already been done for you to make a selection of styles
+	available with both \TeX\ Text and T\n1 encodings.
+
+\subsec{Malvern font names}
+	The Malvern fonts generated with \MF\ will have \TeX\ names of
+	the following form:
+$$
+	\hbox{{\tt ma}\<style>\<encoding>\<size>}
+$$
+ 	where the \<style> is a two digit style code (described below),
+	\<encoding> is a code identifying a Malvern encoding (such as
+	`{\tt s}' or `{\tt az}'), and \<size> is the size in points
+	(e.g., `{\tt 12}' for $12\pt$). Thus {\tt ma55a12} ($12$-pt
+	Malvern $55$, encoding~A).
+
+	The two-digit style codes are based on Adrian Frutiger's system,
+	devised for the Univers family; see \xref{s-stylecodes}.
+
+	The \MF\ programs can also produce fonts in ^^{Berry, Karl}
+	Karl Berry's font naming scheme, with the \TeX\ Text encoding.
+	The names start with `{\tt fmv}'.  This is so that these fonts
+	may be used in plain-\TeX\ and \LaTeX-$2.09$ documents without
+	too much confusion.  The correspondance between Malvern's style
+	digits and weight, variant and expansion letters is given in the
+	tables below.  NFSS\vn2 systems (indeed, any that use
+	non-\TeX-text encodings) will have to use virtual fonts.
+
+\ifkbnames\else
+\begin notepar
+	`\/{\tt fmv}\/-' names are not used at present; use
+	corresponding `\/|ma|\/-' names instead.  See the note at the
+	end of \xref{s-kb-names}.
+\end notepar
+\fi	
+
+\subsec{Unpacking Malvern}
+	The Malvern distribution includes \MF\ source files, some \TeX\
+	files such as this documentation, and a few other miscellaneous
+	files.  
+
+\subsubsec{Source files ({\tt/source})}
+	On most \TeX\ systems, \MF\ fonts end up with their source files
+	stored in \MF's input file area.  I~suggest that Malvern instead
+	be given its own file area.  This avoids problems with different
+	font families having files with the same name, and makes it easy
+	to replace all the Malvern files in one go if you upgrade to a
+	newer version of Malvern.
+
+	With a new-style directory tree,\note{At the time of writing,
+	the \TeX\ Directory Standard (TeDiouS) is still in discussion.
+	This is my best guess based on a \TeX\ system I~recently had
+	installed.} the {\tt\ttpackage} directory may be placed in the
+	`|texmf/fonts/public|' directory, and the directories |source|
+	and |drivers| merged and renamed so that \MF\ can find them.
+
+	The files {\tt mff.rc} and {\tt fmv.mff} are input files for
+	{\tt mff} and may be ignored if you are not using {\tt mff} to
+	generate fonts.
+
+\subsubsec{Driver files ({\tt/drivers})}
+	These files are not strictly necessary but are included for
+	convenience.  They are used when assignments to the generic
+	driver file's parameters on the \MF\ command line is impossible,
+	such as when using the standard {\tt MakeTeXPK} script.  A
+	driver file is included for each {\tt tfm} supplied.
+
+\subsubsec{\TeX\ input files ({\tt/tex})}
+	These files belong in a system-wide \TeX\ inputs area.  The
+	files ending with `|.fd|' are font family definition files,
+	used by NFSS\vn2 and \LaTeXe.
+
+	On new-style directory trees, the best approach is probably to
+	link or rename {\tt texmf/fonts/public/\ttpackage/tex} to
+	{\tt texmf/tex/\ttpackage}.
+
+\subsubsec{Documentation files ({\tt/doc}, {\tt/dvi})}
+	Files ending in `{\tt.tex}' are plain \TeX\ documents, and will
+	not work with \LaTeX.  Compiled ({\tt dvi}) files are supplied
+	to save the installer having to run \TeX.  Read {\tt
+	install.tex}, first.  The ^{Greek} text encoding is described in
+	|magrman.tex|.
+
+	The "Malvern Handbook", |maman.tex| produces cross-references
+	automatically via an |aux| file, and will need to be run through
+	\TeX\ twice to get the cross-references right.  The front matter
+	(preface and table of contents) are printed *last* and should be
+	transferred to the front of the handbook before binding.
+
+\begin notepar
+	Please do not install any of the macro files used to typeset the
+	documentation in the system-wide \TeX\ inputs area.  They are
+	not supported, not necessarily generally useful, and very
+	nonstandard.  Earlier releases of Malvern gave the macro files
+	generic enough names that they might clash with other macro
+	files.  They have been renamed to start with `{\tt pdc}' in the
+	hope that this will avoid clashes if they are accidentally
+	installed.
+\end notepar
+
+\subsubsec{Virtual font files ({\tt/vf})}
+	These virtual fonts are generated using ^^{Jeffrey, Alan}Alan
+	Jeffrey's ^|fontinst| package \cite{fontinst}, and are Malvern
+	fonts with the Cork encoding.  With NFSS\vn2 (or \LaTeXe) they
+	are used by specifying encoding `{\tt T1}' and family `{\tt
+	fmv}'.  See \xref{tab-encoding-codes} for a list of encoding
+	codes.
+
+\subsubsec{Font metric files ({\tt/tfm})}
+	A selection of precompiled font metric files, including those
+	for virtual fonts in {\tt /vf} and the actual fonts needed to
+	use them, as well as fonts needed to print the documentation in
+	{\tt/dvi}.
+
+\subsec{Using mff to generate Malvern fonts}
+	First, install {\tt mff} and arrange that \MF\ will be able to
+	find the {\tt mf} files.  Then to create a Malvern font, for
+	example $12$-pt Malvern~$55$ ({\tt ma55a12}), give the command:
+\begin example
+	 |mff ma55a12|
+\end example
+	To generate Malvern~$55$ and $56$ at magsteps $0$, \frac1/2 and
+	$1$, for $300$-dpi and $1000$-dpi printers, you would type:
+\begin example
+	 |mff --magstep=0,h,1 --dpi=300,1000 ma55a10 ma56a10|
+\end example
+	If all goes well, the {\tt tfm} and {\tt pk} files generated
+	will be installed in the correct directories automatically.
+
+\subsec{Generating Malvern fonts without mff}
+	This section presumes you know how to install a normal \MF\
+	font.
+
+	Create a driver file for each style of Malvern you want to be
+	able to use.  It should have the following form:
+\begin lines
+	|% |\<name of file>| -- generate |\<size>|-pt Malvern |\<style>
+\smallskip
+	|font_size |\<size>| pt#;|
+	|encoding = |\<number>|; |
+	|weight = |\<number>|; hratio = |\<number>|;|
+	|slant = |\<number>|; italicness = |\<number>|;|
+	|input ma|
+	|bye.|
+\end lines
+ 	where \<size> is the design size  in points, and the
+	values for the various variables are given below.  The \<style>
+	is the two-digit style code described in \xref{s-stylecodes}.
+
+	These driver files should be named after the font they
+	correspond to---for example, `{\tt ma76a12.mf}' to generate
+	Malvern~$76$.  Then they are used as usual with \MF:
+\begin example
+	|mf \mode=luxo; mag=|\<number>|; input ma55a12|
+\end example
+ 	where the \<number> is the magnification wanted, or `{\tt 1.0}'
+	for no magnification.
+
+\subsubsec{Values for {\it encoding}}
+	The variable {\it encoding} specifies the encoding to use---in
+	other words, the subset of Malvern's glyphs to be generated.  It
+	should be given one of the following values:
+\begin display
+	\it Encoding&\it Letter&\it Description\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it encoding} = 1$&	\tt a&
+		Malvern A (latin alphabets ABCdef.)\cr
+	${\it encoding} = 2$&	\tt b&
+		Malvern B (superscripts, symbols etc.)\cr
+	${\it encoding} = 3$&	\tt c&
+		Malvern C (Cyrillic A{\cy DIlz\char126 })\cr
+	${\it encoding} = 5$&	\tt e&
+		Malvern E (composite letters \AA \c C\^D\'e\u g\^\i)\cr
+	${\it encoding} = 7$&	 \tt g&
+		Malvern G (Greek letters {\gr ABGdez})\cr
+	${\it encoding} = 19$&	\tt s&
+		\TeX\ text \cite{TeXF1}\cr
+	${\it encoding} = 26$&	\tt az&
+		\TeX\ text, old-style numerals\cr
+\end display
+ 	The letter is the letter used in the font name -- for example,
+	{\tt ma55s10} for Malvern with the \TeX\ text encoding (${\it
+	encoding} = 19$), and so on.
+
+\begin notepar
+	The Malvern programs used to attempt to generate other encoding
+	schemes; with ^|fontinst| this all becomes redundant and
+	those codes are obsolete.
+\end notepar
+
+\subsubsec{Values for {\it weight}}
+	The variable {\it weight} specifies the weight (boldness) of the
+	font.  It has the following values:
+\begin display
+	\it Weight&\it Style&\it NFSS\vn2& \it Berry&\it Description\cr
+		  &\it digit&\it code&\it code\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it weight} = 1/4$&	\tt 1& \tt ul& \tt t&	ultra-light\cr
+	${\it weight} = 1/2$&	\tt 2& \tt el& \tt i& 	extra-light\cr
+	${\it weight} = 3/4$&	\tt 3& \tt\ l& \tt l& 	light\cr
+	${\it weight} = 7/8$&	\tt 4& \tt sl& \tt b& 	semi-light\cr
+	${\it weight} = 1$&	\tt 5& \tt\ m& \tt r& 	medium\cr
+	${\it weight} = 1.3$&	\tt 6& \tt sb& \tt d& 	semi-bold\cr
+	${\it weight} = 1.6$&	\tt 7& \tt\ b& \tt b& 	bold \cr
+	${\it weight} = 2$&	\tt 8& \tt eb& \tt x& 	extra-bold\cr
+	${\it weight} = 3$&	\tt 9& \tt ub& \tt u& 	ultra-bold\cr
+\end display
+ 	The `style digit' is the first digit in the two-digit style
+	codes described in \xref{s-stylecodes}.  The `NFSS\vn2\ code' is the
+	first half of a corresponding NFSS\vn2\ `font series' code.  The
+	`Berry code' is the code for this weight in Karl Berry's font
+	naming scheme.
+
+ 	Note that some of the character programs produce ugly results
+	for large values of {\it weight}.
+
+\subsubsec{Values for {\it hratio}}
+	The variable {\it hratio} specifies the ratio between horizontal
+	and vertical measurements: in other words, whether the font is
+	compressed or expanded.  It may have the following values:
+\begin display
+	\it Hratio&\it Style&\it NFSS\vn2& \it Berry&\it Description\cr
+		  &\it digit&\it code&\it code\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it hratio} = 0.50$&	{\tt 9} or {\tt 0}&
+		\tt ec&\tt o&	extra compressed\cr
+	${\it hratio} = 0.80$&	{\tt 7} or {\tt 8}&
+		\tt\ c&\tt c& 	compressed\cr
+	${\it hratio} = 1.00$&	{\tt 5} or {\tt 6}&
+		\tt\ m&\tt r& 	normal width\cr
+	${\it hratio} = 1.15$&	{\tt 3} or {\tt 4}&
+		\tt\ x&\tt x&	expanded\cr
+	${\it hratio} = 1.30$&	{\tt 1} or {\tt 2}&
+		\tt ex&\tt w&	extra expanded\cr
+\end display
+ 	The `style digit' is the second half of the two-digit style
+	codes described in \xref{s-stylecodes}.  The `NFSS\vn2\ code' is the
+	second half of an NFSS\vn2\ `font series' code (for example,
+	bold expanded is ${\tt b} + {\tt x} = {\tt bx}$, compressed is
+	${\tt m} + {\tt c} = {\tt c}$).  The `Berry code' is for Karl
+	Berry's scheme.
+
+ 	Beware that the character programs do not all produce good
+	results when {\it hratio} is not $1$.
+
+\subsubsec{Values for {\it slant} and {\it italicness}}
+	These two variables between them specify whether a font is to be
+	produced with italic letterforms or not:
+\begin display
+	\it Slant&\it Italic? &\it Style&\it NFSS\vn2&\it Berry&\it Description\cr
+	&&\it digit&\it code&\it code\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it slant} = 0$&	${\it italicness} = 0$&	odd&
+		\tt n& \tt r& 	upright\cr
+	${\it slant} = 1/8$&	${\it italicness} = 1$&	even&	
+		\tt it& \tt i&	italic\cr
+	${\it slant} = 0$&	${\it italicness} = 1$&	odd&
+		\tt ui& \tt u& 	upright italic (!)\cr
+	${\it slant} = 1/8$&	${\it italicness} = 0$&	even&	
+		\tt sl& \tt o&	oblique\cr
+\end display
+ 	The `NFSS\vn2\ code' is the `font shape' code.  The `Berry
+	codes' are variant letters for Karl Berry's font naming scheme.
+
+ 	The variable {\it slant} is common to many \MF\ programs, and
+	causes the glyphs to be obliqued.  The {\it italicness} variable
+	signals that italic letterforms should be used for some letters.
+	It is possible to generate an obliqued font or an `upright
+	italic' with appropriate settings, but these cannot have `{\tt
+	ma}-' names, because I~have not defined style codes for them.
+
+%}}}  installation hints
+%{{{  availability
+
+\section{Copying Malvern and reporting bugs}
+
+	Like \TeX\ and \MF\ themselves, the implementation of Malvern in
+	\MF\ for use with \TeX\ is free software in the sense used by
+	the ^{Free Software Foundation} \cite{GPL}.  (The word `free' is
+	used to mean `free of restrictions', rather than `available for
+	free'; free software may be bought and sold on the understanding
+	that the buyer may make copies and distribute them.)  
+^^{distribution}
+^^{copying}
+
+	There is a ^{mailing list} for discussion of Malvern problems
+	and solutions.  Send ^^{bugs} bug reports, suggestions, and
+	ideas to |malvern@comlab.ox.ac.uk|.  To subscribe to the list,
+	mail me at |malvern-request@comlab.ox.ac.uk|.
+
+%}}}  availability
+%{{{  fontinst
+
+\section{Fontinst}
+
+	^^{Jeffrey, Alan} Alan Jeffrey's ^|foninst| package
+	\cite{fontinst} is a set of \TeX\ macros which allows users to
+	install ^{virtual fonts}.  It can combine fonts represented by
+	Adobe Font Metric ({\tt afm}) or \TeX\ font metric ({\tt pl})
+	files into virtual fonts.  These virtual fonts can then be used
+	by \TeX.
+
+\xreflabel{s-fontinst}{\S\thesecno}
+
+	The package
+\begin bullets
+     \\	is written in \TeX, for maximum portability (at the cost of
+	speed);
+     \\	supports the full ^{Cork encoding};
+     \\	allows arbitrary `fake' glyphs -- for example, creating an "ij"
+	ligature by placing "i" next to a "j";
+     \\	allows capital-and-small-capital fonts with letter-spacing and
+	kerning;
+     \\	allows kerning information to be copied between glyphs -- for
+	example "ij" can be made to kern on the left like "i" and on the
+	right like "j";
+     \\	allows glyphs from several fonts to be combined to make a new one;
+     \\	automatically generates a {\tt fd} file for NFSS~\n2 and \LaTeXe;
+     \\	can deal with arbitrary font encodings.
+\end bullets
+	The current version is a beta release.  It can be obtained from
+	the Comprehensive \TeX\ Archive Network (CTAN), in directory
+	|fonts/utilities/fontinst|.
+
+	By including some Cork-specific glyphs in the Malvern B
+	encoding, I~have managed to spin Cork-encoded Malvern fonts
+	(with variant encodings like cap \& small caps) from Malvern~A
+	and B fonts.  The fonts generated have names in Karl Berry's
+	scheme, like `|fmvmq12|'.
+
+	
+%}}}  fontinst
+%{{{  to do
+
+\section{To-do list}
+
+	So far both Malvern and this handbook is incomplete---Malvern is
+	a spare-time project and progress has slowed to a crawl over the
+	last few months.  For the present, the best strategy seems to be
+	to release a version that can be picked apart by more
+	knowledgable people in order that a later, complete, release be
+	that much better.
+
+	Tasks that need attention include:
+\begin bullets
+\\
+	Make guillemets space themselves automagically.
+%\\
+%	Fix design of ogonek letters \A, \E, \a, \e.
+\\
+	Make head of \P{} solid.
+%\\
+%	Tidy up the ^|fontinst| encoding files so that they can be
+%	included in future releases.
+%\\
+%	Need a two drop-in \LaTeX\ style option files---one for standard
+%	\LaTeX, one for \LaTeX+NFSS.
+\\
+	The kerning table is incomplete---I need to develop a
+	systematic method for thrashing one out in the absence of a
+	decent typesetter or enough specialized knowledge.  Donation of
+	a kerning table or clever software for generating same would be
+	appreciated.
+%\\
+%	Need some way of generating VF or VPL files automatically.
+\\
+	Some composite letters are missing or hastily designed.  I need
+	to do more research into other latin-alphabet languages (so that
+	I know how to draw their special letters).
+\\
+	Find example texts containing some of the more esoteric special
+	letters (such as "\NG").
+\\
+	Rethink the proportions of small-capital letters.
+%\\
+%	Obtain more greek newspapers and magazines and design a
+%	lower-case greek alphabet.
+\\
+	Learn Russian and design a Cyrillic alphabet.
+\\
+	Script alphabets.  (Just an idea.)
+%\\
+%	The figures need to be overhauled---the `8' fails horribly in
+%	all sorts of conditions.
+%\\
+%	Lower-case "e" should be different in italic.
+\\
+	Documentation of the \MF\ code is incomplete---and some of the
+	code might usefully be rationalized.
+\end bullets
+
+%}}}   to do
+\input mabib
+%{{{  index
+
+\vfill\eject
+\begingroup \leftmargin=0pt \setncolumns3 \notefonts 
+	\section{Index}
+
+	\leftskip=1em \parindent=-\leftskip \parskip=0pt plus 1pt
+	\let\vn=\n
+
+\inputifexists{\jobname.ind}
+
+\vfill\eject
+
+\endgroup
+
+\index{New Font Selection Scheme|see{NFSS}}
+
+
+%}}}  index
+\iflong
+%{{{  colphon
+
+\vfill\eject
+
+\section{Colophon}
+
+	This manual was of course typeset using \TeX\ with Malvern
+	fonts.  The manuscript was edited using Richard Stallman's GNU
+	Emacs extensible text-editor, with the CMU\TeX\ Major Mode by
+	Olin Shivers et al.  The DVI files were previewed with |xdvi|,
+	and converted into \PS\ using Tomas Rokicki's excellent |dvips|
+	printer driver.
+
+	The body text is set in 10/12 pt Malvern~55, with Malvern~56
+	italics and Malvern~75 boldface.
+
+%}2}}  colphon
+\fi
+	
+%}}} Appendix
+%{{{ preliminary matter
+
+\vfill\eject
+\pageno=-1
+\mark{{}{}}
+
+\begingroup
+\headline={\hfil} \footline={\hfil}
+\iftwosided
+%{{{   half-title
+
+\null
+\vskip 0pt plus 1fil
+
+\line{\bigrm\spaceskip=0pt plus 1fil M A L V E R N}
+
+\vskip 0pt plus 1.5fil
+\eject
+
+\line{}\vfill\eject		% fronticepiece
+	
+%}}}
+\fi
+%{{{   title page + title verso
+
+\null
+\vfill
+
+\leftline{\bigrm The \iflong\else abridged\fi}
+\vskip 24pt
+\leftline{\hugerm\spaceskip=-0.05em  M A L\kern-0.1em V E R N}
+\vskip 18pt
+\rightline{\hugerm\spaceskip=-0.05em  h a n d b o\kern-0.025em o k}
+\vskip36pt
+	\leftline{\headingfonts P. Damian Cugley}
+\vfill
+
+\iftwosided 
+	Alleged Literature, Oxford.
+
+	\eject\null\vfill 
+\fi
+
+\parindent=0pt \parskip=1ex \leftskip=-\leftmargin
+
+	\copyright\ $1991$--$1994$ P. Damian Cugley.
+
+	The right of Damian Cugley to be identified as the author of
+	this work has been asserted in accordance with British copyright
+	law.
+
+	Permission is granted by the copyright holder to copy, use and
+	and distribute verbatim copies of the Malvern package and this
+	handbook without fee so long as ($1$)~the above copyright
+	messages and this permissions message are preserved intact on
+	all copies; and ($2$)~neither the name of Damian Cugley nor that
+	of Oxford University be used in any related promotion or
+	advertising without prior written consent.  (Merely
+	acknowledging copyright would not count as contradicting~($2$).)
+
+	{\bf Caveat}\quad This documentation is incomplete.  
+
+\bigskip
+	This document describes \package.
+
+	\TeX\ was run on this file on \today.
+\eject
+%}}}
+\endgroup
+
+%{{{   preface
+\sectionheading{Preface}
+
+\dropcap\hugerm
+	Malvern is a sanserif typeface family: a collection of typefaces
+	that have been designed together and are intended to coordinate
+	with each other.  (`Sanserif' comes from the French {\it sans
+	serif\/} and means that the arms and stems of letters do not
+	have the small finishing strokes called serifs.)  This handbook
+	describes an implementation of Malvern created for use with
+	\TeX, a fiendish typesetting system devised by ^^{Knuth, Donald
+	E.} Donald~E.\ Knuth.  Like Knuth's own Computer Modern family,
+	Malvern is implemented as a set of files which are interpreted
+	by \MF, a companion program to \TeX\ which is included in most
+	\TeX\ systems.
+
+\iflong
+	The reader may be surprised that a typeface needs a `handbook'
+	like this one at all---after all, we do not see books called
+	`The Garamond User Guide' or `How to get more from your Bodoni'.
+	This is partly because of the nature and rarity of \MF\ fonts: they
+	are individually-crafted programs, whereas commercial fonts are
+	produced systematically using standard software.  Partly it is
+	because the Computer Modern family is so thoroughly installed
+	into plain \TeX\ and standard \LaTeX\ that some effort is needed
+	to switch it over to another font family.  And finally, there is
+	the fact that Malvern is itself eccentric and these
+	eccentricities need explaining.
+
+	My motivation to create Malvern comes from two sources.
+	Firstly, the \TeX\ system has always suffered from a dearth of
+	font designs: In the standard \TeX\ distribution, there are two
+	sanserif families (Computer Modern Sans Serif and CM Sans Serif
+	Quotation) both of which are derived from the same character
+	programs as the Computer Modern fonts.  This is a nice gimmick,
+	but in practice the natures of sanserif and serif faces are so
+	much at odds that they cannot be usefully merged into one
+	`meta-design'.
+%	In particular, the capitals of \cmrname{CMSS}
+%	and \cmrname{CMSSQ} do not seem to me to coordinate well with
+%	their lower case.  The $x$-height for \cmrname{CMSS} is small
+%	for a sanserif font, and makes it look top-heavy---but a
+%	side-effect of increasing the $x$-height in \cmrname{CMSSQ} is
+%	to make the capitals so extended as to be distended.  
+%	My attempts to coax what I~considered to be a nice sanserif face
+%	out of the CM programs---with all sorts of hacks and
+%	fudges---became more and more elaborate, but to no avail.
+	Of course there are many wonderful faces available
+	commercially---but I have no money with which to buy them.  (One
+	of the great things about \TeX\ is that it is free, so that
+	quality typesetting is available to any sufficiently-motivated
+	pauper with access to a computer.)
+
+	The second main impetus was more immediate---it was the
+	publication of the proposed standard \TeX\ font encoding in
+	\TUGboat\ (the \TeX\ User Group journal).  I~wanted to write an
+	article or letter about this---but to do so I~needed to be able
+	to include many peculiar symbols in a \TeX\ document.  After my
+	first attempts (creating a font to augment Computer Modern) it
+	seemed obvious that designing a new font from scratch would be
+	less effort in the long run than trying to come up with a bodge
+	to patch  existing fonts.
+\fi
+
+	This handbook describes my implementation of Malvern and some
+	ways in which Malvern can be used with \TeX\ (both plain \TeX\
+	and with the \LaTeX\ macro package).  
+\iflong
+	It also includes
+	information that relates to Malvern in general, as opposed to
+	any one implementation in particular.  It is possible that at
+	some future date someone will make versions of Malvern fonts for
+	other systems, in which case they will surely supply their own
+	handbook to supplement this one.
+
+	Different parts of this handbook will be relevant to different
+	people.  The first sections describe Malvern as it is used in
+	\TeX\ (or \LaTeX) documents, including the developement of \TeX\
+	macros to take advantage of Malvern's features (these are aimed
+	at \TeX\ experts and should be ignored by people who want merely
+	to have a system that works).
+
+	Later sections give an outline of the \MF\ code used to
+	implement Malvern.  I~will not describe it in great detail but
+	I~will attempt to outline some of its weirder features.  This
+	section is for the satisfaction of myself and other \MF-hackers,
+	and is of even less interest to the typical Malvern user than
+	the \TeX\ programming.
+\fi
+
+	The appendix includes a summary of how to install Malvern, some
+	of the code described in previous sections, some tables (useful
+	or otherwise) and a list of books and articles referenced
+	elsewhere.
+
+\rightline{Damian Cugley, June \n{1994}}
+
+%}}}
+%{{{   TOC
+\sectionheading{Table of Contents}
+
+\immediate\closeout\TOCfile
+\begingroup
+
+\def\TOCentrysubsec#1#2#3{#1\ #2\quad}
+
+\input \jobname.toc
+\endgroup
+%}}}
+%}}}  preliminary matter
+\bye
+%}}} maman.tex
+
+
+%Local variables: 
+%fold-folded-p: t
+%tex-has-children: t
+%fill-prefix: "\t"
+%End: 
+

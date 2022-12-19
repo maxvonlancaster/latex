@@ -1,0 +1,274 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% File: yi4latex.tex
+% Date: September 2, 1997
+% Author: Oliver Corff
+% (c) 1997 Ulaanbaatar, Beijing, Berlin
+%
+% A package for providing the Yi script to LaTeX-users.
+%
+% NB: This package requires LaTeX2e!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt,a4paper]{article}
+\usepackage{yi}
+\title{\huge\textbf{\Ynuo\Ysu\Ybbur\Yma}\\
+	\vspace{.25cm}
+	\sf Yi for \LaTeX , v.~0.1}
+\author{Oliver Corff\protect\footnote{%
+	The \YiL\ package was developed while receiving 
+	a DFG (German Research Council) grant to which
+	the author expresses his sincere gratitude.}}
+\date{Sep.~2nd, 1997}
+\newcommand{\YiL}{\textsf{Yi for \LaTeX}}
+\markboth{\YiL}{\YiL}
+\pagestyle{myheadings}
+\begin{document}
+\maketitle
+\thispagestyle{myheadings}
+
+\section{Introduction}
+{\YiL} is a package providing the Yi script for \LaTeX\ users.
+The Yi live mainly in Sichuan, Yunnan, Guizhou and Guangxi, and
+have a population of about 6.5 million (1990). There are various
+viewpoints on when the Yi script originated; some scholars claim
+this happened during the Tang dynasty, others say it occurred
+only during the Ming dynasty, and others again place the date
+well back by 6000 years. A detailed summary of arguments is
+presented by Ding Chunshou in his treaty (\emph{On Yi})%
+\footnote{Ding Chunshou: \emph{Yiwen Lun}. Sichuan Minzu Chubanshe,
+Chengdu 1993. ISBN 7-5409-0659-6/H.41}
+
+The historical Yi script comprised somewhere close to 10,000
+characters which were used in a way similar to Chinese, i.~e.~they
+had ideographic properties. Modern Yi, however, takes a radically
+different approach: All syllables have a unique sound but no
+intrinsic meaning whatsoever. This system was promulgated by the
+State Council as Standardized Yi in 1980 and subsequently popularized
+by a number of dictionaries, grammars etc.
+
+The \YiL\ package provides all 1165 Yi syllables as defined in the State
+Council decree of 1980, arranged by a consonant order which is a
+hybrid between the syllabic arrangement by phonetics and a pure
+alphabetical arrangement. This arrangement was not chosen by the
+author; it reflects the current status of discussions on creating
+ISO and Unicode standards for Yi. If this order is preserved,
+the only thing needed for using these fonts in 16-bit environments 
+is to indicate the offset into this code space.
+
+Since the number of syllables is so large, five encodings had
+to be defined.  These are labelled as local encodings: the
+series LYA, \dots\ LYE stands for [L]ocal [Y]i, [A] to [E].
+
+Regardless of the physical arrangement of the syllables in the font,
+the user always has access to all syllables via their syllable name.
+
+
+\section{How to use the Yi package}
+This section describes which files are necessary and which commands
+are needed for invoking the Yi syllables.
+
+
+\subsection{Necessary files}
+The Yi package consists of the following files:
+\begin{raggedright}
+\begin{description}
+\item [Package] The file {\tt yi.sty} provides all necessary
+	declarations and commands for selecting and entering the
+	Yi script. Place this file somewhere where your
+	\LaTeX\ installation will find it. In {\tt emtex} systems,
+	this could be the path \verb"\emtex\texinput\yi" assuming you
+	have a subdirectory named \verb"yi" which holds everything
+	necessary for Yi Language Support.
+\item [Fonts] The font files are:
+	\begin{enumerate}
+		\item {\tt yir-[1-5].mf}: These are the font drivers
+					for generating regular typeface. 
+		\item {\tt yib-[1-5].mf}: These are the font drivers
+					for generating boldface. 
+		\item {\tt yis-[1-5].mf}: These files contain the
+					individual syllable definitions.
+		\item {\tt yi[rb]parms.mf}: These files contain the
+					settings for different typefaces.
+		\item {\tt yirdefs.mf}: This file contains general
+					macro definitions used for
+					the syllable definitions.
+	\end{enumerate}
+	These 18 files should
+	reside in a directory where {\sc Metafont} can find them, e.~g.
+	\verb"\emtex\mfinput\yi" if using \verb"emtex", or perhaps in
+	\verb"/usr/local/tex.local/texmf/fonts/source/public/yi/" when
+	using \verb"teTeX".
+
+\item [Font Metrics] The ten font metrics files {\tt yi[rb]-[1-5].tfm} 
+	go into \verb"\emtex\tfm\yi" or 
+	\verb"/usr/local/tex.local/texmf/fonts/tfm/yi/".
+
+\item [Documentation] There are two files, a character table
+	named \verb"yi-table.tex" and a description of the
+	package named {\tt yi4latex.tex}. You are reading it at
+	the moment. Both files can be placed in the same
+	directory as {\tt yi.sty} or in a separate directory in the 
+	\verb"\emtex\doc" branch, or in
+	\verb"/usr/local/tex.local/texmf/doc/".
+\end{description}
+\end{raggedright}
+
+\subsection{Declarations and Input Methods}
+In order to use the Yi script, the document preamble 
+must contain the declaration \verb"\usepackage{yi}". This
+is the only necessary step.
+
+Entering Yi syllables into any text is straightforward. In the
+\YiL\ package, all syllable names are defined as text commands.
+The syllable names are prefixed by \verb"\Y". Two typefaces,
+regular and boldface, are supported, and they are addressed as
+in any textmode. Thus, the title
+of this paper is generated with the following commands:
+\begin{center}
+	regular: \verb"\Ynuo\Ysu\Ybbur\Yma" \\
+	\Ynuo\Ysu\Ybbur\Yma \\
+	boldface: \verb"{\textbf{\Ynuo\Ysu\Ybbur\Yma}}" \\
+	{\Large\textbf{\Ynuo\Ysu\Ybbur\Yma}}\\
+\end{center} 
+
+Instead of stating \verb"\Y"\emph{syllable} it is also possible 
+to use the form \verb"\Y{"\emph{syllable}\verb"}".
+
+Besides that, the Yi numbers can be entered with the commands
+\verb"\YOne", \verb"YTwo", \verb"\YThree" up to \verb"\YTen":
+\YOne, \YTwo, \YThree, \YFour, \YFive, \YSix, \YSeven, \YEight,
+\YNine\ and \YTen.
+
+Another command is useful when writing about Yi (rather than in Yi):
+The pronounciation of each syllable can be attached to that syllable
+by saying \verb"\YP{"\emph{syllable}\verb"}":
+\begin{center}
+	Input: \verb"\YP{nuo}\YP{su}\YP{bbur}\YP{ma}" \\
+	Result: \YP{nuo}\YP{su}\YP{bbur}\YP{ma} \\
+\end{center} 
+The text example on the next page shows the result of applying this
+command to a whole text.
+
+The syllable reduplication mark \YP{wu} can also be entered as \YP{w}.
+This is done intentionally.
+
+\section{Known Problems}
+
+There seems to be only one genuine problem so far: In \TeX\
+environments which do not go through PostScript to generate
+printer output, e.~g.~\verb"emtex", it is possible that downloading
+a large amount of large character bitmaps into the printer can cause
+a printer memory overflow. This happened with a Hewlett-Packard
+LaserJet IV when trying to print the whole font table (comprising
+1165 characters) with Yi characters set at \verb"|\Huge". The remedy
+is simple: Print until the printer complains and gives up, and start
+a new printing job with the first page set to where the printer died
+on the last job.  This will take you safely through the rest of your
+printing job.
+
+
+\section{Legal Status}
+
+The \YiL\ package is protected by copyright: it is not in the public
+domain. Non-commercial, academic and private use is permitted;
+commercial parties willing to use \YiL\ are requested to obtain a licence.
+
+You are allowed and indeed encouraged to share this software with
+others; you are not allowed to modify the software and redistribute
+the modified software under the same name. Modified versions of this
+software may only be distributed if the name is different from the
+original software and if the modified software is accompanied by
+the original software.
+
+This software package may only be distributed in complete form,
+preferably in form of the archive as which is was obtained from
+its source.
+
+\section{Desiderata}
+%\begin{sloppypar}
+The package in its present stage cannot be regarded complete.
+Some of the letter shapes still need a bit of refinement, and for
+a future research project it is desirable to encode the
+pre-standardization Yi characters (of which there are around 10,000
+or so). This, however, is work which cannot be done from books alone;
+the support of native Yi speakers is required.
+
+The punctuation marks used in Yi literature are in Chinese style;
+though the use of Western style punctuation may be permissible, a
+full set of suitable punctuation marks waits to be implemented.
+
+The input method works but can barely called a user interface; an
+input preprocessor which allows the entering of Yi text without specific
+syllable markup would be fine, and waits to be written. Either a
+small C preprocessor or a \TeX\ program are acceptable; the latter
+to be preferred since no additional user interaction would be necessary.
+
+It would be a great thing if Omega appears soon; the characters could
+then be mapped to the Unicode world simply by defining an offset into
+the 16-bit code space, and the LYA to LYE business would become obsolete.
+
+Comments and suggestions are highly appreciated and should be
+directed to the author of these lines at \verb"corff@zedat.fu-berlin.de".
+%\end{sloppypar}
+
+\pagebreak
+
+\section{A text sample%
+	\protect\footnote{See Ding:1993, p.~120}:
+		\Ypup\Yguop\Ymgu\Yxi\Yndit}
+
+\YP{ngop} \YP{ox} \YP{ge} \YP{ap} \YP{mop} \YP{su} \YP{pup}
+\YP{guop} \YP{li}, \YP{mux} \YP{pyr} \YP{a} \YP{jjy},
+\YP{ddur} \YP{lu} \YP{ax} \YP{nyi} \YP{mu} \YP{jjo}, 
+\YP{zzur} \YP{pup} \YP{ax} \YP{li} \YP{xip} \YP{ma}
+\YP{nge}.  \YP{guop} \YP{jiet} \YP{cyx} \YP{ma} \YP{xy}
+\YP{wa} \YP{mu}, \YP{mu} \YP{wa} \YP{vo} \YP{le} \YP{ggup}
+\YP{mu} \YP{sot} \YP{go} \YP{ho} \YP{ne} \YP{kop} \YP{ggu}
+\YP{hxa} \YP{fut} \YP{ci} \YP{vat} \YP{nra} \YP{ma}
+\YP{jjo}; \YP{co} \YP{cux} \YP{vyt} \YP{nyi} \YP{nge}
+\YP{cix} \YP{nge} \YP{bbup} \YP{nra} \YP{jjo}, \YP{co}
+\YP{go} \YP{ci} \YP{vat} \YP{w} \YP{o} \YP{hmy} \YP{jjo}.
+
+\YP{ngop} \YP{pup} \YP{guop} \YP{cyx} \YP{ma} \YP{li},
+``\YP{zho} \YP{huop} \YP{vo} \YP{co} \YP{jjy} \YP{gex}
+ \YP{nzix} \YP{nyi} \YP{guop} '' \YP{hmi}. \YP{guop}
+\YP{jiet} \YP{ly} \YP{kop} \YP{rep} \YP{dde} \YP{ne}
+\YP{bip} \YP{ji} \YP{lur} \YP{kur} \YP{nge}. \YP{guop}
+\YP{jiet} \YP{gu} \YP{ho} \YP{sat} \YP{ma} \YP{nge}, 
+\YP{mu} \YP{jy} \YP{nge} \YP{ma} \YP{bbop} \YP{jjie}
+\YP{lap} \YP{vut} \YP{tie} \YP{nga} \YP{mop} \YP{jjip}, 
+\YP{ggup} \YP{lep} \YP{w} \YP{ne} \YP{che} \YP{si} \YP{nip}
+\YP{zzie} \YP{ma} \YP{sip} \YP{zhop} \YP{mga} \YP{mu} \YP{da}
+\YP{ma} \YP{nge}. \YP{guop} \YP{jiet} \YP{po} \YP{bbo}
+\YP{li}, \YP{po} \YP{bbo} \YP{a} \YP{hni} \YP{bbut} \YP{go}
+\YP{jyx} \YP{nge} \YP{rry} \YP{nge} \YP{ma} \YP{dit} \YP{da}
+\YP{bbut} \YP{nge}. \YP{guop} \YP{jiet} \YP{shyp} \YP{si}
+\YP{hmox} \YP{li} \YP{zho} \YP{guop} \YP{gop} \YP{cha}
+\YP{dax} \YP{nge}.
+
+\YP{ngop} \YP{pup} \YP{guop} \YP{mgu} \YP{xi} \YP{ndit}
+\YP{cyx} \YP{ma} \YP{li}, \YP{zzyt} \YP{mu} \YP{gax} \YP{tuo}
+\YP{guop} \YP{jiet} \YP{co} \YP{ma} \YP{ax} \YP{nyi} \YP{lop}
+\YP{ax} \YP{nyi} \YP{max} \YP{su}, \YP{mux} \YP{pyr}
+\YP{nyi} \YP{a} \YP{jjy} \YP{lop} \YP{a} \YP{jjy} \YP{suo}
+\YP{ma} \YP{su} \YP{nge}. \YP{guop} \YP{jiet} \YP{xy}
+\YP{wa} \YP{nbi} \YP{se} \YP{nyip} \YP{zi} \YP{nyix} \YP{ma},
+\YP{zyt} \YP{jie} \YP{jux} \YP{dde} \YP{qu} \YP{nge}
+\YP{ma}, \YP{lur} \YP{kur} \YP{shyp} \YP{ax} \YP{yy}
+\YP{suo} \YP{ma}, \YP{jjy} \YP{gex} \YP{mu} \YP{jux} \YP{dde}
+\YP{suo} \YP{ci} \YP{ma} \YP{mu} \YP{da}.
+
+\YP{ngop} \YP{ox} \YP{pup} \YP{guop} \YP{li}, \YP{zzur}
+\YP{pup} \YP{ax} \YP{li}, \YP{mo} \YP{nyop}, \YP{get} \YP{nyop},
+\YP{syr} \YP{nyop}, \YP{bbot} \YP{nyop}, \YP{hxe} \YP{nyop}
+\YP{cyp} \YP{xix} \YP{cyp} \YP{yiet} \YP{ap} \YP{ddur} \YP{ddu}
+\YP{ap} \YP{jjo}, \YP{syp} \YP{lu} \YP{mo} \YP{lu} \YP{get}
+\YP{lu} \YP{bbo} \YP{pat} \YP{ry} \YP{su} \YP{nyi} \YP{ax}
+\YP{nyi} \YP{mu} \YP{jjox} \YP{ma} \YP{nge}. \YP{yy} \YP{hmy}
+\YP{jox} \YP{zhy} \YP{dop} \YP{yit}, \YP{tep} \YP{yy} \YP{su}
+\YP{qu} \YP{ddie} \YP{su}, \YP{cy} \YP{mop} \YP{ddie} \YP{su}
+\YP{si} \YP{nip} \YP{tep} \YP{yy} \YP{bbur} \YP{ma} \YP{zhet}
+\YP{su} \YP{jix} \YP{po} \YP{cyx} \YP{ly} \YP{yiet} \YP{jjy}
+\YP{gex} \YP{ngop} \YP{guop} \YP{jiet} \YP{miep} \YP{lie}
+\YP{bbo} \YP{pat} \YP{shu} \YP{la} \YP{su} \YP{nge}.
+\end{document}

@@ -1,0 +1,825 @@
+% !TEX encoding = UTF-8 Unicode
+%%
+%% This is file `suftesi-doc.tex',
+%%
+%%  Copyright (C) 2010 Ivan Valbusa
+%% 
+%%  This program is provided under the terms of the
+%%  LaTeX Project Public License distributed from CTAN
+%%  archives in directory macros/latex/base/lppl.txt.
+%% 
+%%  Author: Ivan Valbusa
+%%          ivan dot valbusa at univr dot it
+%% 
+%%  This work has the LPPL maintenance status "author-maintained".
+%% 
+\documentclass{suftesi}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polutonikogreek,italian]{babel}
+\usepackage[babel,italian=guillemets]{csquotes}
+\usepackage[style=philosophy-verbose,backref]{biblatex}
+	\bibliography{bibliografia-suftesi}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[italian]{varioref}
+\usepackage[svgnames]{xcolor}
+\usepackage{guit}
+\usepackage{makeidx,frontespizio}
+\makeindex
+\usepackage[%
+	colorlinks=true,
+	linkcolor=Maroon,
+	citecolor=blue,
+	draft=false]{hyperref}
+% new commands
+\newcommand{\omissis}{[\dots\negthinspace]}
+% nome di comando
+\DeclareRobustCommand*{\cs}[1]{\texttt{\char`\\#1}}
+% argomento a un comando
+\DeclareRobustCommand*{\ar}[1]{\texttt{\char`\{#1\char`\}}}
+% argomento opzionale
+\DeclareRobustCommand*{\oar}[1]{\texttt{[#1]}}
+% variabile sintattica
+\DeclareRobustCommand*{\meta}[1]{%
+  $\langle${\normalfont\itshape#1\kern0.12em }$\rangle$}
+\DeclareRobustCommand*{\arm}[1]{\ar{\meta{#1}}}
+% argomento opzionale variabile sintattica
+\DeclareRobustCommand*{\oarm}[1]{\oar{\meta{#1}}}
+% nome di ambiente
+\newcommand*{\env}[1]{\texttt{#1}}
+% nome di opzione
+\newcommand*{\option}{\texttt}
+% nome di pacchetto
+\newcommand{\pack}{\textsf}
+% nome di classe
+\newcommand{\class}{\textsf}
+% nome di file
+\newcommand*{\File}{\texttt}
+% Ambiente generico per ``citazioni''
+\newcommand{\suftitolo}[2]{\textcolor{Maroon}{#1}\textcolor{Black!30}{#2}}
+\def\suftesi{\textsf{suftesi}}	 
+\newcommand{\quoteskip}{.5\baselineskip
+  plus .1\baselineskip minus .1\baselineskip}
+\newlength{\normalparindent}
+\setlength{\normalparindent}{\parindent}
+\newenvironment{genquote}[1][]
+  {\par\nobreak
+    \addvspace{\quoteskip}
+    \parindent0pt
+    \hangafter0
+    \hangindent2\normalparindent
+    #1}
+  {\par\addvspace{\quoteskip}\noindent\ignorespacesafterend}
+\newenvironment{ttquote}
+  {\genquote[\ttfamily\microtypesetup{activate=false}]}
+  {\endgenquote}
+
+\setcounter{tocdepth}{3}
+%****************************************************************************
+%				INIZIA IL DOCUMENTO
+%****************************************************************************
+\begin{document}
+%%****************************************
+% TITLEPAGE
+%%****************************************
+\begin{titlepage}
+	\parindent0pt
+		\begin{picture}(0,0)
+		\fontsize{60}{60}\selectfont
+		   \setlength{\unitlength}{1mm}
+		      \put(114,-230){%
+		\rotatebox{90}{\suftitolo{S}{cienze} 
+			\suftitolo{U}{mane e} \suftitolo{F}{ilosofia}}}%
+		\end{picture}
+	
+	\null\vspace{\stretch{1}}
+	
+	\large Ivan Valbusa
+		\vskip2ex
+			\hrule
+		\vskip2ex
+	{\bfseries\Huge\color{Maroon} La classe
+	\textsf{\suftesi}\\[1ex]}%
+	{\large Per tesi di laurea e di dottorato delle facoltà umanistiche\par}
+	
+	\vspace{\stretch{4}}
+	
+	Versione 0.4, \today
+\end{titlepage}
+%%****************************************
+% COLOPHON
+%%****************************************
+\colophon[Mac OS X]{Ivan Valbusa}{Il font con grazie è il {Palatino} di Hermann Zapf\index{Zapf, Hermann}.  Il font lineare è l'{Iwona} di Janusz M.~Nowacki\index{Nowacki, Janusz M.}, e quello a larghezza fissa è il Bera Mono, originariamente sviluppato da Bistream, Inc. come Bitstream Vera. Per il greco si sono usati i font {Artemisia} e {Porson} della Greek Font Society e il font {CB Greek} di Claudio Beccari.\index{Beccari, Claudio}}
+
+%%****************************************
+%% 		MATERIALE INIZIALE
+%%****************************************
+\frontmatter
+
+%%****************************************
+% 		TABLEOFCONTENTS
+%%****************************************
+\tableofcontents
+\cleardoublepage
+
+%*********************************************
+\chapter*{Ringraziamenti}
+\addcontentsline{toc}{chapter}{Ringraziamenti}
+%*********************************************
+
+La classe \suftesi{} nasce in occasione del corso \emph{Introduzione a \LaTeX{} per le scienze umane} che ho tenuto per la Scuola di Dottorato in Scienze Umane e Filosofia (da cui il nome della classe) dell'Università di Verona nei giorni 1, 3, 9 e 10~giugno 2010.\footnote{\url{http://www.sdsuf.univr.it/sdol/main}. Si possono trovare informazioni sul corso alla pagina \url{http://profs.lettere.univr.it/valbusa/LaTeX}.}
+
+Colgo l’occasione per ringraziare la professoressa Paola Di~Nicola,\index{Di Nicola, Paola}
+Direttrice della Scuola di Dottorato, che mi ha dato la possibilità di tenere il
+corso su \LaTeX{} e il professor Ugo Savardi,\index{Savardi, Ugo} che ha avuto l'idea di
+proporre questo corso proprio alla Scuola di~Dottorato.
+
+Ringrazio il
+professor Enrico~Gregorio,\index{Gregorio, Enrico} per il supporto \TeX perto
+nell'organizzazione del corso e per le sue impagabili ``formule magiche'' (fermo restando che mi assumo le responsabilità di eventuali errori o inesattezze), e il professor Tommaso Gordini,\index{Gordini, Tommaso} che con i suoi preziosi consigli mi ha permesso di migliorare la forma e il contenuto di questa documentazione.
+
+Un particolare ringraziamento va ai dottori Gilberto D'Arduini\index{D'arduini, Gilberto}, Matteo Lanza\index{Lanza, Matteo} e Antonio Rinaldi\index{Rinaldi, Antonio}, che hanno provveduto all'installazione di \LaTeX{} sui computer utilizzati durante il corso; alla dottoressa Catia Cordioli\index{Cordioli, Catia}, per la pazienza e il supporto nella frenetica organizzazione delle lezioni; al dottor Corrado Ferreri\index{Ferreri, Corrado}, responsabile del servizio di \mbox{E-Learning} d'Ateneo, che ha fornito le copie in \textsc{dvd} di TeX Live 2009 distribuite ai frequentanti.
+
+Infine, ringrazio tutti i frequentanti del corso, i
+dottorandi, gli assegnisti e i docenti che hanno resistito alle quattro intensive lezioni. A loro dedico questa classe.
+
+%*********************************************
+\chapter{Introduzione}
+%*********************************************
+
+%*********************************************
+\section*{Nota sul copyright}
+\addcontentsline{toc}{section}{Nota sul copyright}
+%*********************************************
+
+La classe \suftesi{} è rilasciata sotto la licenza LaTeX Project Public License  version 1.3c.\footnote{\url{http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}.}
+
+Oltre ai termini previsti dalla licenza, l'autore richiede di inserire nel documento la seguente nota di attribuzione:
+\begin{center}
+Questo lavoro è stato realizzato con \LaTeX{}\\ usando la classe \suftesi{} di Ivan Valbusa.
+\end{center}
+Tale nota  può essere inserita nel \emph{colophon}, che può essere posto alla fine del documento o all'inizio, anche nel retro del frontespizio, come avviene in questo documento. Qui si possono indicare anche ulteriori informazioni, quali il font usato, il sistema operativo, eccetera A questo scopo la classe mette a disposizione il comando \cs{colophon} (vedi sezione \ref{sec:comandi}).  
+
+%*********************************************
+\section*{Installazione}
+\addcontentsline{toc}{section}{Installazione}
+%*********************************************
+
+Per utilizzare la classe \suftesi{} basta copiare il file \File{suftesi.cls} nella propria cartella di lavoro. Se si vuole la classe disponibile per ogni documento \LaTeX{}, bisogna copiare il file in una sottocartella corretta dell'albero personale o locale, eventualmente creandola se non ci fosse già. L'operazione va eseguita nei modi propri di ogni sistema operativo.\footnote{Le istruzioni per installare a mano un pacchetto sono spiegate, per esempio, in \cite{Pantieri:2010}.}
+
+La classe è distribuita in un archivio \File{.zip} insieme a un modello di tesi pronto all'uso che per gestire la bibliografia richiede la presenza nella propria distribuzione \LaTeX{} dei pacchetti \pack{biblatex} (di Philipp Lehman\index{Lehman, Philipp}) e \pack{biblatex-philosophy} (di Ivan Valbusa\index{Valbusa, Ivan}).
+La classe si carica nel modo consueto:
+\begin{ttquote}
+\cs{documentclass}\oarm{opzioni}\ar{suftesi}
+\end{ttquote}
+ricordando che non serve specificare l'opzione \option{a4paper} perché già impostata di default.
+
+%*********************************************
+\section*{Pacchetti caricati dalla classe}
+\addcontentsline{toc}{section}{Pacchetti caricati dalla classe}
+%*********************************************
+
+La classe \suftesi{} carica automaticamente i pacchetti \pack{beramono}, 
+\pack{calc}, \pack{caption}, \pack{enumitem}, \pack{emptypage}, \pack{epigraph}, \pack{fancyhdr}, \pack{fontenc},  \pack{footmisc}, \pack{geometry}, \pack{ifluatex}, \pack{ifxetex}, \pack{iwona}, \pack{mathpazo}, \pack{metalogo}, \pack{microtype}, \pack{mparhack}, \pack{multicol},  \pack{textcase}, \pack{titlesec}, \pack{titletoc}, \pack{varioref}.
+
+
+%*********************************************
+\section*{Avvertenza per i neofiti}
+\addcontentsline{toc}{section}{Avvertenza per i neofiti}
+%*********************************************
+
+Se si usa \suftesi{} a partire da un documento composto con un'altra classe, ci si ricordi di ripulire il preambolo da eventuali ridefinizioni di comandi e ambienti usati in precedenza: non facendolo, lo stile del documento che si sta scrivendo  potrebbe non corrispondere più alle aspettative.
+%
+%%%*********************************************
+%\section*{\XeLaTeX}
+%\addcontentsline{toc}{section}{\XeLaTeX}
+%%%*********************************************
+
+Se si hanno particolari esigenze di font, è possibile usare la classe con \XeLaTeX, ricordando che \XeLaTeX{} richiede che il documento sia scritto nelle codifiche \textsc{utf-8} o \textsc{utf-16}.
+
+
+
+
+%%****************************************
+%%		MATERIALE CENTRALE
+%%****************************************
+\mainmatter
+
+%*********************************************
+\chapter{Caratteristiche della classe}
+%*********************************************
+\begingroup 
+\setlength{\epigraphwidth}{6cm}
+\epigraph{Metti qui la tua epigrafe preferita, ma fai attenzione:
+se non riesci a trovare per ogni capitolo un \emph{incipit} 
+che sia allo stesso tempo originale, acuto e inerente, lascia perdere!}{Ivan Valbusa\index{Valbusa, Ivan}}
+\endgroup
+
+%*********************************************
+\chapterintro
+%*********************************************
+
+Le classi standard di \LaTeX{} permettono di ottenere documenti ben composti, ma il risultato finale è lontano dalle esigenze anche estetiche degli utenti umanisti e richiamano piuttosto, com'è naturale, la forma dei manuali delle discipline tecnico-scientifiche.
+
+Ho voluto creare, quindi, uno stile molto semplice e sobrio, anche con l'obiettivo di ricercare nella semplicità l'equilibrio estetico. Per i titoli dei capitoli ho preferito di default il semplice carattere tondo, mentre ho usato il corsivo solo per le sezioni di primo livello. Si possono comunque personalizzare alcuni elementi del \emph{layout} (vedi sezione~\ref{sec:opzionicomandi}).
+ 
+%*********************************************
+\section{Layout}
+%*********************************************
+
+Lo stile della classe è largamente ispirato dalle mie letture di argomento tipografico: mi riferisco \emph{in primis} ai volumi di Jan Tschichold\index{Tschichold, Jan} e Robert Bringhurst\index{Bringhurst, Robert} pubblicati in Italia  da Sylvestre~Bonnard.\footcite{Tschichold:1975,Bringhurst:1996} 
+La spaziatura prima e dopo i titoli di sezione è un semplice avanzamento di riga. La gabbia del testo è in rapporto $1:2$ (doppio quadrato), e si è usato lo stesso rapporto anche per definire le coppie di margini interno/esterno e superiore/inferiore. In un primo momento essa potrebbe apparire troppo stretta, ma l'impressione svanisce presto: una riga di testo contiene in media dieci parole, un numero considerato ottimale per permettere una lettura agevole.
+
+La tabella~\vref{tab:gabbia} raccoglie le misure dei diversi elementi
+di una pagina composta con \suftesi{}, mentre la figura \ref{fig:formatopagina} mostra la struttura di una coppia di pagine. A differenza delle classi standard, con la classe \suftesi{} l'opzione \option{11pt} non si limita ad aumentare il corpo del font, ma agisce anche sulla gabbia del testo, adattandone le dimensioni (vedi la sezione \ref{sec:opzioni}).
+\begin{table}
+\centering
+\caption[Misure e proporzioni degli elementi della pagina]{Misure e proporzioni degli elementi della pagina.}
+\label{tab:gabbia}
+\begin{tabular}{lccc}
+\toprule
+&& Default & Opzione \option{11pt} \\\midrule
+&& (pt) & (pt)\\[.5ex]
+Larghezza gabbia del testo                && 312 & 324\\
+Altezza gabbia del testo        && 624 & 648\\%\midrule
+\multirow{2}*{Proporzioni margini}        & sup./inf. & $1:2$ & $1:2$\\
+& est./int. &$1:2$&$1:2$\\%\midrule
+Proporzioni del testo  &  & $1:2$& $1:2$ \\
+Proporzioni della pagina && $1/\sqrt{2}$& $1/\sqrt{2}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}
+\centering
+\fbox{\includegraphics[width=.45\textwidth]{layoutSX}}
+\fbox{\includegraphics[width=.45\textwidth]{layoutDX}}
+\caption[Formato della pagina e della gabbia del testo]{Formato della pagina e della gabbia del testo.}
+\label{fig:formatopagina}
+\end{figure}
+
+%*********************************************
+\section{Font}
+%*********************************************
+ 
+La classe carica di default alcuni font.\footnote{Utilizzando la classe con \XeLaTeX{} non verrà caricato alcun font e anche le opzioni relative ai font, descritte nella sezione \ref{sec:opzioni}, verranno ignorate.}\marginpar{Ricordatevi di inserire nel \emph{colophon} le informazioni sui font usati nel documento. È una finezza che verrà sicuramente apprezzata\ldots dai lettori più attenti}  Per il testo con grazie, il
+Palatino di Hermann Zapf\index{Zapf, Hermann}.  
+È un font neo-umanista molto originale, 
+dotato di vero maiuscoletto, \emph{old style figures} e supporto per
+la matematica. Il testo senza grazie viene composto con l'Iwona di
+Janusz M.~Nowacki\index{Nowacki, Janusz M.}.\footnote{Questa scelta, naturalmente, si ispira  all'\emph{Arte di scrivere con \LaTeX{}} di Lorenzo Pantieri\index{Pantieri, Lorenzo} e Tommaso Gordini\index{Gordini, Tommaso}.}
+
+
+Si consiglia di non eccedere nel corpo del font: utilizzando una
+stampante discreta, l'opzione predefinita di 10~punti dovrebbe essere
+più che sufficiente. Anche 11~punti potrebbero essere accettabili,
+mentre 12~punti sono eccessivi.
+
+Inutile precisare che si possono usare anche i font di altri
+pacchetti: \pack{fourier}, \pack{lmodern}, \pack{mathdesign}, soltanto
+per fare alcuni esempi. In questi casi si ricordi però di richiamare l'opzione \option{defaultfont}, che disabilita le impostazioni della classe e imposta i font \LaTeX{} standard; si presti inoltre attenzione alla scelta del font per scrivere in greco. 
+
+%*********************************************
+\subsection{Alfabeto greco}
+%*********************************************
+
+La classe \suftesi{} imposta di default il font greco Artemisia
+della Greek Font Society, che con le sue grazie affilate si integra molto bene con il disegno del Palatino:
+\begin{quotation}
+%Il filosofo Aristotele\index{Aristotele} è nato a Stagira
+Alla Natura che ogni cosa dona e ogni cosa riprende \omissis{} \marginpar{\emph{Artemisia}}
+\begin{otherlanguage*}{polutonikogreek}%
+\fontfamily{artemisia}\selectfont
+Th| p`anta dido`ush|
+ka'i >apolambano`ush| f`usei
+<o pepaideum`enos ka'i
+a>id`hmwn l`egei; <<d'os, <'o
+j`eleis, >ap`olabe, <'o
+j`eleic>>. L`egei d'e to~uto
+o>u katajrasun`omenos, >all'a
+peijarq~wn m`onon ka'i
+e>uno~wn a>ut~h|.
+%Ἀριστοτέλης, ὁ φιλόσοφος, Σταγειρίτης ἦν τὸ γένος. ἐγένετο δὲ τῶι ἔτει τπδ´. ὀκτωκαιδέκατον ἔτος ἔχων, εἰς Ἀθήνας ἦλθε καὶ συσταθεὶς Πλάτωνι, διέτριψε παρὰ αὐτὸν εἴκοσιν ἔτη.
+ \end{otherlanguage*}
+\end{quotation}
+L'opzione \option{porson} permette di usare il font Porson, della
+medesima Società:
+\begin{quotation}
+%Il filosofo Aristotele\index{Aristotele} è nato a Stagira 
+Alla Natura che ogni cosa dona e ogni cosa riprende \omissis{} \marginpar{\emph{Porson}}
+\begin{otherlanguage*}{greek}%
+\fontfamily{porson}\selectfont
+Th| p`anta dido`ush|
+ka'i >apolambano`ush| f`usei
+<o pepaideum`enos ka'i
+a>id`hmwn l`egei; <<d'os, <'o
+j`eleis, >ap`olabe, <'o
+j`eleic>>. L`egei d'e to~uto
+o>u katajrasun`omenos, >all'a
+peijarq~wn m`onon ka'i
+e>uno~wn a>ut~h|.%Ἀριστοτέλης, ὁ φιλόσοφος, Σταγειρίτης ἦν τὸ γένος. ἐγένετο δὲ τῶι ἔτει τπδ´. ὀκτωκαιδέκατον ἔτος ἔχων, εἰς Ἀθήνας ἦλθε καὶ συσταθεὶς Πλάτωνι, διέτριψε παρὰ αὐτὸν εἴκοσιν ἔτη.
+ \end{otherlanguage*}
+ \end{quotation}
+L'opzione \option{defaultgreek} disabilita il carattere Artemisia e
+permette di usare il font greco standard CB Greek.\footnote{Questa opzione viene automaticamente abilitata dall'opzione \option{defaultfont} (vedi sezione~\ref{sec:opzioni}).}:
+\begin{quotation}
+%Il filosofo Aristotele\index{Aristotele} è nato a Stagira 
+Alla Natura che ogni cosa dona e ogni cosa riprende \omissis{} \marginpar{\emph{CB Greek}}
+\begin{otherlanguage*}{greek}%
+\fontfamily{lmr}\selectfont
+Th| p`anta dido`ush|
+ka'i >apolambano`ush| f`usei
+<o pepaideum`enos ka'i
+a>id`hmwn l`egei; <<d'os, <'o
+j`eleis, >ap`olabe, <'o
+j`eleic>>. L`egei d'e to~uto
+o>u katajrasun`omenos, >all'a
+peijarq~wn m`onon ka'i
+e>uno~wn a>ut~h|.%Ἀριστοτέλης, ὁ φιλόσοφος, Σταγειρίτης ἦν τὸ γένος. ἐγένετο δὲ τῶι ἔτει τπδ´. ὀκτωκαιδέκατον ἔτος ἔχων, εἰς Ἀθήνας ἦλθε καὶ συσταθεὶς Πλάτωνι, διέτριψε παρὰ αὐτὸν εἴκοσιν ἔτη.
+ \end{otherlanguage*}
+ \end{quotation}
+ 
+%*********************************************
+\section{Citazioni fuori corpo e note}
+%*********************************************
+
+Le tesi umanistiche si distinguono spesso dalle tesi di carattere scientifico per la presenza di numerose e corpose note a piè di pagina e di citazioni fuori corpo. È raro inoltre, se non per gli utilizzatori di \LaTeX, trovare note a margine in una tesi di laurea o di dottorato, sebbene queste note siano non solo gradevoli ma anche utili.
+
+%*********************************************
+\subsection{Citazioni fuori corpo o ``in display''}
+%*********************************************
+
+La classe \suftesi{} permette di comporre le citazioni ``in display'' nello stesso corpo delle note a piè di pagina, con rientro destro e sinistro uguale a quello della prima riga di un capoverso. \marginpar{Il rientro della prima riga serve per distinguere l'inizio di un capoverso. Nelle citazioni ``in display'', pertanto, non ha alcun senso}Per una ragione di coerenza, la prima riga del primo capoverso citato \emph{non} è rientrata:
+\begin{quotation}
+Sed commodo posuere pede. Mauris ut est. Ut quis purus. Sed ac odio. Sed vehicula hendrerit sem. Duis non odio. Morbi ut dui. Sed accumsan risus eget odio. In hac habitasse platea dictumst. Pellen- tesque non elit.
+
+Quisque ornare tellus ullamcorper nulla. Mauris porttitor pharetra tortor. Sed fringilla justo sed mauris. Mauris tellus. Sed non leo. Nullam elementum, magna in cursus sodales, augue est scelerisque sapien, venenatis\marginpar{Ambiente \emph{\env{quotation}}} congue nulla arcu et pede.
+\end{quotation}
+
+Come nelle classi standard di \LaTeX, si può usare il classico ambiente \env{quotation} per citazioni di uno o più capoversi, come nella
+citazione precedente, oppure l'ambiente \env{quote} per citare massime
+e proverbi lunghi una riga o poco più:
+\begin{quote}
+La citazione è un utile sostituto dell'arguzia (Oscar Wilde\index{Wilde Oscar}).\marginpar{Ambiente \emph{\env{quote}}} 
+
+Le note a piè di pagina sono l'emblema della meticolosità (Robert Bringhurst\index{Bringhurst, Robert}).
+\end{quote}
+
+Per citare testi poetici esiste l'ambiente \env{verse}:
+\begin{verse}
+Il sole all'imbrunir lascia il suo seggio\marginpar{Questi versi sono del poeta e attore comico Maurizio Lastrico}\\
+Finito il travagliar m'avvio a dimora\\
+Ma giunto al mio quartier non v'è parcheggio
+\end{verse}
+
+Si ricorda di non lasciare righe vuote nel codice sorgente senza un
+preciso motivo. Una riga vuota dopo un ambiente, come in questo caso,
+fa cominciare un nuovo capoverso.
+
+%*********************************************
+\subsection{Note a piè di pagina}
+%*********************************************
+
+Come si può notare, in questo documento il numero della nota a piè di
+pagina è a esponente nel corpo del testo, mentre è in linea con la riga del testo ed esposto nel margine della
+pagina nella nota.\footnote{Si consiglia in ogni caso di inserire la nota \emph{dopo} l'eventuale segno di in\-ter\-pun\-zio\-ne e possibilmente
+dopo il punto fermo di fine periodo, per permettere una lettura più agevole.} Questa scelta si ispira agli \emph{Elementi dello stile tipografico} di Robert Bringhurst\index{Bringhurst, Robert}.\footcite{Bringhurst:1996}
+
+%*********************************************
+\subsection{Note a margine}
+%*********************************************
+
+Il comando standard \cs{marginpar} stampa le note a margine in corsivo e con lo stesso corpo delle citazioni ``in display'', allineandole
+a sinistra nelle pagine dispari e a destra nelle pagine pari. Questa
+disposizione si ispira al pacchetto \pack{classicthesis}.
+
+In linea generale, i testi contemporanei non fanno largo uso delle
+note a margine, ma in una tesi di laurea o di dottorato potrebbero
+rivelarsi molto efficaci se integrate con accortezza alle note al
+piede.
+
+Immaginando, per esempio, \marginpar{Robert Bringhurst (Los Angeles, 16 ottobre 1946) è un poeta, scrittore e tipografo canadese, autore del capolavoro \emph{The Elements of Typographic Style}}di dover citare un passo di Robert
+Bringhurst\index{Bringhurst, Robert}, sarebbe molto utile disporre di brevi note sulla sua vita
+e magari su un'opera che preme ricordare.  Ecco che la nota
+è \emph{proprio lì} dove serve e il flusso della lettura non viene
+interrotto dal movimento verticale dell'occhio sulla pagina. Le note a
+margine sono un tratto caratteristico dell'elegante tipografia del
+Rinascimento.
+
+Naturalmente, \emph{non} si possono usare le note a margine come se
+fossero note al piede: composizione e collocamento sulla pagina
+richiedono infatti particolare attenzione. %(Si veda a questo proposito la precedente nota a margine, gestita volutamente nel modo scorretto.)
+Se organizzate con cura, invece, rivelano la loro doppia
+utilità: il lettore riceve informazioni extra al momento giusto, e
+l'autore ha l'occasione di ``fare il punto'' sul contenuto di un
+capoverso o su un concetto particolarmente importante.
+
+%*********************************************
+\subsection{Epigrafi}
+%*********************************************
+
+Il pacchetto \pack{epigraph} permette di stampare le epigrafi.  Se l'epigrafe viene collocata dopo il titolo del capitolo, come accade di solito, il primo paragrafo del
+testo immediatamente seguente\marginpar{Le epigrafi impreziosiscono la tesi ma solo se fatte con intelligenza} presenterà la prima riga rientrata, a
+meno che non cominci con un comando di sezione: si cerchi, perciò, di
+uniformare l'inizio di tutti i capitoli del documento. 
+
+Si può eliminare il rientro della prima riga di un capoverso con il comando \cs{noindent} e si ricordi che dopo un titolo di sezione non ha alcun senso rientrare la prima riga.
+
+Si possono modificare ``localmente'' le impostazioni di
+\pack{epigraph} con il codice seguente:
+\begin{ttquote}
+\cs{begingroup}\\
+\cs{setlength}\ar{\cs{epigraphwidth}}\arm{lunghezza}\\
+\cs{epigraph}\arm{testo dell'epigrafe}\arm{autore}\\
+\cs{endgroup}
+\end{ttquote}
+dove \meta{lunghezza} è il valore della larghezza della minipage che
+contiene il \meta{testo dell'epigrafe} espressa in una qualsiasi delle unità di
+misura tipografiche riconosciute da \LaTeX{} (per esempio,
+\texttt{8cm}, \texttt{80mm}, eccetera).
+
+%*********************************************
+\section{Sezionamento}
+%*********************************************
+
+La classe \suftesi{} accetta \emph{tutti} i comandi di
+sezionamento previsti dalle classi standard di \LaTeX. Naturalmente,
+questo non significa che in un documento debbano essere usati tutti e
+a tutti costi.
+
+Consiglio in ogni caso di usare anche le dichiarazioni di sezionamento già previste dalla classe \class{book},
+\begin{ttquote}
+\cs{frontmatter}\\
+\cs{mainmatter}\\
+\cs{backmatter}\\
+\end{ttquote}
+che controllano il formato dei numeri di pagina e la numerazione delle sezioni, rispettivamente, del materiale iniziale (Dedica, Ringraziamenti, Introduzione, eccetera), dei capitoli e del materiale finale (Conclusione, Indici, Bibliografia, eccetera).\footnote{Si veda il modello di tesi distribuito assieme alla classe. In \cite[sez.~4.4]{Pantieri:2010}, sono spiegati in dettaglio tutti i comandi di sezionamento.} Si noti che la classe \suftesi{} ridefinisce il comando \cs{frontmatter} in modo da ottenere la numerazione delle pagine con cifre arabe anziché romane.
+
+%*********************************************
+\subsection{Introduzione}
+%*********************************************
+
+Spesso è conveniente cominciare un capitolo numerato con un'Introduzione non numerata, non necessariamente molto ampia: si può intendere come una specie di Sommario del capitolo, da far comparire o meno nell'indice generale. In questo documento si è scelta la prima strada.
+
+A questo scopo la classe \suftesi{} definisce il comando
+\begin{ttquote}
+\cs{chapterintro}
+\end{ttquote}
+che permette di inserire un'introduzione non numerata e di ottenerne il riferimento corretto nell'indice con il pacchetto \pack{hyperref}, che va dunque caricato se si usa questo comando.\footnote{Ringrazio Enrico Gregorio\index{Gregorio, Enrico}, che ha avuto l'idea del comando e ne ha fornito il codice.} 
+
+Se invece non si vogliono visualizzare i riferimenti, basta caricare \pack{hyperref} con l'opzione \option{draft}:
+\begin{ttquote}
+\cs{usepackage}\ar{hyperref}\\
+\cs{usepackage}\ar{draft=true}\\
+\end{ttquote}
+Si ricorda che \pack{hyperref} va caricato come \emph{ultimo} pacchetto.
+
+%*********************************************
+\subsection{Sulle parti}
+%*********************************************
+
+La divisione del testo in parti può aver senso soltanto in alcune tipologie di lavoro. Nel campo della psicologia, potrebbe essere conveniente suddividere il lavoro in una parte teorica e in una sperimentale; in ambito sociologico, in una parte compilativa che raccoglie dati raccolti da interviste e in una parte che analizza
+questi dati, eccetera. In campo filosofico la divisione in parti potrebbe essere altrettanto utile in lavori comparativi. Per esempio: \emph{Parte I. Fenomenologia ed Esistenzialismo}; \emph{Parte~II. Fenomenologia ed Ermeneutica}.
+
+%*********************************************
+\subsubsection{Sulle sotto-sottosezioni}
+%*********************************************
+
+Il più delle volte si possono evitare le sezioni di terzo livello come
+questa. Se non è possibile farlo, si consiglia in ogni caso di non
+farle comparire nell'indice generale: la classe è impostata in modo
+che questo non avvenga. (Fa eccezione questo documento, che mostra nell'indice anche questa sezione.)
+
+%*********************************************
+\paragraph{Sui Paragraphs} 
+%*********************************************
+
+Si possono usare anche le sezioni di quarto livello come questa (i
+\emph{paraghaph}) ma, come già detto, si raccomanda di non abusare
+delle possibilità che \LaTeX{} offre in questo senso.
+
+%*********************************************
+\subparagraph{Sui Subparagraphs}
+%*********************************************
+
+Le sezioni di quinto livello come questa (\emph{subparagraph})
+\emph{devono} sottostare a criteri ancora più restrittivi, per
+evitare che in un documento vi siano più titoli di sezione che
+parole. In questa documentazione la norma è stata violata, ma per una
+giusta causa.
+
+%*********************************************
+\subsection{Appendici}
+%*********************************************
+La classe ridefinisce il comportamento del comando standard \cs{appendix}, che ora stampa una pagina intitolata \emph{Appendici} nel punto in cui viene dato. Naturalmente si consiglia di usarlo soltanto se le appendici della tesi sono più d'una. Anche la numerazione tradizionale delle appendici cambia: vengono "numerate" alfabeticamente anche se messe nel \emph{backmatter}.
+
+%*********************************************
+\section{Testatine}
+%*********************************************
+
+Le testatine della classe \suftesi{} sono organizzate in questo
+modo: nella parte esterna riportano sempre il numero di pagina, mentre
+in quella interna c'è il numero del capitolo nelle pagine pari, e il
+titolo del capitolo nelle pagine dispari.
+
+Questa scelta\marginpar{Si può scegliere tra due stili di testatine}
+ si ispira alle consuetudini tipografiche di numerose
+case editrici, italiane in particolare. Le testatine sono stampate con
+lo stesso corpo delle note a piè di pagina, di quelle a margine e
+delle citazioni fuori corpo.
+
+Si possono modificare le testatine con l'opzione \option{plain} descritta nella sezione \ref{sec:opzioni}.
+
+%*********************************************
+\section{Titoli}
+%*********************************************
+
+Di default, i titoli dei capitoli e delle sezioni di primo livello vengono allineati a sinistra e composti in carattere tondo e corsivo rispettivamente.
+
+Il formato dei titoli può essere personalizzato con le opzioni \option{sctitles} e \option{centertitle} %  (vedi figura \vref{fig:titoli}) 
+descritte nella sezione \ref{sec:opzioni}. Combinando le due opzioni si ottengono in totale quattro diversi formati, compreso quello predefinito.
+
+%*********************************************
+\chapter{Comandi e opzioni}\label{sec:opzionicomandi}%*********************************************
+
+%*********************************************
+\section{Comandi}\label{sec:comandi}
+%*********************************************
+
+La classe \suftesi{} definisce i seguenti nuovi comandi:
+\begin{description}
+\item [\cs{chapterintro}] \mbox{}\par
+permette di inserire un'introduzione non numerata, e di ottenerne il riferimento corretto nell'indice con il pacchetto \pack{hyperref}.
+\item [\cs{colophon\oarm{OS}\arm{nome e cognome}\arm{info aggiuntive}}]\mbox{}\par 
+compone un retrofrontespizio come quello di questa documentazione, inserendo l'indicazione del \emph{copyright} seguita da \meta{nome e cognome} dell'autore del lavoro e, nel \emph{colophon}, la nota di attribuzione richiesta dall'autore della classe e tutte le informazioni aggiuntive (sistema operativo, font, eccetera) che si ritiene necessario indicare. 
+La seconda pagina della documentazione è stata ottenuta con il codice seguente:
+
+{\footnotesize
+\begin{verbatim}
+\colophon[Mac OS X]{Ivan Valbusa}{Il font con grazie è il Palatino di 
+   Hermann Zapf.  Il font lineare è l'Iwona di Janusz M.~Nowacki, e quello a 
+   larghezza fissa è il Bera Mono, originariamente sviluppato da Bistream, Inc.
+   come Bitstream Vera.  Per il greco si sono usati i font Artemisia e Porson 
+   della Greek Font Society e il font CB Greek di Claudio Beccari.}
+\end{verbatim}}
+
+Per omettere la nota sul \emph{copyright} è sufficiente lasciare vuoto il secondo argomento: 
+\begin{ttquote}
+\cs{colophon\oarm{OS}\{\}\arm{info aggiuntive}}
+\end{ttquote}
+
+\item [\cs{hemph}\arm{testo}]\mbox{}\par è una variante di \cs{emph} che permette a \LaTeX{} di sillabare correttamente, se necessario, e senza restituire un errore di \emph{overfull box} la parola scritta nel proprio argomento quando è preceduta da un articolo. Il comando si usa come segue:
+\begin{verbatim}
+dell'\hemph{encyclopædia}
+\end{verbatim}
+\item [\cs{headbreak}]\mbox{}\par spezza il titolo di una sezione nell'indice
+  generale, ma non nel corpo del testo né nella testatina.
+\item [\cs{xheadbreak}]\mbox{}\par spezza il titolo di una sezione nel corpo del
+  testo e nella testatina, ma non nell'indice generale.
+\item [\cs{chapterintroname}\arm{nome}] \mbox{}\par 
+cambia in \meta{nome} il titolo stampato dal comando \cs{chapterintro}.
+\item [\cs{appendicesname}\arm{nome}] \mbox{}\par 
+cambia in \meta{nome} il titolo della pagina stampata dal comando \cs{appendix}.
+\end{description}
+
+%*********************************************
+\section{Opzioni}\label{sec:opzioni}
+%*********************************************
+
+Oltre alle opzioni della classe \class{book}, che fa proprie, la
+classe \suftesi{} definisce le seguenti:
+
+\begin{multicols}{2}
+\begin{description}
+\item [\option{disablefront}] \mbox{}\par
+ va dichiarata se non si intende usare il pacchetto \pack{frontespizio} o se lo si vuole usare senza le impostazioni previste dalla classe \suftesi{}.
+\item [\option{sctitles}]\mbox{}\par permette di ottenere le testatine e i titoli dei capitoli e delle sezioni di primo livello in maiuscoletto. Può essere combinata con l'opzione \option{centertitle}.
+\item [\option{centertitle}]\mbox{}\par permette di ottenere numero e titolo del capitolo centrati sulla pagina, con il titolo sotto il numero. Può essere combinata con l'opzione \option{sctitles}.
+\item [\option{plain}]\mbox{}\par permette di ottenere il numero di pagina centrato nel piè di pagina, mentre nelle testatine delle pagine pari comparirà il numero del capitolo, in quelle delle pagine dispari il titolo del capitolo. Si consiglia di utilizzare questa opzione assieme all'opzione \option{centertitle}, in modo da uniformare lo stile del documento.
+\item [\option{11pt}]\mbox{}\par imposta il corpo del font a 11\unit{pt} e adatta di conseguenza la gabbia del testo. 
+\item [\option{bozza}]\mbox{}\par stampa nel piè di pagina la nota 
+\begin{quote} 
+Versione del \meta{data documento}
+\end{quote}
+utile per distinguere le diverse bozze della tesi.
+\item [\option{artemisia}]\mbox{}\par carica il font greco Artemisia (default).
+\item [\option{porson}]\mbox{}\par carica il font greco Porson.
+\item [\option{defaultgreek}]\mbox{}\par carica il font greco standard CB~Greek.
+\item [\option{defaultfont}]\mbox{}\par imposta i font \LaTeX{} standard e permette di utilizzare qualsiasi altro font con le impostazioni corrette.
+\end{description}
+\end{multicols}
+
+%*********************************************
+\chapter{Frontespizio} 
+%*********************************************
+
+La classe \suftesi{} è compatibile con il pacchetto \pack{frontespizio} di Enrico Gregorio\index{Gregorio, Enrico},\footcite{Gregorio:frontespizio} ma permette di ottenere un frontespizio dal layout completamente diverso (vedi la figura \vref{fig:esempiofrontespizio}).
+\begin{figure}[!h]
+\centerline{\fbox{\includegraphics[height=.55\textheight,trim= 2cm 2cm 2cm 2cm]{esempiofrontespizio}}}
+\caption[Il frontespizio di \suftesi{}]{Il frontespizio di \suftesi{}.}\label{fig:esempiofrontespizio}
+\end{figure}
+
+Per usare il pacchetto \pack{frontespizio} con la classe \suftesi{} basta richiamarlo come di consueto:
+\begin{ttquote}
+\cs{usepackage}\oarm{opzioni}\ar{frontespizio}
+\end{ttquote}
+
+Se il pacchetto non è caricato nel preambolo, verrà emesso un messaggio di errore che richiede di caricarlo o, in alternativa, di dichiarare l'opzione di classe \option{disablefront}. 
+Esistono quindi almeno due possibilità per produrre il frontespizio:
+\begin{enumerate}
+\item usare il pacchetto \pack{frontespizio} con le impostazioni della classe \suftesi{} (default);
+\item usare il pacchetto \pack{frontespizio} senza le impostazioni della classe \suftesi{} (serve l'opzione di classe \option{disablefront});
+ \end{enumerate}
+Per esigenze particolari, il frontespizio può essere composto anche utilizzando l'ambiente standard \env{titlepage}.
+
+Il pacchetto \pack{frontespizio} prevede numerose opzioni e comandi per modificare il layout e i font usati nel frontespizio. Si precisa che con la classe \suftesi{} l'opzione \option{norules} ha un comportamento leggermente diverso e consente di eliminare il filetto (l'unico presente) che separa il nome della facoltà (o del dipartimento) dal nome del corso di laurea (o di dottorato).
+
+Produrre il frontespizio è molto semplice: vediamo un esempio. Nel file principale, poniamo \File{tesi.tex}, dopo \verb|\begin{document}| vanno
+dati i seguenti comandi:
+
+\begin{ttquote}
+\cs{begin}\ar{frontespizio}\\
+ \cs{Universita}\ar{Paperopoli}\\
+ \cs{Logo}\ar{duck}\\
+ \cs{Facolta}\ar{Pennutologia}\\
+ \cs{Corso}\ar{Belle Lettere}\\
+ \cs{Annoaccademico}\ar{2030--2031}\\
+ \cs{Titoletto}\ar{Tesi di laurea magistrale}\\
+ \cs{Titolo}\ar{La mia tesi:$\backslash\backslash$ una lunga serie di risultati$\backslash\backslash$\\       difficilissimi e complicatissimi}\\
+ \cs{Sottotitolo}\ar{Alcune considerazioni mutevoli}\\
+ \cs{Candidato}\oar{PP999999}\ar{Paperino Paolino}\\
+ \cs{Relatore}\ar{Giovanni Episcopo}\\
+ \cs{Relatore}\ar{Pippo Cluvio}\\
+ \cs{Correlatore}\ar{Ugo Frogio}\\
+ \cs{Correlatore}\ar{Ubaldo Kutuzu}\\
+ \cs{end}\ar{frontespizio}
+\end{ttquote}
+\enlargethispage{2\baselineskip}
+
+La sequenza di compilazione per ottenere il frontespizio è la seguente:
+\begin{enumerate}
+\item si compila la prima volta il file principale \File{tesi.tex} e si ottiene il file \File{tesi-frn.tex}; 
+\item si apre il file \File{tesi-frn.tex} con l'editor in uso e lo si compila;
+\item si compila nuovamente il file \File{tesi.tex} per ottenere il frontespizio nella posizione corretta e ben composto.
+\end{enumerate}
+
+\addtocontents{toc}{\protect\newpage}
+%*********************************************
+\chapter{Bibliografia e sigle} 
+%*********************************************
+
+%*********************************************
+\section{Bibliografia}
+%*********************************************
+
+La bibliografia delle opere umanistiche è generalmente
+problematica. Tra i numerosi pacchetti di cui \LaTeX{} dispone per gestire
+automaticamente la bibliografia e le citazioni bibliografiche in un
+documento, questa documentazione e il modello di tesi distribuito con
+la classe fanno uso del pacchetto \pack{biblatex}\marginpar{Il pacchetto \pack{biblatex} facilita e ottimizza la gestione della bibliografia e delle sigle} e degli stili del
+pacchetto \pack{biblatex-philosophy}, inclusi sia in \TeX{} Live 2009
+che in MiK\TeX{} 2.8.\footcite[Per approfondimenti cfr.][]{Pantieri:2009,Mori:2008,Valbusa:2010,Lehman:2010}
+
+\LaTeX{} permette anche di rinunciare agli automatismi e di comporre a
+mano la bibliografia, come fa la maggior parte degli utenti di altri
+elaboratori di testo. Oltre all'ambiente standard \env{thebibliography}, la
+classe \suftesi{} prevede l'ambiente \env{bibliografia} per
+comporre la bibliografia in modo completamente manuale. L'esempio
+seguente mostra il codice per una bibliografia minima. Il risultato è riportato nella figura \vref{fig:bibliografia}.
+\bigskip
+
+\hskip1em\begin{minipage}{\textwidth}
+\begin{verbatim}
+\begin{bibliografia}
+\item I. Kant\index{Kant, Immanuel}, \emph{Critica
+   della ragion pura}, Laterza, Roma-Bari 2007
+\item R. Cartesio\index{Descartes, René (Cartesio)},
+   \emph{Discorso sul metodo}, Bompiani, Milano 2001
+\end{bibliografia}
+\end{verbatim}
+\end{minipage}
+\bigskip
+
+In questo modo, però, si devono inserire a mano le citazioni
+bibliografiche, rinunciando alla possibilità di usare il comando
+\cs{cite}. L'ambiente \env{bibliografia} rimane tuttavia utile se si
+possiede già una bibliografia composta a mano e non si ha né tempo né
+voglia di creare un database bibliografico da usare con
+\pack{biblatex}.
+
+L'ambiente \env{bibliografia} genera un capitolo numerato. Per ottenere il risultato corretto va quindi inserito dopo il comando \cs{backmatter}. 
+
+%*********************************************
+\section{Sigle} 
+%*********************************************
+
+Il comando \cs{printshorthands} di \pack{biblatex} genera
+automaticamente la lista delle sigle. Se la si vuole creare a mano, la
+classe \suftesi{} definisce l'ambiente \env{sigle}, esemplificato
+nel codice seguente (il risultato è riportato nella figura \vref{fig:sigle}):
+\medskip
+
+\hskip1em\begin{minipage}{\textwidth}
+\begin{verbatim}
+\begin{sigle}
+\item[KrV] I. Kant\index{Kant, Immanuel}, \emph{Kritik der
+   reinen Vernunft}, ...
+\item[KU] I. Kant\index{Kant, Immanuel}, \emph{Kritik der
+   Urteilskraft}, ...
+\end{sigle}
+\end{verbatim}
+\end{minipage}
+\medskip
+
+L'ambiente \env{sigle} genera un capitolo numerato. Per ottenere il risultato corretto va quindi inserito dopo il comando \cs{frontmatter}. 
+\bigskip
+
+\begin{figure}[h]
+\begingroup
+\footnotesize
+\let\clearpage\relax
+\backmatter
+\hrule
+\vskip1ex
+{\LARGE Bibliografia\par}
+\vskip50pt
+I. Kant\index{Kant, Immanuel}, \emph{Critica
+   della ragion pura}, Laterza, Roma-Bari 2007\\
+R. Cartesio\index{Descartes, René (Cartesio)},
+   \emph{Discorso sul metodo}, Bompiani, Milano 2001
+   \vskip1ex
+\hrule\vskip1ex
+\caption{Bibliografia composta utilizzando l'ambiente \env{bibliografia}.}\label{fig:bibliografia}
+\vskip5ex
+\hrule
+\vskip1ex
+{\LARGE Sigle\par}
+\vskip50pt
+\noindent\makebox[1cm][r]{KrV}\hskip3em I. Kant\index{Kant, Immanuel}, \emph{Kritik der
+   reinen Vernunft}, \ldots\\
+\noindent\makebox[1cm][r]{KU}\hskip3em I. Kant\index{Kant, Immanuel}, \emph{Kritik der
+   Urteilskraft}, \ldots
+   \vskip1ex
+\endgroup
+\hrule\vskip1ex
+\caption{Sigle composte utilizzando l'ambiente \env{sigle}.}\label{fig:sigle}
+\end{figure}
+
+%****************************************
+%		MATERIALE FINALE
+%****************************************
+\backmatter
+
+%*********************************************
+\chapter{Penitenziagite!}
+%*********************************************
+\begingroup 
+\setlength{\epigraphwidth}{6cm}
+\epigraph{\omissis{} Et el resto valet un figo seco. Et amen. No?}{Salvatore\index{Salvatore}}
+\endgroup
+
+\noindent A chiunque utilizzerà la classe \suftesi{} auguro un buon lavoro e tante soddisfazioni personali. Ricordatevi che scrivendo la tesi con un programma professionale come \LaTeX{} state dando il vostro piccolo contributo alla storia della tipografia e della cultura. Non sottovalutatelo. 
+
+Non è da escludere che a qualcuno verrà obiettato che la gabbia del testo è stroppo stretta, che il font è troppo piccolo, che l'interlinea dovrebbe essere maggiore, eccetera. (Ed ecco quindi spiegati il titolo e l'\emph{incipit} di questo capitolo, tratti dal capolavoro di Umberto \citeauthor{Eco:1980}, \citetitle{Eco:1980}.) 
+
+Qualcuno di voi si sentirà sufficientemente sicuro da sostenere le buone ragioni tipografiche che hanno portato alle scelte fatte per questa classe che, detto tra noi, sono alquanto consolidate e per niente azzardate. Qualcun altro non si sentirà di scontrarsi con decenni di consuetudini anti-tipografiche. A lui chiedo soltanto di non modificare questa classe.
+
+\vskip20ex
+
+{\centering\large* * *\par}
+
+
+%*********************************************
+%		INDICE
+%*********************************************
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\indexname}
+\printindex
+
+%*********************************************
+%		BIBLIOGRAFIA
+%*********************************************
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliografia}
+\printbibheading
+%
+Queste bibliografia è stata composta con lo stile \texttt{philosophy-verbose} fornito dal pacchetto \pack{biblatex-philosophy}, scritto dallo stesso autore della classe \suftesi{}. 
+\bigskip
+%Bibliografia primaria
+\defbibnote{primaria}{}
+\phantomsection
+\addcontentsline{toc}{section}{Bibliografia primaria}
+\printbibliography[keyword=primaria,title=Bibliografia primaria,heading=subbibliography,prenote=primaria]
+% Bibliografia secondaria
+\defbibnote{secondaria}{}
+\phantomsection
+\addcontentsline{toc}{section}{Testi di approfondimento}
+\printbibliography[keyword=secondaria,title=Testi di approfondimento,heading=subbibliography,prenote=secondaria]
+
+
+\end{document}  

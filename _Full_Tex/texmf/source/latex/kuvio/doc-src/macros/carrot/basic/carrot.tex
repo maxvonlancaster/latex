@@ -1,0 +1,283 @@
+%  carrot.tex
+%  Anders G S Svensson
+
+%  Source:  carrot.nw
+%           $Revision: 1.29 $
+%           $Date: 1996/06/08 00:23:21 $
+
+\ifx\carrot\relax \expandafter\endinput\fi
+\let\carrot\relax
+
+\chardef\carrotcode=\catcode`\@
+\catcode`\@=11
+
+\def\@meaning@{\expandafter\@gobblemeaning@\meaning}
+\let\expansion\@meaning@
+\def\@gobblemeaning@#1:->{}
+
+\def\@makeatletter@{\catcode`\@=11 }
+\def\@restoreat@#1{\catcode`\@=#1\relax}
+
+\def\IfOption#1{\relax
+   \IfCarrot{\@ifundefined@{@op@\@currentcarrot@ @#1}%
+                \@SecondOfTwo@\@FirstOfTwo@}
+            {\nocarrot@\IfOption}}
+\def\IfOptionInCarrot#1#2{\relax
+   \@ifundefined@{@op@#2@#1}\@SecondOfTwo@\@FirstOfTwo@}
+
+\def\Option#1{\relax
+   \IfCarrot{\ifoption@{#1}{\executeopt@{#1}}}
+            {\nocarrot@\Option}}
+
+\def\IfCarrot{\relax
+   \ifx\@currentcarrot@\@empty@
+      \let\@action@\@SecondOfTwo@
+   \else
+      \let\@action@\@FirstOfTwo@
+   \fi
+   \@action@}
+
+\def\IfCarrotLoaded#1{\relax
+   \@ifundefined@{@cd@#1}\@SecondOfTwo@\@FirstOfTwo@}
+
+\def\@def@#1{%
+   \expandafter\def\csname #1\endcsname}
+\def\@edef@#1{%
+   \expandafter\edef\csname #1\endcsname}
+\def\@gdef@#1{%
+   \expandafter\gdef\csname #1\endcsname}
+\def\@xdef@#1{%
+   \expandafter\xdef\csname #1\endcsname}
+\def\@let@#1{%
+   \expandafter\let\csname #1\endcsname}
+
+\def\@cs@#1{\csname #1\endcsname}
+\def\@csafter@#1#2{\expandafter#1\csname #2\endcsname}
+
+\def\@space@{ }
+\def\@empty@{}
+
+\def\@ifempty@#1{%
+   \def\@tmp@{#1}%
+   \ifx\@tmp@\@empty@
+      \let\@action@\@FirstOfTwo@
+   \else
+      \let\@action@\@SecondOfTwo@
+   \fi
+   \@action@}
+
+\def\@echo@#1{#1}
+\def\@eat@#1{}
+\def\@eattwo@#1#2{}
+\def\@FirstOfTwo@#1#2{#1}
+\def\@SecondOfTwo@#1#2{#2}
+\def\@gobble@#1{\@ifempty@{#1}{}{\@gobble@}}
+\def\@chomp@#1@ {}
+
+\def\@eatspace@#1{%
+   \@ifnextchar@\@space@
+      {\def\@action@{#1}\expandafter\@action@\@chomp@ @}%
+      {#1}}
+
+\def\@eatnextchar@#1{\@expandafter@{#1}\@eat@}
+
+\def\@expandafter@#1{\def\@action@{#1}\expandafter\@action@}
+\def\@afterassignment@#1{\def\@action@{#1}\afterassignment\@action@}
+
+\def\@ifnext@#1#2#3{\@eatspace@{\@ifnextchar@{#1}{#2}{#3}}}
+
+\def\@ifundefined@#1{%
+   \expandafter\ifx\csname #1\endcsname\relax
+      \let\@action@\@FirstOfTwo@
+   \else
+      \let\@action@\@SecondOfTwo@
+   \fi
+   \@action@}
+
+\def\@ifnextchar@#1#2#3{%
+   \def\@action@{\@choice@{#1}\@action@{#2}{#3}}%
+   \futurelet\@ch@\@action@}
+
+\def\@choice@#1{%
+   \if#1\noexpand\@ch@
+      \let\@action@\@FirstOfTwo@
+   \else
+      \let\@action@\@SecondOfTwo@
+   \fi}
+
+\def\@strcmp@#1#2{%
+   \edef\@tmp@{#1}\edef\@action@{#2}%
+   \ifx\@tmp@\@action@
+      \let\@action@\@FirstOfTwo@
+   \else
+      \let\@action@\@SecondOfTwo@
+   \fi
+   \@action@}
+
+\def\IfFileExists#1{%
+   \immediate\openin\@r@=#1\relax
+   \ifeof\@r@
+      \let\@action@\@SecondOfTwo@
+   \else
+      \let\@action@\@FirstOfTwo@
+   \fi
+   \immediate\closein\@r@
+   \@action@}
+
+\def\@ifx@#1#2{%
+   \ifx#1#2%
+      \let\@action@\@FirstOfTwo@
+   \else
+      \let\@action@\@SecondOfTwo@
+   \fi
+   \@action@}
+
+\def\@ifmmode@{%
+   \ifmmode
+      \let\@action@\@FirstOfTwo@
+   \else
+      \let\@action@\@SecondOfTwo@ 
+   \fi
+   \@action@}
+
+\def\InputIfFileExists#1{%
+   \IfFileExists{#1}{\input #1\relax}{}}
+
+\def\@ignorespaces@{\@ifmmode@{}\ignorespaces}
+
+\def\@ignorewhitespace@{%
+   \catcode`\ =9 \catcode`\^^I=9 }
+
+\def\@Warning@#1{%
+   \immediate\write16{** #1}}
+\def\@Message@#1{%
+   \immediate\write16{#1}}
+\def\@message@#1{%
+   \def\@tmp@{#1}\@Message@{\@meaning@\@tmp@}}
+\def\@warning@#1{%
+   \def\@tmp@{#1}\@Warning@{\@meaning@\@tmp@}}
+
+\def\@sum@#1#2+#3@{%
+   \advance#1 by #2\relax
+   \@ifempty@{#3}{}{\@sum@{#1}#3@}}
+
+\def\@define@#1{%
+   \@afterassignment@{\@edef@{#1}{\the\@t@}}\@t@}
+
+\def\@settodimen@#1#2#3{%
+   \setbox\@b@=\hbox{#3}#1=#2\@b@}
+
+\newcount\@c@
+\newskip\@s@
+\newbox\@b@
+\newtoks\@t@
+\newread\@r@
+\newdimen\@d@
+
+\def\@grabitems@#1,#2@{%
+   \@itemaction@{#1}%
+   \@ifempty@{#2}{}{\@grabitems@#2@}}
+
+\def\usecarrot{\relax
+   \let\@currentoptions@\@empty@
+   \@ifnextchar@[\carrotwithopts@\carrotnoopt@}
+
+\def\carrotwithopts@[#1]#2{%
+   \def\@itemaction@##1{%
+      \edef\@currentoptions@{\@currentoptions@{##1}}}%
+   \@grabitems@#1,@\pickcarrot@#2,@}
+
+\def\carrotnoopt@#1{\pickcarrot@#1,@}
+
+\def\pickcarrot@#1,#2@{%
+   \@ifundefined@{@cd@#1}%
+      {\IfFileExists{#1.cd}%
+          {\loadcd@{#1}}%
+          {\@Warning@{No carrot: #1.cd}}}%
+      {}%
+   \@ifempty@{#2}%
+      {}%
+      {\pickcarrot@#2@}}
+
+\def\PassToCarrot#1{\relax
+   \IfCarrot{\pickcarrot@#1,@%
+             \expandafter\declaresilently@\@currentoptions@{}}%
+            {\nocarrot@\PassToCarrot}}
+
+\def\declaresilently@#1{%
+   \@ifempty@{#1}%
+      {}%
+      {\@ifundefined@{@co@\@currentcarrot@ @#1}%
+          {\@let@{@co@\@currentcarrot@ @#1}\@empty@ \declaresilently@}%
+          {}}}
+
+\def\loadcd@#1{%
+   \@let@{@cd@#1}\@empty@
+   \@let@{@opt@#1}\@empty@
+   \@expandafter@{\markoption@{#1}}\@currentoptions@{}%
+   \@let@{@do@#1}\relax
+   \edef\@action@{%
+      \def\noexpand\@currentcarrot@{#1}
+      \noexpand\@makeatletter@
+      \noexpand\input #1.cd\relax
+      \noexpand\@restoreat@{\the\catcode`\@}%
+      \noexpand\checkoption@\@currentoptions@{}%
+      \noexpand\expandafter\noexpand\executeoption@
+         \expandafter\noexpand\csname @opt@#1\endcsname{}%
+      \noexpand\@cs@{@do@#1}%
+      \def\noexpand\@currentoptions@{\@currentoptions@}%
+      \def\noexpand\@currentcarrot@{\@currentcarrot@}}%
+   \@action@}
+
+\def\markoption@#1#2{%
+   \@ifempty@{#2}%
+      {}%
+      {\@let@{@op@#1@#2}\@empty@ \markoption@{#1}}}
+
+\def\executeoption@#1{%
+   \@ifempty@{#1}%
+      {}%
+      {\@ifundefined@{@op@\@currentcarrot@ @#1}%
+          {}%
+          {\@let@{@do@\@currentcarrot@}\relax \executeopt@{#1}}%
+       \executeoption@}}
+
+\def\executeopt@#1{%
+   \@cs@{@co@\@currentcarrot@ @#1}\@let@{@co@\@currentcarrot@ @#1}\@empty@}
+
+\def\checkoption@#1{%
+   \@ifempty@{#1}%
+      {}%
+      {\ifoption@{#1}{}\checkoption@}}
+
+\def\ifoption@#1#2{%
+   \@ifundefined@{@co@\@currentcarrot@ @#1}%
+      {\@Warning@{Unrecognized option: #1 (\@currentcarrot@.cd)}}%
+      {#2}}
+
+\let\@currentcarrot@\@empty@
+
+\def\nocarrot@#1{%
+   \@warning@{Ignored #1in non-carrot}}
+
+\def\DeclareOption{\relax
+   \IfCarrot\DeclareOption@
+            {\nocarrot@\DeclareOption\@eattwo@}}
+
+\def\DeclareOption@#1{%
+   \@edef@{@opt@\@currentcarrot@}{\@cs@{@opt@\@currentcarrot@}{#1}}
+   \@define@{@co@\@currentcarrot@ @#1}}
+
+\def\DeclareDefaultOption{\relax
+   \IfCarrot{\@define@{@do@\@currentcarrot@}}
+            {\nocarrot@\DeclareDefaultOption\@eat@}}
+
+\def\ExecuteOptions#1{\relax
+   \IfCarrot{\def\@itemaction@##1{\ifoption@{##1}{\executeopt@{##1}}}%
+             \@grabitems@#1,@}%
+            {\nocarrot@\ExecuteOptions}}
+
+
+\InputIfFileExists{\jobname.cd}
+
+\catcode`\@=\carrotcode

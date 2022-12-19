@@ -1,0 +1,228 @@
+%%%%% List your macros below %%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% Beginning of setup (Do not change) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[10pt,draft,reqno]{amsart}
+   % MODIFYING AMSART.CLS:
+     \makeatletter
+     \def\section{\@startsection{section}{1}%
+     \z@{.7\linespacing\@plus\linespacing}{.5\linespacing}%
+     {\bfseries%\normalfont\scshape
+     \centering
+     }}
+     \def\@secnumfont{\bfseries}
+     \makeatother
+   % END OF MODIFICATION OF AMSART.CLS.
+\usepackage[russian,ukrainian,english]{babel}
+
+\setlength{\textheight}{19.5 cm}
+\setlength{\textwidth}{12.5 cm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\setcounter{page}{1}
+%%%%% End of setup (Do not change) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\selectlanguage{english}
+\begin{document}
+
+\title[On the intermediate multivalued functions]{On the intermediate multivalued functions}
+
+\author{Maslyuchenko V.K.}
+\address{Maslyuchenko V.K.: Chernivtsi National University, Ukraine}
+\email{v.maslyuchenko@gmail.com}
+
+\author{Melnyk V.S.}
+\address{Melnyk V.S.: Chernivtsi National University, Ukraine}
+\email{windchange7@gmail.com}
+
+
+
+
+
+
+\begin{otherlanguage}{english}
+\begin{abstract}
+For topological spaces $X$ and $Y$ we consider conditions, by which for arbitrary multivalued maps $G:X\rightarrow Y$ and $H:X\rightarrow Y$, such, that $G(x)\subseteq H(x)$ for each $x\in X$ and $G$ and $H$ are respectively upper and lower semicontinuous, there is $F:X\rightarrow Y$ continuous, such, that $G(x)\subseteq F(x)\subseteq H(x)$. We also consider conditions on topological spaces, by which the Hahn`s theorem on the intermediate function has a multivalued analog.
+\end{abstract}
+\end{otherlanguage}
+
+
+
+\maketitle
+
+
+
+\section{History}
+
+Suppose $X$ is a set, $Y$ is a partially ordered set, $g:X\rightarrow Y$ and $h:X\rightarrow Y$~--- maps, such, that $g(x)\leq h(x)$ for all $x\in X$. Map $f:X\rightarrow Y$ is called intermediate / strictly intermediate / for pair $(g,h)$ if $g(x)\leq f(x)\leq h(x)$ on $X$ /$g(x)<f(x)<h(x)$, if $g(x)<h(x)$, and $g(x)=f(x)=h(x)$, if $g(x)=h(x)$/. If $X$ is a topological space, $Y=\mathbb{R}$, then we say that maps $g:X\rightarrow \mathbb{R}$ and $h:X\rightarrow \mathbb{R}$ form a Hahn's pair / strict Hahn's pair/, if $g$ is upper semicontinuous, $h$~--- lower semicontinuous and $g(x)\leq h(x)$ /g(x)<h(x)/ on $X$. H. Hahn [5] proved, that every Hahn's pair $(g,h)$ on metric space $X$ has continuous intermediate function $f:X\rightarrow \mathbb{R}$. J. Dieudonne [2] proved it for case of X being paracompact, H. Tong [10,11] and M. Katetov [6,7] compiled Hahn's theorem for the normal spaces, noting, that the existance of intermediate continuous function $f$ for every Hahn's pair on $T_{1}$-space $X$ implies normality of $X$.
+
+These results were developed in papers by K. Dowker [3] and E. Michael [8]. First one together with M. Katetow [6] established, that in class of $T_{1}$-spaces $X$ existance of strictly intermediate continuous function $f:X\rightarrow \mathbb{R}$ for each strict Hahn pair $(g,h)$ is equivalent to normality and paracompactness of X, second one established, that in class of $T_{1}$-spaces $X$ existance of strictly intermediate continuous function $f:X\rightarrow \mathbb{R}$ for each Hahn pair $(g,h)$ is equivalent to perfect normality of X. New approach to the proof of these results has been presented by C. Good and I. Stars [4]. K. Yamazaki [13], developing his previous investigations [14] and results by J.M. Borwein, M. Thґera [1], proved theorems about the intermediate map $f:X\rightarrow \mathbb{R}$ for Hahn's pairs analogies $(g,h)$ with values in Banach lattices.
+
+Recently there have appeared new versions of Hahn theorem. In paper [15] it was proved that for each Hahn pair $(g,h)$ on segment $[a,b]$, where $g$ and $h$~--- are increasing functions, there is an intermediate increasing continuous function $f:[a,b]\rightarrow \mathbb{R}$. Then in [16] for strict Hahn pairs $(g,h)$ on the segment $X$ of $\mathbb{R}$ there were constructed piecewise linear or infinitely differentiable functions $f:X\rightarrow \mathbb{R}$ such that satisfy some additional conditions. These results were compiled in [18,19] for the Frechet differentiable maps using partitions of unity.
+
+\section{Multivalued maps and staging of the problem}
+
+It is well known, that the concept of upper and lower semicontinuity can be applied to the multivalued maps $F:X\rightarrow Y$, that correlate nonempty subset of $Y$ for each point $x\in X$, i.e. are maps $F:X\rightarrow \mathcal{P}(Y)$ with values in set $\mathcal{P}(Y)=2^{Y}\setminus \{\emptyset\}$ of all nonempty subset of space $Y$. Lets recall, that multivalued map $F:X\rightarrow Y$ from topological space $X$ to the topological space $Y$ is called upper /lower/ semicontinuous in point $x_{0}\in X$, if for each open set $U$ in $Y$, such that $F(x_{0})\subseteq V$ /$F(x_{0})\cap V\neq {\O}$/ there is such neighborhood $U$ of the point $x_{0}\in X$, that $F(x)\subseteq V$ /$F(x)\cap V\neq {\O}$/ for each $x\in U$ (here we use the terminology from [9]). We say, that $F$ is continuous at $x_{0}$, if it is upper and lower semicontinuous at this point. Map $F:X\rightarrow Y$ is called continuous, upper or lower semicontinuous, if it is so at every point of the space $X$.
+
+The set $\mathcal{P}(Y)$is equipped with natural partial order,  which is the relation of inclusion $\subseteq$ of $Y$ subsets , that allows to transfer the  concept of Hahn's pair to the case of multivalued maps. We say that a multivalued maps form the Hahn /Hahn strict/ pair, if $G$ is upper semicontinuous, $H$ is lower semicontinuous and $G(x)\subseteq H(x)$ /$G(x)\subset H(x)$/ for each $x\in X$.
+
+The following problems arise naturally:
+
+
+\textit{Problem 1.} In which conditions on spaces $X$ and $Y$ each Hahn pair $(G,H)$ from multivalued maps $G,H:X\rightarrow Y$ has continuous intermediate multivalued map $F:X\rightarrow Y$?
+
+
+
+\textit{Problem 2.} In which conditions each strict Hahn's pair $(G,H)$ from $X$ to $Y$ has strict intermediate continuous multivalued map $F:X\rightarrow Y$?
+
+
+
+\textit{Problem 3.} In which conditions each Hahn's pair $(G,H)$ from $X$ to $Y$ has strict intermediate continuous multivalued map $F:X\rightarrow Y$?
+
+
+
+In this paper we begin to investigate this problems. Our results relate to the problem 1. We show that for the normal $T_{1}$-space $X$ and any Hahn's pair $(G,H)$ of multivalued maps $G:X\rightarrow Y$ and $H:X\rightarrow Y$, which values are segments, there is intermediate continuous map $F:X\rightarrow Y$, that has segments as values in $\mathbb{R}$. Then we show, that the existence of intermediate continuous map $F:X\rightarrow Y$ for Hahn's pair $(G,H)$ of maps $G:X\rightarrow \mathbb{R}$, $G(x)=(-\infty,g(x)]$, and $H:X\rightarrow \mathbb{R}$, $H(X)=(-\infty,h(x)]$, implies that $(g,h)$ is Hahn's pair on $X$ and has continuous intermediate function $f:X\rightarrow \mathbb{R}$ on $X$.
+
+\section{Existence of continuous intermediate multivalued function.}
+
+Let $X$ be a topological space and $F:X\rightarrow \mathbb{R}$ a multivalued map, with values as segments $F(x)=[f_{1}(x),f_{2}(x)]$, where $f_{1}:X\rightarrow \mathbb{R}$ are functions, for which $f_{1}(x)\leq f_{2}(x)$ on $X$.
+
+\begin{lemma}
+Map $F:X\rightarrow \mathbb{R}$, $F(x)=[f_{1}(x),f_{2}(x)]$, is upper semicontinuous if and only if function $f_{1}:X\rightarrow \mathbb{R}$ is lower semicontinuous, and $f_{2}:X\rightarrow \mathbb{R}$ is upper semicontinuous.
+\end{lemma}
+
+\begin{proof}
+Let $F$ be upper semicontinuous in $x_{0}$ and $\varepsilon>0$. Open set $V=(f_{1}(x_{0})-\varepsilon,f_{2}(x_{0})+\varepsilon)$ contains segment $F(x_{0})$. This implies that there exists $U$ neighborhood of $x_{0}$ such that $F(x)\subseteq V$ when $x\in U$. Since $f_{1}(x)\in F(x)$ and $f_{2}(x)\in F(x)$ for any $x$ , then $\{f_{1}(x),f_{2}(x)\}\subseteq  V$ for each $x\in U$, so, $$f_{1}(x_{0})-\varepsilon<f_{1}(x)\leq f_{2}(x)<f_{2}(x_{0})+\varepsilon$$ for each $x\in U$, so $f_{1}$ is lower semicontinuous, and $f_{2}$ is upper semicontinuous in $x_{0}$.
+
+Let $f_{1}$ be lower semicontinuous, $f_{2}$ upper semicontinuous in $x_{0}$ and $\varepsilon>0$. Then there are such a neighborhoods $U_{1}$ and $U_{2}$ of point $x_{0}$, that $$f_{1}(x)>f_{1}(x_{0})-\varepsilon\textmd{ on }U_{1}\textmd{ and }f_{2}(x)<f_{2}(x_{0})+\varepsilon\textmd{ on }U_{2}$$ Intersection $U=U_{1}\cap U_{2}$ is also a neighborhood of the point $x_{0}$ and for $x\in U$: $$f_{1}(x_{0})-\varepsilon<f_{1}(x)\leq f_{2}(x)<f_{2}(x)+\varepsilon.$$  Let $V$ be an arbitrary subset of $\mathbb{R}$, that contains $F(x_{0})=[f_{1}(x_{0}),f_{2}(x_{0})]$. Since $f_{i}(x_{0})\in V$ for $i=1,2$ there exist such $\varepsilon_{i}>0$ for $i=1,2$ that: $$(f_{i}(x_{0})-\varepsilon_{i},f_{i}(x_{0})+\varepsilon_{i})\subseteq V\textmd{, where }i=1,2.$$ Lets put $\varepsilon=\min\{\varepsilon_{1},\varepsilon_{2}\}$. Obviously, for this number: $$V_{0}=(f_{1}(x_{0})-\varepsilon_{1},f_{2}(x_{0})+\varepsilon_{2})\subseteq V.$$ From the proven before, there exists neighborhood $U$ of the point $x_{0}$ in $X$, such, that $$F(x)\subseteq V_{0},$$ as soon as $x\in U$. Then also $F(x)\subseteq V$ for each $x\in U$, so, multivalued function $F$ is upper semicontinuous in $x_{0}$.
+\end{proof}
+
+\begin{lemma}
+Map $F:X\rightarrow \mathbb{R}$, $F(x)=[f_{1}(x),f_{2}(x)]$, is lower semicontinuous if and only if function $f_{1}:X\rightarrow \mathbb{R}$ is upper semicontinuous, and $f_{2}:X\rightarrow \mathbb{R}$ is upper semicontinuous.
+\end{lemma}
+
+\begin{proof}
+Let $F$ be lower semicontinuous in $x_{0}$ and $\varepsilon>0$. Consider open set $V=(-\infty,f_{1}(x_{0})+\varepsilon)$, for which, obviously $V\cup F(x_{0})\neq {\O}$, that implies there is neighborhood $U$ of point $x_{0}$ in $X$, that $V\cup F(x)\neq {\O}$, as soon as $x\in U$ Lets take for $x\in U$ a point $y_{1}\in V\cup F(x)$. Then $y_{1}\in V$, so, $y_{1}<f_{1}(x_{0})+\varepsilon$, and $y_{1}\in F(x)$, so $y_{1}\geq f_{1}(x)$. From that we have $f_{1}(x)<f_{1}(x_{0})+\varepsilon$ on $U$, and $f$ is upper semicontinuous in $x_{0}$.
+
+Similarly the lower semicontinuousness of function $f_{2}$ in $x_{0}$ is proven, for this it is only required to consider open set $V=(f_{2}(x_{0})-\varepsilon,+\infty)$.
+
+Vice versa, let function $f_{1}$ be upper semicontinuous, $f_{2}$ lower and point $x_{0}$ and $V$ is open set in $\mathbb{R}$, for which $V\cup F(x_{0})\neq {\O}$. Lets consider any point $y\in V\cup F(x_{0})$. Then $f_{1}(x_{0})\leq y\leq f_{2}(x_{0})$ and $y\in V$. The fact that set $V$ is open implies that there is $\varepsilon>0$, such that $(y-\varepsilon,y+\varepsilon)\subseteq V$. Also, the fact that $f_{1}$ and $f_{2}$ are semicontinuous upper and lower respectively at the point $x_{0}$ implies that that there is neighborhood $U$ of point $x_{0}$ in $X$, such that for $x\in U$: $$f_{1}(x)<y+\varepsilon\textmd{ and }f_{2}(x)>y-\varepsilon.$$ Then for $x\in U$ we have: $F(x)\cup V\neq {\O}$. Indeed, for points $y_{1}=f_{1}(x)$ and $y_{2}=f_{2}(x)$ we have that $y_{1}<y+\varepsilon$ and $y_{2}>y-\varepsilon$. If $y_{2}<y+\varepsilon$, then $y_{2}\in (y-\varepsilon,y+\varepsilon)\cup F(x)\subseteq V\cup F(x)$, and if $y_{1}>y-\varepsilon$, then $y_{1}\in V\cup F(x)$. Lets now $y_{2}\geq y+\varepsilon$ and $y_{1}\leq y-\varepsilon$. Then $(y-\varepsilon,y+\varepsilon)\subseteq[y_{1},y_{2}]=F(x)$ and from that $y\in V\cup F(x)$. In any case $F(x)\cup V\neq {\O}$.
+\end{proof}
+
+\begin{theorem}
+Let $X$ be a normal space and $(G,H)$ be Hahn's pair such that $G(x)=[g_{1}(x),g_{2}(x)]$ and $H(x)=[h_{1}(x),h_{2}(x)]$ for each $x\in X$. Then there is intermediate for $(G,H)$ continuous $F:X\rightarrow \mathbb{R}$ such that $F(x)=[f_{1}(x),f_{2}(x)]$ on $X$, where functions $f_{1}$ and $f_{2}$ are continuous.
+\end{theorem}
+
+\begin{proof}
+From the condition $G(x)\subseteq H(x)$ on $X$ we get that $$h_{1}(x)\leq g_{1}(x) \leq g_{2}(x)\leq h_{2}(x)$$ for each $x\in X$. From lemmas 1 and 2 we obtain, that $(h_{1},g_{1})$ and $(g_{2},h_{2})$ are Hahn's pairs on $X$. The Hahn theorem implies that there exist continuous functions $f_{i}:X\rightarrow \mathbb{R}$ for $i=1,2$ such,that: $$h_{1}(x)\leq f_{1}(x)\leq g_{1}(x)\textmd{ and }h_{1}(x)\leq f_{1}(x)\leq g_{1}(x)$$ for each $x\in X$. Since $g_{1}(x)\leq g_{2}(x)$, then $f_{1}(x)\leq f_{2}(x)$ on $X$. Lemma 3 implies that the map $$F:X\rightarrow \mathbb{R}, F(x)=[f_{1}(x),f_{2}(x)],$$ is continuous, and $G(x)\subseteq F(x)\subseteq H(x)$ for each $x\in X$.
+\end{proof}
+
+\section{Hahn's theorem as a corollary of it's multivalued version.}
+
+Lets $f:X\rightarrow \mathbb{R}$ be a function, defined on the topological space $X$ and $F(x)=(-\infty,f(x)]$.The following lemmas can be proven similarly to the proofs of lemmas 1-3:
+
+\begin{lemma}
+Function $f$ is upper semicontinuous if and only if multivalued function $F$ is upper semicontinuous.
+\end{lemma}
+
+
+\begin{lemma}
+Function $f$ is lower semicontinuous if and only if multivalued function $F$ is lower semicontinuous.
+\end{lemma}
+
+\begin{lemma}
+Function $f$ is continuous if and only if multivalued function $F$ is continuous.
+\end{lemma}
+
+Lemmas 1 and 2 immediately imply:
+
+\begin{lemma}
+Lets $X$ be topological space, $(g,h)$ be a Hahn's pair on $X$, $G(x)=(-\infty,g(x)]$  and $H(x)=(-\infty,g(x)]$. Then $(G,H)$ is also Hahn's pair on $X$.
+\end{lemma}
+
+
+
+
+
+\begin{theorem}
+Lets $X$ be topological space, $(g,h)$ be a Hahn's space on $X$, $G(x)=(-\infty,g(x)]$  and $H(x)=(-\infty,g(x)]$, and Hahn's pair $(G,H)$ has intermediate continuous function $F:X\rightarrow \mathbb{R}$. Then Hahn's pair $(g,h)$ also has intermediate continuous function $f:X\rightarrow \mathbb{R}$
+\end{theorem}
+
+\begin{proof}
+From condition $G(x)\subseteq F(x)\subseteq H(x)$ on $X$. Lets put $$f(x)=\sup F(x).$$ Since $g(x)\in G(x)$, then $g(x)\in F(x)$, and $g(x)\leq f(x)$. Here, the inclusion $F(x)\subseteq H(x)$ implies, that $$f(x)=\sup F(x)\leq\sup H(x)=h(x).$$ Since that, we have, that $g(x)\leq f(x)\leq h(x)$ on $X$.
+
+Lets $\varepsilon>0$. Consider open set $V_{1}=(-\infty, f(x_{0})+\varepsilon)$. It is clear, that $F(x_{0})\subseteq V_{1}$. The fact that $F$ is upper semicontinuous at $x_{0}$ implies that there is neighborhood $U_{1}$ of point $x_{0}$ in $X$, such, that $F(x)\subseteq V_{1}$ as soon as $x\in U$. In that case: $$f(x)=\sup F(x)\leq \sup V_{1}=f(x_{0})+\varepsilon$$ on $U_{1}$, so, function $f$ is upper semicontinuous at $x_{0}$.
+
+For open set $V_{2}=(f(x_{0})-\varepsilon,+\infty)$ we have, that $V_{2}\cup F(x_{0})\neq{\O}$. Indeed, since $f(x_{0})=\sup F(x_{0})$, we have, that there is $y\in F(x_{0})$, such, that $y>f(x_{0})-\varepsilon$. It is clear that $y\in V_{2}\cup F(x_{0})$. The fact that $F$ is lower semicontinuous at $x_{0}$ implies, that there is neighborhood $U_{2}$ of the point $x_{0}$m such, that $F(x)\cup V_{2}\neq {\O}$ when $x\in U_{2}$. Then for each $x\in U$ there is $y_{x}\in F(x)\cup V_{2}$, for which, obviously, $f(x_{0})-\varepsilon<y_{x}\leq f(x)$, and then: $$f(x)>f(x_{0})-\varepsilon$$ on $U_{2}$ and $f$ is lower semicontinuous at $x_{0}$.
+
+On the neighborhood $U=U_{1}\cup U_{2}$ of the point $x_{0}$ in $X$ the following inequalities are true: $$f(x_{0})-\varepsilon<f(x)<f(x_{0})+\varepsilon,$$ and that implies the continuity of function $f$ at point $x_{0}$.
+
+\end{proof}
+
+\par\bigskip\noindent
+
+
+\bibliographystyle{amsplain}
+
+\begin{thebibliography}{99}
+1. Borwein J.M., Thґera M.: Sandwich theorems for semicontinuous operators,  Canad.
+Math. Bull. 35 (1992) 463–474.\\
+
+2. Dieudonne J.: Une g\'{e}n\'{e}ralisation des espaces compacts,  J. de Math. Pyres et Appl. 23 (1944) 65-76.\\
+
+3. Dowker C. H.: On countably paracompact spaces, Canad. J. Math. 3 (1951) 219-224.\\
+
+4.  Good C., Stares I.: New proofs of classical insertion theorems, Comm. Math. Univ. Carolinae. 41 №1 (2000) 139-142\\
+
+5.  Hahn H.: Uber halbstetige und unstetige Functionen, Sitzungsberichte Akad.Wiss.Wien. Math. - naturwiss.Kl.Abt.IIa. 127 (1917) 91-110.\\
+
+6. Katetov M.: On real-valued functions in topological spaces, Fund.Math. 38 (1952) 85-91.
+\\
+
+7. Katetov M.: Correction to 'On real-valued functions in topological spaces', Fund.Math. 40 (1953) 203-205.\\
+
+8. Michael E.: Continuous selections I, Ann. of Math. 63 (1956) 361–382.\\
+
+9. Neubrunn T.: Quasi-continuity, Real. Anal. Exch. 14 №3 (1988-1989) 259-306.\\
+
+10. Tong H.: Some characterizations of normal and perfectly normal spaces, Bull.Amer.Math.Soc. 54 (1948) 65.\\
+
+11. Tong H.: Some characterizations of normal and perfectly normal spaces, Duke Math.J. 19 (1952) 289-292.\\
+
+12. Yamauchi T.: Continuous selections avoiding extreme points, Topology Appl. 155
+(2008) 916–922.\\
+
+13. Yamazaki K.: The range of maps on classical insertion theorems, Acta Math. Hungar. 132 parts 1-2 (2011) 42-48.\\
+
+14. Yamazaki K.: Insertion theorems for maps to Banach lattices, Topology Appl. 157
+(2010) 1955–1965.
+\\
+
+\begin{otherlanguage}{ukrainian}
+15. Маслюченко В.К., Петей С.П.: Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації, Бук. мат. журн. 3 №2 (2015) 64-71.\\
+
+
+16. Маслюченко В.К., Маслюченко О.В., Мельник В.С.:  Існування проміжних кусково лінійних та нескінченно диференційовних функцій, Бук. мат. журн. 4 № 3-4 (2016) 93-100.\\
+\end{otherlanguage}
+
+17. Maslyuchenko V., Melnyk V.: The development of Hahn's theorem on an intermediate function, in: International conference dedicated to the 120th anniversary of Kazimierz Kuratowski, (2016) 36-37, Ivan Franko National University of Lviv, Ukraine\\
+
+\begin{otherlanguage}{ukrainian}
+18. Маслюченко В.К, Мельник В.С.: Про побудову диференційовних проміжних функцій, in: Сучасні проблеми теорії ймовірностей та математичного аналізу: Всеукраїнська наукова конференція, Ворохта (2017) 105-106, Івано-Франківськ: ДВНЗ "Прикарпатський національний університет імені Василя Стефаника"\\
+\end{otherlanguage}
+
+19. Maslyuchenko V., Melnyk V.: Побудова проміжних диференційовних функцій, Ukrainian Mathematical Journal (2017)\\
+
+
+
+
+\end{thebibliography}
+
+
+\end{document}

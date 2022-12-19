@@ -1,0 +1,2123 @@
+%  tdwk-s.tex
+%  Anders G S Svensson
+
+%  Time-stamp: <1996/06/09 03:30:06 PDT agss@klagshamn>
+
+%  $Revision: 1.21 $
+%  $Date: 1996/06/09 11:31:01 $
+
+\autocompileto{tdwk/tdwk-s}
+
+\Graphpad=5pt
+
+\def\entry{\leavevmode\vtop\bgroup
+   \openup3pt
+   \FontSize{13}\currentfont
+   \catcode`\^^M=\active\Entry}
+{\catcode`\^^M=\active
+ \gdef\Entry#1{\anotherline #1%
+    \let\relax\entrystrut\aftergroup\lastline^^M\egroup}
+ \gdef\anotherline#1^^M{\hbox to \hsize{#1\relax\hfil}\anotherline}
+}
+
+\ifAAAA
+\def\endentry{\vskip20pt\goodbreak}
+\else
+\def\endentry{\vskip15pt\goodbreak}
+\fi
+\def\entrystrut{\vphantom{\vrule width 0pt depth 8pt}}
+\def\lastline#1{}
+\def\mod{\par\leavevmode\modmarker}
+\def\modmarker{{\llap{$\bullet$\hskip.4in}}}
+
+\def\d{\hfill\tt}
+\def\hs{\hskip15mm}
+
+\def\harebra{\epsfxsize=3cm \rot1\epsffile{harebra.eps}\endrot}
+
+\def\int{\emph{integer}}
+\def\dim{\emph{dimen}}
+\def\text{\emph{text}}
+\def\math{\emph{math}}
+\def\{{{\escapechar=-1 \tt\string\{}}
+\def\}{{\escapechar=-1 \tt\string\}}}
+\def\:{{\escapechar=-1 \tt\string\:}}
+\def\*{{\escapechar=-1 \tt\string\*}}
+\def\|{{\escapechar=-1 \tt\string\|}}
+\def\({{\escapechar=-1 \tt\string\(}}
+\def\){{\escapechar=-1 \tt\string\)}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+\label{Summary}
+
+Brief descriptions (plus some examples) of the available control
+sequences and modifiers, including several not mentioned thus far.
+Modifiers are indicated by a $\bullet$ in the left margin.  Default or
+predefined values, where appropriate, are listed in the right margin.
+{\let\egroup\relax\endentry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mc\^\sindex mc\_%
+           \sindex mc\<\sindex mc\>%
+   \ch\^\{\math\}\qquad \ch\_\{\math\}
+   \ch\<\{\math\}\qquad \ch\>\{\math\}}
+Place labels on an arrow in \csq\labelstyle.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mc\(\tt\(\int,\int\)}
+Specify coordinates to an \csq\a\type\ or \csq\b\type\ cell macro.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mc\(\tt\(\num,\num\)}
+Specify coordinates to a modification.
+Both \index mm{Box} and \index mm{Frame} modifications require two sets of
+coordinates while others can accept either one or two sets.
+
+\side
+\Graph{2cm,2}{1cm}
+\Txt{bitterness} (2,.5) *{1.1}
+\Txt{bereavement} (3,.5) (4,.5) :{1.1} *0
+\Box (2,0) (3,1)  \Frame (3,1) (4,0)
+\endGraph
+\endside
+
+For modifications on a Figure or Graph,
+a coordinate may be given as a dimension.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mc\*\ch\*\{\num\}\d .5}
+Set the tag point of a modification.
+Has no effect on type 2 modification cells,
+\index tm{Box} modifications or \index tm{Frame} modifications.
+
+\side
+\Graph{1cm}{1cm}
+\To (1,.5) *0   \Line (1,.5) *{1.5}
+\Text{chaos} (1,.5) *{-2}
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mc\/\ch\/\{\int\}\d 0}
+Rotate a modification by \int\ degrees counterclockwise.
+Has no effect on type 2 modification cells,
+\index tm{Box} modifications or \index tm{Frame} modifications.
+
+\side
+\Graph{3cm}{1cm}
+\Line (0,.5) /{90}  \Line (1,.5) /{90}
+\Txt{losfer words} (.5,.5) /{180}
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mw{"|@\BAR}\ch\|\{\dim\}}
+Set the length of a type 1 modification cell.
+See \csq\celllength.
+
+\side
+\Graph{2cm}{5mm}
+\To  (.5,1)  \Two (.5,0) |{2cm}
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mc\:%
+   \:\{\num\}\d .5
+   \:\{\dim\}\d 0pt
+   \:\{\num\ch\,\dim\} or \:\{\dim\ch\,\num\}}
+Adjust the positioning of a label tied to an arrow, \num\ determining
+a point along the line joining the endpoints of the arrow and \dim\ a
+point on a line perpendicular to the arrow.
+
+\eg
+\Diagram A & \rTo ^f :{.75} & B & \rTo ^g :{.75,5pt} & C & \rTo ^h :{5pt} & D \\
+\endDiagram
+\endeg
+
+A semicolon can also be used as the argument separator.
+In fact, in this case we can replace the label pad \dim\ by a
+comma-separated pair of
+dimensions, the first moving a label parallel to the
+direction of an arrow and a second being a label pad. That is,
+the forms \:\{\dim\ch\,\dim\}, \:\{\num\ch\;\dim\ch\,\dim\}
+and \:\{\dim\ch\,\dim\ch\;\num\} are also legal.
+
+\eg
+\Diagram A & \rTo ^f :{-10pt,0pt} & B & \rTo ^g :{0;10pt,0pt} & C \\
+\endDiagram
+\endeg
+
+Label positioning with \ch\: applies to all labels placed on an arrow.
+For any individual label, this can be overridden by supplying a
+positioning specification to \index tc\^, \index tc\_,
+\index tc\<\ or \index tc\>,
+delimited by square braces.
+This may be useful for cell types whose arrows are composed of many pieces,
+although the same results can be obtained using null arrows (see \csq\nl).
+
+\side
+\newcell{Adj}
+\def\Adjbox#1{\vcenter{\offinterlineskip\dimen0=#1
+   \hbox to #1{\leftarrowfill\hskip.2\dimen0} \hbox to #1{\hskip.2\dimen0\rightarrowfill}}}
+\labelpad{Adj}=2.5pt
+
+\Diagram A & \rAdj ^[.6]{f_1} _[.4]{f_2} & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mc\:\ch\:\{\num\}\d .5}
+For \index tm{Label}, \index tm{Math}, \index tm{Text}, \index tm{Txt}
+and \index tm{Vertex} modifications, specify a coordinate as a fractional
+distance from one point to another.
+
+{\edge{.75}
+\side
+\Graph{15mm}{15mm}
+\Line (0,1) (1,0)
+\Text{X} (0,1) (1,0) :{.25} *0
+\Math\bullet (0,1) (1,0) :{.75}
+\endGraph
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{al}}
+Move the column in which this control sequence occurs.
+Like \csq\dl\ except that, instead of also moving columns to
+the right of the given column, recursively moves those which are
+\sindex mw{binding}\emph{bound} to it.
+
+A column is bound to another in the following situations.
+
+{\parindent=30pt
+\item{(1)}If an arrow goes between two entries in columns $C_\ell <
+C_r$ and both columns are on or to the left of the
+gravitating column then $C_\ell$ is bound to $C_r$.
+\item{(2)}If two entries in the same row of columns $C_\ell < C_r$
+are adjacent (in the sense that these entries typeset material with
+non-zero dimensions and there are no other such entries in columns
+strictly between $C_\ell$ and $C_r$) and both columns are on or to the
+left of the \index tm{gravitating column} then $C_\ell$ is bound to
+$C_r$.
+\item{(3)}If an arrow goes between two entries in columns $C_\ell <
+C_r$ and both columns are on or to the right of the gravitating column
+then $C_r$ is bound to $C_\ell$.
+\item{(4)}If two entries in the same row of columns $C_\ell < C_r$
+are adjacent and both columns are on or to the right of the
+gravitating column then $C_r$ is bound to $C_\ell$.
+\par}
+
+The control sequence \index tm{displaybindings} causes a message of
+the form {\tt (B:$C$-$C'$)} to be displayed whenever column $C'$ is
+bound to column $C$.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{ar}}
+Move the column in which this control sequence occurs.
+Like \csq\dr\ except that, instead of also moving columns to
+the left of the given column, recursively moves those which are
+bound to it. See \csq\al.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{arrsy}}
+Load the font {\tt \index tw{arrsy10}} and define several control sequences
+and cell types using this font. Of course, the font has to have been installed
+on your system for this to work.
+
+\verbatim
+\input kuvio \arrsy  % plain TeX           \usepackage[arrsy]{kuvio}  % LaTeX
+\endverbatim
+\hskip\egindent{\verbatimit blah, blah, blah...}
+\endentry
+\sindex tw{LaTeX@\LaTeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{atpush}%
+   \csq{\atpush=}\dim\d 3pt
+   \csq{\atpush+=}\dim
+   \csq{\atpush\{\type\}=}\dim\hs\csq{\atpush\{\type\}+=}\dim}
+Global and type-specific amounts by which the end of an arrow attached
+to another arrow (using \csq\pt) is shortened whenever a vertex has not been
+attached using \csq\hd\ or \csq\tl.
+The type-specific quantity applies to ends attached to an arrow of
+cell type \type. Spaces in \type\ are ignored.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{autocompile}}
+Abbreviation for \@\autocompileto{.\jobname}@\.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{autocompilecounter}}
+Count register used with \index tm{autocompileto}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{autocompileto}\{\name\}}
+Cause all diagrams to be compiled unless otherwise specified using
+\index tm{nocompile}. The files \name\@-\the\@\{\tt auto\-compilecounter.kdg}
+and \name\@-\the\@\{\tt autocompilecounter.kuv} are either written or read,
+the count register \index tm{autocompilecounter} being incremented with each
+diagram being compiled. Spaced in \name\ are ignored.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{ax}\{\dim\}}
+Move the column in which this control sequence occurs rightward by \dim.
+Like \csq\dx\ except that, instead of also moving columns to
+the right of the given column, recursively moves those which are
+bound to it. See \csq\al.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{base}}
+Make the baseline of a Diagram coincide with that of a row in its alignment.
+Takes precedence over any baseline specification given outside the alignment
+(using \index tm{tall}, \index tm{deep}, etc).
+
+{\edge{.7}
+\side
+\newDiagram{Ydiag}
+\def\everyYdiag{\flexible \xgrid=0pt \ygrid=4pt \joined \columndist=9pt}
+
+\def\Y#1#2#3{%
+   \Ydiag
+    &         & #2                        \\
+                     \\                   \\
+    & \rdLine &               & \ldLine & \\
+    & \base   & \stop\my{2pt}             \\
+    & #1      & \qquad\dLine  & #3        \\
+                                          \\
+   \endYdiag}
+
+Thus, $\Y\alpha\beta\gamma = \Y\delta\epsilon\zeta$.
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{black}}
+Typeset an arrow or modification with graylevel 0.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{black}\endblack}
+Typeset the enclosed material with graylevel 0.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Box}}
+Typeset a box as a modification. The coordinates of two
+diagonally opposite corners must be specified.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Boxcell}\{\emph{box} \emph{macro}\}}
+Typeset an arrow as a modification without naming a cell type.
+Possibly the most useless control sequence of the lot!
+Has ten equally useless siblings for use in the alignment part
+of a Diagram: \csq\aBoxcell, \csq\bBoxcell, \csq\rBoxcell,
+\csq\rdBoxcell, \csq\dBoxcell, \csq\ldBoxcell, \csq\lBoxcell,
+\csq\luBoxcell, \csq\uBoxcell\ and \csq\ruBoxcell.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{bpad}%
+  \csq{\bpad=}\dim\d 0pt
+  \csq{\bpad+=}\dim}
+Padding added to the bottom of a diagram or framed material.
+Does not alter the baseline.
+
+\side
+\framed \bpad=10pt
+\Diagram
+A & \rTo & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{br}%
+   \csq\br\{\dim\}}
+Typeset an arrow on top of a white rule.
+
+\side
+\Graph{3cm,3}{12mm,2}
+\To (1,2) (1,0)
+\Line (0,2) (3,0) \br  \Two (2,0) (2,2) \br
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{braced}}
+With flexible grids, make all diagonal arrows fully braced by default and
+invert the action of \index tm{db}: An arrow will be unbraced when \csq\db\ is
+specified.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{bracewidth}%
+   \csq{\bracewidth=}\dim\d 1cm
+   \csq{\bracewidth+=}\dim}
+With flexible grids, width of the
+\emph{brace} used with braced diagonal arrows.
+
+\side
+\braced
+\Dg
+A \\ & \rdTo \\ B & & X \\
+\endDg
+\qquad\bracewidth+=1cm
+\Dg
+A \\ & \rdTo \\ B & & X \\
+\endDg
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{breakpad}%
+   \csq{\breakpad=}\dim\d 2.5pt
+   \csq{\breakpad+=}\dim
+   \csq{\breakpad\{\type\}=}\dim\hs\csq{\breakpad\{\type\}+=}\dim}
+Global and type-specific pads to determine the rule width used
+with \index tm{br} and \index tm{rl}. Spaces in \type\ are ignored.
+
+\side
+\breakpad{One}=5pt \yscale=.75
+\Diagram
+\\ & \dTo \br & \rTo \pp \dOne \br & \\ \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{celllength}%
+   \csq{\celllength=}\dim\d 1cm
+   \csq{\celllength+=}\dim}
+Default length of a type 1.
+\sindex tw{modification cell!type 1}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{cellpush}%
+   \csq{\cellpush=}\dim\d 2pt
+   \csq{\cellpush+=}\dim
+   \csq{\cellpush\{\type\}=}\dim\hs\csq{\cellpush\{\type\}+=}\dim}
+Global and type-specific cell pushes. Spaces in \type\ are ignored.
+
+\side
+\cellpush=-10pt
+\Graph{2cm}{5mm,2}
+\Line (0,2) (1,2) \tl{\bullet} \hd{}
+\Line (0,0) (1,0)              \hd{\bullet}
+\endGraph
+\endside
+
+Note the use of \index tm{tl} and \index tm{hd} in this example.
+Cell pushes are applied to a modification cell only when a vertex is attached
+using one of these two.\sindex tw{modification cell!applying cell pushes}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{cellwidth}%
+   \csq{\cellwidth=}\dim\d 1cm
+   \csq{\cellwidth+=}\dim}
+With flexible grids, the minimum distance between vertices at the ends of
+horizontal alignment cells.\sindex tw{alignment cell!length}
+
+{\edge{.5}
+\side
+\Dg A & \rTo & B & {} = C \\ \endDg
+\qquad\cellwidth+=1cm
+\Dg A & \rTo & B & {} = C \\ \endDg
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{center} or \index mm{centre}}
+Center diagrams on the math axis. With the exception of Diagrams
+consisting of a single row, this is the default in math modes.
+\endentry
+\pagedef{center def}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{centermath} or \index mm{centremath}}
+Center diagrams in math modes only. This is the default behaviour.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{columndist}%
+   \csq{\columndist=}\dim\d 15mm
+   \csq{\columndist+=}\dim}
+With flexible grids, the minimum distance between the centers of columns at
+either end of an unbraced diagonal arrow.
+\sindex tw{grid!flexible}
+
+\side
+\Dg
+A \\ & \rdTo \\ B & & X \\
+\endDg
+\qquad\columndist+=1cm
+\Dg
+A \\ & \rdTo \\ B & & X \\
+\endDg
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{compileto}\{\name\}}
+Compile a diagram to, or read a diagram from, the files \name{\tt .kdg} and
+\name{\tt .kuv}. Spaces in \name\ are ignored.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{db}}
+Make a diagonal arrow fully braced unless \index tm{braced} has been
+specified, in which case the arrow is made unbraced.
+\sindex tw{arrows!braced}
+
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{deep}}
+Make the baseline of a \sindex tw{Diagram!baseline}Diagram coincide
+with that of its topmost row and the baseline of a \sindex
+tw{Figure!baseline}Figure or \sindex tw{Graph!baseline}Graph coincide
+with that of its upper edge. This is the default for Diagrams in
+non-math modes.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mw{Dg@{\tt Dg}}\tt Dg}
+Diagram type having \index tm{flexible}, \index tm{xgrid}{\tt =0pt},
+\index tm{ygrid}{\tt +=-2mm}, \index tm{cellwidth}{\tt +=3mm} and
+\index tm{bracewidth}{\tt +=-2.5mm}.
+
+\eg
+\Dg
+\eta_k:\qquad & {\bb R} & \rInto & X_k & {} =
+  \{\,(A,\vect v)\in W_k\times{\bb R}^n \mid A\vect v = \lambda_k\vect v\,\} \\
+              &         &        & \dTo \\  % \vect is from arrsy10
+              &         &        & W_k  \\
+\endDg
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{dh}\{\dim\}}
+Fudge the length of an arrow at its head.
+
+\side
+\Diagram
+A & \rTo \dh{-10pt} & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{dh}\{\dim\ or \num\ch\,\dim\}}
+Fudge the positioning of an arrow at its head.
+Equivalent to \csq\hx\{\dim\ or \num\} \csq\hy\{\dim\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{%
+   \index mm{dh}\{\dim1 or \num\ch\,\dim2\ch\;\dim3\}
+   \csq\dh\{\dim3\ch\;\dim1 or \num\ch\,\dim2\}}
+Fudge both the length and positioning at the head of an arrow.
+Equivalent to \csq\hx\{\dim1 or \num\} \csq\hy\{\dim2\} \csq\dh\{\dim3\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mw{Diag@{\tt Diag}}\tt Diag}
+Diagram type having \csq\flexible\ and \csq{\xgrid=0pt}.
+
+\eg
+\ygrid=7mm
+\Diag
+\cdots& \rTo& H_n A& \rTo& H_n X& \rTo& H_n(X,A)& \rTo& H_{n-1}A& \rTo& \cdots \\
+      &     & \dTo &     & \dTo &     & \dTo    &     & \dTo                   \\
+\cdots& \rTo& H_n B& \rTo& H_n Y& \rTo& H_n(Y,B)& \rTo& H_{n-1}B& \rTo& \cdots \\
+\endDiag
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{Diagram}\endDiagram}
+Diagram delimiters. Uses a rigid grid unless \csq\flexible\ is specified.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{diagramdot}\d\csq\bullet}
+Token used with \csq\dotted\ and \csq\Dot.
+
+\side
+\let\diagramdot\circ \dotted
+\Diagram
+ & \\
+   \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{Diagrampad}%
+   \csq{\Diagrampad=}\dim\d 5pt
+   \csq{\Diagrampad+=}\dim}
+Padding added to all sides of a Diagram.
+
+\side
+\framed
+\Diagram A & \rTo & B \\ \endDiagram
+\Diagrampad=10pt \quad
+\Diagram A & \rTo & B \\ \endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{displayall}}
+Abbreviation for \index tm{displaybindings} \index tm{displaymovements}
+\index tm{displaystretches}, each of which announce certain computations.
+\endentry
+
+\comment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\csq\displaybindings}
+Display the message (B:<C1>-<C2>) when column <C1> is bound to column <C2>.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\csq\displaymovements}
+Display the message (X<C>) when a column is moved and
+(Y<C>) when a row is moved.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\csq\displaystretches}
+Display messages of the form (A:r<R>,c<Cl>-<Cr>),
+(C:r<R>,c<C>) and (W:r<Rl>-<Rr>,c<Cl>-<Cr>) for stretches set by
+horizontal arrows, column entries and diagonal arrows respectively.
+\endentry
+\endcomment
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Displaybox}}
+Control sequence, taking a single parameter (a box register),
+which displays a diagram.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{dl}}
+Move the column in which this control sequence occurs
+so that the alignment entry in which it occurs abuts it nearest
+neighbour to the left. Additionally, move each column to the right of the
+given column by the same amount.
+Many of the same effects can be obtained simply by using a flexible grid with
+\csq{\xgrid=0pt}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Dot}}
+Abbreviation for \@\Math{\diagramdot}@\.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{dotted}}
+Place a \csq\diagramdot\ in every empty alignment entry
+in a Diagram unless prevented from doing so by \csq\nodot.
+
+\side
+\dotted
+\Diagram
+  & \nodot \\
+A          \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{dr}}
+Move the column in which this control sequence occurs
+so that the alignment entry in which it occurs abuts it nearest
+neighbour to the right.
+Additionally, move each column to the left of the
+given column by the same amount.
+Many of the same effects can be obtained simply by using a flexible grid with
+\csq{\xgrid=0pt}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{dt}\{\dim\}}
+Fudge the length of an arrow at its tail.
+
+\side
+\Diagram
+A & \rTo \dt{-10pt} & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{dt}{\{\dim1 or \num\ch\,\dim2\}}}
+Fudge the positioning of an arrow at its tail.
+Equivalent to \csq\tx\{\dim1 or \num\} \csq\ty\{\dim2\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{%
+   \index mm{dt}\{\dim1 or \num\ch\,\dim2\ch\;\dim3\}
+   \csq\dt\{\dim3\ch\;\dim1 or \num\ch\,\dim2\}}
+Fudge both the length and positioning at the tail of an arrow.
+Equivalent to \csq\tx\{\dim1 or \num\} \csq\ty\{\dim2\} \csq\dt\{\dim3\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{dx}\{\num\ or \dim\}}
+Move the column in which this control sequence occurs.
+\csq\dx\{\dim\} moves the column rightward by \dim\ and
+also moves all columns to the right of the given column by the same amount.
+If the distance to the next column (to the right) is currently $d$,
+\csq\dx\{\num\} moves the column rightward by $\num\cdot d$ and also moves all
+columns to the left of the given column by the same amount.
+
+\side
+\gridlines
+\Diagram
+A & B \dx{5mm} & C & D           & E \\
+A & B          & C & D \dx{-.25} & E \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{dy}\{\num\ or \dim\}}
+Move the row in which this control sequence occurs.
+\csq\dy\{\dim\} moves the row upward by \dim\ and
+also moves all rows above the given row by the same amount.
+If the distance to the next row (above) is currently $d$,
+\csq\dy\{\num\} moves the row upward by $\num\cdot d$ and also moves all
+rows below the given row by the same amount.
+
+\side
+\gridlines
+\Diagram
+A                  \\
+\dEq & \dy{1}      \\
+B    & \rTo    & C \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{epi}}
+An epimorphism arrow, as in $A\epi B$.
+The {\tt arrsy10} font must be loaded for this to work. See \csq\arrsy.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{fd}\{\emph{fudge}\}}
+Abbreviation for \csq\dt\{\emph{fudge}\} \csq\dh\{\emph{fudge}\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{Figure}\endFigure}
+Figure delimiters.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{Figurepad}%
+   \csq{\Figurepad=}\dim\d 0pt
+   \csq{\Figurepad+=}\dim}
+Padding added to all sides of a Figure.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Fillcell}\{{\it fill} \emph{macro}\}}
+Like, \csq\Boxcell, typeset an arrow as a modification without naming a
+cell type.
+Has ten siblings for use in the alignment part of a Diagram:
+\csq\aFillcell, \csq\bFillcell, \csq\rFillcell,
+\csq\rdFillcell, \csq\dFillcell, \csq\ldFillcell, \csq\lFillcell,
+\csq\luFillcell, \csq\uFillcell\ and \csq\ruFillcell.
+
+\side
+\Diagram
+A & \rFillcell\lrrrightarrowfill & B \\
+\Modify
+\Fillcell\rrightarrowxfill (3,0) /{90}
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{flexible}}
+Enable the flexible grid.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{flip}\endflip}
+Rotate the enclosed material by 180 degrees.
+The material cannot contain vertical commands (unless enclosed in a box).
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{forcekdg}}
+Force diagrams to be read from \csq{\jobname.kdg} if not otherwise
+being compiled. See \ref{Specifying Diagrams in Alignments}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{fr}\{\dim\}}
+Abbreviation for \csq\tr\{\dim\} \csq\hr\{\dim\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Frame}}
+Typeset a frame as a modification. The coordinates of two
+diagonally opposite corners must be specified.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{frame}\endframe}
+Put a frame around the enclosed material.
+The material cannot contain vertical commands (unless enclosed in a box).
+
+{\edge{.65}
+\side
+\frame\bf N\"ara skjuter ingen hare.\endframe
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{framed}}
+Place diagrams in a frame.
+
+\eg
+\framed
+\Long
+H_n X\otimes G & \rMono & H_n(X;G) & \rEpi & {\rm Tor}(H_{n-1}X,G) \\
+\endLong
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{framegray}\sindex mm{framegrey}%
+   \csq{\framegray=}\num\ or \csq{\framegrey=}\num\d 0}
+Set the graylevel of the frame used with \csqq\frame\endframe.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{framepad}%
+   \csq{\framepad=}\dim\d 5pt
+   \csq{\framepad+=}\dim}
+Padding around material framed with \csqq\frame\endframe.
+
+\side
+\frame \TeX \endframe
+\framepad=10pt \frame \TeX \endframe
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{Framerulewidth}%
+   \csq{\Framerulewidth=}\dim\d .4pt
+   \csq{\Framerulewidth+=}\dim}
+Default thickness of the rule used when typesetting \csq\Frame\ modifications.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{framerulewidth}%
+   \csq{\framerulewidth=}\dim\d .4pt
+   \csq{\framerulewidth+=}\dim}
+Thickness of the rule used when typesetting frames with \csq\framed\ or
+\csqq\frame\endframe.
+
+\side
+\framerulewidth=2mm
+\frame Which way to the home world?\endframe
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{fs}\{\dim\ or \num\}}
+Abbreviation for \csq\ts\{\dim\ or \num\} \csq\hs\{\dim\ or \num\}.
+
+The following trick with %\sidx{fs@{\csqn{fs}}!trick}%
+\csq\fs\ can be used to typeset an arrow which is parallel to
+another but offset by some distance.
+
+\eg
+\Dg
+M &       & \rTo ^\theta  &       & \beta^{-1}(W) \\
+  & \rdTo &               & \ldTo                 \\
+  &       & \beta^{-1}(F)                         \\
+\Modify
+\Mapsto (0,2) (2,0) \fs{-50pt} \tl{x} \hd{R(x)}
+\endDg
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{fx}\{\dim\ or \num\}}
+Abbreviation for \csq\tx\{\dim\ or \num\} \csq\hx\{\dim\ or \num\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{fy}\{\dim\}}
+Abbreviation for \csq\ty\{\dim\} \csq\hy\{\dim\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{gr}\{{\it number}\}}
+Typeset an arrow or modification with the specified graylevel.
+Probably none too pretty on many an output device.
+
+\side
+\Graph{1cm}{1cm}
+\Box (0,0) (1,1) \gr{.25}
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\csq\gr\{{\it number}\} \csq\endgr\sindex mp{gr}\endgr}
+Typeset the enclosed material with the specified graylevel.
+
+\side
+\gr{.25}Anyone seen my bat'leth?\endgr
+\endside
+\sindex tw{bat'leth}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{Graph}\endGraph
+   \csq\Graph\{\dim\}\{\dim\} \csq\endGraph
+   \csq{\Graph\{\dim,}\dim\ or \int\}\{\dim\} \csq\endGraph
+   \csq\Graph\{\dim\}\{\dim{\tt ,}\dim\ or \int\} \csq\endGraph
+   \csq{\Graph\{\dim,}\dim\ or \int\}\{\dim{\tt ,}\dim\ or \int\} \csq\endGraph}
+Graph delimiters.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{Graphpad}%
+   \csq{\Graphpad=}\dim\d 0pt
+   \csq{\Graphpad+=}\dim}
+Padding added to all sides of a Graph.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{grav}}
+Explicitly set the gravitating column.
+Columns at the ends of an arrow which passes through the gravitating column
+will tend to be centered on it.
+
+\eg
+\loose
+\Dg
+p^{-1}(U) &          & \rTo    &       & U\times F & {} \approx U\times {\bb R}P^2 \\
+          & \rdTo <p &         & \ldTo >{\pi_1}    \\
+          &          & U \grav &       &           \\
+\endDg
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{gravitateleft}}
+Set the default location of the gravitating column to the first column of
+an alignment.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{gravitateright}}
+Set the default location of the gravitating column to the last column of
+an alignment.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{gray} or \index mm{grey}}
+Typeset an arrow or modification with the graylevel set by \csq\graygray.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{gray}\endgray\ or \index mp{grey}\endgrey}
+Typeset the enclosed material with the graylevel set by \csq\graygray.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{graygray}\sindex mm{greygrey}%
+   \csq{\graygray=}\num\ or \csq{\greygrey=}\num\d .5}
+Set the graylevel used with \csq\gray.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{grid}%
+   \csq{\grid=}\dim
+   \csq{\grid+=}\dim}
+Abbreviation for \csq{\xgrid=}\dim\ \csq{\ygrid=}\dim\ or
+\csq{\xgrid+=}\dim\ \csq{\ygrid+=}\dim.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{gridgray}\sindex mm{gridgrey}%
+   \csq{\gridgray=}\num\ or \csq{\gridgrey=}\num\d .5}
+Set the graylevel used with \csq\gridlines.
+
+\side
+\gridlines \gridgray=0
+\Diagram
+A             \\
+  & \rdTo     \\
+  &       & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{gridlines}}
+Display gridlines.
+
+\side
+\gridlines
+\Diagram
+A             \\
+  & \rdTo     \\
+  &       & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{hd}\{\math\}}
+Attach math material to the head of a type 2 modification cell.
+\sindex tw{modification cell!type 2}
+
+\side
+\Graph{5cm}{1cm}
+\To (0,.5) (1,.5) \hd{B}
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{hmir}\endhmir}
+Reflect the enclosed material across a horizontal mirror lying
+on the baseline. The material cannot contain vertical commands
+(unless enclosed in a box).
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{hpad}%
+   \csq{\hpad=}\dim
+   \csq{\hpad+=}\dim}
+Abbreviation for \csq{\lpad=}\dim \csq{\rpad=}\dim\ or \csq{\lpad+=}\dim
+\csq{\rpad+=}\dim.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{hr}\{\dim\}}
+Raise the vertex attached to the head of a type 2 modification cell.
+\sindex tw{modification cell!type 2}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{hs}\{\dim\ or \num\}}
+Slide the vertex attached to the head of a type 2 modification cell
+horizontally.
+\sindex tw{modification cell!type 2}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{hx}\{\dim\ or \num\}}
+Fudge the positioning of an arrow at its head.
+Makes the head of an arrow point to a point which is offset horizontally
+from the center of the math axis of the head vertex
+($\num = 0 \leftrightarrow{}$left edge of
+head vertex, $\num = 1 \leftrightarrow{}$right edge of head vertex).
+Has no effect on type 1 modification cells.
+\sindex tw{modification cell!type 1}
+
+\side
+\Diagram
+X                             \\
+  & \rdTo \hx{.2}             \\
+  &               & X\times X \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{hy}\{\dim\}}
+Fudge the positioning of an arrow at its head.
+Makes the head of an arrow point to a point which is offset vertically
+from the math axis of the head vertex.
+Has no effect on type 1 modification cells.
+\sindex tw{modification cell!type 1}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{into}}
+Abbreviation for \@\lhook\joinrel\rightarrow@\, as in $A\into X$.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{jh}}
+Join the head of an arrow to the point at the coordinate of its head
+vertex by applying \csq\joinpush\ rather than \csq\cellpush\ (or \csq\ptpush\
+and \csq\atpush) and ignoring the dimensions of the vertex.
+
+\side
+\Diagram
+\bullet & \rLine \jh & \bullet \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{joined}}
+Invert the action of the \csq\jh, \csq\jn\ and \csq\jt\ modifiers:
+Ends of arrows are joined unless one of these is specified.
+
+\side
+\joined \scale=.5
+\Diagram
+       & \rLine     &        \\
+\dLine &            & \dLine \\
+       & \rLine \jn &        \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{joinpush}%
+   \csq{\joinpush=}\dim\d -1pt
+   \csq{\joinpush+=}\dim
+   \csq{\joinpush\{\type\}=}\dim\hs\csq{\joinpush\{\type\}+=}\dim}
+Global and type specific pushes used with \csq\jt, \csq\jh\ and \csq\jn.
+Spaces in \type\ are ignored.
+\endentry
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{jn}}
+Abbreviation for \csqq\jt\jh.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{jt}}
+Join the tail of an arrow to the point at the coordinate of its tail vertex.
+
+\side
+\Diagram
+\bullet & \rLine \jt & \bullet \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuvio}}
+Abbreviation for \@{\tt kuvio.tex}@\.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviocs}\ch\\{\it name}}
+Access a control sequence which \kuvio\ makes available but does not define
+explicitly due to a name conflict with an existing control sequence.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviodate}}
+Expands to the date of the current patchlevel of \kuvio.
+\endentry
+
+\comment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviodef}}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviodefine}}
+\endentry
+\endcomment
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviofmt}}
+Load all macros. This should be expanded when using \kuvio\ to build a
+format file.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuvioforce}\ch\\{\it name}}
+Force redefinition of \ch\\\emph{name} when \kuvio\ makes it available only
+through \csq\kuviocs.
+\endentry
+
+\comment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviolet}}
+\endentry
+\endcomment
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviopatchlevel}}
+Expands to the current patchlevel of \kuvio.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviorequire}\{\int\}}
+A warning of forthcoming disaster will be issued if \csq\kuviopatchlevel\ is
+not at least \int.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviorevision}\{\text\}}
+With compilation, cause the string \text\ to be written to {\tt .kuv} files.
+A diagram is recompiled if this string doesn't match the one found in its
+{\tt .kuv} file.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{kuviospecial}\ch\\{\it name}}
+Set the \csq\special\ syntax. Not a good thing to do unless you know what
+you're doing. The following two lines in \kuvio\ set the syntax for
+{\tt dvips}.
+
+\code
+\def\dvipsspecial#1{\special{ps:#1}}
+\kuviospecial\dvipsspecial
+\endcode
+
+Experimentation with other {\tt dvi} to \PS\ translators is possible using
+\csq\kuviospecial.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Label}\{\math\}}
+Typeset math material as a modification in \csq\labelstyle.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{labelpad}%
+   \csq{\labelpad=}\dim\d 3pt
+   \csq{\labelpad+=}\dim
+   \csq{\labelpad\{\type\}=}\dim\hs\csq{\labelpad\{\type\}+=}\dim}
+Global and type-specific label pads. Spaces in \type\ are ignored.
+
+\side
+\labelpad{One}=5pt
+\Diagram A & \rTo ^f & B \\ \endDiagram
+\quad
+\Diagram A & \rOne ^f & B \\ \endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{labelpoint}%
+   \csq{\labelpoint=}\num\d .5
+   \csq{\labelpoint\{\type\}=}\num}
+Set the default location of labels tied to an arrow. Spaces in \type\ are
+ignored.
+
+\side
+\labelpoint{One}=.75
+\Diagram A & \rTo ^f & B \\ \endDiagram
+\quad
+\Diagram A & \rOne ^f & B \\ \endDiagram
+\endside
+
+Once a type-specific
+default has been set it can be unset, causing the global default to be used,
+by making an empty assignment of the form
+\csq{\labelpoint\ch\{\type\ch\}=\ch\{\ch\}}.
+All predefined cell types in \kuvio\ have their \csq\labelpoint\
+unset.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{labelstyle}\d\csq\scriptstyle}
+Style in which labels of a diagram are typeset.
+
+\side
+\let\labelstyle\textstyle
+\Diagram
+A & \rTo ^f & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{labelwidthpad}%
+   \csq{\labelwidthpad=}\dim\d 5pt
+   \csq{\labelwidthpad+=}\dim
+   \csq{\labelwidthpad\{\type\}=}\dim\hs\csq{\labelwidthpad\{\type\}+=}\dim}
+With a flexible grid, \kuvio\ will stretch a horizontal arrow
+(specified using a \csq\l\type\ or \csq\r\type\ cell macro) so
+that a label centered along its length isn't wider than the arrow
+is long.  The value of \csq\labelwidthpad\ determines the minimum
+allowable distance between the edges of the label and the ends of
+the arrow. Note that the comparison of the arrow length and label
+width occurs before the application of cell pushes specified using
+\csq\dt\ and \csq\dh.
+
+Spaces in \type\ are ignored.
+
+\csq\labelwidthpad\ has no effect on labels which are not centered and
+no attempt is made to ensure that these ``fit'' on the arrow to
+which they are attached. Also, \csq\labelwidthpad\ may not work well
+with arrows that are attached to other arrows and are thus also
+affected by \csq\atpush\ and \csq\ptpush. See also \csq\lw.
+
+\eg
+\let\labelstyle\textstyle
+\labelwidthpad{One}+=5pt
+\leavevmode
+\Dg
+X(s)\times |u| & & \rTo ^{(f_{s\to t},\pi_2)}  &  & X(t)\times |u| \\
+        & \rdTo <{f_{s\to u}} &      & \ldTo >{f_{t\to u}}         \\
+        &                     & X(u)                               \\
+\endDg\qquad
+\Dg
+X(s)\times |u| & & \rOne ^{(f_{s\to t},\pi_2)} &  & X(t)\times |u| \\
+        & \rdTo <{f_{s\to u}} &      & \ldTo >{f_{t\to u}}         \\
+        &                     & X(u)                               \\
+\endDg
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{land}\endland}
+Rotate the enclosed material by 90 degrees counterclockwise.
+The material cannot contain vertical commands (unless enclosed in a box).
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{landscape}}
+Rotate a diagram 90 degrees counterclockwise.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{latexTo}}
+Load the font {\tt line10}, define \csq\sleftarrowfill\ and
+\csq\srightarrowfill\ using the arrowhead character from this font and do
+\@\let\Tofill\srightarrowfill@\.
+
+\side
+\latexTo
+\Dg
+A & \rTo & B & \rOne & C \\
+\endDg
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{lb}}
+Make an arrow left braced.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mw{Long@{\tt Long}}\tt Long}
+Diagram type having \csq\flexible, \csq{\xgrid=0pt} and \csq{\ygrid+=-5mm}.
+
+\eg
+\Long
+0         &      &              &      &                  &      & 0             \\
+\dEq      &      &              &      &                  &      & \dEq          \\
+\pi_j S^k & \rTo & \pi_j V(n,k) & \rTo & \pi_j V(n-1,k+1) & \rTo & \pi_{j-1} S^k \\
+\endLong
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{loose}}
+Make all diagonal alignment cells unbraced by default.
+Additionally, sets \csq{\columndist=0pt}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{lpad}%
+   \csq{\lpad=}\dim\d 0pt
+   \csq{\lpad+=}\dim}
+Padding added to the left of a diagram or framed material.
+
+\side
+\framed \lpad=10pt
+\Diagram
+A & \rTo & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{lw} or \csq\lw\{\dim\}}
+In the first case, don't stretch a horizontal
+arrow even if a centered label is wider than the arrow is long.
+In the second case, increase the effective width of the label by twice
+\dim. See \csq\labelwidthpad.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Math}\{\math\}}
+Typeset math material as a modification in \csq\textstyle.
+\endentry
+
+\comment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{%
+   \csq{\MinimumCellLength=}\dim\d 0pt
+   \csq{\MinimumCellLength+=}\dim}
+Minimum arrow length to be typeset.
+\endentry
+\endcomment
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{ml}}
+Move the column in which this control sequence occurs
+so that the alignment entry in which it occurs abuts it nearest
+neighbour to the left.
+Many of the same effects can be obtained simply by using a flexible grid with
+\csq{\xgrid=0pt}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Modify}}
+Modifications are specified following an occurrence of this control sequence.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{mono}}
+A monomorphism arrow, as in $A\mono B$. The {\tt arrsy10} font must be loaded
+for this to work. See \csq\arrsy.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{mr}}
+Move the column in which this control sequence occurs
+so that the alignment entry in which it occurs abuts it nearest
+neighbour to the right.
+Many of the same effects can be obtained simply by using a flexible grid with
+\csq{\xgrid=0pt}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{mx}\{\num\ or \dim\}}
+Move the column in which this control sequence occurs.
+\csq\mx\{\dim\} moves the column rightward by \dim.
+If the distance to the next column (to the right) is currently $d$,
+\csq\mx\{\num\} moves the column rightward by $\num\cdot d$.
+
+\side
+\gridlines
+\Diagram
+A & B \mx{5mm} & C & D           & E \\
+A & B          & C & D \mx{-.25} & E \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{my}\{\num\ or \dim\}}
+Move the row in which this control sequence occurs.
+\csq\my\{\dim\} moves the row upward by \dim.
+If the distance to the next row (above) is currently $d$,
+\csq\my\{\num\} moves the row upward by $\num\cdot d$.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mm{mv}\csq{\mv\{\dim1,\dim2\}}}
+Abbreviation for \csq\rt\{\dim1\} \csq\up\{\dim2\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{newcell}\{\type\}}
+Define a new cell type.
+One must define either the fill macro
+\ch{\\\type fill} or redefine
+the box macro \ch{\\\type box} before using a cell macro associated with
+this cell type. Spaces in \type\ are ignored.
+
+\side
+\newcell{Br}
+\def\Brfill{\linefill\ \rightarrowfill}
+
+\Diagram
+A & \rBr & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{newDiagram}\{\type\}}
+Define a new Diagram type. The macro pair \ch\\\type\ \csq\end\type\
+delimits Diagrams of this type. The macro \csq\every\type\ can be used
+to customize their setup. Spaces in \type\ are ignored.
+
+\side
+\newDiagram{Framed}
+\def\everyFramed{\Diagrampad=10pt \framed}
+
+\Framed
+A & \rTo & B \\
+\endFramed
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{newFigure}\{\type\}}
+Define a new Figure type. The macro pair \ch\\\type\ \csq\end\type\
+delimits Figures of this type. The macro \csq\every\type\ can be used
+to customize their setup. Spaces in \type\ are ignored.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{newfill}\{\name\}\{\emph{tail} \emph{tokens}\}%
+   \{\emph{mid} \emph{tokens}\}\{\emph{head} \emph{tokens}\}}
+Define a fill macro, which can then be used to construct arrows for diagrams.
+Spaces in \name\ are ignored.
+
+\side
+\font\tenln=line10
+\def\ltxah{\smash{\hbox{\kern-4pt\raise\fontdimen22\textfont2
+   \hbox{\tenln\char"2D}\hskip.5pt}}}
+\newfill{srightarrow}--\ltxah
+
+\hbox to 3cm{\srightarrowfill}
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{newGraph}\{\type\}}
+Define a new Graph type. The macro pair \ch\\\type\ \csq\end\type\
+delimits Graphs of this type. The macro \csq\every\type\ can be used
+to customize their setup. Spaces in \type\ are ignored.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{nonkuviocs}\ch\\{\it name}}
+Access the original definition of a control sequence which \kuvio\ has
+redefined.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{nl}}
+Typeset an arrow as a phantom.
+
+{\edge{.7}
+\side
+\newcell{Adj}
+\def\Adjbox#1{\vcenter{\offinterlineskip\dimen0=#1
+   \hbox to #1{\hskip.2\dimen0\rightarrowfill}
+   \hbox to #1{\leftarrowfill\hskip.2\dimen0}}}
+
+\labelpad{Adj}=2.5pt
+\Diagram
+A & \rAdj ^{f_1} :{.6} \rAdj \nl _{f_2} :{.4} & B \\
+\endDiagram
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{nocompile}}
+Equivalent (almost) to \@\def\compileto#1{}@\.
+Note that \@\global\nocompile@\ behaves as expected.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{nodot}}
+Inhibit the typesetting of a \csq\diagramdot\ in an alignment entry of
+a Diagram for which \csq\dotted\ has been specified.
+See \csq\dotted.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{nw}}
+Ignore a horizontal alignment cell as far as positioning the columns at
+its head and tail.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{opland}\endopland}
+Rotate the enclosed material by 90 degrees clockwise.
+The material cannot contain vertical commands (unless enclosed in a box).
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{oplandscape}}
+Rotate a diagram 90 degrees clockwise.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{overgrid}}
+Typeset a grid on top of a Figure.
+For Diagrams and Graphs, synonymous with \csq\gridlines.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{pd}\{\math\}}
+Abbreviation for \csq\hd\{\csq\phantom\{\math\}\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{pl}\{\math\}}
+Abbreviation for \csq\tl\{\csq\phantom\{\math\}\}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{pp}}
+Typeset an alignment cell before those corresponding to cell macros
+preceding it (above or to the left).
+Usually alignment cells are typeset in the same order in which
+their corresponding cell macros were processed (top to bottom, left to right)
+but order is important when breaking arrows with \csq\br\ or \csq\rl.
+Modification cells can be used for even greater control over the order in which
+arrows are typeset.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Pt}\{\name\}}
+Name a point which can then be referenced using \csq\pt.
+Spaces in \name\ are significant.
+
+\side
+\Graph{2cm}{15mm}
+\Pt{tail} (0,1)
+\Pt{head} (1,0)
+\To \pt{tail} \tl{X} \pt{head} \hd{Y}
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mm{pt}%
+   \csq{\pt\{\name,\num\}}
+   \csq{\pt\{\name\}}}
+Name, or reference as a coordinate, a point on an arrow.
+The string \name\ must be enclosed in parentheses if it contains a comma.
+Also, spaces in \name\ are significant.
+For type 1 modification cells \csq\pt\ is somewhat stunted: A defined point
+is always just the specified coordinate.
+\sindex tw{modification cell!type 1}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{ptpoint}%
+   \csq{\ptpoint=\num\d .5}
+   \csq{\ptpoint\{\type\}=\num}}
+Set the default location of points defined on arrows. Behaves like
+\csq\labelpoint. Spaces in \type\ are ignored.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{ptpush}%
+   \csq{\ptpush=}\dim\d 0pt
+   \csq{\ptpush+=}\dim
+   \csq{\ptpush\{\type\}=}\dim\hs\csq{\ptpush\{\type\}+=}\dim}
+Global and type-specific amounts by which the end of an arrow attached
+to another arrow (using \csq\pt) is shortened whenever a vertex has not been
+attached using \csq\hd\ or \csq\tl.
+The type-specific quantity applies to ends of arrows of cell type \type.
+Spaces in \type\ are ignored.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{range}\csq{\range=}\int}
+Set both \csq\xrange\ and \csq\yrange.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{rb}}
+Make an arrow right braced.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{recompile}}
+Equivalent (almost) to \@\let\compileto\recompileto@\.
+Note that \@\global\recompile@\ behaves as expected.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{recompileto}\{\name\}}
+Compile a diagram to the files \name{\tt .kdg} and \name{\tt .kuv}.
+Spaces in \name\ are ignored.
+\endentry
+
+\comment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{rekuviodef}}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{rekuviodefine}}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{rekuviolet}}
+\endentry
+\endcomment
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{%
+   \index mm{rl}%
+   \csq\rl\{\dim\}}
+Like \csq\br\ except a white rule is typeset in place of an arrow.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\sindex mm{rm}\csq{\rm\{\dim1,\dim2\}}}
+Abbreviation for \csq\rr\{\dim1\} \csq\ru\{\dim2\}. This meaning is only taken
+when a modifier is expected so does not conflict with the usual meaning of
+\csq\rm. This is also true of all other modifiers.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{ro}}
+Rotate labels on an arrow.
+
+{\edge{.7}
+\side
+\Diagram
+  &                 & A                                \\
+  & \ldTo <L >R \ro & \dTo <L >R \ro & \rdTo <L >R \ro \\
+X &                 & X              &             & X \\
+\endDiagram
+\endside
+}
+
+If \csq\rotatedlabels\ is specified then \csq\ro\ inhibits rotation.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{rot}\endrot\csq\rot\{\num\} \csq\endrot}
+Rotate the enclosed material by \num\ degrees counterclockwise.
+The material cannot contain vertical commands (unless enclosed in a box).
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{rotatedlabels}}
+Invert the action of the \csq\ro\ modifier: Labels are rotated
+unless \csq\ro\ is specified.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{rpad}%
+   \csq{\rpad=}\dim\d 0pt
+   \csq{\rpad+=}\dim}
+Padding added to the right of a diagram or framed material.
+
+\side
+\framed \rpad=10pt
+\Diagram
+A & \rTo & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{rr}\{\dim\}}
+Move an arrow or modification
+to the right relative to a rotated coordinate system.
+
+\side
+\Diagram
+A & & B & \lTo ^f \rr{2\xgrid} & C \\
+\endDiagram
+\endside
+
+Note that \csq\xgrid\ is not actually a dimension
+register, although in the context of a Diagram it can be used as
+such. Ditto for \csq\ygrid.
+For a Figure or Graph one can use
+\csq\xunit\ and \csq\yunit\ in the same way.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{rt}\{\dim\}}
+Move an arrow or modification to the right.
+
+\side
+\Diagram
+A & & B & \rTo ^f \rt{-2\xgrid} & C \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{ru}\{\dim\}}
+Move an arrow or modification
+upwards relative to a rotated coordinate system.
+
+{\edge{.7}
+\side
+\Diagram
+A                                            \\
+  & \luTo _f \ru{5pt} \luTo ^g \ru{-5pt}     \\
+  &                                      & B \\
+\endDiagram
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mw{Rule@{\tt Rule}}\tt Rule}
+Cell type whose arrows are rules. The rule width can be set using \csq\rw.
+
+{\edge{.7}
+\side
+\Diagram
+A & \rRule ^{\rm above} _{\rm below} & B \\
+\endDiagram
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{Rulewidth}%
+   \csq{\Rulewidth=}\dim\d 5pt
+   \csq{\Rulewidth+=}\dim}
+Default rule width used with {\tt Rule} cells.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{rw}\{\dim\}\d .4pt}
+Set the rule width for a {\tt Rule} cell or \csq\Frame\ modification.
+
+\side
+\Graph{.25\hsize}{5mm,2}
+\Frame (0,0) (.45,2) \rw{1mm}
+\Rule  (.55,1) (1,1) \rw{3mm}
+\endGraph
+\endside
+\endentry
+
+\comment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{safe}\ch\\{\it name}}
+Inside an alignment, access the usual definition of a special control
+sequence.
+\endentry
+\endcomment
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{scale}\csq{\scale=}\num}
+Abbreviation for \csq{\xscale=\num} \csq{\yscale=\num}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{shade}\endshade
+   \csq{\shade\{\dim,\dim\}\{\dim,\dim\}} \csq\endshade}
+Place a shadow behind a frame by specifying its offsets from the
+bottom left and top right corners of the enclosed material.
+The values of \csq\framegray, \csq\framepad\ and \csq\framerulewidth\ apply.
+
+\verbatim
+\shade{5pt,-5pt}{3pt,-3pt}\epsfxsize=3cm \epsffile{harebra.eps}\endshade
+\endverbatim
+
+\leavevmode\hskip\egindent\shade{5pt,-5pt}{3pt,-3pt}\harebra\endshade
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{shadegray}\sindex mm{shadegrey}%
+   \csq{\shadegray=}\num\ or \csq{\shadegrey=}\num\d 0}
+Set the graylevel of the shadow produced by \csqq\shade\endshade.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{stop}}
+Force an arrow to stop at an alignment entry.  Has no effect on
+cell macros in the same alignment entry.
+
+{\edge{.7}
+\side
+\Diagram
+A & \rTo \up{-2pt} & \stop \rTo \up{2pt} & B \\
+\endDiagram
+\endside
+}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{squash}}
+Like \csq\smash\ from {\tt plain.tex} except typesets the following
+parenthesized material in a box
+having no height, depth or width. The typeset material is centered
+horizontally.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{squish}}
+Like \csq\smash\ from {\tt plain.tex} except typesets the following
+parenthesized material in a box
+having the same height and depth but no width.
+The typeset material is centered horizontally.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{tall}}
+Make the baseline of a Diagram coincide with that of
+its bottommost row and
+the baseline of a Figure or Graph coincide with that of
+its lower edge.
+This is the default for Figures and Graphs in non-math modes.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Text}\{\text\}}
+Typeset \text\ as a modification.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{tl}\{\math\}}
+Attach math material to the tail of a type 2 modification cell.
+\sindex tw{modification cell!type 2}
+
+\side
+\Graph{5cm}{5mm}
+\To (0,.5) (1,.5) \tl{A}
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{tpad}%
+   \csq{\tpad=}\dim\d 0pt
+   \csq{\tpad+=}\dim}
+Padding added to the top of a diagram or framed material.
+Does not alter the baseline.
+
+\side
+\framed \tpad=10pt
+\Diagram
+A & \rTo & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{tr}\{\dim\}}
+Raise the vertex attached to the tail of a type 2 modification cell.
+\sindex tw{modification cell!type 2}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{ts}\{\dim\ or \num\}}
+Slide the vertex attached to the tail of a type 2 modification cell
+horizontally.
+\sindex tw{modification cell!type 2}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{tx}\{\dim\ or \num\}}
+Fudge the positioning of an arrow at its tail. See \csq\hx.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Txt}\{\text\}}
+Typeset \text\ as a modification, centered vertically on its math axis.
+
+\eg
+\gridlines
+\Graph{2cm}{1cm,2}
+\Text{left}   (0,1) *0  \Txt{right} (1,1) *1
+\endGraph
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{ty}\{\dim\}}
+Fudge the positioning of an arrow at its tail.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\ch\\\type}
+Typeset an arrow of cell type \type\ as a modification.
+Has ten siblings for use in the alignment part of a Diagram:
+\csq\a\type, \csq\b\type, \csq\r\type,
+\csq\rd\type, \csq\d\type, \csq\ld\type, \csq\l\type,
+\csq\lu\type, \csq\u\type\ and \csq\ru\type.
+
+Non-empty alignment entries in a Diagram
+are implicitly attached (a la \csq\pl\ and \csq\pd) to the end of any
+type 2 modification cell having integral (no decimal point) coordinates.
+\sindex tw{modification cell!type 2}
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{unit}%
+   \csq{\unit=}\dim
+   \csq{\unit+=}\dim}
+Abbreviation for \csq{\xunit=\dim} \csq{\yunit=\dim} or \csq{\xunit+=\dim}
+\csq{\yunit+=\dim}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{up}\{\dim\}}
+Move an arrow or modification upwards.
+
+\side
+\Diagram
+A & \rTo ^f \up{-\ygrid} & B \\
+A &                      & B \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{Vertex}\{\math\}}
+Typeset math material as a modification in \csq\vertexstyle.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mm{vertexstyle}\d\csq\displaystyle}
+Style in which vertices of a diagram are typeset.
+
+\side
+\let\vertexstyle\scriptstyle
+\Diagram
+A & B \\
+C & D \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{vmir}\endvmir}
+Reflect the enclosed material across a vertical mirror located
+horizontally at the midpoint of the material. The material
+cannot contain vertical commands (unless enclosed in a box).
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{vpad}%
+   \csq{\vpad=}\dim
+   \csq{\vpad+=}\dim}
+Abbreviation for \csq{\bpad=}\dim\ \csq{\tpad=}\dim\ or \csq{\bpad+=}\dim\
+\csq{\tpad+=}\dim.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mod\entry{\index mm{white}}
+Typeset an arrow or modification with graylevel 1.
+
+\eg
+\font\big=cmss17
+\Graph{.25\hsize}{1cm}
+\Box (0,0) (1,1)
+\Txt{\big \"Ovningsk\"orning} (.5,.5) \white
+\endGraph
+\endeg
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\index mp{white}\endwhite}
+Typeset the enclosed material with graylevel 1.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{xgrid}%
+   \csq{\xgrid=}\dim\d 1cm
+   \csq{\xgrid+=}\dim}
+Set the default distance between the vertical gridlines of a
+Diagram. Sets \csq{\xscale=1}.
+
+\side
+\xgrid=2cm
+\Diagram
+A & B \\
+C & D \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{xrange}\csq{\xrange=}\int\d 1}
+Set the horizontal units for the coordinate
+system used when typesetting modifications on a Figure or Graph
+by dividing the default unit by \int.
+
+\side
+\xrange=2
+\Graph{1cm}{5mm}
+\Dot (0,.5) \Dot (1,.5) \Dot (2,.5)
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{xscale}\csq{\xscale=}\num\d 1}
+Scale \csq\xgrid\ by \num.
+
+\side
+\xscale=1.5
+\Diagram
+A & B \\
+C & D \\
+\endDiagram
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{xunit}%
+   \csq{\xunit=}\dim
+   \csq{\xunit+=}\dim}
+Set the horizontal units for the coordinate
+system used when typesetting modifications on a Figure or Graph.
+
+\side
+\xunit=5mm
+\Graph{1cm}{5mm}
+\Dot (0,.5) \Dot (1,.5) \Dot (2,.5)
+\endGraph
+\endside
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{ygrid}%
+   \csq{\ygrid=}\dim\d 1cm
+   \csq{\ygrid+=}\dim}
+Set the default distance between the horizontal gridlines of a
+Diagram. Sets \csq{\yscale=1}.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{yrange}\csq{\yrange=}\int\d 1}
+Set the vertical units for the coordinate
+system used when typesetting modifications on a Figure or Graph
+by dividing the default unit by \int. See \csq\xrange.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{yscale}\csq{\yscale=}\num\d 1}
+Scale \csq\ygrid\ by \num. See \csq\xscale.
+\endentry
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\entry{\sindex mm{yunit}%
+   \csq{\yunit=}\dim
+   \csq{\yunit+=}\dim}
+Set the vertical units for the coordinate
+system used when typesetting modifications on a Figure or Graph.
+See \csq\xunit.
+\endentry
+
+\endinput
+
+
+% Local Variables:
+% mode:TeX
+% agss-tex-jobname:"tdwk"
+% End:

@@ -1,0 +1,69 @@
+%% makecyr.tex
+%% Copyright 1995 Sebastian Rahtz
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Sebastian Rahtz.
+%
+% This work consists of all files listed in manifest.txt.
+% Sebastian Rahtz, October 14th 1995
+% Control file to build Cyrillic OT2 metrics for Lucida Sans
+% and Monotype Times
+%
+\input fontinst.sty
+
+\needsfontinstversion{1.317}
+%
+% 7k for TeX Cyrillic 
+%
+\def\LucidaCyrillicFont#1#2#3#4#5#6{% Berry name, Y&Y name, series, shape,
+				  % alternate base, family
+   \transformfont{#58r}{\reencodefont{8r}{\fromafm{#58a}}}
+   \installfont{#17k}
+      {#2,#58r,AFIIcyr}
+      {AFIIOT2}{OT2}{#6}{#3}{#4}{}
+}
+\def\TimesCyrillicFont#1#2#3#4{% Berry base name, series, shape, alternate
+   \transformfont{#48r}{\reencodefont{8r}{\fromafm{#48a}}}
+   \installfont{#17k}
+      {#1z,#48r,monocyr}
+      {monoOT2}{OT2}{mnt}{#2}{#3}{}
+}
+\installfonts
+   \installfamily{OT2}{hls}{}
+   \LucidaCyrillicFont{hlsb}{lscyb}{b}{n}{hlsb}{hls}
+   \LucidaCyrillicFont{hlsbo}{lscybo}{b}{it}{hlsbi}{hls}
+   \LucidaCyrillicFont{hlsro}{lscyo}{m}{n}{hlsri}{hls}
+   \LucidaCyrillicFont{hlsr}{lscyr}{m}{it}{hlsr}{hls}
+
+   \installfamily{OT2}{hlst}{}
+   \LucidaCyrillicFont{hlsbt}{lstcyb}{b}{n}{hlsbt}{hlst}
+   \LucidaCyrillicFont{hlsbot}{lstcybo}{b}{it}{hlsbot}{hlst}
+   \LucidaCyrillicFont{hlsrot}{lstcyo}{m}{n}{hlsrot}{hlst}
+   \LucidaCyrillicFont{hlsrt}{lstcyr}{m}{it}{hlsrt}{hlst}
+
+   \installfamily{OT2}{mnt}{}
+   \TimesCyrillicFont{mntr}{m}{n}{mntr}
+   \TimesCyrillicFont{mntro}{m}{it}{mntri}
+   \TimesCyrillicFont{mntb}{b}{n}{mntb}
+   \TimesCyrillicFont{mntbo}{b}{it}{mntbi}
+\endinstallfonts
+\bye
+
+% The Latin 2 fonts, havent thought about these yet.
+% lstl2b LucidaSansTypLat2-Bold
+% lstl2bo LucidaSansTypLat2-BoldObl
+% lstl2o LucidaSansTypLat2-Obl
+% lstl2r LucidaSansTypLat2
+% lsl2b LucidaSansLat2-Bold
+% lsl2bo LucidaSansLat2-BoldObl
+% lsl2o LucidaSansLat2-Obl
+% lsl2r LucidaSansLat2

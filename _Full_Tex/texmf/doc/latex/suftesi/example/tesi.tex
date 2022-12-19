@@ -1,0 +1,150 @@
+% !TEX encoding = UTF-8 Unicode
+%	copyright (C) Ivan Valbusa 2010
+%
+%	Questo file è distribuito assieme alla classe suftesi nella cartella suftesi.zip
+
+\documentclass{suftesi}
+
+\usepackage[T1]{fontenc}                
+\usepackage[utf8]{inputenc}% Fate sempre attenzione alla codifica di input!
+\usepackage[polutonikogreek,german,english,italian]{babel}
+\usepackage{graphicx}
+   \graphicspath{{Immagini/}}
+\usepackage{booktabs}% per le tabelle
+\usepackage{emptypage}%elimina la testatina sulle pagine bianche
+\usepackage{varioref}% riferimenti incrociati
+\usepackage{lipsum}% Produce testo fittizio
+ \usepackage{makeidx}
+     \addto\captionsitalian{\renewcommand{\indexname}{Indice dei nomi}}
+       \makeindex
+% biblatex settings
+\usepackage[babel,italian=guillemets]{csquotes}
+\usepackage[
+	style=philosophy-verbose,%philosophy-modern, philosophy-classic
+	]{biblatex}
+   \bibliography{bibliografia}
+%\nocite{*}
+% FRONTESPIZIO
+%****************************************
+% (1)	Compilare Tesi.tex
+% (2)	Compilare il file Tesi-fr.tex generato al punto (1)
+% (3)	Compilare Tesi.tex
+ \usepackage{frontespizio}% 
+
+% RIFERIMENTI INCROCIATI
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,citecolor=blue,draft=false}
+\begin{document}
+%***********************************************************
+%
+% 			IMPORTANTE!
+%
+%***********************************************************
+% DECOMMENTARE LE DUE RIGHE SEGUENTI
+% SE SI METTE ``FRENCH'' TRA LE OPZIONI DI BABEL
+%\selectlanguage{italian}
+%\frenchspacing
+
+
+%%			frontespizio
+%***************************************************************************
+\begin{frontespizio} 
+\Universita{Paperopoli} 
+\Logo{logo} 
+\Facolta{Pennutologia} 
+\Corso{Belle Lettere} 
+\Annoaccademico{2030--2031} 
+\Titoletto{Tesi di laurea magistrale} 
+\Titolo{La mia tesi:\\ una lunga serie di risultati\\
+difficilissimi e complicatissimi} 
+\Sottotitolo{Alcune considerazioni mutevoli} 
+\Candidato[PP999999]{Paperino Paolino} 
+\Relatore{Giovanni Episcopo} 
+\Relatore{Pippo Cluvio}
+\Correlatore{Ugo Frogio} 
+\Correlatore{Ubaldo Kutuzu} 
+\end{frontespizio}
+
+%%			Colophon
+%***************************************************************************
+\colophon[<sistema operativo>]{Nome Cognome}{<specifiche sui font utilizzati e/o sulla data di discussione della tesi, ecc.>}
+
+%***************************************************************************
+%%			MATERIALE INIZIALE
+%***************************************************************************
+\frontmatter
+% Indici
+\tableofcontents
+\listoftables
+\listoffigures
+% Ringraziamenti
+\input{MaterialeInizialeFinale/Ringraziamenti}
+% Sigle
+	 \defbibnote{prenote:shorthands}{Breve testo introduttivo alle sigle}
+	 \defbibnote{postnote:shorthands}{Possiamo anche inserire un'avvertenza alla fine delle sigle, come questa. In genere non serve. Potrebbe essere utile nel caso si voglia usare un apparato di sigle molto complesso.}
+		 \printshorthands[prenote=prenote:shorthands,postnote=postnote:shorthands]
+		 \addcontentsline{toc}{chapter}{Sigle}
+% Introduzione 
+\input{MaterialeInizialeFinale/Introduzione}
+
+%***************************************************************************
+%%				CAPITOLI
+%***************************************************************************
+\mainmatter
+\part{uno}
+\input{Capitoli/primo}
+ \input{Capitoli/secondo}
+ \input{Capitoli/terzo}
+ \input{Capitoli/quarto}
+ 
+%***************************************************************************
+%%			MATERIALE FINALE
+%***************************************************************************
+\backmatter
+\input{MaterialeInizialeFinale/Conclusione}
+
+%***************************************************************************
+%	Appendici
+%***************************************************************************
+%\nomeappendici{Appendici}
+\appendix
+\chapter{Prima}
+\lipsum
+\chapter{Seconda}
+\lipsum
+\chapter{Terza}
+\lipsum
+
+%***************************************************************************
+% Sigle
+%***************************************************************************
+\printshorthands
+
+%***************************************************************************
+% 	Bibliografia
+%***************************************************************************
+\cleardoublepage
+\phantomsection % solo se si usa hyperref
+\addcontentsline{toc}{chapter}{\bibname}
+\printbibheading
+Breve testo introduttivo per spiegare in che modo sono state organizzate le bibliografie. Questo è solo un semplice esempio. Con il pacchetto \textsf{biblatex} si possono comporre bibliografie molto più complesse. È bene però non abusare di queste potenzialità se non strettamente necessario: \emph{la bibliografia è un mezzo, non un fine}.
+% Bibliografia primaria
+\defbibnote{primaria}{\sffamily Breve testo introduttivo per la bibliografia secondaria. In genere non serve, ma per bibliografie molto complesse potrebbe essere utile.}
+\phantomsection % solo se si usa hyperref
+\addcontentsline{toc}{section}{Bibliografia primaria}
+\printbibliography[keyword=primaria,title=Bibliografia primaria,heading=subbibliography,prenote=primaria]
+% Bibliografia secondaria
+\defbibnote{secondaria}{\sffamily Breve testo introduttivo per la bibliografia primaria. In genere non serve, ma per bibliografie molto complesse potrebbe essere utile.}
+\phantomsection % solo se si usa hyperref
+\addcontentsline{toc}{section}{Bibliografia secondaria}
+\printbibliography[keyword=secondaria,title=Bibliografia secondaria,heading=subbibliography,prenote=secondaria]
+%***************************************************************************
+% Indice dei nomi
+%***************************************************************************
+\phantomsection % solo se si usa hyperref
+\addcontentsline{toc}{chapter}{Indice dei nomi}
+\printindex
+
+
+
+\end{document}  

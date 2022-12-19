@@ -1,0 +1,983 @@
+\documentclass[11pt]{article}
+\usepackage{hhfrlist}               % for presentation
+\usepackage{verbatim}               % for verbatim displaying of examples
+\usepackage{xspace}                 % for ease of typing
+\usepackage{tabularx}               % for tables
+
+\makeatletter
+
+\setlength\parindent\z@
+\setlength\parskip{.5\baselineskip}
+
+% The following has been copied from my personal tools style file hhutils.sty
+% (NB: This is _not_ the same file as the public style file hhutils0.sty!)
+
+\setcounter{errorcontextlines}{10}     % For ease of debugging.
+\def\0#1.{\oldstylenums{#1}}           % For ease of typing.
+\def\packagename#1{{\sffamily #1}}     % For consistent displaying of
+                                       % package names. To be redefined
+                                       % by the editor if desired.
+\chardef\@ttbs="5C                     % This the only way I could figure
+\def\macroname#1{{\ttfamily\@ttbs#1}}  % out to get the right backslashes
+                                       % when displaying macro names
+                                       % (math \backspace is too thin).
+\def\envirname#1{{\ttfamily #1}}       % For consistent etc.
+\def\scheiding{\par                    % Because I cannot help to show my
+                                       % `stamp' in and out of season.
+                                       % Remove the stamps it you cannot
+                                       % stand them.
+  \nobreak\addvspace{18pt plus 6pt minus 6pt}%
+  \nobreak\centerline{{\unitlength1pt\begin{picture}(0,0)%
+       \thicklines
+       \put(-10,2.5){\line(1,-1){10}}\put(-10,2.5){\line(1,1){10}}%
+       \put(10,2.5){\line(-1,-1){10}}\put(10,2.5){\line(-1,1){10}}%
+       \put(-5,7.5){\line(0,-1){10}}\put(5,7.5){\line(0,-1){10}}%
+       \put(-5,0){\line(2,1){10}}%
+     \end{picture}}}%
+  \addvspace{18pt plus 6pt minus 6pt}}
+
+% The following are document specific macros defined for ease of typing:
+
+\def\hhfristi{\packagename{hhfristi}\xspace}
+\def\hhfrbase{\packagename{hhfrbase}\xspace}
+\def\hhfrdata{\packagename{hhfrdata}\xspace}
+\def\hhfrtype{\packagename{hhfrtype}\xspace}
+\def\hhfrform{\packagename{hhfrform}\xspace}
+\def\hhfrlist{\packagename{hhfrlist}\xspace}
+\def\asize#1{{\footnotesize A}\0#1.}
+\def\={\verb=}
+\def\<#1>{\macroname{#1}}
+\def\:{\linebreak[1]}
+
+% The following input definitions used for examples:
+
+\makeatother
+
+\title{The Foundation for Responsible Info Stuffing Inventions\\The HHFrisTi styles}
+\author{Herman Haverkort\\\normalsize\normalfont\texttt{hermanh@cistron.nl}}
+\date{March 1999}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+\hhfristi is a set of macros designed for typesetting
+address lists etc.\ with varying content, size, purpose, ordering etc.
+It is particularly suited for stuffing lots of information in
+a typographically responsible (readable) manner on relatively small
+lists.
+
+\section{Files}
+
+The \hhfristi macros are provided in the following files:\begin{description}
+\item[\texttt{hhfrbase.sty}]   basic initialisations for the FrisTi system
+               (is loaded automatically by the other FrisTi files; it needs
+               \texttt{hhutils0.sty});
+\item[\texttt{hhfrform.sty}]   macros for constructing FrisTi list pages; needs
+               \texttt{epic.sty} and \texttt{curves.sty};
+\item[\texttt{hhfrtype.sty}]   macros for responsible stuffed typesetting;
+\item[\texttt{hhfrdata.sty}]   macros for processing data records (sorting, pattern
+               recognition), typically stored in a separate file;
+\item[\texttt{hhfristi.sty}]   `shorthand' for loading all files mentioned above;
+\item[\texttt{hhfrlist.sty}]   some generalised FrisTi products (loads all files
+               mentioned above).
+\end{description}
+
+\texttt{epic.sty} and \texttt{curves.sty} can be
+found on \textsc{ctan}. All other files are available from
+\textsc{ctan} or from the author's website library at http://come.to/hh.
+
+\section{Development and stability}
+
+The FrisTi files emerged from practical applications. During its
+development the first goal was to get good results quickly.
+I gave attention to making macros and environments parameterised
+and reusable only when I discovered that I had to do things in nearly
+but not exactly the same way more than once.
+The FrisTi macros can be considered stable now in the sense
+that current \emph{documented} functionality will remain available in
+future updates, in such a way that you will not have to change your
+own \TeX\ code much. At most you will have to insert some switch setting or
+the like to enforce functionality which is default now but
+will be parameterised `out' later. Such changes will be
+listed in update reports. If you run into applications where
+you want to adjust the FrisTi way of doing things to your
+own needs, but feel or suspect that sufficient switches, options,
+parameters and other specification tools are not there, please
+contact me and I will try to generalise the macros a bit further.
+
+I wrote this manual a few years after writings the macros, so I
+might have made a few mistakes. I do not want to spend time on
+testing everything thoroughly while I am not sure anybody will
+ever need it, but if you notice any mistakes, please e-mail me
+and I will try to correct them.
+
+This manual is more like a reference guide than a tutorial.
+It describes a lot of tools; it is the user's task to figure out
+how the tools can be combined to a powerful system that suits
+your purposes. A more tutorial-like manual with step-by-step
+examples may be written later, but to be honest... I do not
+really plan on actually doing this for the time being.
+
+\section{Conditions of use}
+
+The \textsc{hh} packages are distributed in the hope that they will be useful,
+but without any warranty. The author does not accept any responsability for any
+damage, loss, injury, psychosis, annoyance, marital problems, murders etc.\
+which are caused by these files.
+
+If you use all or some of the \textsc{hh} packages and find them useful, please
+report it to me. I will not charge you anything; I just would like to
+get some idea of the use of my packages. Are they used heavily or hardly
+at all? This will also influence compatibility with future releases:
+if nobody uses my style files I will not mind turning the whole
+interface upside down, but if I know that someone out there depends on
+the stability of my packages, I will keep that in mind when changing
+things.
+
+You are not allowed to take money for the distribution or use of either
+this file or a changed version, except for a nominal charge for copying
+etc. You are allowed to change the files to suit your needs if and
+only if you mention this in the descriptions in the \<ProvidesPackage>
+and \<typeout> lines. Changed versions may be distributed only with
+permission of the original author and if the file name has been changed.
+The line referring to the conditions of use may not be altered or removed.
+
+Commercial use of the packages is not allowed without permission
+of the original author. It is therefore not allowed to manufacture
+anything which is typeset using FrisTi macros, and sell it for
+profit (even if it is sold to finance a non-profit organisation).
+If you want to make money out of FrisTi lists, contact me for
+an arrangement which depends of my sympathy for your purposes.
+
+\section{\hhfrform\ -- Page Lay-Out}
+
+The \hhfristi list sizes and shapes can be selected using the
+\envirname{fristiform} environment. Text inside this environment is
+formatted to fit the specified shape and size, and consequently output
+in one or two boxes (for one and two sided lists). These boxes can be
+printed next to each other by including the \envirname{fristiform}
+environment in a \=\hbox=, or on top of each other by using a \=\vbox=.
+
+The \envirname{fristiform} environment requires one argument which is
+a list of options separated by commas.
+Simple options consist of a single keyword; value options consist of
+a keyword followed by the `\verb.=.' character and some kind of value.
+The options supported are listed in the tables that are floating
+somewhere in this document.
+
+A simple example is:
+\begin{verbatim}
+\begin{fristiform}{size=A6,portrait}
+  some interesting information
+\end{fristiform}
+\end{verbatim}
+
+\begin{table*}
+  \small
+  \noindent
+  \begin{tabularx}{\hsize}{|>\ttfamily l>\ttfamily lX|}
+  \hline
+  \multicolumn{3}{|l|}{\bfseries Simple options}\\
+  \hline
+  \normalfont\bfseries keyword &
+  \normalfont\bfseries keyword &
+  \normalfont\bfseries description \\
+  \normalfont (default) & \normalfont (alternative) & \\
+  \hline
+  \hline
+  landscape  & portrait & to be used after size or width and height
+                          options; landscape has no effect; portrait
+                          switches width and height values \\
+  row        & stack    & arrange pages as a row (vertical folds and
+                          turn-over axis) or as a stack (horizontal folds and
+                          turn-over axis) \\
+  noeye      &          & specifies that no space for a
+                          perforation is to be created \\
+  nooutline  & outline  & wether or not an outline of
+                          the list shape is drawn \\
+  vertices   & novertices & wether or not corners outlines
+                          are drawn at rounded corners \\
+  \hline
+  \end{tabularx}
+  \caption{Simple options for the fristiform environment}
+  \label{formoptions}
+\end{table*}
+
+\begin{table*}
+  \small
+  \noindent
+  \begin{tabularx}{\hsize}{|>\ttfamily llrX|}
+  \hline
+  \multicolumn{4}{|l|}{\bfseries Value options}\\
+  \hline
+  \normalfont\bfseries keyword &
+  \normalfont\bfseries values &
+  \normalfont\bfseries default &
+  \normalfont\bfseries decription \\
+  \hline
+  \hline
+  size & see descr. & \asize{6} & see description in text\\
+  width      & dimensions  & \0148..\07.mm & total width of the list \\
+  height     & dimensions  & \0105..\02.mm & total height of the list \\\hline
+  columns    & \01., \02., \ldots & \01. & number of columns per page \\
+  colsep     & dimensions  & \04.pt  & distance between columns \\
+  colseprule & dimensions  & \00..\04.pt & width of rule between columns \\\hline
+  folds      & \00., \01., \ldots & \00. & number of folds \\
+  fold       & dimensions  & \015.pt & amount of unused space around folds \\
+  hem        & dimensions  & \06.pt  & if there is more than one fold, then
+                                       strips parallel to the folds are created
+                                       at the ends of the list; the width of
+                                       the strips is two times the \texttt{hem} value
+                                       (the strips can be doubled up to provide a
+                                       kind of `handles' that can be
+                                       gripped to unfold the list) \\
+  sides      & \01., \02.  & \02.    & selects one or two sided list \\\hline
+  outerhmar  & dimensions  & \06.pt  & horizontal distance between
+                                       border and text (outer left and right
+                                       margin) \\
+  innerhmar  & dimensions  & \06.pt  & horizontal distance between
+                                       fold space and text (left and right
+                                       margin around folds; the total horizontal
+                                       distance between two pages equals the
+                                       \texttt{fold} plus two times the \texttt{innerhmar}) \\
+  outervmar  & dimensions  & \03.pt  & anologous to \texttt{outerhmar} \\
+  innervmar  & dimensions  & \03.pt  & anologous to \texttt{innerhmar} \\\hline
+  eyepos     & l, r, t, b  & not set & determines where space for a perforation
+                                       should be created \\
+  eye        & dimensions  & \020.pt & diameter of the space taken by
+                                       the perforation (this space is independent
+                                       of the perforation outline that is drawn) \\
+  eyemar     & dimensions  & \00.pt  & extra margin between the
+                                       perforation space and the text (this margin
+                                       is added to the \texttt{outerhmar} or \texttt{outervmar}
+                                       used) \\\hline
+  corner     & dimensions  & \010.pt & radius of the rounded corners \\
+  seal       & dimensions  & \00.pt  & extra margin
+                                       for sealing the laminate; it is subtracted
+                                       twice from the total \texttt{width} and \texttt{height} \\
+  line       & dimensions  & \LaTeX  & line thickness for outlines \\\hline
+  stretch    & positive v. & not set & sets the baselinestretch \\
+  \hline
+  \end{tabularx}
+  \caption{Value options for the fristiform environment}
+  \label{formvalues}
+\end{table*}
+
+Possible values for the \texttt{size} option are for example:
+    \begin{description}
+    \item[C]      credit card size (\085..\05.mm $\times$ \053..\08.mm);
+    \item[A6]     \asize0 size, halved six times by
+                       shortening its longest side
+                       (\0148..\07.mm $\times$ \0105..\02.mm);
+    \item[A5/2]   \asize5 size, halved by shortening
+                       its \emph{shortest} side
+                       (\0210..\05.mm $\times$ \074..\03.mm);
+    \item[A4/2/3] \asize4 size, with its shortest
+                       side divided by two and its
+                       longest side divided by three
+                       (\0105..\02.mm $\times$ \099..\01.mm);
+    \end{description}
+Any positive integers can be used instead of the
+values used above; any basic size identifier can be used instead of
+the `A' and `C' used above. Size identifiers `A', `B', `C', `E'
+(executive paper) and `L' (letter paper) are predefined with macro
+calls like \verb=\hhfr@basicsize=\:\verb={A}{1189.21mm}{841.90mm}=;
+other identifiers can be defined similarly.
+
+The size options always sets width and height so that the width is the
+longest side. Use the \texttt{portrait} option afterwards to swap
+the sides.
+
+\section{\hhfrtype -- Stuffed Typesetting}
+
+\hhfrtype defines a number of macros that ease readable typesetting
+in small space.
+
+\subsection{Chosing the Font Family}
+
+\<textnr> and \<nrfamily> are used to typeset numbers in, for example,
+an extra wide font. The font that is used for this purpose,
+can be specified by defining \<nrdefault>, e.g.\ \=\def\nrdefault{cmssq}=
+(which is the default).
+
+\subsection{Chosing the Font Size and Line Skip}
+
+\subsubsection{\<hhfrsizes>}
+\=\hhfrsizes{=\textit{size}\=}{=\textit{stretch}\=}=
+selects the font size and base line stretch. The
+\<normalsize> is set to \textit{size}, all other standard
+font size macros (\<scriptsize>, \<small>, \<large> etc.) are set
+to appropriate values releative to \textit{size}, and the
+base line stretch is set to \textit{stretch} (use 1 for standard lines).
+All font sizes that are calculated by this macro, are rounded
+to standard values between 5pt and 24.88pt.
+
+\subsubsection{Using Small Sizes}
+To use sizes smaller than 5pt, you probably need to adjust the
+font definition files. If the font definition files are \textsc{ok},
+add, for example, the following to your input file:
+\begin{verbatim}
+\makeatletter
+\def\hhfr@tinysizes{{3.00pt}{3.50pt}{4.00pt}{4.50pt}}
+\makeatother
+\end{verbatim}
+This would enable use of 3pt and 4pt fonts, where calculated
+sizes below 3.5pt are rounded down to 3pt, values between are
+3.5pt and 4.5pt are rounded to 4pt, and values between 4.5pt
+and 5pt are rounded up to 5pt.
+
+\subsubsection{Stretching the Base Line Skip}
+\=\hhfrlineflex{=\textit{flex}\=}= sets the relative rubber
+stretch of the base line skip to \textit{flex}. That is how far the
+base line skip may be stretched to make optimal use of the page. A zero
+value means no stretch at all; a value of .2 would mean that
+the base line skip may be enlarged by 20\%. \<hhfrlineflex>
+has no effect until \<hhfrsizes> is used.
+
+\subsubsection{Using \envirname{fristiform} Options}
+If both \hhfrform and \hhfrtype are loaded, two additional options
+are available for the \envirname{fristiform} environment. These
+are \texttt{fontsize=}\textit{size} and \texttt{flex=}\textit{flex}.
+These options act as shorthands for calling the macros described
+above.
+
+\subsection{Typesetting Address Data Efficiently}
+
+\subsubsection{Phone Numbers}
+\=\hhfrtel{\=\textit{macro}\=}{=\textit{prefix}\=}{=\textit{postfix}\=}{=\textit{area code}\=.=\textit{number}\=}=
+typesets telephone numbers.
+The \=\=\textit{macro} takes one argument and is used to typeset the number:
+it is typically a font selection macro like \<textbf> or \<textnr>.
+The area code \textit{prefix} is typically ``(0'', the area code \textit{postfix}
+is typically ``)~''. The phone number is specified by digits,
+separated by dots. The first dot indicates the end of the
+\textit{area code}. The rest of the phone \textit{number} may contain
+aditional dots to mark places where thin spaces should be inserted to
+group the digits. The area code, including prefix and postfix, is
+omitted if it equals the default area code defined by \<hhfr@telarea>.
+
+\=\hhfrdefaulttel{=\textit{text}\=}= typesets text only if \<hhfr@telarea>
+has been defined. In \textit{text}, each occurrence of \<default>
+is replaced by \<hhfr@telarea>.
+
+\subsubsection{Postcodes}
+\=\hhfrlocalpostcode{\=\textit{digit-style}\=}{\=\textit{letter-style}\=}{=\textit{postcode}\=}=
+typesets \textit{postcode}, using \=\=\textit{digit-style} (e.g.\ \<textnr>)
+to typeset the digits and \=\=\textit{letter-style} (e.g.\ \<textsc>) to
+typeset the letters. The macro does not check which characters are digits
+and which are letters. The standard version in the \hhfrtype package
+assumes that the postcode actually consists of digits only. If the
+package is loaded with the \texttt{dutch} option, the macro expects
+a code of four digits followed by two letters.
+
+\<hhfrlocalpostcode> checks if the first characters of the postcode to
+be typeset, are the same as in the expansion of \<hhfr@postarea>.
+If so, the first characters are encapsulated in \=\default{= and \=}=.
+That \<default> must be defined when \<hhfrlocalpostcode> is expanded.
+Using \=\let\default\relax= or \=\def\default#1{}=, one can choose
+whether default leading characters should be typeset or not.
+\<hhfr@postarea> is initialised empty.
+
+\=\hhfrdefaultpost{=\textit{text}\=}= typesets text only if \<hhfr@postarea>
+is non-empty. In \textit{text}, each occurrence of \<default>
+is replaced by \<hhfr@postarea>.
+
+\subsubsection{Residences}
+Residences are often known by heart, and if not, can be deduced from
+the postcodes. So one can save a lot of space on a list by omitting
+the residences, and typesetting a postcode-residence directory above
+or below the list instead. \hhfrtype provides three macros to
+facilitate this.
+
+\=\hhfrrecordpostcodes{=\textit{residence}\=}{=\textit{lowest}\=}{=\textit{highest}\=}=
+inserts the \textit{residence} name with its \textit{lowest} and \textit{highest}
+postcodes in an internal postcode list, if it is not already there. Instead
+of the full postcodes, you may use just enough digits to distinguish the
+postcodes from those of other places.
+
+\=\hhfrpostcodes{=\textit{title}\=}{\=\textit{style}\=}=
+typesets the postcode list which was filled using \<hhfrrecordpostcodes>.
+It uses \textit{title} as a run-in heading and \=\=\textit{style}
+for typesetting the codes (e.g.\ \=\hhfrlocalpostcode{\textnr}{\textsc}=).
+
+\<hhfrinitpostcodes> empties the postcode list.
+
+\subsubsection{Dates}
+\=\hhfrgobblecentury{=\textit{digit}\=}{=\textit{digit}\=}{=\textit{replacement}\=}{=\textit{year}\=}=
+can be useful to typeset years efficiently. \textit{year} should be a sequence of digits
+or a macro expanding directly to such a sequence. If the first digits of
+year are the same as the digits after \<hhfrgobblecentury>, they are replaced
+by \textit{replacement}. A typical use is \=\hhfrgobblecentury{1}{9}{'}{\year}=,
+or just \=\hhfrgobblecentury19'\year= (recall that braces can be omitted around
+one-token arguments).
+
+\subsubsection{Building Lists}
+
+\=\hhfrqueue\=\textit{macro}\={=\textit{delimiter}\=}{=\textit{text}\=}=
+extends the definition of the \=\=\textit{macro} by appending the
+\textit{text}. If the macro was not empty, the \textit{delimiter} is used.
+For example, suppose that \<names> has been defined by \=\gdef\names{}=.
+Then \=\hhfrqueue\names{ and }{Frans}= defines \<names> to expand to
+\texttt{Frans}, and a following \=\hhfrqueue\names{ and }{Herman}= redefines
+\<names> to \texttt{Frans and Herman}.
+
+\subsection{Adding Rules at Regular Intervals}
+
+\=\hhfrafter{=\textit{interval}\=}{=\textit{something}\=}= inserts
+\textit{something} after every \textit{interval}-th use
+of \<hhfrafter>. This can be used to add rules or white space after every
+\textit{interval}-th line.
+
+The line count is maintained in a counter \texttt{hhfr@counter},
+which can be reset by \=\setcounter{hhfr@counter}{0}=.
+
+\subsection{Stuffing}
+
+\hhfrtype provides `stuffers', macros that can act differently
+depending on the `stuffing pressure'. An example of such a macro
+is \<sml>. The macro \<sml> is defined by
+\=\defstuffer{sml}{3}{#1#2#3}[2]{{\small #2}}=.
+This means, from left to right, that \<sml> gets \=3= arguments,
+\<sml> normally typesets them all (\=#1#2#3=), but if the level of
+stuffing pressure is \=2= or less (the lower the number, the
+higher the pressure), \<sml> typesets \={\small #2}= instead,
+that is only the middle argument, in a small size.
+
+Stuffers can have multiple levels, so another definition for
+\<sml> could have been: \=\defstuffer{sml}{3}{#1#2#3}[2]{{\small #2}}[1]{{\tiny #2}}=.
+If this had been the definition, the middle argument would be typeset
+small if the stuffing pressure is 2, and it would be typeset tiny at
+if the pressure aggravates to 1.
+
+In general stuffers are passive: they always act as if there were a
+lot of space. However, when using the macro \<hhfrsqueeze>, stuffers
+can be useful. \=\hhfrsqueeze{=\textit{dimension}\=}{=\textit{text}\=}=
+tries to stuff \textit{text} in a \<hbox> that is at most \textit{dimension}
+wide. It does so by experimenting with different settings of the
+stuffing pressure, so that stuffers contained in the \textit{text}
+can have their use if they can make \textit{text} fit.
+
+\hhfrtype provides a few basic stuffers that can be used to
+have \TeX\ try full typesetting or abbreviations, and in the
+case of residence names: typesetting the name, or entering
+it in the postcode table (see above). When \hhfrtype is loaded
+with the \texttt{dutch} option, Dutch language equivalents for
+the basic stuffers are available, and some macros that enable
+automatic abbreviations of common parts of family and street
+names. These are \<van>, \<vdn>, \<vdr>, \<vd>, \<de>, \<et> ('t),
+\<straat>, \<weg>, \<laan>, \<steeg>, \<singel>, \<dreef> and
+\<plein>. One can always define more stuffers with \<defstuffer>.
+
+The basic stuffers predefined in \hhfrtype are given below
+(Dutch macro names are given in brackets).
+
+\=\rsd{=\textit{text}\=}= [\<rsd>]
+typesets \textit{text} small raised 2pt.
+
+\=\sml{=\textit{prefix}\=}{=\textit{text}\=}{=\textit{postfix}\=}= [\<kln>]
+typesets \textit{prefix}, \textit{text} and \textit{postfix}; if the
+stuffing pressure is 2 or less, it typesets \textit{text} only, small.
+
+\=\lng{=\textit{text}\=}= [\<lng>]
+typesets \textit{text} only if the stuffing pressure is above 3.
+
+\=\sht{=\textit{text}\=}= [\<krt>]
+typesets \textit{text} only if the stuffing pressure is 3 or less.
+
+\=\abb{=\textit{shorthand}\=}{=\textit{full form}\=}= [\<afk>]
+typesets \textit{full form} if the stuffing pressure is above 3;
+typesets \textit{shorthand} if the stuffing pressure is 3 or less.
+
+NB It is fine to have short, easy names for stuffers, but
+of course this makes conflicts with other packages more likely.
+Because of that, stuffer definitions are not activated when \hhfrtype
+is loaded. The stuffers can be activated by using \<hhfrtools>, which
+is best done inside a group.
+
+\subsection{Duo typesetting}
+
+\<hhfrduo> is macro that facilitates efficient handling of
+two (or more) items sharing partly the same information,
+for example two persons having the same address. \<hhfrduo>
+facilitates trying to typeset them both (or all) on one line,
+and if that turns out to be impossible, typesetting them each
+on a separate line after all. \<hhfrduo> takes five arguments:\begin{enumerate}
+\item a macro that takes two arguments (a dimension register and a name)
+  and typesets the name (if possible using less width than specified in
+  the dimension register);
+\item a dimension register that holds the available width for typesetting
+  the name;
+\item a macro that takes one argument (a box register containing a typeset
+  name) and typesets a full address line, using the contents of the box
+  register;
+\item whatever you would like to use to separate names, e.g.\ \={, }=;
+\item a list of names in the following form
+  \={{=\textit{first}\=}{=\textit{second}\=}=\textit{...etc...}\={=\textit{last}\=}}=.
+\end{enumerate}
+
+\section{\hhfrdata -- Data Processing}
+
+\hhfrdata enables you to enter the data to be listed in a way
+indepented of the lay-out. Thus you can use the same data file
+for different lists, which do not only differ in the selection of
+data and the order in which the fields have to presented, but
+also in the stuffing tricks used. Just put the data in a separate
+file, possibly using stuffers (see previous section) to indicate
+where abbreviations etc.\ may be used if necessary. Then you can
+input the data within various listsm, while each lists can use
+the data and the stuffing directions in its own way.
+
+\subsection{Records}
+
+The basic idea is that all data is entered in the form of records
+in the following form: \=\itm{=\textit{record}\=}=. Each record
+consists of a number of tag-value pairs. Tags and values are
+separated by colons; pairs are separated by semicolons and spaces.
+So a typical example of a record would be:
+
+\begin{verbatim}
+\itm{foa:Mr.; name:Herman; fam:Haverkort;
+     eml:hermanh@cistron.nl}
+\end{verbatim}
+
+Tags can be anything, except that colons and semicolons cannot be used
+without special measures. Values can be anything, but they must
+be enclosed in braces if they contain a ungrouped semicolon followed
+by a space.
+
+When several records are listed directly after eachother it is
+allowed to omit the \<itm>-macros between them, like in:
+
+\begin{verbatim}
+\itm{name:Herman; fam:Haverkort}{name:Frans; fam:Goddijn}
+\end{verbatim}
+
+\subsection{Subrecords}
+
+If, for example, two or more persons share the same information,
+the shared information is specified as normal, while the person
+specific information is given in a list of embraced subrecords, one
+for each person. For example, suppose I were married to a Hanneke
+who uses my e-mail address, our joint record would look like:
+
+\begin{verbatim}
+\itm{{foa:Mrs.; name:Hanneke}{foa:Mr.; name:Herman};
+     fam:Haverkort; eml:hermanh@cistron.nl}
+\end{verbatim}
+
+The same approach can be taken if one person has multiple addresses,
+or telephone numbers, or whatever. Then the person's name can be
+considered shared information for the phone numbers, and the
+phone numbers are put in a list of subrecords. Subsubrecords
+etc.\ are possible as well, e.g.\ if several people at the same
+address share last names in groups.
+
+\subsection{Processing by Pattern Matching}
+
+The \envirname{fristidata} environment processes record data in
+the above format. It does so by defining \<itm> to do something
+useful, namely trying to match the record data to a pattern
+that the \envirname{fristidata} knows how to handle.
+
+The basic syntax of \envirname{fristidata} is:
+
+\=\begin{fristidata}{=\textit{initialisation}\=}{=\textit{patterns}\=}=\\
+\hbox{\quad}\textit{data}\\
+\=\end{fristidata}=.
+
+Patterns are given separated by semicolons and spaces (just like
+tag-value pairs in a record), where a single pattern looks like:
+\textit{requirements} \=-> \=\textit{action}. The \=\=\textit{action}
+is what should be done with data that fulfills the requirements.
+
+The data can be anything including \<itm>-records, which may be input from
+a file. The records are handled by the \envirname{fristidata} pattern
+recognition system; other stuff is typeset as usual.
+A record is processed by checking if it fulfills the \textit{requirements}
+of one of the specified \textit{patterns}, then executing the
+\textit{initialisation} procedure (which can be anything), and then
+executing the \textit{action} macro specified by the matching pattern.
+Only the first matching pattern is used.
+
+\subsubsection{Simple Patterns}
+
+Let me give you an example and try to explain it to you.
+
+\begin{verbatim}
+\begin{fristidata}{\noindent}{%
+    +name +fam ?eml -> \usefirstname;
+    ?foa +inits +fam ?eml -> \useinitials;
+    -fam -> \MrX}
+  \textbf{Example list}\par\medskip                         % 1
+  \itm{foa:Mrs.; inits:B.C.E.; fam:Schilder}                % 2
+  \itm{fam:Janssen; eml:janssen@star.sa}                    % 3
+  \itm{foa:Mr.; name:Henk; fam:Zweers; eml:hz@inter.nl.net} % 4
+  \itm{foa:Miss; name:Karin}                                % 5
+  \itm{foa:Mr.; name:Koen; fam:Haverkort}                   % 6
+\end{fristidata}
+\end{verbatim}
+
+\<noindent> is the initialisation. On the next three lines, three
+patterns are given. Each pattern consists of a number of requirements
+and an action macro (\<usefirstname>, \<useinitials> or \<MrX>).
+For now, we assume that these action macros have been defined to do
+something useful with the record data (see section \ref{sec:urd}
+on how to do this).
+
+Within each pattern, the individual requirements are separated by spaces.
+Basic requirements, like in the example, consist of a plus sign,
+minus sign or question mark followed by a field tag. The plus sign
+indicates that a matching record
+should give a (single) value for the specified tag, the minus sign indicates
+that it should not, and the question mark indicates that it may specify
+a value for the tag concerned. For tags not mentioned in the pattern, values
+may be specified as well. Using explicite question mark requirements
+can be useful for clarity and they can be needed when using subrecords and
+subpatterns. These will be discussed later.
+
+So what will be done with each record in the example?
+\begin{enumerate}
+\item The first line in the environment is typeset as usual.
+\item The second is a record that does not fit the first pattern because the
+  first pattern requires a value for \texttt{name}. Therefore the second pattern is
+  succesfully tried and the record is typeset using the initialisation
+  \<noindent> and the macro \<useinitials> mentioned by the pattern.
+\item The third line does not fit the first pattern because it does not
+  give a name, it does not fit the second pattern because of the missing
+  \texttt{inits} (initials), and it does not fit the third pattern because
+  it does specify a \texttt{fam} (family name), which the pattern forbids.
+  So no matching pattern is found for the third line and \hhfrdata will issue
+  a warning message.
+\item Matches the first pattern and will be typeset using \<noindent>
+  and \<usefirstname>.
+\item Matches the third pattern.
+\item Matches the first pattern again.
+\end{enumerate}
+\subsubsection{Subrecords and subpatterns}
+
+Subpatterns are used in composite requirements. Composite requirements
+look like
+\=*=\textit{number}\={=\textit{requirements}\= -> \=\textit{action}\=}=.
+A record fulfills a composite requirement, if it contains at least
+\textit{number} subrecords that fulfill the \textit{requirements} of
+the subpattern. If the complete record matches the complete pattern,
+the initialisation macro is expanded first, then the \textit{action}
+macro in the subpattern for each of the matching subrecords, and
+finally the action macro of the full pattern.
+
+If the \textit{number} is 1, a record matches the composite requirement
+also if it matches the requirements of the subpattern at top level,
+without subrecords.
+
+A few examples:
+\begin{verbatim}
++horse ?str ?hnr ?res +fam *1{+name -> \firstname} -> \total;
++horse ?str ?hnr ?res *2{+fam +name -> \fullname} -> \total
+\end{verbatim}
+The first pattern matches each record about a horse owned by one
+or more persons who share the same family name and address (if
+known). For each person, the macro \<firstname> is used; the macro
+\<total> is used to handle the whole.
+
+The second pattern matches each record about a horse owned
+by at least two persons with different family names, but living at
+the same address (if known). For each person, the macro \<fullname>
+is used; the macro \<total> handles the whole.
+
+\subsubsection{Flattening}
+
+If a record with subrecords does not match any pattern, it is
+automatically `flattened': for each combination of subrecords and
+top-level data, a separate record without subrecords is constructed.
+The flattened records are then checked again.
+
+\subsubsection{Using Record Data}\label{sec:urd}
+
+Recall that \envirname{fristidata} relies on \textit{action} macros
+to handle records that match a pattern. To do something useful one
+needs to be able to address the data of the matching record. This can be done
+with \=\frat{=\textit{tag}\=}=, which expands to the value paired
+with the tag in the record concerned.
+
+Besides there is \=\withfrat{\=\textit{tag}\=}{=\textit{text}\=}=,
+which expands to \textit{text} only if there is some value
+attached to the \textit{tag}. Otherwise it expands to nothing.
+For example: \=\withfrat{hnr}{~\frat{hnr}}= is effective only
+if some value for \texttt{hnr} (house number) is known, and if
+so, the number is typeset prefaced by a tie.
+
+\subsection{Sorting}
+
+The \envirname{fristisort} environment processes record data in
+the same format as \envirname{fristidata} (it actually uses
+\envirname{fristidata} for this). The basic syntax of \envirname{fristisort}
+is \=\begin{fristisort}{=\textit{tag}\=}=\textit{data}\=\end{fristidata}=.
+
+The data can be anything including \<itm>-records, which may be input from
+a file. The records are sorted according to the values for the \textit{tag}
+fields and output after the \envirname{fristisort} environment. Non-record data
+is typeset as usual immediately.
+
+NB Sorting this way is not exactly fast...
+
+\subsubsection{Ignoring Specials}
+
+The \envirname{fristisort} can have trouble sorting tag values containing
+macros. To make \envirname{fristisort} ignore certain macros
+(or characters), use \=\hhfrignore =\:\textit{tokens to ignore}\=\whensorting=
+before you use the \envirname{fristisort} environment.
+
+\subsubsection{Setting the Ordering}
+
+\=\hhfr@order{=\textit{first}\=<=\textit{second}\=<=\textit{...}\=<=\textit{last}\=}=
+defines the sorting order (define this macro in a style file or between
+\<makeatletter> and \<makeatother>). Between the braces, several
+equivalence classes may be given, separated by \=<= signs. Each class
+consists of one or more tokens that will be considered equal for sorting
+purposes. Upper case equivalents are considered equal as well.
+
+The default sorting order is defined by:
+
+\begin{verbatim}
+\hhfr@order{a<b<c<d<e<f<g<h<i<j<k<l<m<n<o<p<q<r<s<t<u<v<w<x<y<z}
+\end{verbatim}
+
+Note that lower case characters are used. Thus \<hhfr@order> will
+handle both lower and upper case characters; if upper case characters
+were given, \<hhfr@order> would not handle the lower case characters.
+
+\subsection{Calendars}
+
+\hhfrdata provides a few macros to ease the typesetting of, for
+example, birthday calendars.
+
+\subsubsection{Initialisation}
+
+\=\hhfrinitcalendar{=\textit{id}\=}= initialises a calendar by the
+name \textit{id}. Initialisation is necessary before any events
+can be stored.
+
+\subsubsection{Recording Date Information}
+
+\=\hhfrrecorddate{=\textit{id}\=}{=\textit{description}\=}{=\textit{day}\=/=\textit{month}\=/=\textit{year}\=}=
+stores the event \textit{description} (a name, for example) at the \textit{day}-th day
+of the \textit{month}-th month of the calendar identified by \textit{id}.
+The \textit{year} can be omitted; if specified, it is stored with the event.
+
+\subsubsection{Typesetting Date Information}
+
+\=\hhfrsetmonth{=\textit{arg1}\=}{=\textit{arg2}\=}=\textit{...}\={=\textit{arg9}\=}=
+typesets one month of a calendar. The nine arguments are the
+following:\begin{enumerate}
+\item initalisation: this is expanded before anything else is typeset;
+\item first of month: what should be typeset before the first event of the month;
+\item following days: what should be typeset before the first event of the day,
+  but not the first of the month;
+\item following items: what should be typeset before second and following
+  events on the same day;
+\item info: how to typeset event data;
+\item termination: this is placed after the last event of the month;
+\item index: a number from 1 to 12, indicating the month to be typeset;
+\item month: a number or a word that can be typeset to identify the month;
+\item calendar: the identification of the calendar that is typeset.
+\end{enumerate}
+In the arguments of \<hhfrsetmonth>, the following macros may be used:\begin{description}
+\item[\<month>] the number or the word that identifies the month (eight argument);
+\item[\<date>] the number of the day of the event that is being handled;
+\item[\<year>] the year stored with the event;
+\item[\<subj>] the description of the event that is being handled.
+\end{description}
+Naturally, you will need to use \<date> at least in the second and
+third or in the fifth argument.
+
+To typeset a complete calendar, \<hhfrsetcalendar> can be used.
+The syntax is \=\hhfrsetcalendar{=\textit{how to set one month}\=}{=\textit{first}\=}{=\textit{id}\=}{=names\=}=.
+
+\textit{How to set one month} must be something which takes three
+arguments (month number, month word and calendar identification) and
+typesets one month. This can be \<hhfrmonth> with only the first six
+arguments given, leaving the remaining three arguments to be supplied
+automatically by the \<hhfrsetcalendar> mechanism.
+
+\textit{First} is a number from 1 to 12, indicating the
+month that is typeset first (meaning that the month before is typeset last).
+
+\textit{Id} is the calendar identification.
+
+\textit{Names} must be a list of month names or numbers, headed, separated
+and followed by spaces, e.g.:
+
+\begin{verbatim}
+{ Jan. Febr. March April May June July Aug. Sept. Oct. Nov. Dec. }
+\end{verbatim}
+
+%\subsection{Table Construction Tools}
+%\=\hhfrlines, \hhfrdefline, \hhfrstartlines=
+%it seems that these macros are not used in any of my documents;
+%probably because they do not work?
+
+\section{\hhfrlist -- Some Standard FrisTi Lists}
+
+\subsection{The Lists}
+
+\hhfrlist provides three standard types of `stuffed' lists:
+a full address list, a phone list and a birthday calendar.
+To typeset such lists, open the list environment with
+\=\begin{=\textit{list}\=}{=\textit{title}\=}{=\textit{options}\=}=,
+type or input the data records, and close the list with
+\=\end{=\textit{list}\=}=.
+
+In this construct, \textit{list} is one out of:\begin{itemize}
+\item\texttt{fristimax} (for the address list);
+\item\texttt{phonelist} (for the phone list);
+\item\texttt{cakelist} (for the birthday calendar).
+\end{itemize}
+
+The \textit{title} will be typeset above the list.
+
+The \textit{options} are meant for the \envirname{fristiform}
+environment handling the paper size, lay-out etc.\ (see the
+section about \hhfrform). Besides, additional options are
+available as listed in the table on the next page.
+
+\begin{table*}
+  \small
+  \noindent
+  \begin{tabularx}{\hsize}{|>\ttfamily llrX|}
+  \hline
+  \multicolumn{4}{|l|}{\bfseries Additional Options for All Lists}\\
+  \hline
+  \normalfont\bfseries keyword &
+  \normalfont\bfseries values &
+  \normalfont\bfseries default &
+  \normalfont\bfseries decription \\
+  \hline
+  textshape    & font macro   & not set     & default text font \\
+  fontsize     & dimension    & not set     & normal font size \\
+  flex         & posit. value & not set     & the relative rubber stretch
+                                                of the base line skip (see explanation
+                                                of \<hhfrlineflex> \\
+  \hline
+  \hline
+  \multicolumn{4}{|l|}{\bfseries Additional Options for the \envirname{fristimax} Address List}\\
+  \hline
+  \normalfont\bfseries keyword &
+  \normalfont\bfseries values &
+  \normalfont\bfseries default &
+  \normalfont\bfseries decription \\
+  \hline
+  numbershape  & font macro   & \<bfseries> & phone number font \\
+  postarea     & postcode     & not set     & sets the (leading part of the)
+                                                postcode that can be omitted
+                                                in local postcodes \\
+  addresswidth & dimension    & .5\<hsize>  & width reserved for postcode and
+                                                address (leaving the rest for
+                                                name and phone number) \\
+  doubleline   & no value     & not set     & puts addresses on separate lines
+                                                below names and phone numbers \\
+  telarea      & area code    & not set     & sets the area code that can be
+                                                omitted before local numbers \\
+  \hline
+  \hline
+  \multicolumn{4}{|l|}{\bfseries Additional Options for the \envirname{phonelist} Phone List}\\
+  \hline
+  \normalfont\bfseries keyword &
+  \normalfont\bfseries values &
+  \normalfont\bfseries default &
+  \normalfont\bfseries decription \\
+  \hline
+  numbershape  & font macro   & \<nrfamily> & phone number font \\
+  telarea      & area code    & not set     & sets the area code that can be
+                                                omitted before local numbers \\
+  flush        & l, r, c or f & l(eft)      & left, right, centered
+                                                or filled justification. Filled
+                                                justification puts names to the
+                                                left, numbers to the right, and
+                                                rules in between \\
+  \hline
+  \hline
+  \multicolumn{4}{|l|}{\bfseries Additional Options for the \envirname{cakelist} Birthday Calendar}\\
+  \hline
+  \normalfont\bfseries keyword &
+  \normalfont\bfseries values &
+  \normalfont\bfseries default &
+  \normalfont\bfseries decription \\
+  \hline
+  numbershape  & font macro   & \<nrfamily> & sets the date font \\
+  \hline
+  \end{tabularx}
+  \caption{Additional form options for the standard lists}
+\end{table*}
+
+The data records must be in the \<itm>-format as explained in
+the previous section. Within the records, tags will be recognized
+as listed in the table below. In this table, \textsc{f} means
+\envirname{fristimax} address list, \textsc{p} \envirname{phonelist}
+phone list; \textsc{c} \envirname{cakelist} birthday calendar).
+
+  \small
+  \noindent
+  \begin{tabularx}{\hsize}{|>\ttfamily lcccX|}
+  \hline
+  \normalfont\bfseries tag &
+  \multicolumn{3}{c}{\normalfont\bfseries used by} &
+  \normalfont\bfseries meaning \\
+  \hline
+  name  & F & P & C & first name \\
+  ins   & F &   &   & insertion \\
+  fam   & F &   &   & family name \\
+  fni   &   & P & C & family name initial, used to distinguish people
+                      with the same first name on the phone and cake lists \\
+  tel   & F & P &   & phone number, consisting of digits and dots;
+                      the first dot marks the end of the area code;
+                      following dots group digits \\
+  telss & F & P &   & phone Saturdays and Sundays; see
+                      \texttt{tel} for structure \\
+  fax   & F &   &   & fax number; see \texttt{tel} for structure \\
+  eml   & F &   &   & e-mail address \\
+  str   & F &   &   & street \\
+  hnr   & F &   &   & house number \\
+  pcd   & F &   &   & postcode \\
+  res   & F &   &   & residence \\
+  dob   &   &   & C & day of birth (two-digit number)\\
+  mob   &   &   & C & month of birth (two-digit number)\\
+  yob   &   &   & C & year of birth \\
+  \hline
+  \end{tabularx}
+
+\subsection{Additional Stuffers}
+
+To ease handling residence names in the \envirname{fristimax} lists,
+\hhfrlist provides two additional stuffers.
+
+\=\res{=\textit{lowest postcode}\=}{=\textit{highest postcode}\=}{=\textit{short form}\=}{=\textit{full name}\=}=
+is meant to be used as a value for the \texttt{res} tag. \envirname{fristimax}
+will try to typeset the full residence name. If this cannot be done,
+\envirname{fristimax} will try to fit the short form, while the full
+name is listed in the postcode directory above the address list.
+
+\=\preres{=\textit{something}\=}= typesets \textit{something} only if
+residence names are typeset (full or abbreviated).
+
+\subsection{Language Option}
+
+For Dutch explanations, months etc.\ on the lists, load \hhfrlist
+with the \texttt{dutch} option.
+
+\section{Examples}
+
+For a few examples and some design guidelines, see the article
+published as \textsc{gif}-files in the library of my website
+at http://come.to/hh.
+
+\end{document}
+

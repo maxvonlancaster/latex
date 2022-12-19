@@ -1,0 +1,38 @@
+\documentclass[12pt,a4paper]{article} % <voss@perce.de>
+\usepackage{pstricks}
+\usepackage{pst-map3d}
+\topmargin=-0.5in
+\begin{document}
+\section*{Southamerica}
+
+\begin{verbatim}
+\psset{path=../data}
+\psframebox{%
+\begin{pspicture*}(-6.5,-6.5)(6.5,6.5)
+    \WorldMapThreeD[RotZ=-65,RotY=-65]
+\end{pspicture*}}
+
+
+\psframebox{%
+\begin{pspicture*}(-6.5,-6.5)(6.5,6.5)
+  \psset{unit=2}
+  \WorldMapThreeD[RotZ=-65,RotY=-65]
+\end{pspicture*}}
+\end{verbatim}
+
+\psset{path=../data}
+\psframebox{%
+\begin{pspicture*}(-6.5,-6.5)(6.5,6.5)
+    \WorldMapThreeD[RotZ=-65,RotY=-65]
+\end{pspicture*}}
+
+
+\psframebox{%
+\begin{pspicture*}(-6.5,-6.5)(6.5,6.5)
+  \psset{unit=2}
+  \WorldMapThreeD[RotZ=-65,RotY=-65]
+\end{pspicture*}}
+
+
+\end{document}
+

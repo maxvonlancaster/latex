@@ -1,0 +1,204 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+%\usecolortheme[named=CarnationPink]{structure}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme{structureitalicserif}
+%\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo}
+
+% \usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!1}{blue!5}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+%\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+%{\usebeamercolor{yellow}}
+%\setbeamertemplate{sidebar canvas left}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+%\setbeamertemplate{sidebar canvas right}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{Мельник Василь Сергійович}}]
+
+%\subject{Мельник Василь Сергійович}
+
+\title{Використання поліномів Бернштейна для моделювання апроксимації функцій.}
+
+
+\author[Мельник В.С.]{\textbf{Мельник В.С.}}
+
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+
+
+\begin{frame}{Поліном Бернштейна.}
+\begin{block}{}
+Поліномом Бернштейна $n$~--го порядку для неперервної функції $f(x)\in  СC([0,1])$
+\end{block}
+
+\begin{equation}
+B_{n}(x)=\sum\limits_{k=0}^{n} f(\frac{k}{n}) C_{n}^{k} x^{k} (1-x)^{n-k}.
+\end{equation}
+
+\end{frame}
+
+
+
+\begin{frame}{Логістичне відображення.}
+
+\begin{block}{}
+Логістичне відображення при натуральному $i$, $r\in (0,4)$.
+\end{block}
+
+\begin{equation}
+x_{i+1}=rx_{i}(1-x_{i}).
+\end{equation}
+
+\end{frame}
+
+
+
+\begin{frame}{Цікавий розвиток.}
+
+\begin{equation}
+x_{i+1}(x)=\sum\limits_{k=0}^{n} f(\frac{k}{n}) C_{n}^{k} x_{i}^{k} (1-x_{i})^{n-k}. 
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}{Логістичне відображення.}
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{Capture1}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}{Логістичне відображення.}
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{Capture_bern_4}
+\end{center}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Дякую за увагу!}
+\end{frame}
+
+\end{document}
+

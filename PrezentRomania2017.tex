@@ -1,0 +1,415 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+%\usecolortheme[named=CarnationPink]{structure}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme{structureitalicserif}
+%\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo}
+
+% \usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!1}{blue!5}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+%\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+%{\usebeamercolor{yellow}}
+%\setbeamertemplate{sidebar canvas left}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+%\setbeamertemplate{sidebar canvas right}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{Про рівномірну відстань до різних функціональних класів}}]
+
+\title{On the intermediate function}
+
+
+\author[Melnyk V.]{\textbf{Melnyk V.}}
+\author[Maslyuchenko V.]{\textbf{Maslyuchenko V.}}
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+\begin{frame}{1. Hahn's pairs.}
+
+\begin{block}{Definition}
+We say, that $(g,h)$ is \textit{Hahn's pair} on topological space $X$, if $g:X\rightarrow \mathbb{R}$ and $h:X\rightarrow \mathbb{R}$~--- lower and upper semicontinuous functions respectively, such, that $g(x)\leq h(x)$ on $X$. If $g(x)<h(x)$ on $X$, than Hahn's pair $(g,h)$ is called \textit{strict}. Function $f:X\rightarrow \mathbb{R}$ is called \textit{intermediate} for Hahn's pair $(g,h)$ on $X$, if $g(x)\leq f(x)\leq h(x)$ on $X$ and \textit{strictly intermediate}, if $g(x)<f(x)<h(x)$ when $g(x)<h(x)$ and $g(x)=f(x)=h(x)$ when $g(x)=h(x)$.
+\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}{2. Hahn's theorem.}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Hahn H.} Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+\end{thebibliography}
+
+\begin{exampleblock}{Theorem 1.}
+For metrizable space $ X $ and respectively upper and lower semicontinuous functions $ g, h: X \rightarrow \mathbb {R} $, such that $ g (x) \leq h (x) $ on $ X $, there is a continuous function $ f: X \rightarrow \mathbb {R} $, for which $g(x) \leq f (x) \leq h (x) $ on $ X $.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+\begin{frame}{3. Development of Hahn's theorem.}
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Tong H. } Some characterizations of normal and perfectly normal spaces // Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Katetov M.} On real-valued functions in topological spaces // Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Dowker C. H.} On countably paracompact spaces // Canad. J. Math.~--- 1951.~--- \textbf{3}.~--- P.219-224.
+\end{thebibliography}
+
+
+\begin{exampleblock}{Theorem 2 (Hahn-Dieudonne-Tong-Katetov.)}
+$T_{1}$-space $X$ is normal if and only if for any Hahn's pair $g,h:X\rightarrow \mathbb{R}$, there is a continuous function $f$ such, that $g\leq f\leq h$.
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{4. Theorems by Dowker-Katetov and Michael.}
+
+\begin{exampleblock}{Theorem 3, (Dowker, Katetov)}
+$T_{1}$-space $X$ is normal and countably paracompact if and only if for any Hahn's strict pair $g,h:X\rightarrow \mathbb{R}$, there is a continuous function $f$ such, that $g< f< h$.
+\end{exampleblock}
+
+
+\begin{exampleblock}{Theorem 4, Michael}
+$T_{1}$-space $X$ is perfectly normal if and only if for any Hahn's pair $g,h:X\rightarrow \mathbb{R}$, there is a continuous function $f$ such, that $g(x)\leq f(x)\leq h(x)$ for any $x\in X$ and $g(x)< f(x)< h(x)$, whenever $g(x)<h(x)$.
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{ Michael E.} Continuous selections I // Ann. of Math.~--- 1956.~--- \textbf{63}.~--- P.361–382.
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{5. Application of Hahn's theorem.}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В. К., Мельник В. С. } Про рівномірне відхилення від
+простору неперервних функцій // Збірник праць Ін-ту математики НАН України~--- Київ: Інститут математики НАН України.~--- 2014.~--- \textbf{11},№3~--- С.173-181.
+\end{thebibliography}
+
+\begin{exampleblock}{Теорема 5.}
+Let $X$ be a normal space and $f:X\rightarrow \mathbb{R}$ arbitrary function. Then $d(f,C(X))=\frac{1}{2}||\omega_{f}||$.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{6. Theorem on the intermediate function for the monotonous functions}
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В.К., Петей С.П. }  Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+\end{thebibliography}
+
+
+\begin{exampleblock}{Theorem 6}
+Let $(g,h)$ be Hahn's pair on $[a,b]$, and both functions are monotonically increasing, then there is a continuous monotonically increasing function $f:[a,b]\rightarrow \mathbb{R}$ such that $g(x)\leq f(x)\leq h(x)$ on $[a,b]$.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+\begin{frame}{7. Theorem on the intermediate affine function.}
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В.К., Мельник В.С.} Теореми про проміжну афінну функцію для опуклої і вгнутої функцій // Бук. мат. журн. — 2016. — 4,№1. — С.110-116.
+\end{thebibliography}
+
+\begin{exampleblock}{Theorem 7.}
+Let $E$ be a convex set in real vector space $X$, $g:E\rightarrow \mathbb{R}$ — concave function, $h:E\rightarrow \mathbb{R}$ convex function, such, that $g(x)\leq h(x)$ on $E$. Then there is concave function $f:E\rightarrow \mathbb{R}$, such, that $g(x)\leq f(x)\leq h(x)$ on $E$.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{8. Intermediate $C^{\infty}$-function on the segment}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В.К., Маслюченко О.В., Мельник В.С. }  Існування проміжних кусково лінійних та нескінченно диференційовних функцій, Бук. мат. журн., \textbf{4} (3-4) (2016), 93-100.
+\end{thebibliography}
+
+\begin{exampleblock}{Theorem 8.}
+Let ($ g $, $ h $) be Hahn's strict pair on the line segment $[a,b]$, and $\gamma\in (g(a),h(a))$. Then there is strictly intermediate  $C^{\infty}$-function $f:[a,b]\rightarrow \mathbb{R}$ for pair $(g,h)$, locally constant on the end points of the segment, such, that $f(a)=\gamma$.
+\end{exampleblock}
+
+\begin{exampleblock}{Theorem 9.}
+Let ($ g $, $ h $) be Hahn's strict pair on the real interval $X$, $x_{0}\in X$ and $y_{0}\in (g(x_{0}),h(x_{0}))$. Then there is strictly intermediate $C^{\infty}$-function $f:X\rightarrow \mathbb{R}$ for pair $(g,h)$, such, that $f(x_{0})=y_{0}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{9. Intermediate $C^{\infty}$-function on parallelepiped in $\mathbb{R}^{n}$.}
+
+\begin{exampleblock}{Lemma 1.}
+For each bounded open parallelepiped $Q=(a_{1},b_{1})\times...\times(a_{n},b_{n})$ in $\mathbb{R}^{n}$ there is $C^{\infty}$-function $\varphi:\mathbb{R}^{n}\rightarrow \mathbb{R}$, such, that $\varphi(x)\geq 0$ on $\mathbb{R}^{n}$ and $\textmd{supp}\varphi=Q$.
+\end{exampleblock}
+
+\begin{exampleblock}{Theorem 10.}
+Let $X=[a_{1},b_{1}]\times...\times[a_{n},b_{n}]$~--- be closed parallelepiped in $\mathbb{R}^{n}$, $(g,h)$~--- Hahn's strict pair on $X$, $x_{0}\in X$ and $g(x_{0})<y_{0}<h(x_{0})$. Then there is strictly intermediate for pair $(g,h)$ infinitely differentiable function $f:X\rightarrow \mathbb{R}$, such, that $f(x_{0})=y_{0}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}{10. Frechet derivative.}
+
+\begin{block}{Definition}
+Let $X$ and $Y$ be a normal spaces and $f:X\rightarrow Y$ is map. It is called \textit{Frechet differentiable} in $x\in X$, if there is operator $A\in L(X,Y)$, such that $$\lim\limits_{h\rightarrow  0}^{}\frac{f(x+h)-f(x)-Ah}{||h||}=0.$$ This operator is called \textit{Frechet derivative} of the map $f$ in $x$ and is denoted $f'(x)$. Frechet differentiable maps $f:X\rightarrow Y$ we will just call \textit{differentiable}, that implies Frechet differentiability at every point $x\in X$.
+\end{block}
+
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{11. Asplund spaces.}
+
+\begin{block}{Definition}
+Real Banach space $X$ is called asplund space, if for each of it's separable subspaces $L$, dual space to it $L^{*}$ is also separable. For instance, separable Banach space $X$ that has a separable dual $X^{*}$ is also asplund.
+\end{block}
+
+
+\begin{exampleblock}{Theorem 11}
+For separable real Banach space $X$ following conditions are equivalent:
+
+(i) dual space $X^{*}$ is separable (i.e. $X$ is asplund space);
+
+(ii) There exists Frechet differentiable in $x\neq 0$ norm on $X$, that is equivalent to the original norm on $X$.
+\end{exampleblock}
+
+
+\begin{thebibliography}{10}
+\bibitem{2}\textbf{Deville R., Godefroy G., Zizler V.} Smoothness and Renormings in Banach Spaces.~--- Longman Scientific \& Technical, 1993.~--- 359 p.
+\end{thebibliography}
+\end{frame}
+
+
+
+
+\begin{frame}{12. Frechet differentiability.}
+
+\begin{exampleblock}{Theorem 12, Leng}
+Let $A$ and $B$ be a nonempty closed sets in real separable Hilbert space $X$, $A\cup B={\O}$. Then there is $C^{\infty}$-function $\varphi:X\rightarrow [0,1]$ such, that $\varphi(x)=1$ on $A$ and $\varphi(x)=0$ on $B$.
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Ленг С.} Введение в теорию дифференцируемых многообразий // 1967.
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{13. Existence of infinitely differentiable intermediate function on separable Hilbert space.}
+
+\begin{exampleblock}{Theorem 13.}
+Let $X$ be a separable Hibert space and $(U_{j})_{j\in J}$ is open cover of space $X$. Then there is subordinate to a given cover.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 14.}
+Let $X$ be a separable Hilbert space and $(g,h)$ be a Hahn's strict pair on $X$. Then there is $C^{\infty}$-function $f:X\rightarrow \mathbb{R}$, that is strictly intermediate for $(g,h)$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+\begin{frame}{14. Intermediate Frechet differentiable function with bounded supplement.}
+
+\begin{exampleblock}{Lemma 2.}
+Let $X$ be a real normal space with Frechet differentiable in $x\neq 0$ norm $||\cdot||$, $\varphi(t)=e^{\frac{1}{t^{2}-1}}$ when $|t|<1$ and $\varphi(t)=0$ when $|t|\geq1$, $I=\int\limits_{-1}^{1}\varphi(t)dt$, $0<r<R$, $x_{0}\in X$, and $M=\frac{2}{eI}$. Then $f:X\rightarrow [0,1]$ Frechet differentiable function, for which  $f(x)=1$ when $||x-x_{0}||<r$ and $f(x)=0$ when $||x-x_{0}||\geq R$, and $||f'(x)||\leq\frac{M}{R-r}$ on $X$.
+\end{exampleblock}
+
+\begin{exampleblock}{Lemma 3.}
+Let $X$ be a separable asplund space and $G$ is open bounded and nonempty in $X$. Then there is Frechet differentiable function $f:X\rightarrow [0,1]$, such, that $\textmd{supp}f=G$.
+
+Here $\textmd{supp}f=\{x\in X:f(x)\neq 0\}$ is the supplement of function $f$.
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{15. Differentiable partition of unity.}
+
+
+
+\begin{exampleblock}{Theorem 15.}
+Let $X$ be a separable asplund space and $(U_{j})_{j\in J}$ is open cover in it, such, that consists of bounded sets $U_{j}$. Then there is locally finite partition of unity $(\varphi_{i})_{i\in I}$ on $X$, such that is subordinate to $(U_{j})_{j\in J}$ and consists only from the Frechet differentiable functions $\varphi_{i}:X\rightarrow [0,1]$.
+\end{exampleblock}
+
+
+
+\end{frame}
+
+
+\begin{frame}{16. Intermediate differentiable function.}
+
+
+
+\begin{exampleblock}{Theorem 16.}
+Let $X$ be a separable asplund space, $g:X\rightarrow \mathbb{R}$ be a strict Hahn's pair on $X$. Then there is Frechet differentiable function $f:X\rightarrow \mathbb{R}$ such that $g(x)<f(x)<h(x)$ on $X$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{17. Intermediate multivalued function.}
+
+
+\begin{exampleblock}{Theorem 17.}
+Let $X$ be a normal space and $(G,H)$ be Hahn's pair, such that $G(x)=[g_{1}(x),g_{2}(x)]$ and $H(x)=[h_{1}(x),h_{2}(x)]$ for each $x\in X$. Then there is intermediate for $(G,H)$ continuous function $F:X\rightarrow \mathbb{R}$ such that $F(x)=[f_{1}(x),f_{2}(x)]$ on $X$, where functions $f_{1}$ and $f_{2}$ are continuous.
+\end{exampleblock}
+
+
+
+\begin{exampleblock}{Theorem 18.}
+Let $X$ be a topological space, $(g,h)$ strict Hahn's pair on $X$, $G(x)=(-\infty,g(x)]$ and $H(x)=(-\infty,g(x)]$, and Hahn's pair $(G,H)$ has intermediate continuous function $F:X\rightarrow \mathbb{R}$. Then Hahn's pair $(g,h)$ also has continuous intermediate function $f:X\rightarrow \mathbb{R}$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Thank you for your attention}
+\end{frame}
+
+\end{document}
+

@@ -1,0 +1,658 @@
+\documentclass[11pt]{article}
+\usepackage{hhccount}               % for presentation
+\usepackage{verbatim}               % for verbatim displaying of examples
+\usepackage{xspace}                 % for ease of typing
+
+\makeatletter
+
+\setlength\parindent\z@
+\setlength\parskip{.5\baselineskip}
+
+% The following has been copied from my personal tools style file hhutils.sty
+% (NB: This is _not_ the same file as the public style file hhutils0.sty!)
+
+\setcounter{errorcontextlines}{10}     % For ease of debugging.
+\def\0#1.{\oldstylenums{#1}}           % For ease of typing.
+\def\packagename#1{{\sffamily #1}}     % For consistent displaying of
+                                       % package names. To be redefined
+                                       % by the editor if desired.
+\chardef\@ttbs="5C                     % This the only way I could figure
+\def\macroname#1{{\ttfamily\@ttbs#1}}  % out to get the right backslashes
+                                       % when displaying macro names
+                                       % (math \backspace is too thin).
+\def\envirname#1{{\ttfamily #1}}       % For consistent etc.
+\def\scheiding{\par                    % Because I cannot help to show my
+                                       % `stamp' in and out of season.
+                                       % Remove the stamps it you cannot
+                                       % stand them.
+  \nobreak\addvspace{18pt plus 6pt minus 6pt}%
+  \nobreak\centerline{{\unitlength1pt\begin{picture}(0,0)%
+       \thicklines
+       \put(-10,2.5){\line(1,-1){10}}\put(-10,2.5){\line(1,1){10}}%
+       \put(10,2.5){\line(-1,-1){10}}\put(10,2.5){\line(-1,1){10}}%
+       \put(-5,7.5){\line(0,-1){10}}\put(5,7.5){\line(0,-1){10}}%
+       \put(-5,0){\line(2,1){10}}%
+     \end{picture}}}%
+  \addvspace{18pt plus 6pt minus 6pt}}
+
+% The following are document specific macros defined for ease of typing:
+
+\def\hhcount{\packagename{hhcount}\xspace}
+\def\hhscount{\packagename{hhscount}\xspace}
+\def\hhccount{\packagename{hhccount}\xspace}
+\def\hhicount{\packagename{hhicount}\xspace}
+\def\hhccidx{\packagename{hhccidx}\xspace}
+\def\={\verb=}
+\def\<#1>{\macroname{#1}}
+\def\:{\linebreak[1]}
+
+\makeatother
+
+\title{HH Count Packages --- Manual}
+\author{Herman Haverkort\\\normalsize\normalfont\texttt{hermanh@cistron.nl}}
+\date{March 1999}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+This manual describes how to use the \hhcount macro packages for
+\LaTeX2e. I wrote the packages in \01995. and \01996., and used
+them in my \LaTeX setup since. They may not have been tested
+in combination with the latest versions of common class files and
+macro packages, so actually I would not be surprised if you
+experience some trouble with these packages. Please let me know.
+
+\hhcount is actually a set of four package files: \hhscount (simple counters),
+\hhccount (complex counters), \hhicount (standard initialisation) and
+\hhccidx (complex counters in the index). A previous version of \hhcount
+was provided as a single file \texttt{hhcount.sty}.
+
+The \hhscount package provides some macros to display numbers in various
+ways. For example: numbers could be formatted as roman numbers, dice or
+scores. Some of the display macros act context dependent: in headings
+they yield other results than in the midst of a paragraph or in an
+index.
+
+On top of these `simple' formatting macros, \hhccount
+provides macros which combine several macros
+to format the values of composite counters. \hhicount provides
+a macro \<initfancycounters> which sets up a standard
+numbering system using \hhccount; this may serve as an example
+(if you do not want to use it as is).
+
+\hhccidx offers the possibility to have composite counters of
+arbitrary structure appear in the index.
+
+To be able to use \hhcount you need the files
+\texttt{hhscount.sty}, \texttt{hhccount.sty}, \texttt{hhicount.sty},
+\texttt{hhccidx.sty} and \texttt{hhutils0.sty} available.
+These files can be obtained from my website at http://come.to/hh
+(follow the directions to the library) or from \textsc{ctan}.
+
+\section{Simple Number Formatting}\label{sec:snf}
+
+Let us start by summarizing the simple
+number formatting macros which are provided by \hhscount:
+\begin{center}
+\begin{tabular}{|l|c||c|}\hline
+  example input         & \vbox{\hbox{corresp.\strut}%
+                            \hbox{output\strut}} &
+                                               \vbox{\hbox{other example\strut}%
+                                                     \hbox{output\strut}} \\
+\hline\hline
+  \=\fctabdigit{2}=      & \fctabdigit{2}        & \fctabdigit{29}       \\
+\hline
+  \=\fcolddigit{2}=      & \fcolddigit{2}        & \fcolddigit{29}       \\
+\hline
+  \=\fcloweralpha{2}=    & \fcloweralpha{2}      & \fcloweralpha{29}     \\
+\hline
+  \=\fcbigalpha{2}=      & \fcbigalpha{2}        & \fcbigalpha{29}       \\
+\hline
+  \=\fcsmallalpha{2}=    & \fcsmallalpha{2}      & \fcsmallalpha{29}     \\
+\hline
+  \=\fclowerroman{2}=    & \fclowerroman{2}      & \fclowerroman{29}     \\
+\hline
+  \=\fcbigroman{2}=      & \fcbigroman{2}        & \fcbigroman{29}       \\
+\hline
+  \=\fcsmallroman{2}=    & \fcsmallroman{2}      & \fcsmallroman{29}     \\
+\hline
+  \=\fcbigromanlined{2}= & \fcbigromanlined{2}   & \fcbigromanlined{29}  \\
+\hline
+  \=\fcsmallromanlined{2}= & \fcsmallromanlined{2} & \fcsmallromanlined{29} \\
+\hline
+  \=\fcbigdice{2}=       & \fcbigdice{2}         & \fcbigdice{29}        \\
+\hline
+  \=\fcsmalldice{2}=     & \fcsmalldice{2}       & \fcsmalldice{29}      \\
+\hline
+  \=\fcbigrounddice{2}=  & \fcbigrounddice{2}    & \fcbigrounddice{29}   \\
+\hline
+  \=\fcsmallrounddice{2}= & \fcsmallrounddice{2} & \fcsmallrounddice{29} \\
+\hline
+  \=\fcbigscore{2}=      & \fcbigscore{2}        & \fcbigscore{29}       \\
+\hline
+  \=\fcsmallscore{2}=    & \fcsmallscore{2}      & \fcsmallscore{29}     \\
+\hline
+  \=\fcfnsymbol{2}=      & \fcfnsymbol{2}        &                       \\
+\hline
+\end{tabular}
+\end{center}
+
+The next step in complexity are number formatting macros that give
+context-dependent output. This is implemented by using the following
+{\it context switches}:
+\begin{description}
+\item[\<if@fcoldstyle>] selects old style numerals
+  (as opposed to tabular style);
+\item[\<if@fcsmall>] selects lower case size output
+  (as opposed to upper case size);
+\item[\<if@fcverbose>] determines whether or not verbose output should
+  be given, for example: ``Chapter 2'' or just ``2'';
+\item[\<if@fcfull>] if true, then composite counters are shown
+  completely (for example: ``\S 1.2.3''), else only the lowest level(s) of
+  subcounters may be shown (for example: ``3'');
+\item[\<if@fclocal>] if true, only the lowest level(s) of subcounters
+  may be shown in a reference, if the higher levels are the same for
+  the place that is refered from and the place that is refered to.
+\end{description}
+
+The context switches are set by
+context switching macros like \<fcinheading>, \<fcintext> and
+\<fcinlist>. We say that a context switching macro is active if it was
+the last one to affect the context switches.
+The formatting macros in the following table are affected only by
+the switches \<if@fcoldstyle> or \<if@fcsmall>; we will discuss how to
+define formatting macros depending on \<if@fcverbose>, \<if@fcfull>
+and \<if@fclocal> later.
+\begin{center}
+\begin{tabular}{|l|c|c|}\hline
+  example input         & \vbox{\hbox{output when\strut}%
+                            \hbox{\<fcinheading>\strut}%
+                            \hbox{is active\strut}}
+                                              & \vbox{\hbox{output when\strut}%
+                                                    \hbox{\<fcintext>\strut}%
+                                                    \hbox{is active\strut}}  \\
+\hline\hline
+  \=\fcdigit{14}=      & {\fcinheading\fcdigit{14}} & {\fcintext\fcdigit{14}} \\
+\hline
+  \=\fcalpha{14}=      & {\fcinheading\fcalpha{14}} & {\fcintext\fcalpha{14}} \\
+\hline
+  \=\fcroman{14}=      & {\fcinheading\fcroman{14}} & {\fcintext\fcroman{14}} \\
+\hline
+  \=\fcromanlined{14}= & {\fcinheading\fcromanlined{14}}
+                                              & {\fcintext\fcromanlined{14}} \\
+\hline
+  \=\fcdice{14}=       & {\fcinheading\fcdice{14}}  & {\fcintext\fcdice{14}}  \\
+\hline
+  \=\fcrounddice{14}= & {\fcinheading\fcrounddice{14}} & {\fcintext\fcrounddice{14}} \\
+\hline
+  \=\fcscore{14}=      & {\fcinheading\fcscore{14}} & {\fcintext\fcscore{14}} \\
+\hline
+\end{tabular}
+\end{center}
+
+By default \<fcinheading> is active; \<fcintext> is active when using
+\<ref> or \<pageref> (those two macros are redefined by \hhscount);
+\<fcinlist> is active when typesetting the index. With respect to the
+formatting macros in the above table \<fcinlist> is the same as \<fcinheading>:
+both macros set the context switches \<if@fcoldstyle> and \<if@fcsmall>
+to the same values.
+
+\section{How to Define Composite Counters}
+
+Composite counters can be constructed using \hhccount.
+Suppose we want to set up a four-level section numbering system for
+some sub-document in another document, for example the rules of a club
+embedded in some booklet about that club.
+The section numbers should be composed from the values of four
+\hbox{(sub)}counters: {\tt ruleschapter},
+{\tt rulessection}, {\tt rulesparagraph} and {\tt rulessubpar}. Chapter numbers
+should be represented by capital alphabetic characters;
+elementary section and paragraph numbers by arabic digits;
+subparagraph numbers by parenthesized lower case characters.
+What should be done?
+
+First we select a macro name for our composite counter,
+e.g. \<rulesseries>.
+
+Second we select a {\it series identifier} for our composite counter.
+Series identifiers are natural numbers which are assigned to
+composite counters. Each composite counter must be assigned a unique
+identifier. The following identifiers are reserved for common purposes:
+
+\begin{tabular}{|r|l|}\hline
+  id. & purpose \\\hline
+   1  & part numbering \\
+   2  & front matter section numbering \\
+   3  & main matter section numbering \\
+   4  & (back matter) appendix numbering \\
+   5  & equation numbering \\
+   6  & table numbering \\
+   7  & figure numbering \\
+   8  & footnote numbering \\
+  12  & page numbering \\\hline
+\end{tabular}
+
+Since our sub-document section numbering is a non-common purpose, we
+select another identifier for our rules section numbers, say {\tt 9}.
+
+Next we determine in which order the subcounters are to be combined.
+Of course this is:\begin{enumerate}
+\item \texttt{ruleschapter}
+\item \texttt{rulessection}
+\item \texttt{rulesparagraph}
+\item \texttt{rulessubpar}
+\end{enumerate}
+
+\subsection{A First Format}
+
+Finally we combine all this with a specification of
+how the counter is to be formatted:
+
+\begin{verbatim}
+\defcombicounter\rulesseries{9}{%
+  ruleschapter-rulessection-|-rulesparagraph-|-rulessubpar%
+}{%
+  % capitals for chapter numbers (first level):
+  \<1:[\fcalpha]>
+  % digits for section numbers (second level):
+  \<2:[\fcdigit]>
+  % digits for paragraph numbers (third level),
+  % and a dot to separate them from section numbers
+  \<3:_._[\fcdigit]>
+  % parenthesized lower case for subparagraph numbers:
+  \<4:([\fcloweralpha])>
+  }
+\end{verbatim}
+\defcombicounter\rulesseries{9}{ruleschapter-rulessection-|-rulesparagraph-|-rulessubpar}{%
+  \<1:[\fcalpha]>
+  \<2:[\fcdigit]>
+  \<3:_._[\fcdigit]>
+  \<4:([\fcloweralpha])>
+  }
+
+The format specification should not change throughout the document!
+You may be tempted to do so if you want to change the formatting of
+section numbers when entering the back matter of a document. However,
+do not change the format using just \<defcombicounter> or
+\<setcounterformat>; instead select a new series identifier for the
+back matter, and repeat the steps shown above.
+
+Let me explain the above listing. The third argument of \<defcombicounter>
+contains a list of parameter numbers, separated by hyphens. Because
+the composite counter at issue here consists of four subcounters, four
+parameter numbers are given. Sometimes \texttt{-|-} is used instead
+of just a hyphen. The \texttt{-|-} indicates where higher level
+counters may be cut off if the counter is used in a local reference;
+that is a reference for which the higher level counters have the
+same value for both the place that is refered to and the place that
+is refered from.
+
+The fourth argument of \<defcombicounter> specifies how to format the
+composite counter. For each subcounter \=\<= is used with the following
+syntax: \=\<=\textit{level}\=:_=\textit{infix}\=_=\textit{prefix}\=[=%
+\textit{style}\=]=\textit{postfix}\=_=\textit{infix}\=_>=. The infixes
+are optional; the prefix and the postfix may be empty.
+
+The \textit{level} indicates which subcounter is to be typeset:
+\=1= stands for the highest level subcounter, while higher numbers stand
+for lower level subcounters. Only non-zero numbers will be typeset: if
+the specified subcounter happens to be zero, it is ignored.
+
+The first \textit{infix} is used to connect the formatted subcounter to
+preceding subcounters; the infix is ignored when the subcounter at issue
+is the first one to be actually typeset. If no \textit{infix} is
+desired, the infix and the surrounding underscores can be omitted.
+
+The \textit{prefix} is typeset just before the counter. It can be omitted.
+
+The \textit{style} should be a macro with all arguments specified except
+for the last one. The last, unspecified parameter of the macro will be
+used to pass on the value of the subcounter at issue as a natural number.
+The macro should format the natural number somehow. The following expressions
+can be used as styles:\begin{itemize}
+\item all simple number formatting macros listed in section \ref{sec:snf};
+\item expressions of the form: \=\(=\textit{verbose style}\=/=%
+      \textit{non-verbose style}\=)=, where \textit{verbose style} and
+      \textit{non-verbose style} are valid styles and the style used is
+      selected according to the value of the \<if@fcverbose> context switch.
+\end{itemize}
+The \=\(=...\=)= construct may also be used in the infixes, prefix and
+postfix.
+
+The \textit{postfix} is typeset just after the counter. It can be omitted.
+If the postfix is longer than one token, it can be necessary to enclose
+it in braces.
+
+The last \textit{infix} is used to connect the formatted subcounter to
+following subcounters; the infix is ignored when the subcounter at issue
+is the last one to be actually typeset. If no \textit{infix} is
+desired, the infix and the surrounding underscores can be omitted.
+
+Note: if you would like to use characters that are part of the
+syntax that is described above, you should enclose them in braces
+in most cases. This goes for the underscore \=_=, brackets
+\=[=, \=]= and \=>= in general, and for the slash \=/= and closing
+parenthesis \=)= inside a \=\(=...\=)= construct.
+
+\subsection{A First Result}
+
+The composite counter can be accessed by the macros
+\<theruleschapter>, \<therulessection>, \<therulesparagraph>
+and \<therulessubpar>, which give results like:
+``\fancycounter9-1-0-0-0-!'',
+``\fancycounter9-1-2-0-0-!'', ``\fancycounter9-1-2-3-0-!''
+and ``\fancycounter9-1-2-3-4-!''.
+To step the counters, you use the macros \=\stepcounter=\:\={ruleschapter}=,
+\=\stepcounter=\:\={rulessection}=,
+\=\stepcounter=\:\={rulesparagraph}= and
+\=\stepcounter=\:\={rulessubpar}=.
+
+When \<fcinheading> is active, rules paragraph numbers will be set like
+``{\fcinheading\fancycounter9-1-2-3-4-!}'', but when \<fcintext> is active,
+the same number will be set like ``{\fcintext\fancycounter9-1-2-3-4-!}''.
+
+\subsection{Adding Verbosity}
+
+\hhccount provides two additional macros to be used in the fourth argument
+of \<defcombicounter>: \<(> and \<pre>.
+
+\=\(=\textit{verbose}\=/=\textit{non-verbose}\=)= was already mentioned
+above; it expands to \textit{verbose} when the context switch \<if@fcverbose>
+is true; otherwise it expands to \textit{non-verbose}.
+
+\=\pre =\textit{level}\=:_=\textit{short prefix}\=_=%
+\textit{long prefix}\=\fix= takes care of typesetting \textit{long prefix}
+if and only if the subcounter of level \textit{level} is non-zero. The
+\textit{short prefix} is used to connect the long prefix to preceding
+formatted subcounters, if there are any. If \<pre> is used multiple
+times in succession, withouth putting a \=\<=...\=>= construct in between,
+then only the last \<pre> that got a non-zero value for subcounter
+\textit{level}, will be effective. The short prefix may be omitted
+together with the underscores.
+
+Using these two macros we define a new format for our rules paragraph
+numbers:
+
+\begin{verbatim}
+\defcombicounter\rulesseries{9}{%
+  ruleschapter-rulessection-|-rulesparagraph-|-rulessubpar%
+}{%
+  \pre1:\(chapter~/)\fix
+  \pre2:\(section~/\S)\fix
+  \<1:[\fcalpha]>
+  \<2:[\fcdigit]>
+  \(\pre3:_ _par.~\fix/)
+  \(\pre4:_ _par.~\fix/)
+  \<3:_\(/.)_[\fcdigit]>
+  \<4:([\fcloweralpha])>
+  }
+\end{verbatim}
+\defcombicounter\rulesseries{9}{ruleschapter-rulessection-|-rulesparagraph-|-rulessubpar}{%
+  \pre1:\(chapter~/)\fix
+  \pre2:\(section~/\S)\fix
+  \<1:[\fcalpha]>
+  \<2:[\fcdigit]>
+  \(\pre3:_ _par.~\fix/)
+  \(\pre4:_ _par.~\fix/)
+  \<3:_\(/.)_[\fcdigit]>
+  \<4:([\fcloweralpha])>
+  }
+
+Now compare the results when different context switching macros are
+active. Note that \<fcintext> sets \<if@fcverbose> true.
+
+\begin{tabular}{|l|l|}\hline
+\<fcinheading>                         & \<fcintext> \\\hline
+{\fcinheading\fancycounter9-1-0-0-0-!} & {\fcintext\fancycounter9-1-0-0-0-!} \\
+{\fcinheading\fancycounter9-1-2-0-0-!} & {\fcintext\fancycounter9-1-2-0-0-!} \\
+{\fcinheading\fancycounter9-1-2-3-0-!} & {\fcintext\fancycounter9-1-2-3-0-!} \\
+{\fcinheading\fancycounter9-1-2-3-4-!} & {\fcintext\fancycounter9-1-2-3-4-!} \\
+\hline
+\end{tabular}
+
+To demonstrate the flexibility of counters formatted with \hhcount, the
+following table shows what happens if the chapter counter is never stepped:
+
+\begin{tabular}{|l|l|}\hline
+\<fcinheading>                         & \<fcintext> \\\hline
+{\fcinheading\fancycounter9-0-2-0-0-!} & {\fcintext\fancycounter9-0-2-0-0-!} \\
+{\fcinheading\fancycounter9-0-2-3-0-!} & {\fcintext\fancycounter9-0-2-3-0-!} \\
+{\fcinheading\fancycounter9-0-2-3-4-!} & {\fcintext\fancycounter9-0-2-3-4-!} \\
+\hline
+\end{tabular}
+
+The folllowing table shows what happens if the section counter remains zero:
+
+\begin{tabular}{|l|l|}\hline
+\<fcinheading>                         & \<fcintext> \\\hline
+{\fcinheading\fancycounter9-1-0-0-0-!} & {\fcintext\fancycounter9-1-0-0-0-!} \\
+{\fcinheading\fancycounter9-1-0-3-0-!} & {\fcintext\fancycounter9-1-0-3-0-!} \\
+{\fcinheading\fancycounter9-1-0-3-4-!} & {\fcintext\fancycounter9-1-0-3-4-!} \\
+\hline
+\end{tabular}
+
+\section{Adding Partial Formats}
+
+Because headings for paragraphs and sub-paragraphs are typically set as run-in
+headings, we do not want the full paragraph numbers, including the containing
+chapter and section numbers, to appear in the heading. We can accomplish
+this by defining partial formats for subparagraph and paragraph numbers, in
+that order:
+
+\begin{verbatim}
+\defcombicounter\rulesseries{9}{%
+  ruleschapter-rulessection-|-rulesparagraph-|-rulessubpar%
+}{%
+  \<4:\(par.~/)([\fcloweralpha])>
+  \orelse
+  \<3:\(par.~/)[\fcdigit]>
+  \orelse
+  \pre1:\(chapter~/)\fix
+  \pre2:\(section~/\S)\fix
+  \<1:[\fcalpha]>
+  \<2:[\fcdigit]>
+  \(\pre3:_ _par.~\fix/)
+  \(\pre4:_ _par.~\fix/)
+  \<3:_\(/.)_[\fcdigit]>
+  \<4:([\fcloweralpha])>
+  }
+\end{verbatim}
+\defcombicounter\rulesseries{9}{ruleschapter-rulessection-|-rulesparagraph-|-rulessubpar}{%
+  \<4:\(par.~/)([\fcloweralpha])>
+  \orelse
+  \<3:\(par.~/)[\fcdigit]>
+  \orelse
+  \pre1:\(chapter~/)\fix
+  \pre2:\(section~/\S)\fix
+  \<1:[\fcalpha]>
+  \<2:[\fcdigit]>
+  \(\pre3:_ _par.~\fix/)
+  \(\pre4:_ _par.~\fix/)
+  \<3:_\(/.)_[\fcdigit]>
+  \<4:([\fcloweralpha])>
+  }
+
+As can be seen in the above listing, the partial formats are separated
+by \<orelse>. The last format is the full format.
+
+The following table shows the new results when different context
+switching macros are active. Note that \<fcinheading> sets \<if@fcfull>
+false, so that partial formats are used when available. \<fcinlist>
+sets \<if@fcfull> true, so that the full format is always used.
+\<fcintext> also sets \<if@fcfull> true, but it sets \<if@fclocal>
+true as well, so that the number may be shortened if it is a local
+reference (it is omitted if you are referring one level up from the
+current label; I think it would be a waste of time to correct this).
+
+\begingroup
+\setcounter{ruleschapter}{1}
+\setcounter{rulessection}{2}
+\setcounter{rulesparagraph}{3}
+\refstepcounter{rulesparagraph}
+\begin{tabular}{|l|l|l|}\hline
+\<fcinheading>                         &
+\<fcinlist>                            &
+\<fcintext> while in {\fcinlist\therulesparagraph} \\\hline
+{\fcinheading\fancycounter9-1-0-0-0-!} &
+{\fcinlist\fancycounter9-1-0-0-0-!}    &
+{\fcintext\fancycounter9-1-0-0-0-!}    \\
+{\fcinheading\fancycounter9-1-2-0-0-!} &
+{\fcinlist\fancycounter9-1-2-0-0-!}    &
+{\fcintext\fancycounter9-1-2-0-0-!}    \\
+{\fcinheading\fancycounter9-1-2-3-0-!} &
+{\fcinlist\fancycounter9-1-2-3-0-!}    &
+{\fcintext\fancycounter9-1-2-3-0-!}    \\
+{\fcinheading\fancycounter9-1-2-3-4-!} &
+{\fcinlist\fancycounter9-1-2-3-4-!}    &
+{\fcintext\fancycounter9-1-2-3-4-!}    \\
+\hline
+\end{tabular}
+\endgroup
+
+\section{Multiple Use of Subcounters}
+
+Sometimes it may be convenient to use a single subcounter as a
+component of multiple composite counters. As an example consider
+the \texttt{chapter} counter in a book. This counter is obviously
+part of the section numbering system. Therefore it can occur
+in a statement like:
+\begin{verbatim}
+\defcombicounter\fcchapterseries{3}{%
+  chapter-section-subsection-subsubsection-paragraph-subparagraph%
+}{%
+     \<1:[\fcdigit]_-_>
+  \<2:_._[\fcdigit]_-_>
+  \<3:_._[\fcdigit]_-_>
+  \<4:_._[\fcdigit]_-_>
+  \<5:_._[\fcdigit]_-_>
+  \<6:_._[\fcdigit]>}
+\end{verbatim}
+by which \<thechapter> will be defined.
+
+The \texttt{chapter} counter could also be part of the equation numbering
+system, for example when equation numbers are composed of the chapter
+counter and an equation counter which should be reset every chapter.
+To set up the equation numbering system one would like to use,
+for example:
+\begin{verbatim}
+  \defcombicounter\fcequationseries{5}{chapter-|-equation}{%
+    \<1:[\fcdigit]_._>\<2:[\fcdigit]>\orelse
+    (\<1:[\fcdigit]_._>\<2:[\fcdigit]>)}
+\end{verbatim}
+However, this would have the unwanted side-effect of redefining
+\<thechapter>. This can be prevented by typing a star just before
+the counter name, as in:
+\begin{verbatim}
+  \defcombicounter\fcequationseries{5}{*chapter-|-equation}{%
+    \<1:[\fcdigit]_._>\<2:[\fcdigit]>\orelse
+    (\<1:[\fcdigit]_._>\<2:[\fcdigit]>)}
+\end{verbatim}
+
+So when reusing subcounters which actually belong to another
+composite counter, put stars in front of them.
+
+\section{\hhccidx and \texttt{makeindex}}
+
+The {\tt makeindex} program cannot handle composite section numbers
+like ``A2.3(d)''. Besides {\tt makeindex} has problems
+with sorting alphabetic numbers since it cannot determine whether
+or not it are roman numbers. \hhccidx provides a way to get around
+these problems.
+
+All composite numbers defined by \hhccount constructs
+are internally represented by a sequence of natural numbers, separated
+by hyphens and embedded in a macro call. A typical example is
+\=\fancycounter= \=9-1-2-3-4-!=. The first number represents the
+series identifier (\=9= in the example), while the following
+numbers represent the values of the relevant subcounters.
+
+\hhccidx provides macros \<indextolabels> and
+\<indextopages>. Both redefine the section and page numbering
+system to use \hhccount's composite counters. \<indextolabels> sort of
+redefines \<index> to use the redefined section numbers and strip the
+\<fancycounter> and the \=-!= off the composite counter representation.
+\<indextopages> does the similar thing for page numbers.
+In both cases the result is a sequence of natural numbers,
+separated by hyphens, which can be handled perfectly well by
+{\tt makeindex}.
+By embodying the appropriate definitions in your index style
+(\hbox{\tt .ist}) file {\tt makeindex} will undo the stripping after
+sorting the page or section numbers, so that your index entries will
+still be typeset as defined by means of \hhccount macros. Thus section
+numbers like ``A2.3(d)'' can be used for references in the index.
+Inserting equation, table and figure numbers in the index is just as
+easy. It is
+even possible to have different kind of composite numbers in the
+same index, for example page as well as section numbers, because
+the series identifiers are not stripped off so that it remains possible
+to determine the proper series and formatting of each composite number.
+
+So what should appear in your index style file and what should not?
+The following lines should be in it:
+\begin{verbatim}
+delim_r ",!--\\fancycounters "
+encap_infix "{\\fancycounters "
+encap_suffix ",!}"
+\end{verbatim}
+Make sure that you do not redefine \=delim_n= or
+\=page_compositor= in your index style file.
+
+Furthermore note the following restrictions if you want to
+use \hhccount's composite counters in the index:\begin{itemize}
+\item Never use \<index> without specifying an encapsulator.
+      So do not use simply: \=\index{=\textit{word}\=}=, but
+      use, for example: \=\index{=\textit{word}\=|empty}= instead.
+      The \texttt{empty} encapsulator does no harm but forces
+      the necessary \=encap_suffix= to be used.
+\item Do not load the \packagename{makeidx} or \packagename{index}
+      package \textit{after} loading \hhccidx: load the former packages
+      \textit{before} \hhccidx instead.
+\item Do not call the macro \<makeindex>: \hhccidx will do it for you.
+\end{itemize}
+
+\section{Bugs and Deficiencies}
+
+Class files tend to make the \TeX\ compiler show on your terminal
+which chapter of your book or report is being processed. Error messages
+often contain the page number. When using \hhccount
+there is a chance that the chapter and page numbers shown on your
+terminal look weird: you will be shown the internal representation
+of your counter (\=\fancycounter= \=9-1-0-0-0-!= for example). This is
+caused by an incorrect timing of macro expansion: in this case
+\<fancycounter> is expanded too late, that is: not at all.
+
+Late expansion with \hhccount is typically a problem with
+error and other messages: I would be highly surprised if someone
+discovers something like \=\fancycounter= \=9-1-0-0-0-!= outside
+verbatim environments in a typeset document. However, when compiling your
+document you might run into early expansion, which causes severe errors.
+With the latest version of \hhccount this problem does not seem to
+emerge in `usual' contexts; however I am not sure.
+
+Front matter, appendix and back matter peculiarities (with respect
+to page and section numbering) are not automatically supported
+by \hhccount. Class
+files are too different in that respect. If \hhccount is to be used
+to handle the section and page numbering in documents containing
+front matter and appendices, it would probably be best to incorporate
+\hhccount in the class file, instead of loading it as an additional
+package.
+
+\section{Gamesters Page Numbers}
+
+The following redefines the {\tt page} counter so that page numbers
+will be set as dice (I designed this for a gamesters society):
+
+\begin{verbatim}
+\defcombicounter\fcpageseries{12}{page}{\<1:[\fcdice]>}
+\end{verbatim}
+
+I could not help to give you this as an final example.
+
+\end{document}
+

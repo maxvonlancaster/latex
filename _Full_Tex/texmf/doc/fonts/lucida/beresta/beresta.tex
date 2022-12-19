@@ -1,0 +1,397 @@
+%
+% beresta.tex
+%
+%% Cyrillic font container with T2 encoding beta-support
+%
+% This file is future part of lxfonts package
+% Version 3.4 // Patchlevel=0
+% (c) O.Lapko
+%
+% This package belongs to the public domain under conditions similar to
+% those of D. E. Knuth specified for the Computer Modern family of fonts.
+% In particular, only the authors are entitled to modify this file
+% and to save it under the same name.
+%
+% Content:
+%
+% Start file; runs documentation files
+% with list of all T2 letters created in LHFONTS package in:
+% English; Russian languages;
+% Russian: Alternative alt; T2 encoding (here: =Windows 1251) win; KOI-8 koi
+%                      ~~~                                    ~~~        ~~~
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% necessary fonts:
+%
+% CM fonts
+% ========
+% ===============================================
+% rxrm  (0700) 1000 (1200) 1440
+% rxti         1000        1440
+% rxss         1000        1440
+% rxcsc        1000        1440
+% rxtt         1000        1440
+%
+% additional fonts:
+%
+% LHfonts: (01cm-lh.tex) Alternative
+% lhr     7 10 12
+% lhsltt    10
+% lhsl      10
+% lhti      10
+% lhbx      10
+%
+% txrm 1000 1440
+% txti 1000 1440
+% txss      1440
+% txtt      1440
+% txcc      1440
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\ifrussiandoc	% documentation in Russian
+\newif\ifmainencoding	% documentation in T2 encoding?
+\newif\ifalt		% documentation in Alternative (or Koi-8) encoding?
+\newif\ifpoortype	% only font with T2 encoding used?
+
+\newlinechar`\^^J
+\def\help{
+    \message{
+     \string\eng = English^^J
+     \string\rus = Alternative^^J
+   }%
+\message{@Name of language/encoding or type \string\help\ = ^^J}
+  \read-1 to\startdoc
+}
+
+\def\eng {\russiandocfalse}
+\def\rus {\russiandoctrue\mainencodingfalse\alttrue}
+
+\def\poor{\poortypetrue}
+\def\full{\poortypefalse}
+
+\message{^^JName of language/encoding or type \string\help\ = ^^J}%
+\read-1 to\startdoc
+\startdoc
+\message{Could you use additional non-T2 fonts^^J
+	or you use full font assortment^^J
+	(\string\poor/\string\full)?^^J}
+\read-1 to\startdoc
+\startdoc
+
+%%%%%%%%%
+\overfullrule=0pt
+\hsize185mm\hoffset-.5in
+\parindent0pt
+\raggedbottom\raggedright
+
+\catcode`\_=11
+\input rxcodes
+\input rscodes
+\input txcodes
+\input lacodes
+\input lbcodes
+\input lccodes
+\input ldcodes
+
+\def\lowtoup{.2ex}
+
+% FONTS
+% Common fonts:
+
+% for Latin alphabet
+\font\xivrm		cmr10   scaled \magstep2
+\font\xivcsc		cmcsc10 scaled \magstep2
+\font\xivti		cmti10  scaled \magstep2
+\font\xivss		cmss10  scaled \magstep2
+\font\xivtt		cmtt10  scaled \magstep2
+%
+\font\dc		rxrm1000
+\font\dcit		rxti1000
+%
+\font\dcr		rxrm1440
+\font\dcti		rxti1440
+\font\dcss		rxss1440
+\font\dctt		rxtt1440
+\font\dccsc		rxcc1440
+
+\let\xrm\rm
+\let\xti\it
+\let\xsl\sl
+\let\xbf\bf
+
+% fonts for documentation
+\ifrussiandoc		% Russian doc
+
+         \font\rm 	lhr10
+         \font\sevenrm	lhr7
+         \font\twelverm	lhr12
+         \font\it	lhti10
+         \font\sl	lhsl10
+         \font\bf	lhbx10
+
+\fi
+
+\rm
+
+% additional fonts
+\ifpoortype
+
+\else
+
+   %%%
+   \font\dctwox		txrm1000
+   \font\dcittwox	txti1000
+   \font\dctwos		rsrm1000
+   \font\dcittwos	rsti1000
+   \font\dctwoa		larm1000
+   \font\dcittwoa	lati1000
+   \font\dctwob		lbrm1000
+   \font\dcittwob	lbti1000
+   \font\dctwoc		lcrm1000
+   \font\dcittwoc	lcti1000
+   \font\dctwod		ldrm1000
+   \font\dcittwod	ldti1000
+   %%%
+   \font\dcrtwox	txrm1440
+   \font\dctitwox	txti1440
+   \font\dcsstwox	txss1440
+   \font\dctttwox	txtt1440
+   \font\dccsctwox	txcc1440
+   %
+   \font\dcrtwos	rsrm1440
+   \font\dctitwos	rsti1440
+   \font\dcsstwos	rsss1440
+   \font\dctttwos	rstt1440
+   \font\dccsctwos	rscc1440
+   %
+   \font\dcrtwoa	larm1440
+   \font\dctitwoa       lati1440
+   \font\dcsstwoa       lass1440
+   \font\dctttwoa       latt1440
+   \font\dccsctwoa      lacc1440
+   %
+   \font\dcrtwob	lbrm1440
+   \font\dctitwob       lbti1440
+   \font\dcsstwob       lbss1440
+   \font\dctttwob       lbtt1440
+   \font\dccsctwob      lbcc1440
+   %
+   \font\dcrtwoc	lcrm1440
+   \font\dctitwoc       lcti1440
+   \font\dcsstwoc       lcss1440
+   \font\dctttwoc       lctt1440
+   \font\dccsctwoc      lccc1440
+   %
+   \font\dcrtwod	ldrm1440
+   \font\dctitwod       ldti1440
+   \font\dcsstwod       ldss1440
+   \font\dctttwod       ldtt1440
+   \font\dccsctwod      ldcc1440
+
+\fi
+
+% DEFINITIONS
+
+\def\ifpoor#1#2{\ifpoortype{\dc #1 }\else
+	\ifx\dctwox\undefined{--}\else{#2}\fi\fi}
+
+
+\def\tableonemacros{%
+%
+\def\: ##1 ##2 ##3 //##4//{%
+       \vtop{\raggedright\rightskip0ptplus200pt\tt\hsize9em
+	  \strut CYR_##1:\hfil\break\strut ##3\par}%
+       & \vtop{\offinterlineskip\dcr\hsize7pc
+	    \hbox{\hbox to1.5pc{\csname CYR_##1\endcsname\hss}\nobreak
+	    	  \unskip\hbox to1.5pc{\dccsc\csname CYR_##1\endcsname\hss}\nobreak
+	    	  \unskip\hbox to1.5pc{\dcti \csname CYR_##1\endcsname\hss}\nobreak
+	    	  \unskip\hbox to1.5pc{\dcss \csname CYR_##1\endcsname\hss}\nobreak
+	    	  \unskip\hbox to1pc  {\dctt \csname CYR_##1\endcsname\hss}%
+		 }\par}%
+         & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize4cm\xrm##4\strut\par}%
+	   & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize7.75cm\xrm##2\strut\par}%
+    \cr
+    \noalign{\vskip.5ex}
+}
+
+
+\def\;##1 ##2 ##3 ##4 //##5//{%
+       \vtop{\raggedright\rightskip0ptplus200pt\tt\hsize9em
+	     \strut CYR_##2:\hfil\break\strut ##4\par}%
+       & \vtop{\offinterlineskip\dcr\hsize7pc
+	       \hbox {\hbox to1.5pc{\ifpoor{--}
+				{\csname dcrtwo##1\endcsname\csname   ##1CYR_##2\endcsname}\hss}\nobreak
+	              \unskip\hbox to1.5pc{\ifpoor{--}%
+				{\csname dccsctwo##1\endcsname\csname ##1CYR_##2\endcsname}\hss}\nobreak
+	    	      \unskip\hbox to1.5pc{\ifpoor{--}%
+				{\csname dctitwo##1\endcsname\csname   ##1CYR_##2\endcsname}\hss}\nobreak
+	    	      \unskip\hbox to1.5pc{\ifpoor{--}%
+				{\csname dcsstwo##1\endcsname\csname   ##1CYR_##2\endcsname}\hss}\nobreak
+	    	      \unskip\hbox to1pc  {\ifpoor{--}%
+				{\csname dctttwo##1\endcsname\csname   ##1CYR_##2\endcsname}\hss}\ignorespaces
+		     }\par}%
+         & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize4cm\xsl##5\strut\par}%
+	   & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize7.75cm\xsl##3\strut\par}%
+       \cr
+       \noalign{\vskip.5ex}
+}
+%
+    \def\COD##1##2##3##4##5{%
+	\def\chk####1####2{\def\tempa{--}\def\tempb{''}\def\tempx{####2}\def\tempy{####1}%
+	\ifx\tempx\tempa\ifx\tempy\empty{\rm--}\else|\fi\else
+		\ifx\tempx\tempb{####1|}\else{\ifx\tempy\empty\else####1:\fi####2|}\fi\fi}%
+	\hbox to\hsize{\chk{}{##1}|\chk{A}{##2}\chk{B}{##3}\chk{C}{##4}\chk{D}{##5}\hss}}
+%
+    \long\def\> ##1+##2 ##3##4 ##5 //##6//{%
+       \vtop{\raggedright\rightskip0ptplus200pt\tt\hsize9em
+	     \strut CYR_##1,\hfil\break\strut CYR_##2:\hfil\break
+	     \strut ##3##4\par}%
+       & \vtop{\offinterlineskip\dcr\hsize7pc
+	       \hbox{\hbox to1.5pc{\csname CYR_##1\endcsname\hfil}\nobreak
+	             \unskip\hbox to1.5pc
+				{\dccsc\csname CYR_##1\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\dcti \csname CYR_##1\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\dcss \csname CYR_##1\endcsname\hss}\nobreak
+		     \unskip\hbox to1pc
+				{\dctt \csname CYR_##1\endcsname\hss}\ignorespaces
+                    }\par
+	       \lineskip3pt\lineskiplimit3pt
+	       \hbox{\hbox to1.5pc{\csname CYR_##2\endcsname\hfil}\nobreak
+		     \unskip\hbox to1.5pc
+				{\dccsc\csname CYR_##2\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\dcti \csname CYR_##2\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\dcss \csname CYR_##2\endcsname\hss}\nobreak
+		     \unskip\hbox to1pc
+				{\dctt \csname CYR_##2\endcsname\hss}\ignorespaces
+	       }\par
+         }%
+         & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize4cm\xrm##5\strut\par
+	   }%
+	   & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize7.75cm\rm##6\strut\par
+	     }%
+    \cr
+    \noalign{\vskip.5ex}
+   }
+%
+    \long\def\<##1 ##2+##3 ##4##5 ##6 //##7//{%
+       \vtop{\raggedright\rightskip0ptplus200pt\tt\hsize9em
+	     \strut CYR_##2,\hfil\break\strut CYR_##3:\hfil\break
+	     \strut ##4##5\par}%
+       & \vtop{\offinterlineskip\dcr\hsize7pc
+	       \hbox{\hbox to1.5pc{\csname dcrtwo##1\endcsname\csname ##1CYR_##2\endcsname\hfil}\nobreak
+	             \unskip\hbox to1.5pc
+				{\csname dccsctwo##1\endcsname\csname ##1CYR_##2\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\csname dctitwo##1\endcsname\csname  ##1CYR_##2\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\csname dcsstwo##1\endcsname\csname  ##1CYR_##2\endcsname\hss}\nobreak
+		     \unskip\hbox to1pc
+				{\csname dctttwo##1\endcsname\csname  ##1CYR_##2\endcsname\hss}\ignorespaces
+                    }\par
+	       \lineskip3pt\lineskiplimit3pt
+	       \hbox{\hbox to1.5pc{\csname dcrtwo##1\endcsname\csname ##1CYR_##3\endcsname\hfil}\nobreak
+		     \unskip\hbox to1.5pc
+				{\csname dccsctwo##1\endcsname\csname ##1CYR_##3\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\csname dctitwo##1\endcsname\csname  ##1CYR_##3\endcsname\hss}\nobreak
+		     \unskip\hbox to1.5pc
+				{\csname dcsstwo##1\endcsname\csname  ##1CYR_##3\endcsname\hss}\nobreak
+		     \unskip\hbox to1pc
+				{\csname dctttwo##1\endcsname\csname  ##1CYR_##3\endcsname\hss}\ignorespaces
+	       }\par
+         }%
+         & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize4cm\xrm##6\strut\par
+	   }%
+	   & \vtop{\raggedright
+		\rightskip0ptplus200pt\hsize7.75cm\rm##7\strut\par
+	     }%
+    \cr
+    \noalign{\vskip.5ex}
+   }%
+}
+
+%%%
+\catcode`\@=11
+
+\def\tabletwomacros{%
+%
+    \def\> ##1 ##2 ##3-- {$\bullet$
+       & \vtop{\raggedright\rightskip0ptplus200pt\hsize4cm\rm ##1\strut}
+         & ##2
+	   & \vtop{\hsize=10cm\rm ##3\strut}
+      \cr
+   }%
+%
+%% macros for letters
+%
+   \def\Excl ##1 {{\dc  \csname CYR_##1\endcsname}\ }%
+%
+   \def\Excls##1 {{\dc  \csname CYR_##1\endcsname}\
+	         ({\dcit\csname CYR_##1\endcsname})\ }%
+%
+%
+   \ifpoortype
+   %\relax
+   \else
+%
+      \def\Point ##1 ##2 {{\csname dctwo##1\endcsname\csname  CYR_##2\endcsname}\ }%
+%
+      \def\Points##1 ##2 {{\csname dctwo##1\endcsname\csname  CYR_##2\endcsname}\
+	             ({\csname dcittwo##1\endcsname\csname CYRI_##2\endcsname})\ }%
+%
+   \fi
+%
+}
+\catcode`\@12
+%%%
+
+\def\CYR_ {}
+\def\CYRI_{}
+
+\def\EXTRA#1{\noalign{\medskip\bf #1\hfil\medskip}}
+
+\def\Sign #1{\ifdim\lastskip>0pt\unskip\fi$^{#1}$}
+
+\def\){\unskip)}
+
+
+% "language" macros:
+
+\ifrussiandoc
+
+   \def\Var{{\it вариант\/}: }
+
+   \def\accented{\hfil\break{\it акцентированные буквы\/}:\hfil\break}
+
+   \def\modified{\hfil\break{\it буквы с модификаторами\/}:\hfil\break}
+
+   \long\def\twolang#1#2{\bgroup#2\egroup\ignorespaces}
+
+\else
+
+   \def\Var{{\it variant\/}: }
+
+   \def\accented{\hfil\break{\it accented letters\/}:\hfil\break}
+
+   \def\modified{\hfil\break{\it modified letters\/}:\hfil\break}
+
+   \long\def\twolang#1#2{\bgroup#1\egroup\ignorespaces}
+
+\fi
+
+   \input berestax
+
+\bye

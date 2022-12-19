@@ -1,0 +1,212 @@
+\documentclass[12pt, fleqn]{article}
+
+\usepackage[cp1251]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\Ukrainian
+
+\setlength{\voffset}{-20mm} \setlength{\hoffset}{-20mm}
+\setlength{\textwidth}{170mm} \setlength{\textheight}{240mm}
+
+
+\tolerance=10000
+\sloppy
+\begin{document}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\pagestyle{empty}
+\begin{center}
+{\Large {\textbf{Теореми про проміжну функцію для опуклих функцій}}}
+\author{Маслюченко В. К.}{Маслюченко В. К.}
+\author{Мельник В. С.}{Мельник В. С.}
+
+\end{center}
+\large
+\bigskip
+
+\textbf{\textit{1. Вступ.}}
+
+Добре відомо [1, с. 105], що для нормального простору $X$, неперервної зверху функції $g:X\rightarrow \mathbb{R}$ і неперервної знизу функції $h:X\rightarrow \mathbb{R}$, таких, що $g(x)\leq h(x)$ на $X$, існує така неперервна функція $f:X\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $X$. Це твердження, яке для метричних просторів довів ще Г. Ган [2], називають теоремою про проміжну функцію. Г. Тонґ [3] і М. Катетов [4] узагальнили результат Гана на випадок нормальних просторів і показали, що теорема про проміжну функцію є характеристичною для нормальності у класі $T_{1}$-просторів. Після цього з`явилося багато модифікацій і узагальнень цієї теореми (див. [5] і вказану там літературу). Недавно в [6] був знайдений новий аналог теореми про проміжну функцію: для зростаючої неперервної зверху функції $g:[a,b]\rightarrow \mathbb{R}$ і зростаючої неперервної знизу функції $h:[a,b]\rightarrow \mathbb{R}$, таких, що $g(x)\leq h(x)$ на $[a,b]$, існує така зростаюча неперервна функція $f:[a,b]\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $[a,b]$. У зв`язку з цим постало природне питання: для яких ще властивостей функцій, крім зростання, можна встановити подібні аналоги теореми про проміжну функцію. Тут ми обговорюємо різні аналоги теореми про проміжну функцію для опуклих функцій.
+
+\textbf{\textit{2. Опуклі та вгнуті функції, підграфіки та надграфіки.}}
+
+Нагадаємо, що функція $f:E\rightarrow \mathbb{R}$, яка визначена на опуклій підмножині $E$ деякого дійсного векторного простору $X$ називається \textit{опуклою} або \textit{опуклою вниз}, якщо для довільних елементів $x_{1}$ і $x_{2}$ з $E$ і будь-яких скалярів $\lambda_{1}$ і $\lambda_{2}\geq0$, таких, що $\lambda_{1}+\lambda_{2}=1$, виконується нерівність $$f(\lambda_{1}x_{1}+\lambda_{2}x_{2})\leq\lambda_{1}f(x_{1})+\lambda_{2}f(x_{2}).$$ Якщо завжди виконується протилежна нерівність $\geq$, то функція називається \textit{вгнутою} або \textit{опуклою вгору}. Легко перевірити, що функція $f:E\rightarrow \mathbb{R}$ буде опуклою /вгнутою/ тоді і тільки тоді, коли її \textit{строгий надграфік} $$Gr^{+}(f)=\{(x,y):x\in E\quad \textmd{і} \quad y>f(x)\}$$  /\textit{строгий  підграфік}
+$$ Gr^{-}(f)=\{(x,y):x\in E\quad \textmd{і} \quad y<f(x)\}/ $$ буде опуклою множиною в добутку $X\times\mathbb{R}$.
+
+\textbf{\textit{3. Відокремлення опуклих множин в ТВП.}}
+
+Нехай $X$~--- дійснимй векторний простір (ВП) над $\mathbb{K}$, $f$~--- ненульовий дійсний лінійний неперервний функціонал на $X$ і $\alpha\in\mathbb{R}$. Тоді $H_{\alpha}=\{x\in X:f(x)=\alpha\}$~--- це гіперплощина в $X$. Множини $$G_{\alpha}=\{x\in X:f(x)<\alpha\}\textmd{ і }G^{\alpha}=\{x\in X:f(x)>\alpha\}$$ називають відкритими півпросторами простору $X$, а множини $$F_{\alpha}=\{x\in X:f(x)\leq\alpha\}\textmd{ і }F^{\alpha}=\{x\in X:f(x)\geq\alpha\}$$ замкненими півпросторами.
+
+Якщо $X$~--- це топологічний векторний простір (ТВП) і функціонал $f$ неперервний, то відкриті /замкнені/ півпростори є відкритими /замкненими/ множинами в $X$, а гіперплощина $H_{\alpha}$ замкнена в $X$.
+
+Кажуть, що підмножини $A$ і $B$ простору $X$ \textit{відокремлюються} гіперплощиною $H_{\alpha}$ або функціоналом $f$, якщо $A\subseteq F_{\alpha}$ і $B\subseteq F^{\alpha}$ або навпаки, і \textit{строго відокремлюються} цією гіперплощиною, якщо $A\subseteq G_{\alpha}$ і $B\subseteq G^{\alpha}$ або навпаки. Підмножини $A$ і $B$ простору $X$ \textit{напівстрого відокремлюються} гіперплощиною $H_{\alpha}$, якщо $A\subseteq F_{\alpha}$ і $B\subseteq G^{\alpha}$ або $A\subseteq G_{\alpha}$ і $B\subseteq F^{\alpha}$.
+
+Добре відома наступна теорема про відокремлення опуклих множин [7, с. 32]
+
+\textbf{Теорема 1.}
+Нехай $A$ і $B$ — непорожні опуклі множини в ТВП $X$, причому множина $A$ відкрита і $A\cap B = \varnothing$. Тоді існує лінійний неперервний функціонал $f:X\rightarrow \mathbb{R}$ і число $\alpha\in \mathbb{R}$, такі, що $A\subseteq G_{\alpha}$, $B\subseteq F^{\alpha}$, зокрема, $A$ і $B$ напівстрого відокремлюються гіперплощиною $H_{\alpha}=f^{-1}(\alpha)$.
+
+
+\textbf{\textit{4. Афінні функції і функції на добутках $X\times \mathbb{R}$.}}
+
+Функція $f:X\rightarrow \mathbb{R}$ називається \textit{афінною}, якщо існує такий лінійний функціонал $\varphi:X\rightarrow \mathbb{R}$, що $$f(x)=\varphi(x)+\gamma$$ на $X$ для деякого числа $\gamma\in\mathbb{R}$. Афінна функція на множині $E$ — це звуження на $E$ деякої афінної функції на $X$.
+
+\textbf{Лема 1.} Нехай $X$~--- дійсний ТВП, $E$~--- множина в $X$ з непорожньою внутрішністю, $f_{0}:E \rightarrow \mathbb{R}$~--- неперервна афінна функція, причому $f_{0}=f|_{E}$, де $f$~--- афінна функція на $X$. Тоді і функція $f$ неперервна.
+
+\textbf{Доведення.} Оскільки функція $f$ афінна, то існує лінійний функціонал $\varphi$ на $X$ такий, що: $f(x)=\varphi(x)+\gamma$ на $X$ для деякого числа $\gamma\in\mathbb{R}$. Ясно, що $f_{0}=\varphi_{0}+\gamma$, де $\varphi_{0}=\varphi|_{E}$. При цьому функція $\varphi_{0}=f_{0}-\gamma$ є неперервною, оскільки $f_{0}$ неперервна. За умовою існує $x_{0}\in \textmd{int}E$. Тоді існує такий окіл нуля $U$, що $U_{x_{0}}=x_{0}+U\subseteq E$ і $|\varphi(x)-\varphi(x_{0})|\leq 1$ як тільки $x\in U_{x_{0}}$. Нехай $u\in U$. Тоді $x=x_{0}+u\in U_{x_{0}}$, а значить: $$|\varphi(x)-\varphi(x_{0})|\leq 1.$$ Але $\varphi(x)-\varphi(x_{0})=\varphi(x_{0}+u)-\varphi(x_{0})=\varphi(x_{0})+ \varphi(u)-\varphi(x_{0})=\varphi(u)$. Таким чином, $$|\varphi(u)|\leq 1 \textmd{ на } U.$$ А отже, $\varphi$~--- неперервний функціонал. А тоді неперервним буде і функціонал $f=\varphi+\gamma$.
+
+
+\textbf{\textit{5.Лінійні функціонали на добутку $X\times \mathbb{R}$.}}
+
+Нехай $X$~--- дійсний векторний простір, тоді добуток $X\times \mathbb{R}=\{p=(x,\lambda):x\in X,\lambda\in\mathbb{R}\}$ ~--- це теж дійсний векторний простір відносно покомпонентного додавання і множення на скаляр. Якщо $X$~--- ТВП, то і добуток $X\times\mathbb{R}$ з топологією добутку  це теж ТВП.
+
+Ми будемо використовувати наступний опис спряжених з простором $X\times\mathbb{R}$.
+
+\textbf{Лема 2.} а) Для дійсного векторного простору $X$ функціонал $\varphi:X\times\mathbb{R}\rightarrow\mathbb{R}$ буде лінійним тоді і тільки тоді, коли існують лінійний функціонал $\psi:X\rightarrow\mathbb{R}$ і число $\gamma\in\mathbb{R}$, такі, що $$\varphi(x,\lambda)=\psi(x)+\gamma\lambda$$ на $X\times\mathbb{R}$.
+
+б) Для дійсного ТВП $X$ відображення $\varphi:X\times\mathbb{R}\rightarrow\mathbb{R}$ буде лінійним неперервним функціоналом тоді і тільки тоді, коли існують лінійний неперервний функціонал $\psi:X\rightarrow\mathbb{R}$ і число $\gamma\in\mathbb{R}$, такі, що $$\varphi(x,\lambda)=\psi(x)+\gamma\lambda$$ на $X\times\mathbb{R}$.
+
+\textbf{Доведення.} =>) Нехай $\varphi:X\times\mathbb{R}\rightarrow\mathbb{R}$~--- лінійний функціонал. Покладемо $\psi(x)=\varphi(x,0)$ для кожного $x\in X$ і $\gamma=\psi(0,1)$. Ясно, що $\psi:X\rightarrow\mathbb{R}$~--- лінійний функціонал, який буде неперервним, якщо $\varphi$ неперервний. При цьому. $$\varphi(x,\lambda)=\varphi((x,0)+(0,\lambda))=\varphi(x,0)+\varphi(\lambda(0,1))=\psi(x)+\lambda\gamma.$$
+
+<=). Перевірка очевидна.
+
+
+\textbf{\textit{6. Зв'язок між відокремністю графіків та існуванням проміжної афінної функції.}}
+
+\textbf{Теорема 2.}
+Нехай $X$ — дійсний векторний простір, $E$ — опукла множина в $X$, $g:E\rightarrow \mathbb{R}$ — вгнута і $h:E\rightarrow \mathbb{R}$ — опукла функції, такі, що $g(x)\leq h(x)$ на $E$, та множини $A=Gr^{-}(g)$ і $B=Gr^{+}(h)$ напівстрого відокремлюються деякою гіперплощиною в добутку $X\times\mathbb{R}$. Тоді існує така афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+
+\textbf{Доведення.} Припустимо, що $E\neq {\O}$, бо коли $E={\O}$, твердження тривіальне. Нехай існують лінійний функціонал $\varphi:X\times \mathbb{R} \rightarrow \mathbb{R}$ і число $\alpha \in \mathbb{R}$, такі, що $\varphi(p)<\alpha$ на $A$ і $\varphi(p)\geq\alpha$ на $B$. Виберемо $x_{0}\in E$ і розглянемо числа $\lambda_{1}=g(x_{0})-1$ і $\lambda_{2}=h(x_{0})+1$. Ясно, що $\lambda_{1}<g(x_{0})$, а $\lambda_{2}>h(x_{0})$. Тому точки $p_{1}=(x_{0},\lambda_{1})$ і $p_{2}=(x_{0},\lambda_{2})$ належать до множин $A$ і $B$ відповідно. В такому разі $$\varphi(p_{1})<\alpha\leq \varphi(p_{2}). (*) $$ За лемою 2 існують такий лінійний функціонал $\psi:X\rightarrow \mathbb{R}$ і число $\gamma \in \mathbb{R}$, що $$\varphi(x,\lambda)=\psi(x)+\lambda\gamma$$ для кожного $x\in X$ і довільного $\lambda \in \mathbb{R}$. Нерівність ($\star$) переписується в еквівалентному вигляді так: $$\psi(x_{0})+\lambda_{1}\gamma<\alpha\leq\psi(x_{0})+\lambda_{2}\gamma.$$  Звідси випливає, що $$(\lambda_{2}-\lambda_{1})\gamma>0.$$ Але $\lambda_{2}-\lambda_{1}=h(x_{0})+1-g(x_{0})+1=2+h(x_{0})-g(x_{0})\geq 2 >0.$ Тому і $\gamma>0$.
+Розглянемо довільне $\varepsilon>0$ і довільну точку $x\in E$. Для чисел $\lambda=g(x)-\varepsilon$ і $\mu=h(x)+\varepsilon$, очевидно, будемо мати, що $(x,\lambda)\in A$ і $(x,\mu)\in B$. Тому $$\varphi(x,\lambda)=\psi(x)+\lambda\gamma<\alpha\textmd{ і }\varphi(x,\mu)=\psi(x)+\mu\gamma\geq\alpha,$$ тобто $$\lambda\gamma<\alpha-\psi(x)\leq\mu\gamma$$ або інакше, поділивши на додатне число $\gamma$, $$\lambda<\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi(x)\leq\mu.$$ Зрозуміло, що $f=\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi$~--- це афінний функціонал на просторі $X$, адже $\frac{1}{\gamma}\psi$~--- це лінійний функціонал на $X$. Для $f$ і фіксованого $x\in E$ виконується нерівність $$g(x)-\varepsilon<f(x)\leq h(x)+\varepsilon.$$ Переходячи в цій нерівності до границі при $\varepsilon\rightarrow 0$, отримаємо, що $$g(x)\leq f(x)\leq h(x).$$ Таким чином $f$~--- це шукана проміжна афінна функція.
+
+\textbf{Теорема 3.}
+Нехай $X$ — дійсний векторний простір, $E$ — опукла множина в $X$, $g:E\rightarrow \mathbb{R}$ — вгнута і $h:E\rightarrow \mathbb{R}$ — опукла функції, такі, що $g(x)\leq h(x)$ на $E$. Тоді з того що існує така афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$, випливає, що множини $A=Gr^{-}(g)$ і $B=Gr^{+}(h)$ строго відокремлюються деякою гіперплощиною в добутку $X\times\mathbb{R}$.
+
+\textbf{Доведення.} Нехай існує така афінна функція $f=\psi+\beta$, де $\psi:X\rightarrow \mathbb{R}$~--- лінійний функціонал, а $\beta\in \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+
+Для довільних $(x,\lambda)\in A$ і $(x,\mu)\in B$ виконуються нерівності $$\lambda<g(x)\leq f(x)\leq h(x)<\mu.$$ Зауважимо, що формулою $$\varphi(x,\xi)=\xi-f(x),$$ де $\xi\in \mathbb{R}$ і $x\in X$, визначається деяка афінна функція на просторі $X\times \mathbb{R}$. Справді $$\varphi(x,\xi)=\xi-\psi(x)-\beta,$$ а $\varphi_{0}(x,\xi)=\xi-\psi(x)$~--- це лінійний функціонал на $X\times \mathbb{R}$. Для цього функціонала будемо мати, що $$\varphi(x,\lambda)=\lambda-f(x)<0\textmd{ на }A$$ і $$\varphi(x,\mu)=\mu-f(x)>0\textmd{ на }B.$$ Звідси негайно випливає, що множини $A$ і $B$ строго відокремлюються гіперплощиною в $X\times \mathbb{R}$.
+
+\textbf{Теорема 4.}
+Нехай $X$ — топологічний векторний простір, $E$ — опукла множина в $X$ з непорожньою внутрішністю, $g:E\rightarrow \mathbb{R}$ — вгнута і $h:E\rightarrow \mathbb{R}$ — опукла функції, такі, що $g(x)\leq h(x)$ на $E$ та множини $A=Gr^{-}(g)$ і $B=Gr^{+}(h)$ напівстрого відокремлюються деякою замкненою гіперплощиною в добутку $X\times\mathbb{R}$. Тоді існує така неперервна афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+
+\textbf{Доведення.}
+
+Нехай існують лінійний неперервний функціонал $\varphi:X\times \mathbb{R} \rightarrow \mathbb{R}$ і число $\alpha \in \mathbb{R}$, такі, що $\varphi(p)<\alpha$ на $A$ і $\varphi(p)\geq\alpha$ на $B$. Виберемо $x_{0}\in E$, і розглянемо числа $\lambda_{1}=g(x_{0})-1$ і $\lambda_{2}=h(x_{0})+1$. Ясно, що $\lambda_{1}<g(x_{0})$, а $\lambda_{2}>h(x_{0})$. Тому точки $p_{1}=(x_{0},\lambda_{1})$ і $p_{2}=(x_{0},\lambda_{2})$ належать до множин $A$ і $B$ відповідно. В такому разі $$\varphi(p_{1})<\alpha\leq\varphi(p_{2}).$$ За лемою 2 існують такий лінійний неперервний функціонал $\psi:X\rightarrow \mathbb{R}$ і число $\gamma \in \mathbb{R}$, що $$\varphi(x,\lambda)=\psi(x)+\lambda\gamma$$ для кожного $x\in X$ і довільного $\lambda \in \mathbb{R}$. Нерівність (*) переписується в еквівалентному вигляді так: $$\psi(x_{0})+\lambda_{1}\gamma<\alpha\leq\psi(x_{0})+\lambda_{2}\gamma.$$  Звідси випливає, що $$(\lambda_{2}-\lambda_{1})\gamma>0.$$ Але $\lambda_{2}-\lambda_{1}=h(x_{0})+1-g(x_{0})+1=2+h(x_{0})-g(x_{0})\geq 2 >0.$ Тому і $\gamma>0$.
+
+Розглянемо довільне $\varepsilon>0$ і довільну точку $x\in E$. Для чисел $\lambda=g(x)-\varepsilon$ і $\mu=h(x)+\varepsilon$, очевидно, будемо мати, що $(x,\lambda)\in A$ і $(x,\mu)\in B$. Тому $$\varphi(x,\lambda)=\psi(x)+\lambda\gamma<\alpha\textmd{ і }\varphi(x,\mu)=\psi(x)+\mu\gamma\geq\alpha,$$ тобто $$\lambda\gamma<\alpha-\psi(x)\leq\mu\gamma$$ або інакше, поділивши на додатне число $\gamma$, $$\lambda<\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi(x)<\mu.$$ Зрозуміло, що $f=\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi$~--- це афінний неперервний функціонал на просторі $X$, адже $\frac{1}{\gamma}\psi$~--- це лінійний неперервний функціонал на $X$. Для $f$ і фіксованого $x\in E$ виконується нерівність $$g(x)-\varepsilon<f(x)\leq h(x)+\varepsilon.$$ Переходячи в цій нерівності до границі при $\varepsilon\rightarrow 0$, отримаємо, що $$g(x)\leq f(x)\leq h(x).$$ Таким чином $f$~--- це шукана проміжна афінна неперервна функція.
+
+\textbf{Теорема 5.}
+Нехай $X$ — топологічний векторний простір, $E$ — опукла множина в $X$ з непорожньою внутрішністю, $g:E\rightarrow \mathbb{R}$ — вгнута і $h:E\rightarrow \mathbb{R}$ — опукла функції, такі, що $g(x)\leq h(x)$ на $E$. Тоді з того, що існує така неперервна афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$, випливає, що множини $A=Gr^{-}(g)$ і $B=Gr^{+}(h)$ строго відокремлюються деякою замкненою гіперплощиною в добутку $X\times\mathbb{R}$.
+
+\textbf{Доведення.} Нехай існує така неперервна на $E$ афінна функція $f=\psi+\beta$, де $\psi:X\rightarrow \mathbb{R}$~--- неперервний на $E$ лінійний функціонал, а $\beta\in \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$. Згідно з лемою 1, функціонали $f$ та $\varphi$ будуть неперервними на всьому $X$.
+
+Для довільних $(x,\lambda)\in A$ і $(x,\mu)\in B$ виконуються нерівності $$\lambda<g(x)\leq f(x)\leq h(x)<\mu.$$ Зауважимо, що формулою $$\varphi(x,\xi)=\xi-f(x),$$ де $\xi\in \mathbb{R}$ і $x\in X$, визначається деяка афінна функція на просторі $E\times \mathbb{R}$. Справді $$\varphi(x,\xi)=\xi-\psi(x)-\beta,$$ а $\varphi_{0}(x,\xi)=\xi-\psi(x)$~--- це лінійний неперервний функціонал на $X\times \mathbb{R}$. Для цього функціонала будемо мати, що $$\varphi(x,\lambda)=\lambda-f(x)<0\textmd{ на }A$$ і $$\varphi(x,\mu)=\mu-f(x)<0\textmd{ на }B.$$ Звідси негайно випливає, що множини $A$ і $B$ строго відокремлюються замкненою гіперплощиною в $X\times \mathbb{R}$.
+
+
+\textbf{\textit{7. Існування проміжної афінної неперервної функції.}}
+
+\textbf{Теорема 6.}
+Нехай $E$ — відкрита опукла множина в дійсному топологічному векторному просторі $X$, $g:E\rightarrow \mathbb{R}$ — вгнута функція, $h:E\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$, і одна з функцій $g$ чи $h$ неперервна. Тоді існує така неперервна афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+
+\textbf{Доведення.} Нехай функція $g$ неперервна. Підграфік $G=\{(x;\lambda)\in E\times \mathbb{R}: \lambda<g(x)\}$ вгнутої неперервної функції $g$~--- це відкрита опукла множина в добутку $P=X\times \mathbb{R}$, а надграфік $H=\{(x;\lambda)\in E\times \mathbb{R}: \lambda>h(x)\}$ це опукла підмножина в $P$ і $G\cap H={\O}$.
+
+За теоремою 1 існує такий лінійний неперервний функціонал $\varphi:P \rightarrow \mathbb{R}$, що $G\subseteq G_{\alpha}=\{(x;\lambda):\varphi(x;\lambda)<\alpha\}$ і $H\subseteq F^{\alpha}=\{(x;\lambda):\varphi(x;\lambda)\geq\alpha\}$. А отже, $G$ та $H$ напівстрого відокремлюються замкненою гіперплощиною $\varphi^{-1}(\alpha)$. Таким чином, за Теоремою 4, існує така неперервна афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+
+\textbf{\textit{8. Застосування $C$-внутрішніх точок.}}
+
+У першому творі відомого твору "Лінійні оператори" [9, с. 446] подано теорему про відокремлення опуклих множин, яка використовувала поняття $C$-внутрішньої точки. Ми дамо тут своє доведення цієї теореми подібне до доведення теореми Мазура [7, с. 23].
+
+\textbf{Означення.} Нехай $X$~--- векторний простір над $\mathbb{R}$ і $M\subseteq X$. Тоді $p$ називається \textit{$C$-внутрішньою точкою} в $M$, якщо для довільного $x\in X$ існує $\varepsilon>0$ таке, що з того, що $|\delta|\leq \varepsilon$ випливає, що $p+\delta x \in M$.
+
+\textbf{Лема 2.} Нехай $X$~--- векторний простір над $\mathbb{R}$, $A\neq {\O}$~--- опукла підмножина $X$, $0\notin A$, $a$~--- $C$-внутрішня точка в $A$. Тоді існує лінійний функціонал $\varphi:X \rightarrow \mathbb{R}$, такий, що $\varphi(x)\geq 0$ на $A$.
+
+\textbf{Доведення.} Розглянемо $U=A-a$. Оскільки $U$~--- радіальна, розглянемо $p(x)=\inf\{\lambda\geq0: x\in \lambda U\}$~--- функціонал Міньковського. Оскільки $U$- опукла, то з того, що $x\in \lambda U$, $x\in \mu U$, для $\lambda, \mu\geq 0$ випливає, що $x+y\in \lambda U+\mu U =(\lambda+\mu)U$, а отже, $p(x+y)\leq p(x)+p(y)$. Окрім того, для функціонала Мінковського справедливою є рівність $p(\lambda x)=\lambda p(x)$ при $\lambda\geq 0$.
+
+Очевидно, що $\{x:p(x)<1\}\subseteq U \subseteq \{x:p(x)\leq 1\}$, а отже, $\{x:p(x-a)<1\}\subseteq A=\{x:x-a\in U\} \subseteq \{x:p(x-a)\leq 1\}$. Розглянемо $X_{0}=\{\lambda a: \lambda\in\mathbb{R}\}$ лінійний підпростір $X$, і визначимо на ньому лінійний функціонал $f_{0}(\lambda a)=-\lambda$, ядром якого точка $\{0\}$.
+
+Доведемо, що $f_{0}(x)\leq p(x)$ на $X_{0}$. Нехай $x_{0}\in X_{0}$, $x_{0}=\lambda a$. Розглянемо випадок, коли $\lambda\geq 0$, тоді $f_{0}(x_{0})=-\lambda\leq 0$, а $p(x_{0})\geq0$, а отже, $f_{0}(x_{0})\leq p(x_{0})$. Розглянемо тепер випадок, коли $\lambda<0$. Оскільки $0\notin A$, то $p(-a)\geq 1$, а отже, $f_{0}(x_{0})=-\lambda\leq -\lambda p(-a)=p(\lambda a)=p(x_{0})$. Таким чином, $f_{0}(x_{0})\leq p(x_{0})$ всюди на $X_{0}$.
+
+З аналітичної форми теореми Гана-Банаха випливає, що існує лінійний функціонал $f:X \rightarrow \mathbb{R}$, такий, що $f|_{X_{0}}=f_{0}$ і $f(x)\leq p(x)$ всюди на $X$. Нехай $x\in A$. Тоді $p(x-a)\leq 1$, а отже, оскільки $f(x-a)\leq p(x-a)$, то $f(x-a)=f(x)-f(a)\leq1$, а отже, $f(x)\leq 1+f(a)=1+f_{0}(a)=1-1=0$. Таким чином, $f(x)\leq 0$ всюди на $A$. Поклавши $\varphi(x)=-f(x)$, отримуємо шуканий лінійний функціонал на $X$.
+
+\textbf{Теорема 7.}
+Нехай $A$ і $B$ — диз'юнктні опуклі підмножини дійсного ВП $X$, причому $A$ має $C$-внутрішню точку, а $B\neq {\O}$. Тоді існує ненульовий лінійний функціонал $f:X\rightarrow \mathbb{R}$, що відокремлює $A$ від $B$.
+
+\textbf{Доведення.} Позначимо $C=A-B$. Нехай $a$~--- $C$-внутрішня точка в $A$. Тоді для довільного $x\in X$ існує $\varepsilon>0$ таке, що для довільного $\delta>0$ з того, що $|\delta|<\varepsilon$ випливає, що $(a+\delta x)\in A$, а отже, для довільного $y\in B$ відповідно $a+\delta x-y\in A-B=C$, а отже, точка $a-y=c$ є $C$-внутрішньою для множини $C$.
+
+Очевидно, що $0\notin C$, інакше існувала б така точка $x$, що належала б і $A$, і $B$. Згідно з лемою 2, існує лінійний функціонал $\varphi:X \rightarrow \mathbb{R}$, такий, що $\varphi(x)\geq 0$ при $x\in C$.
+
+Таким чином, для довільних $x \in A$ та $y \in B$: $$\varphi(x)\geq \varphi(y)$$ а отже, $$\inf\{\varphi(x):x\in A\}=\gamma\geq \beta=\sup\{\varphi(y):y\in B\}.$$ Оскільки $\gamma\geq \beta$, то можна вибрати $\alpha \in \mathbb{R}$, таке, що $\gamma\geq\alpha \geq\beta$. Таким чином, гіперплощина $\varphi^{-1}(\alpha)$ розділяє опуклі множини $A$ та $B$.
+
+\textbf{Теорема 8.}
+Нехай $X$~--- дійсний векторний топологічний простір, $g:X\rightarrow \mathbb{R}$ — вгнута функція, $h:X\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$, і одна з множин $A=Gr^{-}g$ чи $B=Gr^{+}h$ має $C$-внутрішню точку в добутку $X\times \mathbb{R}$. Тоді існує така афінна функція $f:X\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $X$.
+
+\textbf{Доведення.} \underline{I спосіб.}
+
+Нехай $A=Gr^{-}g$ має $C$-внутрішню точку. За теоремою 7, існують лінійний функціонал $\varphi:X\times\mathbb{R} \rightarrow \mathbb{R}$ та $\alpha\in \mathbb{R}$, такі, що гіперплощина $\varphi^{-1}(\alpha)$ відокремлює $A$ і $B$.
+
+Нехай $A\cap H_{\alpha}\neq {\O}$ та $B\cap H_{\alpha}\neq {\O}$. Виберемо відповідно $a=(x_{1},\lambda)\in A\cap H_{\alpha}$ та $b=(x_{2},\mu)\in B\cap H_{\alpha}$. Тоді $g(x_{1})>\lambda$ та $h(x_{2})<\mu$ і $$\varphi(a)=\psi(x_{1})+\lambda\gamma=\alpha=\psi(x_{2})+\mu\gamma=\varphi(b).$$ Розглянемо точки $a_{1}=(x_{1},\frac{\lambda+g(x_{1})}{2})$ та $b_{1}=(x_{2},\frac{\lambda+h(x_{2})}{2})$. Нехай $\gamma>0$. Тоді: $$\varphi(a_{1})=\psi(x_{1})+\frac{\lambda+g(x_{1})}{2}\gamma>\psi(x_{1})+\lambda\gamma=\alpha.$$ Але, розглянувши значення $\varphi$ в точці $a_{2}=(x_{1},\lambda-1)$, маємо: $$\varphi(a_{1})=\psi(x_{1})+(\lambda-1)\gamma<\psi(x_{1})+\lambda\gamma=\alpha.$$ Ми отримали, що гіперплощина $\varphi^{-1}(\alpha)$ не відокремлює $A$ та $B$~--- суперечність.
+
+Нехай тепер $\gamma<0$. Тоді: $$\varphi(b_{1})=\psi(x_{2})+\frac{\mu+h(x_{2})}{2}\gamma>\psi(x_{2})+\mu\gamma=\alpha.$$ Але, розглянувши значення $\varphi$ в точці $b_{2}=(x_{2},\mu+1$, маємо: $$\varphi(b_{2})=\psi(x_{2})+(\mu+1)\gamma<\psi(x_{2})+\mu\gamma=\alpha.$$ Ми знову ж таки отримали суперечність.
+
+Розглянемо тепер випадок, коли $\gamma=0$. Тоді для довільних $x\in X$ та $\lambda\in \mathbb{R}$ маємо, що $\varphi(x,\lambda)=\psi(x)$. Нехай $A\subseteq F_{\alpha}$. Оскільки $\varphi:X\times\mathbb{R} \rightarrow \mathbb{R}$~--- ненульовий, то існує $x_{0}\in X$ така, що $$\varphi(x_{0},\lambda)=\psi(x_{0})>\alpha$$ для довільного $\lambda\in \mathbb{R}$. А отже, $\varphi(x_{0},g(x_{0})-1)>\alpha$. Але $(x_{0},g(x_{0})-1)\in A\subseteq F_{\alpha}$~--- ми отримали суперечність. Таким чином, $\gamma\neq 0$ та або $A\cap H_{\alpha}= {\O}$, або $B\cap H_{\alpha}= {\O}$.
+
+Нехай $A\cap H_{\alpha}= {\O}$, $A\subseteq G_{\alpha}$. Виберемо точку $x_{0}\in X$, і розглянемо числа $\lambda_{1}=g(x_{0})-1$ і $\lambda_{2}=h(x_{0})+1$. Ясно, що $\lambda_{1}<g(x_{0})$ та $\lambda_{2}>h(x_{0})$, а тому, точки $p_{1}=(x_{0},\lambda_{1})$ і $p_{2}=(x_{0},\lambda_{2})$ належать до $A$ та $B$ відповідно. В такому разі: $$\psi(x_{0})+\lambda_{1} \gamma=\varphi(p_{1})<\alpha\leq\varphi(p_{2})=\psi(x_{0})+\lambda_{2} \gamma.$$ Звідси випливає, що $(\lambda_{2}-\lambda_{1})\gamma>0$. Але $\lambda_{2}-\lambda_{1}=h(x_{0})+1-g(x_{0})+1=2+h(x_{0})-g(x_{0})\geq2>0$. Тому і $\gamma>0$.
+
+Розглянемо $\varepsilon>0$ і довільну точку $x\in X$. Для чисел $\lambda=g(x)-\varepsilon$ і $\mu=h(x)+\varepsilon$ очевидно будемо мати, що $(x,\lambda)\in A$ і $(x,\mu)\in B$. Тому: $$\varphi(x,\lambda)=\psi(x)+\lambda\gamma<\alpha\textmd{ і }\varphi(x,\mu)=\psi(x)+\mu\gamma>\alpha,$$ тобто $\lambda\gamma<\alpha-\psi(x)<\mu\gamma$. Поділивши на додатне число $\gamma$, отримаємо: $$\lambda<\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi(x)<\mu$$ Зрозуміло, що $f=\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi$~--- це афінний функціонал на просторі $X$, адже $\frac{1}{\gamma}\psi$~--- це лінійний функціонал на $X$. Для $f$ і фіксованого $x\in X$ виконується нерівність: $$g(x)-\varepsilon<f(x)<h(x)+\varepsilon$$ Переходячи в цій нерівності до границі при $\varepsilon\rightarrow 0$, ми отримуємо, що $g(x)\leq f(x)\leq h(x)$. Таким чином, $f$~--- це шукана проміжна афінна функція на $X$.
+
+\underline{II спосіб.} За теоремою 7, існує лінійний неперервний функціонал $\varphi:X\times\mathbb{R} \rightarrow \mathbb{R}$ та $\alpha\in \mathbb{R}$ такі, що гіперплощина $\varphi^{-1}(\alpha)$ нестрого відокремлює $A$ і $B$. Нехай $A\cap G_{\alpha}={\O}$. Тоді $A\subseteq H_{\alpha}$. Виберемо точку $x_{0}\in X$ та розглянемо $p_{0}=(x_{0},g(x_{0})-1)\in A=Gr^{-}(g)$, $p_{0}\in H_{\alpha}$. Окрім того, розглянемо точку $p=(x_{0},g(x_{0})-2)\in A=Gr^{-}(g)\subseteq H_{\alpha}$. Оскільки $p_{0}\in H_{\alpha}$ та $p\in H_{\alpha}$, маємо, що:  $$\varphi(p_{0})=\psi(x_{0})+\gamma(g(x_{0})-1)=\alpha=\psi(x_{0})+\gamma(g(x_{0})-2).$$  Звідси отримаємо, що $\gamma=0$, а отже, для довільних $x\in X$ та $\lambda\in \mathbb{R}$ маємо, що $\varphi(x,\lambda)=\psi(x)$. Оскільки $\varphi:X\times\mathbb{R} \rightarrow \mathbb{R}$~--- ненульовий, то існує $x\in X$ така, що $$\varphi(x,\lambda)=\psi(x)>\alpha$$ для довільного $\lambda\in \mathbb{R}$. А отже, $\varphi(x,g(x)-1)>\alpha$. Але $(x,g(x)-1)\in A\subseteq F_{\alpha}$~--- ми отримали суперечність. Таким чином, $A\cap G_{\alpha}\neq{\O}$. Виберемо точки $p_{1}=(x_{0},\lambda_{1})\in A\cap G_{\alpha}$ та відповідно $p_{2}=(x_{0},h(x_{0})+1=\lambda_{2})\in B$. В такому разі: $$\psi(x_{0})+\lambda_{1}\gamma=\varphi(p_{1})<\alpha\leq \varphi(p_{2})=\psi(x_{0})+\lambda_{2}\gamma.$$ Звідси випливає, що $(\lambda_{2}-\lambda_{1})\gamma>0$. Але, оскільки $\lambda_{1}<g(x_{0})\leq h(x_{0})<h(x_{0})+1=\lambda_{2}$, то $\lambda_{2}-\lambda_{1}>0$, а отже, і $\gamma>0$.
+
+Розглянемо $\varepsilon>0$ і довільну точку $x\in X$. Для чисел $\lambda=g(x)-\varepsilon$ і $\mu=h(x)+\varepsilon$ очевидно, будемо мати, що $(x,\lambda)\in A$ і $(x,\mu)\in B$. Тому: $$\varphi(x,\lambda)=\psi(x)+\lambda\gamma<\alpha\textmd{ і } \varphi(x,\mu)=\psi(x)+\mu\gamma>\alpha,$$ тобто $\lambda\gamma<\alpha-\psi(x)<\mu\gamma$. Поділивши на додатне число $\gamma$, отримуємо: $$\lambda<\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi(x)<\mu.$$
+
+Зрозуміло, що $f=\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi$~--- це афінний функціонал на просторі $X$, адже $\frac{1}{\gamma}\psi$~--- це лінійний функціонал на $X$. Для $f$ і фіксованого $x\in X$ виконується нерівність: $$g(x)-\varepsilon<f(x)<h(x)+\varepsilon.$$ Переходячи в цій нерівності до границі при $\varepsilon\rightarrow 0$ отримаємо, що $g(x)\leq f(x)\leq h(x)$. Таким чином, $f$~--- це шукана проміжна афінна функція на $X$.
+
+\textbf{\textit{9. Відокремлення довільних опуклих множин.}}
+
+В Математичній енциклопедії [8, ст. 797] без доведення і посилань подано такий результат.
+
+\textbf{Теорема 9.}
+Нехай $A$ і $B$ — довільні диз'юнктні опуклі множини у дійсному ВП $X$. Тоді існує ненульовий лінійний функціонал $f:X\rightarrow \mathbb{R}$, який відокремлює $A$ від $B$.
+
+З нього на основі теореми 8 негайно випливає таке твердження.
+
+\textbf{Теорема 10.}
+Нехай $X$ дійсний ВП $X$, $g:X\rightarrow \mathbb{R}$ — вгнута функція, $h:X\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $X$. Тоді існує така афінна функція $f:X\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $X$.
+
+
+
+Виберемо точки $p_{1}=(x_{0},\lambda_{1})\in A\cap G_{\alpha}$ та відповідно $p_{2}=(x_{0},h(x_{0})+1=\lambda_{2})\in B$. В такому разі: $$\psi(x_{0})+\lambda_{1}\gamma=\varphi(p_{1})<\alpha\leq \varphi(p_{2})=\psi(x_{0})+\lambda_{2}\gamma.$$ Звідси випливає, що $(\lambda_{2}-\lambda_{1})\gamma>0$. Але, оскільки $\lambda_{1}<g(x_{0})\leq h(x_{0})<h(x_{0})+1=\lambda_{2}$, то $\lambda_{2}-\lambda_{1}>0$, а отже, і $\gamma>0$.
+
+Розглянемо $\varepsilon>0$ і довільну точку $x\in X$. Для чисел $\lambda=g(x)-\varepsilon$ і $\mu=h(x)+\varepsilon$ очевидно, будемо мати, що $(x,\lambda)\in A$ і $(x,\mu)\in B$. Тому: $$\varphi(x,\lambda)=\psi(x)+\lambda\gamma<\alpha\textmd{ і } \varphi(x,\mu)=\psi(x)+\mu\gamma>\alpha,$$ тобто $\lambda\gamma<\alpha-\psi(x)<\mu\gamma$. Поділивши на додатне число $\gamma$, отримуємо: $$\lambda<\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi(x)<\mu.$$
+
+Зрозуміло, що $f=\frac{\alpha}{\gamma}-\frac{1}{\gamma}\psi$~--- це афінний функціонал на просторі $X$, адже $\frac{1}{\gamma}\psi$~--- це лінійний функціонал на $X$. Для $f$ і фіксованого $x\in X$ виконується нерівність: $$g(x)-\varepsilon<f(x)<h(x)+\varepsilon.$$ Переходячи в цій нерівності до границі при $\varepsilon\rightarrow 0$ отримаємо, що $g(x)\leq f(x)\leq h(x)$. Таким чином, $f$~--- це шукана проміжна афінна функція на $X$.
+
+
+{\small
+\begin{thebibliography}{10}
+
+\bibitem{Label1} Энгелькинг Р. {\it Общая топология.}~--- М.: Мир, 1986.~--- 752 с.
+
+\bibitem{Label2} Hahn H. {\it Uber halbstetige und unstetige Functionen }// Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+\bibitem{Label3} Tong H. {\it Some characterizations of normal and perfectly normal spaces }// Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+
+\bibitem{Label4} Katetov M. {\it On real-valued functions in topological spaces }// Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+
+\bibitem{Label5} Маслюченко В. К., Мельник В. С. {\it Про рівномірне відхилення від
+простору неперервних функцій }// Збірник праць Ін-ту математики НАН України~--- Київ: Інститут математики НАН України.~--- 2014.~--- \textbf{11},№3~--- С.173-181.
+
+\bibitem{Label6} Маслюченко В.К., Петей С.П. {\it Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації} // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+
+\bibitem{Label7} Маслюченко В.К. {\it Елементи теорії двоїстості.} — Чернівці: Рута, 2005. — 160 с.
+
+\bibitem{Label8} {\it Математическая энциклопедия. Т.1.} — М.:1977. — 1152 ст.
+
+\bibitem{Label9} Данфорд Н.,  Шварц Дж. {\it Линейные операторы. Общая теория.} — М.: ИЛ, 1962. — 896с.
+
+\end{thebibliography}}
+
+
+\end{document} 

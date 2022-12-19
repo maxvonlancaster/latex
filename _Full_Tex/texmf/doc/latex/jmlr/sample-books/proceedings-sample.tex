@@ -1,0 +1,67 @@
+\documentclass[wcp]{jmlrbook}% on-line color version
+%\documentclass[wcp,gray]{jmlrbook}% print version
+
+\jmlrvolume{42}
+\jmlryear{2010}
+\jmlrworkshop{Workshop on Causality}
+
+% Packages used by imported articles:
+\usepackage{lipsum}
+
+% Title is added to the PDF properties. Optional argument
+% is used instead, if present.
+%\title[Short Title]{Big Long Title}
+\title{Sample Proceedings}
+
+\author[Anne Editor et al.]{Anne Editor, Anne Other Editor and Nicola Talbot}
+
+\subtitle{\thejmlrworkshop}
+
+\logo{\includegraphics{bookLogo}}
+
+\begin{document}
+\maketitle
+
+\frontmatter
+
+\chapter{Foreword}
+
+This is the foreword.
+
+\begin{authorsignoff}
+\Author{Nicola Talbot\\
+University of East Anglia}
+\end{authorsignoff}
+
+\chapter{Preface}
+
+This is the preface
+
+\begin{signoff}{March 2010}
+% First editor:
+\Editor{Nicola Talbot\\
+University of East Anglia\\
+\mailto{N.Talbot@uea.ac.uk}}
+% Second editor:
+\Editor{Anne Editor\\
+University of Nowhere\\
+\mailto{ae@sample.com}}
+\end{signoff}
+
+\tableofcontents
+
+\mainmatter
+
+\begin{jmlrpapers}
+  \addtocpart{Introduction}
+  % syntax: \importpaper[label]{directory}{filename}
+  \importpaper{paper1}{paper1}
+  \addtocpart{First Topic}
+  \importpaper{paper2}{paper2}
+  \importpaper{paper3}{paper3}
+  \addtocpart{Second Topic}
+  \importpaper{paper4}{paper4}
+\end{jmlrpapers}
+
+
+\end{document}

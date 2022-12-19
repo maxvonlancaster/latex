@@ -1,0 +1,1470 @@
+\documentclass{nlctdoc}
+
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ifthen}
+\usepackage[colorlinks,
+            bookmarks,
+            hyperindex=false,
+            pdfauthor={Nicola L.C. Talbot},
+            pdftitle={jmlr: LaTeX2e Classes for the Journal of Machine Learning Research},
+            pdfkeywords={LaTeX,jmlr}]{hyperref}
+
+\CheckSum{3348}
+\OnlyDescription
+
+\begin{document}
+\MakeShortVerb{"}
+\DeleteShortVerb{\|}
+
+ \title{\LaTeXe\ Classes for the Journal of Machine
+Learning Research}
+ \author{Nicola L. C. Talbot\\[10pt]
+\url{http://theoval.cmp.uea.ac.uk/~nlct/}}
+
+ \date{2010-07-27 (version 1.08)}
+ \maketitle
+\tableofcontents
+
+\section{Introduction}
+
+The \clsfmt{jmlr} class is for articles that need to be formatted
+according to the Journal of Machine Learning Research style. This
+class is based on the \sty{jmlr2e} and \sty{jmlrwcp2e} packages
+but has been adapted to enable it to work better with the
+\cls{combine} class to collate the articles into a book.
+\sectionref{sec:jmlr} describes how to use the \clsfmt{jmlr} class.
+
+The \clsfmt{jmlrbook} class is for combining JMLR articles into a book.
+This class uses \cls{combine} and \sty{hyperref}, which are
+troublesome enough on their own but together are quite fragile.  The
+\clsfmt{jmlrbook} class redefines some internals to get \clsfmt{combine}
+and \clsfmt{hyperref} to work together but some packages (e.g.\
+\sty{subfig} and \sty{pdfpages}) are likely to mess everything up
+and cause errors.  This is why the guidelines to authors are fairly
+stringent and why \clsfmt{jmlr} will give an error message if certain
+packages are loaded.\footnote{Currently \clsfmt{jmlr} will check if
+\sty{subfig}, \sty{pdfpages}, \sty{geometry}, \sty{psfig},
+\sty{epsfig} and \sty{theorem} are loaded and will throw an error.
+If other packages are found to be a problem, they will be added to
+the list.} The \clsfmt{jmlrbook} class works best with PDF\LaTeX\ so
+authors should ensure that their articles can compile with
+PDF\LaTeX. \sectionref{sec:jmlrbook} describes how to use the 
+\clsfmt{jmlrbook} class.
+
+The \app{makejmlrbook} Perl script can be used to make a book that
+uses the \clsfmt{jmlrbook} class. In addition to creating the print
+and online versions of the book, it will compile the individual
+articles, running Bib\TeX\ where necessary, and create a set of
+HTML files containing a list of all the articles imported into the
+book along with links to the abstracts and PDFs of the individual
+articles. \sectionref{sec:makejmlrbook} describes how 
+to use the \app{makejmlrbook} application.
+
+\section{Required Packages}
+
+The \clsfmt{jmlr} class is based on the \cls{scrartcl} class and loads
+the following packages: \sty{amsmath}, \sty{amssymb},
+\sty{natbib}, \sty{url}, \sty{graphicx} and \sty{algorithm2e}.
+Note that unlike the \sty{jmlr2e} and \sty{jmlrwcp2e} packages,
+this class file does not load the obsolete \sty{epsfig} package.
+
+The \clsfmt{jmlrbook} class additionally loads the \cls{combine} class
+and the following packages: \sty{hyperref}, \sty{xkeyval}, 
+\sty{combnat} and \sty{setspace}.
+
+The \app{makejmlrbook} script requires Perl, \TeX\ and \TeX4ht.
+
+\section{Guidelines for Article Authors}
+\label{sec:jmlr}
+
+Article authors should use the \clsfmt{jmlr} class. This class
+comes with example files \texttt{jmlr-sample.tex} and
+\texttt{jmlrwcp-sample.tex}, which can be used as templates.
+
+The following class options are available:
+\begin{description}
+\item[\clsopt{nowcp}]The article is for the Journal of Machine
+Learning Research (default).
+\item[\clsopt{wcp}] The article is for JMLR Workshop and Conference 
+Proceedings.
+
+\item[\clsopt{twocolumn}] Use two-column style.
+
+\item[\clsopt{onecolumn}] Use one-column style (default).
+
+\item[\clsopt{color}] Color version (see \sectionref{sec:color}).
+
+\item[\clsopt{gray}] Grayscale version (see \sectionref{sec:color}).
+
+\item[\clsopt{tablecaptiontop}] in a \env{table} environment,
+\ics{floatconts} puts the caption at the top.
+
+\item[\clsopt{tablecaptionbottom}] in a \env{table} environment,
+\ics{floatconts} puts the caption at the bottom.
+\end{description}
+
+\subsection{Title Information}
+
+The \clsfmt{jmlr} class uses different syntax from \sty{jmlr2e} and
+\sty{jmlrwcp2e} to specify the title information. In particular, it
+doesn't define \cs{jmlrheading} and \cs{ShortHeading}. Instead, the
+following commands should be used:
+
+\begin{definition}[\DescribeMacro{\jmlrvolume}]
+\cs{jmlrvolume}\marg{number}
+\end{definition}
+This specifies the volume number. For example:
+\begin{verbatim}
+\jmlrvolume{2}
+\end{verbatim}
+
+\begin{definition}[\DescribeMacro{\jmlryear}]
+\cs{jmlryear}\marg{year}
+\end{definition}
+This specifies the year. For example:
+\begin{verbatim}
+\jmlryear{2010}
+\end{verbatim}
+
+\begin{definition}[\DescribeMacro{\jmlrsubmitted}]
+\cs{jmlrsubmitted}\marg{date}
+\end{definition}
+This specifies the submission date.
+
+\begin{definition}[\DescribeMacro{\jmlrpublished}]
+\cs{jmlrpublished}\marg{date}
+\end{definition}
+This specifies the publication date.
+
+\begin{definition}[\DescribeMacro{\jmlrworkshop}]
+\cs{jmlrworkshop}\marg{title}
+\end{definition}
+This specifies the workshop title (for use with the \clsopt{wcp}
+class option).
+
+The title information is specified using the commands described
+below. These commands should typically go in the preamble. As
+with most class files, The title itself is produced using
+\begin{definition}[\DescribeMacro{\maketitle}]
+\cs{maketitle}
+\end{definition}
+This command should go after \verb|\begin{document}|. For example:
+\begin{verbatim}
+\begin{document}
+\maketitle
+\end{verbatim}
+Before \cs{maketitle}, you must specify the title information
+using the following commands:
+
+\begin{definition}[\DescribeMacro{\title}]
+\cs{title}\oarg{short title}\marg{title}
+\end{definition}
+This specifies the article's title. A short title for the page
+header can be supplied via the optional argument \meta{short title}.
+
+\begin{definition}[\DescribeMacro{\editor}]
+\cs{editor}\marg{name}
+\end{definition}
+This specifies the editor's name. If there is more than one 
+editor, use:
+\begin{definition}[\DescribeMacro{\editors}]
+\cs{editors}\marg{names}
+\end{definition}
+
+\begin{definition}[\DescribeMacro{\author}]
+\cs{author}\marg{author specs}
+\end{definition}
+This specifies the author. The specifications \meta{author specs}
+are a bit different to \sty{jmlr2e} and \sty{jmlrwcp2e}. Use
+\begin{definition}[\DescribeMacro{\Name}]
+\cs{Name}\marg{author's name}
+\end{definition}
+to specify the author's name. Note that if the surname contains a
+space it must be grouped (enclosed in braces \{\}). Similarly if
+the initial letter of each forename is a diacritic it must be
+grouped. (See below for examples.)
+\begin{definition}[\DescribeMacro{\Email}]
+\cs{Email}\marg{author's email}
+\end{definition}
+This specifies the author's email address. It should only be used
+within the argument to \cs{author}.
+
+\begin{definition}[\DescribeMacro{\and}]
+\cs{and}
+\end{definition}
+This should be used to separate two authors with the same address.
+
+\begin{definition}[\DescribeMacro{\AND}]
+\cs{AND}
+\end{definition}
+This should be used to separate authors with different addresses.
+
+\begin{definition}[\DescribeMacro{\\}]
+\verb|\\|
+\end{definition}
+This should be used before an author's address or between authors
+with the same address where there are more that two authors.
+
+\begin{definition}[\DescribeMacro{\addr}]
+\cs{addr}
+\end{definition}
+This should be used at the start of the address.
+
+\begin{description}
+\item[Example 1] Two authors with the same address:
+\begin{verbatim}
+\author{\Name{Jane Doe} \Email{abc@sample.com}\and
+   \Name{John {Basey Fisher}} \Email{xyz@sample.com}\\
+   \addr Address}
+\end{verbatim}
+In this example, the second author has a space in his surname
+so the surname needs to be grouped.
+
+\item[Example 2] Three authors with the same address:
+\begin{verbatim}
+\author{\Name{Fred Arnold {de la Cour}} \Email{an1@sample.com}\\
+   \Name{Jack Jones} \Email{an3@sample.com}\\
+   \Name{{\'E}louise {\'E}abhla Finchley} \Email{an2@sample.com}\\
+   \addr Address}
+\end{verbatim}
+In this example, the third author has an accent on her
+forename initials so grouping is required. 
+
+\item[Example 3] Authors with a different address:
+\begin{verbatim}
+\author{\Name{John Smith} \Email{abc@sample.com}\\
+  \addr Address 1
+  \AND
+  \Name{May Brown} \Email{xyz@sample.com}\\
+  \addr Address 2
+ }
+\end{verbatim}
+\end{description}
+
+\subsection{Font Changing Commands}
+
+Use the \LaTeXe\ font changing commands, such as \cs{bfseries} or
+\cs{textbf}\marg{text}, rather than the obsolete \LaTeX2.09
+commands, such as \cs{bf}.
+
+\begin{definition}[\DescribeMacro{\url}]
+\cs{url}\marg{address}
+\end{definition}
+This will typeset \meta{address} in a typewriter font. Special
+characters, such as \verb|~|, are correctly displayed. Example:
+\begin{verbatim}
+\url{http://theoval.cmp.uea.ac.uk/~nlct/}
+\end{verbatim}
+
+\begin{definition}[\DescribeMacro{\mailto}]
+\cs{mailto}\marg{email address}
+\end{definition}
+This will typeset the given email address in a typewriter font.
+Note that this is not the same as \cs{Email}, which should only be
+used in the argument of \cs{author}.
+
+\subsection{Structure}
+
+\begin{definition}[\DescribeEnv{abstract}]
+\cs{begin}\{abstract\}\\
+\meta{text}\\
+\cs{end}\{abstract\}
+\end{definition}
+The abstract text should be displayed using the \envfmt{abstract}
+environment.
+
+\begin{definition}[\DescribeEnv{keywords}]
+\cs{begin}\{keywords\}\meta{keyword list}\cs{end}\{keywords\}
+\end{definition}
+The keywords should be displayed using the \envfmt{keywords}
+environment.
+
+\begin{definition}[\DescribeMacro{\acks}]
+\cs{acks}\marg{text}
+\end{definition}
+This displays the acknowledgements.
+
+\begin{definition}[\DescribeMacro{\section}]
+\cs{section}\marg{title}
+\end{definition}
+Section titles are created using \cs{section}. The heading is
+automatically numbered and can be cross-referenced using
+\cs{label} and \cs{ref}. Unnumbered sections can be produced
+using:
+\begin{definition}[\DescribeMacro{\section*}]
+\cs{section*}\marg{title}
+\end{definition}
+
+\begin{definition}[\DescribeMacro{\subsection}]
+\cs{subsection}\marg{title}
+\end{definition}
+Sub-section titles are created using \cs{subsection}. Unnumbered 
+sub-sections can be produced using:
+\begin{definition}[\DescribeMacro{\subsection*}]
+\cs{subsection*}\marg{title}
+\end{definition}
+
+\begin{definition}[\DescribeMacro{\subsubsection}]
+\cs{subsubsection}\marg{title}
+\end{definition}
+Sub-sub-section titles are created using \cs{subsubsection}.
+Unnumbered sub-sub-sections can be produced using:
+\begin{definition}[\DescribeMacro{\subsubsection*}]
+\cs{subsubsection*}\marg{title}
+\end{definition}
+
+Further sectioning levels can be obtained using \cs{paragraph}
+and \cs{subparagraph}, but these are unnumbered with running heads.
+
+\begin{definition}[\DescribeMacro{\appendix}]
+\cs{appendix}
+\end{definition}
+Use \cs{appendix} to switch to the appendices. This changes
+\cs{section} to produce an appendix. Example:
+\begin{verbatim}
+\appendix
+\section{Proof of Theorems}
+\end{verbatim}
+
+\subsection{Citations and Bibliography}
+
+The \clsfmt{jmlr} class automatically loads \sty{natbib} and sets
+the bibliography style to \texttt{plainnat}. References should
+be stored in a \texttt{.bib} file.
+
+\begin{definition}[\DescribeMacro{\bibliography}]
+\cs{bibliography}\marg{bib file}
+\end{definition}
+This displays the bibliography.
+
+\begin{definition}[\DescribeMacro{\citep}]
+\cs{citep}\oarg{pre note}\oarg{post note}\marg{label}
+\end{definition}
+Use \cs{citep} for a parenthetical citation.
+
+\begin{definition}[\DescribeMacro{\citet}]
+\cs{citet}\oarg{note}\marg{label}
+\end{definition}
+Use \cs{citet} for a textual citation.
+
+See the \ctandoc{natbib} for further details.
+
+\subsection{Figures and Tables}
+
+Floats, such as figures, tables and algorithms, are moving objects
+and are supposed to float to the nearest convenient location.
+Please don't force them to go in a particular place. In general
+it's best to use the \texttt{htbp} specifier and don't put
+the float in the middle of a paragraph (that is, make sure there's
+a paragraph break above and below the float). Floats are supposed
+to have a little extra space above and below them to make them 
+stand out from the rest of the text. This extra space is put in
+automatically and shouldn't need modifying.
+
+To ensure consistency, please \emph{don't} try changing the
+format of the caption by doing something like:
+\begin{verbatim}
+\caption{\textit{A Sample Caption.}}
+\end{verbatim}
+or
+\begin{verbatim}
+\caption{\em A Sample Caption.}
+\end{verbatim}
+You can, of course, change the font for individual words or
+phrases. For example:
+\begin{verbatim}
+\caption{A Sample Caption With Some \emph{Emphasized Words}.}
+\end{verbatim}
+
+The \clsfmt{jmlr} class provides the following command for displaying
+the contents of a figure or table:
+\begin{definition}[\DescribeMacro{\floatconts}]
+\cs{floatconts}\marg{label}\marg{caption command}\marg{contents}
+\end{definition}
+This ensures that the caption is correctly positioned and that
+the contents are centered. For example:
+\begin{verbatim}
+\begin{table}[htbp]
+\floatconts
+  {tab:example}% label
+  {\caption{An Example Table}}% caption command
+  {%
+    \begin{tabular}{ll}
+    \bfseries Dataset & \bfseries Result\\
+    Data1 & 0.123456
+    \end{tabular}
+  }
+\end{table}
+\end{verbatim}
+
+The \clsfmt{jmlr} class automatically loads \sty{graphicx} which
+defines:
+\begin{definition}[\DescribeMacro{\includegraphics}]
+\cs{includegraphics}\oarg{options}\marg{file name}
+\end{definition}
+where \meta{options} is a comma-separated list of options.
+
+For example, suppose you have an image called 
+\texttt{mypic.png} in a subdirectory called \texttt{images}:
+\begin{verbatim}
+\begin{figure}[htbp]
+\floatconts
+  {fig:example}% label
+  {\caption{An Example Figure}}% caption command
+  {\includegraphics[width=0.5\textwidth]{images/mypic}}
+\end{figure}
+\end{verbatim}
+
+Note that you shouldn't specify the file extension when including
+the image. It's helpful if you can also provide a grayscale
+version of color images. This should be labeled as the color
+image but with \texttt{-gray} immediately before the extension.
+(The extension need not be the same as that of the color image.)
+For example, if you have an image called \texttt{mypic.pdf}, the
+grayscale can be called \texttt{mypic-gray.pdf}, 
+\texttt{mypic-gray.png} or \texttt{mypic-gray.jpg}.
+See \sectionref{sec:color} for further details.
+
+\begin{definition}[\DescribeMacro{\includeteximage}]
+\cs{includeteximage}\oarg{options}\marg{file name}
+\end{definition}
+If your image file is made up of \LaTeX\ code (e.g.\ \sty{tikz}
+commands) the file can be included using \cs{includeteximage}.
+The optional argument is a key=value comma-separated list
+where the keys are a subset of those provided by 
+\cs{includegraphics}. The main keys are: \texttt{width},
+\texttt{height}, \texttt{scale} and \texttt{angle}.
+
+\subsubsection{Sub-Figures and Sub-Tables}
+
+The \sty{subfig} package causes a problem for \clsfmt{jmlrbook} so
+the \clsfmt{jmlr} class will give an error if it is used. Therefore
+the \clsfmt{jmlr} class provides its own commands for including
+sub-figures and sub-tables.
+
+\begin{definition}[\DescribeMacro{\subfigure}]
+\cs{subfigure}\oarg{title}\oarg{valign}\marg{contents}
+\end{definition}
+This makes a sub-figure where \meta{contents} denotes the contents
+of the sub-figure. This should also include the \cs{label}.
+The first optional argument \meta{title} indicates a caption for
+the sub-figure. By default, the sub-figures are aligned at the
+base. This can be changed with the second optional argument
+\meta{valign}, which may be one of: \texttt{t} (top), \texttt{c}
+(centred) or \texttt{b} (base).
+
+For example, suppose there are two images files, \texttt{mypic1.png}
+and \texttt{mypic2.png}, in the subdirectory \texttt{images}.
+Then they can be included as sub-figures as follows:
+\begin{verbatim}
+\begin{figure}[htbp]
+\floatconts
+  {fig:example2}% label for whole figure
+  {\caption{An Example Figure.}}% caption for whole figure
+  {%
+    \subfigure{%
+      \label{fig:pic1}% label for this sub-figure
+      \includegraphics{images/mypic1}
+    }\qquad % space out the images a bit
+    \subfigure{%
+      \label{fig:pic2}% label for this sub-figure
+      \includegraphics{images/mypic2}
+    }
+  }
+\end{figure}
+\end{verbatim}
+
+\begin{definition}[\DescribeMacro{\subtable}]
+\cs{subtable}\oarg{title}\oarg{valign}\marg{contents}
+\end{definition}
+This is an analogous command for sub-tables. The default value
+for \meta{valign} is \texttt{t}.
+
+\subsection{Algorithms}
+
+\begin{definition}[\DescribeEnv{algorithm}]
+\cs{begin}\{algorithm\}\\
+\meta{contents}\\
+\cs{end}\{algorithm\}
+\end{definition}
+Enumerated textual algorithms can be displayed using the 
+\envfmt{algorithm} environment. Within this environment, use
+\ics{caption} to set the caption (and \ics{label} to cross-reference
+it). Within the body of the environment you can use the
+\env{enumerate} environment.
+
+\begin{definition}[\DescribeEnv{enumerate*}]
+\cs{begin}\{enumerate*\}\\
+\cs{item} \meta{text}\\
+\ldots\\
+\cs{end}\{enumerate*\}
+\end{definition}
+If you want to have nested \env{enumerate} environments but you want
+to keep the same numbering throughout the algorithm, you can use the
+\envfmt{enumerate*} environment, provided by the \clsfmt{jmlr}
+class. For example:
+\begin{verbatim}
+\begin{enumerate*}
+  \item Set the label of vertex $s$ to 0
+  \item Set $i=0$
+  \begin{enumerate*}
+    \item \label{step:locate}Locate all unlabelled vertices 
+          adjacent to a vertex labelled $i$ and label them $i+1$
+    \item If vertex $t$ has been labelled,
+    \begin{enumerate*}
+      \item[] the shortest path can be found by backtracking, and 
+      the length is given by the label of $t$.
+    \end{enumerate*}
+    otherwise
+    \begin{enumerate*}
+      \item[] increment $i$ and return to step~\ref{step:locate}
+    \end{enumerate*}
+  \end{enumerate*}
+\end{enumerate*}
+\end{algorithm}
+\end{verbatim}
+
+
+\begin{definition}[\DescribeEnv{algorithm2e}]
+\cs{begin}\{algorithm2e\}\\
+\meta{contents}\\
+\cs{end}\{algorithm2e\}
+\end{definition}
+Pseudo code can be displayed using the \envfmt{algorithm2e} environment,
+provided by the \sty{algorithm2e} package, which is automatically
+loaded. For example:
+\begin{verbatim}
+\begin{algorithm2e}
+\caption{Computing Net Activation}
+\label{alg:net}
+\dontprintsemicolon
+\linesnumbered
+\KwIn{$x_1, \ldots, x_n, w_1, \ldots, w_n$}
+\KwOut{$y$, the net activation}
+$y\leftarrow 0$\;
+\For{$i\leftarrow 1$ \KwTo $n$}{
+  $y \leftarrow y + w_i*x_i$\;
+}
+\end{algorithm2e}
+\end{verbatim}
+
+See the \ctandoc{algorithm2e} for more details.
+
+\subsection{Description Lists}
+
+\begin{definition}[\DescribeEnv{altdescription}]
+\cs{begin}\{altdescription\}\marg{widest label}\\
+\cs{item}\oarg{label} \meta{item text}\\
+\cs{end}\{altdescription\}
+\end{definition}
+In addition to the standard \env{description} environment, the
+\clsfmt{jmlr} class also provides the \envfmt{altdescription} environment.
+This has an argument that should be the widest label used in the
+list. For example:
+\begin{verbatim}
+\begin{altdescription}{differentiate}
+\item[add] A method that adds two variables.
+\item[differentiate] A method that differentiates a function.
+\end{altdescription}
+\end{verbatim}
+
+\subsection{Theorems, Lemmas etc}
+
+The \clsfmt{jmlr} class provides the following theorem-like
+environments: \env{theorem}, \env{example}, \env{lemma},
+\env{proposition}, \env{remark}, \env{corollary}, \env{definition},
+\env{conjecture} and \env{axiom}. Within the body of those
+environments, you can use the \env{proof} environment to display the
+proof if need be. The theorem-like environments all take an
+optional argument, which gives the environment a title. For example:
+
+\begin{verbatim}
+\begin{theorem}[An Example Theorem]
+\label{thm:example}
+This is the theorem.
+\begin{proof}
+This is the proof.
+\end{proof}
+\end{theorem}
+\end{verbatim}
+
+\subsection{Cross-Referencing}
+\label{sec:crossref}
+
+Always use \ics{label} when cross-referencing, rather than writing
+the number explicitly. The \clsfmt{jmlr} class provides some 
+convenience commands to assist referencing. These commands,
+described below, can all take a comma-separated list of labels.
+
+\begin{definition}[\DescribeMacro{\sectionref}]
+\cs{sectionref}\marg{label list}
+\end{definition}
+Used to refer to a section or sections. For example, if you defined 
+a section as follows:
+\begin{verbatim}
+\section{Results}\label{sec:results}
+\end{verbatim}
+you can refer to it as follows:
+\begin{verbatim}
+The results are detailed in \sectionref{sec:results}.
+\end{verbatim}
+This command may also be used for sub-sections and sub-sub-sections.
+
+\begin{definition}[\DescribeMacro{\appendixref}]
+\cs{appendixref}\marg{label list}
+\end{definition}
+Used to refer to an appendix or multiple appendices.
+
+\begin{definition}[\DescribeMacro{\equationref}]
+\cs{equationref}\marg{label list}
+\end{definition}
+Used to refer to an equation or multiple equations.
+
+\begin{definition}[\DescribeMacro{\tableref}]
+\cs{tableref}\marg{label list}
+\end{definition}
+Used to refer to a table or multiple tables. This can also be
+used for sub-tables where the main table number is also required.
+
+\begin{definition}[\DescribeMacro{\subtabref}]
+\cs{subtabref}\marg{label list}
+\end{definition}
+Used to refer to sub-tables without the main table number, e.g.
+(\emph{a}) or (\emph{b}).
+
+\begin{definition}[\DescribeMacro{\figureref}]
+\cs{figureref}\marg{label list}
+\end{definition}
+Used to refer to a figure or multiple figures. This can also
+be used for sub-figures where the main figure number is also
+required, e.g.\ 2(\emph{a}) or 4(\emph{b}).
+
+\begin{definition}[\DescribeMacro{\subfigref}]
+\cs{subfigref}\marg{label list}
+\end{definition}
+Used to refer to sub-figures without the main figure number, e.g.
+(\emph{a}) or (\emph{b}).
+
+\begin{definition}[\DescribeMacro{\algorithmref}]
+\cs{algorithmref}\marg{label list}
+\end{definition}
+Used to refer to an algorithm or multiple algorithms.
+
+\begin{definition}[\DescribeMacro{\theoremref}]
+\cs{theoremref}\marg{label list}
+\end{definition}
+Used to refer to a theorem or multiple theorems.
+
+\begin{definition}[\DescribeMacro{\lemmaref}]
+\cs{lemmaref}\marg{label list}
+\end{definition}
+Used to refer to a lemma or multiple lemmas.
+
+\begin{definition}[\DescribeMacro{\remarkref}]
+\cs{remarkref}\marg{label list}
+\end{definition}
+Used to refer to a remark or multiple remarks.
+
+\begin{definition}[\DescribeMacro{\corollaryref}]
+\cs{corollaryref}\marg{label list}
+\end{definition}
+Used to refer to a corollary or multiple corollaries.
+
+\begin{definition}[\DescribeMacro{\definitionref}]
+\cs{definitionref}\marg{label list}
+\end{definition}
+Used to refer to a definition or multiple definitions.
+
+\begin{definition}[\DescribeMacro{\conjectureref}]
+\cs{conjectureref}\marg{label list}
+\end{definition}
+Used to refer to a conjecture or multiple conjectures.
+
+\begin{definition}[\DescribeMacro{\axiomref}]
+\cs{axiomref}\marg{label list}
+\end{definition}
+Used to refer to an axiom or multiple axioms.
+
+\begin{definition}[\DescribeMacro{\exampleref}]
+\cs{exampleref}\marg{label list}
+\end{definition}
+Used to refer to an example or multiple examples.
+
+\subsection{Mathematics}
+
+The \clsfmt{jmlr} class loads the \sty{amsmath} package so you can use
+any of the commands and environments defined in that package.  A
+brief summary of some of the more common commands and environments
+is provided here.  See the \ctandoc{amsmath} for further details.
+
+\begin{definition}[\DescribeMacro{\set}]
+\cs{set}\marg{text}
+\end{definition}
+In addition to the commands provided by \sty{amsmath}, the
+\clsfmt{jmlr} class also provides the \cs{set} command which can
+be used to typeset a set. For example:
+\begin{verbatim}
+The universal set is denoted $\set{U}$
+\end{verbatim}
+
+Unnumbered single-line equations should be displayed using
+\cs{[} and \cs{]}. For example:
+\begin{verbatim}
+\[E = m c^2\]
+\end{verbatim}
+Numbered single-line equations should be displayed using the
+\env{equation} environment. For example:
+\begin{verbatim}
+\begin{equation}\label{eq:trigrule}
+\cos^2\theta + \sin^2\theta \equiv 1
+\end{equation}
+\end{verbatim}
+Multi-lined numbered equations should be displayed using the
+\env{align} environment. For example:
+\begin{verbatim}
+\begin{align}
+f(x) &= x^2 + x\label{eq:f}\\
+f'(x) &= 2x + 1\label{eq:df}
+\end{align}
+\end{verbatim}
+Unnumbered multi-lined equations should be displayed using the
+\env{align*} environment. For example:
+\begin{verbatim}
+\begin{align*}
+f(x) &= (x+1)(x-1)\\
+&= x^2 - 1
+\end{align*}
+\end{verbatim}
+If you want to mix numbered with unnumbered lines use the
+\env{align} environment and suppress unwanted line numbers with
+\cs{nonumber}. For example:
+\begin{verbatim}
+\begin{align}
+y &= x^2 + 3x - 2x + 1\nonumber\\
+&= x^2 + x + 1\label{eq:y}
+\end{align}
+\end{verbatim}
+An equation that is too long to fit on a single line can be
+displayed using the \env{split} environment. 
+
+Text can be embedded in an equation using \ics{text}\marg{text} or 
+you can use \ics{intertext}\marg{text} to interupt a multi-line
+environment such as \env{align}.
+
+Predefined operator names are listed in \tableref{tab:operatornames}. 
+For additional operators, either use 
+\begin{definition}[\DescribeMacro{\operatorname}]
+\cs{operatorname}\marg{name}
+\end{definition}
+for example
+\begin{verbatim}
+If $X$ and $Y$ are independent,
+$\operatorname{var}(X+Y) = 
+\operatorname{var}(X) + \operatorname{var}(Y)$
+\end{verbatim}
+or declare it with
+\begin{definition}[\DescribeMacro{\DeclareMathOperator}]
+\cs{DeclareMathOperator}\marg{command}\marg{name}
+\end{definition}
+for example
+\begin{verbatim}
+\DeclareMathOperator{\var}{var}
+\end{verbatim}
+and then use this new command:
+\begin{verbatim}
+If $X$ and $Y$ are independent,
+$\var(X+Y) = \var(X)+\var(Y)$
+\end{verbatim}
+
+If you want limits that go above and
+below the operator (like \ics{sum}) use the starred versions
+(\ics{operatorname*} or \ics{DeclareMathOperator*}).
+
+\begin{table}[htbp]
+\caption{Predefined Operator Names (taken from 
+   \sty{amsmath} documentation)}
+\label{tab:operatornames}%
+\vskip\baselineskip
+\centering
+\begin{tabular}{rlrlrlrl}
+\cs{arccos} & $\arccos$ &  \cs{deg} & $\deg$ &  \cs{lg} & $\lg$ &  \cs{projlim} & $\projlim$ \\
+\cs{arcsin} & $\arcsin$ &  \cs{det} & $\det$ &  \cs{lim} & $\lim$ &  \cs{sec} & $\sec$ \\
+\cs{arctan} & $\arctan$ &  \cs{dim} & $\dim$ &  \cs{liminf} & $\liminf$ &  \cs{sin} & $\sin$ \\
+\cs{arg} & $\arg$ &  \cs{exp} & $\exp$ &  \cs{limsup} & $\limsup$ &  \cs{sinh} & $\sinh$ \\
+\cs{cos} & $\cos$ &  \cs{gcd} & $\gcd$ &  \cs{ln} & $\ln$ &  \cs{sup} & $\sup$ \\
+\cs{cosh} & $\cosh$ &  \cs{hom} & $\hom$ &  \cs{log} & $\log$ &  \cs{tan} & $\tan$ \\
+\cs{cot} & $\cot$ &  \cs{inf} & $\inf$ &  \cs{max} & $\max$ &  \cs{tanh} & $\tanh$ \\
+\cs{coth} & $\coth$ &  \cs{injlim} & $\injlim$ &  \cs{min} & $\min$ \\
+\cs{csc} & $\csc$ &  \cs{ker} & $\ker$ &  \cs{Pr} & $\Pr$
+\end{tabular}\par
+\begin{tabular}{rlrl}
+\cs{varlimsup} & $\varlimsup$ 
+& \cs{varinjlim} & $\varinjlim$\\
+\cs{varliminf} & $\varliminf$ 
+& \cs{varprojlim} & $\varprojlim$
+\end{tabular}
+
+\end{table}
+
+\subsection{Color vs Grayscale}
+\label{sec:color}
+
+It's helpful if authors supply grayscale versions of their
+articles in the event that the article is to be incorporated into
+a black and white printed book. With external PDF, PNG or JPG
+graphic files, you just need to supply a grayscale version of the
+file. For example, if the file is called \texttt{myimage.png},
+then the gray version should be \texttt{myimage-gray.png} or
+\texttt{myimage-gray.pdf} or \texttt{myimage-gray.jpg}. You don't
+need to modify your code. The \clsfmt{jmlr} class checks for
+the existence of the grayscale version if it is print mode 
+(provided you have used \ics{includegraphics} and haven't
+specified the file extension).
+
+\begin{definition}[\DescribeMacro{\ifprint}]
+\cs{ifprint}\marg{true part}\marg{false part}
+\end{definition}
+You can use \cs{ifprint} to determine which mode you are in.
+For example:
+\begin{verbatim}
+in \figureref{fig:nodes}, the
+\ifprint{dark gray}{purple}
+ellipse represents an input and the
+\ifprint{light gray}{yellow} ellipse
+represents an output.
+\end{verbatim}
+Another example:
+\begin{verbatim}
+{\ifprint{\bfseries}{\color{red}}important text!}
+\end{verbatim}
+
+You can use the class option \clsopt{gray} to see how the
+document will appear in gray scale mode.
+
+The \sty{xcolor} class is loaded with the \pkgoptfmt{x11names}
+option, so you can use any of the x11 predefined colors (listed
+in the \ctandoc{xcolor}).
+
+\subsection{Where To Go For Help}
+
+If you have a \LaTeX\ query, the first place to go to is the 
+\urlfootref{http://www.tex.ac.uk/faq}{UK TUG FAQ}.
+
+If you are unfamiliar or just getting started with \LaTeX, there's
+a list of on-line introductions to \LaTeX\ at:
+\url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=man-latex}
+
+There are also forums, mailing lists and newsgroups. For example,
+the \LaTeX\ Community (\url{http://www.latex-community.org/}),
+the \texttt{texhax} mailing list 
+(\url{http://tug.org/mailman/listinfo/texhax}) and
+\texttt{comp.text.tex} (archives available at
+\url{http://groups.google.com/group/comp.text.tex/}).
+
+Documentation for packages or classes can be found using the
+\texttt{texdoc} application. For example:
+\begin{verbatim}
+texdoc natbib
+\end{verbatim}
+Alternatively, you can go to 
+\texttt{http://www.ctan.org/pkg/}\meta{name} where
+\meta{name} is the name of the package. For example:
+\url{http://www.ctan.org/pkg/natbib}
+
+For a general guide to preparing papers (regardless of whether you
+are using \LaTeX\ or a word processor), see Kate L.~Turabian, \qt{A
+manual for writers of term papers, theses, and dissertations}, The
+University of Chicago Press, 1996.
+
+\section{Guidelines for Production Editors}
+\label{sec:jmlrbook}
+
+The \clsfmt{jmlrbook} class can be used to combine articles that
+use the \clsfmt{jmlr} document class into a book. The following sample
+files are provided: \texttt{paper1/paper1.tex},
+\texttt{paper2/paper2.tex}, \texttt{paper3/paper3.tex},
+\texttt{jmlr-sample.tex}, \texttt{jmlrwcp-sample.tex} and
+\texttt{jmlrbook-sample.tex}.  All but the last named one are
+articles using the \clsfmt{jmlr} class. The last one
+(\texttt{jmlrbook-sample.tex}) uses the \clsfmt{jmlrbook} class file to
+combine the articles into a book.  Note that no modifications are
+needed to the files using the \clsfmt{jmlr} class when they are
+imported into the book. They can either be compiled as stand-alone
+articles or with the entire book.
+
+Before you compile the book, make sure that all the articles 
+compile as stand-alone documents (and run Bib\TeX\ where
+necessary). You can use the \app{makejmlrbook} Perl script to compile
+the book and create associated HTML files. See 
+\sectionref{sec:makejmlrbook} for details.
+
+\subsection{\clsfmt{jmlrbook} Class Options}
+\begin{description}
+\item[\clsopt{nowcp}]The imported pre-published articles were 
+published in the Journal of Machine Learning Research (default).
+\item[\clsopt{wcp}] The imported pre-published articles were
+published in the JMLR Workshop and Conference Proceedings.
+
+If the book has a mixture of JMLR and JMLR WCP articles, you
+can switch between them using
+\begin{definition}[\DescribeMacro{\jmlrwcp}]
+\cs{jmlrwcp}
+\end{definition}
+and
+\begin{definition}[\DescribeMacro{\jmlrnowcp}]
+\cs{jmlrnowcp}
+\end{definition}
+Alternatively, you can set the name of the journal or conference
+proceedings using:
+\begin{definition}[\DescribeMacro{\jmlrproceedings}]
+\cs{jmlrproceedings}\marg{short title}\marg{long title}
+\end{definition}
+
+\item[\clsopt{color}] Color version (see \sectionref{sec:color}). 
+Use this option for the on-line version with hyperlinks enabled
+(default).
+
+\item[\clsopt{gray}] Grayscale version (see \sectionref{sec:color}). 
+Use this option for the print version without hyperlinks.
+
+\item[\clsopt{tablecaptiontop}] in a \env{table} environment,
+\ics{floatconts} puts the caption at the top.
+
+\item[\clsopt{tablecaptionbottom}] in a \env{table} environment,
+\ics{floatconts} puts the caption at the bottom.
+
+\item[\clsopt{letterpaper}] Set the paper size to letter (default).
+
+\item[\clsopt{7x10}] Set the paper size to $7\times10$ inches.
+
+\item[\clsopt{prehyperref}] The \clsfmt{jmlrbook} automatically loads
+the \sty{hyperref} package, but some packages need to be loaded
+before \sty{hyperref}. This information can be specified using
+the \clsopt{prehyperref} option. This is a key=value option. For
+example, to load the packages \styfmt{foo} and \styfmt{bar} before 
+\sty{hyperref}, you can do:
+\begin{verbatim}
+\documentclass[prehyperref={\usepackage{foo,bar}}]{jmlrbook}
+\end{verbatim}
+or:
+\begin{verbatim}
+\documentclass[prehyperref={\usepackage{foo}\usepackage{bar}}]{jmlrbook}
+\end{verbatim}
+
+\item[\clsopt{10pt}] Use 10pt as the normal text size.
+\item[\clsopt{11pt}] Use 11pt as the normal text size (default).
+\item[\clsopt{12pt}] Use 12pt as the normal text size.
+
+\end{description}
+
+\subsection{The Preamble}
+
+Any packages that the imported articles load (which aren't 
+automatically loaded by \clsfmt{jmlr}) must be loaded in the book's
+preamble. For example, if one or more of the articles load the
+\sty{siunitx} package, this package must be loaded in the book.
+
+Commands that are defined in the imported articles will be local
+to that article unless they have been globally defined using
+\ics{gdef} or \ics{global}. Since most authors use \ics{newcommand}
+and \ics{newenvironment} (or \ics{renewcommand} and 
+\ics{renewenvironment}) this shouldn't cause a conflict if more
+that one article has defined the same command or environment.
+For example, in the sample files supplied, both 
+\texttt{paper1/paper1.tex} and \texttt{paper2/paper2.tex} have 
+defined the command \cs{samplecommand} using \cs{newcommand}. As
+long as this command isn't also defined in the book, there won't
+be a conflict.
+
+\begin{definition}[\DescribeMacro{\title}]
+\cs{title}\oarg{PDF title}\marg{book title}
+\end{definition}
+In the book preamble, \cs{title} sets the book title and the optional
+argument is used for the PDF title, which will be displayed
+when the reader views the PDF file's properties in their PDF viewer.
+(Note that in the imported articles, \cs{title} sets the article's
+title and the optional argument sets the short title for the
+page header and table of contents.)
+
+\begin{definition}[\DescribeMacro{\author}]
+\cs{author}\oarg{PDF author(s)}\marg{book author(s)}
+\end{definition}
+In the book preamble, \cs{author} sets the book's author (or editor)
+and the optional argument is used for the PDF author, which will be
+displayed when the reader views the PDF file's properties in their
+PDF viewer.  (Note that in the imported articles, \cs{author} sets
+the article's author and the optional argument sets the short author
+list for the page header.)
+
+\begin{definition}[\DescribeMacro{\volume}]
+\cs{volume}\marg{number}
+\end{definition}
+This command sets the book's volume number. Omit if the book has no
+volume number.
+
+\begin{definition}[\DescribeMacro{\subtitle}]
+\cs{subtitle}\marg{sub-title}
+\end{definition}
+This command sets the book's subtitle. Omit if the book has no 
+sub-title.
+
+\begin{definition}[\DescribeMacro{\logo}]
+\cs{logo}\marg{image command}
+\end{definition}
+This sets the book's title image. Use \ics{includegraphics} and
+omit the file extension. If you provide a grayscale version as
+well as a color version, the grayscale version will be used for
+the print version of the book. (See \sectionref{sec:color} 
+for further details.)
+
+\begin{definition}[\DescribeMacro{\team}]
+\cs{team}\marg{team title}
+\end{definition}
+This can be used to set the name of the editorial team. This 
+command may be omitted if not required.
+
+\begin{definition}[\DescribeMacro{\productioneditor}]
+\cs{productioneditor}\marg{name}
+\end{definition}
+This command may be used to name the production editor. The command
+may be omitted if not required.
+
+See \sectionref{sec:modifytitle} for details on how to modify the
+layout of the title page.
+
+\subsection{Main Book Commands}
+
+All commands that are provided by the \clsfmt{jmlr} class are 
+also available with the \clsfmt{jmlrbook} class, but some commands
+might behave differently depending on whether they are in the
+main part of the book or within the imported articles.
+
+In the main part of the book you can use the following commands:
+\begin{definition}[\DescribeMacro{\maketitle}]
+\cs{maketitle}
+\end{definition}
+This displays the book's title page. Note that \cs{maketitle} has
+a different effect when used in imported articles.
+
+\begin{definition}[\DescribeMacro{\frontmatter}]
+\cs{frontmatter}
+\end{definition}
+Use this command at the start of the front matter (e.g.\ before the
+foreword or preface). This will make chapters unnumbered even if you
+use \cs{chapter} instead of \cs{chapter*}. It also sets the page
+style and sets the page numbering to lower case Roman numerals.
+
+\begin{definition}[\DescribeEnv{authorsignoff}]
+\cs{begin}\{authorsignoff\}\\
+\meta{author list}\\
+\cs{end}\{authorsignoff\}
+\end{definition}
+This environment may be used by the author signing off at the end of a chapter such as the
+foreword. Within the environment use:
+\begin{definition}[\DescribeMacro{\Author}]
+\cs{author}\marg{details}
+\end{definition}
+for the author's details. More than one \cs{Author} should be used
+if there is more than one author. Example:
+\begin{verbatim}
+\begin{authorsignoff}
+\Author{Nicola Talbot\\
+University of East Anglia}
+\Author{Anne Author\\
+University of No Where}
+\end{authorsignoff}
+\end{verbatim}
+
+\begin{definition}[\DescribeEnv{signoff}]
+\cs{begin}\{signoff\}\oarg{team name}\marg{date}\\
+\meta{editor list}\\
+\cs{end}\{signoff\}
+\end{definition}
+This environment may be used by the editorial team when signing off
+a chapter such as the preface. If the optional argument is omitted,
+\qt{The Editorial Team} is used.
+
+Within the environment use:
+\begin{definition}[\DescribeMacro{\Editor}]
+\cs{Editor}\marg{details}
+\end{definition}
+for each editor. Example:
+\begin{verbatim}
+\begin{signoff}{March 2010}
+% First editor:
+\Editor{Nicola Talbot\\
+University of East Anglia\\
+\mailto{N.Talbot@uea.ac.uk}}
+% Second editor:
+\Editor{Anne Editor\\
+University of Nowhere\\
+\mailto{ae@sample.com}}
+\end{signoff}
+\end{verbatim}
+
+\begin{definition}[\DescribeMacro{\tableofcontents}]
+\cs{tableofcontents}
+\end{definition}
+This command displays the book's table of contents. Note that it
+has a different effect if used in an imported article.
+
+\begin{definition}[\DescribeMacro{\mainmatter}]
+\cs{mainmatter}
+\end{definition}
+Use this command to switch to the book's main matter. This will 
+switch the chapter numbering back on, reset the page numbering to
+Arabic and set up the main page style.
+
+\begin{definition}[\DescribeMacro{\part}]
+\cs{part}\oarg{short title}\marg{title}
+\end{definition}
+If used in the main part of the book, this command will start a
+new part and issue a clear double page. Note that this command
+has a different effect if used in an imported article.
+
+\begin{definition}[\DescribeMacro{\addtocpart}]
+\cs{addtocpart}\marg{title}
+\end{definition}
+This adds \meta{title} to the table of contents, issues a clear
+double page, but doesn't display any text or affect the part
+numbering.
+
+\begin{definition}[\DescribeMacro{\chapter}]
+\cs{chapter}\oarg{short title}\marg{title}
+\end{definition}
+This command may be used in the main body of the book but will 
+cause an error if used within an imported article.
+
+\begin{definition}[\DescribeMacro{\section}]
+\cs{section}\oarg{short title}\marg{title}
+\end{definition}
+\begin{definition}[\DescribeMacro{\subsection}]
+\cs{subsection}\oarg{short title}\marg{title}
+\end{definition}
+\begin{definition}[\DescribeMacro{\subsubsection}]
+\cs{subsubsection}\oarg{short title}\marg{title}
+\end{definition}
+\begin{definition}[\DescribeMacro{\paragraph}]
+\cs{paragraph}\oarg{short title}\marg{title}
+\end{definition}
+\begin{definition}[\DescribeMacro{\subparagraph}]
+\cs{subparagraph}\oarg{short title}\marg{title}
+\end{definition}
+These commands may be used in the main body of the book or within
+imported articles. In the main body of the book they need to be
+within a chapter and will be numbered according to the chapter.
+
+\begin{definition}[\DescribeMacro{\appendix}]
+\cs{appendix}
+\end{definition}
+If used in the main body of the book, this will switch to the
+book appendices. Subsequent \cs{chapter} commands will produce the
+appendices. If used within an imported article, it will switch
+to the article appendices and won't affect the main part of
+the book.
+
+\begin{definition}[\DescribeEnv{jmlrpapers}]
+\cs{begin}\{jmlrpapers\}\\
+\meta{imported papers}\\
+\cs{end}\{jmlrpapers\}
+\end{definition}
+This environment must be used when importing articles. Within this
+environment, use the following commands to import articles:
+\begin{definition}[\DescribeMacro{\importpubpaper}]
+\cs{importpubpaper}\oarg{label}\marg{directory}\marg{file}\marg{pages}
+\end{definition}
+This imports an article that has already been published elsewhere.
+The \meta{pages} argument should be the page range from the
+\emph{previously published} version of this article. This may not
+necessarily be the same as the page range of the article in the book.
+The directory the imported file is contained in is is given by
+\meta{directory}. If the file is in the same directory as the 
+book, use a dot. The file name is given by \meta{file}. The article
+is also given a label, specified by the optional argument. This
+is \meta{directory}/\meta{file} by default. The label is used
+as a prefix to labels in the imported articles which ensures that
+cross-references are unique. You can also use this label to reference
+the article elsewhere in the book (see \sectionref{sec:bkcrossref}).
+
+\begin{definition}[\DescribeMacro{\importpaper}]
+\cs{importpaper}\oarg{label}\marg{directory}\marg{file}
+\end{definition}
+Imports an article that is being published in the book. The 
+arguments are the same as above except that there is no page
+range (the page range is computed automatically).
+
+\begin{definition}[\DescribeMacro{\importarticle}]
+\cs{importarticle}\oarg{label}\marg{directory}\marg{file}
+\end{definition}
+This imports an article that hasn't been published elsewhere. There
+is no page range, but the other arguments are the same as
+those describe above for \cs{importpubpaper}.
+
+Example: to import a previously published paper 
+\texttt{paper1/paper1.tex} and an unpublished paper
+\texttt{paper2/paper2.tex}:
+\begin{verbatim}
+\begin{jmlrpapers}
+\importpubpaper{paper1}{paper1}{23--45}
+\importarticle{paper2}{paper2}
+\end{jmlrpapers}
+\end{verbatim}
+
+\subsubsection{Two Column Articles in a One Column Book}
+
+The \clsfmt{jmlrbook} class column style will override the column style
+of the imported articles. You can use the \clsopt{twocolumn} class
+option to \clsfmt{jmlrbook}, but this will make the whole book with
+two columns. If you only want the imported articles to be in two
+columns, then put \ics{twocolumn} in the \env{jmlrpapers}
+environment to switch on two column formatting. The effect will be
+localised to the end of the environment.
+
+\subsubsection{Cross-Referencing}
+\label{sec:bkcrossref}
+
+You can cross-reference other parts of the book using the
+standard \cs{label}/\cs{ref} mechanism, but if you want to
+reference something within an imported article, you must prefix
+the label with the label given when importing the article (that
+is, the optional argument to \ics{importpubpaper},
+\ics{importpaper} or \cs{importarticle}).  For example, if you
+want to reference a section labeled \texttt{sec:results} in the
+imported paper \texttt{paper1/paper1.tex}, you would need to do:
+\begin{verbatim}
+see Section~\ref{paper1/paper1sec:results}
+\end{verbatim}
+or
+\begin{verbatim}
+see \sectionref{paper1/paper1sec:results}
+\end{verbatim}
+
+In addition to the commands described in \sectionref{sec:crossref},
+the \clsfmt{jmlrbook} class also provides the following
+cross-referencing commands:
+
+\begin{definition}[\DescribeMacro{\chapterref}]
+\cs{chapterref}\marg{label list}
+\end{definition}
+Reference a chapter or chapters. The argument is a comma-separated
+list of labels.
+
+\begin{definition}[\DescribeMacro{\articlepageref}]
+\cs{articlepageref}\marg{label}
+\end{definition}
+This displays the starting page number of the article whose label
+is given by \meta{label}. Note that this must a single label, not
+a list. For example:
+\begin{verbatim}
+An interesting article starts on page~\articlepageref{paper1/paper1}
+\end{verbatim}
+
+\begin{definition}[\DescribeMacro{\articlepagesref}]
+\cs{articlepagesref}\marg{label}
+\end{definition}
+This displays the page range of the article whose label is
+given by \meta{label}. Again, this must be a single label, not a
+list. This page range is unrelated to the \meta{pages} argument of
+\ics{importpubarticle}.
+
+\begin{definition}[\DescribeMacro{\articletitleref}]
+\cs{articletitleref}\marg{label}
+\end{definition}
+This displays the short title for the article whose label is
+given by \meta{label}. Again, this must be a single label, not a 
+list.
+
+\begin{definition}[\DescribeMacro{\articleauthorref}]
+\cs{articleauthorref}\marg{label}
+\end{definition}
+This displays the author list for the article whose label is
+given by \meta{label}. Again, this must be a single label, not a 
+list.
+
+\subsection{Altering the Layout of the Main Title Page}
+\label{sec:modifytitle}
+
+\begin{definition}[\DescribeMacro{\titlebody}]
+\cs{titlebody}
+\end{definition}
+The main body of the book's title page is given by the command
+\cs{titlebody}. Within the definition of this command, you can
+use:
+\begin{definition}[\DescribeMacro{\SetTitleElement}]
+\cs{SetTitleElement}\marg{element}\marg{pre}\marg{post}
+\end{definition}
+where \meta{element} can be: \texttt{title}, \texttt{volume},
+\texttt{issue}\footnote{The default title page layout doesn't use
+\texttt{issue}, but if required it can be set with \ics{issue}\marg{number}},
+\texttt{subtitle}, \texttt{logo}, \texttt{team}, \texttt{author},
+\texttt{date}, \texttt{productioneditor}. The \meta{pre} and
+\meta{post} arguments specify what to do before and after the
+element.  Note that \cs{SetTitleElement} does nothing if that
+element hasn't been set. For example, if \cs{volume} has been
+omitted or \verb|\volume{}| is used, then
+\begin{verbatim}
+\SetTitleElement{volume}{\mainvolumefont}{\postmainvolume}
+\end{verbatim}
+will do nothing (so you don't end up with \textbf{Volume :}).
+
+\begin{definition}[\DescribeMacro{\IfTitleElement}]
+\cs{IfTitleElement}\marg{element}\marg{true part}\marg{false part}
+\end{definition}
+This does \meta{true part} if \meta{element} has been set
+otherwise it does \meta{false part}. For example, 
+\cs{postmainvolume} is defined as:
+\begin{verbatim}
+\newcommand{\postmainvolume}{%
+  \IfTitleElement{subtitle}{}{:}\par\relax
+}
+\end{verbatim}
+This means that it will only print a colon after the volume
+number if the subtitle has been set.
+
+The default definition of \cs{titlebody} is:
+\begin{verbatim}
+\newcommand{\titlebody}{%
+  \SetTitleElement{title}{\maintitlefont}{\postmaintitle}%
+  \SetTitleElement{volume}{\mainvolumefont}{\postmainvolume}%
+  \SetTitleElement{subtitle}{\mainsubtitlefont}{\postmainsubtitle}%
+  \SetTitleElement{logo}{\mainlogofont}{\postmainlogo}%
+  \SetTitleElement{team}{\mainteamfont}{\postmainteam}%
+  \SetTitleElement{author}{\mainauthorfont}{\postmainauthor}%
+  \SetTitleElement{productioneditor}{\mainproductioneditorfont}%
+    {\postmainproductioneditor}%
+}
+\end{verbatim}
+
+\subsection{Potential Pitfalls}
+
+The \cls{combine} class and \sty{hyperref} package are
+individually both easily broken by packages that change certain
+internals and they don't ordinarily work together. The
+\clsfmt{jmlrbook} class applies patches to the internal referencing
+mechanism to make them work together, but it's a fairly fragile
+alliance. Some packages are known to break it, for example
+\sty{subfig}, \sty{pdfpages} and \sty{geometry}. This is why the
+\clsfmt{jmlr} class checks for known problem packages and generates an
+error message to dissuade authors from using them. It's likely that
+there are other packages that may cause a problem and, as they are
+found, they will be added to the check list. Also, it's possible for
+an author to disable the package checking mechanism if they are
+determined to use a particular package.
+
+In the event that an article has loaded a problem package, the
+editors will have to decide whether to ask the author to change
+the article so that it doesn't cause a problem or to make the changes
+themselves or to find a way of fudging things to get it to work. It
+depends on the level of \LaTeX\ expertise amongst the editors and
+the time available.
+
+Another problem that can arise is when different articles use
+packages that conflict. For example, one article uses package
+\styfmt{foo} and another uses package \styfmt{bar}. Each article compiles
+okay as a stand-alone article, but when combined \styfmt{foo} and
+\styfmt{bar} conflict. Another problem may occur when articles load the
+same package but with conflicting package options.  To reduce the
+chance of this occurring, the \clsfmt{jmlr} class loads some commonly
+used packages. For example, it loads the \sty{algorithm2e}
+package with the \pkgoptfmt{algo2e} and \pkgoptfmt{ruled} options and
+provides the \env{algorithm} environment in addition to 
+\sty{algorithm2e}'s \env{algorithm2e} environment.
+
+Articles that use different input encodings can also cause a
+problem. For example, if one article uses \texttt{utf8} and another
+uses \texttt{latin1}. If the authors have directly entered a
+diacritic or ligature, such as \'e or \ae, instead of using a
+\LaTeX\ command, such as \cs{'e} or \cs{ae}, then
+this will cause an error on compiling the book.\footnote{and may also
+cause a problem for the editor's text editor.} The choice then is to
+either change all non-keyboard characters with the appropriate
+\LaTeX\ commands or to use the \cs{inputencoding} command, supplied
+by the \sty{inputenc} package, to switch the encoding at the start
+of each article.
+
+Authors who use \cs{nonumber} within an \env{equation} environment
+can mess up the hyperlinks. Remove \cs{nonumber} and change the
+equation environment to \cs{[} \ldots\ \cs{]} (or just make it a
+numbered equation).
+
+If the article changes the graphics path using \cs{graphicspath},
+\clsfmt{jmlrbook} won't find the graphics if the imported articles
+aren't in the same directory as the book.
+
+\subsection{Creating the Book Using \appfmt{makejmlrbook}}
+\label{sec:makejmlrbook}
+
+The \app{makejmlrbook} Perl script is designed to make it
+easier to produce the print and online versions of the book, as
+well as producing an HTML index of all the imported articles with
+links to the abstracts and PDFs of individual articles. Note that
+for it to work properly, the articles must be imported using
+\cs{importarticle}, \cs{importpaper} or \cs{importpubpaper}, and
+the imported articles must use the \clsfmt{jmlr} class.
+
+On UNIX style systems, the script can be invoked from a terminal
+using:
+\begin{prompt}
+makejmlrbook \oarg{options} \meta{filename}
+\end{prompt}
+If that doesn't work, or you aren't using a UNIX style operating
+system, the script can be invoked from a terminal or command
+prompt using:
+\begin{prompt}
+perl makejmlrbook \oarg{options} \meta{filename}
+\end{prompt}
+The mandatory argument \meta{filename} is the name of the master
+\TeX\ file containing the book. It must use the \clsfmt{jmlrbook}
+class. You may omit the \texttt{.tex} extension. For example, if
+the file is called \texttt{proceedings.tex}, you can call 
+\app{makejmlrbook} as follows:
+\begin{verbatim}
+perl makejmlrbook proceedings
+\end{verbatim}
+This will create the files \texttt{proceedings-print.pdf} (the
+print version) and \texttt{proceedings-online.pdf} (the online
+version). It will also create a directory (folder) called 
+\texttt{html} in which the HTML files and individual article PDFs
+will be placed.
+
+The options to \app{makejmlrbook} are as follows:
+\begin{description}
+\item[--online] Generate the color on-line version (default).
+\item[--noonline] Don't generate the color on-line version.
+\item[--print] Generate the grayscale print version (default).
+\item[--noprint] Don't generate the grayscale print version.
+\item[--html] Generate the HTML files and the individual article
+PDFs (default).
+\item[--nohtml] Don't generate the HTML files and the individual
+article PDFs.
+\item[--logourl \meta{url}] Make the logo on the HTML index page link
+to \meta{url}.
+\item[--batchtex] Run \TeX\ in batch mode.
+\item[--nobatchtex] Don't run \TeX\ in batch mode (default).
+\item[--quieter] Reduce chatter to STDOUT (doesn't eliminate
+all messages). This also runs \TeX\ in batch mode.
+\item[--noquieter] Don't reduce messages to STDOUT (default).
+\item[--version] Display the version number and exit.
+\item[--help] List all available options.
+\end{description}
+
+There are also some more advanced options, but these haven't been
+fully tested:
+\begin{description}
+\item[--latexapp \meta{name}] Application used to call \LaTeX.
+Defaults to \qt{pdflatex}.
+\item[--latexopt \meta{string}] Options to pass to \LaTeX.
+\item[--format \meta{string}] Output format (defaults to \qt{pdf}).
+This may need to be changed if you change the \LaTeX\ application.
+\item[--bibtexapp \meta{name}] Application use to process the
+bibliography. Defaults to \qt{bibtex}.
+\item[--bibtexopt \meta{string}] Options to pass to Bib\TeX.
+\end{description}
+
+\StopEventually{\clearpage\phantomsection
+  \addcontentsline{toc}{section}{Index}\PrintIndex
+}
+
+\end{document}

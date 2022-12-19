@@ -1,0 +1,17 @@
+\begin{omgroup}[id=sec.contfuncs]{Continuous Functions}
+\begin{module}[id=continuous]
+\importmodule[\backmods{functions}]{functions}
+\importmodule[\backmods{reals}]{reals}
+\symdef{continuousfunctions}[2]{\mathcal{C}^0(#1,#2)}
+\abbrdef{ContRR}[2]{\continuousfunctions\RealNumbers\RealNumbers}
+\begin{definition}
+  A function $\fun{f}\RealNumbers\RealNumbers$ is called {\defin{continuous}} at
+  $\inset{x}\RealNumbers$, iff for all $\epsilon>0$ there is a $\delta>0$, such that
+  $\absval{f(x)-f(y)}<\epsilon$ for all $\absval{x-y}<\delta$
+\end{definition}
+\end{module}
+\end{omgroup}
+%%% Local Variables: 
+%%% mode: LaTeX
+%%% TeX-master: "paper"
+%%% End: 

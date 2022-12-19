@@ -1,0 +1,142 @@
+% mangletex (11 May 1992) run at 19:39 BST Monday 29 June 1992
+\message{<Paul Taylor's Proof Boxes, 29 June 1992>}%%  
+%%=======================================================
+%%  There is now a PROTOTYPE proof-box macro mackage for TRIAL only.
+%%  The syntax and implementation may change.
+%%  It is "boxproof.tex" in the TeX system (so just "\input boxproof").
+%%  There are some examples in ~pt/utilities/misctex/proofboxeg.tex and
+%%  proofboxeg1.tex.
+%%  
+%%  Syntax as follows:
+%%  each line is of the form
+%%     <all/exists_variables> <latex_label> \: <formula> \= <reason> \\
+%%  where 
+%%     <all/exists_variables> is something like "x,y" - its for variables
+%%        declared at the beginning of all-intro and exists-elim boxes
+%%     <latex_label> is a command "\label{fred}" which defines "fred" to
+%%        be the label text, which may be used anywhere as "\ref{fred}"
+%%        - see LaTeX book.
+%%     <formula> is the proposition being asserted
+%%     <reason> is "\intro\land(\ref{john},\ref{mary})"
+%%%  note that the parts are separated by "\:", "\=" and "\\"; these correspond
+%%  to "let identifier = expression : type" in a declarative language.
+%%  
+%%  Proof boxes are "wrapped up" as follows:
+%%  the whole proof in "\begin{proofbox}...\end{proofbox}"
+%%  single-column boxes (all-intro, implies-intro, exists-elim) in "\[...\]"
+%%  double-column boxes are of two kinds:
+%%     separate (and-intro) "\(...\*...\)"
+%%     stuck together (or-elim) "\(...\+...\)"
+%%  
+%%%  At the moment you may only have pairs of parallel boxes, and the width is
+%%%  split in two; later there will be options for mutiple boxes and adjustable
+%%  widths.
+%%  
+%%  Comments please.
+%%  
+%%  WARNING: this is for temporary use only at the moment.
+%%=======================================================
+\catcode`\@=11 \let\plaint@bplus\+\let\+\relax\newcount\prooflineinbox
+\newcount\prooflineinnextbox\newcount\prooflinetotal\newcount\pr@@flinetotal
+\newcount\pr@@flinemax\newcount\proofboxesacross\newdimen\prooflinenowidth
+\newdimen\proofboxformulawidth\newdimen\proofboxrulebreadth\newdimen
+\proofboxrulespace\newdimen\proofboxsurround\newdimen\proofboxmargin\newdimen
+\pr@@fboxhadjust\newdimen\proofboxintercol\newif\ifinproofbox\newif
+\ifleftmostproofbox\newif\ifparallelisand\newskip\proofboxlefttabskip\newskip
+\proofboxrighttabskip\newskip\proofboxbaselineskip\def\runningproofline{%
+\number\prooflinetotal}\def\nestedproofline{\ifinproofbox\enclosingproofline.%
+\fi\number\prooflineinbox}\def\enclosingproofline{}\prooflinenowidth=1em
+\proofboxformulawidth=15em \proofboxrulebreadth=.03em \proofboxrulespace=.2em
+\proofboxsurround=.5em \proofboxlefttabskip=1em \proofboxrighttabskip=1em plus
+1 fil \proofboxbaselineskip=1.8em \proofboxmargin=5em \proofboxintercol=3em
+\def\proofboxleftside{\leaders\hrule width\proofboxrulebreadth\vfill}\def
+\proofboxrightside{\leaders\hrule width\proofboxrulebreadth\vfill}\def
+\proofboxorseparator{\leaders\hrule width\proofboxrulebreadth\vfill}\def
+\proofboxtopside{\leaders\vrule height\proofboxrulebreadth depth\z@\hfill}%
+\def\proofboxbottomside{\leaders\vrule height\proofboxrulebreadth depth\z@
+\hfill}\let\theproofline\runningproofline\def\proofboxmakelabel#1{{%
+\ifleftmostproofbox\setbox0=\hbox{\hss\the\scriptfont1 #1}\ifdim\wd0<%
+\prooflinenowidth\setbox0=\hbox to\prooflinenowidth{\unhbox0}\fi\box0 \fi}}%
+\def\proofboxnonumbers{\def\proofboxmakelabel##1{}} \def\proofbox{\global
+\prooflinetotal=0 \ifvmode\else\vtop\fi\bgroup\let\[\intofullpr@@fbox\let\(%
+\intohalfpr@@fbox\let\:\pr@@fboxcolon\let\=\pr@@fboxequals\let\proofbox
+\intofullpr@@fbox\proofboxesacross=1 \pr@@fb@x}\let\pr@@fb@x\csname\let
+\endpr@@fb@x\endcsname\def\endproofbox{\endpr@@fb@x\proofboxmargin\z@\vskip1%
+ex \unvbox9 \vskip1ex \egroup}\def\intofullpr@@fbox{\pr@@ffirst\pr@@fb@x}\def
+\+#1{<"7C#1}\def\outofpr@@fbox{\endpr@@fb@x\z@\z@\endpr@@ffirst
+\proofboxleftside\pr@@fvalign\putpr@@fedge\proofboxleftside\putpr@@f
+\putpr@@fedge\proofboxrightside\endpr@@fvalign}\def\intohalfpr@@fbox{%
+\pr@@ffirst\advance\proofboxformulawidth-\proofboxintercol\advance
+\proofboxformulawidth-\proofboxsurround\divide\proofboxformulawidth2 \pr@@fb@x
+}\def\pr@@fvalign{m}\def\orpr@@ffirst{\endpr@@fb@x\z@{.5\proofboxintercol}%
+\endpr@@ffirst\proofboxleftside\advance\proofboxformulawidth-%
+\proofboxintercol\advance\proofboxformulawidth-\proofboxsurround\divide
+\proofboxformulawidth2 \let\*\orpr@@fmore\let\+\orpr@@fmore\let\]\orpr@@flast
+\let\)\orpr@@flast\let\endproof\orpr@@flast\pr@@fvalign\putpr@@fedge
+\proofboxleftside\putpr@@f\putpr@@forsep\proofboxorseparator\pr@@fb@x}\def
+\putpr@@forsep{o}\def\orpr@@fmore{\endpr@@fb@x{.5\proofboxintercol}{.5%
+\proofboxintercol}\putpr@@f\putpr@@forsep\proofboxorseparator\pr@@fb@x}\def
+\putpr@@fedge{n}\def\orpr@@flast{\endpr@@fb@x{.5\proofboxintercol}\z@
+\putpr@@f\putpr@@fedge\proofboxrightside\endpr@@fvalign}\def\putpr@@f{t}\def
+\endpr@@fvalign{h}\def\andpr@@ffirst{\endpr@@fb@x\z@\z@\endpr@@ffirst
+\proofboxleftside\advance\proofboxformulawidth-\proofboxintercol\advance
+\proofboxformulawidth-\proofboxsurround\divide\proofboxformulawidth2 \let\*%
+\andpr@@fmore\let\+\andpr@@fmore\let\]\andpr@@flast\let\)\andpr@@flast\let
+\endproof\andpr@@flast\pr@@fvalign\putpr@@fedge\proofboxleftside\putpr@@f
+\putpr@@fedge\proofboxrightside\pr@@fboxhadjust=\proofboxintercol\advance
+\pr@@fboxhadjust-\dimen8 \advance\pr@@fboxhadjust-2\dimen2 \pr@@fb@x}\def
+\la@math{a}\def\andpr@@fmore{\endpr@@fb@x\z@\z@\hadjustandpr@@f\putpr@@fedge
+\proofboxleftside\putpr@@f\putpr@@fedge\proofboxrightside\pr@@fboxhadjust=%
+\proofboxintercol\advance\pr@@fboxhadjust-\dimen8 \advance\pr@@fboxhadjust-2%
+\dimen2 \pr@@fb@x}\def\la@ket{r}\def\andpr@@flast{\endpr@@fb@x\z@\z@
+\hadjustandpr@@f\putpr@@fedge\proofboxleftside\putpr@@f\putpr@@fedge
+\proofboxrightside\endpr@@fvalign}\def\hadjustandpr@@f{\advance
+\pr@@fboxhadjust-\dimen6 \ifdim\pr@@fboxhadjust<\proofboxsurround
+\pr@@fboxhadjust=\proofboxsurround\fi\hrule width\pr@@fboxhadjust height\z@
+depth\z@\cr}\def\pr@@fboxcr{\cr}\def\pr@@fboxequals{&}\def\pr@@fboxcolon{&}%
+\ifnum\pr@@fb@x\pr@@fvalign\putpr@@forsep\putpr@@fedge\putpr@@f
+\endpr@@fvalign\endpr@@fb@x<13\let\pr@@fmtb\relax\else\def\pr@@fmtb#1{}\fi
+\def\pr@@ffirst{\omit\prooflineinnextbox=\prooflineinbox\edef
+\enclosingproofline{\theproofline}%% its line label
+\pr@@flinetotal=\prooflinetotal\let\endproofbox\outofpr@@fbox
+\proofboxesacross=1 \let\+\orpr@@ffirst\let\*\andpr@@ffirst\let\)%
+\outofpr@@fbox\let\]\outofpr@@fbox\inproofboxtrue}\def\la@bra{y}\def
+\endpr@@ffirst#1{\setbox0=\vbox{#1}\global\advance\dimen6\wd0 \advance\dimen6%
+\proofboxsurround\hskip\dimen6 plus 1fil \global\count@=\pr@@flinetotal&\omit
+\setbox8=\hbox\bgroup\pr@@flinetotal=\count@\hskip-\dimen6 \pr@@flinemax=%
+\prooflinetotal\global\prooflinetotal=\pr@@flinetotal\leftmostproofboxfalse
+\inproofboxtrue}\def\pr@@fvalign{\valign\bgroup\vfil##&##&##\vfil&##&##\vfil
+\cr}\def\endpr@@fvalign{\vfil&\vfil&\vfil&\vfil&\vfil\cr\egroup\setbox0=%
+\lastbox\setbox0=\vbox{\unvbox0\unskip\setbox5=\lastbox\unskip\setbox4=%
+\lastbox\unskip\setbox3=\lastbox\unskip\setbox2=\lastbox\unskip\setbox1=%
+\lastbox\global\dimen9=\ht5 \global\advance\dimen9\dp5\global\advance\dimen9%
+\ht4\global\advance\dimen9\dp4\global\dimen4=\ht1 \global\advance\dimen4\dp1%
+\global\advance\dimen4\ht2\global\advance\dimen4\dp1}\global\advance\dimen8%
+\dimen2\kern-\dimen8 \global\prooflinetotal=\pr@@flinemax\egroup\dimen0=\dp8
+\advance\dimen0-\dimen4 \vtop{\setbox0=\null\ht0=\dimen4 \dp0=-\dimen4 \box0%
+\nointerlineskip\box8}\ifdim\dimen0<\z@\dimen0\z@\fi\advance\dimen0-\dimen9
+\vadjust{\vskip-\dimen0}&\omit\global\advance\dimen8\proofboxsurround\hskip
+\dimen8 plus 1 fil \cr}\def\putpr@@fedge#1{\span\omit\span\omit\span\omit
+\span\omit\setbox0=\vbox{#1}\global\dimen2=\wd0 \unvbox0\vfil\cr}\def
+\la@displ{e}\def\putpr@@forsep#1{&\multispan3 \setbox0=\vbox{#1}\global\dimen
+2=\wd0 \unvbox0 &\vfil\cr\noalign{\kern-\dimen2}}\def\putpr@@f{\hbox to\dimen
+5{\proofboxtopside}&\advance\dimen4\proofboxrulespace\vskip\dimen4 plus 1fil&%
+\vskip-\dimen4 \unvbox9 \vskip-\dimen9&\advance\dimen9\proofboxrulespace
+\vskip\dimen9 plus 1 fil&\hbox to\dimen5{\proofboxbottomside}\cr}\ifnum
+\pr@@fb@x\la@bra\la@displ\la@math\la@ket\endpr@@fb@x\+A\let\pr@@fytb\relax
+\else\def\pr@@fytb#1{}\fi\def\pr@@fb@x{\global\setbox9=\vtop\bgroup
+\nointerlineskip\global\prooflineinbox=0 \baselineskip=\proofboxbaselineskip
+\tabskip=\z@\let\\\pr@@fboxcr\halign\bgroup\hskip\proofboxrulespace plus 1fil%
+\let\(\la@math\let\[\la@displ\global\advance\prooflineinbox1 \global\advance
+\prooflinetotal1 \edef\@currentlabel{\theproofline}$##\proofboxmakelabel
+\@currentlabel$&\hskip\proofboxlefttabskip\let\(\la@math\let\[\la@displ$%
+\displaystyle##$\hskip\proofboxrighttabskip&\let\(\la@math\let\[\la@displ$##$%
+\hskip\proofboxrulespace plus1fil \cr}\def\endpr@@fb@x#1#2{\crcr\omit\hskip#1
+plus 1 fil&\omit\hskip\proofboxformulawidth plus 1fil&\omit\hskip#2 plus 1fil%
+\cr\egroup\setbox0=\lastbox\unskip\global\dimen5=\wd0 \setbox0=\hbox{\unhbox0%
+\unskip\setbox0=\lastbox\global\dimen8=\wd0\unskip\setbox0=\lastbox\global
+\dimen7=\wd0\unskip\setbox0=\lastbox\global\dimen6=\wd0\unskip}\setbox0=%
+\lastbox\global\dimen9=\dp0 \nointerlineskip\pr@@fytb{\box0}\egroup\global
+\dimen4=\ht9 }\inproofboxfalse\leftmostproofboxtrue\let\la@bra\(\let\la@ket\)%
+\def\la@math{\la@bra\let\)\la@ket}\def\la@displ{\la@bra\displaystyle\let\]%
+\la@ket}\let\+\plaint@bplus\catcode`\@=12

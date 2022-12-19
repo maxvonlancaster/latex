@@ -1,0 +1,25 @@
+\documentclass[12pt,a4paper]{article} % <voss@perce.de>
+\usepackage{pstricks}
+\usepackage{pst-map3d}
+\topmargin=-0.75in
+\pagestyle{empty}
+\begin{document}
+\section*{China}
+\begin{verbatim}
+\psset{unit=1,path=../data}
+\begin{pspicture*}(-7,-6.5)(7,6.5)%
+\psset{unit=2}
+    \WorldMapThreeD[PHI=35,THETA=100,rivers=false]
+\end{pspicture*}
+\end{verbatim}
+
+\begin{center}
+\psset{path=../data}
+\begin{pspicture*}(-7,-6.5)(7,6.5)%
+\psset{unit=2}
+    \WorldMapThreeD[PHI=35,THETA=100,rivers=false]
+\end{pspicture*}
+\end{center}
+
+\end{document}
+

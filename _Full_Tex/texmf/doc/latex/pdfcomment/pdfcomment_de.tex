@@ -1,0 +1,499 @@
+\documentclass[a4paper]{ltxdoc}%
+\usepackage[german]{babel}%
+\usepackage[latin1]{inputenc}%
+\usepackage[T1]{fontenc}%
+\usepackage{lmodern}%
+\usepackage{bera}%
+\usepackage{textcomp}%
+\usepackage{microtype}%
+\usepackage{attachfile}%
+\usepackage{ltxdocext}%
+\usepackage{marginnote}%
+\usepackage[svgnames,rgb]{xcolor}%
+\usepackage{amsmath,array}%
+\usepackage{jkdocde}%
+\usepackage{pdfcomment}%
+%
+\def\LinkExMath{\href{http://mirror.ctan.org/macros/latex/contrib/pdfcomment/doc/example_math_markup.pdf}{\texttt{example\_math\_markup.pdf}}}
+\def\LinkEx{\href{http://mirror.ctan.org/macros/latex/contrib/pdfcomment/doc/example.pdf}{\texttt{example.pdf}}}
+\def\filename{pdfcomment.sty}%
+\def\XeLaTeX{Xe\LaTeX}%
+%
+\makeatletter%
+\renewcommand\tableofcontents%
+{%
+  %\section*{\contentsname}%
+  \@mkboth{%
+  \MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
+  \@starttoc{toc}%
+}%
+%
+\CodelineIndex%
+\renewcommand{\arg}[1]%
+{%
+ {\ttfamily\string{}\meta{#1}{\ttfamily\string}}%
+ \index{#1=\string\ttt{#1}, Argument}\index{Argument>#1=\string\ttt{#1}}%
+}%
+\renewcommand{\oarg}[1]%
+{%
+ {\ttfamily[%]
+  }\meta{#1}{\ttfamily%[
+ ]}%
+ \index{#1=\string\ttt{#1}, optionales Argument}%
+ \index{Argument, optional>#1=\string\ttt{#1}}%
+}%
+\renewcommand\env{\name@idx{Umgebung}}%
+\renewcommand*{\file}[1]{%
+ {\ttfamily#1}%
+ \index{#1=\string\ttt{#1}}\index{Datei>#1=\string\ttt{#1}}%
+}%
+\newcommand\styleoption{\name@idx{Styleoption}}%
+\newcommand\stylename{\name@idx{Dokumentenstyle}}%
+\def\name@idx#1#2{%
+ {\ttfamily#2}%
+ \index{#2\space#1=\string\ttt{#2}\space#1}\index{#1>#2=\string\ttt{#2}}%
+}%
+\newcommand*\margcs[1]{\marginnote{\raggedleft\scriptsize #1}}%
+\newcommand*\package[1]{\texttt{#1}\index{#1=\string\ttt{#1}}}%
+\newcommand*\mco[1]{\mbox{\LANGLE\itshape#1\RANGLE}\index{#1, Klassenoptionwert}\index{Klassenoptionwert>#1}}%
+%
+\renewcommand\@biblabel[1]{\makebox[1.5cm][l]{[#1]}}%
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.2em}{2.3em}}%
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{2.4em}{3.7em}}%
+\makeatother%
+%
+\setlength\parindent{0pt}%
+%
+\hypersetup{pdfauthor={Josef Kleber},pdftitle={Ein benutzerfreundliches Interface zu PDF-Kommentaren},pdfsubject={Dokumentation für den LaTeX style \filename}}
+%
+\begin{document}
+\bibliographystyle{alphadin}
+\title{\filename}%
+\Subtitle{Ein benutzerfreundliches Interface zu PDF-Kommentaren}%
+\author{Josef Kleber}
+\Fileversion{v1.6}
+\Refline{\href{mailto:pdfcomment.sty@pdfcomment.josef-kleber.de}{\texttt{pdfcomment.sty@pdfcomment.josef-kleber.de}}\\\href{http://pdfcomment.josef-kleber.de}{\texttt{http://pdfcomment.josef-kleber.de}}}%
+\maketitle
+\Headline{Zusammenfassung}%
+\begin{abstract}
+\texttt{pdflatex}\index{pdflatex} bietet seit jeher den Befehl \cmd\pdfannot{} für das Einfügen beliebiger PDF annotations. Allerdings in einer Form, in der zusätzliche Kenntnisse der PDF-Referenz unabdingbar sind. \substyle{\filename} ist eine Antwort auf die in Newsgroups -- von Zeit zu Zeit -- auftauchende Frage, wie man die Kommentarfunktion des \texttt{Adobe Reader} nutzen könnte. Zumindest aus dem \LaTeX{}-Code heraus, bietet \substyle{\filename} eine bequeme und nutzerfreundliche Möglichkeit PDF annotations in PDF-Dateien zu nutzen. Seit Version v1.1 unterstützt \texttt{\filename{}} auch:
+
+\medskip
+\noindent\hfill\texttt{\LaTeX{} $\rightarrow$ \texttt{dvips} $\rightarrow$ \texttt{ps2pdf}, \LaTeX{} $\rightarrow$ \texttt{dvipdfmx}\footnote{nur mit der Styleoption \texttt{dvipdfmx}} und \XeLaTeX}.\hfill
+\medskip
+
+Leider ist die Unterstützung der PDF annotations durch die PDF-Viewer teilweise nur sehr eingeschränkt bzw. gar nicht vorhanden. Der Referenz-Viewer für die Entwicklung dieses Pakets ist \texttt{Adobe Reader}.
+
+Falls Sie diesen Kommentar \pdfcomment[author={Josef Kleber},subject={Test Kommentar},color=lime,hspace=20pt]{Das ist ein Kommentar} nicht sehen, benutzen Sie definitiv den falschen PDF-Viewer!
+\end{abstract}
+\vfill
+\begin{center}
+\subsubsection*{Benötigte Pakete für die Nutzung von \substyle{\filename}}
+\fbox{\parbox[t]{.8\linewidth}{\small \package{hyperref} (v6.76a [2007/04/09]), \package{zref} (v1.8 [2007/04/22]), \package{xkeyval}, \package{ifpdf}, \package{ifthen}, \package{calc}, \package{marginnote} und die von diesen Paketen aufgerufenen Dateien.}}
+\end{center}
+\vfill
+\clearpage
+\begin{multicols}{2}
+[\section*{\contentsname}
+\setlength{\columnseprule}{.5pt}
+\setlength{\columnsep}{30pt}\small]
+\tableofcontents
+\end{multicols}
+\clearpage
+\section*{Danksagung}
+\Headline{Danksagung}%
+Für Beiträge zur Entwicklung dieses Pakets möchte ich folgenden Personen danken:
+
+\begin{itemize}
+\item \textbf{Alexander Grahn} für das Bereitstellen eines Patchs für andere Treiber
+
+\medskip
+\noindent\hfill\texttt{\LaTeX{} $\rightarrow$ \texttt{dvips} $\rightarrow$ \texttt{ps2pdf}, \LaTeX{} $\rightarrow$ \texttt{dvipdfmx} und \XeLaTeX}.\hfill
+\medskip
+
+\item \textbf{Ulrike Fischer} für das Beantworten meiner dummen Fragen in d.c.t.t. zur Verwirklichung des Avatar- und Style-Systems und vieles mehr.
+
+\item \textbf{Christian Feuersänger} für das Einbringen neuer Ideen in Form von \package{pdfmarginpar.sty} und die Lösung des Druckproblems\footnote{siehe Abschnitt \ref{sec:print}} der PDF annotations und popups. 
+
+\item \textbf{Ross Moore} für das Einbringen von Ideen und Code zur Umsetzung seines eigenen feature requests zur Unterstützung von \texttt{\string\pdfmarkupcomment} im math mode.
+
+\item \textbf{Heiko Oberdiek} ebenfalls für das Beantworten meiner dummen Fragen in d.c.t.t., sowie die Entwicklung dutzender nützlicher Pakete, speziell \file{hyperref.sty}, \file{hycolor.sty} und \file{zref.sty}, die dieses Paket erst ermöglichten.
+
+\item \textbf{Herbert Voß} ebenfalls für das Beantworten meiner dummen Fragen in d.c.t.t.
+\end{itemize}
+
+Außerdem möchte ich folgenden Personen danken für bug reports, feature requests, ...:
+
+Gabriel Cardona, Jin-Hwan Cho, Thomas König, Marc-André Michel, Guillaume Millet, Fritz Moore, Michael Niedermair
+\clearpage
+\section{Optionen}
+\subsection{Globale Styleoptionen}
+\subsubsection[\texttt{final}]{\styleoption{final}}\label{sec:final}
+Mit der Option \texttt{final} versetzt man das Paket in den Final-Modus. Die PDF annotations werden nicht gesetzt und beeinflussen daher auch nicht den Zeilen\-umbruch. 
+\subsubsection[\texttt{draft}]{\styleoption{draft}}\label{sec:draft}
+Mit der Option \texttt{draft} (default) versetzt man das Paket in den Draft-Modus. Die PDF annotations werden daher gesetzt.
+\subsubsection[\texttt{dvipdfmx}]{\styleoption{dvipdfmx}}\label{sec:dvipdfmx}
+Falls Sie für die Erstellung Ihrer Dokumente den Treiber \texttt{dvipdfmx} einsetzen möchten, müssen Sie die Option \texttt{dvipdfmx} benutzen. Die anderen bereits erwähnten Treiber werden automatisch erkannt.
+\subsection{Lokale Optionen}
+Die anschließend vorgestellten Optionen sind für die in den Abschnitten \ref{sec:kommentarumgebungen} und \ref{sec:kommentarbefehle} vorgestellten Befehle anwendbar, allerdings können sie auch als Styleoptionen benutzt werden. Als Styleoptionen besitzen sie globale Wirkung, während sie in Befehlen nur eine lokale Wirkung besitzen und die globalen Optionen nicht überschreiben. 
+
+\subsubsection[\texttt{subject}]{\styleoption{subject}}\label{sec:subject}
+Die Option \styleoption{subject} dient der Festlegung der Überschriften der PDF popup annotations.
+
+\subsubsection[\texttt{author}]{\styleoption{author}}\label{sec:author}
+Die Option \styleoption{author} dient der Festlegung des Verfassers der PDF popup annotations.
+
+\subsubsection[\texttt{opacity}]{\styleoption{opacity}}\label{sec:opacity}
+Die Option \styleoption{opacity} dient der Festlegung der Transparenz der PDF annotations. Die Werte liegen dabei zwischen 0 (transparent) und 1 (nicht transparent, default). Möchten Sie die PDF popup annotations mit Transparenz drucken, funktioniert das nur zuverlässig, falls sie mit der Option \styleoption{open} = \texttt{true} erstellt werden.
+
+\subsubsection[\texttt{color}]{\styleoption{color}}\label{sec:color}
+Die Option \styleoption{color} dient der Festlegung der Farbe der PDF annotations z.\,B. in der Form \{0.34 0.56 0.12\} (RGB). Bei Verwendung des Zusatzpakets \package{xcolor} kann man auch vordefinierte Basisfarbnamen, sowie die zusätzlich verfügbaren optionalen Farbnamen verwenden. Außerdem kann man mit dem Befehl \cmd\definecolor{} eigene benannte Farben definieren. Bitte beachten Sie das beigefügte Beispiel \file{example.tex}.\marginnote{\attachfile[author={Josef Kleber},subject={example.tex},description={Sourcecode: example.tex} ,mimetype={text/plain}, icon={Tag}]{example.tex}} Es bietet einen Überblick über die unterschiedlichen Möglichkeiten zur Festlegung der Farbe.
+
+Grundsätzlich erlaubt die PDF Spezifikation vier unterschiedliche Farbräume, die sich in der Anzahl der Farbwertangaben unterscheiden:
+
+\begin{center}
+\begin{tabular}{cl}
+\# & Farbraum\\
+\hline
+0 & transparent \\
+1 & Grauwert \\
+3 & RGB\\
+4 & CMYK\\
+\end{tabular}
+\end{center}
+
+\subsubsection[\texttt{icolor}]{\styleoption{icolor}}\label{sec:icolor}
+Die Option \styleoption{icolor} dient der Festlegung der bei einigen PDF annotations genutzten sogenannten 'inner color', etwa in Pfeilspitzen oder die Innenfläche der PDF circle annotation. Im Übrigen gelten dieselben Bestimmungen wie bei der Option \styleoption{color}.
+
+\subsubsection[\texttt{icon}]{\styleoption{icon}}\label{sec:icon}
+Die Option \styleoption{icon} dient der Festlegung der Grafik, die für die PDF text annotations benutzt werden sollen. Die folgenden Icons werden in der PDF-Referenz als verbindlich festgelegt:
+
+\bigskip\pdfcommentsetup{author={Josef Kleber},subject={Icon Übersicht},width=17mm}
+\texttt{Comment} \hspace{1em} \pdfcomment[icon=Comment,color=Ivory]{Optionen: icon=Comment,color=Ivory} \hfill \texttt{Key} \hspace{1em} \pdfcomment[icon=Key,color=Khaki]{Optionen: icon=Key,color=Khaki} \hfill \texttt{Note} \hspace{1em} \pdfcomment[icon=Note,color=LavenderBlush]{Optionen: icon=Note,color=LavenderBlush} \hfill \texttt{Help} \hspace{1em} \pdfcomment[icon=Help,color=CornflowerBlue]{Optionen: icon=Help,color=CornflowerBlue}\hspace{20pt}
+
+\bigskip
+
+\hspace*{1cm}\texttt{NewParagraph} \hspace{1em} \pdfcomment[icon=NewParagraph,color=SkyBlue]{Optionen: icon=NewParagraph,color=SkyBlue} \hfill \texttt{Paragraph} \hspace{1em} \pdfcomment[icon=Paragraph,color=SpringGreen]{Optionen: icon=Paragraph,color=SpringGreen} \hfill \texttt{Insert} \hspace{1em} \pdfcomment[icon=Insert,color=PaleTurquoise]{Optionen: Insert,color=PaleTurquoise}\hspace{20pt}\hspace*{1cm}
+
+\bigskip
+Außerdem werden vom \texttt{Adobe Reader} und einigen anderen Viewern auch diese Icons unterstützt:
+
+\bigskip
+
+\texttt{Check} \hspace{1em} \pdfcomment[icon=Check,color=Orchid]{Optionen: icon=Check,color=Orchid} \hfill \texttt{Circle} \hspace{1em} \pdfcomment[icon=Circle,color=LightCyan]{Optionen: icon=Circle,color=LightCyan} \hfill \texttt{Cross} \hspace{1em} \pdfcomment[icon=Cross,color=Bisque]{Optionen: icon=Cross,color=Bisque}\hspace{20pt}
+
+\bigskip
+
+\hspace*{1cm}\texttt{Star} \hspace{1em} \pdfcomment[icon=Star,color=Aquamarine]{Optionen: icon=Star,color=Aquamarine} \hfill \texttt{RightArrow} \hspace{1em} \pdfcomment[icon=RightArrow,color=Gainsboro]{Optionen: icon=RightArrow,color=Gainsboro} \hfill \texttt{RightPointer} \hspace{1em} \pdfcomment[icon=RightPointer,color=Salmon]{Optionen: icon=RightPointer,color=Salmon}\hspace*{1cm}\hspace{20pt}
+
+\bigskip
+
+\hspace*{2.5cm}\texttt{UpArrow} \hspace{1em} \pdfcomment[icon=UpArrow,color=Teal]{Optionen: icon=UpArrow,color=Teal} \hfill \texttt{UpLeftArrow} \hspace{1em} \pdfcomment[icon=UpLeftArrow,color=Magenta]{Optionen: icon=UpLeftArrow,color=Magenta}\hspace*{2.5cm}\hspace{20pt}
+
+\bigskip
+
+\subsubsection[\texttt{deadline}]{\styleoption{deadline}}\label{sec:deadline}
+Die Option \styleoption{deadline} dient der Festlegung einer Frist zur Behebung eines Problems. Die Frist wird an das Ende des Kommentars angefügt, sowie gegebenenfalls - bei entsprechendem Listenstil - auch in die Liste der Kommentare aufgenommen.
+
+\subsubsection[\texttt{open}]{\styleoption{open}}\label{sec:open}
+Die Option \styleoption{open} dient der Festlegung des Öffnungsstatus der PDF popup annotations. Mögliche Werte sind dabei \texttt{true} oder \texttt{false} (Default).
+
+Möchten Sie die PDF popup annotations (mit Transparenz) drucken, funktioniert das nur mit PDF annotations, die mit der Option \styleoption{open} = \texttt{true} erstellt wurden.
+
+\subsubsection[\texttt{hspace}]{\styleoption{hspace}}\label{sec:hspace}
+Die Option \styleoption{hspace} dient der Anpassung des horizontalen Abstands hinter den PDF text annotations, falls der Text nicht durch die PDF text annotations überschrieben werden sollen.
+
+\subsubsection[\texttt{type}]{\styleoption{type}}\label{sec:type}
+Die Option \styleoption{type} dient der Festlegung des jeweiligen Typs der PDF annotation, falls ein Kommentarbefehl mehrere PDF annotations unterstützt:
+
+{\renewcommand{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{1}{c}{Kommentarbefehl} & \multicolumn{1}{c}{mögliche Typen}\\
+\hline
+\cs{pdffreetextcomment} & freetext, callout, typewriter \\
+\cs{pdflinecomment} & line, polyline, polygon \\
+\end{tabular}
+\end{center}}
+
+\subsubsection[\texttt{font}]{\styleoption{font}}\label{sec:font}
+Die Option \styleoption{font} dient der Festlegung der Schriftart in PDF freetext annotations. Möglich sind dabei alle im System installierten Schriften, die keine Leerzeichen im Namen enthalten. Obwohl \texttt{Adobe Reader} diese Schrift als eingebettet kennzeichnet, ist sie das in der Realität nicht und die PDF-Datei enthält nur eine Referenz\footnote{Adobe Acrobat bietet die Möglichkeit Schriften bei der Konvertierung PS $\rightarrow$ PDF nachträglich einzubetten} auf die Schrift (default: Helvetica)! Daher sollte man diese Option nur sehr vorsichtig nutzen und z.\,B. beim Austausch des Dokuments unter mehreren Autoren nur Schriften nutzen, die auf allen beteiligten Computersystemen vorhanden sind. Das sind etwa die sogenannten 'standard 14 fonts'. \pdfcomment[icon=Help,color=blue,open=true,subject={Standard 14 fonts}]{Times-Roman (TiRo), Times-Bold (TiBo), Times-Italic (TiIt), Times-BoldItalic (TiBI), Helvetica (Helv), Helvetica-Bold (HeBo), Helvetica-Oblique (HeOb), Helvetica-BoldOblique (HeBO), Courier (Cour), Courier-Bold (CoBo), Courier-Oblique (CoOb), Courier-BoldOblique (CoBO), ZapfDingbats (ZaDb), Symbol (Symb)}
+
+\subsubsection[\texttt{fontsize}]{\styleoption{fontsize}}\label{sec:fontsize}
+Die Option \styleoption{fontsize} dient der Festlegung der Schriftgröße in PDF freetext annotations.
+
+\subsubsection[\texttt{fontcolor}]{\styleoption{fontcolor}}\label{sec:fontcolor}
+Die Option \styleoption{fontcolor} dient der Festlegung der Schriftfarbe in PDF freetext annotations und erwartet dabei zwingend eine RGB-Farbe. 
+
+\subsubsection[\texttt{line}]{\styleoption{line}}\label{sec:line}
+Die Option \styleoption{line} dient der Festlegung der Koordinaten der Linien bei bestimmten PDF annotations, z.\,B. in der Form \{$x_1$\space$y_1$\space$x_2$\space$y_2$\}. Der Koordinatenursprung liegt dabei in der linken unteren Seitenecke, wobei die angegebenen Zahlen, als die in PDF-Dokumenten üblichen PostScript-Punkte (\LaTeX{}-Einheit: bp (big points)) interpretiert werden.
+
+{\renewcommand{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{ll}
+\multicolumn{1}{c}{Linientyp} & \multicolumn{1}{c}{\# Punkte}\\
+\hline
+Linie & $n = 2$ \\
+Polyline, Polygon & $n > 2$ \\
+Callout Linie & $n = 3$ \\
+\end{tabular}
+\end{center}}
+
+Üblicherweise erfolgt die Angabe der Koordinaten vom Linienanfang zum Linienende. Bei der Callout Linie müssen die Koordinaten vom Linienende bis zum Linienanfang angegeben werden. Beachten Sie dazu bitte das Beispiel \LinkEx!
+
+Zur Vermeidung der Methode 'Versuch und Irrtum' kann man die PDF-Datei mit dem Ghostscript Viewer laden, der in der Lage ist die aktuelle Position des Cursors in der Statuszeile anzuzeigen.
+ 
+\subsubsection[\texttt{linewidth}]{\styleoption{linewidth}}\label{sec:linewidth}
+Die Option \styleoption{linewidth} dient der Festlegung der Liniendicke in PDF annoations.
+
+\subsubsection[\texttt{linebegin}]{\styleoption{linebegin}}\label{sec:linebegin}
+Die Option \styleoption{linebegin} dient der Festlegung des Pfeiltyps am Linienanfang. Die Beispieldatei \LinkEx{} zeigt alle möglichen Pfeiltypen. \pdfcomment[icon=Help,color=blue,open=true,subject={Pfeiltypen}]{/None, /Square, /Circle, /Diamond, /OpenArrow, /ClosedArrow, /Butt (PDF1.5), /ROpenArrow (PDF1.5), /RClosedArrow (PDF1.5), /Slash (PDF1.6)} 
+
+\subsubsection[\texttt{lineend}]{\styleoption{lineend}}\label{sec:lineend}
+Die Option \styleoption{lineend} dient der Festlegung des Pfeiltyps am Linienende.
+
+\subsubsection[\texttt{linesep}]{\styleoption{linesep}}\label{sec:linesep}
+Die Option \styleoption{linesep} dient der Festlegung des horizontalen Abstands der Linie beim Befehl \cs{pdfsidelinecomment}.
+
+\subsubsection[\texttt{borderstyle}]{\styleoption{borderstyle}}\label{sec:borderstyle}
+Die Option \styleoption{borderstyle} dient der Festlegung des Linienstils. Mögliche Werte sind dabei: \styleoption{solid} (default) und \styleoption{dashed}
+
+\subsubsection[\texttt{dashstyle}]{\styleoption{dashstyle}}\label{sec:dashstyle}
+Die Option \styleoption{dashstyle} dient der Festlegung des Strichlinienstils, z.\,B. \{5 3\} (5 Punkte Linie, 3 Punkte Abstand).
+
+\subsubsection[\texttt{bse}]{\styleoption{bse}}\label{sec:bse}
+Die Option \styleoption{bse} dient der Festlegung des 'border style effect'. Mögliche Werte sind dabei: \styleoption{none} (default) und \styleoption{cloudy}
+
+\subsubsection[\texttt{bsei}]{\styleoption{bsei}}\label{sec:bsei}
+Die Option \styleoption{bsei} dient der Festlegung der 'border style effect intensity' (Größe der Wolkenelemente). Die PDF-Referenz empfiehlt dabei Werte zwischen 1 und 2. 
+
+\subsubsection[\texttt{caption}]{\styleoption{caption}}\label{sec:caption}
+Die Option \styleoption{caption} dient der Festlegung des Typs der Linienüberschriften. Mögliche Werte sind dabei: none, inline (default), top
+
+Die beiden Optionen \styleoption{inline} und \styleoption{top} zeigen den Kommentar in der Linie bzw. über der Linie. Bei Verwendung der Option \styleoption{none} erscheint der Kommentar in einer PDF popup annotation. 
+
+\subsubsection[\texttt{captionhoffset}]{\styleoption{captionhoffset}}\label{sec:captionhoffset}
+Die Option \styleoption{captionhoffset} dient der Festlegung eines horizontalen Offsets, d.\,h. einer seitlichen Verschiebung, der Linienüberschrift.
+
+\subsubsection[\texttt{captionvoffset}]{\styleoption{captionvoffset}}\label{sec:captionvoffset}
+Die Option \styleoption{captionvoffset} dient der Festlegung eines vertikalen Offsets der Linienüberschrift.
+
+\subsubsection[\texttt{hoffset}]{\styleoption{hoffset}}\label{sec:hoffset}
+Die Option \styleoption{hoffset} dient der Festlegung eines horizontalen Offsets der PDF annotations.
+
+\subsubsection[\texttt{voffset}]{\styleoption{voffset}}\label{sec:voffset}
+Die Option \styleoption{voffset} dient der Festlegung eines vertikalen Offsets, d.\,h. einer vertikalen Verschiebung um den angegebenen Wert.
+
+\subsubsection[\texttt{width}]{\styleoption{width}}\label{sec:width}
+Die Option \styleoption{width} dient der Festlegung der Breite der PDF annotations, speziell der Breite der FreeText annotations. PDF text annatations haben grundsätzlich eine Breite von 0pt.
+
+\subsubsection[\texttt{height}]{\styleoption{height}}\label{sec:height}
+Die Option \styleoption{height} dient der Festlegung der Höhe der PDF annotations. Bei PDF text annotations wurde die Höhe auf \cmd\baselineskip{} festgelegt.
+
+\subsubsection[\texttt{markup}]{\styleoption{markup}}\label{sec:markup}
+Die Option \styleoption{markup} dient der Festlegung des Typs der text markup annotations. Mögliche Werte sind dabei: Highlight, Underline, Squiggly und StrikeOut.
+
+\subsubsection[\texttt{avatar}]{\styleoption{avatar}}\label{sec:avatar}
+Mit der Option \styleoption{avatar} kann man die mit dem Befehl \cmd\defineavatar{} vordefinierten Optionslisten laden, um lästige Tipparbeit zu vermeiden. 
+
+\subsubsection[\texttt{style}]{\styleoption{style}}\label{sec:style}
+Die Option \styleoption{style} dient ebenfalls dem Laden vordefinierter Optionslisten zur Trennung personenbezogener und stylister Optionen, z.\,B. \texttt{avatar=Josef, style=MyComment}.
+
+\subsubsection[\texttt{mathstyle}]{\styleoption{mathstyle}}\label{sec:mathstyle}
+Die Option \styleoption{mathstyle} dient der Korrektur der Größe von PDF annotations - die mit \texttt{\string\pdfmarkupcomment} im math mode erzeugt wurden - durch Setzen des math style auf \texttt{\string\textstyle}, \texttt{\string\displaystyle}, \texttt{\string\scriptstyle} oder \texttt{\string\scriptscriptstyle}. Diese Option ist nur für \texttt{\string\pdfmarkupcomment} definiert, daher kann sie nicht global gesetzt werden!
+
+\section{Umgebungen}\label{sec:umgebungen}
+
+\subsection{Kommentarumgebungen}\label{sec:kommentarumgebungen}
+
+\subsubsection{\texttt{pdfsidelinecomment}}
+\label{sec:sidelinecomment}
+Mögliche \marginnote{\raggedleft\scriptsize\envb{pdfsidelinecomment}\\\oarg{Optionen}\marg{Kommentar}\\\dots\\\enve{pdfsidelinecomment}}Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{color}, \styleoption{icolor}, \styleoption{opacity}, \styleoption{linewidth}, \styleoption{linebegin}, \styleoption{lineend}, \styleoption{linesep}, \styleoption{borderstyle}, \styleoption{dashstyle}, \styleoption{caption}, \styleoption{captionhoffset}, \styleoption{captionvoffset}
+
+\bigskip
+Mit der Umgebung \env{pdfsidelinecomment} kann man ganze Seitenbereiche in Form zweier Linien in den Randspalten mit einem Kommentar kennzeichnen.
+
+\hspace*{0pt}\newline
+\begin{pdfsidelinecomment}[color=red,icolor=yellow,linebegin=/Circle,lineend=/Circle,linewidth=3bp,linesep=1cm]{ ! Beachten ! }
+Einschränkungen:
+
+\begin{itemize}
+\item Die PDF sideline annotation darf nicht länger sein als eine Seite, da sonst die Erkennung des Seitenumbruchs fehlschlägt.
+\item Bei der zwischenzeitlichen Nutzung von dvi-Dateien benötigt man eine \LaTeX{}-Distribution, die \texttt{pdf(e)latex} in einer Version $\geq$ v1.40.0\footnote{ältere Versionen sind nicht in der Lage im dvi mode x/y-Koordinaten der aktuellen Position zur Verfügung zu stellen.} als Engine benutzt!
+\item Bei der Verwendung von \XeLaTeX{} muß Sorge getragen werden, daß die korrekte Seitengröße in die xdvi-Datei geschrieben wird, z.\,B. über die Option \styleoption{pagesize} bei Verwendung der KoMa-Script-Klassen, bzw. als Option beim Paket \package{typearea.sty}.
+\end{itemize}
+\end{pdfsidelinecomment}
+
+\section{Befehle}\label{sec:befehle}
+
+\subsection{Kommentarbefehle}\label{sec:kommentarbefehle}
+
+Die folgenden Befehlen können Sie zur Kommentierung Ihres Dokuments einsetzen.
+
+\subsubsection{\texorpdfstring{\cs{pdfcomment}}{\textbackslash pdfcomment}}
+\label{sec:pdfcomment}
+Mögliche \margcs{\cmd\pdfcomment\\\oarg{Optionen}\marg{Kommentar}}Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{icon}, \styleoption{color}, \styleoption{opacity}, \styleoption{open}, \styleoption{hspace}, \styleoption{voffset}, \styleoption{hoffset}
+
+\bigskip
+\cmd\pdfcomment{} setzt den Kommentar an der aktuellen Position \pdfcommentsetup{subject={\textbackslash pdfcomment Test},hspace=20pt}\pdfcomment[icon=Star,color=YellowGreen]{Das ist ein Kommentar im Fließtext} in den Fließtext.
+
+\subsubsection{\texorpdfstring{\cs{pdfmargincomment}}{\textbackslash pdfmargincomment}}
+\label{sec:pdfmargincomment}
+Mögliche \margcs{\cmd\pdfmargincomment\\\oarg{Optionen}\marg{Kommentar}}Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{icon}, \styleoption{color}, \styleoption{opacity}, \styleoption{open}, \styleoption{hspace}, \styleoption{voffset}, \styleoption{hoffset}
+
+\bigskip
+\cmd\pdfmargincomment{} setzt den Kommentar in Höhe der aktuellen Zeile in die Randspalte. Bitte beachten Sie in diesem Beispiel die Positionierung des Kommentars. Diese Dokumentation wurde mit der \LaTeX{}-Klasse \texttt{ltxdoc}\pdfcommentsetup{subject={\textbackslash pdfmargincomment Test}}\pdfmargincomment[icon=Help,color=DeepPink,hspace=-30pt]{Das ist ein Kommentar in der Randspalte} erstellt. Daher erscheint der Kommentar in der linken Randspalte.
+
+\subsubsection{\texorpdfstring{\cs{pdfmarkupcomment}}{\textbackslash pdfmarkupcomment}}
+\label{sec:pdfmarkupcomment}
+Mögliche \margcs{\cmd\pdfmarkupcomment\oarg{Optionen}\\\marg{Markup Text}\marg{Kommentar}}Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{color}, \styleoption{opacity}, \styleoption{markup}, \styleoption{mathstyle}
+
+\bigskip
+\cmd\pdfmarkupcomment{} setzt eine sogenannte PDF text markup annotation über den mit dem Argument \marg{Markup Text} festgelegten Text. Mögliche Typen für die Option \styleoption{markup} sind dabei: \pdfcommentsetup{subject={\textbackslash pdfmarkupcomment Test}}\pdfmarkupcomment[color=yellow,markup=Highlight]{Highlight}{Das ist eine Highlight markup annotation!}, \pdfmarkupcomment[color=red,markup=Underline]{Underline}{Das ist eine Underline markup annotation!}, \pdfmarkupcomment[color=Teal,markup=Squiggly]{Squiggly}{Das ist eine Squiggly markup annotation!} und \pdfmarkupcomment[color=red,markup=StrikeOut]{StrikeOut}{Das ist eine StrikeOut markup annotation!}
+
+\hspace*{0pt}\newline
+Einschränkungen:
+
+\begin{itemize}
+\item Wie die Bezeichnung PDF text markup annotation vermuten läßt, eignet sich diese Form der Kommentierung ausschließlich für reinen Text.
+\item Der mit dem Argument \marg{Markup Text} festgelegte Text darf nicht länger sein als ein Absatz.
+\item Die PDF text markup annotation darf nicht länger sein als eine Seite, da sonst die Erkennung des Seitenumbruchs fehlschlägt.
+\item Bei der zwischenzeitlichen Nutzung von dvi-Dateien benötigt man eine \LaTeX{}-Distribution, die \texttt{pdf(e)latex} in einer Version $\geq$ v1.40.0\footnote{ältere Versionen sind nicht in der Lage im dvi mode x/y-Koordinaten der aktuellen Position zur Verfügung zu stellen.} als Engine benutzt!
+\item Bei der Verwendung von \XeLaTeX{} muß Sorge getragen werden, daß die korrekte Seitengröße in die xdvi-Datei geschrieben wird, z.\,B. über die Option \styleoption{pagesize} bei Verwendung der KoMa-Script-Klassen, bzw. als Option beim Paket \package{typearea.sty}.
+\end{itemize}
+
+Seit Version v1.6 funktioniert \texttt{\string\pdfmarkupcomment} auch im math mode. Sie können jetzt also auch Formeln kommentieren, wie z.\,B.:
+
+\definestyle{mathpopup}{author={},subject={},color=NavajoWhite,markup=Highlight}
+
+\[
+\begin{array}{c>{\displaystyle}c}
+ \text{ Bernoulli Trials: } &
+ \pdfmarkupcomment[style=mathpopup]{P(E)}{Probability of event E: Get exactly k heads in n coin flips.}%
+  =
+ \pdfmarkupcomment[style=mathpopup]{\dbinom{n}{k}}{Number of ways to get exactly k heads in n coin flips}%
+  {\pdfmarkupcomment[style=mathpopup]{p}{Probability of getting heads in one flip}%
+}^{%
+    \pdfmarkupcomment[style=mathpopup,mathstyle=\scriptstyle]{k}{Number of heads}
+  }%
+ \pdfmarkupcomment[style=mathpopup]{(1-p)}{Probability of getting tails in one flip}^{%
+ \pdfmarkupcomment[style=mathpopup,mathstyle=\scriptstyle]{n-k}{Number of tails}%
+ }%
+\end{array}
+\]
+
+Beachten Sie bitte auch \LinkExMath{} für eine genauere Beschreibung der neuen Möglichkeiten!
+
+\subsubsection{\texorpdfstring{\cs{pdffreetextcomment}}{\textbackslash pdffreetextcomment}}
+\label{sec:pdffreetextcomment}
+Mögliche \margcs{\cmd\pdffreetextcomment\\\oarg{Optionen}\marg{Kommentar}} Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{color}, \styleoption{font}, \styleoption{fontsize}, \styleoption{fontcolor}, \styleoption{opacity}, \styleoption{line}, \styleoption{linewidth}, \styleoption{lineend}, \styleoption{borderstyle}, \styleoption{dashstyle}, \styleoption{bse}, \styleoption{bsei},  \styleoption{type}, \styleoption{height}, \styleoption{width}, \styleoption{voffset}, \styleoption{hoffset}
+
+\bigskip
+\cmd\pdffreetextcomment{} (type=freetext) setzt einen Kommentar in Form einer frei positionierbaren Box an die gewünschte Stelle der Seite\pdffreetextcomment[subject={\textbackslash pdffreetextcomment Test},height=1.2cm,width=4cm,voffset=-4.3cm,hoffset=-4cm,opacity=0.5,color=yellow]{Das ist eine FreeText annotation}. Bei Verwendung der Option \styleoption{type} = \texttt{callout} verfügt die Box zusätzlich über eine sogenannte Callout Linie, um die Box an ein bestimmtes Element der Seite zu binden. Mit der Option \styleoption{type} = \texttt{typewriter} kann man einen Kommentar an einer beliebigen Stelle mit einer virtuellen 'Schreibmaschine' schreiben. Diese PDF freetext annotation haben keinen Rand und einen transparenten Hintergrund. Dadurch kann man beliebige Stellen 'überschreiben'. Bitte beachten Sie dazu die Beispieldatei \LinkEx!
+
+\subsubsection{\texorpdfstring{\cs{pdfsquarecomment}}{\textbackslash pdfsquarecomment}}
+\label{sec:pdfsquarecomment}
+Mögliche \margcs{\cmd\pdfsquarecomment\\\oarg{Optionen}\marg{Kommentar}} Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{color}, \styleoption{icolor}, \styleoption{opacity}, \styleoption{linewidth}, \styleoption{borderstyle}, \styleoption{dashstyle}, \styleoption{bse}, \styleoption{bsei},  \styleoption{height}, \styleoption{width}, \styleoption{voffset}, \styleoption{hoffset}
+
+\bigskip
+\cmd\pdfsquarecomment{} setzt einen Kommentar in Form einer rechteckigen Box an die gewünschte Stelle der Seite (siehe: \LinkEx).
+
+\subsubsection{\texorpdfstring{\cs{pdfcirclecomment}}{\textbackslash pdfcirclecomment}}
+\label{sec:pdfcirclecomment}
+Mögliche \margcs{\cmd\pdfcirclecomment\\\oarg{Optionen}\marg{Kommentar}} Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{color}, \styleoption{icolor}, \styleoption{opacity}, \styleoption{linewidth}, \styleoption{borderstyle}, \styleoption{dashstyle}, \styleoption{bse}, \styleoption{bsei},  \styleoption{height}, \styleoption{width}, \styleoption{voffset}, \styleoption{hoffset}
+
+\bigskip
+\cmd\pdfsquarecomment{} setzt einen Kommentar in Form eines Kreises oder einer Ellipse an die gewünschte Stelle der Seite (siehe: \LinkEx).
+
+\subsubsection{\texorpdfstring{\cs{pdflinecomment}}{\textbackslash pdflinecomment}}
+\label{sec:pdflinecomment}
+Mögliche \margcs{\cmd\pdfsidelinecomment\\\oarg{Optionen}\marg{Kommentar}}Optionen: \styleoption{avatar}, \styleoption{style}, \styleoption{subject}, \styleoption{author}, \styleoption{type}, \styleoption{color}, \styleoption{icolor}, \styleoption{opacity}, \styleoption{caption}, \styleoption{captionhoffset}, \styleoption{captionvoffset},  \styleoption{linewidth}, \styleoption{linebegin}, \styleoption{lineend}, \styleoption{line}, \styleoption{borderstyle}, \styleoption{dashstyle}
+
+\bigskip
+\cmd\pdflinecomment{} setzt einen Kommentar in Form einer Linie. Polylinie oder Polygon an die gewünschte Stelle der Seite (siehe: \LinkEx).
+
+\subsection{Allgemeine Befehle}
+
+\subsubsection{\texorpdfstring{\cs{pdfcommentsetup}}{\textbackslash pdfcommentsetup}}
+\label{sec:commentsetup}
+Mit dem Befehl \cmd\pdfcommentsetup \margcs{\cmd\pdfcommentsetup\marg{Optionen}} kann man jederzeit die globalen Styleoptionen neu setzen.
+
+\subsubsection{\texorpdfstring{\cs{listofpdfcomments}}{\textbackslash listofpdfcomments}}
+\label{sec:listofpdfcomments}
+Der Befehl \cmd\listofpdfcomments\margcs{\cmd\listofpdfcomments\oarg{Optionen}} erzeugt eine Liste der Kommentare, um das Auffinden der Kommentare zu vereinfachen. Der Befehl bietet die folgenden Optionen:
+
+\begin{itemize}
+\item \styleoption{liststyle} dient der Festlegung des Listenstils. Dabei sind folgende Werte möglich:
+\begin{itemize}
+\item \mco{AuthorSubject} (default)
+\item \mco{AuthorSubjectDeadline}
+\item \mco{SubjectAuthorComment}
+\item \mco{SubjectAuthorCommentDeadline}
+\item \mco{AuthorComment}
+\item \mco{AuthorCommentDeadline}
+\item \mco{SubjectComment}
+\item \mco{SubjectCommentDeadline}
+\item \mco{Comment}
+\item \mco{CommentDeadline}
+\end{itemize}
+
+\item \styleoption{heading} dient der Festlegung der Überschrift, z.\,B. \styleoption{heading}=\{Liste der Kommentare\}.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{\cs{setliststyle}}{\textbackslash setliststyle}}
+\label{sec:setliststyle}
+Der Befehl \cmd\setliststyle\margcs{\cmd\setliststyle\marg{Name}} ist notwendig, falls Kommentare bereits vor \cmd\listofpdfcomments\ eingesetzt werden und ein alternativer Listenstil gewünscht wird.
+
+\subsubsection{\texorpdfstring{\cs{defineliststyle}}{\textbackslash defineliststyle}}
+\label{sec:defineliststyle}
+Der Befehl \cmd\defineliststyle\margcs{\cmd\defineliststyle\\\marg{Name}\marg{Definition}} dient der Definition neuer Listenstile, z.\,B.:
+
+\medskip
+\cmd\makeatletter\\
+\cmd\defineliststyle\{MyListstyle\}\{\cmd\pc@lopt@subject\texttt{\textbackslash}\ \cmd\textcolor\{green\}\\\{(\cmd\pc@lopt@author)\}:\texttt{\textbackslash}\ \cmd\pc@lopt@comment\texttt{\textbackslash}\ \cmd\textcolor\{red\}\\\{(\cmd\pc@lopt@deadline)\}\\
+\cmd\makeatother
+
+\subsubsection{\texorpdfstring{\cs{defineavatar}}{\textbackslash defineavatar}}
+\label{sec:defineavatar}
+Der Befehl \cmd\defineavatar \margcs{\cmd\defineavatar\marg{Name}\marg{Optionen}} dient der Erstellung benannter vordefinierter Optionslisten, die später in den Kommentarbefehlen über die Option \styleoption{avatar} wieder geladen werden. Damit können z.\,B. mehrere Autoren eines Dokuments sehr einfach zwischen ihren Avataren -- also ihren grafischen Repräsentationen -- wechseln. 
+
+\subsubsection{\texorpdfstring{\cs{definestyle}}{\textbackslash definestyle}}
+\label{sec:definestyle}
+Analog dient \cmd\definestyle \margcs{\cmd\definestyle\marg{Name}\marg{Optionen}} dazu die Optionslisten bei Bedarf in personenbezogene und stylistische Optionslisten aufzuteilen (siehe \file{example.tex}). Geladen wird die Optionsliste in den Befehlen über die Option \styleoption{style}.
+
+\section{Drucken der Kommentare und Popups}
+\label{sec:print}
+\texttt{Adobe Reader} kann prinzipiell PDF annotations drucken. Dazu muß man im Druckdialog im Feld 'Kommentare und Formulare' die Einstellung 'Dokument und Markierungen' wählen. Zusätzlich muß das Drucken im Menü 'Bearbeiten $\rightarrow$ Voreinstellungen $\rightarrow$ Kommentare' konfiguriert werden. Leider ist diese Einstellungsmöglichkeit nur in sehr wenigen Versionen von \texttt{Adobe Reader} vorhanden. Falls sie nicht vorhanden ist bleibt nur die Möglichkeit die Konfigurationsdateien selbst zu ändern. 
+
+\begin{description}
+\item[Windows:] Ändern der Registry Einträge notwendig (auf eigene Gefahr!)
+
+Starten Sie den Registry Editor (\file{regedit.exe}) und öffnen Sie z.\,B. für \texttt{Adobe Reader 9.0} den folgenden Schlüssel:
+
+\texttt{HKEY\_CURRENT\_USER/Software/Adobe/Acrobat Reader/9.0/Annots/\newline cPrefs}
+
+Der Schlüssel ist für andere Versionen bis auf die Versionsnummer und Groß- und Kleinschreibung ähnlich!
+
+Öffnen oder erstellen Sie (bei geschlossenem \texttt{Adobe Reader}) den Schlüssel \texttt{bprintCommentPopups} und ändern Sie den Wert auf 1 (dword).
+
+\item[Linux:] Öffnen Sie die Konfigurationsdatei:
+
+\nolinkurl{~/.adobe/Acrobat/8.0/Preferences/reader_prefs}
+
+mit einem Text-Editor und ändern Sie den Eintrag 
+
+{\texttt{/printCommentPopups\,[/b false]} zu \texttt{/printCommentPopups\,[/b true]}}
+\end{description}
+
+Bitte beachten Sie, daß nur geöffnete popup annotations gedruckt werden!
+{
+\clearpage
+\raggedright
+\nocite{*}
+\bibliography{pdfcomment}
+\addcontentsline{toc}{section}{\refname}
+}
+
+%for index
+\footnotesize
+\end{document}

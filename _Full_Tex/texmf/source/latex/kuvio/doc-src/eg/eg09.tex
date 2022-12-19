@@ -1,0 +1,28 @@
+$$
+\rotatedlabels \let\labelstyle\textstyle \scale=2
+\Diagram
+ & & F(3,2) \aLine (1,-4) >{F(3,1,1)} :{.4} \br  \\
+ & &        & \rdLine >{F(1,2,2)} \pt{right,.75} \\
+ & &        &         & F(1,4)                   \\
+F(2,3) \aDash (4,1) ^{F(1,1,3)} :{.4} \pp        \\
+ & &        & F(4,1) \aLine (1,2) >{F(1,3,1)}    \\
+\Modify
+\Pt{top} (2,4) \Pt{b1} (0,1) \Pt{b2} (3,0)
+\Pt{LeftF} (1.65,2) \Pt{BackF} (2,2.5)
+\Pt{BottomF} (2.5,1) \Pt{RightF} (3.1,2.25)
+\Nul  \pt{b1} \pt{b2}              \pt{bottom,.8}
+\Nul  \pt{BottomF} \pt{bottom}     \pt{BottomL,2}
+\Dash \pt{BottomF} \pt{bottom}     \tl\circ \dt{3pt}
+\Line \pt{bottom} \pt{BottomL}     \hd{F(1,1,2,1)}
+\Line \pt{b1} \pt{b2} _{F(2,2,1)}  \br
+\Nul  \pt{b1} \pt{top}             \pt{left,.25} \pt{back,.75}
+\Nul  \pt{BackF} \pt{back}         \pt{BackL,2}
+\Nul  \pt{LeftF} \pt{left}         \pt{LeftL,2}
+\Dash \pt{BackF} \pt{back}         \tl\circ \dt{3pt}
+\Line \pt{back} \pt{BackL}         \hd{F(1,1,1,2)}
+\Line \pt{b1} \pt{top} <{F(2,1,2)} \br
+\Line \pt{LeftF} \pt{LeftL}        \tl\bullet \hd{F(2,1,1,1)} \jt \br
+\Nul  \pt{RightF} \pt{right}       \pt{RightL,3}
+\Line \pt{RightF} \pt{RightL}      \tl\bullet \hd{F(1,2,1,1)} \jt \br
+\endDiagram
+$$

@@ -1,0 +1,66 @@
+\documentclass[12pt, fleqn]{article}
+
+\usepackage[cp1251]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\Ukrainian
+
+\setlength{\voffset}{-20mm} \setlength{\hoffset}{-20mm}
+\setlength{\textwidth}{170mm} \setlength{\textheight}{240mm}
+
+
+\tolerance=10000
+\sloppy
+\begin{document}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\pagestyle{empty}
+\begin{center}
+{\Large {\textbf{}}}
+
+\author{Маслюченко В. К.}{Маслюченко В. К.}
+\author{Мельник В. С.}{Мельник В. С.}
+
+\end{center}
+\large
+\bigskip
+
+We will call a pair $(g,h)$ of two functions $g,h:X\rightarrow \mathbb{R}$ with $g(x)\leq h(x)$ on $X$ an \textit{ordered pair} on $X$, and we will call function $f:X\rightarrow \mathbb{R}$ an \textit{intermediate} for ordered pair $(g,h)$, if $g(x)\leq f(x)\leq h(x)$ on $X$. For topological space $X$ an ordered pair $(g,h)$ on $X$ is called a \textit{Hahn's pair} [1], if functions $g$ and $h$ are upper and lower semicontinuous respectively.
+
+H. Hahn [2] discovered, that each Hahn's pair on metric space $X$ has continuous intermediate function. Later H. Tong [3] and M. Katetov [4] proved, that for $T_{1}$-spaces the existence of continuous intermediate function for each Hahn's pair on $X$  is equivalent to the normality of space $X$.
+
+There are a lot of modifications of this theorem, and  in the last years there have appeared new results on the existence of intermediate functions from different functional classes, such as monotonous, piecewise linear or differentiable functions [1]. In connection with this we naturally got the problem of existence of intermediate separately continuous function.
+
+For the map $f:X\times Y\rightarrow Z$ and a point $(x,y)\in X\times Y$ we put $f^{x}(y)=f(x,y)=f_{y}(x)$. For topological spaces $X$, $Y$ and $Z$ we note by $C(X)$, $C^{u}(X)$ and $C^{l}(X)$ the spaces of continuous and upper or lower respectively semicontinuous functions $f:X\rightarrow \mathbb{R}$, by $CC(X\times Y)$, $C^{u}C^{u}(X\times Y)$ and  $C^{l}C^{l}(X\times Y)$~--- spaces of separately continuous and upper or lower separately semicontinuous functions $f:X\times Y\rightarrow \mathbb{R}$, and by $C(X,Y)$ and $CC(X\times Y, Z)$~--- spaces of continuous maps $f:X\rightarrow Y$ and separately continuous maps $f:X\times Y \rightarrow Z$ respectively.
+
+For topological spaces $X$ and $Y$ we will call the ordered pair $(g,h)$ of functions $g\in C^{u}C^{u}(X\times Y)$ and $h\in C^{l}C^{l}(X\times Y)$ a \textit{separate Hahn's pair}.
+
+Let's recall, that \textit{plus-topology} $\mathcal{C}$ on product $X\times Y$ of two topological spaces consists of sets $O\subseteq X\times Y$ such, that for each point $p=(x,y)\in O$ there exist neighborhoods $U$ of point $x$ and $V$ of point $y$ in spaces $X$ and $Y$ respectively with property $(U\times \{y\})\cup(\{x\}\times V)\subseteq O$ (see, for example, [5]).
+
+\textbf{Theorem 1.} Let $X$ and $Y$ be a $T_{1}$-spaces. Than each separate Hahn's pair $(g,h)$ on product $X\times Y$ has an intermediate separately continuous function if and only if space $Q=(X\times Y, \mathcal{C})$ is normal.
+
+The conditions on the space $Q$ that make it a normal space have not been investigated yet, but in [6] it was proved, that the space $(\mathbb{R}^{2},\mathcal{C})$ is not regular. This and theorem 1 imply:
+
+\textbf{Theorem 2.} There is a separate Hahn's pair $(g,h)$ on $\mathbb{R}^{2}$, that doesn't have an intermediate continuous function.
+
+{\normalsize\centerline{References}
+\medskip
+
+1. \textit{V.K. Maslyuchenko, O.V. Maslyuchenko, V.S. Melnyk}  Existance of intermediate piecewise linear and infinitely differentiable functions // Bucovinian mathematical journal. \textbf{4}, №3-4 (2016), 93-100.
+
+2. {\it Hahn H. \/} Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.Wien. Math. - naturwiss.Kl.Abt.IIa. \textbf{126} (1917), 91-110.
+
+3. \textit{Tong H.} Some characterizations of normal and perfectly normal spaces // Bull.Amer.Math.Soc. \textbf{54} (1948), 65.
+
+4. \textit{Katetov M.} Correction to 'On real-valued functions in topological spaces' // Fund.Math. \textbf{40} (1953), 203-205.
+
+5. H.A. Voloshyn, V.K. Maslyuchenko, O.V. Maslyuchenko Immersion of the space of separately continuous function into the product of Banach spaces and its barrelledness // Mathematical Bulletin of the Shevchenko Scientific Society. Lviv \textbf{11} (2014), 36-50.
+
+6. V.V. Mykhaylyuk Topology of separate continuity and one generalisation of Sierpinski theorem // Math. Stud. \textbf{14}, №2 (2000), 193-196.
+
+}
+
+\end{document}

@@ -1,0 +1,255 @@
+\hsize4.5in 
+\hoffset6.5in
+\advance\hoffset-\hsize
+\divide\hoffset2
+
+\def\ob{\tt\string{}
+\def\cb{\tt\string}}
+
+\footline={\ifnum\pageno=1 \else \hss\folio\hss\fi}
+
+\chardef\other=12
+\def\deactivate{%
+\catcode`\\=\other \catcode`\{=\other
+\catcode`\}=\other \catcode`\$=\other
+\catcode`\&=\other \catcode`\#=\other
+\catcode`\%=\other \catcode`\~=\other
+\catcode`\^=\other \catcode`\_=\other}
+
+\def\makeactive#1{\catcode`#1=\active \ignorespaces}
+
+\def\LaTeX{L\kern-.26em \raise.6ex\hbox{\fivei A}%
+\kern-.15em TeX}%
+
+{\makeactive\^^M %
+\gdef\obeywhitespace{\makeactive\^^M %
+\let^^M=\newline %
+\aftergroup\removebox %
+\obeyspaces}}
+
+\def\newline{\par\indent}
+\def\removebox{\setbox0=\lastbox}
+
+{\catcode`\|=\active
+\gdef\verbatim{%
+		\par\begingroup\deactivate\obeywhitespace\tt
+		\catcode`\|=\active
+		\def|{\endgroup\par}}}
+
+\clubpenalty10000
+\widowpenalty10000
+\raggedbottom
+\interlinepenalty10000
+
+\def\section#1\par{%
+\medskip
+\noindent\llap{\raise1.25pt\hbox{$\diamond$\enskip}}{\bf#1}\par\nobreak\noindent}
+
+\section Introduction
+
+I use a lot of type. I also use \TeX~--~what better medium can there be for showing off type?~--~in
+its Macintosh incarnation as Textures. I need samples that I can show clients, and that I can
+refer to for the technical details of the typeface. The results are the type specimens you see
+here. The code itself has some annotations that you might want to read. The macros are not
+complex~--~I don't have time to decode clever macros, and I may need to alter them for unusual
+situations as they arise. You are encouraged to do the same. The current distribution of these
+specimens includes: This introduction; eight type specimens; an Acrobat PDF file with typeset 
+examples of the specimens and this introduction.
+
+Some of the fonts in these examples (particularly {\it Centaur} in {\tt TypeSpc8.tex}) were made \TeX-ready 
+by using Alan Jeffrey's {\tt fontinst}. The {\tt fontinst} package is discussed in considerable detail in Alan
+Hoenig's new book {\it\TeX\  Unbound:\ \LaTeX\ and \TeX\ Strategies for Fonts, Graphics \& More} (Oxford 1998), which
+discusses {\tt fontinst} over the course of several chapters and works through numerous examples. If you deal at all with
+fonts and
+\TeX\ you will need this book.
+
+Clearly, these specimens will be most easily produced on systems that use outline fonts
+as opposed to bitmaps. I have used these specimens on a Mac with Textures using both PostScript and TrueType, and on a PC
+with PC\TeX using TrueType. Textures (now at version 2.0) is interesting in that it can create font metrics
+``on the fly'' from the Mac's bitmap files. For more demanding work, you will, however, want to stick with {\tt fontinst}.
+
+\section A word about color
+
+Blue Sky Research {\it Textures} is a wonderful implementation of \TeX\ that has a very convenient
+way to use color through the {\tt\string\special} mechanism. I'm going to describe it so that if
+you use a different implementation that can take advantage of color, you will understand the
+macros here. Color is invoked by: 
+
+\verbatim\special{color rgb 1.0 0.0 0.0}|
+
+\noindent This tells \TeX\ to trun everything red from this point on. This specification could
+also have been given by:
+
+\verbatim\special{color cmyk 0.0 1.0 0.1 0.0}|
+
+\noindent as red in the CMYK model is 100\% of magenta and yellow. To jump back and forth between
+colors, Textures has a color stack and you can push colors onto the stack and pop them off. So, a
+typical use of color might be something like this:
+
+\verbatim\special{color push}% Puts current color (black) on stack|
+\verbatim%%% Calls red and puts it on stack:|
+\verbatim\special{color rgb 1.0 0.0 0.0}|
+\verbatim Some text in red.|
+\verbatim\special{color pop}% Pops red off stack, restores black|
+\verbatim More text in black.|
+
+\noindent Simple. You can also define a color for later use:
+
+\verbatim\special{color define red rgb 1.0 0.0 0.0}|
+
+\noindent and summon it by calling:
+
+\verbatim\special{color red}|
+
+\noindent The advantage of this is that you can call colors that downstream processors (separation
+software, or a printer) can use to identify color use. You can even screen the color for tints:
+
+\verbatim\special{color red .5}|
+
+\noindent which would give a 50\% tint of red, or pink.
+
+\section TypeSpc1.tex, TypeSpc2.tex, TypeSpc3.tex
+
+These are essentially variations on a theme, differing only in the display type at the top of the
+page. TypeSpc1 has a selection of telltale characters. The top of the {\it A\/} often has a distinctive
+treatment; the lower half of the {\it G\/} and the tail of the {\it Q\/} also tend to
+be distinctive; the shape and size of the enclosed
+areas of the lowercase {\it a\/} and {\it e\/} are also
+telltale, and important in that very small such spaces
+are likely to close up under less than ideal printing
+conditions; the ampersand frequently has a good deal of
+creativity lavished upon it. TypeSpc2 sets the
+uppercase and lowercase of each letter next to each other. TypeSpc3 has a line of uppercase
+characters (not good design, but some people like or expect it) followed by a line of lowercase characters.
+
+\section Selecting the type
+
+At the beginning you can insert three items of information: the \TeX\ name of the font; the name
+of the font that will appear as the `title' of the specimen; and any comments that you wish to
+have at the end of the chart. I like this specimen because the chosen typeface is used for the
+whole specimen, including annotations. Clearly, these specimens and macros are more suited to
+PostScript and TrueType fonts than bitmaps -- proceed accordingly.
+
+\section Column width
+
+Under normal circumstances, a column of type should be about 70 lowercase characters (about 2.5
+lowercase alphabets) in width, or about 4.5 inches in width, which ever comes first. Much longer, and the eye tires, and
+loses its place when moving to the next line; much shorter and you increase the level of visual
+noise such as hyphenation and highly variable word spacing. This sample shows 10pt type at the
+width of 2.5 lowercase alphabets, and calculates the size of type necessay to set 70 characters
+to a measure of 4.5 inches. Interestingly, 10pt type
+usually comes very close to fitting 4.5 inches with 70
+characters. One of the most common signs of uninformed typography is
+column width that pays no attention to the realities of
+type and reading.
+
+\section Leading
+
+The calculation of leading~--~{\tt\string\baselineskip} in \TeX~--~is based purely on the
+physical realities of the type being set. The maximum height and depth of the typeface's characters is found, and then a
+percentage of that amount is added to itself to arrive at the leading. The x-height of the font
+is also given some influence over the leading.
+
+\section Choice of text
+
+I have provided three sample texts in token registers. The first is a simple piece of English
+prose. The second is a collection of {\it pangrams}~--~sentences using all twenty-six letters of the alphabet~--~from the large
+collection of David Lemon of Adobe Systems, Inc.; so you get to see all of the letters of the alphabet in
+use. The third is an amalgam of Latin and semi-Latin texts. In the first place, Latin~--~as
+Beatrice Warde pointed out~--~has fewer descenders so the text sits more cleanly on the baseline;
+second, as W.\ A.\ Dwiggins pointed out to Beatrice Warde, it is good to have a sample of text in
+a language the reader does not read~--~in this way the reader looks at the type itself, and not
+through the type to the information it conveys.
+
+\section Type factor
+
+The type factor is basically an extension of the the characters per pica concept, but scaled to
+the size of the typeface. It is based on a sample of type in which $f=(c\,t)/m$ where $f$ is the
+typefactor, $c$ is the number of characters in the sample, $t$ is the type size in points, and $m$
+is the total horizontal width of the sample. The formula can be put to some good use. For
+instance, characters per pica, $p$, can be obtained from $p=h/f$ where $h$ is the size of the type
+in points; the size of the type, $h$, necessary to place $n$ characters on a column width of $w$
+(in picas) is: $h=(fw)/n$. I have used a sample based on the relative frequency of letters in
+English. This gives excellent agreement with published figures, particularly those in {\it Brown's
+Index}. It is best not to take figures like characters-per-pica or type factors too seriously. They are very useful for
+judging the relative characteristics of typefaces. Before computer typesetting they were far more useful when the actual
+typesetting of material was costly and time-consuming. Computers allow us to be able to change typesetting parameters
+interactively and quickly, relieving us from having to know precisely ahead of time how the material is going to layout.
+
+\section The ratio of the x-height to the ascender height
+
+This is an important characheristic of type. As x-height increases, type tends to look darker, or
+more crowded on the page. The antidote to this is to increase the leading slightly. {\it See above.} 
+
+\section TypeSpc4.tex -- a mini-specimen
+
+The principal attraction of TypeSpc4 is the
+{\tt\string\makefontbox} macro which gives a kind miniature specimen that can be as little or as
+large as you like. In the examples I give, the grid is certainly optional as is the use of color:
+They are merely suggestions to get you started. The five arguments to {\tt\string\makefontbox} are
+as follows:
+
+\medskip
+
+\vbox{\raggedright\parskip3pt
+
+\itemitem{\#1}\TeX's name for the desired font
+
+\itemitem{\#2}The name font name as you want it to print
+
+\itemitem{\#3}The name of the type's designer, or other salient
+          piece of information that lends itself to display
+
+\itemitem{\#4}The size of the type inside the box
+
+\itemitem{\#5}The overall desired width of the box}
+
+\section TypeSpc5.tex -- by the numbers
+
+It is very often useful to know where the characters of a typeface are, and to gain an overall
+impression of all of the characters of a font. This specimen is simply an enumeration of the
+characters with respect to their character numbers. The macro to notice is
+{\tt\string\lineofchars}. You can specify how may characters are to be in the line, and what the
+numerical starting point will be. Numerous other design variables can be specified, and they are
+discussed in TypeSpc5.tex.
+
+\section TypeSpc6.tex -- for florid fonts
+
+There are times when you simply have to see a font in all its splendor. You don't need it at every
+imaginable size. And in the case of ornate calligraphic fonts, it does not make any sense at all
+to shove uppercase letters together for any reason, not even for display.
+
+\section TypeSpc7.tex -- homage \`a Caslon
+
+This ornate example is meant to be both fun and useful. It was inspired by the specimen sheets of
+William Caslon. The names of the type sizes~--~Ruby, Minion, Brevier, etc.~--~are traditional and
+could be replaced with sizes in points. This is a useful sample for PostScript typefaces which are
+often packaged as a family of four fonts: roman, italic, bold and bold-italic. The principle fonts
+are the roman and italic, however, and these are the fonts primarily featured in this specimen. The
+sample text is in a token list and can be changed at will~--~just make sure that there is enough
+of it.
+
+\section TypeSpc8.tex
+
+This specimen uses techniques that we have established in earlier samples. Again, this is suitable
+for typefaces that exist in pairs (or pairs of pairs) of fonts: roman and italic, bold and
+bold-italic. There is also a macro for a single, centered paragraph that could be used, say, for
+small caps. The type size, leading and type factor are given for each font.
+
+\section TypeSpc9.tex
+
+I combined two formats here to show off the principal characteristics of the roman along with the
+fonts of the family as used for text.
+
+\section TypeSp10.tex
+
+Another variation using one sample per line. Also notice the very beautiful typeface.
+
+\bigskip
+\hrule
+
+\section Stephen Moye, 23 IV 1998
+
+Stephen\hbox to .5em{\hrulefill}Moye@brown.edu\hfill\break Brown University Graphic Services 
+
+\bye

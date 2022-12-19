@@ -1,0 +1,21 @@
+\documentclass{ltxdoc}
+\CodelineIndex
+\EnableCrossrefs
+\DeclareTextFontCommand\word\em          % refer to a word as a word
+\DeclareTextFontCommand\term\slshape     % technical term
+\DeclareTextFontCommand\env\ttfamily     % environment
+\DeclareTextFontCommand\package\slshape  % name of LaTeX package
+\DeclareTextFontCommand\program\ttfamily % generic name of computer program
+\DeclareTextFontCommand\class\slshape    % name of LaTeX class
+\DeclareTextFontCommand\file\ttfamily    % name of disk file
+\DeclareTextFontCommand\ext\ttfamily     % name of file extension
+\begin{document}
+\providecommand\ALaTeX{A\LaTeX}
+\date{Version:  1.0 \\Documentation revision: 1996/01/21}
+\author{Matt Swift \texttt{<swift@bu.edu>}}
+\title{\ALaTeX{} and its Standard Metaclass}
+\maketitle
+\DocInput{alatex.dtx}
+\clearpage
+\PrintIndex
+\end{document}

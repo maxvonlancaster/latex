@@ -1,0 +1,19 @@
+\documentclass[12pt,a4paper]{article} % <voss _ at _ perce.de>
+\usepackage{pst-map3d}
+\topmargin=-0.75in
+\begin{document}
+\section*{Asia}
+\begin{verbatim}
+\begin{pspicture*}(-7,-6.5)(7,6.5)%
+  \psset{path=../data,linewidth=0.1pt}
+  \WorldMapThreeD[PHI=40,THETA=100,rivers=false]
+\end{pspicture*}
+\end{verbatim}
+
+\makebox[\textwidth]{\psframebox{%
+\begin{pspicture*}(-7,-6.5)(7,6.5)%
+  \psset{path=../data,linewidth=0.1pt}
+  \WorldMapThreeD[PHI=40,THETA=100,rivers=false]
+\end{pspicture*}}}%
+\end{document}
+

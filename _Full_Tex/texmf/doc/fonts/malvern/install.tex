@@ -1,0 +1,541 @@
+% install.tex -- how to install Malvern fonts 
+% Copyright 1994 P. Damian Cugley
+
+%%% @TeX-document {
+%%%   filename       = "install.tex",
+%%%   version        = "X",
+%%%   date           = "pdc 1994.09.26",
+%%%   package        = "Malvern 1.2",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "Malvern, METAFONT, font, typefont, TeX",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Installation summary for  the Malvern
+%%%                     font family.",
+%%%   dependencies   = "none",
+%%% }
+
+%  See the Malvern Handbook (maman.tex) for more info about Malvern.
+%  This software is available freely but without warranty.
+%  See the file COPYING for details.
+
+%  This document is written in plain TeX and has NO dependencies
+%  other than the fonts (of course) which are all standard CM fonts.
+%  The hope is that this way anyone will be able to TeX this file
+%  without it all going horribly wrong...
+
+% To change the paper size, change the assignments to \hsize 
+%  and \vsize below (after the definition of \margin).
+
+\newdimen\margin \margin=25mm	% size of margins
+
+%  Change the following two lines to select a different paper size:
+\hsize=210mm \advance\hsize-2\margin
+\vsize=297mm \advance\vsize-2\margin
+
+% change the following 1 line if you do have the LOGO10 font:
+\newif\iflogo \logofalse
+
+\def\package{Malvern~1.2}
+\def\ttpackage{Malvern-1.2}
+
+%  Adjust \vsize to be a multiple of baselineskip + topskip:
+
+\baselineskip=14pt
+\newcount\counta
+\counta=\vsize \advance\counta-\topskip 
+\divide\counta\baselineskip
+\vsize=\counta\baselineskip \advance\vsize\topskip
+
+\hoffset=\margin \advance\hoffset-1in
+\voffset=\margin \advance\voffset-1in
+
+%
+%  FONTS
+%
+
+\def\fnt#1#2{\font#1=#2 \fontdimen3#1=0pt \fontdimen4#1=0pt }
+
+\fnt\twelverm{cmr12} 		\def\rm{\twelverm\fam0 }
+\fnt\twelvei{cmmi12} 
+\fnt\twelvesy{cmsy10 at 12pt}
+\fnt\twelvebf{cmb10 at 12pt}	\def\bf{\twelvebf\fam\bffam}
+\fnt\twelveit{cmti12}		\def\it{\twelveit\fam\itfam}
+\fnt\twelvett{cmtt12} 		\def\tt{\twelvett\fam\ttfam}
+\iflogo
+    \fnt\twelvemf{logo10 scaled 1200} 	\def\mf{\twelvemf}
+\fi
+\fnt\twelvermc{cmcsc10 scaled 1200}	\def\sc#1{{\twelvermc \lowercase{#1}}}
+
+%  Add just enough maths stuff:
+\textfont0=\twelverm \scriptfont0=\tenrm \scriptscriptfont0=\sevenrm
+\textfont1=\twelvei \scriptfont1=\teni \scriptscriptfont1=\seveni
+\textfont2=\twelvesy \scriptfont2=\tensy \scriptscriptfont2=\sevensy
+\textfont\itfam=\twelveit \scriptfont\itfam=\tenit  
+\textfont\ttfam=\twelvett \scriptfont\ttfam=\tentt  
+
+\fnt\titlerm{cmss17}
+\fnt\headingrm{cmss12 scaled 1200}
+\fnt\headingit{cmssi12 scaled 1200}
+\fnt\subheadingrm{cmss12}
+\fnt\subheadingit{cmssi12}
+
+\rm
+\rightskip=0pt plus 2em
+\tolerance=1000
+\emergencystretch=3em
+
+%
+%  MACROS
+%
+
+\def\.{\mathhexbox201}
+
+\def\<#1>{$\langle\hbox{\it #1\/}\rangle$}
+
+\def\allcapabbrev#1{{\the\scriptfont\fam #1}}
+
+\iflogo
+    \def\MF{{\mf META}\-{\mf FONT}}
+\else
+    \def\MF{\allcapabbrev{META}\-\allcapabbrev{FONT}}
+\fi
+\def\fontinst{{\tt font}\-{\tt inst}}
+
+% No blank lines after section and subsection commands!
+\newcount\seccount \seccount=0
+\def\section#1%
+{
+    \medbreak
+    \advance\seccount1 \subseccount=0
+    \begingroup \headingrm \let\it=\headingit
+	\rightskip=0pt plus 2em
+	\parskip=0pt \parindent=0pt
+	\the\seccount\enspace #1
+	\nobreak\smallskip
+    \endgroup
+    \noindent\ignorespaces
+}
+
+\newcount\subseccount
+\def\subsection#1%
+{
+    \smallbreak
+    \advance\subseccount1
+    \begingroup \subheadingrm \let\it=\subheadingit 
+	\rightskip=0pt plus 2em
+	\parskip=0pt \parindent=0pt
+	\the\seccount\sfcdot\the\subseccount\enspace #1\quad
+    \endgroup
+    \ignorespaces
+}
+
+\def\sfcdot{\leavevmode\raise0.5ex\hbox{.}}
+
+\def\begintable
+{%
+    $$\vbox\bgroup\halign\bgroup
+	##\hfil&&\quad##\hfil\cr
+	\noalign{\hrule height 1pt \kern2\jot}%
+}
+\def\endtable
+{%
+	\crcr
+	\noalign{\kern1.5\jot \hrule height 1pt}%
+    	\egroup\egroup$$
+    \ignorespaces
+}
+
+
+\def\flushtop#1%
+{{%
+    \setbox0=\hbox{#1}\setbox1=\hbox{X}%
+    \dimen0=\ht1 \advance\dimen0-\ht0
+    \raise\dimen0\box0
+}}
+
+\def\pt{\,{\rm  pt}} \mathcode`.="0201
+\def\La{L\kern-0.15em\flushtop{a}}
+\def\LaTeX{\La\kern-0.05em \TeX}
+
+%
+%  DOCUMENT PROPER STARTS HERE
+%
+
+\leftline{\titlerm Installing Malvern fonts}
+\bigskip
+
+%  Print my address:
+
+\rightline{\vbox{\halign{\strut#\hfil\cr
+	P. Damian Cugley\cr
+\noalign{\smallskip}%
+	Oxford University Computing Laboratory\cr
+   	Parks Road\cr
+	Oxford \sc{OX$\mit1\ 3$QD}\cr
+	UK\cr
+\noalign{\smallskip}%
+	\tt Damian.Cugley@comlab.ox.ac.uk\cr
+}}}
+\bigskip
+
+	(Where this document and the corresponding chapter in the {\it
+	Handbook} differ, this version is probably the more up-to-date.)
+
+\section{About Malvern}
+	Malvern is a font family designed and implemented in \MF.  It is
+	a sanserif font intended mainly for non-technical documents.  It
+	does not blend particularly well with the Computer Modern fonts.
+
+\subsection{Generic driver file}
+	Malvern is unusual amongst \MF\ families in that it is supplied
+	with one {\it generic driver file} which could in theory be used
+	instead of having one driver file for each size and style the
+	family comes in.\footnote*{The package includes a selection of
+	driver files nevertheless.} The generic driver file ({\tt
+	ma.mf}) inspects the values of variables like {\it designsize}
+	and {\it weight} and gives the ad-hoc parameters appropriate
+	values, before reading the program files.  On some UNIX systems
+	a small program called {\tt mff} can be used to generate fonts
+	using this system.  Otherwise other measures will have to be
+	taken, described below.
+
+\subsection{Malvern encodings}
+	Malvern uses a nonstandard encoding -- in fact a family of
+	encodings, for example, Malvern~A (latin alphabets) and
+	Malvern~G (Greek).  To create fonts for use with \LaTeX~2e and
+	the NFSS~2 font selection macros, use Alan Jeffrey's {\tt
+	fontinst} package.  This generates the {\tt fd} files and
+	virtual fonts so that Malvern fonts may be used in the same way
+	as other \LaTeX~2e families.  (The glyphs needed to make fonts
+	with the Cork (T1) encoding are in Malvern~A and Malvern~B.)
+	This has already been done to make a selection of styles
+	available with both \TeX\ Text and T1 encodings.
+
+\subsection{Malvern font names}
+	The Malvern fonts generated with \MF\ will have \TeX\ names of
+	the following form:
+$$
+	\hbox{\tt ma \it style enc size}
+$$
+ 	where the {\it style} is a two-digit style code (described
+	below), {\it enc} is one- or two-letter code identifying a
+	Malvern encoding (such as `{\tt a}' or `{\tt az}'), and {\it
+	size} is the size in points (e.g., `{\tt 12}' for $12\pt$, `{\tt
+	17p28}' for $17.28\pt$). Thus {\tt ma55a12} (12-pt Malvern 55,
+	encoding~A), {\tt ma56g12} (12-pt Malvern~56, Greek encoding).
+
+	The two-letter style codes are based on Adrien Frutiger's
+	system, devised for the Univers family.  The first digit
+	specifies the weight, from 1 (ultra-light) to 9 (ultra-bold),
+	with 5 meaning medium and 7 bold.  The second digit gives the
+	width: 5 or 6 is normal width, 7 or 8 is compressed, 3 or 4 is
+	expanded.  An odd number means an upright font, an even number
+	italic.  Thus Malvern~55 is roman, Malvern~56 is italic,
+	Malvern~75 boldface, Malvern~68 is demibold compressed italic.
+
+\edef\refstylecodes{\S\thinspace\the\seccount\.\the\subseccount}
+
+	The \MF\ programs are also able to generate fonts named in Karl
+	Berry's system,\footnote\dag{Karl Berry, {\it File Names for \TeX\
+	Fonts}, version 1\.6 ({\tt
+	file:\allowbreak//ftp.cs.umb.edu\slash pub\slash tex\slash fontname}).}
+	starting with `{\tt fmv}'.  The correspondance between Malvern's
+	style digits and weight, variant and expansion letters is given
+	in the tables below.  The encoding used for these fonts is \TeX\
+	text, so for example {\tt fmvr12} and {\tt ma55s12} are names
+	for the same font.  This is so that these fonts may be used in
+	plain-\TeX\ and \LaTeX-2\.09 documents without too much
+	confusion.  NFSS~2 systems (indeed, any that use non-\TeX-text
+	encodings) will use virtual fonts.
+
+	As of October 1994, however, the font names standard does not
+	allow for combinations of more than two variants (where
+	`variants' includes encodings and slant) without breaking the
+	eight-character limit required by stupid filesystems like MS-DOS
+	and ISO~9960.  As an extreme example, Malvern~58 with the
+	caps-and-small-caps, old-style-numerals variation of the \TeX\
+	Text encoding is {\tt fmvr9ci7tc12} (12 chars).  The only
+	temporary solution I can offer is to extend the naming scheme
+	used for the `{\tt ma}-' fonts to include encoding codes for the
+	virtual fonts needed for plain \LaTeX, NFSS and NFSS~2 (e.g.,
+	{\tt ma58ab12}).  Therefore, the ability to create {\tt fmv}-
+	fonts is not being used at present.
+
+\section{Unpacking Malvern}
+	The Malvern distribution includes \MF\ source files, some \TeX\
+	files such as this documentation, and a few other miscellaneous
+	files.  
+
+	All files have names that should work with MS-DOS and ISO-9960
+	filesystems.
+
+\subsection{Source files ({\tt/source})}
+	On most \TeX\ systems, \MF\ fonts end up with their source files
+	stored in one directory.  I~suggest that Malvern instead be
+	given its own file area.  This avoids problems with different
+	font families having files with the same name, and makes it easy
+	to replace all the Malvern files in one go if you upgrade to a
+	newer version of Malvern.
+
+	With a new-style directory tree,\footnote*{At the time of
+	writing, the \TeX\ Directory Standard (TeDiouS) is still in
+	discussion.\break   This is my best guess based on a \TeX\ system I
+	recently installed.} the {\tt\ttpackage} directory may be
+	placed in the `{\tt texmf/fonts/public}' directory, and the {\tt
+	source} directory and {\tt driver} directories merged and
+	renamed so that \MF\ can find them.
+
+	The files {\tt mff.rc} and {\tt fmv.mff} are input files for
+	{\tt mff} and may be ignored if you are not using {\tt mff} to
+	generate fonts.  If the Malvern files are being mixed in with a
+	bunch of others, rename {\tt mff.rc} to {\tt ma.mff}.
+
+\subsection{Driver files ({\tt/drivers})}
+	Fonts can be generated by including assignments on the \MF\
+	command line, but driver files are more convenient (unless you
+	have {\tt mff}).  These are also used when assignments to the
+	generic driver file's parameters on the \MF\ command line is
+	impossible, such as when using the standard {\tt MakeTeXPK}
+	script.  A driver file is included for each {\tt tfm} supplied.
+
+\subsection{\TeX\ input files ({\tt/tex})}
+	These files belong in a system-wide \TeX\ inputs area.  The
+	files ending -{\tt.fd} are font family description files, used
+	by NFSS~2.
+
+	On new-style directory trees, the best approach is probably to
+	link or rename the {\tt texmf/fonts/public/\ttpackage/tex}
+	directory to {\tt texmf/tex/\ttpackage}.
+
+\subsection{Documentation files ({\tt/doc}, {\tt/dvi})}
+	Files ending in `{\tt.tex}' are plain \TeX\ documents, and will
+	not work with \LaTeX.  Compiled ({\tt dvi}) files are supplied
+	to save the installer having to run \TeX.  Read this document,
+	{\tt install.tex}, first.  The Greek text encoding is described
+	in {\tt magrman.tex}.
+
+
+	Please do not install any of the macro files used to typeset the
+	documentation in the system-wide \TeX\ inputs area.  They are
+	not supported, not necessarily generally useful, and very
+	nonstandard.  Earlier releases of Malvern gave the macro files
+	generic enough names that they might clash with other macro
+	files.  They have been renamed to start with `{\tt pdc}' in the
+	hope that this will avoid clashes if they are accidentally
+	installed.
+
+\subsection{Virtual font files ({\tt/vf})}
+	These virtual fonts are generated using Alan Jeffrey's
+	\fontinst\ package, and are Malvern fonts with the Cork encoding
+	(and some of the trickier \TeX\ Text variations).  With NFSS~2
+	they are used by specifying encoding `{\tt T1}' and family `{\tt
+	fmv}'.s
+
+	The virtual fonts may have the following encoding codes:
+\begintable
+	\it Encoding&\it Code&\it Description\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	OT1c&	\tt aa&
+		\TeX\ text with caps\&small caps\cr
+	OT1c9&	\tt ab&
+		ditto, with old-style numerals\cr
+	T1&	\tt ar&
+		Cork\cr
+	T19&	\tt as&
+		Cork, with old style numerals\cr
+	T1c&	\tt at&
+		Cork, with caps\&small caps\cr
+	T1c9&	\tt au&
+		Cork, with c\&sc and o.s. numerals\cr
+\endtable
+	For example, {\tt ma55ar12} has encoding T1.  Note that
+	replacing lower-case letters with small-capitals counts as a
+	different encoding scheme rather than a `font shape'.
+
+\subsection{Font metric files ({\tt/tfm})}
+	A selection of precompiled font metric files, including those
+	for virtual fonts in {\tt /vf} and the actual fonts needed to
+	use them, as well as fonts needed to print the documentation in
+	{\tt/dvi}.
+
+\section{Using mff to generate Malvern fonts}
+	First, install {\tt mff} and arrange that \MF\ fill be able to
+	find the {\tt mf} files.  Then to create a Malvern font, for
+	example 12-pt Malvern~55 ({\tt ma55a12}), give the command:
+$$
+	\hbox{\tt mff ma55a12}
+$$
+	To generate Malvern~55 and 56 at magsteps 0, half and 1, for 300-dpi
+	and 1000-dpi printers, you would type:
+$$
+	\hbox{\tt mff --magstep=0,h,1 
+		--dpi=300,1000 ma55a10 ma56a10}
+$$
+	If all goes well, the {\tt tfm} and {\tt pk} files generated
+	will be installed in the correct directories automatically.
+
+\section{Generating Malvern fonts without mff}
+	This section presumes you know how to install a normal \MF\
+	font.
+
+	Create a driver file for each style of Malvern you want to be
+	able to use.  It should have the following form:
+\begintable
+\tt	\% \<name of file> -- generate \<size>-pt Malvern \<style> \cr
+\noalign{\smallskip}
+\tt	font\char95 size \<size> pt\#; \cr
+\tt	encoding = \<number>; \cr
+\tt	weight = \<number>; hratio = \<number>; \cr
+\tt	slant = \<number>; italicness = \<number>; \cr
+\tt	input ma \cr
+\tt	bye \cr
+\endtable
+ 	where \<size> is the design size desired in points, and the
+	values for the various variables are given below.  The \<style>
+	is the two-digit style code described in \refstylecodes.
+%  You
+%	might want to append an verbose description of the style:
+%$$\hbox{\tt \% ma76a12.mf -- generate 12-pt Malvern 76 bold italic}$$ 
+	To
+	generate '{\tt fmv}-' fonts, the second-last line is changed to
+	`{\tt input fmv}'.
+
+	These driver files should be named after the font they
+	correspond to -- for example, `{\tt ma76a12.mf}' to generate
+	Malvern~76.  Then they are used as usual with \MF:
+$$
+	\hbox{\tt mf \char92 mode=luxo; mag={\it m}; input ma55a12}
+$$
+ 	where {\it m} is the magnification wanted, or `{\tt 1.0}' for no
+	magnification.
+
+\subsection{Values for {\it encoding}}
+	The variable {\it encoding} specifies the encoding to use -- in
+	other words, the subset of Malvern's glyphs to be generated.
+	It should be given one of the following values:
+\begintable
+	\it Encoding&\it Code&\it Description\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it encoding} = 1$&	\tt a&
+		Malvern A (latin alphabets {\it a--z}, numerals, etc.)\cr
+	${\it encoding} = 2$&	\tt b&
+		Malvern B (superscripts, symbols etc.)\cr
+	${\it encoding} = 3$&	\tt c&
+		Malvern C (Cyrillic)\cr
+	${\it encoding} = 5$&	\tt e&
+		Malvern E (composite letters {\it \`a--\v z})\cr
+	${\it encoding} = 7$&	 \tt g&
+		Malvern G (Greek letters $\alpha$--$\omega$, 
+			$\it\acute\alpha$--$\it\tilde\omega$)\cr
+	${\it encoding} = 19$&	\tt s& \TeX\ text (the same as CM Roman)\cr
+	${\it encoding} = 26$&	\tt az& \TeX\ text, old-style numerals\cr
+\endtable
+ 	The code is the used in the font name -- for example, {\tt
+	ma55s10} for Malvern with the \TeX\ text encoding (${\it
+	encoding} = 19$), and so on.
+
+	The Malvern programs used to attempt to generate other encoding
+	schemes; with {\tt fontinst} this all becomes redundant and
+	those codes are obsolete.
+
+\subsection{Values for {\it weight}}
+	The variable {\it weight} specifies the weight (boldness) of the
+	font.  It has the following values:
+\begintable
+	\it Weight&\it Style&\it NFSS~2& \it Berry&\it Description\cr
+		  &\it digit&\it code&\it code\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it weight} = 1/4$&	\tt 1& \tt ul& \tt t&	ultra-light\cr
+	${\it weight} = 1/2$&	\tt 2& \tt el& \tt i& 	extra-light\cr
+	${\it weight} = 3/4$&	\tt 3& \tt\ l& \tt l& 	light\cr
+	${\it weight} = 7/8$&	\tt 4& \tt sl& \tt b& 	semi-light\cr
+	${\it weight} = 1$&	\tt 5& \tt\ m& \tt m& 	medium\cr
+	${\it weight} = 1\.3$&	\tt 6& \tt sb& \tt d& 	semi-bold\cr
+	${\it weight} = 1\.6$&	\tt 7& \tt\ b& \tt b& 	bold \cr
+	${\it weight} = 2$&	\tt 8& \tt eb& \tt x& 	extra-bold\cr
+	${\it weight} = 3$&	\tt 9& \tt ub& \tt u& 	ultra-bold\cr
+\endtable
+ 	The `style digit' is the first digit in the two-digit style
+	codes described in \refstylecodes.  The `NFSS~2\ code' is the
+	first half of a corresponding NFSS~2\ `font series' code.  The
+	`Berry code' is the code for this weight in Karl Berry's font
+	naming scheme.
+
+ 	Note that some of the character programs produce ugly results
+	for large values of {\it weight}.
+
+\subsection{Values for {\it hratio}}
+	The variable {\it hratio} specifies the ratio between horizontal
+	and vertical measurements: in other words, whether the font is
+	compressed or expanded.  It may have the following values:
+\begintable
+	\it Hratio&\it Style&\it NFSS~2& \it Berry&\it Description\cr
+		  &\it digit&\it code&\it code\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it hratio} = 0\.50$&	{\tt 9} or {\tt 0}&
+		\tt ec&\tt o&	extra compressed\cr
+	${\it hratio} = 0\.80$&	{\tt 7} or {\tt 8}&
+		\tt\ c&\tt c& 	compressed\cr
+	${\it hratio} = 1\.00$&	{\tt 5} or {\tt 6}&
+		\tt\ m&\tt r& 	normal width\cr
+	${\it hratio} = 1\.15$&	{\tt 3} or {\tt 4}&
+		\tt\ x&\tt x&	expanded\cr
+	${\it hratio} = 1\.30$&	{\tt 1} or {\tt 2}&
+		\tt ex&\tt w&	extra expanded\cr
+\endtable
+ 	The 'style digit' is the second half of the two-digit style
+	codes described in \refstylecodes.  The `NFSS~2\ code' is the
+	second half of an NFSS~2\ `font series' code (for example,
+	bold expanded is ${\tt b} + {\tt x} = {\tt bx}$, compressed is
+	${\tt m} + {\tt c} = {\tt c}$).  The `Berry code' is for Karl
+	Berry's scheme.
+
+ 	Beware that the character programs do not all produce good
+	results when {\it hratio} is not 1.
+
+\subsection{Values for {\it slant} and {\it italicness}}
+	These two variables between them specify whether a font is to be
+	produced with italic letterforms or not:
+\begintable
+	\it Slant&\it Italic? &\it Style&\it NFSS~2&\it Berry&\it Description\cr
+	&&\it digit&\it code&\it code\cr
+\noalign{\kern\jot\hrule\kern1.5\jot}
+	${\it slant} = 0$&	${\it italicness} = 0$&	odd&
+		\tt n& \tt r& 	upright\cr
+	${\it slant} = 1/8$&	${\it italicness} = 1$&	even&	
+		{\tt ti} or {\tt i}& \tt i&	italic\cr
+	${\it slant} = 0$&	${\it italicness} = 1$&	--&
+		\tt ui& \tt u& 	`upright italic'\cr
+	${\it slant} = 1/8$&	${\it italicness} = 0$&	--&	
+		{\tt sl} 	& \tt o&	oblique\cr
+\endtable
+ 	The `NFSS~2\ code' is the `font shape' code.  For italic this
+	might be `{\tt ti}' or `{\tt i}' depending on whom you ask.  The
+	`Berry codes' are variant letters for Karl Berry's font naming
+	scheme.
+
+ 	The variable {\it slant} is common to many \MF\ programs, and
+	causes the glyphs to be obliqued.  The {\it italicness} variable
+	signals that italic letterforms should be used for some letters.
+	It is possible to generate an obliqued font or an `upright
+	italic' with appropriate settings, but these cannot have `{\tt
+	ma}-' names because I~have not defined style codes for them.
+
+\section{Note on the {\it Handbook}}
+	The {\it Malvern Handbook}, {\tt doc/maman.tex} produces
+	cross-references automatically via an {\tt aux} file, and will
+	need to be run through \TeX\ twice to get the cross-references
+	right.  The front matter (preface and table of contents) are
+	printed {\it last}, and should be transferred to the front of
+	the handbook before binding.
+
+\rightline{pdc 1994.10.07}
+\bye
+
+%Local Variables:
+%fill-prefix: "	"
+%End:

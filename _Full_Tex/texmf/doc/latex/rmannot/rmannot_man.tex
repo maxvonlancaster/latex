@@ -1,0 +1,947 @@
+%
+% http://www.adobe.com/devnet/acrobat/pdfs/PDF32000_2008.pdf
+%
+% makeindex < aebpro_man.idx > aebpro_man.ind
+\documentclass{article}
+\usepackage[fleqn]{amsmath}
+\usepackage[
+    web={centertitlepage,designv,
+        forcolorpaper,latextoc,pro},%usesf,
+        aebxmp,eforms
+]{aeb_pro}
+\usepackage[dvipsone,showembeds]{graphicxsp}
+\usepackage{aeb_mlink}
+\usepackage{array}
+%\usepackage{myriadpro}
+\usepackage[altbullet]{lucidbry}
+\usepackage{rmannot}
+
+\usepackage{makeidx}
+\makeindex
+\usepackage{acroman}
+
+\usepackage[active]{srcltx}
+
+\def\expath{../examples}
+
+\urlstyle{rm}
+
+%\def\tutpath{doc/tutorial}
+%\def\tutpathi{tutorial}
+
+\DeclareDocInfo
+{
+    university={\AcroTeX.Net},
+    title={ The \texorpdfstring{\texttt{rmannot} Package\\[1em]}{rmannot Package: }
+        Rich Media Annotations\texorpdfstring{\\[1em]}{ }for Acrobat 9 Pro},
+    author={D. P. Story},
+    email={dpstory@acrotex.net},
+    subject={Documentation for AeB Pro from AcroTeX},
+    talksite={\url{www.acrotex.net}},
+    version={1.0},
+    keywords={Rich Media Annotations, SWF, FLV, MP3, AcroTeX, AcroFlex, LaTeX},
+    copyrightStatus=True,
+    copyrightNotice={Copyright (C) \the\year, D. P. Story},
+    copyrightInfoURL={http://www.acrotex.net}
+}
+\nocopyright
+\copyrightyears{2008-\the\year}
+\def\dps{$\hbox{$\mathfrak D$\kern-.3em\hbox{$\mathfrak P$}%
+   \kern-.6em \hbox{$\mathcal S$}}$}
+
+\universityLayout{fontsize=Large}
+\titleLayout{fontsize=LARGE}
+\authorLayout{fontsize=Large}
+\tocLayout{fontsize=Large,color=aeb}
+\sectionLayout{indent=-62.5pt,fontsize=large,color=aeb}
+\subsectionLayout{indent=-31.25pt,color=aeb}
+\subsubsectionLayout{indent=0pt,color=aeb}
+\subsubDefaultDing{\texorpdfstring{$\bullet$}{\textrm\textbullet}}
+
+%\pagestyle{empty}
+\parindent0pt\parskip\medskipamount
+
+\newcommand{\myRMFiles}{C:/Users/Public/Documents/My TeX Files/%
+    tex/latex/aeb/aebpro/rmannot/RMfiles}
+\saveNamedPath{AcroAd}{\myRMFiles/Acro_Advertiser.swf}
+\saveNamedPath{horse1}{\myRMFiles/horse1.flv}
+\saveNamedPath{trek}{\myRMFiles/trek.mp3}
+\saveNamedPath{AcroLimerick}{\myRMFiles/AcroTeX_limerick.mp3}
+\makePoster[hiresbb]{AcroAd_poster}{\expath/AcroAd_poster}
+\makePoster[hiresbb]{aebmovie_poster}{\expath/aebmovie_poster}
+\makePoster[hiresbb]{horse1_poster}{\expath/horse1_poster}
+
+\optionalPageMatter
+{%
+    \makebox[\linewidth][c]{%
+        \rmAnnot[poster=AcroAd_poster,enabled=pageopen]%
+            {.5\linewidth}{.5\linewidth*\ratio{265bp}{612bp}}{AcroAd}}%
+}
+
+\definePath{\bgPath}{"C:/Users/Public/Documents/ManualBGs/Manual_BG_Print_AeB.pdf"}
+\begin{docassembly}
+\addWatermarkFromFile({
+    bOnTop:false,
+    cDIPath:\bgPath
+});
+\executeSave();
+\end{docassembly}
+
+\def\puncPt#1{#1}
+
+\begin{document}
+
+\maketitle
+
+\selectColors{linkColor=black}
+\tableofcontents
+\selectColors{linkColor=webgreen}
+
+\section{Introduction}
+
+Beginning with version 9, \textbf{Adobe Reader} and \textbf{Acrobat}
+contain an embedded \textbf{Adobe Flash Player} that will play SWF,
+FLV, and MP3 files. A new annotation type, called a \emph{rich media
+annotation}, was developed to manage these media file types in a PDF
+file.
+
+The \texttt{rmannot} package supports the creation of rich media
+annotations (a \texttt{RichMedia} annotation type), and the
+embedding of SWF, FLV, and MP3 files in a PDF. SWF animations, FLV
+video, and MP3 sound can then be played within a PDF viewed within
+version 9 (or later) of \textbf{Adobe Reader} or \textbf{Acrobat}.\footnote{The
+\texttt{rmannot} package was written, in part, to support the
+{\AcroFLeX} Graphing package.}
+
+Source material for the creation of this package is the document
+\textsl{Adobe Supplement to the ISO 32000}, June 2008. This document
+contains the PDF specification---the so called, BaseLevel~1.7,
+ExtensionLevel~3 specification---of the rich media annotation.
+
+\newtopic\textbf{Examples.} In addition to the examples that ship with the
+\textsf{rmannot} package, there are numerous examples of \textsf{rmannot}
+on my \href{http://www.math.uakron.edu/~dpstory/pdfblog.html}{{\AcroTeX} PDF
+Blog}. I wrote a whole series of articles on the \textbf{Rich Media Annotation}
+(Blogs \#1--11) using \textbf{AeB Pro} and \textsf{rmannot}. Additional
+examples may appear, in time, on my \href{http://www.math.uakron.edu/~dpstory/aebblog.html}{AeB
+Blog}
+
+\section{Requirements}
+
+The requirements for your {\LaTeX} system, and well as any other
+software, is highlighted in this section.
+
+\subsection{{\LaTeX} Package Requirements}
+
+The following packages, in addition to the standard {\LaTeX}
+distribution, are required:
+\begin{enumerate}
+  \item The \texttt{xkeyval} package is used to set up the key-value
+      pairs of the \cs{rmAnnot} command. Get a recent version.
+  \item AeB (\AcroTeX{} eDucation Bundle) The most recent version.
+      In particular the \texttt{eforms} package and its companion
+      package \texttt{insdljs}. The AeB Pro package is recommended. (All
+      the demo files use AeB Pro.)
+  \item The \texttt{graphicxsp} Package. The latest version, I made
+      some slight modifications of this package for \texttt{rmannot}.
+      This package allows the embedding of poster graphics for use in
+      the appearances of the annotations when they are not activated.
+\end{enumerate}
+If you don't have AeB or \texttt{graphicxsp}, you can obtain the
+latest versions from The AeB Home page\footnote{AeB:
+\url{http://www.math.uakron.edu/~dpstory/webeq.html}} and the
+GraphicxSP home page.\footnote{GraphicxSP:
+\url{http://www.math.uakron.edu/~dpstory/graphicxsp.html}} The
+installation instructions for AeB must be read very closely as there
+are certain JavaScript files that must be copied to the correct location
+on your local hard drive. The AeB Pro package can be obtained from
+its home page as well.\footnote{AeB Pro:
+\url{http://www.math.uakron.edu/~dpstory/aeb_pro.html}} It too has a
+JavaScript file that needs to be installed, placement is important.
+
+
+\subsection{PDF Creator Requirements}
+
+The \textsf{rmannot} package supports \textbf{Acrobat Distiller 9.0} (or
+later) as the PDF creator. The document author must have
+\textbf{Acrobat 9.0 Pro} and its companion application
+\textbf{Distiller}. The document author typically uses dvips to
+produce a PostScript file, which is then distilled to obtain a PDF.
+
+\section{Installation}
+
+The installation is simple enough. Unzip \texttt{rmannot.zip} in a
+folder that is on your {\LaTeX} search path.  Refresh your filename
+database, if appropriate.
+
+I am perhaps the last one using YandY, but if there is anyone else,
+there is one other thing to do. The distribution comes with the
+default poster file for the MP3 file; the name of this file is
+\texttt{ramp3poster.eps} (found in the \texttt{graphics} subfolder).
+For YandY users, this file needs to be copied to a folder on the
+\texttt{PSPATH}. If you don't know what I'm talking about, follow
+the steps below.
+
+Open \textsf{dviwindo}, and go to \texttt{Preferences > Environment}
+and choose \texttt{PSPATH} from the drop down menu. Add the path
+\begin{Verbatim}[fontsize=\small]
+    C:\yandy\tex\latex\contrib\rmannot\graphics\\
+\end{Verbatim}
+at the end of your \texttt{PSPATH} string.\footnote{If your
+\textsf{YandY System} installation is elsewhere, enter that path.}
+It is important to have the double backslash at the end of the path.
+This tells the \textsf{YandY System} to search all subfolders for
+the graphics files. When you are finished, your \texttt{PSPATH}
+should look something like this:
+\begin{Verbatim}[fontsize=\small]
+    C:\yandy\ps;C:\yandy\tex\latex\contrib\rmannot\graphics\\
+\end{Verbatim}
+Be sure to separate these paths by a semicolon.
+
+\textbf{\textcolor{red}{Important:}} In recent versions of Acrobat,
+security restrictions have been put in place to prevent
+\textbf{Distiller} from reading files (the PostScript \textbf{file}
+operator does not work). Fortunately, Distiller has a switch that
+turns off this particular restriction. To successfully use this
+package, therefore, you need to run Distiller by using the
+\texttt{-F} command line switch. I personally use the WinEdt
+application as my text editor,\footnote{WinEdt home page:
+\url{www.winedt.com}} and have defined a Distiller button on my
+toolbar. The Distiller button executes the following WinEdt macro.
+\begin{Verbatim}[fontsize=\footnotesize]
+Run(|"c:\Program Files\Adobe\Acrobat 9.0\Acrobat\acrodist.exe" -F "%P\%N.ps"|,
+    '%P',0,0,'%N.ps - Distiller',1,1);
+\end{Verbatim}
+Note the use of the \texttt{-F} switch for \texttt{acrodist.exe}. If
+this package is used to create rich media annotations without the
+\texttt{-F} switch, you typically get the following error message in
+the Distiller log file
+\begin{Verbatim}[fontsize=\small]
+%%[ Error: undefinedfilename; OffendingCommand: file ]%%
+\end{Verbatim}
+This tells you that either you have not started Distiller with the
+\texttt{-F} command line switch, or Distiller can't find one of the
+files that the \textbf{file} operator was trying to read.
+
+\newtopic \textbf{Mac OS Users.} The above comments on the \texttt{-F} command line switch
+is for Windows users, Mac OS user must choose the \texttt{AllowPSFileOps} user preference, this is located
+in the \texttt{plist}, possibly located at
+\begin{Verbatim}[fontsize=\small]
+/Users/[User]/Library/Preferences/com.adobe.distiller9.plist
+\end{Verbatim}
+You can use Spotlight, the search utility on Mac, to search for \texttt{com.adobe.distiller}.
+This finds the file \texttt{com.adobe.distiller9.plist}. Clicking on this find,
+Spotlight opens \texttt{com.adobe.distiller9.plist} in the \texttt{plist} editor, see \hyperref[plist]{Figure~\ref*{plist}}.
+If necessary, click on the arrow next to the Root to expand the
+choices, then click the up and down arrows at the far
+right in the \texttt{AllowPSFileOps} row to select Yes as the value.
+\begin{figure}[hbt]\setlength{\fboxsep}{0pt}
+\begin{center}
+\fbox{\includegraphics[width=.75\linewidth]{plistEditor}}
+\caption{com.adobe.distiller9.plist}\label{plist}
+\end{center}
+\end{figure}
+
+% \section{Options of this Package}
+
+
+\section{Setting the Paths and Posters}
+
+The paths to SWF/FLV/MP3 files are required to appear in the preamble, and any poster
+graphics are required to appear in the preamble as well.
+
+\subsection{Setting the Paths}
+
+There are two types of paths: System paths to resources needed by
+\textbf{Acrobat Distiller}, and media paths to the files used in the
+document.
+
+\paragraph*{System Paths.} This package uses \textbf{Acrobat Distiller~9.0}
+(or later), and requires the document author to have \textbf{Acrobat 9 Pro}.
+In the \textbf{Acrobat} program folder is a \texttt{Multimedia Skins} folder.
+This folder contains skins (SWF files) used in providing playing
+controls to FLV video files, and in the \texttt{Players} subfolder
+you will find VideoPlayer.swf and AudioPlayer.swf. The former plays
+FLV files with an appropriate skin for user controls, the latter
+plays MP3 files. The document author needs to set these paths to
+these files, which are passed on to the distiller. For this purpose
+use \Com{pathToSkins}. The default definition follows:
+\begin{dCmd*}{\linewidth}
+\pathToSkins{%
+    C:/Program Files/Adobe/Acrobat 9.0/Acrobat/Multimedia Skins}
+\end{dCmd*}
+This is the path on my WinXP system. The path for the Mac OS may look like
+\begin{dCmd*}{\linewidth}
+\pathToSkins{/Applications/Adobe\ Acrobat\ 9\ Pro/Adobe\ Acrobat\
+    Pro.app/Contents/MacOS/Multimedia\ Skins}
+\end{dCmd*}
+These paths may differ from platform to platform. Note what the path is to
+the Multimedia Skins folder. The command \cs{pathToSkins} also
+defines the path to the \texttt{Players} subfolder. Future releases
+of \textbf{Acrobat} may change the name of the folders, so a
+\Com{pathToPlayers} command is also provided; as with
+\cs{pathToSkins}, \cs{pathToPlayers} takes one argument, the path to
+the players.
+
+\handpoint The \textsf{rmannot} distribution comes with a
+\texttt{rmannot.cfg} file. In this file, you can set the path to the
+multimedia skins (\cs{pathToSkins}) on your system. Read the
+instructions contained in this file.
+
+\paragraph*{Document Media Paths.}
+
+Each media file (SWF, FLV, MP3) must be declared in the preamble
+using the \Com{saveNamedPath} command.
+\begin{dCmd}{.67\linewidth}
+\saveNamedPath[<mime_type>]{<name>}{<path>}
+\end{dCmd}
+The first optional argument \texttt{<mime\_type>} is normally not
+needed. It is the mime type of the file. Currently, only SWF, FLV
+and MP3 files are supported, and the extension of the file name is
+isolated to determine the mime type.  The second parameter
+\texttt{<name>} is a \emph{unique} name that will be used to
+reference this media file. Finally, \texttt{<path>} is full and absolute path
+to the media file. The path includes the file name and extension.
+
+For example,
+\begin{dCmd*}{.85\linewidth}
+\saveNamedPath{mySWF}{C:/myMedia/AcroFlex3_demo.swf}
+\saveNamedPath{fishing}{C:/myMedia/100_0239.flv}
+\saveNamedPath{summertime}{C:/myMedia/Summertime.mp3}
+\end{dCmd*}
+
+Once the paths are defined in this way, the media files are
+referenced using their given names. This has a couple of purposes.
+\begin{enumerate}
+    \item The names are used to determine if the media file has
+        already been embedded in the document. Though the media clip
+        may be used in several rich media annotations, the \texttt{rmannot}
+        attempts to embed a media file only once.
+    \item The command \cs{saveNamePath} uses
+        \cs{hyper@normalise}, of the \texttt{hyperref} package, to
+        ``sanitize'' special characters, so the path may contain
+        characters that normally have special meaning to {\LaTeX}.
+    \item Defining the path once leads to a consistent reference to
+        the file paths, and reduces the chance of typos.
+\end{enumerate}
+
+A brief example to illustrate the use of the names assigned by the
+\cs{saveNamedPath} follows:
+\begin{dCmd*}{.75\linewidth}
+\rmAnnot{200bp}{200bp}{mySWF}
+\end{dCmd*}
+See \Nameref{rmAnnot} for additional details on the \texttt{poster}
+key and the \cs{rmAnnot} command.
+
+The above example would use the default poster image to give a
+visual of the annotation when it is not activated. The next section
+discusses how to define and implement your own poster image.
+
+\paragraph*{Defining a RM Path.}
+
+The resources (\texttt{.flv}, \texttt{.swf}, \texttt{.mp3} files, for example)
+for your Flash application my reside on your local computer or in the Internet.
+As a way of reducing the amount of typing, you can use \Com{defineRMPath}
+to define common paths to your resources.
+\begin{dCmd}{.67\linewidth}
+\defineRMPath{<\name>}{<path>}
+\end{dCmd}
+The command uses \cs{hyper@normalise} (of \textsf{hyperref}) to ``sanitize'' the path.
+The first argument \verb!<\name>! is the name of the command to be created, and
+\verb!<path>! is the path. After the definition \verb!<\name>! expands to
+\verb!<path>!. For example,
+\begin{dCmd*}{.85\linewidth}
+\defineRMPath{\myRMFiles}{C:/myMedia}
+\saveNamedPath{mySWF}{\myRMFiles/AcroFlex3_demo.swf}
+\saveNamedPath{fishing}{\myRMFiles/100_0239.flv}
+\saveNamedPath{summertime}{\myRMFiles/Summertime.mp3}
+\end{dCmd*}
+We first define a path to our resources, then save those paths along with the file names.
+
+You can use \cs{defineRMPath} to define URLs as well
+{\small
+\begin{dCmd*}{\linewidth}
+\defineRMPath{\myRMURLs}{http://www.example.com/~dpspeaker/videos}
+\end{dCmd*}
+}
+Now, \cs{myRMURLs} points to your common video resources on the Internet.
+
+
+
+
+\subsection{Creating Posters}\label{createPosters}
+
+The \cs{rmAnnot} command has a \texttt{poster} key that is
+recognized as part of optional key-value pairs. The use of the
+\texttt{poster} key is optional, if you do not specify one, one will
+be generated for you. (More on the default poster appearance is
+presented below.) The poster image is visible when the rich media
+annotation is not activated.
+
+To create a poster for your rich media annotation, use a graphics
+application (Adobe Illustrator, Adobe Photoshop, etc.), and save as
+an EPS file. Move this file to your source file folder. Let's call
+this file \texttt{cool\_poster.eps}. In the preamble place the command
+\begin{dCmd*}{.5\linewidth}
+\makePoster{myCP}{cool_poster}
+\end{dCmd*}
+The first argument is a \emph{unique name} for the graphic, the
+second argument is the path name of the graphic (without the
+extension). The name is used as the value of the \texttt{poster}
+key.
+
+The command actually has an optional first argument. This argument
+is passed to the command \cs{includegraphics} (of the \texttt{graphicx}
+package). The general syntax of the command is
+\begin{dCmd}{\linewidth}
+\makePoster[<options>]{<name>}{<path_to_EPS>}
+\end{dCmd}
+The command uses the \texttt{graphicxsp} package to embed the file
+in the PDF document. The graphical image can then be used multiple
+times in many annotations.
+
+The graphic itself should have the same \emph{aspect ratio} as the rich
+media annotation; this is important if the graphic contains text or
+images that would get otherwise distorted.
+
+Example,
+
+\begin{dCmd*}{.75\linewidth}
+\rmAnnot[poster=myCP]{200bp}{200bp}{mySWF}
+\end{dCmd*}
+See \Nameref{rmAnnot} for additional discussion of the \texttt{poster}
+key and \cs{rmAnnot}.
+
+\paragraph*{Default Poster Image.} The \texttt{rmannot} package has
+default poster appearance. This poster appearance takes one of two
+forms. If the media file is MP3, an image of the AudioPlayer control
+bar is used; otherwise it is dynamically generated (with the correct
+dimensions) using the following PostScript operators:
+\begin{dCmd*}{.8\linewidth}
+\defaultPoster
+{%
+    .7529 setgray
+    0 0 \this@width\space\this@height\space rectfill
+    10 \adj@measure 10 \adj@measure moveto .4 setgray
+    /Helvetica \this@height\space 10 div selectfont
+    (\rma@posternote) show
+}
+\end{dCmd*}
+The commands \cs{this@width} and \cs{this@height} are the width and
+height of the annotation. The command \cs{adj@measure} converts a
+measurement to a proportion of the smaller of the two measurements
+\cs{this@width} and \cs{this@height}.\footnote{The code presented
+here is a simplified version of the actual code found in
+\texttt{rmannot.dtx}. The definition of the default poster has a
+number of macros that can be redefined to change the placement of
+text, the color, size of the font, etc. See \texttt{rmannot.dtx}
+for details.}
+
+Note that, in the above code, some text is generated in the lower
+left corner of the annotation, the text is \cs{rma@posternote}. This
+command is populated by the value of the \texttt{posternote} key of
+the optional argument of \cs{rmAnnot}. The default value of
+\texttt{posternote} is \texttt{AcroTeX Flash} or \texttt{AcroTeX
+Video}, depending on the file type of the media. This can be changed
+through the \texttt{posternote} key.
+
+The default poster itself can be redefined by a document author who
+is schooled in PostScript things, perhaps if only to change colors,
+or font, or location of the poster note.
+
+\section{\texorpdfstring{\protect\cs{rmAnnot}}{\CMD{rmAnnot}} and its Options}\label{rmAnnot}
+
+The \cs{rmAnnot} command creates a rich media annotation, new to
+version 9 of \textbf{Acrobat}/\textbf{Adobe Reader}. Media files (SWF, FLV, or MP3)
+can be either embedded in the document, or linked via a URL, and
+played. \textbf{Acrobat}/\textbf{Adobe Reader} have a built-in Flash player that plays
+SWF, FLV and MP3 files.
+
+\goodbreak
+Media files in other formats need to be converted to one of these
+three supported formats.\footnote{The new \textbf{Acrobat 9 Pro Extended} can
+convert media files to FLV, but embed the converted file in the PDF,
+so we cannot really use that re-encoded file with our
+\texttt{rmannot} package. Adobe Flash Video Encoder converts many
+movie formats to FLV format, which can, in turn, be used in this
+package. Other utilities may be available as shareware or
+commercialware.}
+
+\subsection{\texorpdfstring{\protect\cs{rmAnnot}}{\CMD{rmAnnot}} Command}
+
+The primary command of this package is \Com{rmAnnot}, which has four
+arguments, one optional and three required.
+\begin{dCmd}{.75\linewidth}
+\rmAnnot[<options>]{<width>}{<height>}{<name>}
+\end{dCmd}
+The \texttt{<width>} and \texttt{<height>} parameters are what they
+are, the width and height to be used in the rich media annotation.
+The aspect ratio should be the same as the aspect ratio of the
+Flash media. The annotation can be resized using either
+\cs{resizebox} or \cs{scalebox} of the \texttt{graphicx} package to
+get the physical dimensions you want.
+
+\textbf{For MP3 Files.} After a careful measurement, the aspect
+ratio (width/height) of the MP3 \texttt{AudioPlayer} control bar is
+about 9.6. In some of the demo files, I've been using a width of
+\texttt{268bp} and a height of \texttt{28bp}, and resize the
+annotation to what is desired. Use \texttt{268bp} and \texttt{28bp}
+for the width and height of an MP3 file, and resize.
+
+The \texttt{<name>} argument references a media file defined by the
+\cs{saveNamedPath} in the preamble.
+
+The \texttt{<options>} are discussed in the subsection that follows.
+
+\subsubsection{\texorpdfstring{\protect\cs{rmAnnot}}{\CMD{rmAnnot}} Options}
+
+The \cs{rmAnnot} command has many key-value pairs that are passed to
+it through its first optional argument. Most of these key-value
+pairs correspond to options available through the user interface of
+\textbf{Acrobat}. Below is a listing of the key-values, and a brief
+description of each.
+
+\begin{itemize}
+    \item\texttt{name}: The name of the annotation. If none is
+        supplied, then \verb!aebRM\therm@Cnt! is used, where
+        \texttt{rm@Cnt} is a {\LaTeX} counter that is incremented each
+        time \cs{rmAnnot} is expanded.
+
+    \item\texttt{enabled}: The enabled key determines when the
+        annotation is activated, possible values are \texttt{onclick},
+        \texttt{pageopen}, and \texttt{pagevisible}.
+    \begin{itemize}
+        \item \texttt{onclick}: The annotation is activated when the
+            user clicks on the annotation, or is activated through
+        JavaScript.
+        \item \texttt{pageopen}: The annotation is activated when
+            the page containing the annotation is opened.
+        \item\relax\texttt{pagevisible}: The annotation is activated
+            when the page containing the annotation becomes visible.
+            (Useful for continuous page mode.)
+    \end{itemize}
+    The default is \texttt{onclick}.
+
+    \item\texttt{deactivated}: The enabled key determines when the
+        annotation is activate, possible values are \texttt{onclick},
+        \texttt{pageopen}, and \texttt{pagevisible}.
+    \begin{itemize}
+        \item \texttt{onclick}: The annotation is deactivated by
+            user script or by right-clicking the annotation and choosing
+            Disable Content.
+        \item \texttt{pageclose}: The annotation is deactivated when
+            the page containing the annotation is closed.
+        \item \texttt{pageinvisible}: The annotation is deactivated
+            when the page containing the annotation becomes invisible.
+            (Useful for continuous page mode.)
+    \end{itemize}
+    The default is \texttt{onclick}.
+
+    \item \texttt{windowed}: A Boolean, which if \texttt{true}, the
+        media is played in a floating window. The default is
+        \texttt{false}, the media is played in the annotation on
+        the page. For information on how to set the floating
+        window parameters, see \mlNameref{winparams}.
+    \item \texttt{url}: A Boolean, which if \texttt{true}, the media
+        is to be interpreted as an URL. The default is \texttt{false},
+        the media is embedded from the local hard drive and embedded in
+        the PDF file.
+    \item \texttt{borderwidth}: The borderwidth determines whether a
+        border is drawn around the annotation when it is activated.
+        Possible values are \texttt{none}, \texttt{thin},
+        \texttt{medium}, and \texttt{thick}. The default is \texttt{none}.
+    \item \texttt{poster}: The name of a poster graphic created by
+        \cs{makePoster}. See the section \Nameref{createPosters} for
+        additional details.
+    \item \texttt{posternote}: When the poster key is not given, the
+        default poster is generated. A short note of text appears in the
+        lower left-corner. The text for that note can be passed to the
+        default poster appearance through \texttt{posternote}. See
+        \mlNameref{createPosters} for additional details.
+    \item \texttt{transparentBG}: This option is available for SWF
+        files only. Quoting the \emph{Adobe Supplement}
+        document, ``A flag that indicates whether the page
+        content is displayed through the transparent areas of
+        the rich media content (where the alpha value is less
+        than 1.0). If \texttt{true}, the rich media artwork is
+        composited over the page content using an alpha channel.
+        If false, the rich media artwork is drawn over an opaque
+        background prior to composition over the page content.''
+        The default is \texttt{false}.
+    \item \texttt{passcontext}: A Boolean, if \texttt{true}, passes
+        right-click context to Flash. Should be used only if there is a
+        way of deactivating the annotation, perhaps through JavaScript.
+        Recognized only for SWF files. The default is \texttt{false}.
+
+        SWF file developers can select this option to replace the
+        Acrobat context menu with the context menu of the
+        originating SWF file. When the user right-clicks the SWF
+        file, the available options are from the originating file.
+
+    \item \texttt{skin}: For playing a FLV file, seven different
+        skins are available for the user to control the video,
+        \texttt{skin1}, \texttt{skin2}, \texttt{skin3}, \texttt{skin4},
+        \texttt{skin5}, \texttt{skin6}, and \texttt{skin7}. Another
+        possible value is \texttt{none}, for no skin. In the latter
+        case, the media is played when activated, but there is no user
+        interface to control the play. As for the description of each of
+        the skins,
+    \begin{itemize}
+        \item \texttt{skin1}: All Controls
+        \item \texttt{skin2}: Play, Stop, Forward, Rewind, Seek, Mute, and Volume
+        \item \texttt{skin3}: Play
+        \item \texttt{skin4}: Play and Mute
+        \item \texttt{skin5}: Play, Seek, and Mute
+        \item \texttt{skin6}: Play, Seek, and Stop
+        \item \texttt{skin7}: Play, Stop, Seek, Mute, and Volume
+        \item \texttt{none}: No Controls
+    \end{itemize}
+    \item \texttt{skinAutoHide}: A Boolean, if \texttt{true}, the skin auto hides.
+        Only valid for FLV files.
+    \item \texttt{skinBGColor} The color of the skin. The value is a color in hex format.
+    The default is \texttt{0x5F5F5F}.  Only valid for FLV files.
+    \item \texttt{skinBGAlpha}: The alpha level of the skin, a number between 0 and 1. The default
+    is 0.75. Only valid for FLV files.
+    \item \texttt{volume} The initial volume level of the video
+    file, a number between 0 (muted) and 1
+    (max volume). The default is 1.0. Only valid for FLV files.
+    \item \texttt{speed}: Description quoted from the \textsl{Adobe
+        Supplement} document. ``A positive number specifying the speed to be used
+        when running the animation. A value greater than one shortens
+        the time it takes to play the animation, or effectively speeds
+        up the animation.'' The default is 1.
+    \item\texttt{playcount}: Description quoted from the \textsl{Adobe
+        Supplement} document. ``An integer specifying the play count for
+        this animation style. A nonnegative integer represents the
+        number of times the animation is played. A negative integer
+        indicates that the animation is infinitely repeated.'' The
+        default is -1.
+    \item\texttt{cuepoints}: If the video is encoded with cue points, you
+    can associate a JavaScript action with each. The value of \texttt{cuepoints}
+    is a comma delimited list of cue points. See the paragraph
+    \Nameref{cuepoints} for more details.
+    \item \texttt{resources}: Use this key to list all files that
+        are required to run a SWF file.  The value of the resources key
+        is a comma delimited list of path names created by the \cs{saveNamedPath}
+        command. \emph{The files referenced within this key are embedded in the PDF.}
+        Files that are on the Internet---and are played from the Internet---should not be listed here.
+    \item \texttt{flashvars}: Flash developers can use the \texttt{flashvars}
+    key to add ActionScript variables for the SWF file. See the discussion
+    of \textit{{\NoHyper\nameref{NameCmds}}} below.
+\end{itemize}
+
+\paragraph*{Some Name commands}\label{NameCmds} Within the optional parameters of the \cs{rmAnnot}
+command, two convenience commands, \Com{Name} and \Com{urlName}, are
+used with the \texttt{flashvars} key.
+
+The \cs{Name} command may be used to set the value of a flash
+variable. \cs{Name} has one argument, the symbolic name of a file
+embedded by \cs{saveNamedPath}. The expansion of
+\verb!\Name{<name>}! will appear in the Resources tab of the Edit
+Flash dialog box. For example, if we define \texttt{myVid} as
+\begin{Verbatim}[fontsize=\small]
+    \defineRMPath{\myRMFiles}{C:/acrotex/video}
+    \saveNamedPath{myVid}{\myRMFiles/assets/myVid.flv}
+\end{Verbatim}
+then \verb!\Name{myVid}! expands to \texttt{myVid.flv}. If the path is grouped
+with braces, like so,
+\begin{Verbatim}[fontsize=\small]
+    \saveNamedPath{myVid}{\myRMFiles/{assets/myVid.flv}}
+\end{Verbatim}
+then \verb!\Name{myVid}! expands to \texttt{assets/myVid.flv}. This latter form
+corresponds to adding a directory using the Add Directory button on the
+Resources tab of the Edit Flash dialog box.
+
+We can then use \cs{Name} as follows:
+\begin{Verbatim}
+    \rmAnnot[flashvars={source=\Name{myVid}},
+        resources={myVid}]{320bp}{240bp}{mySWF}
+\end{Verbatim}
+where mySWF is the name of an SWF application that takes a flash variable named \texttt{source}, the value
+of the variable is the video to be played.
+
+The \cs{urlName} command is designed for resources on the Internet, and which are passed to the
+SWF application with a flash variable.
+\begin{Verbatim}[fontsize=\small]
+    \defineRMPath{\myRMURLs}{http://www.example.com/~dpspeaker/videos}
+    \saveNamedPath{myVid}{\myRMURLs/myVid.flv}
+\end{Verbatim}
+The expansion of \verb!\urlName{myVid}! is
+\begin{verbatim}
+    http://www.example.com/~dpspeaker/videos/myVid.flv
+\end{verbatim}
+We can then use \cs{urlName} as follows:
+\begin{Verbatim}
+    \rmAnnot[flashvars={source=\urlName{myVid}
+    }]{320bp}{240bp}{mySWF}
+\end{Verbatim}
+Note that we don't list myVid as a resource, we just pass the URL to
+\texttt{mySWF} as a flash variable.
+
+\paragraph*{On Cue Points}\label{cuepoints} A cue point is any significant
+moment in time occurring within a video clip. Cue points can be embedded
+in the FLV using \textbf{Adobe Flash Professional}, or some other video encoder.
+
+The value of the \texttt{cuepoints} key is a list of cue points data, a
+``typical example'' is
+\begin{Verbatim}[fontsize=\footnotesize]
+\newcommand{\myCuePoints}{%
+    {type=nav,name=Chapter1,time=0,action={console.println("Chapter1")}},%
+    {type=nav,name=Chapter2,time=1883,action={console.println("Chapter2")}},%
+    {type=nav,name=Chapter3,time=5197,action={console.println("Chapter3")}},%
+    {type=nav,name=Chapter4,time=6817,action={console.println("Chapter4")}},%
+    {type=nav,name=Chapter5,time=9114,action={console.println("Chapter6")}},%
+    {type=nav,name=Chapter6,time=12712,action={console.println("Chapter6")}}
+}
+\end{Verbatim}
+\textbf{\textcolor{red}{Comments:}} Having made such a definition, we then say
+\verb!cuepoints={\myCuePoints}!, note that \cs{myCuePoints} must be enclosed in
+braces. Note also in the above example, that the comment character
+(\texttt{\%}) is used after each comma (\texttt{,}) in a line break. Because of the way the
+argument is initially parsed, these comment characters are needed.
+
+Each of the cue points is a comma-delimited list of key-value pairs; the
+keys are \texttt{type}, \texttt{name}, \texttt{time}, and \texttt{action}.
+Each of these are briefly described.
+
+\begin{itemize}
+    \item \texttt{type}: Possible values for this key are \texttt{nav} and
+    \texttt{event}, and describes the type of cue point this is.
+    \begin{itemize}
+        \item \texttt{type=nav}: Navigation cue points enable users to seek
+        to a specified part of a file. Embed Navigation cue points in the
+        FLV stream and FLV metadata packet when the FLV file is encoded.
+
+        \item[] Navigation cue points create a keyframe at the specified
+        cue point location, so you can use code to move a video player’s
+        playhead to that location. You can set particular points in an FLV
+        file where you might want users to seek. For example, your video
+        might have multiple chapters or segments, and you can control the
+        video by embedding navigation cue points in the video
+        file.\footnote{Taken in part from
+        \url{http://www.peachpit.com/articles/article.aspx?p=663087}}
+    \item \texttt{type=event}: Event cue points can also be embedded in
+    your FLV stream and FLV metadata packet when video clip is encoded.
+    You can write code to handle the events that are triggered at
+    specified points during FLV playback.\footnote{Ibid.}
+    \end{itemize}
+    \item \texttt{name=<name>}: The name of the cue point
+    \item \texttt{time=<time>}: The time in milliseconds the cue point
+    occurs.
+    \item \texttt{action=<JS\_action>} The JavaScript code that is executed
+    when this cue point is reached.
+\end{itemize}
+
+
+\subsubsection{Setting the Floating Window Parameters}\label{winparams}
+
+When the \texttt{windowed} key is set to \texttt{true}, the rich
+media annotation appears in a floating window. Use the
+\Com{setWindowDimPos} command to set the dimensions of the window
+and its positioning.
+
+\begin{dCmd}{.67\linewidth}
+\setWindowDimPos{<key-value pairs>}
+\end{dCmd}
+\CmdLoc This command may be placed anywhere and will take affect for the next rich media annotation
+created by \cs{rmAnnot}.
+
+\PD There are a number of key-value pairs for setting the floating window; the default values are
+normally adequate for most applications.
+
+\begin{itemize}
+\item\texttt{width}: The width is described by three \emph{key-value pairs}, \texttt{default},
+    \texttt{max}, and \texttt{min}, measured in default user space units. Default values:
+    \texttt{default}: \texttt{288}, \texttt{max}:\texttt{576}, \texttt{min}: \texttt{72}.
+
+    For example, \verb!width={default=300,max=600,min=80}!.
+
+\item\texttt{height}: The height is described by three \emph{key-value pairs}, \texttt{default},
+    \texttt{max}, and \texttt{min}, measured in default user space units. Default values:
+    \texttt{default}: \texttt{216}, \texttt{max}:\texttt{432}, \texttt{min}: \texttt{72}.
+
+    For example, \verb!height={default=300,max=600,min=80}!.
+
+\item\texttt{position}: The position of the floating window is
+    described by four key-value pairs.
+\begin{itemize}
+    \item\texttt{halign}: The \texttt{halign} parameter describes
+        the horizontal alignment of the window. Valid values are
+        \texttt{near}, \texttt{center} and \texttt{far}. The default is
+        \texttt{far}. For languages that read from left-to-right, a
+        value of near refers to the left edge of the viewing window;
+        whereas far refers to the right edge of the viewing window. (For
+        right-to-left reading languages, the description of
+        \texttt{near} and \texttt{far} are reversed.)
+
+    \item\texttt{valign}: The \texttt{valign} parameter describes
+        the vertical alignment of the window. Valid values are
+        \texttt{near}, \texttt{center} and \texttt{far}. The default is
+        \texttt{near}.
+
+    \item\texttt{hoffset}: The description of \texttt{hoffset} is
+        paraphrased from the \textsl{Adobe Supplement} document: The
+        offset from the alignment point specified by the \texttt{halign}
+        key. A positive value for \texttt{hoffset}, when \texttt{halign}
+        is either \texttt{near} or \texttt{center}, offsets the position
+        towards the \texttt{far} direction. A positive value for
+        \texttt{hoffset}, when \texttt{halign} is \texttt{far}, offsets
+        the position towards the \texttt{near} direction. The default is
+        18.
+    \item\texttt{voffset}: The description of \texttt{voffset} is
+        paraphrased from the \textsl{Adobe Supplement}
+        document: The offset from the alignment point
+        specified by the \texttt{valign} key. A positive
+        value for \texttt{voffset}, when \texttt{valign} is
+        either \texttt{near} or \texttt{center}, offsets the
+        position towards the \texttt{far} direction. A positive value
+        for \texttt{voffset}, when \texttt{valign} is \texttt{far}, offsets the
+        position towards the \texttt{near} direction. The default is
+        18.
+\end{itemize}
+\end{itemize}
+In layman's terms the combination of \texttt{halign=far, valign=near} puts
+the floating window in the upper right corner of the active window of
+Adobe Reader/Acrobat, assuming a left-to-right reading language.  The
+values of \texttt{voffset=18,hoffset=18}, moves the floating window 18
+points down and 18 points to the left. That would be its initial position.
+
+\textbf{\textcolor{red}{Note}}: This feature, the positioning of the
+window, never worked in Version~9, but has been implemented for
+Version~10.
+
+The \Com{resetWindowDimPos} command can be used to reset the
+floating window parameters to their default values.
+
+
+\begin{dCmd}{.5\linewidth}
+\resetWindowDimPos
+\end{dCmd}
+
+\subsection{Examples}
+
+In this section, several examples are presented that illustrate the \cs{rmAnnot}
+and some of the key-value pairs.
+
+\subsubsection{Posters}
+
+The poster is an image that is displayed when the rich media annotation is not activated.
+If a poster is not specified using the \texttt{poster} key, one is supplied for it.
+Consider the following Flash animation.
+\begin{center}
+    \resizebox{!}{.75in}{\rmAnnot{612bp}{265bp}{AcroAd}}\quad
+    \resizebox{!}{.75in}{\rmAnnot[poster=AcroAd_poster]{612bp}{265bp}{AcroAd}}%
+\end{center}
+Above are two rich media annotations, each running the same SWF
+file. The one on the left uses the default poster, the one on the
+right uses a custom poster. In the annotation on the left, you see
+the default \texttt{posternote}, this can be changed using the
+\texttt{posternote} key.
+
+The custom poster was obtained by viewing the SWF file in Adobe
+Flash Player~9, then printing one of the frames to Adobe PDF,
+cropping the PDF, then saving the resulting PDF as an EPS file.
+After you crop the printed image, you can determine its dimensions
+by moving your mouse to the lower-left corner; the width and height
+values should appear. Use these in setting up your annotation.
+
+The verbatim listing for the two above annotations is found below.
+\begin{dCmd*}{\linewidth}
+\begin{center}
+    \resizebox{!}{.75in}{\rmAnnot{612bp}{265bp}{AcroAd}}\quad
+    \resizebox{!}{.75in}{%
+        \rmAnnot[poster=AcroAd_poster]{612bp}{265bp}{AcroAd}}
+\end{center}
+\end{dCmd*}
+The poster \texttt{AcroAd\_poster} was defined in the preamble of this document.
+
+Below is the same video, the one on the left is a generic poster
+created from a {\LaTeX} source file, then saved as an EPS file, the
+one on the right was obtained from the poster page generated by
+\textbf{Acrobat}. (See the paragraph below,
+\hyperref[acroposter]{page~\pageref*{acroposter}}, for details on
+how this was done.)
+\begin{center}
+\resizebox{2in}{!}{%
+    \rmAnnot[poster=aebmovie_poster]{209bp}{157bp}{horse1}}\quad
+\resizebox{2in}{!}{%
+    \rmAnnot[poster=horse1_poster]{209bp}{157bp}{horse1}}
+\end{center}
+The verbatim listing for the two above annotations follows:
+\begin{dCmd*}{\linewidth}
+\resizebox{2in}{!}{%
+    \rmAnnot[poster=aebmovie_poster]{209bp}{157bp}{horse1}}\quad
+\resizebox{2in}{!}{%
+    \rmAnnot[poster=horse1_poster]{209bp}{157bp}{horse1}}
+\end{dCmd*}
+Posters and media files are embedded only once, so using the same
+poster and/or media file multiple times does not increase the file
+size significantly.
+
+For MP3 files, the default poster is an EPS file that is an image of
+the player control bar, the example below shows the MP3 poster and audio
+player.
+\begin{center}
+        \resizebox{!}{14bp}{\rmAnnot{268bp}{28bp}{trek}}
+\end{center}
+The code for the above annotation follows:
+\begin{dCmd*}{.75\linewidth}
+\resizebox{!}{14bp}{\rmAnnot{268bp}{28bp}{trek}}
+\end{dCmd*}
+A custom poster can be inserted using the \texttt{poster} key, as
+usual.
+
+\paragraph*{The Acrobat Pro generated poster.}\label{acroposter}
+To acquire the same poster image that \textbf{Acrobat} generates,
+use the following steps:
+\begin{enumerate}
+    \item Open \textbf{Acrobat}
+    \item Drag and drop your SWF or FLV file onto an empty
+        \textbf{Acrobat} window
+    \item Press \textbf{Ctrl-P}, or select {File > Print}
+    \item Select \textbf{Adobe PDF} as the printer
+    \item Select \textbf{Choose paper source by PDF page size}
+    \item Select \textbf{Use custom paper size when needed}
+    \item Press \textbf{OK}
+    \item A new PDF should be created, and it should be the same
+        size as the poster image
+    \item Choose {File > Save As}, select \texttt{Encapsulated
+        PostScript (*.eps)} as the \textbf{Save as type}
+    \item Press \textbf{Save}, and save to an appropriate folder.
+\end{enumerate}
+
+\subsubsection{Skin Options}
+
+When a FLV video file is used, the video is played by the
+VideoPlayer.swf and uses one of the seven standard skins.
+Customizing information is actually passed using FlashVars. (For FLV
+files, the user does not have access to the FlashVars, the
+application, in this case, this package, uses the FlashVars.)
+Customizing options include a choice of skin, setting the auto hide
+flag, a choice of the color of the skin, setting the opacity of the
+skin and setting the initial volume level. The following illustrates
+some of the options on a short FLV video with a horse theme.
+\begin{center}
+\resizebox{2in}{!}{\rmAnnot[posternote=All Controls]{209bp}{157bp}{horse1}}\quad
+\resizebox{2in}{!}{\rmAnnot[posternote={skin6: Play, Seek, Stop},skin=skin6,
+    skinBGColor=0xFF0000,skinBGAlpha=0.25]{209bp}{157bp}{horse1}}
+\end{center}
+The video on the left shows the default settings (default skin, skin
+alpha, volume level, etc.), while the same video on the right uses
+skin6, with skin color of \texttt{0xFF0000} (red) and skin alpha
+level set to 0.25.
+
+\begin{center}
+        \setLinkText[\A{\JS{%
+            var rm=this.getAnnotRichMedia({nPage: this.pageNum, cName: "acrolimerick"});\r
+            if (rm.activated) rm.callAS("multimedia_play");\r
+            else rm.activated=true;
+        }}]{\includegraphics[width=2in]{AeB_Logo}}\\[1ex]
+        \resizebox{!}{14bp}{\rmAnnot[name=acrolimerick]{268bp}{28bp}{AcroLimerick}}
+\end{center}
+
+\bigskip
+
+That's all for now, I simply must get back to my retirement. \dps
+
+\end{document}

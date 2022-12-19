@@ -1,0 +1,130 @@
+\newbox\leftpage
+\newdimen\fullhsize 
+\newdimen\hstitle
+\newdimen\hsbody
+\tolerance=1000\hfuzz=2pt
+
+\def\bigans{b }
+\message{ big or little (b/l)? }\read-1 to\answ
+
+\ifx\answ\bigans\message{(This will come out unreduced.}
+\magnification=1200\baselineskip=14pt
+\font\bigfnt=cmbx10  \global\let\absfnt=\tenrm
+\hsbody=\hsize \hstitle=\hsize %take default values for unreduced format
+
+\else\message{(This will be reduced.}
+\let\lr=L
+\special{landscape}
+\font\bigfnt=cmbx10 scaled\magstep1
+\font\absfnt=cmr10 scaled\magstep1
+\def\almostshipout#1{\if L\lr \count1=1
+      \global\setbox\leftpage=#1 \global\let\lr=R
+   \else \count1=2
+      \shipout\vbox{\hbox to\fullhsize{\box\leftpage\hfil#1}}
+      \global\let\lr=L\fi}
+
+\output={\ifnum\count0=1 %%% This is the HUTP version
+ \shipout\vbox{\hbox to \fullhsize{\hfill\pagebody\hfill}}\advancepageno
+ \else
+ \almostshipout{\leftline{\vbox{\pagebody\makefootline}}}\advancepageno 
+ \fi}
+
+\magnification=1000\baselineskip=14pt\voffset=-.31truein\hoffset=.05truein
+\hstitle=8truein\hsbody=4.75truein\vsize=7truein\fullhsize=10truein
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\def\tit#1#2{\nopagenumbers\hsize=\hstitle\null%
+\vskip 5.5truecm\bigfnt\centerline{#1}\medskip\centerline{#2}
+\absfnt\vskip 0.8truecm\message{#1}\message{#2}}
+
+
+\def\date#1{\ifnum\folio=2\footline={\hss\tenrm\folio\hss}\fi
+\vfill\line{ASTRPD \hfill #1}\tenrm\supereject\hsize=\hsbody%
+\footline={\hss\tenrm\folio\hss}} % restores pagenumbers
+
+
+% tagged sec numbers
+\global\newcount\secno \global\secno=0
+\global\newcount\meqno \global\meqno=1
+\global\newcount\subsecno \global\subsecno=0
+
+\def\section#1{\global\advance\secno by1\global\meqno=1\global\subsecno=0
+\ifx\answ\bigans \vfill\eject
+\else\bigbreak\bigskip\fi% (combination \goodbreak\bigskip\bigskip)
+\noindent{\bf\the\secno. #1}\par\nobreak\medskip\nobreak\message{#1}}
+
+\def\subsec#1{\global\advance\subsecno by1\bigskip\noindent
+{\bf\the\secno.\the\subsecno\ #1}\par\nobreak\smallskip\nobreak\message{#1}}
+
+
+%       \eqn\label{a+b=c}	gives a displayed equation with number
+%				chosen consecutively within sections.
+%     \eqnn and \eqna define labels in advance
+\newwrite\efile \let\firsteqn=T
+\def\writeqno#1%
+{\if T\firsteqn \immediate\openout\efile=eqns.tmp\global\let\firsteqn=F\fi%
+\immediate\write\efile{#1 \string#1}\global\advance\meqno by1}
+
+\def\eqnn#1{\xdef #1{(\the\secno.\the\meqno)}\writeqno#1}
+\def\eqna#1{\xdef #1##1{(\the\secno.\the\meqno##1)}\writeqno{#1{}}}
+
+\def\eqn#1#2{\xdef #1{(\the\secno.\the\meqno)}%
+$$#2\eqno(\the\secno.\the\meqno)$$\writeqno#1}
+
+%			 footnotes
+\global\newcount\ftno \global\ftno=1
+\def\foot#1{\footnote{$^{\the\ftno}$}{#1}\ %
+\global\advance\ftno by1}
+
+
+%     \fig\label{text}
+% generates a number, assigns it to \label, generates an entry.
+% To list the figs on a separate page,  \listfigs
+
+\global\newcount\figno \global\figno=1
+\newwrite\ffile
+
+%\def\fig#1#2{\item{Figure #1: }#2}
+
+\def\fig#1#2{\the\figno\nfig#1{#2}}
+\def\nfig#1#2{\xdef#1{\the\figno}%
+\ifnum\figno=1\immediate\openout\ffile=figs.tmp\fi%
+\immediate\write\ffile {\noexpand \item{Fig. \noexpand#1 :\ }#2}%
+\global\advance\figno by1}
+
+\def\semi{;\hfil\noexpand\break}
+
+\def\listfigs{\vfill\eject\immediate\closeout\ffile%\parindent=20pt
+\centerline{\bf Figure Captions}\bigskip\parindent=40pt%
+\input figs.tmp\vfill\eject\parindent=20pt}
+%
+%     \ref\label{text}
+% generates a number, assigns it to \label, generates an entry.
+% To list the refs on a separate page,  \listrefs
+
+\global\newcount\refno \global\refno=1
+\newwrite\rfile
+
+\def\ref#1#2{[\the\refno]\nref#1{#2}}
+\def\nref#1#2{\xdef#1{[\the\refno]}%
+\ifnum\refno=1\immediate\openout\rfile=refs.tmp\fi%
+\immediate\write\rfile{\noexpand\item{\noexpand#1\ }#2.}%
+\global\advance\refno by1}
+
+\def\listrefs{\vfill\eject\immediate\closeout\rfile%\parindent=20pt
+\centerline{{\bf References}}\bigskip\frenchspacing%
+\input refs.tmp\vfill\eject\nonfrenchspacing}
+
+
+%and finally acknowledgments
+
+\def\ack#1{\vskip 4truecm\centerline{\bf Acknowledgments}\par\nobreak
+\bigskip\nobreak #1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\grad#1{\,\nabla\!_{{#1}}\,}
+\def\om#1#2{\omega^#1{}_#2}

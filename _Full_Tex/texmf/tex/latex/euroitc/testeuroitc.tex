@@ -1,0 +1,46 @@
+%%
+%% This is file `testeuroitc.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% euroitc.dtx  (with options: `test')
+%% 
+%%      Package `euroitc' to use the ITC euro symbols with LaTeX2e
+%%        Copyright (c) 2003--2007  R Schlicht <w.m.l@gmx.net>
+%% 
+%% This program may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3 of this license or
+%% (at your option) any later version.  The latest version of this license
+%% is in:  http://www.latex-project.org/lppl.txt, and version 1.3 or later
+%% is part of all distributions of LaTeX version 2003/12/01 or later.
+%% 
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% This program consists of the files euroitc.dtx and euroitc.ins and the
+%% derived file euroitc.sty.
+%% 
+\ProvidesFile{testeuroitc.tex}%
+      [2007/01/24 v1.1a using the ITC euro fonts (RS)]
+\documentclass{article}
+\usepackage{euroitc}
+\newcommand{\showeuro}[2]{#1 ({\ttfamily#2}) &
+   \usefont{U}{euroitc} {#2}{n}\euro\ \textit{\euro} &
+   \usefont{U}{euroitcs}{#2}{n}\euro\ \textit{\euro} \\}
+\begin{document}
+\centering
+{\LARGE Testing the {\ttfamily euroitc} package\par}
+
+\bigskip
+\begin{tabular}{lll}
+   Weight & Serif & Sans Serif\\
+ \hline\\[-1em]
+   \showeuro{Book}  {m}
+   \showeuro{Medium}{mb}
+   \showeuro{Bold}  {b}
+   \showeuro{Black} {eb}
+\end{tabular}
+\end{document}
+\endinput
+%%
+%% End of file `testeuroitc.tex'.

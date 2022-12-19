@@ -1,0 +1,56 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{cmap}
+\usepackage[cp1251]{inputenc}
+\usepackage[english, ukrainian, russian]{babel}
+\usepackage[left=2cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+\begin{normalsize}
+
+\begin{center}
+\section*{Нерівності.}
+\end{center}
+
+\begin{enumerate}
+\item Доведіть, що $x^{4}+y^{4}+8\geq 8xy$ для довільних $x$ та $y$.
+
+\item Нехай $a, b, c$~--- сторони трикутника. Доведіть нерівність $a^{3}+b^{3}+3abc>c^{3}$.
+
+\item Довести, що $1.01^{1000}>11$.
+
+\item Доведіть, що якщо $a>0$, $b>0$, $c>0$ і $ab+bc+ac\geq 12$, то $a+b+c\geq 6$.
+
+\item Нехай $a,b,c$~--- додатні числа, сума яких рівна 1. Довести, що $$(1+a)(1+b)(1+c)\geq 8(1-a)(1-b)(1-c)$$
+
+\item Нехай $a_{1},a_{2},...,a_{n}$~--- такі, що $a_{1}+a_{2}+...+a_{n}=1$. Довести, що $$a_{1}^{2}+...+a_{n}^{2}\geq \frac{1}{n}.$$
+
+\item Для всіх $a,b,c\in \mathbb{R}$ довести нерівність $$a2^{a}+b2^{b}+c2^{c}\geq a2^{b}+b2^{c}+c2^{a}.$$
+
+\item Для всіх $x_{1},x_{2},x_{3},x_{4},x_{5}>0$ довести нерівність: $$\frac{x_{1}^{2}}{x_{2}}+\frac{x_{2}^{2}}{x_{3}}+ \frac{x_{3}^{2}}{x_{4}}+\frac{x_{4}^{5}}{x_{2}} +\frac{x_{5}^{2}}{x_{1}} \geq x_{1}+x_{2}+x_{3}+x_{4}+x_{5}$$
+
+\item Для $n\geq4$ доведіть нерівність: $2^{n}<n!$.
+\end{enumerate}
+
+\bigskip
+\bigskip
+
+\section*{Теоретична частина:}
+
+\begin{enumerate}
+\item \textbf{\textit{Нерівність Коші:}} $x^{2}+y^{2}\geq 2xy.$
+
+\item \textbf{\textit{Нерівність Бернуллі:}} $(1+x)^{\alpha}\leq 1+\alpha x$, $x\geq -1$, $0<\alpha <1$.
+
+\item \textbf{\textit{Нерівність Коші-Буняковського-Шварца:}} $$(a_{1}^{2}+a_{2}^{2}+...+a_{n}^{2})(b_{1}^{2}+b_{2}^{2}+...+b_{n}^{2}) \geq (a_{1}b_{1}+a_{2}b_{2}+...+a_{n}b_{n}).$$
+
+\item \textbf{\textit{Нерівність перестановок:}} Нехай $x_{1}\geq x_{2}\geq ... \geq x_{n}$ та $y_{1}\geq y_{2}\geq ... \geq y_{n}$. Тоді для кожної перестановки $\sigma = \{\sigma_{1},\sigma_{2},...,\sigma_{n}\}$ чисел $(1,2,...,n)$ виконується: $$x_{1}y_{1}+x_{2}y_{2}+...+x_{n}y_{n}\geq x_{1}y_{\sigma_{1}}+x_{1}y_{\sigma_{2}}+...+x_{1}y_{\sigma_{n}}\geq x_{1}y_{n}+x_{2}y_{n-1}+...+x_{n}y_{1}.$$
+\end{enumerate}
+
+\end{normalsize}
+\end{document}
+

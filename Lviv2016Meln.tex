@@ -1,0 +1,74 @@
+\documentclass[12pt, fleqn]{article}
+
+\usepackage[cp1251]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\Ukrainian
+
+\setlength{\voffset}{-20mm} \setlength{\hoffset}{-20mm}
+\setlength{\textwidth}{170mm} \setlength{\textheight}{240mm}
+
+
+\tolerance=10000
+\sloppy
+\begin{document}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\pagestyle{empty}
+\begin{center}
+{\Large {\textbf{The development of Hahn's theorem on the intermediate function}}}
+
+
+\author{Maslyuchenko V.}{Maslyuchenko V.}
+\author{Melnyk V.}{Melnyk V.}
+
+
+\end{center}
+\large
+\bigskip
+
+Hahn's theorem about intermediate function [1] states that for metrizable space $ X $ and respectively upper and lower semicontinuous functions $ g, h: X \rightarrow \mathbb {R} $, such that $ g (x) \leq h (x) $ on $ X $, there is a continuous function $ f: X \rightarrow \mathbb {R} $, for which $g(x) \leq f (x) \leq h (x) $ on $ X $. Later this theorem was modified ([2], [3]) for case of normal space $ X $ and it was found that normality is necessary for its implementation. In [3], [4], [5] there were obtained some analogues of Hahn's theorem, where an intermediate function satisfies the strict inequality $ g (x) <f (x) <h (x) $ on $ X $, if $ g (x) <h (x) $ on $ X $, or equity $ g (x) = f (x) = h (x) $, if $ g (x) = h (x) $ and strict inequality $ g (x) <f (x) <h (x) $, if $ g (x) <h (x) $.
+
+In recent years, there have merged theorem's analogous to Hahn's theorem for monotone [6] or convex [7] functions. In particular, in [6] it was proved that for respectively upper and lower semicontinuous increasing functions $ g, h: [a, b] \rightarrow \mathbb {R} $, such that $ g (x) \leq h (x ) $ on $ [a, b] $, there is a continuous increasing function $ f $, such that $ g (x) \leq f (x) \leq h (x) $ on $[a,b]$. New question appeared here. Let $ g, h: [a, b] \rightarrow \mathbb {R} $ be functions with bounded variation, such, that $ g $ is upper semicontinuous, and $ h $ lower semicontinuous, and $ g (x) \leq h (x) $ on $ [a, b] $. Is there a continuous function $ f: [a, b] \rightarrow \mathbb {R} $ with bounded variation, such, that $ g (x) \leq f (x) \leq h (x) $ on $ [a, b] $? So far, the answer to this question is yet to be found.
+
+But there were related question's about existence of the intermediate piecewise linear or infinitely differentiable functions. Using one of a methods from the proof of Heine-Borel's lemma or Heine-Borel's lemma itself, we managed to receive the following results.
+
+We will call a pair $ (g, h) $ of functions $ g, h: X \rightarrow \mathbb {R} $ \textit{Hahn's pair/ Hahn's strict pair / on} $ X $, if $ g $ is upper semicontinuous, $ h $ is lower semicontinuous, and $ g (x) \leq h (x) $ / $ g (x) <h (x) $ / on $ X $.
+
+The function $ f: [a, b] \rightarrow \mathbb {R} $ is called \textit{piecewise linear} if there exists a partition $ a = x_ {0} <x_ {1} <... <x_ {n} = b $ of the segment $ [a, b] $, such, that for each $ k = 1, ..., n $ restriction $ f | _ {[x_ {k-1}, x_ {k}]} $ is a linear function on the segment $ [x_ {k-1}, x_ {k}] $. It is clear that every piecewise linear function is continuous.
+
+\textit{Theorem 1.}  Let ($ g $, $ h $) be a Hahn's strict pair on the segment $ [a, b] $. Then there is such a piecewise linear function $ f: [a, b] \rightarrow \mathbb {R} $, that $ g (x) <f (x) <h (x) $ on $ [a, b] $.
+
+\textit{Theorem 2.}  Let ($ g $, $ h $) be Hahn's  strict pair on the segment $ [a, b] $. Then there exists such an infinitely differentiable function $ f: [a, b] \rightarrow \mathbb {R} $, that $ g (x) <f (x) <h (x) $ on $ [a, b] $.
+
+The main observation is that upper and lower semicontinuous functions $ g, h: X \rightarrow \mathbb {R} $, for which $ g (x_ {0}) <h (x_ {0}) $ are locally strictly separated by arbitrary constant $ \gamma $, for which $ g (x_ {0}) <\gamma <h (x_ {0}) $. Using the compactness of the segment, we come to the finite coverings, and then, using the bonding intermediate functions can be built.
+
+
+
+\begin{thebibliography}{10}
+
+
+\bibitem{Label1} Hahn H. {\it Uber halbstetige und unstetige Functionen }// Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+\bibitem{Label2} Tong H. {\it Some characterizations of normal and perfectly normal spaces }// Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+
+\bibitem{Label3} Katetov M. {\it On real-valued functions in topological spaces }// Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+
+\bibitem{Label4} Dowker C.H. {\it On countably paracompact spaces }// Canad. J. Math.~--- 1951.~--- \textbf{3}.~--- P.219-224.
+
+\bibitem{Label5} Michael E. {\it Continuous selections I}// Ann. of Math.~--- 1956.~--- \textbf{63}.~--- P.361-382.
+
+\bibitem{Label6} Маслюченко В.К., Петей С.П. {\it Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації} // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+
+\bibitem{Label7} Маслюченко В.К, Мельник В.С. {\it Теореми про проміжну функцію для опуклих функцій}// Сучасні проблеми теорії ймовірностей та математичного аналізу: Всеукраїнська наукова конференція, Ворохта 24-27 лютого 2016. (тези доповідей), — Івано-Франківськ: ДВНЗ "Прикарпатський національний університет імені Василя Стефаника", 2016. — С.98-100.
+
+
+\end{thebibliography}
+
+
+
+
+\end{document} 

@@ -1,0 +1,536 @@
+\documentclass{ltxdoc}
+\usepackage{longtable}
+\MakeShortVerb\|
+\usepackage[bgreek,ibygreek,greek,english]{babel}
+\let\bcode\textbgreek
+\begin{document}
+
+\title{The |bgreek| bundle}
+\author{Luis Rivera%
+  \thanks{This paper documents version 0.3 [February 13, 2009].
+  Please send comments and bug reports to \texttt{jlrn77 at gmail com}.
+  Some contributions made by David Jones and Paolo Matteucci.}}
+\date{February 13, 2009}
+
+\maketitle
+
+\begin{abstract}
+This bundle provides an interface to use several \textsc{ascii} input encodings to typeset Greek with Claudio Beccari's Greek fonts.
+\end{abstract}
+
+\TeX\ is well known to be an outstanding typesetting engine, and \LaTeX\ is perhaps the most popular macro package based on \TeX; yet they are also known to be somewhat demanding on authors, especially those coming from non-\TeX{}nical fields, like biblical or classical scholarship. 
+In these particular fields, many sources come from Greek literary monuments, and several systems have been designed over time to preserve and retrieve Greek texts in digital form, from 6bit encoding schemes to \textsc{unicode}. 
+
+This bundle implements several \textsc{ascii} input schemes (hereafter called ``dialects'') of Greek as subsets of virtual fonts pointing to Claudio Beccari's Greek fonts, used by the standard |Greek| option of the |Babel| package. 
+
+\section{Encoding}
+
+\emph{Beta Code} was developed by David W. Packard, and has been adopted by the \emph{Thesaurus Linguae Grecae} of the University of California, Irvine, and the \emph{Perseus Project} of Tufts University. It was originally specified as a 6bit transliteration scheme, but 7bit variants are known.
+\emph{Ibycus} is an 8bit set of fonts and a 7bit transliteration scheme, broadly based on Beta Code, developed by Pierre MacKay at the University of Washington for direct use with \LaTeX. 
+
+This bundle provides two dialects of Greek implemented as the Babel ``languages'' |bgreek| (for Beta Code) and |ibygreek| (for Ibycus), and they may be used together and with any other Babel language, including the ``standard'' polytonic Greek provided by Babel. 
+In fact, this very document uses they all three intertwined.
+The call, as usual, is |\usepackage|\oarg{language}|{babel}|. 
+
+Consequently, the previous |bgreek| package with all its options, commands, and environments are henceforth deprecated, and the previous |\usepackage{bgreek}| call will give you an error message and stop compilation at the spot.
+
+The |bgreek| dialect still sets the |\catcode| of |\| (backslash) to |\other|, to comply with the Beta Code specification, so |@| acts as the escape character inside |bgreek| texts. 
+However, given the technical limitations of reassigning |\catcode|s inside macros, something necessary to use Beta Coded Greek in a full document, this ``language'' doesn't use the standard Babel interface; instead, you must insert your Beta Coded texts with the |\textbgreek|\marg{text} command. 
+Moreover, this dialect also provides the shorthand kludge provided by the |betababel| package, by Felix Berkemeier, using the ! exclamation mark as a substitute for the |\| backslash to typeset Beta Code within macros like |\section| or |\footnote|.
+
+The |ibygreek| ``dialect'' implements a partial subset of Beta Code, similar to the encoding of the |ibycus| package, by Pierre MacKay, or the |ibycus| language, by Peter Hesling and Walter Schmidt, using `backquote and quote' to typeset grave and acute accents.
+This way, it is no longer necessary to change the catcodes of |\| and |@|, so we don't mess with ordinary \LaTeX\ syntax, and the standard Babel commands work as expected. 
+Moreover, with the |ibygreek| dialect there is no need to prefix a star |*| before uppercase letters, for uppercase Greek glyphs are actually mapped into the corresponding slots in the virtual fonts.
+Finally, as the special Beta Code characters \#\ hash and \%\ percent have no special meaning in Ibycus, you should access the extra characters via the usual commands, as defined below.
+
+These ``dialects'' will not typeset Greek numerals out of their Arabic or Roman counterparts, so you must use the standard Greek language from Babel to do so.
+Please check the documentation for the standard implementation of the Greek language for details.
+
+\section{Crash course}
+
+A text containing the following lines:
+
+\begin{quote}
+\begin{verbatim}
+\documentclass{article}
+\usepackage[bgreek,english]{babel}
+\let\bcode\textbgreek
+\begin{document}
+All humans desire to know by nature.\footnote{%
+\bcode{*pa/ntes a)/nqrwpoi tou= ei)de/nai o)re/gontai fu/sei.}}
+\end{document}
+\end{verbatim}
+\end{quote}
+
+will typeset the following:
+
+\begin{quote}
+All humans desire to know by nature.\footnote{%
+\bcode{*pa/ntes a)/nqrwpoi tou= ei)de/nai o)re/gontai fu/sei.}}
+\end{quote}
+
+You may want to see more comprehensive samples as appendixes to this document.
+
+\section{The Beta Code Encoding}
+
+\def\missing{\vrule height8pt width5pt depth2pt}
+\newif\ifbgreek
+\catcode`\$=13
+\def${\ifbgreek\end{greekdelims}\else\begin{greekdelims}\fi}
+\newenvironment{greekdelims}{\fontencoding{BCG}\selectfont\bgreektrue\bgreekmode}{\bgreekfalse}
+\def\bgreekmode{%
+    %\catcode`\<=13
+    %\catcode`\>=13
+    \catcode`\'=11
+    \catcode`\`=11
+    %\catcode`\~=11
+    \catcode`\"=11
+    \catcode`\|=11
+    \lccode`\<=`\<%
+    \lccode`\>=`\>%
+    \lccode`\'=`\'%
+    \lccode`\`=`\`%
+    %\lccode`\~=`\~%
+    \lccode`\"=`\"%
+    \lccode`\|=`\|%
+    %\gdef<{\(<\)}
+    %\gdef>{\(>\)}
+    \catcode`\#=12
+    \catcode`\%=12
+    \chardef\\=`\\
+    \chardef\#=`\#
+    \chardef\%=`\%
+    \catcode`\@=0
+    \catcode`\\=12
+  \let\guillemetleft\guillemotleft
+  \let\guillemetright\guillemotright
+}
+
+A full description of the Beta Code implemented in the fonts may be found in the following tables, based on ``TLG Beta Code Quick Reference Guide'', last revised August 23, 2004,
+available from \verb+http://ptolemy.tlg.uci.edu/quickbeta.pdf/+.
+Section and table numbers follow the Beta Code Manual.\footnote{This section was contributed by David Jones.}
+
+The black box \missing\ denotes a character that is not supported.  Use of the
+corresponding Beta code results in undefined behaviour.
+
+\section*{1. Greek, Latin and Coptic Alphabets, Fonts and Punctuation}
+
+\subsection*{1.1. Polytonic Greek}
+
+\subsubsection*{1.1.1 The Greek Alphabet}
+
+\begin{table}[h]
+
+\caption{Standard Greek Alphabet with Beta Code equivalents}
+
+\begin{tabular}{lllll}
+
+Upper Case & Beta Code & Character Name & Lower Case & Beta Code \\
+
+$*a$ & *a & Alpha & $a$ & a \\
+
+$*b$ & *b & Beta  & $b$ & b \\
+
+$*g$ & *g & Gamma   & $g$ & g \\
+
+$*d$ & *d & Delta   & $d$ & d \\
+
+$*e$ & *e & Epsilon & $e$ & e \\
+
+$*z$ & *z & Zeta    & $z$ & z \\
+
+$*h$ & *h & Eta & $h$ & h \\
+
+$*q$ & *q & Theta   & $q$ & q \\
+
+$*i$ & *i & Iota    & $i$ & i \\
+
+$*k$ & *k & Kappa   & $k$ & k \\
+
+$*l$ & *l & Lambda  & $l$ & l \\
+
+$*m$ & *m & Mu  & $m$ & m \\
+
+$*n$ & *n & Nu  & $n$ & n \\
+
+$*c$ & *c & Xi  & $c$ & c \\
+
+$*o$ & *o & Omicron & $o$ & o \\
+
+$*p$ & *p & Pi  & $p$ & p \\
+
+$*r$ & *r & Rho & $r$ & r \\
+
+$*s$ & *s & Medial Sigma    & $s1$ & s, s1 \\
+
+$*s$ & *s & Final Sigma     & $s2$ & s, s2 \\
+
+\missing & *s (*s3) & Lunate Sigma     & \missing & s (s3) \\
+
+$*t$ & *t & Tau & $t$ & t \\
+
+$*u$ & *u & Upsilon & $u$ & u \\
+
+$*f$ & *f & Phi & $f$ & f \\
+
+$*x$ & *x & Chi & $x$ & x \\
+
+$*y$ & *y & Psi & $y$ & y \\
+
+$*w$ & *w & Omega   & $w$ & w \\
+
+\end{tabular}
+
+\end{table}
+
+\begin{table}[h]
+
+\caption{Further Greek Letters}
+
+\begin{tabular}{lllll}
+
+Upper Case & Beta Code & Character Name & Lower Case & Beta Code \\
+
+$*v$    & *v            & Digamma    & $v$   & v \\
+
+$*#2$   & *\#2 (*\#4)   & Stigma    & $#2$  & \#2 (\#4) \\
+
+$*#3$ $*#4$ $*#1$
+    & *\#3 (*\#4) (*\#1)
+    & Koppa
+    & $#3$ $#4$ $#1$
+    & \#3 (\#4) (\#1) \\
+
+\missing & *\#711  & San    & \missing  & \#711 \\
+
+$*#5$   & *\#5  & Sampi  & $#5$  & \#5 \\
+
+\end{tabular}
+
+Some technical limitations in the handling of the \#\ hash sign in \LaTeX\ may prevent these characters from being available directly with Beta Code, so the following commands may be used: 
+|\anwtonos| (\foreignlanguage{greek}{\anwtonos}), |\katwtonos| (\foreignlanguage{greek}{\katwtonos}), |\qoppa| (\foreignlanguage{greek}{\qoppa}), |\Qoppa| (\foreignlanguage{ibygreek}{\Qoppa}), |\varqoppa| (\foreignlanguage{ibygreek}{\varqoppa}), |\stigma| (\foreignlanguage{greek}{\stigma}), |\Sampi| (\foreignlanguage{ibygreek}{\Sampi}), |\sampi| (\foreignlanguage{greek}{\sampi}), |\vardigamma| (\foreignlanguage{ibygreek}{\vardigamma}).
+%|\boxeddelta| (\foreignlanguage{bgreek}{\boxeddelta}), |\boxedeta| (\foreignlanguage{greek}{\boxedeta}), |\boxedxi| (\foreignlanguage{greek}{\boxedxi}), |\boxedmu| (\foreignlanguage{greek}{\boxedmu}), |\guillemetleft| (\foreignlanguage{greek}{\guillemetleft}) and |\guillemetright| (\foreignlanguage{greek}{\guillemetright}).
+
+%
+%\newpage
+\end{table}
+
+
+\subsubsection*{1.1.2 Accents, diacritics and punctuation}
+
+\begin{table}[h]
+
+\caption{Polytonic Greek accents and diacritics}
+
+\begin{tabular}{lllll}
+
+Diacritic & Beta Code & Name & Examples & Coded as \\
+
+$)$ & )                 & Smooth breathing  & $e)n$     & e)n \\
+
+$($ & (                 & Rough breathing   & $o($, $oi($   & o(, oi(\\
+
+$/$ & /                 & Acute accent      & $pro/s$   & pro/s \\
+
+$=$ & =                 & Circumflex accent & $tw=n$    & tw=n \\
+
+$\$ & \textbackslash    & Grave accent      & $pro\s$   & pro\textbackslash s\\
+
+$+$ & +                 & Diaeresis         & $proi+e/nai$ & proi+e/nai\\
+
+$|$ & \verb+|+          & Iota subscript    & $tw=|$    & tw=\verb+|+ \\
+
+\missing & ?            & Subscript dot \\
+
+\missing & \%26         & Macron \\
+
+\missing & \%27         & Breve \\
+
+\end{tabular}
+
+\end{table}
+
+\subsubsection*{Punctuation}
+
+\begin{tabular}{lll}
+
+Punctuation & Beta Code & Name \\
+
+$.$  & . & Period \\
+
+$:$  & : & Colon (Ano Stigme) \\
+
+$;$  & ; & Question Mark \\
+
+$'$  & \verb+'+ & Apostrophe \\
+
+$-$  & - & Hyphen \\
+
+$--$ & \verb+--+ (??)   & Dash\\\
+
+\end{tabular}
+
+\section*{3. Quotation Marks, Parentheses, Additional Punctuation and
+  Additional Characters}
+
+\subsection*{3.1. \texttt{"}---Quotation Marks}
+
+Quotation mark ligatures are unsupported.  However, the regular
+$@guillemetleft$\verb=\guillemetleft= and \verb=\guillemetright=$@guillemetright$
+commands are readily available. 
+(T1 encoding \LaTeX\ `guillemot's are misleadingly funny typos.) 
+
+\subsection*{3.2. [---Parentheses}
+
+\begin{tabular}{lll}
+
+Beta Code   & Character & Name\\
+
+[ & $[$     & Square Bracket (Opening)\\
+
+] & $]$     & Square Bracket (Closing) \\
+
+[1 & $[1$   & Parenthesis (Opening) \\
+
+]1 & $]1$   & Parenthesis (Closing)
+
+\end{tabular}
+
+The rest of the parentheses codes are unsupported.
+
+\subsection*{3.3. \%---Additional Punctuation and Characters}
+
+\begin{tabular}{lll}
+
+Beta Code   & Character & Name \\
+
+\%   & \missing & Crux (\(\dagger\)) \\
+
+\%1  & \missing & Latin Question Mark (?) \\
+
+\%2  & $%2$     & Asterisk \\
+
+\%3  & $%3$     & Slash \\
+
+\%4  & $%4$     & Exclamation Mark \\
+
+\%5  & \missing & Long Vertical Bar (\verb+|+) \\
+
+\%6  & $%6$     & Equals Sign \\
+
+\%7  & $%7$     & Plus Sign \\
+
+\%8  & $%8$     & Percent Sign \\
+
+\%9  & \missing & Ampersand (\&) \\
+
+\%10 & $%10$    & Dicolon \\
+
+\end{tabular}
+
+Some technical limitations in the handling of the \%\ percent sign in \LaTeX\ may keep these characters from being typeset directly with Beta Code.
+The rest of the \%-codes are unsupported.
+
+\section{Caveats and Acknowledgments}
+
+The code is working its way into maturity. 
+The input encoding scheme changed slightly from version 0.1, towards completeness (as far as this is possible) and stability, and the Babel Language Definition Files are still simple and likely to be buggy.
+%A soon to be released update will use outline fonts instead of bitmaps for PDF creation.
+The next big step shall be the implementation of hyphenation patterns for both (bgreek and ibygreek) ``languages''.
+A few glyphs shall be reassigned to support additional characters, like lunate cigma or textual underdot.
+
+Version 1.0 will comply with the \LaTeX3 project distribution standards, using a |.dtx| file for distribution, and a few scripts to make installation easier.
+Meanwhile, the method of installation is simply by unpacking the zip file into a suitable root |texmf| tree, like |/usr/local/share/texmf|, for instance.
+
+Some portions of the documentation and code have been borrowed from Silvio Levy and Timothy Murphy, \textsl{Using Greek Fonts with \LaTeX}, which is part of the |lgreek.sty| package, and Apostolos Syropoulos \textsl{The Greek Language}, which is part of the distribution of the |Babel| system.
+The virtual fonts have been generated with the |fontinst| package by Alan Jeffrey. 
+
+David Jones found and fixed some broken ligatures, and implemented a lot of ligatures missing in version 0.1.  He also provided the text from the Illiad for test driving.  
+Paolo Matteucci suggested maintaining support for the ibycus encoding, for backwards compatibility with version 0.1.  He also provided the text from the Odyssey. 
+Special thanks to David Kastrup and Donald Arsenau for suggesting a workable way to preserve |\catcode|s within macros.
+
+The development of this bundle has been partly supported by a grant from the Consejo Nacional de Ciencia y Tecnolog\'\i{}a, M\'exico, and the J.~William Fulbright Program, Department of State, U.S.A.
+
+\section*{Appendixes}
+
+\subsection*{\textbgreek{)*Ili/ados A}}
+
+The following text has been transcribed using the Beta Code encoding.
+
+\begin{quote}
+\textbgreek{%
+*mh=nin a)/eide qea\ *phlhi+a/dew *)axilh=os@\@relax
+ou)lome/nhn, h(\ muri/' *)axaioi=s a)/lge' e)/qhke,@\@relax
+polla\s d' i)fqi/mous yuxa\s *)/ai+di proi/+ayen@\@relax
+h(rw/wn, au)tou\s de\ e(lw/ria teu=xe ku/nessin@\@relax
+oi)wnoi=si/ te pa=si, *dio\s d' e)telei/eto boulh/,@\@relax
+e)c ou(= dh\ ta\ prw=ta diasth/thn e)ri/sante@\@relax
+*)atrei/+dhs te a)/nac a)ndrw=n kai\ di=os *)axilleu/s.@\@relax
+ti/s t' a)/r sfwe qew=n e)/ridi cune/hke ma/xesqai;@\@relax
+*lhtou=s kai\ *dio\s ui(o/s: o(\ ga\r basilh=i+ xolwqei\s@\@relax
+nou=son a)na\ strato\n o)/rse kakh/n, o)le/konto de\ laoi/,@\@relax
+ou(/neka to\n *xru/shn h)ti/masen a)rhth=ra@\@relax
+*)atrei/+dhs: o(\ ga\r h)=lqe qoa\s e)pi\ nh=as *)axaiw=n@\@relax
+luso/meno/s te qu/gatra fe/rwn t' a)perei/si' a)/poina,@\@relax
+ste/mmat' e)/xwn e)n xersi\n e(khbo/lou *)apo/llwnos@\@relax
+xruse/w| a)na\ skh/ptrw|, kai\ li/sseto pa/ntas *)axaiou/s,@\@relax
+*)atrei/+da de\ ma/lista du/w, kosmh/tore law=n:@\@relax
+*)atrei/+dai te kai\ a)/lloi e)u+knh/mides *)axaioi/,@\@relax
+u(mi=n me\n qeoi\ doi=en *)olu/mpia dw/mat' e)/xontes@\@relax
+e)kpe/rsai *pria/moio po/lin, eu)= d' oi)/kad' i(ke/sqai:@\@relax
+pai=da d' e)moi\ lu/saite fi/lhn, ta\ d' a)/poina de/xesqai,@\@relax
+a(zo/menoi *dio\s ui(o\n e(khbo/lon *)apo/llwna.@\@relax
+}
+\end{quote}
+
+This is the source code:
+
+\begin{verbatim}
+\textbgreek{%
+*mh=nin a)/eide qea\ *phlhi+a/dew *)axilh=os@\@relax
+ou)lome/nhn, h(\ muri/' *)axaioi=s a)/lge' e)/qhke,@\@relax
+polla\s d' i)fqi/mous yuxa\s *)/ai+di proi/+ayen@\@relax
+h(rw/wn, au)tou\s de\ e(lw/ria teu=xe ku/nessin@\@relax
+oi)wnoi=si/ te pa=si, *dio\s d' e)telei/eto boulh/,@\@relax
+e)c ou(= dh\ ta\ prw=ta diasth/thn e)ri/sante@\@relax
+*)atrei/+dhs te a)/nac a)ndrw=n kai\ di=os *)axilleu/s.@\@relax
+ti/s t' a)/r sfwe qew=n e)/ridi cune/hke ma/xesqai;@\@relax
+*lhtou=s kai\ *dio\s ui(o/s: o(\ ga\r basilh=i+ xolwqei\s@\@relax
+nou=son a)na\ strato\n o)/rse kakh/n, o)le/konto de\ laoi/,@\@relax
+ou(/neka to\n *xru/shn h)ti/masen a)rhth=ra@\@relax
+*)atrei/+dhs: o(\ ga\r h)=lqe qoa\s e)pi\ nh=as *)axaiw=n@\@relax
+luso/meno/s te qu/gatra fe/rwn t' a)perei/si' a)/poina,@\@relax
+ste/mmat' e)/xwn e)n xersi\n e(khbo/lou *)apo/llwnos@\@relax
+xruse/w| a)na\ skh/ptrw|, kai\ li/sseto pa/ntas *)axaiou/s,@\@relax
+*)atrei/+da de\ ma/lista du/w, kosmh/tore law=n:@\@relax
+*)atrei/+dai te kai\ a)/lloi e)u+knh/mides *)axaioi/,@\@relax
+u(mi=n me\n qeoi\ doi=en *)olu/mpia dw/mat' e)/xontes@\@relax
+e)kpe/rsai *pria/moio po/lin, eu)= d' oi)/kad' i(ke/sqai:@\@relax
+pai=da d' e)moi\ lu/saite fi/lhn, ta\ d' a)/poina de/xesqai,@\@relax
+a(zo/menoi *dio\s ui(o\n e(khbo/lon *)apo/llwna.@\@relax
+}
+\end{verbatim}
+
+\subsection*{Odyssey I}
+
+The following passage has been transcribed using the Ibycus encoding.
+
+\begin{quote}
+\begin{otherlanguage}{ibygreek}\obeylines
+)'Andra moi e)'nnepe, mou=sa, \emph{polu'tropon}, o(`s ma'la polla`
+pla'gxqh, e)pei` Troi'hs i(ero`n ptoli'eqron e)'persen:
+pollw=n d'' a)nqrw'pwn i)'den a)'stea kai` no'on e)'gnw,
+polla` d'' o(' g'' e)n po'ntw| pa'qen a)'lgea o(`n kata` qumo'n,
+a)rnu'menos h('n te yuxh`n kai` no'ston e(tai'rwn.
+)All'' ou)d'' w(`s e(ta'rous e)rru'sato, i(e'meno's per:
+au)tw=n ga`r sfete'rh|sin a)tasqali'h|sin o)'lonto,
+nh'pioi, oi(` kata` bou=s (Uperi'onos )Heli'oio
+h)'sqion: au)ta`r o( toi=sin a)fei'leto no'stimon h)=mar.
+Tw=n a(mo'qen ge,  qea', qu'gater Dio's, ei)pe` kai` h(mi=n.
+\medskip
+)'Enq'' a)'lloi me`n pa'ntes, o('soi fu'gon ai)pu`n o)'leqron,
+oi)'koi e)'san, po'lemo'n te pefeugo'tes h)de` qa'lassan:
+to`n d'' oi)=on no'stou kexrhme'non h)de` gunaiko`s
+nu'mfh po'tni' e)'ruke Kaluyw` di=a qea'wn
+e)n spe'ssi glafuroi=si,  lilaiome'nh po'sin ei)=nai.
+)All'' o('te dh` e)'tos h)=lqe periplome'nwn e)niautw=n,
+tw=| oi( e)peklw'santo qeoi` oi)=ko'nde ne'esqai
+ei)s )Iqa'khn, ou)d'' e)'nqa pefugme'nos h)=en a)e'qlwn
+kai` meta` oi(=si fi'loisi. Qeoi` d'' e)le'airon a('pantes
+no'sfi Poseida'wnos: o( d'' a)sperxe`s mene'ainen
+a)ntiqe'w| )Odush=i pa'ros h(`n gai=an i(ke'sqai.
+\end{otherlanguage}
+\end{quote}
+
+This is the corresponding source code:
+
+\begin{verbatim}
+\begin{otherlanguage}{ibygreek}\obeylines
+)'Andra moi e)'nnepe, mou=sa, \emph{polu'tropon}, o(`s ma'la polla`
+pla'gxqh, e)pei` Troi'hs i(ero`n ptoli'eqron e)'persen:
+pollw=n d'' a)nqrw'pwn i)'den a)'stea kai` no'on e)'gnw,
+polla` d'' o(' g'' e)n po'ntw| pa'qen a)'lgea o(`n kata` qumo'n,
+a)rnu'menos h('n te yuxh`n kai` no'ston e(tai'rwn.
+)All'' ou)d'' w(`s e(ta'rous e)rru'sato, i(e'meno's per:
+au)tw=n ga`r sfete'rh|sin a)tasqali'h|sin o)'lonto,
+nh'pioi, oi(` kata` bou=s (Uperi'onos )Heli'oio
+h)'sqion: au)ta`r o( toi=sin a)fei'leto no'stimon h)=mar.
+Tw=n a(mo'qen ge,  qea', qu'gater Dio's, ei)pe` kai` h(mi=n.
+\medskip
+)'Enq'' a)'lloi me`n pa'ntes, o('soi fu'gon ai)pu`n o)'leqron,
+oi)'koi e)'san, po'lemo'n te pefeugo'tes h)de` qa'lassan:
+to`n d'' oi)=on no'stou kexrhme'non h)de` gunaiko`s
+nu'mfh po'tni' e)'ruke Kaluyw` di=a qea'wn
+e)n spe'ssi glafuroi=si,  lilaiome'nh po'sin ei)=nai.
+)All'' o('te dh` e)'tos h)=lqe periplome'nwn e)niautw=n,
+tw=| oi( e)peklw'santo qeoi` oi)=ko'nde ne'esqai
+ei)s )Iqa'khn, ou)d'' e)'nqa pefugme'nos h)=en a)e'qlwn
+kai` meta` oi(=si fi'loisi. Qeoi` d'' e)le'airon a('pantes
+no'sfi Poseida'wnos: o( d'' a)sperxe`s mene'ainen
+a)ntiqe'w| )Odush=i pa'ros h(`n gai=an i(ke'sqai.
+\end{otherlanguage}
+\end{verbatim}
+
+%}
+%More comprehensive test drives are included in the files |iliad.tex| and |odyssey.tex|.
+
+\end{document}
+
+e)/nq' a)/lloi me\n pa/ntes e)peufh/mhsan *)axaioi\@\@relax
+ai)dei=sqai/ q' i(erh=a kai\ a)glaa\ de/xqai a)/poina:@\@relax
+a)ll' ou)k *)atrei/+dh| *)agame/mnoni h(/ndane qumw=|,@\@relax
+a)lla\ kakw=s a)fi/ei, kratero\n d' e)pi\ mu=qon e)/telle:@\@relax
+mh/ se ge/ron koi/lh|sin e)gw\ para\ nhusi\ kixei/w@\@relax
+h)\ nu=n dhqu/nont' h)\ u(/steron au)=tis i)o/nta,@\@relax
+mh/ nu/ toi ou) xrai/smh| skh=ptron kai\ ste/mma qeoi=o:@\@relax
+th\n d' e)gw\ ou) lu/sw: pri/n min kai\ gh=ras e)/peisin@\@relax
+h(mete/rw| e)ni\ oi)/kw| e)n *)/argei+ thlo/qi pa/trhs@\@relax
+i(sto\n e)poixome/nhn kai\ e)mo\n le/xos a)ntio/wsan:@\@relax
+a)ll' i)/qi mh/ m' e)re/qize saw/teros w(/s ke ne/hai.@\@relax
+w(\s e)/fat', e)/deisen d' o(\ ge/rwn kai\ e)pei/qeto mu/qw|:@\@relax
+bh= d' a)ke/wn para\ qi=na polufloi/sboio qala/sshs:@\@relax
+polla\ d' e)/peit' a)pa/neuqe kiw\n h)ra=q' o(\ geraio\s@\@relax
+*)apo/llwni a)/nakti, to\n h)u/+komos te/ke *lhtw/:@\@relax
+klu=qi/ meu a)rguro/toc', o(\s *xru/shn a)mfibe/bhkas@\@relax
+*ki/lla/n te zaqe/hn *tene/doio/ te i)=fi a)na/sseis,@\@relax
+*sminqeu= ei)/ pote/ toi xari/ent' e)pi\ nho\n e)/reya,@\@relax
+h)\ ei) dh/ pote/ toi kata\ pi/ona mhri/' e)/kha@\@relax
+tau/rwn h)d' ai)gw=n, to\ de/ moi krh/hnon e)e/ldwr:@\@relax
+ti/seian *danaoi\ e)ma\ da/krua soi=si be/lessin.@\@relax
+w(\s e)/fat' eu)xo/menos, tou= d' e)/klue *foi=bos *)apo/llwn,@\@relax
+bh= de\ kat' *ou)lu/mpoio karh/nwn xwo/menos kh=r,@\@relax
+to/c' w)/moisin e)/xwn a)mfhrefe/a te fare/trhn:@\@relax
+e)/klagcan d' a)/r' o)i+stoi\ e)p' w)/mwn xwome/noio,@\@relax
+au)tou= kinhqe/ntos: o(\ d' h)/i+e nukti\ e)oikw/s.@\@relax
+e(/zet' e)/peit' a)pa/neuqe new=n, meta\ d' i)o\n e(/hke:@\@relax
+deinh\ de\ klaggh\ ge/net' a)rgure/oio bioi=o:@\@relax
+ou)rh=as me\n prw=ton e)pw/|xeto kai\ ku/nas a)rgou/s,@\@relax
+au)ta\r e)/peit' au)toi=si be/los e)xepeuke\s e)fiei\s@\@relax
+ba/ll': ai)ei\ de\ purai\ neku/wn kai/onto qameiai/.@\@relax
+e)nnh=mar me\n a)na\ strato\n w)/|xeto kh=la qeoi=o,@\@relax
+th=| deka/th| d' a)gorh\n de\ kale/ssato lao\n *)axilleu/s:@\@relax
+tw=| ga\r e)pi\ fresi\ qh=ke qea\ leukw/lenos *(/hrh:@\@relax
+kh/deto ga\r *danaw=n, o(/ti r(a qnh/skontas o(ra=to.@\@relax
+oi(\ d' e)pei\ ou)=n h)/gerqen o(mhgere/es te ge/nonto,@\@relax
+toi=si d' a)nista/menos mete/fh po/das w)ku\s *)axilleu/s:@\@relax
+*)atrei/+dh nu=n a)/mme palimplagxqe/ntas o)i/+w@\@relax
+a)\y a)ponosth/sein, ei)/ ken qa/nato/n ge fu/goimen,@\@relax
+ei) dh\ o(mou= po/lemo/s te dama=| kai\ loimo\s *)axaiou/s:@\@relax
+a)ll' a)/ge dh/ tina ma/ntin e)rei/omen h)\ i(erh=a@\@relax
+h)\ kai\ o)neiropo/lon, kai\ ga/r t' o)/nar e)k *dio/s e)stin,@\@relax
+o(/s k' ei)/poi o(/ ti to/sson e)xw/sato *foi=bos *)apo/llwn,@\@relax
+ei)/t' a)/r' o(/ g' eu)xwlh=s e)pime/mfetai h)d' e(kato/mbhs,@\@relax
+ai)/ ke/n pws a)rnw=n kni/shs ai)gw=n te telei/wn@\@relax
+bou/letai a)ntia/sas h(mi=n a)po\ loigo\n a)mu=nai.
+
+% \change{2003/04/14}{First release, still from Washington, DC}
+% \change{2004/12/14}{D.~Jones found and fixed several broken ligatures}
+% \change{2004/12/14}{D.~Jones added ligatures to implement a larger set of BC}
+% \change{2004/12/14}{D.~Jones contributed BC specification and Illiad sample}
+% \change{2004/12/14}{P.~Matteucci contributed Odyssey sample}
+% \change{2004/12/14}{Added ibycus and simple options to the bgreek package, for backwards compatibility}
+% \change{2009/02/13}{Discontinued the bgreek package and options}
+% \change{2009/02/13}{Implemented ibygreek and bgreek as babel languages}
+% \change{2009/02/13}{Added support for \backslash\ backslash inside macros with moving arguments (thanks to D.~Arsenau)}
+% \change{2009/02/13}{Rewrote the documentation, merging all the previously scattered pieces}
+%

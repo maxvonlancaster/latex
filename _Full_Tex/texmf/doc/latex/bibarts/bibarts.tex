@@ -1,0 +1,1404 @@
+%%
+%%
+%%  Dies ist die Dokumentation zu bibarts 1.3.
+%%       (c) Timo Baumann  <28.Mar.1998>
+%%
+%%
+%%
+%%   siehe unten:  BEARBEITUNG DIESES TEXTES
+%%
+%%
+%%
+%%  ENGLISH ABSTRACT:
+%%  =================
+%%
+%%  bibarts helps you to make a bibliography (literature, sources & index).
+%%  - bibarts switches from english to german, if \newumlaut is defined
+%%    (in german.sty, \newumlaut is defined).
+%%  - bibarts switches from LaTeX 2.09 to LaTeX 2e, if \LaTeX2e is defined
+%%    (see definition of \@footnotetext in bibarts.sty).
+%%  - If you are no DOS user, you have to compile gbibsort.c using your own
+%%    compiler, or, you have to use your own sorting program. If you do not
+%%    use gbibsort, you may not use commands \sort, \male, nor \female.
+%%  - bibarts.sty defines the following commands:
+%%     1  \makebar: Prepares bibliography FILE.bar.
+%%        You have to perform the following steps:
+%%          1.1 latex FILE.tex
+%%          1.2 gbibsort FILE.bar FILE.phy
+%%          1.3 makeind[e]x FILE.bar
+%%          1.4 latex FILE.tex
+%%          1.5 latex FILE.tex
+%%        FILE.bar contains three kinds of items: literature, sources, and
+%%        index. They are created by commands 2, 3, 4, 5, 9, 10 and 12.
+%%     2  \vli{Donald}{Knuth}{The TeX-Book, Reading (Mass.) 1984}
+%%        - prints "Donald Knuth: The TeX-Book, Reading (Mass.) 1984".
+%%        - writes "Knuth, Donald: The TeX-Book, Reading (Mass.) 1984"
+%%          into list of literature. "Knuth" will be underlined.
+%%     3  \vqu does the same, but writes into list of sources.
+%%     4  \addtovli{a}{b}{c}: Writes "b, a: c" into list of literature.
+%%     5  \addtovqu{a}{b}{c}: Writes "b, a: c" into list of sources.
+%%     6  \printonlyvli{a}{b}{c}: Prints "a b: c". (2 <=> 4 + 6)
+%%     7  \printonlyvqu{a}{b}{c}: Prints "a b: c". (3 <=> 5 + 7)
+%%     8  \sort{A} in \vli's, \vqu's, \addtovli's or \addtovqu's arguments
+%%        will be sorted like if there is an A, but A will not be printed.
+%%     9  \bib{HINT}: Prints HINT and writes HINT to index, indexing page
+%%        number and, if \bib is in a footnote, an exponent after the page
+%%        number will also show the number of this footnote.
+%%    10  \addtobib{HINT} writes HINT to index. (Do not use \sort{A}, but A@)
+%%    11  \printonlybib{HINT} prints HINT.         (9 <=> 10 + 11)
+%%    12  \kurz{SHORT} prints "(in the following SHORT)" and behaves like
+%%        \addtobib{SHORT}, too. If it is in \vli's, \vqu's, \addtovli's or
+%%        \addtovqu's arguments, it writes "[SHORT]" into the bibliography.
+%%    13  \printvli: Prints list of literature (extracting FILE.phy).
+%%    14  \printvqu: Prints list of sources (extracting FILE.phy).
+%%    15  \printnumvli: Prints list of literature, but adds to every item
+%%        the page (and the footnote) number from which the item came from:
+%%        "TITLE >> PAGENO" or "TITLE >> PAGENO^FOOTNOTENO"
+%%        (^FOOTNOTENO, if \vli or \addtovli have been in a footnote).
+%%    16  \printnumvqu: Prints the list of sources like \printnumvli.
+%%    17  If you start gbibsort with option -K, and there is an author in the
+%%        list of literature or the list of sources more than one time, the
+%%        name of this author will be printed only the first time, and then
+%%        instead of his name it will be printed 'similar'. You may change
+%%        'similar' to "---" by saying "\renewcommand{\killname}{---}".
+%%        At the end of \vli's, \vqu's, \addtovli's or \addtovqu's first
+%%        argument, you may say \female, or \male. Instead of \killname,
+%%        \femalename ("Dies.") or \malename ("Ders.") will be printed.
+%%    18  \printind: Prints the index, extracting FILE.ind. If \bib was
+%%        in a footnote, footnote number is added as an exponent to page
+%%        number. All entries coming from footnotes are printed first.
+%%          18.1 article: "HINT: PAGENO^FOOTNOTENO, ..., PAGENO, ...,"
+%%          18.2 report:  "HINT
+%%                           Chapter CHAPTERNO: PAGENO^FOOTNOTENO, PAGENO,"
+%%          18.3 book:    "HINT
+%%                           Part PARTNO:
+%%                             Chapter CHAPTERNO: PAGENO^FOOTNOTENO, PAGENO,"
+%%          Write yourself an index style file with the following lines:
+%%                          delim_0 " "
+%%                          delim_1 " "
+%%                          delim_2 " "
+%%                          delim_n "\\komma "
+%%                          delim_t " "
+%%          Use this style in MakeIndex' command line (-s STYLE).
+%%    19  \bibmark{LABEL}: Writes "in the following LABEL" and sets LABEL.
+%%          LABEL may be Authors' name. (To be used in footnotes.)
+%%    20  \bibref{LABEL}:  Writes "LABEL (see n. XX on p. YY)".       *19
+%%    21  \xbibmark{TEXT}{LABEL}: Writes "in the following TEXT" and sets
+%%          LABEL. TEXT may be an Authors' name, if this name contains
+%%          commands, which are not transformed in macro \@markprotect.
+%%    22  \xbibref{TEXT}{LABEL}:  Writes "TEXT (see n. XX on p. YY)". *21
+%%
+%%  =================
+%%
+%%
+%%
+%%  TableOfFiles: BIBARTS
+%%  =====================
+%%
+%%  FILE NAME     ?
+%%  ------------  -----------------------------------------
+%%  BIBARTS.STY   LaTeX style file.
+%%  BIBARTS.TEX   This file (LaTeX).
+%%  GBIBSORT.C    Ansi C source file of sorting program.
+%%  GBIBSORT.EXE  Sorting program.
+%%  GBIBARTS.IST  MakeIndex style file. English users have
+%%                  to delete the line re-defining "quote".
+%%  GBIB2E.BAT    DOS batch file to make all files. It
+%%                  assumes the existence of the DOS batch
+%%                  file GLTX2E.BAT whitch starts LaTeX.
+%%  GBIB209.BAT   DOS batch file to make all files. It
+%%                  assumes the existence of the DOS batch
+%%                  file GLATEX.BAT whitch starts LaTeX.
+%%  ------------  -----------------------------------------
+%%  \sum       7
+%%
+%%  =====================
+%%
+%%
+%%
+%%  BEARBEITUNG DIESES TEXTES:
+%%  ==========================
+%%
+%%  1. Zum Ausprobieren von BiBarts ist es ausreichend, die dazugeh"origen
+%%     sieben Dateien in ein(em) Verzeichnis zu kopieren (zu entpacken).
+%%
+%%  2. Je nach dem, ob LaTeX 2.09 oder LaTeX 2e verwendet wird, m"ussen hier
+%%     im File bibarts.tex die Befehle \documentclass und \usepackage oder
+%%     \documentstyle auskommentiert werden.
+%%
+%%  3. DOS & LaTeX 2e: Dreimal in die DOS-Befehls-Zeile
+%%        gbib2e bibarts
+%%     eingeben!
+%%
+%%     DOS & LaTeX 2.09: Dreimal in die DOS-Befehls-Zeile
+%%        gbib209 bibarts
+%%     eingeben!
+%%
+%%     Falls das nicht funktioniert oder nicht DOS verwendet wird:
+%%     UNIX: gbibsort.c in ausf"uhrbare Datei "ubersetzen durch Eingabe von
+%%        gcc -O2 -c gbibsort.c -o gbibsort
+%%     ALLGEMEIN: Dieses File bibarts.tex mit LaTeX bearbeiten, das dabei
+%%     erzeugte bibarts.bar auf bibarts.phy sortieren durch Eingabe von
+%%        gbibsort bibarts.bar bibarts.phy
+%%     und gbibarts.bar mit
+%%        makeind(e)x -s gbibarts.ist -g gbibarts.bar
+%%     bearbeiten und danach bibarts.tex noch zweimal mit LaTeX bearbeiten!
+%%
+%%  4. END-INSTALLATION:
+%%     ALLGEMEIN: bibarts.sty in das Verzeichnis f"ur Style-Files kopieren;
+%%     in Version 2e ist dies wohl C:\EMTEX\TEXINPUT\LATEX2E, in Version 2.09
+%%     vermutlich C:\EMTEX\TEXINPUT. Der Index-Style GBIBARTS.IST geh"ort ins
+%%     Verzeichnis C:\EMTEX\IDXSTYLE.
+%%     DOS: Falls Sie gbib209.bat oder gbib2e.bat st"andig benutzen wollen,
+%%     kopieren sie diese Dateien in ein Verzeichnis im PATH. Gleiches gilt
+%%     f"ur gbibsort.exe.
+%%
+%%  ==========================
+%%
+
+
+
+ \documentclass[11pt]{article}                    %% LaTeX 2e
+ \usepackage{german}                              %%   ^
+ \usepackage{a4}                                  %%   |
+ \usepackage{bibarts}                             %%   |
+                                                   %%   |  Kommentare
+                                                   %%   |  richtig setzen!
+                                                   %%   |
+                                                   %%   v
+% \documentstyle[11pt,german,a4,bibarts]{article}   %% LaTeX 2.09
+
+%%
+%%   german muss (wenn verwendet)  v o r  bibarts eingeladen werden!!
+%%
+
+
+
+                             \makebar
+
+
+
+%%% ERLAUBT:
+% \pagenumbering{roman}
+% \stressing{bf}          %% "Andert Betonung des Autorennamens in fett.
+% \def\thefootnote{\roman{footnote}}
+
+%%% VERBOTEN: \def\thefootnote{\Roman{footnote}}
+
+
+
+
+   \title{\sf Die \LaTeX-Dokumenten-Stil-Option \bibarts}
+
+  \author{\sc Timo Baumann}
+
+    \date{\sf Version 1.3\, vom 28.Mar.1998}
+
+
+
+  \flushbottom
+  \def\Befehl#1{{\tt$\backslash$#1}}
+  \def\Doppelbox#1#2{\nopagebreak{\fbox{\parbox{.45\textwidth}{\footnotesize\tt
+       #1}\hfill\parbox{.45\textwidth}{\small\sf\vspace{1ex}#2\vspace{1ex}}}\vspace{1ex}}}
+  \def\Punkt#1{\begin{itemize}\item{#1}\end{itemize}}
+  \def\thempfootnote{\thefootnote}
+  \def\senkrecht{\hbox to .6em{\hfil\boldmath$|$\hfil}}
+  \def\Klammeraffe{\hbox to .6em{\hfil\tt @\hfil}}
+  \def\Ausrufezeichen{\hbox to .6em{\hfil\tt !\hfil}}
+  \def\indexname{\hspace*{.04\textwidth}\fbox{\parbox{.9\textwidth}{\normalsize\tt
+    \Befehl{renewcommand\{}\Befehl{indexname\}\{Register zu
+    }\Befehl{bibarts\}}\\
+    \Befehl{printind}}}\\[1cm]Register zu \bibarts}
+
+
+\makeatletter
+
+\def\@Kapitell#1#2{%
+     \ifbibarts
+%\@vli{\sort{\authorstress #1!!!!!} \protect\bibVkapit {\protect\KapSchr #2} \protect\bibAkapit}
+%\@vqu{\sort{\authorstress #1!!!!!} \protect\bibVkapit {\protect\KapSchr #2} \protect\bibAkapit}
+\@bib{#1 -- --@ \protect\bibVkapit {\protect\KapSchr #2} \protect\bibAkapit}
+     \fi
+}
+
+\def\Kapitell{%
+\@Kapitell{a}{A}
+\@Kapitell{b}{B}
+%\@Kapitell{c}{C}
+%\@Kapitell{d}{D}
+%\@Kapitell{e}{E}
+\@Kapitell{f}{F}
+\@Kapitell{g}{G}
+%\@Kapitell{h}{H}
+%\@Kapitell{i}{I}
+%\@Kapitell{j}{J}
+\@Kapitell{k}{K}
+%\@Kapitell{l}{L}
+\@Kapitell{m}{M}
+%\@Kapitell{n}{N}
+%\@Kapitell{o}{O}
+\@Kapitell{p}{P}
+%\@Kapitell{q}{Q}
+%\@Kapitell{r}{R}
+\@Kapitell{s}{S}
+%\@Kapitell{t}{T}
+%\@Kapitell{u}{U}
+\@Kapitell{v}{V}
+%\@Kapitell{w}{W}
+\@Kapitell{x}{X}
+%\@Kapitell{y}{Y}
+%\@Kapitell{z}{Z}
+}
+
+\makeatother
+
+\Kapitell %% Kapitelle (nach obiger Definition von \@Kapitell: nur im Index)
+
+%% \KapSchr definiert die Schrift der Kapitelle
+
+
+
+
+
+ \begin{document}
+
+
+  \maketitle
+
+  \noindent\hrulefill
+
+  \begin{abstract}
+  In den meisten geisteswissenschaftlichen Disziplinen ist es "ublich, die
+  "Uberpr"uf"|barkeit von Aussagen mittels Angaben in Fu"snoten
+  sicherzustellen. Wird ein bestimmtes Schriftwerk zum ersten Mal im Text
+  erw"ahnt, ist es Standard, in einer Fu"snote dar"uber eine vollst"andige
+  bib\-lio\-gra\-phische Angabe zu machen, also Vorname und Name des
+  Autors, sowie Titel, Erscheinungsort und Erscheinungsjahr des Werkes
+  anzugeben. Bei nochmaligem Verweis auf ein schon in dieser Weise erw"ahntes
+  Werk wird nur noch der Autorenname und ein signifikanter Teil aus dem
+  Titel genannt. Zuletzt sind noch alphabetisch geordnete Listen der
+  verwendeten Schriftwerke abzudrucken. Solche Listen stimmen im wesentlichen
+  mit den Angaben in den Fu"snoten "uberein, wie sie schon bei den erw"ahnten
+  "`Erstzitaten"' zu machen waren. Ein st"andiger Abgleich dieser Listen mit
+  den in Fu"snoten gemachten Angaben ist aber "au"serst m"uhsam --- von dem
+  h"aufigen Fehler ganz zu schweigen, da"s Erstzitate und bibliographische
+  Listen unbeabsichtigt Unterschiede aufweisen. Die \LaTeX-Befehle
+  \Befehl{index} und \Befehl{glossary} l"osen das Problem nur schlecht,
+  besonders, da sie in Fu"snoten Schwierigkeiten mit l"angeren Eintr"agen
+  machen.
+
+  \LaTeX-Anwender kennen die L"osung f"ur ein vergleichbares Problem
+  bez"uglich des Inhaltsverzeichnisses. Hier wird einem Gliederungsbefehl
+  --- etwa \Befehl{section} --- als Argument Text f"ur eine "Uberschrift
+  "ubergeben, die sowohl am Ort des Befehls, als auch im Inhaltsverzeichnis
+  ausgedruckt wird. Das Problem hier unterscheidet sich von dem des
+  Inhaltsverzeichnisses nur in der Notwendigkeit der alphabetischen
+  Reihenfolge. Wird die Dokumenten-Stil-Option {\tt bibarts.sty} in das
+  \LaTeX-File eingeladen, steht der Befehl
+  \Befehl{makebar}\addtobib{makebar@\protect\Befehl{makebar}} f"ur den
+  Vorspann des \LaTeX-Files zur Verf"ugung. Dieser Befehl legt eine
+  Bib\-lio\-gra\-phie-Datei mit dem Suffix {\tt$\!$.bar} an. Befehle namens
+  \printonlybib{\Befehl{vli}} und
+  \Befehl{vqu}\addtobib{vqu@\protect\Befehl{vqu}} drucken den Text, der ihnen
+  in Argumenten "ubergeben wird, am Ort des Befehls aus, schreiben diesen
+  Text aber auch in die Bib\-lio\-gra\-phie-Datei. Diese Datei kann danach
+  mit dem f"ur dieses Sortier-Problem geschriebenen Programm {\tt gbibsort}
+  bearbeitet werden. Die in einer Datei mit Suffix {\tt$\!$.phy} sortiert
+  abgelegten Angaben k"onnen mit Befehlen ausgedruckt werden, die in {\tt
+  bibarts.sty} bereitgestellt werden. Um diese Grundidee herum f"ugt sich
+  noch einiges passendes Beiwerk.
+  \end{abstract}
+
+  \nobreak\noindent\hrulefill
+
+  \newpage
+  \noindent\hrulefill
+  \tableofcontents
+  \vspace{1ex}\nobreak\noindent\hrulefill\vspace{2ex}
+
+
+  \section{\"Anderungen gegen"uber Vers. 1 und Vers. 1.1}
+
+  F"ur diesen Abschnitt werden sich (abgesehen vom zweiten Punkt) nur
+  diejenigen interessieren, die \bibarts{} schon in einer "alteren Version
+  kennen. Diese neue Version ist teilweise mit den "alteren inkompatibel.
+  Die neue Anwendungsweise kann aus dem "ubern"achsten Abschnitt entnommen
+  werden.
+
+  \begin{itemize}
+  \item Den Befehlen \Befehl{vli},
+  \Befehl{vqu},\addtobib{vqu@\protect\Befehl{vqu}}
+  \Befehl{addtovli},\addtobib{addtovli@\protect\Befehl{addtovli}}
+  \Befehl{addtovqu},\addtobib{addtovqu@\protect\Befehl{addtovqu}}
+  \Befehl{printonlyvli}\addtobib{printonlyvli@\protect\Befehl{printonlyvli}}
+  und
+  \Befehl{printonlyvqu}\addtobib{printonlyvqu@\protect\Befehl{printonlyvqu}}
+  m"ussen ab jetzt drei Argumente "ubergeben werden, statt bisher einem.
+
+  \item Bisher gab es zwei Style-Files namens {\tt bibarts.sty} und {\tt
+  gbibarts.sty}; das zweitgenannte mu"ste verwendet werden, wenn auch {\tt
+  german.sty} verwendet wurde. Dies ist nichtmehr der Fall; es gibt jetzt nur
+  noch ein Style-File mit dem Namen {\tt bibarts.sty}. Es erkennt jetzt
+  selbst"andig, ob vor {\tt bibarts} das Paket {\tt german} eingeladen
+  wurde.\footnote{Und zwar anhand der "Uberpr"ufung, ob \Befehl{newumlaut}
+  ein bekannter Befehl ist.} Nach wie vor mu"s {\tt german} vor {\tt
+  bibarts} eingeladen werden.\footnote{D.h. bei \LaTeX 2e:
+  \Befehl{usepackage\{german\}} \Befehl{usepackage\{bibarts\}}, bzw. unter
+  \LaTeX{} 2.09: \Befehl{documentstyle\{...,german,bibarts\}}.}
+
+  \item Der Befehl
+  \Befehl{makereportbar}\addtobib{makereportbar@\protect\Befehl{makereportbar}} ist nicht
+  mehr notwendig und auch nicht mehr definiert. Der Befehl
+  \Befehl{makebar}\addtobib{makebar@\protect\Befehl{makebar}} kann jetzt
+  selbst"andig die Unterscheidungen vornehmen, die vorher der Anwender
+  machen mu"ste, indem er entweder
+  \Befehl{makebar}\addtobib{makebar@\protect\Befehl{makebar}} oder
+  \Befehl{makereportbar} schrieb.
+
+  \item Der Anwender soll ab jetzt der Literaturliste, dem Quellenverzeichnis
+  und dem Stichwortverzeichnis selber eine "Uberschrift geben. Die fr"uher
+  verwendeten \Befehl{section}-Befehle stehen in {\tt bibarts.sty} noch
+  hinter Auskommentierungen, die der Anwender ggf.~entfernen
+  kann.\footnote{Ich habe darauf verzichtet, anhand einer Abpr"ufung
+  dar"uber, ob die Z"ahler {\tt part} oder {\tt chapter} oder keiner von
+  beiden verwendet wurde, zu entscheiden, welche Gr"o"se der dazugeh"orige
+  Gliederungsbefehl haben m"u"ste. Solche Definitionen vorwegzunehmen ist
+  n"amlich f"ur die Anwender kein Service, die z.B.~unter {\tt book} eben
+  keine "Uberschrift in Gr"o"se {\tt chapter} haben wollen und sich dann
+  "uberlegen m"ussen, wie sie die Voreinstellung loswerden sollen.}
+
+  \item Die Datei {\tt bibarts.sty} enth"alt die Definitionen von
+  \Befehl{@footnotetext} aus \LaTeX{} 2.09 und \LaTeX{} 2e, die hier einen
+  Zusatz erhalten haben, der bei der "Ubersetzung abpr"ufbar macht, ob man
+  sich gerade innerhalb oder au"serhalb einer Fu"snote aufh"alt. \bibarts{}
+  entscheidet sich selbst"andig f"ur die richtige
+  \LaTeX-Version.\footnote{Und zwar anhand der "Uberpr"ufung, ob
+  \Befehl{LaTeX2e} ein bekannter Befehl ist.}
+
+  \item \Befehl{makebar}\addtobib{makebar@\protect\Befehl{makebar}} kann
+  auskommentiert werden, wenn gerade keine Notwendigkeit besteht, "uber
+  aktuelle bibliographische Listen zu verf"ugen.
+
+  \item Folgendes betrifft nur die Dokumentengr"o"sen {\tt report} und {\tt
+  book}: \bibarts{} "ubernimmt jetzt, wenn die Gliederungsbefehle
+  \Befehl{part} und \Befehl{chapter} verwendet werden, in sein
+  Stichwortverzeichnis den Gliederungsnamen, der tats"achlich am Ort des
+  \Befehl{bib}-Befehls aktuell war. Denn \Befehl{partname} und
+  \Befehl{chaptername} k"onnen sich im Laufe des Textes "andern, z.B. von
+  \frq Teil\flq{} in \frq Anlagen\flq{} und von \frq Kapitel\flq{} in \frq
+  Anhang\flq.
+
+  \item In den Index werden Teil-, Kapitel-, Seiten- und Fu"snotenz"ahler
+  jetzt so "ubernommen, wie sie im Text stehen, also z.B. {\tt roman} oder
+  {\tt Alph}.\footnote{Aber nicht {\tt Roman}; solche Eintr"age werden von
+  {\sc MakeIndex} zur"uckgewiesen!}
+
+  \end{itemize}
+
+
+  \section{\"Anderungen gegen"uber Vers. 1.2 und Vers. 1.2a}
+
+  \begin{itemize}
+
+  \item Ein \underline{I}ndex-\underline{St}yle-File in der Art von {\tt
+  gbibarts.ist} ist nun notwendige Voraussetzung zum Erzeugen eines
+  \bibarts-Index.\footnote{F"ur DOS: {\tt gbib2e.bat} bzw. {\tt gbib209.bat}
+  suchen zun"achst im aktuellen Verzeichnis und dann in
+  {\tt C:\Befehl{EMTEX}\Befehl{IDXSTYLE}} nach einer Datei {\tt
+  gbibarts.ist}.} Als Gegenleistung sind die bisherigen Probleme mit dem
+  Index gel"ost, die auftraten, wenn \Befehl{bib}-Befehle au"serhalb von
+  Fu"snoten standen.
+
+  \item Dies betrifft ebenfalls den Index. Die Eigenschaft des Befehls
+  \Befehl{bib} hat jetzt der Befehl \Befehl{addtobib}, der bisher nicht
+  existierte. \Befehl{addtobib} schreibt nur in den Index, \Befehl{bib}
+  schreibt ebenfalls in den Index, druckt jetzt aber auch zus"atzlich das
+  ihm "ubergebene Argument einfach aus. Diese "Anderung wurde vorgenommen,
+  um einheitliche Verhaltensweisen von (1)~\Befehl{vli}, \Befehl{vqu} und
+  \Befehl{bib}, sowie auch (2)~\Befehl{addtovli}, \Befehl{addtovqu} und
+  \Befehl{addtobib} zu erreichen.
+
+  \item Dies betrifft Literatur- und Quellen-Zug"ange. {\tt gbibsort}
+  kann jetzt mit der Option {\tt -k} gestartet werden. Falls von {\it
+  einem\/} Autor mehrere Werke zitiert werden, wird der entsprechende Vor-
+  und Nachname auf der jeweiligen Liste nur einmal ausgedruckt. Alle weiteren
+  Nennungen werden durch \killname{} ersetzt. Alternativ kann --- das mu"s
+  aber durchgehend geschehen --- unmittelbar nach dem Vornamen
+  \Befehl{female}\addtobib{female@\protect\Befehl{female}} oder
+  \Befehl{male}\addtobib{male@\protect\Befehl{male}} stehen, um statt
+  \killname{} geschlechts-spezifisch {\tt\femalename} oder {\tt\malename}
+  ausgedruckt zu bekommen. Der Vorname ist das erste Argument, das
+  \Befehl{vli}, \Befehl{vqu}, \Befehl{addtovli} oder \Befehl{addtovqu}
+  "ubergeben werden soll.
+
+  \item Dies betrifft nur Literatur- und Quellen-Zug"ange. \bibarts{}
+  verf"ugt jetzt "uber ein Instrument, um die Sortier-Reihenfolge der
+  bibliographischen Listen beeinflussen zu k"onnen. In einem der je drei
+  Argumente der Befehle \Befehl{vli}, \Befehl{vqu}, \Befehl{addtovli} und
+  \Befehl{addtovqu} kann jetzt der Befehl \Befehl{sort\{RELEVANT\}} verwendet
+  werden. {\tt gbibsort} sortiert den Eintrag so, als ob nur {\tt RELEVANT}
+  zwischen vorausgehendem und nachfolgendem Text im Argument steht; {\tt
+  RELEVANT} wird aber nirgens ausgedruckt. Zu beachten ist, da"s erstes und
+  zweites Argument (Vor- und Nachname) ausgetauscht werden, bevor der Eintrag
+  in das Bibliographie-File geht. Innerhalb des Arguments des Befehls
+  \Befehl{sort\{ARG\}} darf keine Konstruktion in geschweiften Klammern
+  stehen. \Befehl{sort}\addtobib{sort@\protect\Befehl{sort}} ist f"ur die
+  Argumente von \Befehl{bib} und \Befehl{addtobib} ungeeignet.\footnote{Die
+  Sortier-Reihenfolge im Index ist aber {\sc MakeIndex}-spezifisch mit einem
+  {\tt @}\addtobib{MakeIndex@{\protect\sc MakeIndex}!\protect\Klammeraffe}
+  in der Art \Befehl{addtobib\{RELEVANT@TEXT\}} zu erreichen. Das Zeichen
+  {\tt @}\addtobib{gbibsort@{\protect\tt gbibsort}!\protect\Klammeraffe} wird
+  im Argument von \Befehl{bib} ausgedruckt; deswegen sollte \Befehl{bib}
+  zerlegt werden in seine beiden Bestandteile
+  \Befehl{printonlybib\{TEXT\}}\addtobib{printonlybib@\protect\Befehl{printonlybib}} und
+  \Befehl{addtobib\{RELEVANT@TEXT\}}. {\tt gbibsort} hat kein
+  \bib{Maskierungszeichen}; {\tt\{RELEVANT\}@} --- wozu \Befehl{sort}
+  \addtobib{sort@\protect\Befehl{sort}} expandiert --- wird "`verschluckt"',
+  {\tt @} ansonsten ausgedruckt.}
+
+  \end{itemize}
+
+
+  \section{Vorstellung der Optionen}
+
+  \subsection{Die bibliographischen Listen}
+
+  \subsubsection{Das Bib\-lio\-gra\-phie-File}
+
+  Im folgenden werden bibliographische Angaben in Vorname, Name und restliche
+  Angaben getrennt. Rest ist dabei Titel, Erscheinungsort und
+  Erscheinungsjahr. W"ahrend die bibliographische Angabe in einer Fu"snote
+  die Reihenfolge \frq Vorname, Name, Rest\flq{} aufweisen soll, wird in der
+  bibliographischen Liste die Reihenfolge \frq Name, Vorname, Rest\flq{}
+  erwartet. VORNAME, NAME und REST stehen ab jetzt symbolhaft f"ur die drei
+  Argumente, die nachfolgend beschriebenen Befehlen "ubergeben werden
+  m"ussen.
+
+  Das Erzeugen der nachfolgend beschriebenen Listen setzt voraus, da"s
+  \LaTeX{} w"ahrend der "Ubersetzung eine Datei angefertigt, in der die
+  bibliographischen Daten gesammelt werden. \bibarts{} stellt Befehle bereit,
+  die das Anfertigen einer solchen Datei erm"oglichen. Diese Datei hat den
+  Namen der Datei, die mit \LaTeX{} bearbeitet wird und das Suffix {\tt.bar}.
+  Das zu {\tt bibarts.tex} geh"orende Literaturdaten-File hei"st also
+  {\tt bibarts.bar}. Sollen ein Literaturverzeichnis oder zus"atzlich auch
+  ein Quellenverzeichnis zum Ausdruck bereitgestellt werden, mu"s die Datei
+  {\tt NAME.bar} sortiert werden auf eine Datei {\tt NAME.phy}. Die erzeugte
+  Datei mu"s also das Suffix {\tt.phy} aufweisen. Im Falle von {\tt
+  bibarts.tex} mu"s der Inhalt von {\tt bibarts.bar} nach Zeilen sortiert
+  unter dem Namen {\tt bibarts.phy} abgespeichert werden. Das
+  Sortierprogramm {\tt gbibsort} l"ost das Sortierproblem. (F"ur DOS ist
+  die ausf"uhrbare Datei {\tt gbibsort.exe} im Paket \bibarts{} mit
+  enthalten. Anwender anderer Betriebsysteme m"ussen sich die Quell-Datei
+  {\tt gbibsort.c} in eine ausf"uhrbare Datei "ubersetzen.\footnote{{\tt
+  gbibsort.c} ist in ANSI-C geschrieben und l"a"st sich erfahrungsgem"a"s
+  mit dem GNU-C-Compiler auch auf HPUX und PC-UNIX "ubersetzen.}) Der
+  Befehl zum Sortieren lautet allgemein {\tt gbibsort QUELLE ZIEL}, also
+  f"ur {\tt bibarts.tex}:
+
+  \begin{center}{\tt gbibsort bibarts.bar bibarts.phy}\end{center}
+
+  \bibarts{} stellt Befehle bereit, die die erw"unschten Daten aus dieser
+  alphabetisch sortierten Datei an einer bestimmten Textstelle ausdrucken.
+  Sie werden unten beschrieben.
+
+  \Punkt{F"ur alle Listen gemeinsam gilt aber folgendes: Ein Befehl im
+  Vorspann\footnote{Mit dem Begriff Vorspann bezeichne ich in einem
+  \LaTeX-File den Bereich nach dem Befehl \Befehl{documentclass} bzw.
+  \Befehl{documentstyle} und vor dem Befehl \Befehl{begin\{document\}}.} mu"s
+  die Datei {\tt NAME.bar} anlegen. Dieser Befehl hei"st
+  \Befehl{makebar}\addtobib{makebar@\protect\Befehl{makebar}}.}
+
+  \Doppelbox{\Befehl{makebar}}{Bereitet die Datei vor, die die
+                             bibliographischen Daten aufnehmen soll.}
+                             \addtobib{makebar@\protect\Befehl{makebar}}
+
+  Das Anfertigen dieser Datei kann m"oglicherweise die "Ubersetzung eines
+  Textes mit \LaTeX{} unerw"unscht verlangsamen. Deswegen kann der Befehl
+  auch auskommentiert (ein \% davorgeschrieben) werden, wenn eine
+  "Ubersetzung nicht mit dem Ziel erfolgt, die bibliographischen Daten zu
+  aktualisieren, sondern anderer "Anderungen wegen erfolgt. Dann bleibt alles
+  "ubrige gleich, nur wird nicht in das Literaturdaten-File geschrieben. Die
+  bibliographischen Listen sind lediglich nicht auf dem neuesten Stand, wenn
+  sie ausgedruckt werden. (F"ur die letzten beiden "Ubersetzungen mu"s der
+  Befehl \Befehl{makebar}\addtobib{makebar@\protect\Befehl{makebar}}
+  nat"urlich wirksam sein, also ohne vorangestelltes Kommentarzeichen (\%)
+  dastehen!)
+
+  Zuletzt noch ein Hinweis auf die M"oglichkeiten von {\tt gbibsort}:
+  Es versteht in der Kommando-Zeile die Option {\tt -K}, was {\sf author
+  killing} andeuten soll. Falls ein Autor mehrfach im Literaturverzeichnis
+  (oder Quellenverzeichnis) erscheint, bewirkt {\tt -K}, da"s Name und
+  Vorname des Autors nur das erste Mal genannt und danach durch \killname{}
+  ersetzt werden. Falls das {\sf author killing} benutzt werden soll, gilt:
+  Die Befehlszeile f"ur die Bearbeitung eines bibliographischen Files zu
+  einer Datei {\tt text.tex} lautet explizit
+  \addtobib{gbibsort@{\protect\tt gbibsort}!author killing ({\protect\tt -K})}
+
+  \begin{center}{\tt gbibsort -k text.bar text.phy}\end{center}
+
+  \Punkt{Das Ersetzungszeichen \killname{} wird durch
+  \Befehl{killname} erzeugt.}\addtobib{killname@\protect\Befehl{killname}} 
+
+  \Doppelbox{\Befehl{renewcommand\{}\Befehl{killname\}\{---\}}}{
+                           "Andert das Ersetzungszeichen in ---.}
+                           \addtobib{killname@\protect\Befehl{killname}}
+
+  \vspace{1ex}
+  Oft m"ochte man aber geschlechtsspezifische Ersetzungen haben. "Ublich sind
+  {\tt\femalename} und {\tt\malename}. Unten werden gleich die Befehle
+  \Befehl{vli}, \Befehl{vqu}, \Befehl{addtovli} und \Befehl{addtovqu}
+  erkl"art werden. Sie sollen drei Argumente "ubergeben bekommen
+  (\Befehl{vli\{ARG1\}\{ARG2\}\{ARG3\}}). Das erste soll der Vorname eines
+  Autors sein.
+
+  \Punkt{Unmittelbar nach dem Vornamen im Voll-Zitat (vor \}) kann
+  \Befehl{female} oder \Befehl{male} stehen, wenn statt \killname{}
+  {\tt\femalename} oder {\tt\malename} ausgedruckt werden
+  soll.}\addtobib{female@\protect\Befehl{female}}
+        \addtobib{male@\protect\Befehl{male}}
+
+  \Doppelbox{\Befehl{vli\{VORNAME}\Befehl{female\}\{NAME\}\{REST\}}\\
+  \Befehl{vli\{VORNAME}\Befehl{male\}\{NAME\}\{REST\}}}{Mehrfachnennungen von
+  Autoren werden durch \frq{\rm Dies.}\flq{} und \frq{\rm Ders.}\flq{}
+  ersetzt.}
+
+  \Punkt{{\tt\femalename} und {\tt\malename} werden durch \Befehl{femalename}
+  und \Befehl{malename} definiert:}
+                           \addtobib{femalename@\protect\Befehl{femalename}}
+                           \addtobib{malename@\protect\Befehl{malename}}
+
+  \Doppelbox{\Befehl{renewcommand\{}\Befehl{malename\}\{Derselbe\}}}{
+                           "Andert \frq{\rm\malename}\flq{} in \frq{\rm
+                           Derselbe}\flq.}
+
+  \vspace{1ex}\noindent
+  Zuletzt k"onnen noch F"alle auftreten, die eine "Anderung der
+  Sortier-Reihen\-fol\-ge der Literaturliste oder des Quellenverzeichnisses
+  erstrebenswert erscheinen lassen. Dies wird mittels eines Eintrags von
+  \Befehl{sort} in eines der drei Argumente von \Befehl{vli}, \Befehl{vqu},
+  \Befehl{addtovli} oder \Befehl{addtovqu} erreicht. \Befehl{sort\{ARG\}}
+  wird wie {\tt ARG} sortiert, aber nichts ausgedruckt.
+
+  \Punkt{Ein f"ur {\tt gbibsort} sortier-relevantes, aber nicht
+  auszudruckendes Wort ist das Argument von \Befehl{sort}:
+  \addtobib{sort@\protect\Befehl{sort}}}
+
+  \Doppelbox{\Befehl{sort\{RELEVANT\}}}{Greift in die Reihenfolge im
+                                        Literatur- oder Quellen-Verzeichnis
+                                        ein. Es wird wie {\tt RELEVANT}
+                                        sortiert, {\tt RELEVANT} wird aber
+                                        nicht ausgedruckt.}
+
+  \vspace{1ex}\noindent
+  Unter den beiden n"achsten "Uberschriften werden das Literaturverzeichnis
+  und das Quellenverzeichnis vorgestellt, wie sie mit \bibarts{} erzeugt
+  werden k"onnen.
+
+
+  \subsubsection{Die Literaturangaben}
+
+  Literaturangaben der nachfolgenden Art sind in allen
+  geisteswissenschaftlichen Disziplinen und auch weit dar"uber hinaus
+  "ublich.
+
+  \Punkt{Der Befehl \Befehl{vli} druckt die drei ihm "ubergebenen Argumente
+  an dem Ort aus, an dem \Befehl{vli} steht, und "ubergibt diese Argumente
+  auch dem Literaturdaten-File. \Befehl{vli} steht f"ur \underline{v}olle
+  \underline{Li}teraturangabe.}
+  \addtobib{vli@\protect\Befehl{vli}}
+
+  \Doppelbox{\Befehl{vli\{VORNAME\}\{NAME\}\{REST\}}}{{\rm VORNAME,
+                          \underline{NAME}: REST\/} wird \\ausgedruckt.\\
+                          {\rm \underline{NAME}, VORNAME: REST\/} wird im\\
+                          Literaturverzeichnis ausgedruckt.}
+
+  \vspace{1ex}
+  Der Befehl \Befehl{vli} setzt sich aus den beiden Teilbefehlen
+  \Befehl{printonlyvli} und
+  \Befehl{addtovli}\addtobib{addtovli@\protect\Befehl{addtovli}} zusammen,
+  die auch statt \Befehl{vli} einzeln verwendet werden k"onnen, falls
+  Unterschiede zwischen den Angaben in Fu"snoten und dem Quellenverzeichnis
+  erw"unscht sind. Ein m"oglicher Unterschied ist, da"s der Titel einer
+  Reihe, in der ein Buchtitel erschienen ist, im Literaturverzeichnis
+  angegeben werden soll, nicht aber in der Fu"snote. Dann ist REST in
+  beiden F"allen unterschiedlich. 
+
+  \Punkt{Der Befehl \Befehl{printonlyvli} druckt die drei ihm "ubergebenen
+  Argumente wie \Befehl{vli} an dem Ort aus, an dem der Befehl
+  \Befehl{printonlyvli} steht. Es erfolgt aber keine Wiedergabe im
+  Literaturverzeichnis.}\addtobib{printonlyvli@\protect\Befehl{printonlyvli}}
+
+  \Doppelbox{\Befehl{printonlyvli\{VORNAME\}\{NAME\}\{REST\}}}{{\rm VORNAME,
+                                  \underline{NAME}: REST\/} wird\\
+                                  ausgedruckt.\\ Es erfolgt kein Eintrag
+                                  ins\\ Literaturverzeichnis.}
+                       \addtobib{printonlyvli@\protect\Befehl{printonlyvli}}
+
+  \Punkt{Auf den Befehl \Befehl{addtovli} hin erfolgt lediglich ein Eintrag
+  ins Literaturverzeichnis.}\addtobib{addtovli@\protect\Befehl{addtovli}}
+
+  \Doppelbox{\Befehl{addtovli\{VORNAME\}\{NAME\}\{REST\}}}{{\rm\underline{NAME},
+                               VORNAME: REST\/} wird dem\\
+                               Literaturdaten-File "ubergeben.\\ Es erfolgt
+                               kein Ausdruck am Ort des\\ Befehls.}
+                               \addtobib{addtovli@\protect\Befehl{addtovli}}
+
+   \Punkt{Jetzt mu"s das Literaturverzeichnis noch ausgedruckt werden. Die
+   schon beschriebene Prozedur mu"s zuvor noch durchlaufen werden, um aus der
+   Datei {\tt FILE.bar} eine alphabetisch sortierte Datei {\tt FILE.phy} zu
+   erzeugen. Dann kann mittels des Befehls \Befehl{printvli} das
+   Literaturverzeichnis ausgedruckt werden. Unmittelbar vor
+   \Befehl{printvli} kann der Anwender, wenn er m"ochte, einen
+   Gliederungsbefehl seiner Wahl setzen. M"oglich ist:}
+
+   \Doppelbox{\Befehl{section\{Literaturverzeichnis\}}\\
+              \Befehl{printvli}}{Druckt die Literaturliste unter der
+              "Uberschrift \frq Literaturverzeichnis\flq{} aus.}
+
+   \Punkt{Die Befehle \Befehl{vli} und
+   \Befehl{addtovli}\addtobib{addtovli@\protect\Befehl{addtovli}} notieren in
+   das Bib\-lio\-gra\-phie-File auch Informationen "uber den Ort, an dem
+   sie stehen: Die Seitenzahl, weiter auch, ob sie in einer Fu"snote stehen
+   --- und wenn ja: die Nummer der Fu"snote. So gibt es noch einen zweiten
+   Befehl, um das Literaturverzeichnis ausdrucken zu k"onnen. Der Befehl
+   hei"st \Befehl{printnumvli} und unterscheidet sich von \Befehl{printvli}
+   dadurch, da"s hinter jedem Zugang die Seitenzahl steht, auf der der
+   Zugang stattfand. Falls der Zugang in einer Fu"snote erfolgte, wird die
+   Nummer der Fu"snote als Exponent zur Seitenzahl ausgedruckt. Die
+   Gliederungs"uberschrift zu setzen ist wieder Sache des Anwenders ---
+   Beispiel: eine \Befehl{subsection}.} 
+
+   \Doppelbox{\Befehl{subsection\{Literaturverzeichnis\}}\\
+              \Befehl{printnumvli}}{Druckt Literaturliste aus, derart, da"s
+                                     auf den Ort zur"uckverwiesen wird, an
+                                     dem das Erstzitat steht.}
+
+   \vspace{1ex}\noindent
+   Nat"urlich kann \Befehl{printnumvli} auch w"ahrend der Entstehung
+   eines Textes verwendet werden, um bei Korrekturen, die an der
+   Literaturliste ansetzen, schneller in den Text zur"uckzufinden. Vor der
+   letzten "Ubersetzung mit \LaTeX{} kann dieser Befehl dann durch
+   \Befehl{printvli} ersetzt werden, falls die R"uckverweise nicht
+   erw"unscht sind.
+
+
+  \subsubsection{Die Quellenangaben}
+
+  In der Geschichtswissenschaft ist es dar"uberhinaus "ublich, zwischen
+  Literatur und Quellen zu trennen. Die bibliographischen Angaben
+  unterscheiden sich zwar nicht qualitativ voneinander, jedoch sollen zwei
+  bibliographische Listen angefertigt werden: Ein Quellenverzeichnis und ein
+  Literaturverzeichnis. (Quellen sind Schriften aus der Zeit, "uber die
+  geschrieben wird, w"ahrend mit Literatur sp"ater verfa"ste Titel
+  bezeichnet werden, die die behandelte Epoche anhand der Quellen
+  beschreiben.) Auch hierf"ur h"alt \bibarts{} eine Option offen.
+
+  \Punkt{Der Befehl \Befehl{vqu} druckt die drei ihm "ubergebenen Argumente
+  sowohl an dem Ort aus, an dem \Befehl{vqu} steht, als auch in das
+  Quellen-Verzeichnis. \Befehl{vqu} steht f"ur \underline{v}olle
+  \underline{Qu}ellenangabe.}\addtobib{vqu@\protect\Befehl{vqu}}
+
+  \vspace{-1ex}
+  \Doppelbox{\Befehl{vqu\{VORNAME\}\{NAME\}\{REST\}}}{{\rm VORNAME,
+                          \underline{NAME}: REST\/} wird \\ausgedruckt.\\
+                          {\rm\underline{NAME}, VORNAME: REST\/} wird im\\
+                          Quellenverzeichnis ausgedruckt.}
+
+  \vspace{2ex}
+  Der Befehl \Befehl{vqu}\addtobib{vqu@\protect\Befehl{vqu}} setzt sich aus
+  den beiden Teilbefehlen \Befehl{printonlyvqu} und
+  \Befehl{addtovqu}\addtobib{addtovqu@\protect\Befehl{addtovqu}} zusammen,
+  die auch statt \Befehl{vqu}\addtobib{vqu@\protect\Befehl{vqu}} einzeln
+  verwendet werden k"onnen, falls Unterschiede zwischen den Angaben in
+  Fu"snoten und dem Quellenverzeichnis erw"unscht sind. Ein m"oglicher
+  Unterschied ist, da"s der Titel einer Reihe, in der die Quellenedition
+  erschienen ist, im Quellenverzeichnis angegeben werden soll, nicht aber
+  in der Fu"snote. Dann ist REST in beiden F"allen unterschiedlich. 
+
+  \Punkt{Der Befehl \Befehl{printonlyvqu} druckt die drei ihm "ubergebenen
+  Argumente an dem Ort aus, an dem der Befehl \Befehl{printonlyvqu} steht.
+  Es erfolgt aber keine Wiedergabe im
+  Quellenverzeichnis.}\addtobib{printonlyvqu@\protect\Befehl{printonlyvqu}}
+
+  \Doppelbox{\Befehl{printonlyvqu\{VORNAME\}\{NAME\}\{REST\}}}{{\rm VORNAME,
+                                  \underline{NAME}: REST\/} wird
+                                  \\ausgedruckt.\\ Es erfolgt kein Eintrag
+                                  ins \\ Quellenverzeichnis.}
+                      \addtobib{printonlyvqu@\protect\Befehl{printonlyvqu}}
+
+  \Punkt{Auf den Befehl \Befehl{addtovqu} hin erfolgt lediglich ein Eintrag
+  in das Quellenverzeichnis.}\addtobib{addtovqu@\protect\Befehl{addtovqu}}
+
+  \Doppelbox{\Befehl{addtovqu\{VORNAME\}\{NAME\}\{REST\}}}{{\rm
+                                  \underline{NAME}, VORNAME: REST\/} wird
+                                  im\\ Quellenverzeichnis ausgedruckt.\\ Es
+                                  erfolgt kein Ausdruck am Ort des\\
+                                  Befehls.}
+                               \addtobib{addtovqu@\protect\Befehl{addtovqu}}
+
+   \Punkt{Jetzt mu"s das Quellenverzeichnis noch tats"achlich ausgedruckt
+   werden. Die schon beschriebene Prozedur mu"s durchlaufen werden, um aus
+   der Datei {\tt FILE.bar} eine alphabetisch sortierte Datei {\tt FILE.phy}
+   zu erzeugen. Die Daten f"ur die Literaturliste und das
+   Quellenverzeichnis entstammen der selben Datei. Aus ihr drucken die
+   Befehle \Befehl{printvli}, \Befehl{printnumvli}, \Befehl{printvqu} und
+   \Befehl{printnumvqu} selektiv spezifische Daten aus. Mit dem Befehl
+   \Befehl{printvqu} kann das Quellenverzeichnis ausgedruckt werden.
+   Unmittelbar vor den Befehl \Befehl{printvqu} kann der Anwender, wenn er
+   m"ochte, einen Gliederungsbefehl seiner Wahl setzen. M"oglich ist:}
+
+   \Doppelbox{\Befehl{section\{Quellenverzeichnis\}}\\
+              \Befehl{printvqu}}{Druckt das Quellenverzeichnis unter der
+                             "Uberschrift \frq Quellenverzeichnis\flq{} aus.}
+
+   \Punkt{Die Befehle \Befehl{vqu}\addtobib{vqu@\protect\Befehl{vqu}} und
+   \Befehl{addtovqu}\addtobib{addtovqu@\protect\Befehl{addtovqu}} notieren in
+   das Bib\-lio\-gra\-phie-File auch Informationen "uber den Ort, an dem
+   sie stehen: Die Seitenzahl, dann: ob sie in einer Fu"snote stehen ---
+   und wenn ja: die Nummer der Fu"snote. So gibt es noch einen zweiten
+   Befehl, um das Quellenverzeichnis ausdrucken zu k"onnen. Der Befehl
+   hei"st \Befehl{printnumvqu} und unterscheidet sich von \Befehl{printvqu}
+   dadurch, da"s hinter jedem Eintrag die Seitenzahl steht, auf der der
+   Zugang stattfand. Falls der Zugang in einer Fu"snote erfolgte, wird die
+   Nummer der Fu"snote als Exponent zur Seitenzahl ausgedruckt. Als
+   Gliederungs"uberschrift wurde eine \Befehl{subsection} gew"ahlt.}
+
+   \Doppelbox{\Befehl{subsection\{Quellenverzeichnis\}}\\
+              \Befehl{printnumvqu}}{Druckt Quellenverzeichnis aus, derart,
+                                     da"s auf den Ort zur"uckverwiesen
+                                     wird, an dem das Erstzitat steht.}
+
+
+  \subsubsection{Das Kurzzitate-Verzeichnis}
+
+  \Punkt{"Ahnlich den Befehlen \Befehl{index} oder \Befehl{glossary} stellt
+  \bibarts{} den Befehl \Befehl{bib} zur Verf"ugung. Als Argument mu"s diesem
+  Befehl ein Stichwort "ubergeben werden. {\tt STICHWORT} kann speziell ein
+  Kurz-Zitat (Marx, Kapital) sein; das Schriftwerk, auf das sich {\tt
+  STICHWORT} bezieht, soll vorher schon vollst"andig zitiert worden sein.
+  Ein Kurz-Zitat besteht aus dem Namen des Autors und (durch Komma
+  getrennt) einem oder wenigen signifikanten Worten aus dem Titel, die eine
+  eindeutige Feststellung der vollst"andigen bibliographischen Daten anhand
+  des Literatur- oder Quellen-Verzeichnisses m"oglich machen. Gegen"uber
+  dem \LaTeX-Befehl \Befehl{index} wird das Argument von \Befehl{bib}
+  erweitert indexiert: Hier verweisen die Stichworte n"amlich nicht nur auf
+  die Seite, sondern auch auf die Nummer der Fu"snote zur"uck, falls der
+  Befehl in einer Fu"snote steht. Diese Informationen gehen ebenfalls in
+  das {\tt FILE.bar}. Auch wenn die zuvor vorgestellten Befehle zum
+  Erzeugen einer Literaturliste oder eines Quellenverzeichnisses nicht
+  benutzt werden, so mu"s das {\tt FILE.bar} dennoch durch den schon
+  beschriebenen Befehl
+  \Befehl{makebar}\addtobib{makebar@\protect\Befehl{makebar}}
+  bereitgestellt werden.}
+
+  \nopagebreak
+  \Doppelbox{\Befehl{bib\{STICHWORT\}}}{Stellt einen Eintrag f"ur das
+                                        Stichwort-Verzeichnis zur Verf"ugung.
+                                        Der Befehl druckt STICHWORT aus.}
+
+  \Punkt{Falls STICHWORT nur im Index erscheinen soll, steht neu der Befehl
+  \Befehl{addtobib} zur Verf"ugung.}
+
+  \Doppelbox{\Befehl{addtobib\{STICHWORT\}}}{Stellt einen Eintrag f"ur das
+                                             Stichwort-Verzeichnis zur Verf"ugung.
+                                             Der Befehl druckt nichts aus an
+                                             dem Ort, an dem er steht.}
+
+  \vspace{1ex}
+  Das mittels des Befehls \Befehl{bib} gef"utterte {\tt FILE.bar} mu"s mit
+  dem Programm {\sc MakeIndex} bearbeitet werden. Zug"ange der Befehle, die
+  zum Erzeugen der Literatur- und Quellen-Verzeichnisse ebenfalls vorhanden
+  sein m"ogen, wird der Stichwortprozessor {\sc MakeIndex} als fehlerhaft
+  einstufen und nicht verwenden. Das ist so erw"unscht. Um eine Datei {\tt
+  FILE.bar} zu bearbeiten, mu"s unter DOS
+
+  \vspace{-1ex}
+   \begin{center}{\tt makeindx FILE.bar}\end{center}
+
+  \vspace{-1ex}
+   \noindent befohlen werden. Unter UNIX lautet der Aufruf
+
+  \vspace{-1ex}
+   \begin{center}{\tt makeindex FILE.bar}\end{center}
+
+  \vspace{-1ex}
+   F"ur deutsche Texte mu"s die Option {\tt -g} "ubergeben werden, um die
+   Sortierreihenfolge auf \underline{g}erman umzuschalten. Das gen"ugt aber
+   noch nicht: In Grundeinstellung ist \verb|"| das \bib{Maskierungszeichen}
+   von {\sc MakeIndex}. Maskierungszeichen dienen dazu, \verb+!+, \verb+|+
+   und \verb+@+ via \verb+"!+, \verb+"|+ und \verb+"@+ ausdrucken lassen zu
+   k"onnen. Unmaskiert stellen sie Befehle dar, die das Verhalten von {\sc
+   MakeIndex} steuern. \verb+"+ wird aber f"ur die deutschen Umlaute
+   gebraucht, wie mit {\tt german.sty} definiert. Um das Maskierungszeichen
+   zu "andern, mu"s ein Index-Style-File nach der Option {\tt -s} in der
+   Befehlszeile stehen. In diesem Index-Style-File kann eine Zeile
+
+   \begin{center}{\tt quote '='}\end{center}
+
+   \noindent
+   das \bib{Maskierungszeichen} in {\tt =} umbenennen. Erst dann wird die
+   Option {\tt -g} akzeptiert. Dazu wurde zu \bibarts{} die Datei {\tt
+   gbibarts.ist} beigef"ugt. Der restliche Inhalt dieser Datei ist
+   sprachunabh"angig f"ur \bibarts{} notwendig. (In \Befehl{bib} ist \verb+|+
+   \addtobib{MakeIndex@{\protect\sc MakeIndex}!\protect\senkrecht} "ubrigens~
+   i~m~m~e~r~ schon besetzt!\footnote{Ebenso steht {\tt !}, das in
+   \Befehl{index} zweimal gebraucht werden darf, in \Befehl{bib} nur einmal
+   zur Verf"ugung, wenn {\tt chapter}-"Uberschriften, und garnicht, wenn
+   dar"uber hinaus {\tt part}-"Uberschriften benutzt werden. In {\tt
+   bibarts.tex} sind also zwei {\tt !} erlaubt.
+   \addtobib{MakeIndex@{\protect\sc MakeIndex}!\protect\Ausrufezeichen}
+   (Bedeutung von {\tt !} in Anm.\,\ref{elf}).\label{zehn}}) --- Unter DOS
+   lautet die Befehlszeile des bei der Bearbeitung von {\tt bibarts.tex}
+   erzeugten Files {\tt gbibarts.bar} also:
+
+   \begin{center}{\tt makeindx -s gbibarts.ist -g bibarts.bar}\end{center}
+
+   \Punkt{{\sc MakeIndex} fertigt eine Index-Datei {\tt FILE.ind} an. Der
+   Befehl \Befehl{printind} druckt diese Datei zweispaltig unter der
+   "Uberschrift Index aus. Der Ausdruck unterscheidet sich vom
+   normalen \LaTeX-Index: An die Seitenzahlen ist als Exponent die Nummer der
+   Fu"snote hinzugedruckt, falls der Zugang in einer Fu"snote erfolgte.}
+
+   \Doppelbox{\Befehl{printind}}{Druckt das mit \Befehl{bib} gef"utterte
+                                 Stichwortverzeichnis.}
+
+   \Punkt{Falls jedes Zitat in das Kurzzitate-Verzeichnis aufgenommen werden
+   soll, ist es sinnvoll, neben \Befehl{bib} einen Befehl zu besitzen, der
+   (1)~innerhalb von \Befehl{vli} oder \Befehl{vqu} im voraus ank"undigt,
+   wie der Titel kurzzitiert wird, (2)~gleich einen Eintrag ins
+   Kurzzitate-Verzeichnis macht und (3)~hinter dem Eintrag auf der
+   Literatur- oder Quellen-Liste in eckigen Klammern ausdruckt, wie
+   kurz-zitiert wurde.}
+
+  \vspace{-1ex}
+  \Doppelbox{\Befehl{kurz\{STICHWORT\}}}{Stellt einen Eintrag f"ur das
+                                        Stichwort-Verzeichnis zur Verf"ugung.
+                                        Der Befehl druckt {\rm (im folgenden
+                                        STICHWORT)\/} aus. Falls \Befehl{kurz}
+                                        am Ende des dritten Arguments von
+                                        \Befehl{vli}, \Befehl{vqu},
+                                        \Befehl{addtovli} oder \Befehl{addtovqu}
+                                        steht, wird \\
+                                        {\rm [STICHWORT]\/} am Ende des
+                                        Eintrags auf der bibliographischen
+                                        Liste stehen.}
+                                        \addtobib{kurz@\protect\Befehl{kurz}}
+
+  \vspace{1ex}
+   Erg"anzen m"ochte ich noch, da"s der Befehl \Befehl{subitem} in den
+   {\tt FILEs.ind} stehen wird, die von {\sc MakeIndex} erzeugt werden,
+   nachdem die Gliederungs-"Uberschrift \Befehl{chapter} zum ersten Mal
+   verwendet wurde und dar"uber hinaus auch \Befehl{subsubitem}, falls
+   \Befehl{part} verwendet wurde. Sie entsprechen Unter-Stichworten. Mit
+   Befehlen der Art
+   \Befehl{renewcommand\{\Befehl{subitem}\}\{\Befehl{hspace\{.3em\}}\}} kann
+   erzwungen werden, da"s Text nach dem Index-Haupteintrag der Reihe nach
+   heruntergeschrieben wird. Zur Sicherheit sollte auf den {\sc
+   MakeIndex}-Befehl {\tt !}, der Stichwort und Unterstichwort trennt, im
+   Argument von \Befehl{bib} verzichtet werden.\footnote{Zur Erzeugung von
+   \Befehl{subitem}s verwendet \bibarts{} Ausrufezeichen, die f"ur {\sc
+   MakeIndex} Befehlscharakter haben. Wenn z.B.
+   \Befehl{index\{Maier!Arbeit\}} und \Befehl{index\{Maier!Recht\}}
+   geschrieben wird, gibt es die beiden Unter-Eintr"age Arbeit und Recht
+   unter dem Haupteintrag Maier. Maximal zwei~{\tt !}~k"onnen verwendet
+   werden. Damit scheidet die beschriebene Untergliederung mit \Befehl{bib}
+   aus, wenn \Befehl{part}-"Uberschriften verwendet werden. (Siehe auch
+   Anm.\,\ref{zehn}.)\label{elf}\addtobib{MakeIndex@{\protect\sc
+   MakeIndex}!\protect\Ausrufezeichen}}
+
+
+  \subsection{Die Verweise}
+
+   Was in diesem Unterabschnitt zu Sprache kommt, hat nichts mit dem
+   Bib\-lio\-gra\-phie-File zu tun. "`Verweis"' wird hier eine zweite
+   Zitier-Konvention genannt, die manche Verlage f"ur Aufs"atze verwenden.
+   Hier werden ebenso wie zuvor anl"a"slich des Erstzitats vollst"andige
+   bibliographische Angaben gemacht. Wird auf einen Titel ein zweites Mal
+   eingegangen, wird dieser ebenfalls kurz-zitiert, aber dahinter kommt ein
+   Verweis auf die vollst"andige erste Angabe. Zu solchen Aufs"atzen
+   geh"oren keine bibliographischen Listen.
+
+   \Punkt{Nach jedem Erstzitat kann \Befehl{bibmark\{MARKE\}} dazu verwendet
+   werden, eine Marke zu erzeugen. Im Unterschied zu dem \LaTeX-Befehl
+   \Befehl{label} wird aber ausgedruckt, wie k"unftig kurzzitiert wird.
+   {\tt MARKE} und Kurzzitat sind identisch.}
+   \addtobib{bibmark@\protect\Befehl{bibmark}}
+
+   \Doppelbox{\Befehl{bibmark\{MARKE\}}}{Setzt die Referenz {\tt MARKE} und
+                                          druckt aus: {\rm im folgenden
+                                          MARKE\/}}
+                                \addtobib{bibmark@\protect\Befehl{bibmark}}
+
+   \Punkt{Mit dem Befehl \Befehl{bibref\{MARKE\}}
+   \addtobib{bibref@\protect\Befehl{bibref}} kann man sich dann Seitenzahl
+   und Fu"snotennummer in einer "ubliche Konstruktion zur"uckgeben lassen.}
+
+   \Doppelbox{\Befehl{bibref\{MARKE\}}}{Druckt in Fu"snote aus:\\
+                                        {\rm MARKE (wie Anm.~XX, S.~YY)\/},\\
+                                        ansonsten:\\
+                                        {\rm MARKE (siehe S.~YY)\/}.
+                                        }
+   \addtobib{bibref@\protect\Befehl{bibref}}
+
+   \vspace{1ex}
+   {\tt MARKE} kann dabei ohne weiteres ein Kurz-Zitat in der Art {\tt Marx,
+   Kapital} sein. Auch \verb!B"ulow! funktioniert als Marke, denn Umlaute, "s,
+   Akut, Zirkumflex und Gravis sind in einer Struktur namens
+   \Befehl{@markprotect} gesch"utzt. Bei hier nicht gesch"utzten Befehlen
+   m"ussen auszudruckender {\tt TEXT} und Schl"usselbegriff {\tt MARKE}
+   voneinander getrennt werden.
+
+   \Punkt{Der Befehl \Befehl{xbibmark\{TEXT\}\{MARKE\}} setzt die {\tt MARKE}
+   und druckt den {\tt TEXT} aus.}
+   \addtobib{bibmark@\protect\Befehl{bibmark}}
+   \addtobib{xbibmark@\protect\Befehl{xbibmark}}
+
+   \Doppelbox{\Befehl{xbibmark\{TEXT\}\{MARKE\}}}{Setzt die Referenz {\tt
+                                           MARKE} und druckt aus: {\rm
+                                           im folgenden TEXT\/}.}
+                             \addtobib{xbibmark@\protect\Befehl{xbibmark}}
+
+   \Punkt{Mit dem Befehl \Befehl{xbibref\{TEXT\}\{MARKE\}}
+   \addtobib{xbibref@\protect\Befehl{xbibref}} kann man sich dann Seitenzahl
+   und Fu"snotennummer von {\tt MARKE} zur"uckgeben lassen.}
+
+   \Doppelbox{\Befehl{xbibref\{TEXT\}\{MARKE\}}}{Druckt in Fu"snote aus:\\
+                                      {\rm TEXT (wie Anm.~XX, S.~YY)\/},\\
+                                      ansonsten:\\
+                                      {\rm TEXT (siehe S.~YY)\/}.
+                                      }
+   \addtobib{xbibref@\protect\Befehl{xbibref}}
+
+   \vspace{1ex}\noindent
+   Alle vier zuletzt angesprochenen Befehle \Befehl{bibmark}-\Befehl{bibref}
+   und \Befehl{xbibmark}-\Befehl{xbibref} sollen paarweise entweder beide
+   in Fu"snoten ober au"serhalb von Fu"snoten stehen. F"ur die
+   Verweis-Schl"usselbegriffe MARKE aller vier Befehle ist das Makro
+   \Befehl{@markprotect} zust"andig. Die \Befehl{x...}-Befehle sind
+   eigentlich nichtmehr unbedingt notwendig, denn mit \Befehl{@markprotect}
+   kann eine unliebsame Expansion von Befehls-Makros durch eine an dieser
+   Stelle erw"unschte Expansion ausgetauscht werden. Haupts"achlich aus
+   Gr"unden der Kompatibilit"at mit "alteren \bibarts-Versionen sind die
+   \Befehl{x...}-Befehle erhalten geblieben.
+
+   \vfill
+   \noindent\hrulefill
+
+   \vspace{1ex}\nopagebreak\noindent
+   Auf der n"achsten Seite werden Beispiele zu den bibliographischen Listen
+   folgen. Hierzu ein Hinweis f"ur DOS: {\tt gbibsort.exe} enth"alt einen
+   \bib{go32}-Extender. Es ist oft notwendig, f"ur diesen ein Verzeichnis
+   NAME anzulegen, das dessen {\it paging-files} aufnehmen kann (damit wird
+   der Arbeitsspeicher virtuell vergr"o"sert). Auf dieses Verzeichnis ist
+   dann mit {\tt set go32tmp=NAME} eine Umgebungsvariable zu setzen. Dieser
+   Befehl sollte sinnvollerweise in der Datei {\tt autoexec.bat} stehen.
+
+   \nopagebreak\noindent\hrulefill
+
+  \newpage
+  \section{Beispiele}
+
+  Nat"urlich kann in die formatierte Ausgabe der Literaturangaben
+  eingegriffen werden. Die Befehle \Befehl{stressing}
+  \addtobib{stressing@\protect\Befehl{stressing}} und \Befehl{punctuation}
+  \addtobib{punctuation@\protect\Befehl{punctuation}} definieren die Betonung
+  des Autoren-Nachnamens und das Satzzeichen, das zwischen dem Autorennamen
+  und dem REST steht. Dies betrifft einerseits die Befehle \Befehl{vqu},
+  \Befehl{addtovqu} und \Befehl{printonlyvqu}, andererseits \Befehl{vli},
+  \Befehl{addtovli} und \Befehl{printonlyvli}. Voreinstellung f"ur
+  \Befehl{stressing} \addtobib{stressing@\protect\Befehl{stressing}} ist {\tt
+  underline}. 
+
+  \Punkt{\Befehl{stressing} \addtobib{stressing@\protect\Befehl{stressing}}
+  kann im Vorspann und vor jedem Listen-Ausdruckbefehl stehen. Sein Argument
+  kann z.B. {\tt sc}, {\tt large}, {\tt underline} oder {\tt fbox}
+  enthalten.}
+
+  \Doppelbox{\Befehl{stressing\{bf\}}}{"Andert die Betonung des Autorennamens
+                                    von unterstreichen auf fett (bold face).}
+
+  \Punkt{\Befehl{punctuation}
+  \addtobib{punctuation@\protect\Befehl{punctuation}} sollte nur im
+  Vorspann verwendet werden:}
+
+  \Doppelbox{\Befehl{renewcommand\{}\Befehl{punctuation\}\{,\}}}{"Andert den
+  Doppelpunkt zwischen VORNAME bzw. NAME und REST in Komma.}
+
+   \vspace{1ex}\noindent
+    Jetzt soll der Weg eines \Befehl{vli}-Befehls verfolgt
+    werden:
+
+    \Punkt{Hier steht (und man vergleiche dies mit der Fu"snote
+    unter besonderer Beachtung der {\sf serifen--losen
+    Schrift}):}
+
+    \refstepcounter{footnote}
+\framebox{\begin{minipage}[t]{.9\textwidth}
+    \framebox{\parbox{.9\textwidth}{
+    ... Text.\Befehl{footnote\{ ... mit Bezug auf}\\
+    \Befehl{vli\{Helmut\}\{Kopka\}\{\Befehl{LaTeX}\{\} --}
+                  {\tt Eine Einf"uhrung,\\
+    \hspace*{1cm}Bonn 1993\},}\\
+    \hspace*{1cm}{\tt S. 187 belegen.\}}
+             }} \vspace{1ex}
+    \addtobib{vli@\protect\Befehl{vli}} \vspace{2ex}
+
+                                       \footnotetrue
+    ... Text.\footnote{ Ich m"ochte meine Aussagen mit Bezug auf
+    \vli{Helmut}{Kopka}{\LaTeX{} -- Eine Einf"uhrung, Bonn 1993},
+    \addtobib{vli@\protect\Befehl{vli}}    \footnotefalse
+                     S. 187 belegen.
+                  \begin{center}\thepage\end{center}
+                                    }
+\end{minipage}}
+
+    \Punkt{Der \Befehl{vli}-Eintrag "uber Kopka kommt ins
+    Literaturverzeichnis:}
+
+\framebox{\begin{minipage}[t]{.9\textwidth}
+    \framebox{\parbox{.9\textwidth}{
+    \Befehl{section*\{Literaturverzeichnis\} \Befehl{printvli}}
+             }}
+                      \section*{Literaturverzeichnis} \printvli
+\end{minipage}}
+
+    \Punkt{Im Literaturverzeichnis kann auch auf die Seite zur"uckverwiesen
+    werden, auf der der Literatur-Zugang mit \Befehl{vli} stattfand:}
+
+\framebox{\begin{minipage}[t]{.9\textwidth}
+    \framebox{\parbox{.9\textwidth}{
+    \Befehl{section*\{Literaturverzeichnis\} \Befehl{printnumvli}}
+             }}
+                     \section*{Literaturverzeichnis} \printnumvli
+\end{minipage}}
+
+    \vspace{2ex}\noindent
+    Wie angegeben, l"a"st sich bei Kopkas Buch sowohl Seite, als auch
+    Fu"snotennummer nachvollziehen.
+
+    \Punkt{Die Angabe zu Norbert Schwarz steht nicht in einer Fu"snote. Hier
+    steht:}
+
+\framebox{\begin{minipage}[t]{.9\textwidth}
+    \framebox{\parbox{.9\textwidth}{
+    \Befehl{vli\{Norbert\}\{Schwarz\}\{Einf"uhrung in}\\
+     \hspace*{1cm}{\tt\Befehl{protect}\Befehl{TeX}, Bonn
+         1988\Befehl{kurz\{Schwarz\}}\}}
+    \addtobib{vli@\protect\Befehl{vli}}
+              }}\vspace{2ex}
+
+    \vli{Norbert}{Schwarz}{Einf"uhrung in \protect\TeX, Bonn
+    1988\kurz{Schwarz}}
+    \addtobib{vli@\protect\Befehl{vli}}\addtobib{kurz@\protect\Befehl{kurz}}
+\end{minipage}}
+
+    \Punkt{Die Schriftart, in der hier das Erstzitat "`Kopka"' oder
+    "`Schwarz"' ausgedruckt ist, kann einheitlich von {\sf sans serif} auf
+    {\it italics\/} umgestellt werden.}
+
+    \Doppelbox{\Befehl{renewcommand\{}\Befehl{schrift\}\{}\Befehl{it\}}}{
+    "Andert die Schrift, in der Erstzitate\\ ausgedruckt werden, in {\it
+    italics\/}.}
+
+    \Punkt{Das Zeichen $\gg$ in den \Befehl{printnum...}-Listen ist durch den
+    Befehl \Befehl{verw} definiert; es kann beispielsweise so ge"andert
+    werden:}\addtobib{verw@\protect\Befehl{verw}}
+
+    \addtobib{verw@\protect\Befehl{verw}}
+    \Doppelbox{\Befehl{renewcommand\{\Befehl{verw}\}\{; Erstzitat:\~{}\}}}{
+    "Andert das Zeichen, das vor den\\ Angaben des Zugangsorts steht.}
+
+    \Punkt{Die Schriftart, in der Literaturverzeichnis und Quellenverzeichnis
+    ausgedruckt werden, hei"st \Befehl{barschrift}. "Anderungsvorschlag:}
+
+    \Doppelbox{\Befehl{renewcommand\{}\Befehl{barschrift\}\{}\Befehl{rm\}}}{
+    "Andert die Schrift der bibliographischen Verzeichnisse in {\rm roman}.}
+
+    \Punkt{Die Schriftart, in der das Stichwortverzeichnis ausgedruckt wird,
+    hei"st \Befehl{indschrift}. "Anderungsvorschlag:}
+
+    \Doppelbox{\Befehl{renewcommand\{}\Befehl{indschrift\}\{}\Befehl{sf}\}}{
+    "Andert die Schrift, in der der Index\\ ausgedruckt wird in {\sf sans
+    serif}.}
+
+    \vspace{1ex}
+    Jetzt ein Punkt f"ur Fortgeschrittene: Ein noch nicht erw"ahnter Befehl
+    hei"st \Befehl{Kapitell}. Falls er genutzt wird, soll er im Vorspann
+    direkt nach \Befehl{makebar} stehen. Er bewirkt, da"s Gro"s-Buchstaben
+    A bis Z in gro"ser Schrift in das Quellenverzeichnis, das
+    Literaturverzeichnis und das Kurzzitateverzeichnis (Index, Register)
+    ausgedruckt werden. Diese Kapitelle stehen leicht abgesetzt am Anfang
+    jeder Gruppe von Autoren mit einem bestimmten Anfangsbuchstaben.
+    \Befehl{Kapitell} ist im Vorspann von {\tt bibarts.tex} modifiziert
+    worden, denn es sollte dazu unter jeden Buchstaben mindestens ein
+    Zugang mit dem gleichen Anfangsbuchstaben fallen. Das ist im Register
+    dieses Textes nicht der Fall. Auf Kapitelle in den Beispielen f"ur
+    Literatur- und Quellenverzeichnis wurde verzichtet. Der Vorspann von {\tt
+    bibarts.tex} kann als Beispiel f"ur eigene Texte dienen. Notwendig sind
+    hier die Befehle \Befehl{makeatletter} und \Befehl{makeatother} vor und
+    nach Befehlen, die {\tt @} enthalten.
+
+    \vspace{1ex}
+    Alle vorausgegangenen Beispiele betrafen Einstellungen im Umfeld des
+    bibliographischen Files und die Einstellungen dar"uber, wie in das
+    bibliographische File schreibende Befehle ihre Argumente an Ort und
+    Stelle ausdrucken.
+
+    Doch jetzt zur zweiten Zitierkonvention, den R"uck-Verweisen nach
+    Kurz-Zitaten auf das vollst"andige Erstzitat. (Es ist keine
+    Literaturliste oder vergleichbares vorgesehen f"ur das Ende eines Textes,
+    der diesen Teil der \bibarts-Optionen nutzt.) Es folgt eine
+    \Befehl{bibref}-\Befehl{bibmark}-Kom\-bi\-na\-tion:
+    \addtobib{bibref@\protect\Befehl{bibref}}
+    \addtobib{bibmark@\protect\Befehl{bibmark}}
+
+     \vspace{1ex}
+\framebox{\begin{minipage}[t]{.9\textwidth}
+    \framebox{\parbox{.9\textwidth}{\tt
+  ... Text.\Befehl{footnote\{In dieser Fu"snote sei\\
+     \hspace*{1cm}Lecl\Befehl{`e}rc erstzitiert:}\\
+     \hspace*{1cm}Fran\Befehl{c}\{c\}ois Lecl\Befehl{`e}rc: Der kalte
+         Sommerregen,\\
+      \hspace*{1cm}Musterland 1899\\
+      \hspace*{.5cm}(\Befehl{bibmark\{Lecl}\Befehl{`erc,
+         Beruf\}).\}}\\
+      Nicht in Fu\Befehl{ss}\{\}note:\\
+     \hspace*{.72cm}\Befehl{bibref\{Lecl}\Befehl{`e}rc, Beruf\}\\
+  ... Text.\Befehl{footnote\{ Wie schon }\\
+      \hspace*{.72cm}\Befehl{bibref\{Lecl}\Befehl{`erc, Beruf\}
+       sagte ... \}} }} \vspace{2ex}
+
+       \refstepcounter{footnote}    \footnotetrue
+  ... Text.\footnote{ In dieser Fu"snote sei Lecl\`erc erstzitiert:
+      Fran\c{c}ois Lecl\`erc: Der kalte Sommerregen, Musterland 1899
+         (\bibmark{Lecl\`erc, Beruf}).       }
+         \addtobib{bibmark@\protect\Befehl{bibmark}}
+                                    \footnotefalse
+      Nicht in Fu\ss{}note: \bibref{Lecl\`erc, Beruf}
+       \refstepcounter{footnote}    \footnotetrue
+  ... Text.\footnote{ Wie schon
+         \addtobib{bibref@\protect\Befehl{bibref}}
+         \bibref{Lecl\`erc, Beruf} sagte ...
+                  \begin{center}\thepage\end{center}
+             }
+                                    \footnotefalse
+\end{minipage}}
+     \addtobib{bibmark@\protect\Befehl{bibmark}}
+
+    \vspace{1cm}\noindent
+    Auf der nachfolgenden Seite soll als letztes Beispiel mit
+    \Befehl{printind} der Index ausgedruckt werden. Diese n"achste Seite wird
+    vollst"andig fehlen, falls kein Index existiert.
+    DOS: Der Index wird gleich von {\tt gbib209.bat} oder {\tt gbib2e.bat}
+    miterzeugt durch Eingabe von {\tt gbib2e bibarts}, falls die installierte
+    \LaTeX-Version 2$\epsilon$ hei"st, oder {\tt gbib209 bibarts}, falls noch
+    \LaTeX 2.09 verwendet wird.
+
+    \newpage
+    \printind
+
+
+  \section{Grenzen der M"achtigkeit von \bibarts}
+
+  Die Befehle \Befehl{vli} und
+  \Befehl{vqu},\addtobib{vqu@\protect\Befehl{vqu}}
+  \Befehl{addtovli}\addtobib{addtovli@\protect\Befehl{addtovli}} und
+  \Befehl{addtovqu}\addtobib{addtovqu@\protect\Befehl{addtovqu}} sind einer
+  wichtigen Beschr"ankung unterworfen: Befehle, die in ihren Argumenten
+  auftauchen, k"onnen "`zerbrechen"', wenn Befehle Makros sind. Nicht der
+  Befehl selbst wird in das {\tt FILE.bar} geschrieben, sondern die
+  expandierten Makros. Solche "`zerbrochenen Befehle"' k"onnen beim
+  "Ubersetzen mit \LaTeX{} oft nicht mehr verstanden, also nicht
+  ausgedruckt werden. \TeX{} beschwert sich bei solchen Gelegenheiten auch
+  oftmals dar"uber, da"s seine Kapazit"at "uberschritten sei ("`...
+  Sorry"'). Wie bei den befehlen \Befehl{index} oder \Befehl{glossary}
+  auch, mu"s ein solcher Befehl dann durch ein davorgestelltes
+  \Befehl{protect} gesch"utzt werden. ODER: In {\tt bibarts.sty} wird
+  dieser Befehl im Makro \Befehl{@sIcHerUnG} --- so wie dort vorgemacht ---
+  mit \Befehl{string} gesch"utzt. Hier sind bereits die ganzen Umlaute und
+  viele andere Akzente (wie Akut, Zirkumflex und Gravis) gegen Zerbrechen
+  gesch"utzt. Ich empfehle allerdings, die Konstruktion
+  \Befehl{@ifundefined\{newumlaut\}...} unver"andert zu lassen, denn sie
+  erkennt den wirklich bedeutsamen Unterschied, ob {\tt german.sty}
+  verwendet wird, oder nicht. (Das Paket {\tt german} mu"s --- wenn es
+  verwendet wird --- vor {\tt bibarts} eingeladen werden!)
+
+  Ebenfalls eine Sicherungsstruktur wurde f"ur
+  \Befehl{bibmark}-\Befehl{bibref}-Kom\-bi\-na\-tio\-nen eingef"uhrt. Diese
+  Befehle nutzen \Befehl{label}, \Befehl{pageref} und \Befehl{ref}, in deren
+  Argumente keine Befehle stehen d"urfen. Die Sicherung, die hier z.B.
+  Umlaute m"oglich macht, hei"st \Befehl{@markprotect}. Die hier
+  bearbeiteten Befehle sind fast die selben, wie auch im Makro
+  \Befehl{@sIcHerUnG}. Allerdings werden die Befehle hier nicht
+  schreibgesch"utzt, sondern in \verb!|X|!-Konstruktionen "ubersetzt, wobei
+  \verb!X! ein f"ur jeden Befehl anderer Buchstabe ist und \verb!|! dazu
+  dient, da"s Verwechslungsm"oglichkeiten mit anderen Schl"usselbegriffen
+  minimiert werden. Da das Makro \Befehl{@markprotect} gleicherma"sen in
+  den Marken, wie in den Referenzen verwendet wird, kann der Anwender
+  bedenkenlos Befehle in die Marken setzen --- {\it wenn\/} diese Befehle
+  in \Befehl{@markprotect} zu Buchstaben expandiert werden. Da
+  \Befehl{underline} und Umlaute derart bearbeitet werden, ist
+
+  \verb!\bibmark{\underline{M"uller}, Hallo}!
+
+  \verb!\bibref{\underline{M"uller}, Hallo}!\\m"oglich. In
+  \Befehl{@markprotect} k"onnen --- wie dort vorgemacht --- weitere h"aufig
+  verwendete Befehle zur Verwendung als Verweis-Schl"usselworte
+  bereitgestellt werden. F"ur seltene Konstruktionen steht
+  \Befehl{xbibmark}-\Befehl{xbibref} zur Verf"ugung, die {\tt MARKE} und
+  auszudruckenden {\tt TEXT} trennen. Verweis-Marken ergeben "ubrigens
+  \Befehl{newlabel}-Eintr"age im Auxiliary-File mit dem Suffix {\tt .aux}.
+
+  Doch zur"uck zur Bearbeitung des bibliographischen Files. Das Programm {\tt
+  gbibsort} kann so viele Zeilen sortieren, wie in der Gr"o"se {\tt MAXLINES}
+  in der Datei {\tt gbibsort.c} zum Zeitpunkt der "Ubersetzung von {\tt
+  gbibsort.c} in eine ausf"uhrbare Datei festgelegt war. Ebenso d"urfen
+  Zeilen eines zu sortierenden Files nicht l"anger als {\tt MAXLEN} (1024)
+  sein. L"angere Zeilen sollten gek"urzt werden, indem ein Rest des
+  Eintrags in eine Datei (mit dem Namen {\tt DATEI-NAME}) verschoben wird;
+  anstelle des Restes sollte \Befehl{input\{DATEI-NAME\}} eingetragen
+  werden. Der Befehl \Befehl{input} mu"s in den \Befehl{vli}-,
+  \Befehl{vqu}-,\addtobib{vqu@\protect\Befehl{vqu}}
+  \Befehl{addtovli}-,\addtobib{addtovli@\protect\Befehl{addtovli}}
+  \Befehl{addtovqu}-Befehlen\addtobib{addtovqu@\protect\Befehl{addtovqu}}
+  durch ein davorgestelltes \Befehl{protect} oder durch Definition
+  innerhalb des Makros \Befehl{@sIcHerUnG} vor dem "`Zerbrechen"'
+  gesch"utzt werden.
+
+  Die Kapazit"at des Befehls \Befehl{bib} hat etwas gr"o"sere
+  Beschr"ankungen, als die anderen \bibarts-Befehle.
+
+  \vspace{-1ex}
+  \Punkt{Eintr"age im Stichwortverzeichnis werden sicher richtig sortiert,
+  wenn sie von Seiten mit Seitenzahlen zwischen 1 und 999 stammen. Zwei
+  \Befehl{bib}-Befehle mit gleichem Argument dagegen werden, wenn auch nur
+  einer von beiden auf einer Seite mit einer Seitenzahl $<= 0$ oder $>=
+  1000$ steht, nur durch Zufall richtig sortiert.}
+
+  \vspace{-3ex}
+  \Punkt{Folgendes gilt f"ur das Stichwortverzeichnis in Dokumentengr"o"se
+  {\tt book} und {\tt part}: Die Sortierhilfen f"ur die Z"ahler {\tt part}
+  und {\tt chapter} reichen von 1 bis 99. Zwei \Befehl{bib}-Eintr"age mit
+  gleichem Argument aus Teilen oder Kapiteln mit Nummern ab einhundert
+  werden nur durch Zufall richtig sortiert. Tats"achlich erh"alt man, wenn
+  Zug"ange aus mehreren Kapiteln und sowohl aus dem Text als auch aus
+  Fu"snoten kommen, Ausgaben in der Art}
+
+  \vspace{-2ex}
+  \framebox{\small\begin{minipage}[t]{.9\textwidth}
+  \vspace*{1ex}
+  {\rm STICHWORT}:\\
+  \hspace*{1cm}{\it Kapitel 1\/}:\\
+  \hspace*{2cm}2$^5$, 5$^8$, 1, 4,\\
+  \hspace*{1cm}{\it Kapitel 3\/}:\\
+  \hspace*{2cm}23$^5$, 31$^{18}$, 24, 25,
+  \vspace{1ex}
+                  \end{minipage}
+          }
+
+  \vspace{2ex}
+  Zuerst werden kapitelweise alle Zug"ange aus Fu"snoten ausgedruckt und
+  danach die anderen Zug"ange aus dem jeweiligen Kapitel.
+
+  \vspace{-1ex}
+  \Punkt{\Befehl{bib} kann nur verwendet werden, wenn ein
+  \underline{I}ndex-\underline{St}yle-File in der Art von {\tt gbibarts.ist}
+  verwendet wird. {\tt gbibarts.ist} mu"s neben Sprachspezifika wie {\tt
+  quote~'='} folgende Zeilen enthalten:}
+
+  \vspace{-3ex}
+  \begin{verbatim}
+             delim_0 " "
+             delim_1 " "
+             delim_2 " "
+             delim_n "\\komma "
+             delim_t " "
+  \end{verbatim}
+
+  \vspace{-3ex}
+  \noindent
+  Solche {\tt STYLE}s werden durch Aufrufe der Art
+
+  \vspace{-1ex}
+  \begin{center}{\tt makeind(e)x\/ -s\/ STYLE\, FILE}\end{center}
+
+  \vspace{-1ex}
+  \noindent
+  bei der Bearbeitung der Datei {\tt FILE} ber"ucksichtigt.
+
+  Der \bibarts-Index verweist zur"uck auf Stellen im Text. Falls der
+  Index-Zugang \Befehl{bib\{STICHWORT\}} in den Fu"snoten 1, 2 und 3 auf
+  einer Seite 12 steht, erscheint ein Eintrag {\sf STICHWORT~12$^{1-3}$\/},
+  wenn der Index mit \Befehl{printind} ausgedruckt wird. Zusammenfassungen
+  der Art {\tt 1-3} werden nicht erzeugt, falls \Befehl{bib} oder
+  \Befehl{addtobib} au"serhalb von Fu"snoten (im normalen Text) verwendet
+  werden. Falls Zug"ange von den Seiten 1, 2 und 3 kommen, wird {\tt 1}, {\tt
+  2}, {\tt 3} dastehen. Es kann daher oft sinnvoll sein, sich auf dem
+  herk"ommlichen Weg via \Befehl{index\{STICHWORT\}} einen seperaten Index
+  f"ur Verweise in den Haupt-Text zu machen. Der \bibarts-Index ist insofern
+  eine gute Grundlage f"ur ein Personenregister, das "ublicherweise von
+  anderen Registern getrennt wird, die mit den \LaTeX-Befehlen \Befehl{index}
+  und \Befehl{glossary} erzeugt werden k"onnen. Die Mehrfachausgabe einer
+  Seitenzahl im \bibarts-Kurzzitate-Index wird immerhin unterdr"uckt, falls
+  von einer Seite mehrere gleiche Index-Zug"ange kommen. Dies funktioniert
+  auch dann, falls die Seitennummerierung mittels
+  \Befehl{pagenumbering\{roman\}} auf kleine r"omische Zahlen umgestellt
+  wird. \Befehl{pagenumbering\{Roman\}} funktioniert nicht.
+
+  Eine wirklich elegante L"osung dieser Probleme wird erst eine Erweiterung
+  des Programms {\sc MakeIndex} bringen, das dann nach mehreren Zahlen ---
+  neben einem Eintrag des Z"ahlers {\tt page} zumindest noch nach dem des
+  Z"ahlers {\tt footnote} --- sortieren k"onnen mu"s.
+
+  \def\abstractname{Message}
+
+  \vspace{3ex}
+  \noindent\hrulefill
+
+  \begin{abstract}
+  Die Idee von \bibarts{} ist, die bibliographischen Angaben an einer
+  zentralen Stelle {\it im Text\/} zu machen, und diese Informationen unter
+  m"oglichst wenig Hinzutun des Anwenders an allen notwendigen Stellen
+  ausgedruckt zu bekommen. So erh"alt man um den Preis des Markierens von
+  Erstzitaten eine fertige Literaturliste. Sie erscheint an der Stelle, an
+  der der Ausdruckbefehl plaziert wird. Jede und jeder, die oder der schon
+  einmal tagelang am Erstellen einer Literaturliste sa"s, wird sofort die
+  Arbeitsersparnis einsehen: Das Durchsuchen der Fu"snoten nach Erstzitaten
+  entf"allt vollst"andig. Dieses "`Definieren an zentraler Stelle"' greift
+  eigentlich eine Idee des Programmierens auf. Dort gilt es als guter Stil,
+  mehrfach verwendete Gr"o"sen, die jeweils gleich sein sollen, einmal und
+  endg"ultig an einer Stelle festzulegen. "Anderungen des Programmtextes
+  lassen sich so besser beherrschen. Soll diese Idee auf das Schreiben von
+  Texten "uber\-tragen werden, stellt sich die Frage, an welcher Stelle
+  solche Definitionen sinnvollerweise zu machen sind.
+ 
+  Sicherlich ist es heute "ublich, bei der Literatur-Recherche
+  computergest"utzt zu arbeiten. Es existieren schon mehrere andere
+  Programme oder Formatvorlagen, die die Idee zentralen Definierens in Form
+  von Datenbanken umsetzen. Aus dem Text heraus kann auf einzelne Eintr"age
+  in dieser Datenbank verwiesen werden, um sich so Titel ausdrucken lassen
+  zu k"onnen. Die Frage ist, ob das Instrument zur Datenerfassung auch direkt
+  zum Schreiben eines Textes benutzt werden soll.
+
+  Mit \bibarts{} wird diese Frage mit {\it nein\/} beantwortet. Ich
+  jedenfalls kann mir nicht tausende von {\it short cuts\/} oder
+  Schl"usselbegriffen merken, die auf die einzelnen Titel verweisen.
+  Die Literatur-Datenbanken m"ussen sowieso durchsucht werden. Die
+  Optimierungs-Aufgabe dort stellt sich so: Wie schnell kann der Editor, mit
+  dem der Text geschrieben wird, in einer Datenbank Informationen
+  auf"|finden und in den Text transferieren? Mit dieser Frage habe
+  ich mich hier nicht befa"st. Das wesentliche Problem im Rahmen
+  geisteswissenschaftlicher Zitierkonventionen --- d.h.: der Punkt, wo
+  Optimierung zuerst ansetzen mu"s --- liegt n"amlich in der Kombination
+  Erstzitat--Literaturliste. Bibliographische Listen werden (neben ihrem
+  Selbstzweck) mit \bibarts{} auch zu Kontrollausdrucken f"ur die Erstzitate.
+  \bibarts{} wurde vor diesem Hintergrund ver"offentlicht, in der Hoffnung,
+  da"s es als n"utzlich empfunden wird. \hfill {\tt
+  Timo.Baumann@hist.unibe.ch}
+  \end{abstract}
+
+  \vspace{-1ex}
+  \nopagebreak\noindent\hrulefill
+
+
+ \end{document}

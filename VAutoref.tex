@@ -1,0 +1,45 @@
+\documentclass[a5paper,10pt]{report}
+\usepackage[cp1251]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amssymb,head_num}
+\usepackage{graphics}
+\usepackage{verbatim}
+\usepackage[dvipdfm]{graphicx}
+\usepackage{bezier, psfig, epsfig, graphics, graphicx}
+
+\setlength{\voffset}{-30mm}
+\setlength{\hoffset}{-10mm}
+%\sloppy \setlength{\voffset}{-15mm} \setlength{\hoffset}{-15mm}
+\setlength{\textwidth}{115mm}
+%\setlength{\textheight}{165mm}               % 170   115
+\setlength{\textheight}{175mm}               % 240   165
+%\renewcommand{\baselinestretch}{.98} %для теорем ариелем
+\renewcommand{\baselinestretch}{1}  %для теорем курсивом
+
+\setlength{\headsep}{5mm}
+
+
+\parskip=1mm
+
+\tolerance=10000
+
+\begin{document}
+
+
+\setcounter{page}{1}
+%\setcounter{tocdepth}{1}
+%\large
+%\input Title.tex
+\input fd_not.tex
+\input VGeneral.tex
+\input VMain.tex
+\input VAref_vysnov.tex
+%\newpage
+\input VPublic.tex
+\input AnotUkr.tex
+\input AnotRus.tex
+\input AnotEngl.tex
+
+
+\end{document}

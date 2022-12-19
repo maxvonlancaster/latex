@@ -1,0 +1,1737 @@
+\documentclass[a4paper]{article}
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+  \pdffalse % we do not use PDFLaTeX
+\else
+  \pdfoutput=1 % we use PDFLaTeX
+  \pdftrue
+\fi
+\usepackage{linuxdoc-sgml}
+\usepackage{qwertz}
+\usepackage{url}
+\usepackage[latin1]{inputenc}
+\ifpdf
+  \usepackage[pdftex,colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+  \pdfcompresslevel=9
+\else
+  \usepackage{t1enc}
+%%  \usepackage[dvips]{hyperref}
+\fi
+\usepackage[english]{babel}
+\usepackage{epsfig}
+\usepackage{null}
+\def\addbibtoc{
+\addcontentsline{toc}{section}{\numberline{\mbox{}}\relax\bibname}
+}%end-preamble
+\setcounter{page}{1}
+\urldef{\aaaurl} \url{http://www-math.univ-poitiers.fr/~phan/m3Dplain.html}
+\urldef{\aaburl} \url{http://directory.fsf.org/GNU/3DLDF.html}
+\urldef{\aacurl} \url{http://www.povray.org/}
+\urldef{\aadurl} \url{http://www.blender3d.org/}
+\urldef{\aaeurl} \url{http://jl.photodex.com/dog/}
+\urldef{\aafurl} \url{http://www.flexer.it/galrey/}
+\urldef{\aagurl} \url{http://lince.cii.fc.ul.pt/xcmd/xcmd.html}
+\urldef{\aahurl} \url{http://www.ctan.org/tex-archive/graphics/metapost/contrib/macros/latexmp/}
+\urldef{\aaiurl} \url{http://www.ida.liu.se/~joned/download/mps2eps/}
+\urldef{\aajurl} \url{http://matagalatlante.org/nobre/hyt/technicaldrawfromphoto.html}
+\urldef{\aakurl} \url{http://www.gnuplot.info/}
+\urldef{\aalurl} \url{http://gri.sourceforge.net/}
+\title{FEATPOST macros}
+\author{L. Nobre G., {\ttfamily http://matagalatlante.org}}
+\date{December 2004}
+\abstract{      This document intends to be an explanation of the MetaPost macros       defined in the {\ttfamily FEATPOST} package. Its purpose is to draw
+        two or three-dimensional physics diagrams.
+        The {\ttfamily FEATPOST} package is supposed to help you draw figures
+        containing 3D dots, vectors, flat arrows, angles, parametric
+        lines, circles, ellipses,       cones, cylinders, spheres,      globes, hemispheres, toruses,   elliptical frusta,
+        polygons, polyhedra, functional and parametric surfaces,        direction fields, field lines
+        and trajectories in vector fields,      schematic automobiles, electric charges,        etc.
+        The fact that it is a programming language instead of   Computer Aided Design (CAD)     helps the user to experiment different  figure layouts without changing specified geometric relationships       among figure elements.         Two of the intrinsic MetaPost features which may be important for physics
+        diagrams are: (i) the typesetting power of
+        TeX is easily called when needed and (ii) besides a sufficient
+        number of mathematical operators, geometric relationships may
+        be expressed by linear equations, without explicit assignements.
+      }
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+3D in MetaPost is not a new idea. Denis Roegel
+contributed related packages to CTAN some years ago. It was the
+subject of a 1997 TUGboat article (V18, N4, 274-283). Anthony 
+Phan has been developing a very elegant package 
+called 
+{\em m3D} {\tt \aaaurl}
+. Due to his skilled coding, {\ttfamily m3D} can
+handle larger objects and can produce more realistic renderings than
+{\ttfamily FEATPOST}. Another possibilty is 
+{\em GNU 3DLDF} {\tt \aaburl}
+.
+In any case we are talking about vector-based abstract diagrams, 
+so the functionality of
+these packages is nearer to {\ttfamily GNUPLOT} than to {\ttfamily OpenGL}.
+We could also talk about {\ttfamily 
+{\em POV-ray} {\tt \aacurl}
+} or 
+{\ttfamily 
+{\em blender} {\tt \aadurl}
+} but these
+are focused on ray-traced images, a completely different thing.
+
+Regarding software {\ttfamily FEATPOST} requires only MetaPost but
+reccomends {\ttfamily LaTeX, bash, ImageMagick, ghostscript,
+Linuxdoc, Textutils, dvips, epstopdf, sed, gv, plaympeg, 
+{\em dog} {\tt \aaeurl}
+, 
+{\em galrey} {\tt \aafurl}
+} and {\ttfamily 
+{\em xcmd} {\tt \aagurl}
+}. Also, it is highly beneficial to
+be able to understand and cope with MetaPost error messages as
+{\ttfamily FEATPOST} has no protection against mistaken inputs. One
+probable cause of errors is the use of variables with the name of
+procedures, like 
+\begin{tscreen}
+\begin{verbatim}
+X, Y, Z, N, rp, cb, ps
+\end{verbatim}
+\end{tscreen}
+All other procedure names have six or more characters. 
+
+The user must be aware that MetaPost has a limited arithmetic power
+and that the author has limited programming skills,
+which may lead to unperfect 3D figures or very long processing time.
+It's advisable not to try very complex diagrams and it's recommended to
+keep 3D coordinates within order 1 (default MetaPost units).
+
+All {\ttfamily FEATPOST} macros are build apon the MetaPost
+{\ttfamily color} variable type. It looks like this:
+\begin{tscreen}
+\begin{verbatim}
+(red,green,blue)
+\end{verbatim}
+\end{tscreen}
+Its components may, nevertheless, 
+be arbtitrary numbers, like:
+\begin{tscreen}
+\begin{verbatim}
+(X,Y,Z)
+\end{verbatim}
+\end{tscreen}
+So, the 
+{\ttfamily color} type is adequate to define not only colors but
+also 3D points and vectors.  
+
+
+\section{Small Tutorial}
+
+One very minimalistic example program could be:
+\begin{tscreen}
+\begin{verbatim}
+beginfig(1);
+  cartaxes(1,1,1);
+endfig;
+end;
+\end{verbatim}
+\end{tscreen}
+where {\ttfamily cartaxes} is a 
+{\ttfamily FEATPOST} macro that produces
+the Cartesian referential.
+
+One small example program may be:
+\begin{tscreen}
+\begin{verbatim}
+f := 5.4*(1.5,0.5,1);
+Spread := 30;
+beginfig(1);
+  numeric gridstep, sidenumber, i, j, coord, aa, ab, ac;
+  color pa;
+  gridstep = 0.9;
+  sidenumber = 10;
+  coord = 0.5*sidenumber*gridstep;
+  for i=0 upto sidenumber:
+    for j=0 upto sidenumber:
+      pa := (-coord+j*gridstep,-coord+i*gridstep,0);
+      aa := uniformdeviate(360);
+      ab := uniformdeviate(180);
+      ac := uniformdeviate(90);
+      kindofcube( false, false, pa, aa, ab, ac, 0.4, 0.4, 0.9 );
+    endfor;
+  endfor;
+endfig;
+end.
+\end{verbatim}
+\end{tscreen}
+where {\ttfamily kindofcube} 
+is a {\ttfamily FEATPOST} macro that produces
+a rectangular prism (cuboid).
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/kindofcube.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/kindofcube.1.png}}\fi
+\caption{Example that uses {\ttfamily kindofcube}.}
+\end{figure}
+\label{figkindofcube1}
+
+The main variable of any three-dimensional figure is the
+point of view. {\ttfamily FEATPOST} uses the variable {\ttfamily f}
+as the point of view. {\ttfamily Spread} is another global
+variable that controls the size of the projection.
+
+Another example may be:
+\begin{tscreen}
+\begin{verbatim}
+f := (13,7,3.5);
+Spread := 35;
+beginfig(1);
+        numeric i, len, wang, reflen, frac, coordg;
+        numeric fws, NumLines, inray, outay;
+        path conepath, cira, cirb, ella, ellb, tuba, tubb, tubc;
+        color axe, aroc, cubevertex, conecenter, conevertex;    
+        color allellaxe, ellaaxe, ellbaxe, pca, pea, pcb, peb;
+        frac := 0.5;
+        len := 0.6;
+        wang := 60;
+        axe := (0,cosd(90-wang),sind(90-wang));
+        fws := 4;
+        reflen := 0.2*fws;
+        outay := 0.45*fws;
+        inray := 0.7*outay;
+        coordg := frac*fws;
+        NumLines := 30;
+        HoriZon := -0.5*fws;
+        setthestage( 0.5*NumLines, 2*fws );
+        cubevertex = (0.12*fws,-0.5*fws,-0.5*fws);
+        kindofcube(false,true,cubevertex,180,0,0,0.65*fws,0.2*fws,fws);
+        aroc := outay*(0,cosd(wang),sind(wang))-0.5*(0,fws,fws);
+        rigorousdisc( inray, true, aroc, outay, axe*len );
+        allellaxe := reflen*( 0.707, 0.707, 0 );
+        ellaaxe := reflen*( 0.707, -0.707, 1.0 );
+        ellbaxe := reflen*( -0.707, 0.707, 1.0 );
+        conecenter = ( coordg, coordg, -0.5*fws );
+        pca := ( coordg, -coordg, -0.5*fws );
+        pcb := ( -coordg, coordg, -0.5*fws );
+        pea := ( coordg, -coordg, 0.9*fws );
+        peb := ( -coordg, coordg, 0.9*fws );
+        cira := goodcirclepath( pca, blue, reflen );
+        cirb := goodcirclepath( pcb, blue, reflen );
+        ella := ellipticpath( pea, allellaxe, ellaaxe );
+        ellb := ellipticpath( peb, allellaxe, ellbaxe );
+        tuba := twocyclestogether( cira, ella );
+        tubb := twocyclestogether( cirb, ellb );
+        tubc := twocyclestogether( ella, ellb );
+        unfill tubb; draw tubb;
+        unfill tubc; draw tubc;
+        unfill tuba; draw tuba;
+        conevertex = conecenter + ( -3.5*reflen, 0, 0.8*fws );
+        verygoodcone(false,conecenter,blue,reflen,conevertex);
+endfig;
+end.
+\end{verbatim}
+\end{tscreen}
+where we find a {\ttfamily rigorousdisc} 
+and a {\ttfamily verygoodcone}
+(the nicest {\ttfamily FEATPOST} macros) in addition to 
+{\ttfamily setthestage}, {\ttfamily twocyclestogether} and 
+{\ttfamily kindofcube}.
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/stageforthree.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/stageforthree.1.png}}\fi
+\caption{Example that uses {\ttfamily rigorousdisc} and               {\ttfamily verygoodcone}.}
+\end{figure}
+\label{figstageforthree}
+
+
+\subsection{Mechanics}
+
+The following is the sequence of steps necessary to produce 
+the diagrams.
+\begin{enumerate}
+\item To use LaTeX fonts enter the shell command
+\par
+\addvspace{\medskipamount}
+\nopagebreak\hrule
+\begin{verbatim}
+export TEX=latex
+\end{verbatim} 
+\nopagebreak\hrule 
+\addvspace{\medskipamount}
+\item Make your MetaPost program know {\ttfamily FEATPOST} macros. 
+This may be accomplished in two ways:
+\begin{itemize}
+\item Insert the line:
+\begin{tscreen}
+\begin{verbatim}
+input featpost3Dplus2D;
+\end{verbatim}
+\end{tscreen}
+at
+the beginning 
+of your program and
+then enter the shell command 
+\par
+\addvspace{\medskipamount}
+\nopagebreak\hrule
+\begin{verbatim}
+mpost yourprogram.mp
+\end{verbatim} 
+\nopagebreak\hrule 
+\addvspace{\medskipamount}
+ or 
+\item Pre-compile the macros into a {\ttfamily mem} file, 
+for instance:
+\par
+\addvspace{\medskipamount}
+\nopagebreak\hrule
+\begin{verbatim}
+inimpost featpost.mp
+\end{verbatim} 
+\nopagebreak\hrule 
+\addvspace{\medskipamount}
+ and then run your 
+program with
+\par
+\addvspace{\medskipamount}
+\nopagebreak\hrule
+\begin{verbatim}
+mpost -mem featpost yourprogram.mp
+\end{verbatim} 
+\nopagebreak\hrule 
+\addvspace{\medskipamount}
+\end{itemize}
+\item If your program contains LaTeX text you may insert, at the
+beginning, the lines 
+\begin{tscreen}
+\begin{verbatim}
+verbatimtex 
+\documentclass{article}
+\begin{document}
+etex
+\end{verbatim}
+\end{tscreen}
+and at the end
+\begin{tscreen}
+\begin{verbatim}
+verbatimtex 
+\end{document} 
+etex
+\end{verbatim}
+\end{tscreen}
+or make use of the 
+
+{\em latexmp} {\tt \aahurl}
+ package.
+\item Pass the produced figure(s) through {\ttfamily dvips} 
+if they contain any text. You may do this with the provided
+shell script {\ttfamily laproof}.
+\par
+\addvspace{\medskipamount}
+\nopagebreak\hrule
+\begin{verbatim}
+laproof yourprogram N
+\end{verbatim} 
+\nopagebreak\hrule 
+\addvspace{\medskipamount}
+ where {\ttfamily N} 
+is the figure number. This
+script produces an EPS figure that may be viewed with
+{\ttfamily gv} but that should not be inserted in LaTeX 
+documents. Insert the original figure in LaTeX
+documents. Instead of {\ttfamily laproof} you may just as
+well use  
+{\em MPS2EPS} {\tt \aaiurl}
+.
+\end{enumerate}
+
+
+
+\subsection{Main Features}
+
+
+\subsubsection{Perspectives}
+
+{\ttfamily FEATPOST} can do three kinds of perspective.
+\begin{tscreen}
+\begin{verbatim}
+f := ( 1.2 , 2.0 , 1.6 );
+Spread := 75;
+
+V1 := (1,1,1);
+V2 := (-1,1,1);
+V3 := (-1,-1,1);
+V4 := (1,-1,1);
+V5 := (1,1,-1);
+V6 := (-1,1,-1);
+V7 := (-1,-1,-1);
+V8 := (1,-1,-1);
+makeface1(1,2,3,4);makeface2(5,6,7,8);
+makeface3(1,2,6,5);makeface4(2,3,7,6);
+makeface5(3,4,8,7);makeface6(4,1,5,8);
+makeline1(1,7);makeline2(2,8);
+makeline3(3,5);makeline4(4,6);
+                
+beginfig(1);
+  ParallelProj := true;
+  SphericalDistortion := false;
+  draw_all_test(red,true);
+endfig;
+
+beginfig(2);
+  ParallelProj := false;
+  SphericalDistortion := false;
+  draw_all_test(green,true);
+endfig;
+                
+beginfig(3);
+  ParallelProj := false;
+  SphericalDistortion := true;
+  PrintStep := 5;
+  draw_all_test(blue,true);
+endfig;
+                
+end;
+\end{verbatim}
+\end{tscreen}
+
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/cubicfigures.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/cubicfigures.1.png}}\fi
+\caption{Orthogonal perspective.}
+\end{figure}
+\label{figcubicfigures1}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/cubicfigures.2,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/cubicfigures.2.png}}\fi
+\caption{Rigorous perspective.}
+\end{figure}
+\label{figcubicfigures2} 
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/cubicfigures.3,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/cubicfigures.3.png}}\fi
+\caption{Fish-eye perspective.}
+\end{figure}
+\label{figcubicfigures3}
+
+
+\subsubsection{From 3D to 2D}
+
+The most important macro is {\ttfamily rp} that converts 3D points
+to two-dimensional (2D) rigorous, orthogonal 
+or fish-eye projections. To draw a line in
+3D-space try 
+\begin{tscreen}
+\begin{verbatim}
+draw rp(a)--rp(b);
+\end{verbatim}
+\end{tscreen}
+where 
+{\ttfamily a} and {\ttfamily b} are points in space 
+(of {\ttfamily color} type). 
+But if you're going for fish-eye it's better to
+\begin{tscreen}
+\begin{verbatim}
+draw pathofstraightline(a,b);
+\end{verbatim}
+\end{tscreen}
+If 
+you don't know, leave it as
+\begin{tscreen}
+\begin{verbatim}
+drawsegment(a,b,withpen somepen);
+\end{verbatim}
+\end{tscreen}
+
+
+
+\subsubsection{Angles}
+
+When {\ttfamily FEATPOST} was created its main ability was
+to mark and to calculate angles. This is done with the
+macros {\ttfamily angline} and {\ttfamily getangle} as in the
+following program:
+\begin{tscreen}
+\begin{verbatim}
+f := (5,3.5,1);
+beginfig(2);
+  cartaxes(1,1,1);
+  color va, vb, vc, vd;
+  va = (0.29,0.7,1.0);
+  vb = (X(va),Y(va),0);
+  vc = N((-Y(va),X(va),0));
+  vd = (0,Y(vc),0);
+  drawarrow rp(black)--rp(va);
+  draw rp(black)--rp(vb)--rp(va) dashed evenly;
+  draw rp(vc)--rp(vd) dashed evenly;
+  drawarrow rp(black)--rp(vc);
+  squareangline( va, vc, black, 0.15 );
+  angline(va,red,black,0.75,decimal getangle(va,red),lft);
+endfig;
+\end{verbatim}
+\end{tscreen}
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/cartaxes.2,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../allpng/cartaxes.2.gs.png}}\fi
+\caption{Example that uses {\ttfamily cartaxes},                {\ttfamily angline} and {\ttfamily getangle}.}
+\end{figure}
+\label{figcartaxes2}
+
+
+\subsubsection{Intersections}
+
+The most advanced feature of {\ttfamily FEATPOST} is the
+ability to calculate the intersections of planar and
+convex polygons\footnote{Unfortunately, this is also the
+most "bugged" feature.}. It can draw the visible
+part of arbitrary sets of polygons as in 
+the following program: 
+\begin{tscreen}
+\begin{verbatim}
+numeric phi;
+phi = 0.5*(1+sqrt(5));
+V1 := ( 1, phi,0);V2 := (-1, phi,0);
+V3 := (-1,-phi,0);V4 := ( 1,-phi,0);
+V5 := (0, 1, phi);V6 := (0,-1, phi);
+V7 := (0,-1,-phi);V8 := (0, 1,-phi);
+V9 := ( phi,0, 1);V10:= ( phi,0,-1);
+V11:= (-phi,0,-1);V12:= (-phi,0, 1);
+makeface1(1,2,3,4);makeface2(5,6,7,8);
+makeface3(9,10,11,12);
+beginfig(1);
+  sharpraytrace;
+endfig;
+end
+\end{verbatim}
+\end{tscreen}
+
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/sharpraytrace.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../allpng/sharpraytrace.1.gs.png}}\fi
+\caption{Example that uses {\ttfamily sharpraytrace}.}
+\end{figure}
+\label{figsharpraytrace}
+
+
+\subsubsection{Coming back to 3D from 2D}
+
+It is now possible to do an "automatic perspective tuning"
+with the aid of macro {\ttfamily photoreverse} which is under
+development. Please, refer to example
+{\ttfamily photoreverse.mp} and to 
+{\em FeatPost Deeper Technicalities} {\tt \aajurl}
+.
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../alleps/photoreverse.1.eps,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../allpng/photoreverse.1.gs.png}}\fi
+\caption{Example that uses {\ttfamily photoreverse}. It may
+                not work when vertical lines are not vertical in
+                average on the photo.}
+\end{figure}
+\label{figphotoreverse}
+
+
+\paragraph{Coming back to 3D from 1D}
+
+Using the same algorithm of {\ttfamily photoreverse}, the
+macro {\ttfamily improvertex} allows one to approximate a
+point in 3D-space with given distances from three other
+points (an initial guess is required).
+
+
+\section{Reference Manual}
+
+Some words about notation. 
+The meaning of macro, function, procedure and routine is the same.
+Global variables are presented like this:
+\begin{tscreen}
+\begin{verbatim}
+vartype var, anothervar
+anothervartype yetanothervar
+\end{verbatim}
+\end{tscreen}
+Explanation of var, anothervar and
+yetanothervar. vartype can be any one of 
+MetaPost types but the meaning
+of {\ttfamily color} is a three-dimensional point or vector, not an
+actual color like yellow, black or white. If the meaning is
+an actual color then the type will be {\ttfamily colour}.
+All global variables have default values.
+
+Functions are presented like this:
+\begin{itemize}
+\item returntype {\bfseries function()}
+Explanation of function. returntype can be any one of MetaPost 
+types plus global, draw or drawlabel. 
+global means that the function
+changes some of the global variables. draw means that 
+the function
+changes the currentpicture. drawlabel means that the 
+function changes 
+the currentpicture and adds text to it.
+\begin{enumerate}
+\item  {\ttfamily type1} 
+Explanation of the first argument. The type of
+one argument can be any one
+of MetaPost types plus {\ttfamily suffix} or 
+{\ttfamily text}.
+\item  {\ttfamily type2}
+Explanation of the second argument. 
+There is the possibility that the
+function has no arguments. In that case the 
+function is presented like 
+"returntype {\bfseries function}".
+\item  Etc.
+\end{enumerate}
+\end{itemize}
+
+
+
+\subsection{Global variables}
+
+\begin{tscreen}
+\begin{verbatim}
+boolean ParallelProj 
+boolean SphericalDistortion
+\end{verbatim}
+\end{tscreen}
+Kind of projection calculated by {\ttfamily rp}. 
+By default projections
+are rigorous but if {\ttfamily ParallelProj} is set 
+{\ttfamily true} then
+parallel lines remain parallel in the projection. 
+It is the same as
+placing the point of view infinitely far without loosing
+sight.  
+If {\ttfamily SphericalDistortion} is set {\ttfamily true} 
+there will be a 
+distortion coming from: (i) the projection being done 
+on a sphere of
+center {\ttfamily f} and (ii) this sphere being plaited 
+onto the paper page.
+
+        
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/rigorousdiscSD.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/rigorousdiscSD.1.png}}\fi
+\caption{Figure that uses {\ttfamily SphericalDistortion:=true}               and {\ttfamily rigorousdisc}.}
+\end{figure}
+\label{sphericaldisc}
+
+\begin{tscreen}
+\begin{verbatim}
+color f, viewcentr
+\end{verbatim}
+\end{tscreen}
+The point of view is {\ttfamily f}. The plane or sphere 
+of projection contains 
+the center of view {\ttfamily viewcentr}. 
+The axis parallel to zz that contains the
+{\ttfamily viewcentr} is projected on a vertical line.
+\begin{tscreen}
+\begin{verbatim}
+numeric Spread
+pair ShiftV, OriginProjPagePos
+numeric PageWidth
+numeric PageHeight
+\end{verbatim}
+\end{tscreen}
+These variables control 
+the placement of the projection on the
+paper. {\ttfamily Spread} is the magnification 
+and {\ttfamily ShiftV} is the position of the 
+{\ttfamily viewcentr} projection on the
+paper. But, if at some point in your program you introduce
+{\ttfamily produce\_auto\_scale} then the 
+{\ttfamily currentpicture} will be
+centered at {\ttfamily OriginProjPagePos} 
+and scaled to fit inside a rectangle of 
+{\ttfamily PageWidth} by {\ttfamily PageHeight}.
+\begin{tscreen}
+\begin{verbatim}
+color V[] 
+color L[]p[] 
+color F[]p[]
+\end{verbatim}
+\end{tscreen}
+Vertexes, lines and faces. 
+The idea here is to draw
+polygons and/or arbitrary lines in 3D space. 
+Defining the polygons and
+the lines can be a bit tedious as {\ttfamily FEATPOST} is not
+interactive. First, one defines a list of the 
+vertexes ({\ttfamily V[]}) that define the
+polygons and/or the lines. 
+There is a list of polygons and a list of
+lines. Each polygon ({\ttfamily F[]p[]}) or 
+line ({\ttfamily L[]p[]}) is itself a list of vertexes.
+All vertexes of the same poligon should belong 
+to the same plane.
+\begin{tscreen}
+\begin{verbatim}
+numeric NL 
+numeric npl[]
+numeric NF
+numeric npf[]
+\end{verbatim}
+\end{tscreen}
+Number of lines, number of vertexes of each line,
+number of faces, number of vertexes of each face.
+\begin{tscreen}
+\begin{verbatim}
+numeric PrintStep
+\end{verbatim}
+\end{tscreen}
+
+{\ttfamily Printstep} is the size of iterative jumps 
+along lines. Used by
+{\ttfamily lineraytrace}, {\ttfamily faceraytrace} and
+{\ttfamily pathofstraightline}.  
+Big {\ttfamily Printstep}s make fast raytracings. 
+\begin{tscreen}
+\begin{verbatim}
+boolean FCD[]
+colour TableC[]
+numeric TableColors
+numeric FC[]
+colour HigColor 
+colour SubColor 
+color LightSource
+\end{verbatim}
+\end{tscreen}
+{\ttfamily FCD} means "face color defined". The
+{\ttfamily draw\_invisible} macro draws
+polygons in colour, if it is defined. The colour must be
+selected from the table of colours {\ttfamily TableC} that has
+as many as {\ttfamily TableColors}. The colour {\ttfamily FC} 
+of each polygon will depend on its position relatively to
+{\ttfamily LightSource} where we suppose there is a lamp that
+emits light coloured {\ttfamily HigColor}. Furthermore the
+colour of each polygon may be modified if it belongs to a
+functional or parametric surface. In this case, if we are
+looking at the polygon from below than {\ttfamily SubColor} is
+subtracted from its colour.
+\begin{tscreen}
+\begin{verbatim}
+numeric RopeColorSeq[]
+numeric RopeColors
+\end{verbatim}
+\end{tscreen}
+
+These are used by {\ttfamily ropepattern}.
+\begin{tscreen}
+\begin{verbatim}
+numeric TDAtiplen
+numeric TDAhalftipbase
+numeric TDAhalfthick
+\end{verbatim}
+\end{tscreen}
+
+These control the shape of Three-Dimensional Arrows.
+\begin{tscreen}
+\begin{verbatim}
+boolean ShadowOn
+numeric HoriZon
+\end{verbatim}
+\end{tscreen}
+
+When {\ttfamily ShadowOn} is set {\ttfamily true}, some objects can
+cast a black shadow on a horizontal plane of {\ttfamily Z}
+coordinate equal to {\ttfamily HoriZon} (an area from
+this plane may be drawn with {\ttfamily setthestage}) as if
+there is a punctual source of light at
+{\ttfamily LightSource}. 
+The macros that can produce shadows, in addition to their
+specific production, are
+\begin{itemize}
+\item {\ttfamily emptyline}
+\item {\ttfamily rigorousdisc}
+\item {\ttfamily verygoodcone}
+\item {\ttfamily tropicalglobe}
+\item {\ttfamily whatisthis}
+\item {\ttfamily kindofcube}
+\item {\ttfamily draw\_all\_test}
+\item {\ttfamily fill\_faces}
+\item {\ttfamily positivecharge}
+\end{itemize}
+
+All macros that contain {\bfseries shadow} in their name
+calculate the location of shadows (using {\ttfamily cb}).
+\begin{tscreen}
+\begin{verbatim}
+path VGAborder
+\end{verbatim}
+\end{tscreen}
+
+This path and the macro {\ttfamily produce\_vga\_border} are
+meant to help you clip the {\ttfamily currentpicture} to a 4:3
+rectangle as in a movie frame.
+\begin{tscreen}
+\begin{verbatim}
+pair PhotoPair[]
+color PhotoPoint[]
+numeric PhotoMarks
+\end{verbatim}
+\end{tscreen}
+
+These are used by {\ttfamily photoreverse}. 
+\begin{tscreen}
+\begin{verbatim}
+pen ForePen, BackPen
+path CLPath
+numeric NCL
+\end{verbatim}
+\end{tscreen}
+
+These are used by {\ttfamily closedline}.
+
+
+\subsection{Definitions}
+
+\begin{itemize}
+\item global makeline@\#( text1)
+\item global makeface@\#( text1)
+\end{itemize}
+
+Both of these functions ease the task of 
+defining lines and polygons. Just
+provide a list of vertexes in the right 
+sequence for each polygon and/or
+line. Suppose a tetrahedron
+\begin{tscreen}
+\begin{verbatim}
+V3:=(+1,-1,-1);V2:=(-1,+1,-1);
+V4:=(+1,+1,+1);V1:=(-1,-1,+1);
+makeface2(1,2,3);makeface3(1,2,4);
+makeface1(3,4,1);makeface4(3,4,2);
+\end{verbatim}
+\end{tscreen}
+The 
+number in the last makeface or last 
+makeline procedure name must be the
+number of polygons or lines. All polygons and lines from 1 upto this
+number must be defined but the sorting may be any of your liking.
+
+
+\subsection{Macros}
+
+
+\subsubsection{Very Basic Macros}
+
+\begin{itemize}
+\item numeric {\bfseries X()}
+Returns the first coordinate of a point or vector (of
+color type). Replaces {\ttfamily redpart}.
+\item numeric {\bfseries Y()}
+Returns the second coordinate of a point or vector. 
+Replaces {\ttfamily greenpart}.
+\item numeric {\bfseries Z()}
+Returns the second coordinate of a point or vector. 
+Replaces {\ttfamily bluepart}.
+\item draw {\bfseries produce\_auto\_scale}
+The currentpicture is centered in, and adjusted 
+to the size of, an A4
+paper page. This avoids the control of {\ttfamily Spread} and
+{\ttfamily ShiftV}.
+\item string {\bfseries cstr()} Converts a color into its
+string. Usefull in combination with {\ttfamily getready}.
+\item string {\bfseries bstr()} Converts a boolean expression into its
+string. Usefull in combination with {\ttfamily getready}.
+\end{itemize}
+
+
+
+\subsubsection{Vector Calculus}
+
+\begin{itemize}
+\item color {\bfseries N()} Unit vector. Returns
+{\ttfamily black} (the null vector) when the argument has
+null norm. The "N" means "normalized".
+\item numeric {\bfseries cdotprod()} Dot product of two
+vectors.
+\item color {\bfseries ccrossprod()} Cross product of two
+vectors.
+\item numeric {\bfseries ndotprod()} Cossine of the angle
+beetween two vectors.
+\item color {\bfseries ncrossprod()} Normalized cross product 
+of twovectors.
+\item numeric {\bfseries conorm()} Euclidean norm of a 
+vector.
+\item numeric {\bfseries getangle()} Angle beetween two
+vectors.
+\item pair {\bfseries getanglepair()} Orientation angles
+of a vector. The first angle ({\ttfamily xpart}) is
+measured beetween the vector projection on the {\ttfamily XY}
+plane and the {\ttfamily X} axis. The second angle 
+({\ttfamily ypart})is measured
+beetween the vector and its projection on the {\ttfamily XY}
+plane. This may be usefull to find the arguments of
+{\ttfamily kindofcube}
+\item color {\bfseries eulerrotation()} Three-dimensional 
+rotation of a vector.  
+\begin{enumerate}
+\item {\ttfamily numeric} Angle of rotation around the
+{\ttfamily Z} component.
+\item {\ttfamily numeric} Angle of rotation around the
+rotated {\ttfamily Y} component.
+\item {\ttfamily numeric} Angle of rotation around the
+two times rotated {\ttfamily X} component.
+\item {\ttfamily color} Vector to be rotated.
+\end{enumerate}
+\item color {\bfseries randomfear} Generates a randomly
+oriented unit vector.
+\end{itemize}
+
+
+
+\subsubsection{Projection Macros}
+
+\begin{itemize}
+\item pair {\bfseries rp()} Converts spatial positions into
+planar positions on the paper page. The conversion
+considers the values of the following global
+variables: {\ttfamily viewcentr}, 
+{\ttfamily ParallelProj}, {\ttfamily SphericalDistortion}, 
+{\ttfamily Spread} and {\ttfamily ShiftV}. When both
+{\ttfamily ParallelProj} and {\ttfamily SphericalDistortion}
+are {\ttfamily false} it won't work if either (i) the
+vectors {\ttfamily f-viewcentr} and {\ttfamily f-R} are
+perpendicular ({\ttfamily R} is the argument) or (ii)
+{\ttfamily f} and {\ttfamily viewcentr} share the same 
+{\ttfamily X} and {\ttfamily Y} coordinates. 
+\begin{enumerate}
+\item {\ttfamily color} Spatial position.
+\end{enumerate}
+\item color {\bfseries cb()} Calculates the position of the
+shadow of a point. Uses {\ttfamily HoriZon} and
+{\ttfamily LightSource}. 
+\begin{enumerate}
+\item {\ttfamily color} Point position.
+\end{enumerate}
+\item color {\bfseries projectpoint()} Calculates the
+intersection beetween a plane and a straight
+line. The plane contains a given point and is
+perpendicular to the line connecting the
+{\ttfamily LightSource} and this same point. 
+The line is defined by another given point and the
+{\ttfamily LightSource}. Summary: {\ttfamily projectpoint}
+returns the projection of the second argument on a
+plane that contains the first argument. Can be used to
+draw shadows cast on generic planes.
+\begin{enumerate}
+\item {\ttfamily color} Origin of the projection plane.
+\item {\ttfamily color} Point to be projected.
+\end{enumerate}
+\end{itemize}
+
+
+
+\subsubsection{Plain Basic Macros}
+
+\begin{itemize}
+\item draw {\bfseries signalvertex()} Draws a dot
+sized inversely proportional to its distance from 
+the viewpoint {\ttfamily f}. 
+\begin{enumerate}
+\item {\ttfamily color} Location.
+\item {\ttfamily numeric} Factor of proportionality
+("size of the dot").
+\item {\ttfamily colour} Colour of the dot.
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/torus.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/torus.1.png}}\fi
+\caption{Figure that uses {\ttfamily signalvertex}.}
+\end{figure}
+\item path {\bfseries pathofstraightline()} When using 
+{\ttfamily SphericalDistortion:=true}, straight lines
+look like curves. This macro returns the curved path
+of a straight line beetween two points. This path will
+have a greater {\ttfamily length} ("time") when
+{\ttfamily PrintStep} is made smaller.
+\item drawlabel {\bfseries cartaxes()}
+Cartesean axes with prescribed lenghtes and apropriate labels.
+\begin{enumerate}
+\item {\ttfamily numeric} Length of the {\ttfamily X} axe.
+\item {\ttfamily numeric} Length of the {\ttfamily Y} axe.
+\item {\ttfamily numeric} Length of the {\ttfamily Z} axe.
+\end{enumerate}
+\item draw {\bfseries emptyline()} This procedure produces
+a sort of a tube that can cross over itself. It
+facilitates the drawing of, for instance, thick 
+helical curves but it won't
+look right if the curves are drawn getting apart from 
+the point of view. Please, accept this inconveniance.
+As like many other {\ttfamily FEATPOST} macros this one
+can produce visually correct diagrams only in limited
+conditions. Can cast a shadow.
+\begin{enumerate}
+\item {\ttfamily boolean} Choose {\ttfamily true} to join
+this line with a previously drawn line.
+\item {\ttfamily numeric} Factor of proportionality
+("diameter of the tube"). The tubes are just
+sequences of dots drawn by {\ttfamily signalvertex}.
+\item {\ttfamily colour} Colour of the tube border.
+\item {\ttfamily colour} Colour of the tube.
+\item {\ttfamily numeric} Total number of dots on the
+tube line.
+\item {\ttfamily numeric} Fraction of the tube diameter
+that is drawn with the tube colour.
+\item {\ttfamily numeric} This is the number of dots
+that are redrawn with the colour of the tube for
+each drawn dot with the color of the tube
+border. Usually 1 or 2 are enough.
+\item {\ttfamily text} This is the name a function
+that returns a 3D point of the line for each value
+of a parameter in beetween 0 and 1.
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/joinedemptylines.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/joinedemptylines.1.png}}\fi
+\caption{Figure that uses {\ttfamily emptyline}.
+                    The junction point of two different lines is indicated
+                    by an arrow. Note the unperfection on the top
+                    right, inside the upper turn. }
+\end{figure}
+\label{joinedemptylines}
+\item draw {\bfseries closedline()} This procedure produces
+a tube that can cross over itself. It
+facilitates the drawing of, for instance, thick 
+helical curves but it won't
+look right as its thickness does not change with the
+distance from the point of view. The drawing is
+entirely done in two dimensions, so the tube diameter
+depends on the global variables {\ttfamily ForePen} and 
+{\ttfamily BackPen}. There can be more than one closed
+line in a figure but all get the same diameter. 
+\begin{enumerate}
+\item {\ttfamily numeric} Total number of path segments
+on the tube line.
+\item {\ttfamily numeric} Use 0.5 or more.
+\item {\ttfamily numeric} Use 0.75 or more.
+\item {\ttfamily text} This is the name a function
+that returns a 3D point of the closed line for each value
+of a parameter in beetween 0 and 1.
+\end{enumerate}
+\item drawlabel {\bfseries angline()}
+Draws an arch beetween two straight lines with a
+common point and places a label 
+near the middle of the arch (marks an
+angle). 
+\begin{enumerate}
+\item {\ttfamily color} Point of one line.
+\item {\ttfamily color} Point ot the other line.
+\item {\ttfamily color} Common point.
+\item {\ttfamily numeric} Distance beetween the arch and 
+the common point.
+\item {\ttfamily picture} Label.
+\item {\ttfamily suffix} Position of the label relatively 
+to the middle of the arch. May
+be one of {\ttfamily lft, rt, top, bot, ulft, urt,
+llft} and {\ttfamily lrt}.
+\end{enumerate}
+\item drawlabel {\bfseries anglinen()}
+The same as the previous function but the 
+sixth argument is numeric:
+0={\ttfamily rt}; 
+1={\ttfamily urt}; 
+2={\ttfamily top}; 
+3={\ttfamily ulft}; 
+4={\ttfamily lft}; 
+5={\ttfamily llft}; 
+6={\ttfamily bot}; 
+7={\ttfamily lrt}; 
+any other number places the label 
+on the middle of the arch.
+\item draw {\bfseries squareangline()}
+This is supposed to mark 90 degree angles 
+but works for any angle value.
+\begin{enumerate}
+\item {\ttfamily color} Point of one line.
+\item {\ttfamily color} Point ot the other line.
+\item {\ttfamily color} Common point.
+\item {\ttfamily numeric} Distance beetween the "arch" 
+and the common point.
+\end{enumerate}
+\item path {\bfseries rigorouscircle()}
+3D circle. The total "time" of this path is 8. This
+small number makes it easy to select parts of the
+path. The circle is drawn using the
+"left-hand-rule". If you put your left-hand thumb
+parallel the circle axe then the other left-hand
+fingers curl in the same sense as the circle
+path. This path allways starts, approching the view 
+point, from a point on a diameter of the
+circle that projects orthogonaly to its axe, and 
+rotating around the axe in the way of the left-hand-rule. 
+\begin{enumerate}
+\item {\ttfamily color} Center of the circle.
+\item {\ttfamily color} Direction orthogonal to the 
+circle (circle axe).
+\item {\ttfamily numeric} Radius of the circle.
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/anglinerigorouscircle.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../allpng/anglinerigorouscircle.1.gs.png}}\fi
+\caption{Figure that uses {\ttfamily anglinen}              and {\ttfamily rigorouscircle}.}
+\end{figure}
+\item draw {\bfseries tdarrow()} Draws a flat arrow that
+begins at the first argument and ends at the second. 
+The shape of the arrow is controled by the global
+variables {\ttfamily TDAtiplen, TDAhalftipbase, TDAhalfthick}.
+\item path {\bfseries twocyclestogether()} This macro
+allows you to draw any solid that has no vertexes 
+and that has two, exactly two, planar cyclic edges. 
+In fact, it doesn't need to be a solid. Just
+provide the pathes of both cyclic edges as arguments
+but note that the returned path is polygonal. 
+In order to complete 
+the drawing of this solid you have to choose one of
+the edges to be drawn immediatly afterwards. This is
+done automatically by the {\ttfamily whatisthis} macro
+for the case of two parallel and concentric ellipses.   
+\item path {\bfseries ellipticpath()} Produces an elliptic
+path in 3D space.
+\begin{enumerate}
+\item {\ttfamily color} Position of the center.
+\item {\ttfamily color} Major or minor axe.
+\item {\ttfamily color} The other axe.
+\end{enumerate}
+\item drawlabel {\bfseries labelinspace()} Draw some 2D
+{\ttfamily picture} on some 3D plane (only when
+{\ttfamily ParallelProj:=true}).  
+\begin{enumerate}
+\item {\ttfamily color} Position for the lower-left
+corner. 
+\item {\ttfamily color} Orientation of the picture's
+bottom edge.
+\item {\ttfamily color} Orientation of the picture's
+letf edge.
+\item {\ttfamily text} 2D picture's name.
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/labelinspace.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../allpng/labelinspace.1.gs.png}}\fi
+\caption{Example that uses {\ttfamily labelinspace}.}
+\end{figure}
+\end{itemize}
+
+
+
+\subsubsection{Standard Objects}
+
+\begin{itemize}
+\item path {\bfseries goodcirclepath()}
+Another 3D circle macro. More rigorous 
+than {\ttfamily rigorouscircle} but when 
+the direction ortogonal to the circle is almost
+orthogonal to the line {\ttfamily viewpoint--center} 
+it doesn't work correctly. 
+The total "time" of this path is 36.
+\begin{enumerate}
+\item {\ttfamily color} Center of the circle.
+\item {\ttfamily color} Direction ortogonal to 
+the circle.
+\item {\ttfamily numeric} Radius of the 
+circle.
+\end{enumerate}
+\item draw {\bfseries spatialhalfsfear()} An
+hemisphere. Doesn't work with {\ttfamily f} inside it.
+\begin{enumerate}
+\item {\ttfamily color} Center.
+\item {\ttfamily color} Vector ortogonal to 
+the frontier circle and pointing 
+out of the concavity.
+\item {\ttfamily numeric} Radius of the 
+(hemi)sphere.
+\end{enumerate}
+\item path {\bfseries spatialhalfcircle()}
+And yet another 3D circle macro. Only the visible or the hidden
+part. This is usefull to mark sections of 
+cylinders or spherical major circles.
+\begin{enumerate}
+\item {\ttfamily color} Center of the circle.
+\item {\ttfamily color} Direction ortogonal to the 
+circle.
+\item {\ttfamily numeric} Radius of the circle.
+\item {\ttfamily boolean} The visible part is selected with 
+{\ttfamily true} and the hidden
+with {\ttfamily false}.
+\end{enumerate}
+\item draw {\bfseries rigorousdisc()}
+3D opaque cylinder with/without a hole. Can cast a
+shadow (without the hole).
+\begin{enumerate}
+\item {\ttfamily numeric} Ray of an axial hole.
+\item {\ttfamily boolean} Option for completly opaque cylinder 
+({\ttfamily true}) or partial 
+pipe ({\ttfamily false}) when there is no hole. When
+the cylinder has an hole this option should be
+{\ttfamily true}.
+\item {\ttfamily color} Center of one circular base.
+\item {\ttfamily numeric} Radius of both circular bases.
+\item {\ttfamily color} Vector that defines the length and 
+orientation of the
+cylinder. The addition the third and fifth 
+arguments should give the
+position of the center of the other circular base.
+\end{enumerate}
+\item draw {\bfseries verygodcone()} 3D cone. Can cast a shadow.
+\begin{enumerate}
+\item {\ttfamily bolean} Option to draw dashed evenly
+the invisible edge ({\ttfamily true}) or not
+({\ttfamily false}).
+\item {\ttfamily color} Center of the circular base.
+\item {\ttfamily color} Direction ortogonal to the 
+circular base.
+\item {\ttfamily numeric} Radius of the circular base.
+\item {\ttfamily color} Position of the vertex
+\end{enumerate}
+\item path {\bfseries rigorousfearpath()}
+3D sphere. Simple but hard. 
+\begin{enumerate}
+\item {\ttfamily color} Center position.
+\item {\ttfamily numeric} Radius.
+\end{enumerate}
+\item draw {\bfseries tropicalglobe()} Globe with
+minor circles. Can cast a shadow.
+\begin{enumerate}
+\item {\ttfamily numeric} Number of marked latitudes.
+\item {\ttfamily color} Center position.
+\item {\ttfamily numeric} Radius
+\item {\ttfamily color} Axe orientation.
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/tropicalglobe.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/tropicalglobe.1.png}}\fi
+\caption{Figure that uses {\ttfamily tropicalglobe}.
+                  }
+\end{figure}
+\item draw {\bfseries whatisthis()} An elliptic 
+frustum. Both edges are elliptic an have the same
+orientation but one may be greater than the other.
+Can cast a shadow.
+\begin{enumerate}
+\item {\ttfamily color} Reference edge center.
+\item {\ttfamily color} Major or minor axe.
+\item {\ttfamily color} The other axe.
+\item {\ttfamily numeric} Length of the original 
+cylinder.
+\item {\ttfamily numeric} Edges axes length ratio.
+\end{enumerate}
+\item draw {\bfseries kindofcube()} Polyhedron with six
+orthogonal faces (cuboid).
+\begin{enumerate}
+\item {\ttfamily boolean} Also draw the invisible edges
+{\ttfamily dashed evenly} ({\ttfamily true}) or do not.
+\item {\ttfamily boolean} The reference point may be a
+vertex ({\ttfamily true}) or the center({\ttfamily false}).
+\item {\ttfamily color} Reference point.
+\item {\ttfamily numeric} Alpha1.
+\item {\ttfamily numeric} Alpha2.
+\item {\ttfamily numeric} Alpha3.
+\item {\ttfamily numeric} L1. Length of the first side.
+\item {\ttfamily numeric} L2. Length of the second side.
+\item {\ttfamily numeric} L3. Length of the third side.
+\end{enumerate}
+
+These arguments are represented in the next figure.
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/kindofcube.2,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../allpng/kindofcube.2.gs.png}}\fi
+\caption{Figure that uses and explains              {\ttfamily kindofcube}. Note that the three indicated
+                    angles may be used as arguments of {\ttfamily eulerrotation}.}
+\end{figure}
+\label{kindofcube2}
+\item draw {\bfseries setthestage()} Produces an horizontal
+square made of squares. Its {\ttfamily Z} coordinate is defined by
+{\ttfamily HoriZon}.
+\begin{enumerate}
+\item {\ttfamily numeric} Number of squares in each side.
+\item {\ttfamily numeric} Size of each side.
+\end{enumerate}
+\item draw {\bfseries setthearena()} Produces an horizontal
+circle made of circles. Its {\ttfamily Z} coordinate is defined by
+{\ttfamily HoriZon}. Due to the fact that the center of a
+circle is not on the center of its central perspective
+projection, this may look a bit strange.
+\begin{enumerate}
+\item {\ttfamily numeric} Number of circles on a 
+diameter.
+\item {\ttfamily numeric} Diameter.
+\end{enumerate}
+\item draw {\bfseries smoothtorus()} Toxic donut (not to be
+eaten). Produces an error message when {\ttfamily f} is
+close to the table.
+\begin{enumerate}
+\item {\ttfamily color} Center.
+\item {\ttfamily color} Direction orthogonal to the
+torus plane.
+\item {\ttfamily numeric} Big ray.
+\item {\ttfamily numeric} Small ray.
+\end{enumerate}
+\end{itemize}
+
+
+
+\subsubsection{Composed Objects}
+
+\begin{itemize}
+\item draw {\bfseries positivecharge()} Draws a sphere with a
+plus or minus sign on the surface. The horizontal
+segment of the sign is drawn on the horizontal plane
+that contains the sphere center. The middle point of
+this segment is on a vertical plane containing the
+viewpoint. 
+\begin{enumerate}
+\item {\ttfamily boolean} Selects the sign ({\ttfamily true}
+means positive).
+\item {\ttfamily color} Position of the center.
+\item {\ttfamily numeric} Sphere ray.
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/positivecharge.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/positivecharge.1.png}}\fi
+\caption{Figure that uses {\ttfamily positivecharge},
+              {\ttfamily getready} and {\ttfamily doitnow}.
+                  }
+\end{figure}
+\item draw {\bfseries simplecar()} Draws a cuboid and four
+discs in a configuration ressembling an automobile. The
+first three arguments of {\ttfamily simplecar} are the same
+as the the last seven arguments of {\ttfamily kindofcube}
+but grouped in colors.
+\begin{enumerate}
+\item {\ttfamily color} Center of the cuboid that
+constitutes the body of the car..
+\item {\ttfamily color} Angles defining the orientation
+of the car (see {\ttfamily kindofcube}).
+\item {\ttfamily color} Dimensions of the car.
+\item {\ttfamily color} Characteristics of the front
+wheels. {\ttfamily redpart}-distance from the
+front. {\ttfamily greenpart}-width of the front wheels (length
+of the cylinders). {\ttfamily bluepart}-wheel ray.
+\item {\ttfamily color} Same as above for the rear wheels
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/simplecar.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/simplecar.1.png}}\fi
+\caption{Figure that uses {\ttfamily setthearena} and
+              {\ttfamily simplecar}.              }
+\end{figure}
+\end{itemize}
+
+
+
+\subsubsection{Shadow Pathes}
+
+\begin{itemize}
+\item draw {\bfseries signalshadowvertex()} Draws the
+shadow of a {\ttfamily signalvertex} dot. 
+\begin{enumerate}
+\item {\ttfamily color} Location of the light-blocking dot.
+\item {\ttfamily numeric} Factor of proportionality
+("size of the dot").
+\item {\ttfamily colour} Colour of the dot.
+\end{enumerate}
+\item path {\bfseries ellipticshadowpath()} Produces the
+shadow of an elliptic path.
+\begin{enumerate}
+\item {\ttfamily color} Position of the center.
+\item {\ttfamily color} Major or minor axe.
+\item {\ttfamily color} The other axe.
+\end{enumerate}
+\item path {\bfseries circleshadowpath()} Produces the
+shadow of a circle.
+\begin{enumerate}
+\item {\ttfamily color} Center of the circle.
+\item {\ttfamily color} Direction ortogonal to 
+the circle.
+\item {\ttfamily numeric} Radius of the 
+circle.
+\end{enumerate}
+\item path {\bfseries rigorousfearshadowpath()}
+3D sphere shadow.
+\begin{enumerate}
+\item {\ttfamily color} Center position.
+\item {\ttfamily numeric} Radius.
+\end{enumerate}
+\end{itemize}
+
+
+
+\subsubsection{Differential Equations}
+
+Before we proceed, be aware that solving differential
+equations (DE) is mainly an experimental activity. The most
+probable result of a procedure that atempts to solve a DE
+is garbage. The procedure may be unstable, the solution
+may be littered with singularities or something may go
+wrong. If you don't have a basic understanding of
+differential equations then skip this section, please.
+
+\begin{itemize}
+\item path {\bfseries fieldlinepath()} A vectorial field line is
+everywhere tangent to the field vectors. 
+Two different parallel fields
+have the same field lines. So the field only
+constrains the direction of the field lines, not any kind
+of "speed" and, therefore, it is recommended to
+normalize the field before using this macro that
+contains a second-order Runge-Kutta method
+implementation.
+\begin{enumerate}
+\item {\ttfamily numeric} Total number of steps.
+\item {\ttfamily color} Initial position.
+\item {\ttfamily numeric} Step (arc)length.
+\item {\ttfamily text} Name of the function that
+returns a field vector for each 3D position.
+\end{enumerate}
+\item path {\bfseries trajectorypath()} The acceleration of a
+particle in a conservative force field is equal to the
+ratio (conservative force)/(particle mass). The
+acceleration is also equal to the second order time
+derivative of the particle position. This produces a
+second order differential equation that we solve using a
+second-order Runge-Kutta method implementation.
+\begin{enumerate}
+\item {\ttfamily numeric} Total number of steps.
+\item {\ttfamily color} Initial position.
+\item {\ttfamily color} Initial velocity.
+\item {\ttfamily numeric} Time step.
+\item {\ttfamily text} Name of the function that
+returns a (force/mass) vector for each 3D position.
+\end{enumerate}
+\item path {\bfseries magnetictrajectorypath()} The
+acceleration of a
+charged particle in a magnetic field is equal to the
+ratio (magnetic force)/(particle mass) but the magnetic
+force depends on both the velocity and the magnetic field. The
+acceleration is also equal to the second order time
+derivative of the particle position. This produces a
+second order differential equation that we solve using a
+fourth-order Runge-Kutta method implementation.
+\begin{enumerate}
+\item {\ttfamily numeric} Total number of steps.
+\item {\ttfamily color} Initial position.
+\item {\ttfamily color} Initial velocity.
+\item {\ttfamily numeric} Time step.
+\item {\ttfamily text} Name of the function that
+returns a (charge)*(magnetic field)/(partcle mass) 
+vector for each 3D position.
+\end{enumerate}
+\end{itemize}
+
+
+
+\subsubsection{Renderers}
+
+\begin{itemize}
+\item draw {\bfseries sharpraytrace} Heavy procedure that
+draws only the visible part of all edges of all defined 
+faces. There's no point in using this procedure when
+there are no intersections beetween faces. Any how
+this will not work for non-convex faces nor when 
+{\ttfamily SphericalDistortion:=true}.
+\item draw {\bfseries lineraytrace()} Draws only the
+visible part of all defined lines using sequences of dots
+({\ttfamily signalvertex} and {\ttfamily PrintStep}).
+\begin{enumerate}
+\item {\ttfamily numeric} Dot size.
+\item {\ttfamily colour} Dot colour.
+\end{enumerate}
+\item draw {\bfseries faceraytrace()} Draws only the
+visible part of all edges of all defined faces 
+using sequences of dots
+({\ttfamily signalvertex} and {\ttfamily PrintStep}).
+\begin{enumerate}
+\item {\ttfamily numeric} Dot size.
+\item {\ttfamily colour} Dot colour.
+\end{enumerate}
+\item draw {\bfseries draw\_all\_test()} Draws all defined 
+edges (and lines) in a correct way independently of
+the kind of projection used. Can cast a shadow (but
+the shadow is not correct when
+{\ttfamily SphericalDistortion:=true}). 
+\begin{enumerate}
+\item {\ttfamily colour} Colour of the segments.
+\item {\ttfamily boolean} If {\ttfamily true} the lines
+are also drawn.
+\end{enumerate}
+\item draw {\bfseries fill\_faces()} Unfills and draws all
+faces in the order they were defined (without
+sorting). Can cast a shadow.
+\begin{enumerate}
+\item {\ttfamily text} Like the argument of 
+{\ttfamily drawoptions} but used only inside this
+macro and only for the edges.
+\end{enumerate}
+\item draw {\bfseries draw\_invisible()} This is a fast way 
+of removing hidden lines that doesn't 
+allow for intersecting polygons nor 
+polygons of very different area. It works by 
+sorting all polygons by
+distance to {\ttfamily f} and then by "filling" the
+polygons. This routine may be used to draw graphs 
+of 3D surfaces.
+\begin{enumerate}
+\item {\ttfamily boolean} If {\ttfamily true} polygons are 
+sorted relatively to
+nearest vertex and, if {\ttfamily false}, relatively to their 
+mass center. Choose {\ttfamily false} for surface
+plots.
+\item {\ttfamily boolean} If {\ttfamily false} then the
+polygons are painted with their {\ttfamily FC} colour 
+modified by {\ttfamily LightSource}. If {\ttfamily true}
+then the next two arguments are used and the
+polygons are darkened proportionaly to their
+distance from {\ttfamily f}.
+\item {\ttfamily colour} Colour of faces.
+\item {\ttfamily colour} Colour of the edges.
+\end{enumerate}
+\item global {\bfseries getready()} When you don't want to
+edit the source of the MetaPost program, to resort the
+objects so they'll be drawn correctly, use this macro
+and the next. 
+\begin{enumerate}
+\item {\ttfamily string} Command line that would draw
+some object. For instance: 
+{\ttfamily "rigorousfearpath(black,1);"}.
+\item {\ttfamily color} Reference position of that
+object.
+\end{enumerate}
+\item draw {\bfseries doitnow} The reference positions
+given as arguments of previous {\ttfamily getready} calls
+are used to sort and draw the objects also given as
+string arguments to previous {\ttfamily getready}
+calls. Remember to initialize {\ttfamily Nobjects:=0;}
+before a second figure.
+\end{itemize}
+
+
+
+\subsubsection{Nematics (Direction Fields)}
+
+Nematics are the least ordered liquid crystals. Their
+configurations can be described by direction fields
+(vector fields without arrows). The two following routines
+ease the task of representing their configurations. 
+
+\begin{itemize}
+\item global {\bfseries generatedirline()} Defines a single
+straight line segment in a given position and with a
+given orientation. 
+\begin{enumerate}
+\item {\ttfamily numeric} Line index number.
+\item {\ttfamily numeric} Angle beetween the {\ttfamily X}
+axe and the projection of the line on the
+{\ttfamily XY} plane.
+\item {\ttfamily numeric} Angle beetween the line
+and the {\ttfamily XY} plane.
+\item {\ttfamily numeric} Line (arc)length.
+\item {\ttfamily color} Position of the line middle
+point.
+\end{enumerate}
+\item draw {\bfseries director\_invisible()} This is a
+direction field renderer that can sort direction
+lines. This routine
+draws straight lines of given "thickness" beetween the 
+first all the points
+of all the {\ttfamily L[]p[]} lines. It is supposed to 
+help you draw vector fields
+without arrows but taking care of invisibility. 
+The lines may be
+generated by {\ttfamily generatedirline} or by other macros.
+\begin{enumerate}
+\item {\ttfamily boolean} When there is no need to sort
+lines you may use {\ttfamily false} here.
+\item {\ttfamily numeric} "Thickness" of the 
+direction lines
+\item {\ttfamily boolean} Use {\ttfamily true} for cyclic 
+"direction" lines.
+\end{enumerate}
+\end{itemize}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/twistflat.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/twistflat.1.png}}\fi
+\caption{Figure that uses {\ttfamily director\_invisible}               and {\ttfamily generatedirline}.}
+\end{figure}
+
+
+
+\subsubsection{Surface Plots}
+
+Many powerfull plotting packages like 
+{\ttfamily 
+{\em gnuplot} {\tt \aakurl}
+} and
+{\ttfamily 
+{\em gri} {\tt \aalurl}
+}
+are freely available. Because of this, {\ttfamily FEATPOST}
+surface plots are geared towards unusual features like
+equilateral triangular grid, hexagonal domain and merging
+together functional and parametric surface descriptions. 
+
+\begin{itemize}
+\item draw {\bfseries hexagonaltrimesh()} Plots a
+functional surface on a triangular or hexagonal
+domain. Uses the {\ttfamily LightSource}.
+\begin{enumerate}
+\item {\ttfamily boolean} Select the kind of
+domain. {\ttfamily true} for hexagonal and
+{\ttfamily false} for triangular. The domain is
+centered on the origin ({\ttfamily black}). When the
+domain is hexagonal two of its corners are on the
+{\ttfamily -YY} axe. When the
+domain is triangular one of its corners is on the
+{\ttfamily X} axe. 
+\item {\ttfamily numeric} Number of small triangles on
+each side of the triangular domain or three times
+the number of small triangles on
+each side of the hexagonal domain.
+\item {\ttfamily numeric} Length of the triangular
+domain side or three times the hexagonal domain 
+side.
+\item {\ttfamily text} Name of the function that
+returns the {\ttfamily Z} coordinate of a surface
+point of coordinates {\ttfamily X} and {\ttfamily Y}.
+\end{enumerate}
+
+\begin{figure}[tbp]
+\ifpdf
+
+\else
+\centerline{\epsfig{file=../allps/hexagonaltrimesh.1,height=5cm,angle=0}}\fi
+\ifpdf
+\centerline{\epsfig{file=../nontextualpng/hexagonaltrimesh.1.png}}\fi
+\caption{Figure that uses {\ttfamily hexagonaltrimesh}.
+                  }
+\end{figure}
+\item global {\bfseries partrimesh()} Defines a parametric
+surface that can be drawn with
+{\ttfamily draw\_invisible}. In the following descriptions
+{\ttfamily S} and {\ttfamily T} are the parameters. Remember
+to initialize {\ttfamily NF}. The surface is defined so
+that quadrangles are used whenever possible. If
+impossible, two triangles are used but their
+orientation is selected to maximize the surface
+smoothness. Also note that, unlike 
+{\ttfamily hexagonaltrimesh()}, the spatial range you
+require to be visible is always first reshaped into a
+cube and second compressed or extended vertically. How
+much the cube is compressed or extended depends on the
+last {\ttfamily numeric} argument, the compression factor
+for {\ttfamily Z}, meaning that the final height of the
+cube is 2/(compression factor). Thanks to Sebastian
+Sturm for pointing the need to explain this.
+\begin{enumerate}
+\item {\ttfamily numeric} Number of {\ttfamily T} steps.
+\item {\ttfamily numeric} Number of {\ttfamily S} steps.
+\item {\ttfamily numeric} Minimal {\ttfamily T} value.
+\item {\ttfamily numeric} Maximal {\ttfamily T} value.
+\item {\ttfamily numeric} Minimal {\ttfamily S} value.
+\item {\ttfamily numeric} Maximal {\ttfamily S} value.
+\item {\ttfamily numeric} Minimal {\ttfamily X} value.
+\item {\ttfamily numeric} Maximal {\ttfamily X} value.
+\item {\ttfamily numeric} Minimal {\ttfamily Y} value.
+\item {\ttfamily numeric} Maximal {\ttfamily Y} value.
+\item {\ttfamily numeric} Minimal {\ttfamily Z} value.
+\item {\ttfamily numeric} Maximal {\ttfamily Z} value.
+\item {\ttfamily numeric} Compression factor for {\ttfamily Z} 
+values.
+\item {\ttfamily text} Name of the function that
+returns a surface point (of {\ttfamily color} type)
+for each pair ({\ttfamily S},{\ttfamily T}).
+\end{enumerate}
+\end{itemize}
+
+
+\end{document}

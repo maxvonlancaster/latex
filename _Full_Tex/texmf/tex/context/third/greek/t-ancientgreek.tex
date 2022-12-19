@@ -1,0 +1,111 @@
+%D \module
+%D   [       file=t-ancientgreek,
+%D        version=2006.04.05,
+%D          title=Ancient Greek,
+%D       subtitle=Publications,
+%D         author=Thomas A. Schmitz, Taco Hoekwater
+%D           date=\currentdate,
+%D      copyright=Thomas A. Schmitz]
+%C
+%C This program is free software; you can redistribute it and/or modify it under
+%C the terms of the GNU General Public License as published by the Free Software
+%C Foundation; either version 2 of the License, or (at your option) any later
+%C version.
+
+%D Module t-ancientgreek providing method for polytonic Greek input in
+% \CONTEXT, based on typescripts.
+
+\writestatus{loading}{module ancientgreek}
+
+\startmodule[ancientgreek]
+
+\unprotect
+
+%D The new mechanism for modules allows setting values. We need to provide
+%D default setups for fonts and scaling. The \tex{setupgreek} command is not
+%D needed any longer; we now set these values when we call the module in this
+%D form:
+%D \starttyping
+%D \usemodule[ancientgreek][font=KadmosNew,scale=1.2,altfont=BosporosNew,altscale=1]
+%D \stoptyping
+
+\setupmodule[scale=1,font=Ibycus,altfont=Leipzig,altscale=1]
+
+%D Next, we load the appropriate unicode vector for polytonic Greek.
+
+\useunicodevector[31]
+
+%D We use the encoding for ancient Greek.
+
+\useencoding[agr]
+
+%D We load the typescript file that contains all definitions for Greek fonts.
+
+\usetypescriptfile[type-agr.tex]
+
+%D The next lines define a Metric font. This is just a quick and dirty hack to
+%D get some metric symbols; we may some day write proper code for it. For the
+%D time being, no frills are needed here since this will always be used for a
+%D few characters only.
+
+%\definefontsynonym[MFont][Anaxiphorminx]
+\definefont[metre][Anaxiphorminx sa 1.2]
+
+\define\Mf{\groupedcommand{\metre}{}}
+
+\define\aeolbase{\getglyph{Anaxiphorminx}{\char227}\getglyph{Anaxiphorminx}{\char227}}
+
+\define\acephal{\getglyph{Anaxiphorminx}{\char142}}
+
+%D We now define the bodyfont for our font and our altfont:
+
+\starttypescript[greek]
+\definetypeface[greek][rm][serif][\currentmoduleparameter{font}][default][encoding=agr,rscale=\currentmoduleparameter{scale}]
+\stoptypescript
+\usetypescript[greek]
+
+\starttypescript[altgreek]
+\definetypeface[altgreek][rm][serif][\currentmoduleparameter{altfont}][default][encoding=agr,rscale=\currentmoduleparameter{altscale}]
+\stoptypescript
+\usetypescript[altgreek]
+
+%D The following code was suggested by Hans to take care of problems with the
+%D catcode changes within table environments: 
+
+\long\def\rescanwithsetup#1#2%
+   {{\directsetup{#1}\scantokens{#2\ignorespaces}}} 
+
+%D We wrap everything that is needed for obtaining Greek output into a setup
+%D buffer: change the catcodes of accents, switch to the language ancientgreek
+%D so we get proper hyphenation, and switch to the proper bodyfont:
+   
+\startsetups[enablegreek]%
+   \catcode`~=\other% 
+   \catcode`|=\other%
+   \catcode`'=\other% 
+   \language[agr]%
+   \switchtobodyfont[greek]%
+\stopsetups 
+   
+\startsetups[enablealtgreek]%
+   \catcode`~=\other% 
+   \catcode`|=\other%
+   \catcode`'=\other% 
+   \language[ancientgreek]%
+   \switchtobodyfont[altgreek]%
+\stopsetups 
+
+%D Finally, we define a startstop environment and a command to enable these
+%D setups:
+
+\definestartstop[greek][commands=\directsetup{enablegreek}]
+
+\definestartstop[altgreek][commands=\directsetup{enablealtgreek}]
+
+\def\localgreek{\rescanwithsetup{enablegreek}}
+
+\def\localaltgreek{\rescanwithsetup{enablealtgreek}}
+
+\protect
+\stopmodule
+\endinput

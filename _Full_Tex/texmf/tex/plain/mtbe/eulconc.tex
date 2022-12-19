@@ -1,0 +1,391 @@
+%%% File: EulConc.tex
+%%%
+%%% Contents:
+%%% Macros that load the `AMS Euler' and `Computer Concrete' classes 
+%%% of fonts and switch mathematics and text to these fonts.
+%%%    
+%%% This file is a modification by Arvind Borde of Donald Knuth's `gkpmac.tex' 
+%%% file; that file contained macros for the book `Concrete Mathematics', and 
+%%% all of the really hard work involved in preparing this package was done 
+%%% by Donald Knuth there.
+%%%
+%%% WARNING: This is an experimental file; no responsibility
+%%%          is assumed for any of its contents.
+
+% First check to see if the file has already been used as input (if it has, 
+% then we go no further):
+\ifx\eulconc\fmtversion\endinput\else\let\eulconc=\fmtversion\fi
+ 
+% A warning:
+\def\error{\message{ WARNING! You've got other fonts in places I want.}}
+
+% Fonts for regular text:
+\font\textrm=ccr10                 % roman
+\font\textit=ccti10                % italic 
+\font\textsl=ccsl10                % slanted 
+\font\textbf=cmbx10                % bold: this is just Computer Modern
+\font\textcsc=cccsc10              % caps and small caps
+\font\oldsty=ccmi10                % for equation numbers
+ 
+% Fonts for regular math
+ 
+\font\mathtext=ccr10
+ \font\mathsubtext=ccr7
+ \font\mathsubsubtext=ccr5
+\font\mathlet=eurm10
+ \font\mathsublet=eurm7
+ \font\mathsubsublet=eurm5
+ \skewchar\mathlet='177 \skewchar\mathsublet='177 \skewchar\mathsubsublet='177
+\font\mathsym=cmsy10
+ \font\mathsubsym=cmsy7
+ \font\mathsubsubsym=cmsy5
+ \skewchar\mathsym='60 \skewchar\mathsubsym='60 \skewchar\mathsubsubsym='60
+\font\mathext=cmex10
+ \font\mathsubext=cmex10
+ \font\mathsubsubext=cmex10
+\font\mathscr=eusm10
+ \font\mathsubscr=eusm7
+ \font\mathsubsubscr=eusm5
+ \skewchar\mathscr='60 \skewchar\mathsubscr='60 \skewchar\mathsubsubscr='60
+\font\mathfr=eufm10
+ \font\mathsubfr=eufm7
+ \font\mathsubsubfr=eufm5
+\font\matheuex=euex10
+\font\boldmathlet=eurb10 
+ \font\boldmathsublet=eurb7
+ \font\boldmathsubsublet=eurb5
+ \skewchar\boldmathlet='177 \skewchar\boldmathsublet='177 
+   \skewchar\boldmathsubsublet='177
+ 
+% Fonts for small type:
+ 
+\font\gmathtext=ccr8
+ \font\gmathsubtext=ccr6
+ \font\gmathsubsubtext=ccr5
+\font\gmathlet=eurm8 
+ \font\gmathsublet=eurm6 
+ \font\gmathsubsublet=eurm5
+ \skewchar\gmathlet='177 \skewchar\gmathsublet='177 \skewchar\gmathsubsublet='177
+\font\gmathsym=cmsy8
+ \font\gmathsubsym=cmsy6
+ \font\gmathsubsubsym=cmsy5
+ \skewchar\gmathsym='60 \skewchar\gmathsubsym='60 \skewchar\gmathsubsubsym='60
+\font\gmathext=cmex8
+ \font\gmathsubext=cmex8
+ \font\gmathsubsubext=cmex8
+\font\gmathscr=eusm8
+ \font\gmathsubscr=eusm6
+ \font\gmathsubsubscr=eusm5
+ \skewchar\gmathscr='60 \skewchar\gmathsubscr='60 \skewchar\gmathsubsubscr='60
+\font\gmathfr=eufm8
+ \font\gmathsubfr=eufm6
+ \font\gmathsubsubfr=eufm5
+\font\gmatheuex=euex8
+ 
+\font\foliofont=cmr9
+\font\gtfont=cmmi9 % for the \t accent
+ 
+% Normal text conventions
+ 
+\catcode`\@=11 % borrow the private macros of Plain.tex (with care)
+\def\wlog#1{}  % don't put allocation info into the log
+ 
+\let\sc=\textcsc
+\let\smc=\sc              % For compatibility with AmSTeX.
+\def\textindent#1{\noindent\hbox to\parindent{\bf#1\hfil}\ignorespaces}
+\def\exitem{\hangindent2\parindent \textindent}
+\def\Bf#1{\hbox{\bf#1}}  % For bold text in math (not bold math letters).
+
+\textfont0=\mathtext
+ \scriptfont0=\mathsubtext
+ \scriptscriptfont0=\mathsubsubtext
+\textfont1=\mathlet \let\tfont=\teni
+ \scriptfont1=\mathsublet
+ \scriptscriptfont1=\mathsubsublet
+\textfont2=\mathsym
+ \scriptfont2=\mathsubsym
+ \scriptscriptfont2=\mathsubsubsym
+\textfont3=\mathext
+ \scriptfont3=\mathsubext
+ \scriptscriptfont3=\mathsubsubext
+\def\rm{\fam\z@\textrm}
+\def\it{\fam\itfam\textit} % \it is family 4, defined in PLAIN
+\def\sl{\textsl}
+\textfont\itfam=\textit
+\newfam\scrfam \ifnum\scrfam=8\relax\else\error\fi % family 8, script
+\textfont\scrfam=\mathscr
+ \scriptfont\scrfam=\mathsubscr
+ \scriptscriptfont\scrfam=\mathsubsubscr
+\def\scr{\fam8 }
+\mathcode`0="7130
+\mathcode`1="7131
+\mathcode`2="7132
+\mathcode`3="7133
+\mathcode`4="7134
+\mathcode`5="7135
+\mathcode`6="7136
+\mathcode`7="7137
+\mathcode`8="7138
+\mathcode`9="7139
+\newfam\frfam % family 9, fraktur
+\textfont\frfam=\mathfr
+ \scriptfont\frfam=\mathsubfr
+ \scriptscriptfont\frfam=\mathsubsubfr
+\def\frak{\fam9 }
+\newfam\euexfam % family 10, substitions for euler symbols
+\newfam\boldletfam % family 11, bold math letters
+\textfont\boldletfam=\boldmathlet
+ \scriptfont\boldletfam=\boldmathsublet
+ \scriptscriptfont\boldletfam=\boldmathsubsublet
+\def\bf{\fam11 \textbf} % Therefore different effects in text and math.
+ 
+\mathchardef\intop="1A52
+\mathchardef\ointop="1A48
+\mathchardef\coprod="1A60
+\mathchardef\prod="1A51
+\mathchardef\sum="1A50
+\mathchardef\braceld="A7A \mathchardef\bracerd="A7B
+\mathchardef\bracelu="A7C \mathchardef\braceru="A7D
+\mathchardef\infty="0A31
+ 
+\mathchardef\nearrow="3A25
+\mathchardef\searrow="3A26
+\mathchardef\nwarrow="3A2D
+\mathchardef\swarrow="3A2E
+\mathchardef\Leftrightarrow="3A2C
+\mathchardef\Leftarrow="3A28
+\mathchardef\Rightarrow="3A29
+\mathchardef\leftrightarrow="3A24 \mathcode`\^^W="3A24
+\mathchardef\leftarrow="3A20 \let\gets=\leftarrow \mathcode`\^^X="3A20
+\mathchardef\rightarrow="3A21 \let\to=\rightarrow \mathcode`\^^Y"3A21
+\def\uparrow{\delimiter"3A22378 } \mathcode`\^^K="3A22
+\def\downarrow{\delimiter"3A23379 } \mathcode`\^^A="3A23
+\def\updownarrow{\delimiter"3A6C33F }
+\def\Uparrow{\delimiter"3A2A37E }
+\def\Downarrow{\delimiter"3A2B37F }
+\def\Updownarrow{\delimiter"3A6D377 }
+\mathchardef\leftharpoonup="3A18
+\mathchardef\leftharpoondown="3A19
+\mathchardef\rightharpoonup="3A1A
+\mathchardef\rightharpoondown="3A1B
+ 
+\textfont\euexfam=\matheuex
+\scriptfont\euexfam=\mathsubsym 
+% Note: this is OK since we don't use all characters of euex in 
+% subscripts/superscripts; otherwise we'd have to make euex7 and euex6.
+\scriptscriptfont\euexfam=\mathsubsym % Only for \mathchoice.
+\mathcode`+="292B
+\mathcode`-="292D
+\mathcode`!="0921
+\mathcode`(="4928 \delcode`(="928300
+\mathcode`)="5929 \delcode`)="929301
+\mathcode`[="495B \delcode`[="95B302
+\mathcode`]="595D \delcode`]="95D303
+\mathcode`=="393D
+\mathchardef\Relbar="303D % We need the old `=' to match \Arrows.
+\mathchardef\Gamma="7100
+\mathchardef\Delta="7101
+\mathchardef\Theta="7102
+\mathchardef\Lambda="7103
+\mathchardef\Xi="7104
+\mathchardef\Pi="7105
+\mathchardef\Sigma="7106
+\mathchardef\Upsilon="7107
+\mathchardef\Phi="7108
+\mathchardef\Psi="7109
+\mathchardef\Omega="710A
+\let\varsigma=\sigma \let\varrho=\rho % Euler doesn't have these.
+\mathchardef\aleph="0840
+\def\rbrace{\delimiter"5867A09 } \let\}=\rbrace
+\def\lbrace{\delimiter"4866A08 } \let\{=\lbrace
+%\mathchardef\equiv="3811 \let\cong=\equiv % lowres bars weren't spaced right
+%\mathchardef\leq="3814 \let\le=\leq  % Where are they???
+%\mathchardef\geq="3815 \let\ge=\geq  % Where are they???
+\mathchardef\Re="083C
+\mathchardef\Im="083D
+\def\vert{\delimiter"86A30C }
+\def\backslash{\delimiter"86E30F }
+ 
+\setbox\strutbox=\hbox{\vrule height9pt depth4pt width\z@}%
+\newbox\bigstrutbox \newbox\biggstrutbox
+\setbox\bigstrutbox=\hbox{\vrule height11pt depth4pt width\z@}%
+\def\bigstrut{\relax\ifmmode\copy\bigstrutbox\else\unhcopy\bigstrutbox\fi}
+\setbox\biggstrutbox=\hbox{\vrule height17pt depth10pt width\z@}%
+\def\biggstrut{\relax\ifmmode\copy\biggstrutbox\else\unhcopy\biggstrutbox\fi}
+\baselineskip=13pt\rm
+
+\newmuskip\normalthick \normalthick=5mu plus 5mu
+\newmuskip\normalmedmu \normalmedmu=\medmuskip
+\newmuskip\displaythick \displaythick=10mu minus 3mu
+\everymath{\thickmuskip=\normalthick}
+ 
+\abovedisplayskip=8pt plus 3pt minus 2pt % there's 2pt more (opened up)
+\belowdisplayskip=10pt plus 3pt minus 2pt
+ 
+% displays not centered; all have capability of \eqalign
+\outer\def\begindisplay{\obeylines\startdisplay}
+{\obeylines\gdef\startdisplay#1
+  {\catcode`\^^M=5$$%
+   \advance\displayindent\parindent\advance\displaywidth-\parindent%
+   \openup2pt #1\halign\bgroup\span\preamble\cr}}
+\outer\def\enddisplay{\crcr\egroup$$}
+\jot=\z@  % we do our own opening up
+ 
+\def\displaymath{$\thickmuskip=\displaythick\displaystyle}
+\def\preamble{\hfil\displaymath{##}$&&\displaymath{{}##}$\hfil}
+\def\tablepreamble{\bigstrut\hfil$##$\hfil\ &\vrule##&&\quad\hfil$##$\hfil}
+\def\xbox{\qquad\hbox} % for third column of explanation
+ 
+\newcount\eqcount
+\def\equ(#1.#2){{\rm({\oldsty#1}.{\oldsty#2})}}
+\def\eq(#1){\equ(\chapno.#1)}
+\def\thiseq{\xdef\next{(\chapno.\number\eqcount)}\expandafter\equ\next}
+\def\eqno{\global\advance\eqcount 1 \global\everycr{\makeeqno\thiseq}}
+\newdimen\backup
+\def\makeeqno#1{\noalign{\global\everycr{}%
+  \advance\displaywidth\displayindent
+  \setbox0=\hbox to\displaywidth{\hfil#1}%
+  \backup=\prevdepth \advance\backup\ht0
+  \setbox0=\vbox{\kern-\backup\box0}\ht0=\z@ \dp0=\z@
+  \setbox0=\vbox{\box0}\unvbox0}} % that puts equation number on prev line!
+ 
+ 
+\def\EightpointEC{% set up eightpoint style
+ \baselineskip=9.6pt \lineskip=0pt \lineskiplimit=0pt
+ \mathsurround=1pt
+ \textfont0=\gmathtext
+  \scriptfont0=\gmathsubtext
+  \scriptscriptfont0=\gmathsubsubtext
+ \textfont1=\gmathlet \let\tfont=\gtfont
+  \scriptfont1=\gmathsublet
+  \scriptscriptfont1=\gmathsubsublet
+ \textfont2=\gmathsym
+  \scriptfont2=\gmathsubsym
+  \scriptscriptfont2=\gmathsubsubsym
+ \textfont3=\gmathext
+  \scriptfont3=\gmathsubext
+  \scriptscriptfont3=\gmathsubsubext
+\textfont\scrfam=\gmathscr
+ \scriptfont\scrfam=\gmathsubscr
+ \scriptscriptfont\scrfam=\gmathsubsubscr
+\textfont\frfam=\gmathfr
+ \scriptfont\frfam=\gmathsubfr
+ \scriptscriptfont\frfam=\gmathsubsubfr
+\textfont\euexfam=\gmatheuex
+\scriptfont\euexfam=\gmathsubsym % OK since I don't use all chars in this size
+ \def\rm{\fam\z@\gtext}%
+ \let\oldsty=\gtext
+ \let\big=\ninebig
+ \setbox\strutbox=\hbox{\vrule height7.25pt depth2.75pt width\z@}%
+ \gtext
+ }
+\def\ninebig#1{{\hbox{$\textfont0=\tenrm\textfont2=\tensy
+  \left#1\vbox to7.25pt{}\right.\n@space$}}}
+ 
+% Math operators
+\def\2{\mskip-.5mu2\mskip.5mu}
+\newmuskip\lessfortimes \lessfortimes=-2mu minus -2mu
+\def\cdt{\mskip\lessfortimes\cdot\mskip\lessfortimes}
+\def\nullnum{\phantom{0}}
+\def\twonullnum{\phantom{00}}
+\def\bex{\mskip-2mu}
+\def\twoconditions#1#2{_{\scriptstyle#1\atop\scriptstyle#2}}
+\def\tworestrictions#1#2{\vcenter{\offinterlineskip
+  \halign{\strut\hfil##\hfil\cr#1\cr#2\cr}}}
+\def\dts{\mathinner{\ldotp\ldotp}}
+\def\[#1]{[\hbox{$\mskip1mu\thickmuskip=\thinmuskip#1\mskip1mu$}]}
+\def\bigi[#1\bigr]{\bigl[\hbox{$\thickmuskip=\thinmuskip#1$}\bigr]}
+\def\Bigi[#1\Bigr]{\Bigl[\hbox{$\thickmuskip=\thinmuskip#1$}\Bigr]}
+\def\prp(#1){(\hbox{$\thickmuskip=\thinmuskip#1$})}
+\def\pbigi(#1\bigr){\bigl(\hbox{$\thickmuskip=\thinmuskip#1$}\bigr)}
+\def\_#1{\def\next{#1}%
+ \ifx\next\risingsign\expandafter\rising\else^{\underline{#1}}\fi}
+\def\risingsign{^}
+\def\rising#1{^{\overline{#1}}}
+\def\dotminus{\mathbin{\buildrel{\hbox{\runhead.}}\over{\smash{-}\vphantom{_2}}}}
+\let\divides=\backslash
+\def\edivides{\divides\mskip-4mu\divides}
+\def\ndivides{\mathpalette\notdiv\relax}
+\def\notdiv#1#2{\setbox0=\hbox{$#1\divides$}%
+ \vcenter{\hbox to\wd0{$\hss\scriptscriptstyle/\hss$}}\kern-\wd0
+ \vcenter{\hbox to\wd0{$\hss\kern.5pt\scriptscriptstyle/\hss$}}\kern-\wd0
+ \box0\relax}
+\def\spec{\mathop{\rm Spec}}
+\def\half{{1\over2}}
+\def\rp{\mathchar"323F } % relatively prime
+\def\lcm{\mathop{\rm lcm}}
+\def\And{\quad{\rm and}\quad}
+\let\==\equiv
+\def\tmod#1{(mod~$#1$)}
+\let\implies=\Longrightarrow
+\def\?{\hbox{!`}} % subfactorial
+\def\hyp{\mathop{F{}}\nolimits\hyper}
+\def\tightplus{\medmuskip=1.5mu\relax}
+\def\hyper#1#2#3{\mathchoice{\tightplus
+   \hbox{$\displaystyle\biggl({#1\atop#2}\Big\vert\,{#3}\!\biggr)$}}%
+ {\bigl({#1\atop#2}\vert\mskip2mu#3\bigr)}%
+ {}{}}  % used only in D and T styles
+%\def\hypk_#1{\mathop{F{}}_{#1}\nolimits\hyper} % confl with mFn convention
+\def\hypk_#1#2#3#4{\mathop{F{}}\mathchoice{\tightplus
+  \hbox{$\displaystyle\biggl({#2\atop#3}\Big\vert\,{#4}\!\biggr)$}%
+  \lower\fontdimen11\mathsym\hbox{$\scriptstyle\!#1$}}%
+ {\bigl({#2\atop#3}\vert\mskip2mu#4\bigr)\lower\fontdimen12\mathsym
+   \hbox{$\scriptstyle\!#1$}}%
+ {}{}}  % used only in D and T styles
+\def\double(#1\choose#2){\mathchoice{\biggl(\!\!{#1\choose#2}\!\!\biggr)}
+ {\bigl(\!{#1\choose#2}\!\bigr)}{}{}} % only D and T styles
+\def\hypstrut{\vphantom{_1\_^k}} % if there's another denominator with \_^k
+\def\deg{\mathop{\rm deg}}
+\def\Bscr{{\scr B}}
+\def\Escr{{\scr E}}
+\def\Fscr{{\scr F}}
+\def\Pscr{{\scr P}}
+\def\adj{\relbar\joinrel\relbar} % adjacent in a graph
+\let\<=\langle \let \>=\rangle
+\def\Pr{\mathop{\rm Pr}\nolimits}
+\def\Mean{\mathop{\rm Mean}\nolimits}
+\def\Var{\mathop{\rm Var}\nolimits}
+\def\between{\big\vert\hbox{\vphantom)}} % \between_a^b
+{\catcode`\'=\active \gdef'{^\bgroup\mskip2mu\prim@s}} % more space before '
+\def\array#1[#2]{\hbox{\tt#1[$#2$]}}
+\def\given{\mskip1mu\vert\mskip1mu}
+\def\euler{\atopwithdelims<>}
+\def\Euler#1#2{\mathchoice{\biggl<\mskip-7mu{#1\euler#2}\mskip-7mu\biggr>}%
+ {\bigl<\!{#1\euler#2}\!\bigr>}{}{}}
+\def\Choose#1#2{\mathchoice{\biggl(\mskip-7mu{#1\euler#2}\mskip-7mu\biggr)}%
+ {\bigl(\!{#1\euler#2}\!\bigr)}{}{}}
+ 
+\newbox\phihatbox \newbox\scrphihatbox
+\setbox\phihatbox=\hbox{$\phi$} \ht\phihatbox=1ex
+\setbox\scrphihatbox=\hbox{$\scriptstyle\phi$}
+  \ht\scrphihatbox=\fontdimen5\mathsublet
+\setbox\phihatbox=\hbox{$\widehat{\box\phihatbox}$}
+\setbox\scrphihatbox=\hbox{$\hat{\box\scrphihatbox}$}
+\def\phihat{\mathchoice{\copy\phihatbox}{\copy\phihatbox}%
+ {\copy\scrphihatbox}{{\hat\phi}}}
+ 
+\newbox\mathsizebox
+\def\setmathsize#1{\global\setbox\mathsizebox=\hbox{\displaymath#1$}}
+\def\mathsize#1{\hbox to\wd\mathsizebox{\displaymath#1$\hss}}
+ 
+\newbox\sqrtstrutbox
+\setbox\sqrtstrutbox=\hbox{\vrule height10.5pt width\z@}
+\def\strutsqrt{\copy\sqrtstrutbox\sqrt}
+ 
+\newbox\Sqbox % for sum of squares
+\setbox\Sqbox=\vbox{\tenrm\hrule height.6pt\kern-.6pt
+  \hbox to1.5ex{\vrule height1.5ex width.6pt\hss\vrule width.6pt}\kern-.6pt
+  \hrule height.3pt depth.3pt}
+\def\Sq{\mskip1.5mu\copy\Sqbox\mskip1.5mu}
+ 
+\def\CMtext{% To switch back to Computer Modern text.
+  \let\rm=\tenrm
+  \let\it=\tenit
+  \let\sl=\tensl
+  \let\tt=\tentt
+  \normalbaselineskip=12pt \normallineskip=1pt \normallineskiplimit=0pt 
+  \setbox\strutbox=\hbox{\vrule height8.5pt depth3.5pt width0pt}%
+  \normalbaselines\rm}
+
+\catcode`@=12  
+\endinput

@@ -1,0 +1,176 @@
+%%% File: BookForm.tex
+%%% From `Mathematical TeX by Example' by Arvind Borde
+%%% (c) 1993, Academic Press.
+%%% Contents: The formatting commands for the `inner' right hand pages 
+%%% of some of the Examples in `Mathematical TeX by Example'.
+
+% The commands shown here should suggest how a relatively simple
+% TeX file may be used to create a variety of different output formats:
+% Examples 2--5 were all formatted with the commands given here, yet
+% they each have a different `look'. 
+
+\input EightPt  % To use small fonts.
+\nopagenumbers  % Switch off normal page numbering.
+
+%----------------------------------------------------------------------------
+%%% TYPEFACE NAMES:
+
+\font\Smallcaps=cmcsc10
+\font\Sansserif=cmss10
+
+%---------------------------------------------------------------------------_%
+%%% FOR DISPLAYED FORMULAS:
+
+\newcount\EquationNo     \EquationNo=1
+
+% Some convolutions are needed in order to allow the equation number to 
+% `leak out' and to make it correctly to the headline:
+ 
+\def\EqLbl #1{(\the\EquationNo #1)\xdef\Store{.$\>$\the\EquationNo #1}%
+   \global\postdisplaypenalty10000 
+   \global\skip0=\belowdisplayskip 
+   \global\skip1=\belowdisplayshortskip 
+   \global\belowdisplayskip=-.8\baselineskip
+       \global\advance\belowdisplayskip by\skip0
+   \global\belowdisplayshortskip=-.8\baselineskip
+       \global\advance\belowdisplayshortskip by\skip1
+   \aftergroup\PlaceMark
+    \def\AA{#1}\def\BB{}\ifx\AA\BB
+             \global\advance\EquationNo by1 \fi}%
+\def\PlaceMark{\mark{\Store}\par \global\postdisplaypenalty0 
+               \global\belowdisplayskip=\skip0 
+               \global\belowdisplayshortskip=\skip1 
+               \noindent\ignorespaces}%
+\def\FirstEquationOnPage{\edef\Testfm{\firstmark}%
+                         \edef\Testtm{\topmark}%
+                         \edef\Testbm{\botmark}%    
+                         \ifx\Testfm\Testtm\else\firstmark\fi}%
+\def\LastEquationOnPage{\edef\Testfm{\firstmark}%
+                        \edef\Testtm{\topmark}%
+                        \edef\Testbm{\botmark}%    
+                        \ifx\Testbm\Testtm\else\botmark\fi}%
+\def\PrevEq {{\advance\EquationNo by -1 \the\EquationNo}}
+\def\PrevEqs #1{{\advance\EquationNo by -#1 \the\EquationNo}}
+\def\ShiftEquationNo #1{\advance\EquationNo by #1}
+
+%----------------------------------------------------------------------------
+%%% FOR FOOTNOTES:
+
+\newcount\FootnoteNo     \FootnoteNo=1
+\let\OldFootnoteCommand=\footnote
+
+\def\NumberFootnotes{\def\footnote{\OldFootnoteCommand
+        {$^{\the\FootnoteNo}$\aftergroup\global\aftergroup\advance
+            \aftergroup\FootnoteNo\aftergroup b\aftergroup y\aftergroup
+            1\aftergroup\relax}}} 
+\def\DontNumberFootNotes{\def\footnote{\OldFootnoteCommand}}        
+\def\FootnoteSize #1{\dimen\footins=#1} % To set maximum vertical size.
+
+%---------------------------------------------------------------------------_%
+%%% FORMATTING CHAPTERS, SECTIONS, SUBSECTIONS:
+
+\newcount\ChapIndicator  % New chapter indicator.
+\newcount\ChapNo         % Chapter number.
+\newcount\SectNo         % Section number.
+\newcount\SubSectNo      % Subsection number.
+
+\def\ChapterFonts #1#2{\font\ChpFont=#1
+                       \font\ChpNameFont=#2}
+\def\SectionFont #1{\font\SctFont=#1}
+\def\SubSectionFont #1{\font\SbSctFont=#1}
+
+\newskip\StartofChapSkip         \StartofChapSkip=.75in
+\newskip\InChapTitleSkip         \InChapTitleSkip=3\bigskipamount
+\newskip\AfterChapTitleSkip      \AfterChapTitleSkip=2\bigskipamount
+\newskip\BetweenSectionSkip      \BetweenSectionSkip=2\bigskipamount
+\newskip\AfterSectionTitleSkip   \AfterSectionTitleSkip=\bigskipamount
+\newtoks\ChapName            % To store the chapter name.
+\newtoks\SectionName         % To store the section name.
+\newtoks\EveryChapter        % The end of this file shows the default.   
+\newtoks\EverySection        % Ditto
+\newtoks\EverySubSection     % Ditto
+
+\newif\ifResetSectNo       \ResetSectNotrue
+\def\DontResetSectNos{\ResetSectNofalse}
+
+\def\StartBook{\ChapNo=0 \SectNo=0 \SubSectNo=0 \ChapIndicator=0 \pageno=1
+               \ChapName{}\SectionName{}}%
+\def\Chapter #1{\ChapIndicator=1 \ifResetSectNo \SectNo=0 \fi
+                \advance\ChapNo by 1
+                \topglue\StartofChapSkip\relax \ChapName={#1}%
+                \ChPosition{\ChpFont\the\EveryChapter}%
+                \nobreak\vskip\InChapTitleSkip\relax
+                \Position{\ChpNameFont #1}%
+                \nobreak\vskip\AfterChapTitleSkip\relax}%
+\def\Section #1{\goodbreak \vskip\BetweenSectionSkip\relax \SectionName={#1}%
+                \advance\SectNo by1  \EquationNo=1
+                \Position{\SctFont\the\EverySection\ #1}%
+                \nobreak\vskip\AfterSectionTitleSkip\relax}%
+\def\SubSection #1{\goodbreak \vskip\BetweenSectionSkip\relax 
+                     \advance\SubSectNo by1 
+                \Position{\SbSctFont\the\EverySubSection\ #1}% 
+                \nobreak\vskip\AfterSectionTitleSkip\relax}%
+\def\SemiLeftTitles {\let\Position=\Leftlines \let\ChPosition=\rightline }
+\def\LeftTitles {\let\Position=\Leftlines \let\ChPosition=\leftline }
+\def\CenteredTitles {\let\Position=\Centerlines \let\ChPosition=\Centerlines }
+\def\Centerlines #1{{\parindent0pt \pretolerance10000 
+                       \rightskip 0pt plus 1fil \leftskip 0pt plus 1fil
+                       \parfillskip 0pt #1 \par}}
+\def\Leftlines #1{{\parindent0pt \pretolerance10000
+                    \rightskip0pt plus 1fil \parfillskip 0pt #1 \par}} 
+
+%---------------------------------------------------------------------------_%
+%%% FOR THEOREMS, ETC.:
+
+\def\PropositionFonts #1#2{\font\PropLabelFont=#1
+                           \font\PropStateFont=#2}
+\def\ProofFont #1{\font\PrfFont=#1}
+\def\Proposition #1.#2\par{\removelastskip \vskip 1.5\bigskipamount
+     \noindent {\PropLabelFont #1.\ } {\PropStateFont #2} \endgraf} 
+\def\ProofsEtc #1.{\removelastskip \medskip 
+     \noindent {\PrfFont #1.\quad}}
+
+%----------------------------------------------------------------------------
+%%% MISCELLANEOUS:
+
+\def\EndLine{\hfil\break}
+\def\EndPage{\vfil\eject}
+\def\Lcase #1{\lowercase\expandafter{#1}}
+\def\RomanNumeral #1{\uppercase\expandafter{\romannumeral #1}}
+\def\Hfil {\aftergroup\hfil}
+
+%----------------------------------------------------------------------------
+%%% THE HEADLINE, ETC.:
+
+\newtoks\LeftRunningHead
+\newtoks\RightRunningHead
+\def\TopLRPno {\headline{\ifnum\ChapIndicator=1 \hfil
+  \else \ifodd\pageno \the\RightRunningHead\llap{\folio}\else
+                      \rlap{\folio}\the\LeftRunningHead\fi \fi}
+    \footline{\ifnum\ChapIndicator=1 \hfil\sevenrm\folio\hfil \else \hfil\fi}}
+
+%----------------------------------------------------------------------------
+%%% THE OUTPUT ROUTINE:
+
+\newdimen\LMarginOdd    \LMarginOdd=1 in
+\newdimen\LMarginEven   \LMarginEven=1 in
+\output{\ifodd\pageno \hoffset=\LMarginOdd \else \hoffset=\LMarginEven \fi
+        \advance\hoffset by -1in  % Because 1in is the Plain TeX left margin.
+        \advance\hoffset by.375in % To conform to the publisher's rules.
+        \plainoutput \global\ChapIndicator=0 }
+
+%----------------------------------------------------------------------------
+%%% DEFAULTS:
+
+\EveryChapter={C$\>$H$\>$A$\>$P$\>$T$\>$E$\>$R\ \ \the\ChapNo}
+\EverySection={\the\ChapNo.\the\SectNo}
+\EverySubSection={\the\ChapNo.\the\SectNo.\the\SubSectNo.}
+\SemiLeftTitles
+\TopLRPno
+\RightRunningHead={\hfil\the\ChapNo.\the\SectNo.\ \the\SectionName\hfil}
+\LeftRunningHead={\hfil\the\ChapNo.\ {\Smallcaps\the\ChapName}\hfil}
+\SectNo=0  \SubSectNo=0
+\OnFootnoterule{.8125in}
+
+%----------------------------------------------------------------------------
+\endinput

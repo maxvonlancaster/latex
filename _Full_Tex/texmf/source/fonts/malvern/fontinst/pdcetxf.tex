@@ -1,0 +1,197 @@
+% pdcetxf.tex 1.1.1 1994/07/20 -- Formatting macros for ETX files -*-TeX-*-
+% Copyright 1994 P. Damian Cugley
+
+%%% @TeX-macro-file {
+%%%   filename       = "pdcetxf.tex",
+%%%   version        = "1.1.1",
+%%%   date           = "1994/07/20",
+%%%   package        = "Malvern 1.1",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "Fontinst, virtual fonts, TeX",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Macros for formatting Damian's encoding (ETX) files.",
+%%%   dependencies   = "",
+%%% }
+
+%  This software is available freely but without warranty.
+%  See the file COPYING for details.
+
+\font\titlerm=cmss17
+\font\sectionrm=cmss12 
+\font\tensc=cmcsc10 \let\sc=\tensc
+\font\tenrmpounds=cmu10  \def\pounds{{\tenrmpounds \$}}
+
+% Macros to print composite letters and a few other glyphs:
+
+\def\c#1{\setbox0\hbox{#1}\ifdim\ht0=1ex\accent24 #1%
+  \else{\ooalign{\hidewidth\char24\hidewidth\crcr\unhbox0}}\fi}
+\def\UU{\leavevmode\setbox0\hbox{h}\dimen0\ht0\advance\dimen0-1ex%
+  \rlap{\raise.67\dimen0\hbox{\char'27}}U}
+\def\uu{\accent23u}
+
+\def\flushtop#1%
+{{%
+    \setbox0=\hbox{#1}\setbox1=\hbox{X}%
+    \dimen0=\ht1 \advance\dimen0-\ht0
+    \raise\dimen0\box0
+}}
+
+\def\lguil{\raise0.33ex\hbox{$\scriptscriptstyle \langle\!\langle$}}
+\def\rguil{\raise0.33ex\hbox{$\scriptscriptstyle \rangle\!\rangle$}}
+
+\def\registered
+{%
+    \ooalign{\hfil\raise0.045ex\hbox{\sc \kern0.05em r}\hfil
+	\crcr\mathhexbox20D}%
+}
+\def\copyright
+{%
+    \ooalign{\hfil\raise0.035ex\hbox{\sc \kern-0.025em c}\hfil
+	\crcr\mathhexbox20D}%
+}
+\def\trademark{\flushtop{$\scriptscriptstyle\rm TM$}}
+
+\def\tick
+{%
+    \flushtop{\the\scriptscriptfont2 
+	\kern0.06em \char'060 \kern0.06em }%
+}
+\def\tickdbl
+{%
+    \flushtop{\the\scriptscriptfont2 
+	\kern0.06em \char'060 \char'060 \kern0.06em }%
+}
+\def\asciicircum
+{%
+    \leavevmode\raise0.5ex\hbox{\the\scriptscriptfont2 \char"5E }%
+}
+
+\newcount\seccount \seccount=0
+\def\section#1%
+{%
+    \medbreak
+    \global\advance\seccount1 
+    \leftline{\sectionrm \the\seccount.\ #1}
+    \nobreak\smallskip
+    \everypar{\setbox0=\lastbox \global\everypar={}}
+}
+
+\def\LaTeX{L\kern-0.1em \flushtop{a}\kern-0.1em\TeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TeXbook chapter 23 -- three columns
+
+\newdimen\pagewd \newdimen\margin \margin=15mm \newdimen\colsep \colsep=1pc
+\pagewd=210mm \advance\pagewd-2\margin
+
+\hoffset=\margin\advance\hoffset-1in
+\voffset=\margin\advance\voffset-1in
+\vsize=297mm \advance\vsize-2\margin
+
+\hsize=\pagewd \advance\hsize-2\colsep \divide\hsize3
+\tolerance=1000
+
+\def\makeheadline
+{
+    \vbox to 0pt
+    {
+	\vskip-22.5pt 
+	\hbox to \pagewd{\vbox to 8.5pt{} \the\headline}
+	\vss
+    }
+    \nointerlineskip
+}
+\def\makefootline
+{
+    \baselineskip=24pt
+    \hbox to \pagewd{\the\footline}
+}
+
+\let\lmr=L \newbox\leftcolumn \newbox\midcolumn
+\output=
+{
+    \if L\lmr
+	\global\setbox\leftcolumn=\columnbox
+	\global\let\lmr=M
+    \else\if M\lmr
+	\global\setbox\midcolumn=\columnbox
+	\global\let\lmr=R
+    \else
+	\tripleformat
+	\global\let\lmr=L
+    \fi\fi
+    \ifnum\outputpenalty>-20000 \else
+	\dosupereject
+    \fi
+}
+\def\tripleformat
+{%
+    \shipout\vbox
+    {
+	\makeheadline
+	\hbox to \pagewd{\box\leftcolumn \hfil 
+		\box\midcolumn\hfil
+		\columnbox}
+	\makefootline
+    }
+    \advancepageno
+}
+\def\columnbox{\leftline{\pagebody}}
+
+\def\bye
+{
+    \par\vfill\supereject
+    \if L\lmr \else \null\vfill\eject \fi
+    \if L\lmr \else \null\vfill\eject \fi
+    \end
+}
+
+\spaceskip=0.3em \rightskip=0pt plus 2em
+
+
+\def\title#1%
+{
+    \begingroup \parindent=0pt \titlerm \baselineskip=20pt \rightskip=0pt
+	plus 2em \hyphenpenalty=10000
+	#1
+	\medskip
+    \endgroup
+
+    \noindent
+	Version \pdcversion, \lastedit
+    \bigskip
+
+    \rightline{\vbox{\halign{##\hfil\cr
+	    P.\ Damian Cugley\cr
+    \noalign{\smallskip}%
+	    Oxford University\cr\quad Computing Laboratory\cr
+	    Parks Road\cr
+	    Oxford OX1 3QD\cr
+	    UK \cr
+    \noalign{\smallskip}%
+	    \tt Damian.Cugley@\cr\tt\quad comlab.ox.ac.uk\cr
+    }}}
+    \bigbreak
+}
+
+\def\cs#1{\leavevmode\hbox{\tt\char92 #1}}
+
+\def\frac#1/#2%
+{%
+    \leavevmode\kern0.1em 
+    \raise0.5ex \hbox{\the\scriptfont0 #1}%
+    \kern -0.1em /\kern-0.15em 
+    \lower0.5ex \hbox{\the\scriptfont0 #2}%
+}
+
+\def\Aheading#1{\smallbreak\noindent{\bf#1}}
+\def\docscale#1#2{#1\times#2/1000}
+
+%Local Variables:
+%tex-mother-file: "pdcmaa.etx"
+%End:

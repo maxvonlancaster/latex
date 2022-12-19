@@ -1,0 +1,602 @@
+% magman.tex -- info about Malvern Greek.
+%{{{ Malvern Greek manual
+%{{{  preamble
+
+\input cmdoc
+\input magrmac
+\input pdcidx
+
+\font\notegr=ma55g9
+\font\bodygr=ma55g11 
+\macappend\BODYtemplate{\f{gr}{ma55g}}
+\bodyfonts
+
+\everygreek{\gr \baselineskip=14pt}
+
+\grdelimiter*
+
+\headline={\hfil\global\headline={\bodyfonts \hfil Typesetting Greek using
+	Malvern fonts\quad{\bf\folio}}}
+
+\def\thesecno
+{%
+    \number\subsecno
+}
+
+%{{{   font tables
+
+%%  Code to typeset a font table -- lifted from my testfont.tex
+
+\newcount\tableN
+\newcount\hexcount
+\def\hexdigit#1{\ifcase#1\relax 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\def\ntablecr
+{%
+    \cr
+    \noalign{\nointerlineskip}
+    \multispan2\hfill &\multispan{33}\hrulefill
+}
+\def\ntable
+{
+    \medskip
+    \begingroup \openup1\jot
+	\def\\{\char\tableN \global\advance\tableN 1}
+	\def\0##1{&\omit&\sevenrm##1}
+	\halign to \hsize
+	  {%
+	    \chartstrut\hss##\tabskip=0pt plus 10pt &
+	    &\hss##\hss&##\vrule\cr
+	    \lower 6.5pt\null
+	    &\00\01\02\03\04\05\06\07\08\09\0A\0B\0C\0D\0E\0F
+	    \ntablecr 
+	    \global\tableN=0
+	    \ntablelines
+	    \crcr
+	  }
+	\medbreak
+    \endgroup
+}
+
+\def\ntablelines
+{%
+    \ifnum\tableN<256 
+	\let\next\ntablecontinuation
+    \else
+	\let\next\relax
+    \fi
+    \next
+}
+
+\newcount\ntabtmp
+
+\def\ntablecontinuation
+{%
+    % Find out if none of this row are defined by making a horizontal
+    % list of all of them preceeded by a penalty of 1; if any of them
+    % are defined then \lastpenalty will be something other than 1:
+	\setbox0=\hbox{\penalty1
+	    \def~{\char\tableN \advance\tableN 1}%
+	    ~~~~~~~~~~~~~~~~\global\ntabtmp=\lastpenalty}%
+    % Now set the row in the table iff ntabtmp # 1:
+	\ifnum\ntabtmp=1 
+	    \global\advance\tableN 16 \let\next=\ntablelines
+	\else
+	    \let\next=\ntablecontinuationcontinuation
+	\fi
+    \next
+}
+
+\def\ntablecontinuationcontinuation
+{%
+    \cr
+    \noalign{\nointerlineskip \penalty5000 }
+    & \hexcount=\tableN \divide\hexcount16 \sevenrm\hexdigit\hexcount
+    &&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&
+    \ntablecr
+    \ntablelines
+}
+
+\def\chartstrut{\lower 0.25\baselineskip \vbox to \baselineskip{}}
+
+%}}}   font tables
+%{{{  two-column quotations
+
+\def\twocolgr
+{
+    \smallskip 
+    \setbox0=\vbox\bgroup
+	\hsize=\bodywd \advance\hsize-\colsep \divide\hsize by 2
+	\begingreek \strut \ignorespaces
+}
+\def\endtwocolgr
+{%
+	\par\endgreek \egroup
+    \moveleft\leftmargin\vbox{
+	\hrule\smallskip
+	\rigidbalance{0}{2}{\ht\strutbox}{\bodywd}{\hfil}
+	\smallskip\hrule
+    }
+
+\smallbreak
+}
+%}}}  two-column quotations
+%}}}  preamble
+%{{{  bibliography
+
+\def\TB{{\it TUGboat}}
+
+\counta=0
+\newtoks\bibliography
+\newcount\bibcount
+
+\def\FAQnote
+{%
+	\par {\bf Note on FAQs}\quad An FAQ is an electronic document, posted
+	regularly to a USENET newsgroup, usually in the form of a list of
+	answers to frequently asked questions.  Many FAQs are available on
+	the archive site |pit-manager.mit.edu| (alias |rtfm.mit.edu|)
+	[18.172.1.27] in the directory |pub/usenet/news.answers|.  The
+	reference gives the name of the compiler, the title, the
+	last-modified date (in lieu of an edition or version number) and
+	name under which the FAQ is archived appears in parentheses.
+    \par
+}
+
+\def\bibdef#1#2%
+{
+    \expcs\edef{cite#1}%
+    {%
+        \noexpand\docite\noexpcs{cite#1}\noexpcs{refer#1}%
+    }
+    \toks0={#2}
+    \expcs\edef{refer#1}{\noexpand\bibitem{\expcs\noexpand{cite#1}}
+	\the\toks0}
+}
+\def\docite#1#2%
+{%
+	\global\advance\bibcount1
+	\global\bibliography=\expandafter
+		{\the\bibliography #2}%
+        \global\edef#1%
+	{[\the\bibcount]}#1%
+}
+
+\bibdef{Allen}
+{
+    W. Sidney Allen, {\it Vox Graeca: A Guide to Pronunciation of Classical
+	Greek}, 3rd Ed.\ (Cambridge University Press, 1987),
+	pp.\thinspace177--179.
+}
+
+\bibdef{KD}
+{
+    K.~J. Dryllerakis (|kd@doc.ic.ac.uk|), {\it Typesetting Greek Texts with
+	Greek\TeX}, Greek\TeX~3.1 (also known as KDGreek) (CTAN
+	|fonts/greek/kd|).
+}
+
+\bibdef{FAQ}
+{
+    Nikolaos Fotis (ed.), {\it soc.culture.greek} FAQ --
+	Linguistics ({\tt greek-\penalty\exhyphenpenalty faq\slash
+	linguistics}, 1993/03/06).
+}
+
+\bibdef{Yannis}
+{
+    Yannis Haralambous and Klaus Thull, Typesetting Modern Greek with 128
+	Character Codes, \TB\/ 10 (1989), pp.\thinspace354--359 (CTAN
+	|fonts/greek/yannis|).
+}
+
+\bibdef{Harts}
+{
+    Horace Hart, {\it Hart's Rules for Compositors and Readers at the
+	University Press, Oxford}, 39th Edition, revised (Oxford
+	University Press, 1989), pp.\thinspace111--116.
+}
+
+\bibdef{Levy}
+{
+    Silvio Levy, Using Greek Fonts with \TeX, \TB\/ 9 (1988),
+	pp.\thinspace20--24 (CTAN |fonts/greek/levy|).
+}
+
+\bibdef{COD}
+{
+	{\it The Concise Oxford Dictionary of Current English}, 8th Ed.
+	(Oxford University Press, 1990), p.\thinspace1453.
+}
+
+\def\bibitem#1%
+{%
+    \smallskip
+    \indent \llap{#1\hskip1pc}\ignorespaces
+}
+
+
+%}}}  bibliography
+
+\leftline{\headingfonts Typesetting Greek using Malvern fonts}
+\bigskip
+\leftline{P. Damian Cugley}
+\leftline{Oxford University Computing Laboratory}
+\leftline{(|Damian.Cugley@comlab.ox.ac.uk|)}
+\leftline{April 1993}
+\bigskip
+
+\noindent
+	Malvern is a sanserif font family, implemented in \MF.  This
+	document describes an early version of Malvern encoding~G (the Greek
+	alphabet).  The Greek letters used to appear in Malvern~B, but I
+	decided to give them an encoding (code page?)\ of their own so that
+	there would be space for composite letters.
+
+\subsec{Using Malvern G}
+
+	Because most Latin-alphabet languages require additional composite
+	letter glyphs to be properly typeset by \TeX, most Malvern fonts
+	will be used as the raw material for composite fonts.  In contrast,
+	the Malvern Greek font can be used directly to typeset Greek, both
+	with the old accent-and-breathing systems and the newer (post-1974)
+	one-accent system.  It follows the conventions of Silvio Levy's
+	original |gr| family \citeLevy\ and K.~J.  Dryllerakis's Greek\TeX\
+	(|kd| fonts) \citeKD.  It is almost compatible with the reduced
+	Greek fonts (|rgr| and |mrgr| families) described by Yannis
+	Haralambous and Karl Thull \citeYannis.
+
+%{{{  typesetting
+
+\subsec{Macro file}
+
+	The file |grhacks.tex| has some macros for setting texts in plain
+	\TeX.  A future production release may instead work as an option or
+	extension of Greek\TeX, with the objective of making it possible to
+	switch an existing document to Malvern without much editing.
+
+	Greek text is set within a \dfn{Greek mode}, delimited by macros
+	|\begingreek| and |\endgreek|.  Each time Greek mode is entered, the
+	contents of the token register |\everygreek| is scanned first.
+	Since |grhacks| does {\it not} load a particular font by default, a
+	manuscript using |grhacks| will want to include an assignment like
+\begin display
+	|\everygreek={\gr}|\cr
+	|\catcode`\*=\active \grdelimiter*|
+\end display
+	where |\gr| has been bound to some Greek font or another such as
+	|ma55g12|.  The macro |\grdelimiter| takes one parameter, an active
+	character (or control sequence) and makes that character into a
+	self-matching delimiter for Greek mode (like |$|--|$| works for
+	mathematics mode).  Thus, `|*This is Greek*|' produces `*This is
+	Greek*'.
+
+  
+\subsec{The alphabet}
+
+	The letters are transliterated as
+	follows:
+\begin table \hfil#\hfil&&\enspace\hfil#\hfil\cr
+	\gr a&\gr b&\gr g&\gr d&\gr e&\gr z&\gr h&\gr j&\gr i&\gr k&\gr
+	l&\gr m&\gr n&\gr x&\gr o&\gr p&\gr r&\gr ss&\gr c&\gr t&\gr 
+	u&\gr f&\gr q&\gr y&\gr w\cr
+	\tt a&\tt b&\tt g&\tt d&\tt e&\tt z&\tt h&\tt j&\tt i&\tt k&\tt
+	l&\tt m&\tt n&\tt x&\tt o&\tt p&\tt r&\tt s&\tt c&\tt t&\tt u&\tt 
+	f&\tt q&\tt y&\tt w\cr
+\noalign{\smallskip}%
+	\gr A&\gr B&\gr G&\gr D&\gr E&\gr Z&\gr H&\gr J&\gr I&\gr K&\gr
+	L&\gr M&\gr N&\gr X&\gr O&\gr P&\gr R&\gr S&\gr C&\gr T&\gr 
+	U&\gr F&\gr Q&\gr Y&\gr W\cr
+	\tt A&\tt B&\tt G&\tt D&\tt E&\tt Z&\tt H&\tt J&\tt I&\tt K&\tt
+	L&\tt M&\tt N&\tt X&\tt O&\tt P&\tt R&\tt S&\tt C&\tt T&\tt U&\tt 
+	F&\tt Q&\tt Y&\tt W\cr
+\end table
+ 	The letter *C c* is \dfn{lunate sigma} (see below).
+
+	A lower case sigma `*s@*' at the end of a word (or followed by
+	punctuation) is automatically changed to the final form `*s*'
+	through \TeX's ligature mechanism.\note{Occasionally \TeX's notion
+	of word boundaries causes the wrong glyph to appear.  There are two
+	special invisible glyphs that can be used to control this in obscure
+	circumstances.  The so-called \dfn{compound word mark} (or cwm) acts
+	as a word-boundary in the middle of a word.  It has code~32, so
+	`|as^^`a|' produces `*as^^`a*', for example.  The \dfn{null glyph}
+	is invisible, but, because it is not a boundary character, it can be
+	used to prevent a ligature with a following word boundary.  It has
+	code 64, so `|as@|' produces `*as@*'.}
+
+\subsec{Composite letters}
+
+	The marks that go above the letters are obtained with the
+	following characters, which go before the letter:
+\begin table \gr#\hfil&\quad#\hfil&\quad #\hfil& \quad *#*\hfil\cr
+\noalign{\hrule height 1pt \vskip1\jot}%
+	\omit Mark\hfil&\omit\quad Char\hfil&
+		Name&\omit\quad Name in \citeYannis\hfil\cr
+\noalign{\vskip\jot \hrule \vskip\jot}
+	<@&	|<|&	asper (rough, = h)& 	dase'ia\cr
+	>@&	|>|&	lenis (smooth)&	yil'h\cr
+	"@&	|"| (double quote)&
+			diaeresis&		dialutik'a\cr
+	'@&	|'| (quote)& 
+			acute accent&		>oxe'ia\cr
+	`@&	|`|&	grave accent&		bare'ia\cr
+	\char126 @& |~|& circumflex&		perispwm'enh\cr
+\noalign{\vskip1\jot \hrule height 1pt\smallskip}%
+\end table
+	A breathing or diaeresis can be combined with an accent, thus
+	`|<~a|' for *<~a*, `|>'e|' for *>'e*.
+
+	The vowels *a*, *h* and *w* may have an iota beneath them, called
+	`subscript': *a|*, *h|*, *w|*.  These are produced with a vertical
+	bar `||||' after the letter in Greek mode: `|a|||' makes *a|*,
+	`|<a|||' makes `*<a|*', and so on.
+
+	As an example: `*>en >arq~h| >~hn <o l'ogos*' is generated with `|>en
+	>arq~h|| >~hn <o l'ogos|'.
+
+%	In old-style Greek, all vowels beginning a word require a breathing
+%	-- but *u* may only have an asper (rough).  In diphthongs (*ai*,
+%	*ei*, *oi*, *ui*, *au*, *eu*, *hu*, *ou*, *wu*), breathings and
+%	accents stand over the second letter: *a<i*, *o>u*.  Double *rr*
+%	used to be written *>r<r*.
+	
+%\subsec{Apostrophe (sign of elision)}
+
+%	The lenis is also used like an apostrophe, to mark the elision of
+%	vowels at the end of a word when the next word starts with a vowel.
+%	The Malvern-G fonts, like the Levy-derived fonts, also has a
+%	separate apostrophe glyph, which can be set with `|''|' (two quote
+%	characters) or `|'|' (one quote) at the end of a word.  Thus you
+%	have a choice of `|d>|' or `|d'|' (*d>* or *d'*).
+
+
+\subsec{Punctuation}
+
+	Here's a table of correspondences for punctuation:
+\begin table \hfil#\hfil&&\enspace\hfil#\hfil\cr
+	*.*&*,*&*;*&*:*&*!*&*?*&*''*&*((*&*))*\cr
+	|.|&|,|&|;|&|:|&|!|&|?|&|''|&|((|&|))|\cr
+\end table
+	The apostrophe is also generated by a single single-quote at the end
+	of a word: `*d'*' can be generated by `|d'|'.  There are also
+	digits, parentheses, brackets, hyphen, dashes, slash, per cent sign,
+	asterisk, plus and equals signs.
+
+\subsec{One-accent Greek}
+
+	The easiest way to write modern Greek is simply to use |'| for the
+	accent and otherwise to use |\begingreek|--|\endgreek| as before:
+	`*en arq'h hn o l'ogos*' is generated with `|en arq'h hn o l'ogos|'.
+
+	Malvern also has glyphs for a symmetrical accent (*\char3*) and
+	composite letters (such as *\char3 a*, *"\char3u*).  The macro
+	|\monotoniko|\note{This macro is so named for compatibility with the
+	|rgr|/|mrgr| macros \citeYannis.  It might usefully go in
+	|\everygreek|.} in Greek mode makes |'| an active character,
+	expanding to the symmetrical accent.  Then `|En'w|' produces
+	`*En\char3w*'.  In fact, the other accent characters |`| and |~| are
+	also made to substitute `*\char3*', and |<|, |>| and |||| expand to
+	the null glyph, so that a text with all the breathings and accents
+	and be hacked into almost-correct one-accent Greek.\note{Again, for
+	compatibility with the |rgr|/|mrgr| macros.  Because monosyllables
+	should not have accents at all in one-accent Greek, a complete
+	conversion from old-style to new-style requires changes to the
+	manuscript anyway, so the usefulness of this feature is debatable!}
+	For example, `|>En~w|||' becomes `*\monotoniko >En~w|*'.
+
+\subsec{Variant glyphs}
+
+	Sigma has a variant called lunate sigma, written *Cc*.  These
+	letters can be obtained directly (produced by the character `|c|' in
+	the manuscript).  So that a given text can be switched between the
+	two styles, there is also a macro |\grlunatesigma|, which redefines
+	`|s|' is as active character equivalent to `|c|'.  Obviously this is
+	only useful when Greek mode is only used for plain texts, since it
+	prevents `|s|' from being used in control sequence names.
+
+	Similarly, there are two ways to write lower case phi: *f* and
+	*\char92 * (`|f|' and glyph~92).  There is no difference in meaning
+	between *f* and *\char92 *; the choice of one or the other is only
+	made on aesthetic grounds.  The macro |\grvarphi| redefines `|f|' as
+	an active character equivalent to `*\char92 *', in effect replacing
+	*f* with *\char92 *.
+
+	Normally these macros, if used, will go in |\everygreek|.
+	
+%}}}  typesetting
+\iffalse
+%{{{  background
+\subsec{Background}
+
+	This section is optional reading.
+
+\subsubsec{Development of the Levy-derived font families}
+
+	Silvio Levy's |gr| fonts \citeLevy\ used the \TeX~2 ligature system
+	to make *s* become *s@* when followed by a letter, and had glyphs
+	for almost all the composite letters.
+
+	Yannis Haralambous and Klaus Thull created a set of reduced
+	(128-glyph) fonts, for \TeX\ systems still unable to manage
+	256-glyph fonts \citeYannis.  These fonts (the |rgr| and |mrgr|
+	families) still used Levy's character programs.  Because they could
+	not include glyphs for all the composite letters, many composite
+	letters had to be obtained with macros rather than ligatures.  The
+	|mrgr| family is for new-style (one-accent) Greek.
+
+	Finally K.~J. Dryllerakis's Greek\TeX\ package (also called KDGreek)
+	\citeKD\ uses the Levy character programs again, but takes advantage
+	of the new ligature features of \TeX~3 to make *s@* become *s*
+	(without needing compound glyphs for every combination of *s@* with
+	a letter).  The fonts are given names starting with |kd|.
+	Greek\TeX\ also includes format files for plain \TeX\ and \LaTeX,
+	transliteration programs and other useful things.
+
+\subsubsec{Designing Greek letters for Malvern}
+
+	My Malvern-G encoding is intended to be `ligature-compatible' with
+	Levy's and Dryllerakis's, meaning that `|<'a|||' will produce
+	`*<'a|*' in each of them, even though this is glyph~141 in
+	|grreg10|, 201 in |kdgr10| and some random number in |ma55g10|.  The
+	punctuation characters have the same encoding.
+
+	Designing a sanserif Greek lower case alphabet (*alfabet*?) is tricky
+	because the lower case letters have a very cursive style, as if
+	hand-drawn with a brush by a scribe in a hurry -- which is pretty
+	much the opposite of most sanserif styles.  I~made sketches (on
+	paper) of Greek letters forced into the same sorts of shapes as
+	other Malvern letters, and the results were uniformly horrid.  The
+	original idea of Malvern was to make a humanist/geometric hybrid, so
+	I tried approaching it from the from the humanist end this time.
+
+%}}}  background
+\fi
+%{{{  references
+
+\subsec{References}
+
+	Since I don't speak a word of Greek -- the only word I know is
+	*barbaroi* and I don't know how to spell it -- I have relied on
+	reading between the lines of the documentation for other systems for
+	typesetting Greek, including Hart's Rules \citeHarts.
+
+	CTAN is the Comprehensive \TeX\ Archive Network, a collection of FTP
+	sites (such as |ftp.tex.ac.uk|, under directory |tex-archive|).
+
+\begingroup \parskip=0pt \parindent=0pt
+	\the\bibliography
+\endgroup
+
+%}}}  postamble
+\vfill\eject
+%{{{  samples
+
+\subsec{Examples of text in Malvern 55 and 56}
+
+\iffalse
+	This quotation is used by Haralambous and Thull \citeYannis\ as an
+	example of the old-style accent-and-breathing system:
+%{{{   Popess Johanna
+
+\begin twocolgr
+	>En~w| <esp'eran tin`a >exantl'hsas t`a murol'ogi'a tou
+	>ekoim~ato <o Froum'entios >ep`i t~hs >'ammou t~hs paral'ias,
+	katab`as >ex o>uran~wn <o >ap'ostolos >eke~inos t~wn Sax'onwn
+	>'hnoixe di`a maqa'iras t`a st'hjh to~u koimwm'enou,
+	e>is'hgage to`us <iero`us dakt'ulous tou e>is t`hn >op`hn kai
+	>exag`wn t`hn kard`ian >eb'ujisen a>ut'hn e>is l'akkon pl'hrh
+	<'udatos, <'oper <hg'iasen prohgoum'enws.  <H fl'egousa
+	>eke'inh kard'ia >'efrizen e>is t`o <'udwr <ws smap`is >ent`os
+	to~u thgan'iou, >afo~u d`e >ekr'uwsen, >'ejese p'alin a>ut`hn
+	<o <'agios e<is t`on t'opon ths ka`i kle'isas t`hn plhg`hn
+	>ep'estreyen e>is t`on >idik'on tou.
+
+	>'Etuq'e pote, >anagn~wst'a mou, n`a >apokoimhj~h|s m`e
+	>anup'oforon b~hqa, koim'wmenos n`a <idr'wsh|s ka`i >exupn'hsas
+	n`a e<urej~h|s >iatreum'enos?  >Agn~wn <'oti e>~isai
+	kal`a >ano'igeis mhqanik~ws t`o st'oma, <'ina plhr'wsh|s e>is
+	t`on >epikat'araton b~hqa t`on sun'hjh f'oron.  >All`a
+	p'oshn a>isj'anesai qar'an, m`h e<ur'iskwn e>is t`on l'arugga
+	t`o >oqlhp`on jhr'ion! O<'utw <'ama >'hnoixe ka`i <o
+	Froum'entios to`us >ofjalmo'us, <htoim'asjn n`a prosf'erh|
+	e>is t`hn >aq'ariston >Iw'annan t`hn sun'hjh dakr'uwn
+	spond'hn, >all`a par`a p~asan prosdok'ian o<i >ofjalmo'i
+	tou e<ur'ejhsan xhro`i ka'i n`a progeumat'ish| m~allon >`h
+	n`a kla'ush| >h|sj'aneto >'orexin met`a polu'hmeron nhste'ian
+	<o kal`os Benedekt~inos.
+\end twocolgr
+\rightline{\csc{Emmanouil Ro\"{\i}dis}, `The Popess Johanna (1896)'}
+\vskip 0pt plus \baselineskip
+
+%}}}   Popess Johanna
+\fi
+
+	The following paragraph is set in 11-point Malvern~55 (11-point
+	Malvern has comprable x-height to 12-point Computer Modern).  This
+	quotation is used as one of the examples in Levy's article
+	\citeLevy:
+\begin twocolgr
+	>All' >ako'usontai, >enper e>~u dok~h|s l'egein.  t'ode d'e sou
+	>ene'ohsa <'ama l'egontos, ka`i pr`os >emaut`on skop~w; e>i <'oti
+	m'alist'a me E>uj'ufrwn did'axeien, <ws o<i jeo`i <'apantes t`on
+	toio~uton j'anaton <hgo~untai >'adikon e>~inai, t'i m~allon >eg`w
+	mem'ajhka par' E>uj'ufronos, t'i pot' >est`in t`o <'osi'on te ka`i
+	t`o >an'osion?  jeomis`es m`en g`ar to~uto t`o >'epgon, <ws
+	>'eoiken, e>'in >'an; >all`a g`ar o>u to'utw| >ef'anh >'arti
+	<wrism'ena t`o <'osion ka`i m'h; t`o g`ar jeomis`es >`on ka`i
+	jeofil`es >ef'anh.  <wste to'utou m`en >af'ihm'i se, >~w E>uj'ufron;
+	e>i bo'ulei, p'antes a>ut`o <hge'isjwn jeo`i >'adikon ka`i p'antes
+	miso'untwn.  >all' >~ara to~uto n~un >epanorj'wmeja >en t~w| l'ogw|,
+	<ws <`o m`en p'antes o<i jeo`i mis~wsin, >an'osi'on >estin, <`o d'
+	>`an fil~wsin, <`osion; <`o d' >`an o<i m`en fil~wsin, o<i d`e
+	mis~wsin, o>ud'etera >`h amf'otera?  >~ar' o<'utw bo'ulei <hm~in
+	<wr'isjai n~un per`i to~u <os'iou ka`i to~u >anos'iou?
+\end twocolgr
+	\rightline{Plato, `Euthyphro'}
+\vskip 1\medskipamount plus \baselineskip
+
+
+	This quotation (similarly stolen) is in Malvern~56 and has
+	|\grvarphi| and |\grlunatesigma| in effect:
+
+\begin twocolgr \font\f=ma56g11 \f \grvarphi \grlunatesigma
+	T`h stigm`h to'uth ni'wjw p'oso bar'u ''nai t`o must'hrio t~hs
+	xomol'oghshs.  <Ws t'wra, kane`is d`en x'erei p~ws p'erasa t`a du`o
+	qr'onia mou st`o <'Agion >'Oros.  O<i f'iloi mou jarro~un p`ws p~hga
+	n`a d~w buzantin`a kon'ismata >`h >ap`o mustikop'ajeia n`a z'hsw
+	mi`a perasm'enh >epoq'h.  Ka`i t'wra, n'a, ntr'epomai n`a mil'hsw.
+
+	P~ws n`a t`o p~w?  Jumo~umai <'ena >anoixi'atiko deilin'o, po`u
+	kat'ebaina t`on Ta"'ugeto, mi`a xafnik`h j'uella m`e k'uklwse kont`a
+	sto'us Pentaulo'us.  T'oso fober`os >anemos'ifounas, po`u >'epesa
+	katag~hs gi`a n`a m`hn gkremist~w.  O<i >astrap`es m' >'exwsan
+	<olo~uje ki >'ekleisa t`a m'atia m`hn tuflwj~w, ka`i kat'aqama,
+	p'istoma, per'imena.  <'Olo t`o pan'uyhlo boun`o >'etreme, ka`i du`o
+	>'elata d'ipla mou tsak'isthkan >ap' t`h m'esh ka`i br'onthxan
+	q'amou.  >'Eniwja t`o jei'afi to~u kerauno~u st`on >a'era, ka`i
+	xafnik`a x'espase <h mp'ora, >'epesen <o >'anemos, ka`i qontr'es,
+	jerm'es st'ales broq`h qt'uphsan t`a dentr`a ka`i t`o q~wma.  T`o
+	jum'ari, <h jro'umpa, t`o fask'omhlo, t`o flisko'uni, qtuphm'ena
+	>ap' t`o ner'o, t'inaxan t`is murwdi'es tous ki <'olh <h g~hs
+	m'urise.
+\end twocolgr
+\rightline{\csc{Kazantzakis}, `Symposium'}
+\vskip 0pt plus \baselineskip
+
+%}}}  samples
+\iffalse
+%{{{  table
+
+*\ntable*
+\smallskip \noindent
+	This is a working encoding, and will likely be different in future
+	versions.
+%}}}  table
+\fi
+%{{{  24-pt sample
+
+\font\biggr=ma55g24
+\bigbreak
+\moveleft\leftmargin \vbox{ \hsize=\bodywd
+\hrule height 1pt \bigskip
+\begingreek \biggr\baselineskip=30pt
+\centerline{((ABGDEZHJIKLMNXOPRSCTUFQYW))}
+\centerline{](abgdezhjiklmnxoprss^^`ctuf\char92 qyw)[}
+\centerline{=0123456789---\%\char42 +/--''!,:;?.-}
+\centerline{\char3 '@ `@ ~@ <@ <'@ <`@ <~@ >@ >'@ >`@ >~@ "@ "'@ "`@ "~@
+	"\char3 @}
+\endgreek
+\medskip\hrule height 1pt
+}
+%}}}  24-pt sample
+
+\bye
+%}}} Malvern Greek manual
+
+% Local variables:
+% fill-prefix: "\t"
+% fill-column: 76
+% fold-folded-p: t
+% End:

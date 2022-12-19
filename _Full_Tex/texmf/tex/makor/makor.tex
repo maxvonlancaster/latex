@@ -1,0 +1,352 @@
+%% This file provides the style for the Makor fonts.
+%\input zeuppl 
+%\font\5=pplr8a \5
+
+%%
+%% Now we can use ! to create private macros...
+%%%
+\def\LETTER{11 }
+\def\MAKEEXCLAMLETTER{%
+  \catcode`!=\LETTER % Now, macro names like \!tmp are OK!
+}
+\def\MAKEEXCLAMOTHER{\catcode`!=12 }
+\MAKEEXCLAMLETTER
+
+%%
+%% REGISTERS
+%%
+\newcount\scr
+
+%%
+%% CATCODE CHANGES, CONTROL SYMBOLS
+%%
+
+%%
+%% SYNONYMS, ETC.
+%%
+\def\active{13 }\let\ACTIVE=\active \let\VOWEL=\ACTIVE
+\def\OTHER{12 }\def\SUPERSCRIPT{7 }\def\SUBSCRIPT{8 }
+\let\COLON=: % store original value of colon.
+\let\tictactoe=\# \let\vert=| 
+\let\origcircum=^ \let\origunder=_ 
+\let\lbrack=[ \let\rbrack=]
+\let\!lt=\let \!lt\!ctcd=\catcode \!lt\!df=\def \!lt\!gdf=\gdef
+\let\!glbl=\global \def\!glt{\global\let} \let\!shw=\show
+\let\!shwth=\showthe
+\let\PAR=\par \let\NOBOUNDARY=\noboundary
+\def\'{\char127 }% the right quote
+
+%%
+%% UTILITY MACROS
+%%
+
+%% \boxme{stuff} put a box around stuff.
+\newdimen\Vthickness \Vthickness=.2pt
+\def\boxme#1{\vbox{\hrule height\Vthickness
+	\hbox{\vrule width\Vthickness#1\vrule width\Vthickness}%
+	\hrule height\Vthickness}}
+
+%% POOR MAN'S BOLD (form the TeXbook) is usefulin cases where a genuine
+%% bold-face font is not available.
+\newbox\pmbbox
+\def\pmb#1{\setbox\pmbbox=\hbox{#1}%
+  \kern-.02em\copy\pmbbox\kern-\wd\pmbbox
+  \kern.04em\copy\pmbbox\kern-\wd\pmbbox
+  \kern-.02em\raise.04em\box\pmbbox }
+
+%% grabbing and gobbling a single token...
+\def\!gbbl#1{}
+
+%% DIVISION.  \!dimdivide{\a}{\b}{\c} assumes that \a and \b represent
+%% dimensions.  \!dimdivide computes the ratio (\a)/(\b) and stores
+%% this dimensionless quantity as the definition of \c.
+\newdimen\!tempdima \newdimen\!tempdimb
+{\catcode`\p=\OTHER \catcode`\t=\OTHER
+  \gdef\!remPT#1pt{\gdef\!sf{#1}}}
+\def\!dimdivide#1#2#3{\!tempdima=#1\!tempdimb=#2%
+  \divide\!tempdimb by4 \divide\!tempdimb by16384 % altogether by
+						  % 65536
+  \divide\!tempdima by\!tempdimb \expandafter\!remPT\the\!tempdima
+  \let#3=\!sf}
+
+%% TYPESETTING NUMBERS.  It's necessary to use the \NUM macro to
+%% properly typeset left-to-right numbers in a Makor document.
+\def\NUM#1{\!NUMBER#1MAKOR}\def\!EMPTY!{}
+\def\!NUMBER#1#2MAKOR{\def\!tmp{#2}%
+  \ifx\!tmp\!EMPTY! % no more tokens to reverse
+    \def\next{#1}%
+  \else
+    \def\next{\NUM{#2}#1}%
+  \fi \next}
+
+%% Use these macros to scale dimension registers by scale factors.
+%% \!scaledim{\dimen0}{\csname \!hfont !SF\endcsname} is the same
+%% as \!scalebyfontSF{\dimen0}. 
+\def\!scaledim#1#2{#1=#2#1\relax}
+\def\!scalebyfontSF#1{#1\expandafter\csname \!hfont !SF\endcsname#1}
+
+%% FONT-NAMING for PLAIN TeX.  Because using Hebrew fonts requires
+%% computing and using scale factors, we need to hide this from the
+%% innocent user by providing wrappers for defining/using Hebrew
+%% fonts.  \hfontdef{a}{b}{size} defines a font command \a which relates
+%% to the system font b at <size>.  NONE of the 3 arguments can be
+%% control sequences.  Ex: \hfontdef{myfont}{oshomsehe}{12pt}
+%% (I suppose the implicit assumption is that arg#2 represents a
+%% scalable font.)  Since we NEVER get kerns or character numbers
+%% except when a Hebrew font is current, it is OK to adjust these
+%% kerns, etc by the scale factor
+%%
+%% At the same time a base font is created (\a in the above example),
+%% we need also a corresponding vowel-less font.  If the system name
+%% for the font is b, then b0 represents its vowelless counterpart.
+%% If \a is the TeX name for the font, then \xa is vowels-off (the
+%% `x' is supposed to suggest cancellling of the vowels).
+\newif\if!Hebrew \!Hebrewfalse % default
+\def\hfontdef#1#2#3{%
+  \ifundefined{#1}% unused control sequence...
+    \expandafter\font\csname#1\endcsname=#2 at #3
+    \expandafter\font\csname x#1\endcsname=#20 at #3
+    \stringdef{#1!size}{#3}% associate size with TeX font name
+    \stringdef{#1!system}{#2}% associate system name with TeX font
+    \stringdef{x#1!size}{#3}% associate size with TeX font name
+    \stringdef{x#1!system}{#2}% associate system name with TeX font
+    \!dimdivide{10pt}{#3}{\!!tmp}%
+    \expandafter\let\csname  #1!SF\endcsname=\!!tmp
+    \expandafter\let\csname x#1!SF\endcsname=\!!tmp
+  \else
+    \message{***** Font def error: #1 already in use as font name.
+    Ignoring your command.}%
+  \fi}
+
+%% DECLARING A DEFAULT HEBREW FONT.  It's a nuisance to keep
+%% invoking a hebrew font within the [...] environemnt.  Therefore,
+%% we provide the optionof declaring a default font which will be
+%% called automatically.  Of course, it can always be over-ridden.
+%% USAGE: Aftar, say, \hfontdef{hebrew}{...}{...}, we can
+%% say \declarehdefault{hebrew}.
+\def\declarehdefault#1{\def\!hdefaultfont{#1}}
+
+%% USING the font.  The second form calibrates \baselineskip as well.
+%% This command establishes vowelled and voweless font calls, and sets
+%% up the default vwoel state on the basis of the user's preferences.
+\newif\if!vowels 
+\def\declarevowelsdefault{\!vowelstrue}
+\def\declarevowelsoff{\!vowelsfalse}
+\declarevowelsdefault % AH's personal preference!
+
+\def\usehfont#1{\gdef\!hfont{#1}\gdef\!xhfont{x#1}\!Hebrewtrue
+   %\declarehdefault{#1}%
+   \if!vowels % vowels on...
+     \csname #1\endcsname
+   \else % vowels off...
+     \csname x#1\endcsname
+  \fi}
+\def\Usehfont#1{\usehfont{#1}\baselineskip=1.4\csname#1!size\endcsname
+    }
+\let\hfont=\usehfont \let\Hfont=\Usehfont % synonyms
+
+%% BACK AND FORTH FROM VOWELS TO NO VOWELS, & VICE-VERSA.
+\def\V{% use the vowelled font...
+  \!vowelstrue\expandafter\csname\!hfont\endcsname}%
+\def\CXLV{% vowels off!
+  \!vowelsfalse\expandafter\csname\!xhfont\endcsname}%
+
+%% \stringdef{str}{stuff stuff} defines \csname str\endcsname to
+%% have the expansion <stuff stuff>.
+\def\stringdef#1#2{\expandafter\def\csname#1\endcsname{#2}}
+
+%% In the same category as \stringdef is \strxq (STRing eXeQute},
+%% which enables a user to execute commands with wierd names or
+%% command names containing vowels in environments where vowels are
+%% non-letters. Ex: \strxq{hspace}{1pc} or \strxq{|"}.
+\def\strxq#1{\csname #1\endcsname}
+
+%% Here's the TeXbook's macro to test if \srt has been define.
+\def\ifundefined#1{\expandafter\ifx\csname#1\endcsname\relax}
+
+%% \truncdim\x shaves the value of a dimen register (here, \x) so that
+%% all the wierd decimal expansion disappears.  For example,
+%% \Truncdim{2.000034pt} yields 2.
+\def\truncdim#1{\scr=#1 \divide\scr by 65536\relax}
+
+%% \!getcurrchar relies on the fact that the italic corrections for
+%% each character is equal to .nn.
+%% For example, if the italic corr is .44pt, the character occupies
+%% position 44 in the Makor encoding.
+\newcount\currchar  % what's the current character position?
+\def\!getcurrchar{\/\dimen0=\lastkern \kern-\dimen0\relax
+  \!scalebyfontSF{\dimen0}%
+  \advance\dimen0 by.0003pt \multiply\dimen0 by100
+  \truncdim{\dimen0}\currchar=\scr
+}
+
+%% \getkern{a}{b} sores the kerns between characters a and b in the current
+%% font in \dimen0.
+\def\getkern#1#2{\setbox0=\hbox{#1#2}\dimen0=\wd0\relax
+  \setbox0=\hbox{#1{}#2}\advance\dimen0 by-\wd0% dimen0 is the kern
+}
+
+%% In Makor, the kerns between the nullchar (\char254) and any other
+%% character yiled the width of the offset from the medial axis
+%% through the type.  A positive kern means the displacement is to the
+%% right; to the left, otherwise.  \getloweraxis{ch} gets the lower
+%% axis of the letter ch.
+\newdimen\axisoffset
+\def\nullchar{\char254 }
+\def\getloweraxis#1{\getkern{\nullchar}{#1}\axisoffset=\dimen0 }
+\def\getupperaxis#1{\getkern{#1}{\nullchar}\axisoffset=\dimen0 }
+
+%% \viewnextchar examines the next character in the token list,
+%% and leaves it for further typesetting.  \stealnextchar examines and
+%% removes the next character from the token list.
+\def\!makemakorspecials{\catcode`\^=\OTHER \catcode`\_=\ACTIVE }
+\def\!makevowelsactive{\!makemakorspecials
+  \!ctcd`\a=\VOWEL \!ctcd`\e=\VOWEL 
+  \!ctcd`\i=\VOWEL \!ctcd`\u=\VOWEL \!ctcd`+=\VOWEL \!ctcd`:=\VOWEL 
+  \!ctcd`|=\VOWEL \!ctcd`'=\VOWEL \!ctcd`"=\VOWEL }
+\def\!nm!k!m!k!rsp!c!!ls{% unmakemakorspecials...
+  \!ctcd`\^=\SUPERSCRIPT \ctcd`\_=\SUBSCRIPT }
+\def\!mkvwlslttr{\!nm!k!m!k!rsp!c!!ls
+  \!ctcd`a=\LETTER \!ctcd`e=\LETTER \!ctcd`i=\LETTER 
+  \!ctcd`u=\LETTER 
+  \!ctcd`+=\OTHER \!ctcd`:=\OTHER \!ctcd`|=\OTHER \!ctcd`"=\OTHER }
+\def\!mkvwlsvwls{\!lta=\vwlA \!lte=\vwlE \!lti=\vwlI \!ltu=\vwlU \!lt'=\vwlSHEVA
+  \!lt+=\vwlPLUS \!lt:=\vwlCOLON \!lt|=\vwlVERT \!lt"=\vwlQUOTES }
+\def\viewnextchar#1{\def\!tmp{#1}\futurelet\nextchar\!tmp}
+%% There doesn't appear to be an easy way to test if \nextchar
+%% is a vowel other than explicit comparisons using \ifx...\fi
+%% \testforvowelness is always invoked when the first vowel of a 1 or
+%% 2 vowel sequence appears.  Really, we are testing the for the
+%% vowelness of the next character...
+\newif\ifnextisvowel \newcount\nextvowel
+\let\lettera=a \let\lettere=e \let\letteri=i \let\letteru=u \let\letterplus=+ \let\letterquotes="
+\def\testforvowelness{\nextisvowelfalse % default condition
+  \let\!nxtvwl=X% default value---something is wrong!
+  \ifx \vwlA\nextchar \let\!nxtvwl=\lettera \nextisvoweltrue \fi
+  \ifx \vwlE\nextchar \let\!nxtvwl=\lettere \nextisvoweltrue \fi
+  \ifx \vwlI\nextchar \let\!nxtvwl=\letteri \nextisvoweltrue \fi
+  \ifx \vwlU\nextchar \let\!nxtvwl=\letteru \nextisvoweltrue \fi
+  \ifx \vwlPLUS\nextchar \let\!nxtvwl=\letterplus \nextisvoweltrue \fi
+  \ifx \vwlQUOTES\nextchar \let\!nxtvwl=\letterquotes \nextisvoweltrue \fi
+}
+
+%% \testforspecials sets a flag in case certain special conditions are
+%% to be noted.  As of this writing, there are only two---is the
+%% current character a final khaf or nun?  If so, we use special vowels.
+\def\!au!{au}
+\def\testforspecials{\ifnum\currchar=6 %now test for kamatz or
+				       %sheva...
+    \if+\currvowel \def\currvowel{\char61}\fi
+    \if'\currvowel \def\currvowel{\char62}\fi 
+  \fi 
+  \ifnum\currchar=1 % is it a final nun?
+    \if+\currvowel \def\currvowel{\hskip3.5pt\char43}\fi
+  \fi }
+
+%% Every time a vowel needs placement, here's what we need to do:
+%%   \item is next letter a vowel?  (Sometimes, vowels are specified
+%%         with 2-letter ligature combinations, such as :a or |+.)
+%%   \item what character is the preceding consonant?
+%%   \item is the consonant a special case?  (Special cases so far are only
+%%         the sheva and kamatz used for k(h)afsophit.)
+%%   \item If no special case: put vowel in enlarged vowelbox.
+%%   \item Center the vowel box on the medial axis.
+%%   \item Move to next consonant.
+%%   
+%%   \hebrewloweraccent{\char 100}{segol} puts the segol accent underneath
+%%         the dalet (char100).
+%% Because only vowels are {\it active\/}, we can assume that this machinery
+%% is only activated whenthe current character is a vowel.
+\newbox\vowelbox
+\def\nulloffset{\axisoffset=0pt }
+\def\taketwosteps#1#2{\skip0=#1 \advance\skip0 by#2\relax
+  \dimen0=\skip0
+  \hskip\dimen0\relax}
+\def\olap#1{\hbox to0pt{\hss#1\hss}}
+%% \def\hebrewloweraccent{\!getcurrchar \testforspecials
+%%   \nulloffset\getloweraxis{\char\currchar}%
+%%   \setbox0=\hbox{\char\currchar}%
+%%   \taketwosteps{-.5\wd0}{-\axisoffset}\olap{\currvowel}%
+%%   \taketwosteps{.5\wd0}{\axisoffset}\nobreak}
+
+\def\voweldef#1#2{%
+  \expandafter\def\csname !#1\endcsname{\def\currvowel{#2}\show\currvowel}}
+\def\Voweldef#1{\voweldef{#1}{#1}}
+\Voweldef{'}%
+\Voweldef{a}\Voweldef{e}\Voweldef{i}\Voweldef{+}\Voweldef{u}%
+\Voweldef{|}\Voweldef{"}
+
+%% ACCENTS UNDER FINAL GUTTERAL.  If the final letter of a word is
+%% gutteral, and takes an accent, then the vowel is vocalized before
+%% the consonant.  The transpose operator _ allows us to enter text
+%% the way it's read.  Note: we exploit the fact that the accent can be
+%% represented by a single character (a) and the gutteral needs two
+%% characters.
+\def\!transpose#1#2#3{#2#3\vwlA}
+{\catcode`\_=\ACTIVE \global\let_=\!transpose}
+
+%% MAKING VOWELS ACTIVE.  First, NOTE WELL that neither `o' nor `O'
+%% is a `vowel', in the Makor sense of the term. The vowel marks they
+%% set appear on top of or next to a base letter, so special finagling
+%% is simply unnecessary.
+%%
+%% The posssible vowels that appear in the `first' position are a, e,
+%% i, u, +, :, and |.  
+\newtoks\!vwl
+\def\!checknextchar{\viewnextchar{\!ptvwl}}
+\def\!!checknextchar{\testforvowelness 
+  \ifnextisvowel 
+    \!vwl=\expandafter{\the\!vwl\char\nextvowel}%
+  \else % return char to token list...
+    \nextchar
+  \fi
+  \!ptvwl
+  }
+\def\!ptvwl{\!getcurrchar \edef\currvowel{\the\!vwl}\testforspecials 
+  \testforvowelness
+  \ifnextisvowel
+    \edef\currvowel{\currvowel\!nxtvwl}% put nxtvwl in vowel ligature...
+    \let\!nxt=\!gbbl
+  \else % next character is a consonant
+    \let\!nxt=\relax
+  \fi
+  \!!ptvwl \!nxt
+}
+\def\!!ptvwl{\nulloffset\getloweraxis{\char\currchar}%
+  \setbox0=\hbox{\char\currchar}%
+  \nobreak\taketwosteps{-.5\wd0}{-\axisoffset}\olap{\currvowel}%
+  \nobreak\taketwosteps{.5\wd0}{\axisoffset}}
+\def\getvowelmacro#1#2{\expandafter\def\csname vwl#1\endcsname{%
+  \noboundary\!vwl={#2}\!checknextchar}}
+\getvowelmacro{A}{a}
+\getvowelmacro{I}{i}
+\getvowelmacro{E}{e}
+\getvowelmacro{PLUS}{+}
+\getvowelmacro{U}{u}
+\getvowelmacro{SHEVA}{'}
+\getvowelmacro{COLON}{:}
+\getvowelmacro{VERT}{|}
+\getvowelmacro{QUOTES}{"}
+
+{\!makevowelsactive
+  \!glta=\vwlA \!glt+=\vwlPLUS \!glti=\vwlI \!glte=\vwlE 
+  \!gltu=\vwlU \!glt'=\vwlSHEVA
+  \!glt:=\vwlCOLON \!glt|=\vwlVERT \!glt"=\vwlQUOTES
+} % end of active vowel environment
+\newif\if!HEBREW \!HEBREWfalse
+\def\HEBREW{\beginR
+   \!HEBREWtrue\endgraf\bgroup\!makevowelsactive }
+\def\ENDHEBREW{\egroup\endgraf\!HEBREWfalse\endR}
+\def\!offparindent{\leavevmode\setbox0=\lastbox}
+\def\[{\!offparindent\bgroup\!HEBREWtrue
+   \beginR\!makevowelsactive
+   \hfont\!hdefaultfont% default hebrew
+} 
+\def\]{\endR\egroup}
+%\MAKEEXCLAMOTHER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\TeXXeTstate=1 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput
+

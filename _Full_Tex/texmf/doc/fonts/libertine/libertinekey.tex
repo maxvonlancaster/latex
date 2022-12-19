@@ -1,0 +1,81 @@
+\documentclass[ngerman]{libertinedoku}
+\usepackage{libertinekey}
+\usepackage{longtable}
+\begin{document}
+\pageTitle{Tastenkappen}
+
+\section{Einbindung}
+
+Der Libertine-Tastenkappenfont wird über
+
+\verb|\usepackage{libertinekey}|
+
+eingebunden.
+
+\section{Tastenmakros}
+
+\subsection{Sondertasten}
+
+\begin{longtable}[l]{lll}
+Tux         & \verb|\LKeyTux|      & \LKeyTux \\
+Strg        & \verb|\LKeyStrg|     & \LKeyStrg \\
+Alt         & \verb|\LKeyAlt|      & \LKeyAlt \\
+AltGr       & \verb|\LKeyAltGr|    & \LKeyAltGr \\
+Shift       & \verb|\LKeyShift|    & \LKeyShift \\
+Enter       & \verb|\LKeyEnter|    & \LKeyEnter \\
+Tab         & \verb|\LKeyTab|      & \LKeyTab \\
+CapsLock    & \verb|\LKeyCapsLock| & \LKeyCapsLock \\
+Pos         & \verb|\LKeyPos|      & \LKeyPos \\
+Entf        & \verb|\LKeyEntf|     & \LKeyEntf \\
+Einf        & \verb|\LKeyEinf|     & \LKeyEinf \\
+Leer        & \verb|\LKeyLeer|     & \LKeyLeer \\
+Esc         & \verb|\LKeyEsc|      & \LKeyEsc \\
+Ende        & \verb|\LKeyEnde|     & \LKeyEnde \\
+F1          & \verb|\LKeyF{1}|     & \LKeyF{1} \\
+F2          & \verb|\LKeyF{2}|     & \LKeyF{2} \\
+F3          & \verb|\LKeyF{3}|     & \LKeyF{3} \\
+F4          & \verb|\LKeyF{4}|     & \LKeyF{4} \\
+F5          & \verb|\LKeyF{5}|     & \LKeyF{5} \\
+F6          & \verb|\LKeyF{6}|     & \LKeyF{6} \\
+F7          & \verb|\LKeyF{7}|     & \LKeyF{7} \\
+F8          & \verb|\LKeyF{8}|     & \LKeyF{8} \\
+F9          & \verb|\LKeyF{9}|     & \LKeyF{9} \\
+F10         & \verb|\LKeyF{10}|    & \LKeyF{10} \\
+F11         & \verb|\LKeyF{11}|    & \LKeyF{11} \\
+F12         & \verb|\LKeyF{12}|    & \LKeyF{12} \\
+F13         & \verb|\LKeyF{13}|    & \LKeyF{13} \\
+F14         & \verb|\LKeyF{14}|    & \LKeyF{14} \\
+F15         & \verb|\LKeyF{15}|    & \LKeyF{15} \\
+F16         & \verb|\LKeyF{16}|    & \LKeyF{16} \\
+\end{longtable}
+
+\subsection{Allgemeine Tasten}
+
+Mit \verb|\LKey{<glyphname>}| wird eine allgemeine Taste angesprochen.
+
+\begin{longtable}[l]{lll}
+0           & \verb|\LKey{one}|    & \LKey{one} \\
+9           & \verb|\LKey{nine}|   & \LKey{nine} \\
+A           & \verb|\LKey{A}|      & \LKey{A} \\
+Z           & \verb|\LKey{Z}|      & \LKey{Z} \\
+\end{longtable}
+
+\newpage
+\subsection{Tastenkombinationen}
+
+\begin{longtable}[l]{lll}
+Strg-A           & \verb|\LKeyStrgX{A}|       & \LKeyStrgX{A} \\
+Shift-A          & \verb|\LKeyShiftX{A}|      & \LKeyShiftX{A} \\
+Alt-A            & \verb|\LKeyAltX{A}|        & \LKeyAltX{A} \\
+AltGr-A          & \verb|\LKeyAltGrX{A}|      & \LKeyAltGrX{A} \\
+Shift-Strg-A     & \verb|\LKeyShiftStrgX{A}|  & \LKeyShiftStrgX{A} \\
+Shift-Alt-A      & \verb|\LKeyShiftAltX{A}|   & \LKeyShiftAltX{A} \\
+Shift-AltGr-A    & \verb|\LKeyShiftAltGrX{A}| & \LKeyShiftAltGrX{A} \\
+Strg-Alt-A       & \verb|\LKeyStrgAltX{A}|    & \LKeyStrgAltX{A} \\
+Strg-Alt-Entf    & \verb|\LKeyStrgAltEnt|     & \LKeyStrgAltEnt \\
+Strg-Alt-Entf    & \verb|\LKeyReset|          & \LKeyReset \\
+\end{longtable}
+
+
+
+\end{document}

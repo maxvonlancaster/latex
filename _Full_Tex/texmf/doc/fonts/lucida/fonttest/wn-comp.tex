@@ -1,0 +1,46 @@
+%testtext stuff
+%
+\vsize10in
+\voffset-.5in\eject
+\let\noinit!\input testfox
+\input testtext
+\let\xtables\xtable\def\medskip{\par\kern-8pt}
+\def\FontPage#1{\medbreak\vbox\bgroup\def\fontname{#1}\startfont\xtable\egroup\vfill}
+\FontPage{wnr10}
+\FontPage{wncyr10}
+\eject
+\FontPage{wnti10}
+\FontPage{wncyi10}
+\eject
+\FontPage{wnbx10}
+\FontPage{wncyb10}
+\eject
+\FontPage{wnss10}
+\FontPage{wncyss10}
+\eject
+\FontPage{wncsc10}
+\FontPage{wncysc10}
+\eject
+\FontPage{wntt10}
+\FontPage{cmtt10}
+\eject
+\def\FontPage#1{\medbreak\vbox\bgroup\def\fontname{#1}\strut\startfont\wntext\egroup\vfill}
+\FontPage{wnr10}
+\FontPage{wncyr10}
+\eject
+\FontPage{wnti10}
+\FontPage{wncyi10}
+\eject
+\FontPage{wnbx10}
+\FontPage{wncyb10}
+\eject
+\FontPage{wnss10}
+\FontPage{wncyss10}
+\eject
+\FontPage{wncsc10}
+\FontPage{wncysc10}
+\eject
+\FontPage{wntt10}
+\eject
+
+\end

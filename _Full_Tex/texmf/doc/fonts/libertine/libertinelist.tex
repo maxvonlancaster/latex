@@ -1,0 +1,190 @@
+\documentclass[ngerman]{libertinedoku}
+
+\usepackage{libertinelist}
+\usepackage{forloop}
+
+\begin{document}
+\pageTitle{Aufzählungslisten}
+
+\section{Nummern}
+
+Spezielle Nummern lassen sich über \verb|\useListNumberGlyph[<Bereich>]{<Nummer>}|
+ansprechen.
+
+\bigskip
+{\Huge
+\useListNumberGlyph{1}
+\useListNumberGlyph{2}
+\useListNumberGlyph{3}
+\useListNumberGlyph{4}
+\dots
+\useListNumberGlyph{20}
+}
+
+\bigskip
+Standardmäßig wird der Bereich \texttt{circle} verwendet. Dieser wurde über das Makro\\
+\verb|\DeclareListNumberGlyph{circle}{1}{uni2460}|\\ definiert. Dabei wird der Bereich,
+die Nummer und der zu verwendende Glyphname angegeben. Der Bereich \texttt{circle} kann
+Zahlen von 1 bis 20 darstellen.
+
+
+\section{Aufzählung mit Nummern}
+
+Mit der Umgebung \texttt{libertineenumerate} wird eine Aufzählungsumgebung wie
+\texttt{enumerate} zur Verfügung gestellt. Mit dem optionalen Parameter
+wird der Bereich für die Nummern festgelegt.
+
+\subsection{circle}
+
+Der Bereich \texttt{circle} kann Zahlen von 1 bis 20 darstellen.
+
+\forloop{enumi}{1}{\value{enumi}<21}{\useListNumberGlyph[circle]{\arabic{enumi}}\quad}
+
+\begin{minipage}{\linewidth}
+\begin{minipage}{.48\linewidth}
+\begin{lstlisting}
+\begin{libertineenumerate}
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.48\linewidth}
+\begin{libertineenumerate}
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{minipage}
+\end{minipage}
+
+\subsection{bracket}
+
+Der Bereich \texttt{bracket} kann Zahlen von 1 bis 20 darstellen.
+
+\forloop{enumi}{1}{\value{enumi}<21}{\useListNumberGlyph[bracket]{\arabic{enumi}}\quad}
+
+\begin{minipage}{\linewidth}
+\begin{minipage}{.48\linewidth}
+\begin{lstlisting}
+\begin{libertineenumerate}[bracket]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.48\linewidth}
+\begin{libertineenumerate}[bracket]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{minipage}
+\end{minipage}
+
+\subsection{Alpha}
+
+Der Bereich \texttt{Alpha} kann Zahlen von 1 bis 26 in Großbuchstaben und
+\texttt{alpha} in Kleinbuchstaben darstellen.
+
+\forloop{enumi}{1}{\value{enumi}<27}{\useListNumberGlyph[Alpha]{\arabic{enumi}}\quad}
+
+\forloop{enumi}{1}{\value{enumi}<27}{\useListNumberGlyph[alpha]{\arabic{enumi}}\quad}
+
+
+\begin{minipage}{\linewidth}
+\begin{minipage}{.48\linewidth}
+\begin{lstlisting}
+\begin{libertineenumerate}[Alpha]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.48\linewidth}
+\begin{libertineenumerate}[Alpha]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{minipage}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\begin{minipage}{.48\linewidth}
+\begin{lstlisting}
+\begin{libertineenumerate}[alpha]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.48\linewidth}
+\begin{libertineenumerate}[alpha]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{minipage}
+\end{minipage}
+
+\subsection{doublecircle}
+
+Der Bereich \texttt{doublecircle} kann Zahlen von 1 bis 10 darstellen.
+
+\forloop{enumi}{1}{\value{enumi}<21}{\useListNumberGlyph[doublecircle]{\arabic{enumi}}\quad}
+
+
+\begin{minipage}{\linewidth}
+\begin{minipage}{.48\linewidth}
+\begin{lstlisting}
+\begin{libertineenumerate}[doublecircle]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.48\linewidth}
+\begin{libertineenumerate}[doublecircle]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{minipage}
+\end{minipage}
+
+\subsection{darkcircle}
+
+Der Bereich \texttt{darkcircle} kann Zahlen von 1 bis 20 darstellen.
+
+\forloop{enumi}{1}{\value{enumi}<21}{\useListNumberGlyph[darkcircle]{\arabic{enumi}}\quad}
+
+\begin{minipage}{\linewidth}
+\begin{minipage}{.48\linewidth}
+\begin{lstlisting}
+\begin{libertineenumerate}[darkcircle]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}{.48\linewidth}
+\begin{libertineenumerate}[darkcircle]
+\item Punkt 1
+\item Punkt 2
+\item Punkt 3
+\end{libertineenumerate}
+\end{minipage}
+\end{minipage}
+
+
+
+
+
+\end{document}

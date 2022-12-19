@@ -1,0 +1,306 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{cmap}
+\usepackage[cp1251]{inputenc}
+\usepackage[english, ukrainian, russian]{babel}
+\usepackage[left=2cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amssymb}
+
+\begin{document}
+
+\setcounter{page}{2}
+
+\fontsize{14}{24pt}\selectfont
+
+\begin{center}
+\textbf{Зміст}
+\end{center}
+
+Вступ....................................................................................................................3
+
+\S1. Квазінеперервні відображення.......................................................................4
+
+\S2. Верхня та нижня границі функції..................................................................5
+
+\S3. Про відстані $d(f,K_{x_{0}}^{+})$ та $d(f,K^{*}(\mathbb{R}))$.............................................................8
+
+\S4. Деякі властивості $\delta$-околів множин...............................................................13
+
+\S5. Граничні множини.........................................................................................14
+
+\S6. Відстань до множини $K_{x_{0}}(X)$........................................................................16
+
+\S7. Приклади........................................................................................................18
+
+Література...........................................................................................................19
+
+
+\newpage
+
+\begin{center}
+\textit{\textbf{Вступ}}
+\end{center}
+
+
+Відомо, що рівномірна відстань від довільної функції $f:X\rightarrow \mathbb{R}$, заданої на нормальному просторі $X$, до простору $C(X)$ всіх неперервних функцій $g:X\rightarrow \mathbb{R}$ рівна $\frac{1}{2}||\omega_{f}||$, де $\omega_{f}(x_{0})$~--- коливання функції $f$ в точці $x_{0}$, а $|| h||=\sup\limits_{x\in X}^{}|h(x)|$.
+
+Цей результат для метризовних просторів фактично встановив Г.Ган [1], явно його не сформулювавши. Для паракомпактного простору $X$, обмеженої функції $f:X\rightarrow \mathbb{R}$ і простору $C_{b}(X)$ всіх обмежених неперервних функцій $g:X\rightarrow \mathbb{R}$ рівність $d(f,C_{b}(X))=\frac{1}{2}||\omega_{f}||$ була доведена в монографії [2]. Загальна версія була отримана в праці [3]. Доведення базується на теоремі Гана-Д'єдонне-Тонґа-Катетова [4, с.105].
+
+На сьогодні відомо дуже багато аналогів неперервності: квазінеперервність, ледь неперервність, тощо. Тому природно поставити питання про знаходження відстані від довільної функції $f:X\rightarrow \mathbb{R}$ до інших функціональних класів. Така робота була розпочата в [5], де були знайдені відстані $d(f,K_{0}(\mathbb{R}))$ від деяких конкретних функцій $f:X\rightarrow \mathbb{R}$ до простору $K_{0}(\mathbb{R})$ всіх квазінеперервних у точці $0$ функцій $g:X\rightarrow \mathbb{R}$. Для розглядуваних там функцій $f$ виконувалася рівність $D(f)={0}$ ($D(f)$~--- це множина точок розриву функції $f$). Тут ми значно розвиваємо цей результат.
+
+В \S2 та \S3 цієї курсової роботи розглядаються функції $f:[x_{0},+\infty)\rightarrow \mathbb{R}$, і для них в \S3 знайдено відстань $d(f,K_{x_{0}}^{+})$. В \S6 сформульовано загальний результат, отриманий з допомогою поняття граничної множини, означення якої ми нагадуємо в \S5
+
+\newpage
+
+\textit{\textbf{\S1. Квазінеперервні відображення}}
+
+Нехай $X$ і $Y$~--- топологічні простори, $f:X\rightarrow Y$~--- відображення і $x_{0}\in X$.
+
+\textbf{Означення 1}. Відображення $f:X\rightarrow Y$ називається квазінеперервним у точці $x_{0}$ з $X$, якщо для довільних околів $U$ і $V$ точок $x_{0}$ і $y_{0}=f(x_{0})$ у просторах $X$ і $Y$ відповідно існує відкрита непорожня множина $G$ в $X$, така, що $G\subseteq U$ і $f(G)\subseteq V$. $f:X\rightarrow Y$ називається квазінеперервним, якщо воно квазінеперервне в кожній точці $x$ з $X$
+
+Зокрема, функція $f:X\rightarrow \mathbb{R}$ буде квазінеперервною у точці $x_{0}$ з $X$, якщо для довільного $\varepsilon>0$ і довільного околу $U$ точки $x_{0}$ у просторі $X$ існує непорожня множина $G$ в $X$, така, що $G\subseteq U$ і $f(G)\subseteq (f(x_{0})-\varepsilon,f(x_{0})+\varepsilon)$.
+
+Сукупність усіх квазінеперервних у точці $x_{0}$ дійснозначних функцій $f:X\rightarrow \mathbb{R}$ ми позначаємо символом $K_{x_{0}}(X)$.
+Будь-яка неперервна в точці $x_{0}\in X$ функція $f$ є квазінеперервною в цій точці. Обернене твердження не вірне. Наприклад, функція $f$, яка рівна нулю при $x=0$ та $\sin\frac{1}{x}$ при $x\neq 0$ є квазінеперервною в точці $0$, але не є неперервною в цій точці.
+
+Прикладом не квазінеперервної в точці функції є функція $f(x)=\textmd{sgn}x$, яка не є квазінеперервною в точці $0$. Покажемо це. Виберемо окіл $U=(-1,1)$ точки $0$ та $V=(-\frac{1}{2},\frac{1}{2})$ точки $f(0)=0$. Нехай для деякої множини $G$ в $X$, такої, що $G\subseteq U$, $f(G)\subseteq V$. Тоді $G\subseteq f^{-1}(V)=\{0\}$. Проте з того, що $G\subseteq \{0\}$ випливає, що або $G=\{0\}$ (тоді $G$ не є відкритою в $X$), або $G=\emptyset$. Отже, існують околи $U$ та $V$ точок $0$ та $f(0)=0$ відповідно, такі, що для довільної відкритої непорожньої множини $G$ в $\mathbb{R}$, такої, що $G\subseteq U$, $f(G)\nsubseteq V$~--- функція $f(x)=\textmd{sgn}x$ не є квазінеперервною в точці $0$.
+
+\newpage
+
+\textit{\textbf{\S2. Верхня та нижня границі функції.}}
+
+Нехай $E\subseteq \mathbb{R}$, $x_{0}\in E$, $f:E\rightarrow \mathbb{R}$, $D_{f}=E$ та $x_{0}$ гранична справа для $E$ (тобто $\forall \delta>0|E\cap (x_{0},x_{0}+\delta)\neq\emptyset$). Позначимо $\underline{l}=\underline{f}(x_{0}+0)=\sup\limits_{\delta>0}^{}\inf\limits_{x_{0}<x<x_{0}+\delta}^{}f(x)$, $\overline{l}=\overline{f}(x_{0}+0)=\inf\limits_{\delta>0}^{}\sup\limits_{x_{0}<x<x_{0}+\delta}^{}f(x)$, $M_{f}^{+}(x_{0};\delta)=\sup\limits_{x_{0}<x<x_{0}+\delta}^{}f(x)$ та $m_{f}^{+}(x_{0};\delta)=\inf\limits_{x_{0}<x<x_{0}+\delta}^{}f(x)$.
+
+\textbf{Лема 1.} Нехай $f:[x_{0},+\infty)\rightarrow \mathbb{R}$,. Тоді виконується наступне:
+
+1) $\forall\varepsilon>0$ $\exists\delta>0$ $\forall x\in(x_{0},x_{0}+\delta)\mid f(x)<\overline{f}(x_{0}+0)+\varepsilon$
+
+2) $\forall\varepsilon>0$ $\forall\delta>0$ $\exists x\in(x_{0},x_{0}+\delta)\mid f(x)>\overline{f}(x_{0}+0)-\varepsilon $
+
+3) $\forall\varepsilon>0$ $\exists\delta>0$ $\forall x\in(x_{0},x_{0}+\delta)\mid f(x)>\underline{f}(x_{0}+0)-\varepsilon $
+
+4) $\forall\varepsilon>0$ $\forall\delta>0$ $\exists x\in(x_{0},x_{0}+\delta)\mid f(x)<\underline{f}(x_{0}+0)+\varepsilon$
+
+\textit{Доведення.} Надалі позначимо $M_{f}^{+}(x_{0};\delta)=M_{f}$, $m_{f}^{+}(x_{0};\delta)=m_{f}$.
+
+1) Візьмемо $\varepsilon>0$. Оскільки верхня границя $\overline{l}$ є точною нижньою межею чисел $M_{f}$, то знайдеться таке $\delta>0$, що $M_{f}<\overline{l}+\varepsilon$. Але, за означенням супремуму, $f(x)\leq M_{f}$ на $(x_{0},x_{0}+\delta)$, отже, $f(x)<\overline{l}+\varepsilon$ для всіх $x$ з $(x_{0},x_{0}+\delta)$.
+
+2) Візьмемо $\varepsilon>0$. Оскільки верхня границя $\overline{l}$ є точною нижньою межею чисел $M_{f}$, то для довільного $\delta>0$  $M_{f}>\overline{l}-\varepsilon$. Але, так як $M_{f}$ є точною верхньою межею чисел $f(x)$ при $x\in(x_{0},x_{0}+\delta)$, то $\exists x\in(x_{0},x_{0}+\delta)$, такий, що $f(x)>\overline{l}-\varepsilon$.
+
+3) Візьмемо $\varepsilon>0$. Оскільки нижня границя $\underline{l}$ є точною верхньою межею чисел $m_{f}$, то знайдеться таке $\delta>0$, що $m_{f}>\underline{l}-\varepsilon$. Але, за означенням інфімуму, $f(x)\geq m_{f}$ на $(x_{0},x_{0}+\delta)$, а отже, $f(x)>\underline{l}-\varepsilon$ для всіх $x\in(x_{0},x_{0}+\delta)$.
+
+4) Візьмемо $\varepsilon>0$. Оскільки нижня границя $\underline{l}$ є точною верхньою межею чисел $m_{f}$, то $m_{f}<\underline{l}+\varepsilon$ для довільного $\delta>0$. Оскільки $m_{f}$ є точною нижньою межею чисел $f(x)$, то $\exists x\in(x_{0},x_{0}+\delta)$, такий, що $f(x)<\underline{l}+\varepsilon$.
+
+\textbf{Лема 2.} 1) Нехай $f:[x_{0},+\infty)\rightarrow \mathbb{R}$~--- функція, яка неперервна на $(x_{0},+\infty)$ і $\underline{l}\leq f(x_{0})\leq \overline{l}$. Тоді $f$~--- квазінеперервна в $x_{0}$.
+
+2) Нехай $f:[x_{0},+\infty)\rightarrow \mathbb{R}$~--- функція, $f(x_{0})\notin [\underline{l},\overline{l}]$. Тоді $f$ не є квазінеперервною в точці $x_{0}$.
+
+\textit{Доведення.} 1) Позначимо $y_{0}=f(x_{0})$. Візьмемо довільні додатні числа $\varepsilon$ і $\delta$, і покладемо $V=(y_{0}-\varepsilon,y_{0}+\varepsilon)$ і $U=[x_{0},x_{0}+\delta)$. Покажемо, що існує таке $\xi$, що $x_{0}<\xi<x_{0}+\delta$ і $f(\xi)\in V$.
+
+За лемою 1 існують такі точки $x^{*}$ і $x_{*}$, що
+$x^{*},x_{*}\subseteq (x_{0},x_{0}+\delta)=G$, $f(x^{*})>\overline{l}-\varepsilon$, а $f(x_{*})<\underline{l}+\varepsilon$.
+
+Припустимо, що $f(x^{*})<y_{0}+\varepsilon$. Оскільки $f(x^{*})>\overline{l}-\varepsilon$ і $\overline{l}\geq y_{0}$, то $f(x^{*})>y_{0}-\varepsilon$, отже $$y_{0}-\varepsilon<f(x^{*})<y_{0}+\varepsilon$$ належність $f(\xi)\in V$ виконується при $\xi =x^{*}$.
+
+Нехай $f(x_{*})>y_{0}-\varepsilon$. Оскільки $f(x_{*})<\underline{l}+\varepsilon$ і $\underline{l}\leq y_{0}$, то $f(x_{*})<y_{0}+\varepsilon$, отже: $$y_{0}-\varepsilon<f(x_{*})<y_{0}+\varepsilon.$$
+
+В такому разі $f(\xi)\in V$ виконується при $\xi =x_{*}$.
+
+Нехай тепер $f(x^{*})\geq y_{0}+\varepsilon$ і $f(x_{*})\leq y_{0}-\varepsilon$. Розглянемо відрізок $I$ з кінцями $x_{*}$ і $x^{*}$. Оскільки $x_{0}<x^{*}<x_{0}+\delta$ та $x_{0}<x_{*}<x_{0}+\delta$, то $I\subseteq (x_{0},x_{0}+\delta)$. За умовою $D(f)={x_{0}}$, тому $I\subseteq C(f)$, тобто функція $f$ неперервна на $I$. Але $$f(x_{*})\leq y_{0}-\varepsilon<y_{0}=f(x_{0})<y_{0}+\varepsilon\leq f(x^{*}), $$ Отже, $f(x_{*})<y_{0}<f(x^{*})$. За теоремою про проміжне значення існує точка $\xi\in I$, така, що $f(\xi)=y_{0}$. Зрозуміло, що $x_{0}<\xi<x_{0}+\delta$. Таким чином, оголошена нами властивість доведена , і ми маємо таку точку $\xi$, що $x_{0}<\xi<x_{0}+\delta$ і $f(\xi)\in V$.
+
+Оскільки і $V=(y_{0}-\varepsilon,y_{0}+\varepsilon)$ і $G=(x_{0},x_{0}+\delta)$ - відкриті інтервали, та  $V$- окіл точки $f(\xi)$, і з неперервності функції $f$ у точці $\xi$ випливає, що існує таке $\delta>0$, що $U_{0}=(\xi-\delta,\xi+\delta)\subseteq G$ і $f(U_{0})\subseteq V$. Ми знайшли відкриту непорожню множину $U_{0}$ таку, що $U_{0}\subseteq U$ і $f(U_{0})\subseteq V$, що і дає нам квазінеперервність функції $f$ у точці $x_{0}$.
+
+2) Нехай $y_{0}\notin [\underline{l},\overline{l}]$. Доведемо, що тоді $f$ не буде квазінеперервною в точці $x_{0}$.
+
+Припустимо, що $y_{0}>\overline{l}$. Візьмемо $\varepsilon=y_{0}-\overline{l}$ та $v=(\overline{l}+\frac{\varepsilon}{2},+\infty)$ - окіл точки $y_{0}$. Згідно з 1) Леми1, знайдеться $\delta>0$, таке, що для довільного $x\in (x_{0},x_{0}+\delta)|f(x)<\overline{l}+\frac{\varepsilon}{2}$. Покладемо $U=[x_{0},x_{0}+\delta)$, $G=(x_{0},x_{0}+\delta)$. Очевидно, що для довільної відкритої і непорожньої множини $U_{0}\subseteq U$ виконується $U_{0}\cap G\neq \emptyset$. Для довільної $x\in U_{0}\cap G$ $f(x)<\overline{l}+\varepsilon$, отже, $f(x)\notin V$, а тому $f(U_{0})\nsubseteq V$.
+
+Таким чином, ми знайшли $V$ - окіл точки $y_{0}$ та $U$ - окіл $x_{0}$, такі, що для довільної відкритої та непорожньої $U_{0}\subseteq U$ виконується $f(U_{0})\nsubseteq V$ - функція $f$ не є квазінеперервною в точці $x_{0}$.
+
+Припустимо тепер, що $y_{0}<\overline{l}$. Візьмемо $\varepsilon=\overline{l}-y_{0}$ та $V=(-\infty,\overline{l}-\frac{\varepsilon}{2})$ - окіл точки $y_{0}$. Згідно з 3) Леми 1, знайдеться $\delta>0$, таке, що для довільного $x\in(x_{0},x_{0}+\delta)|f(x)>\underline{l}-\frac{\varepsilon}{2}$. Покладемо $U=[x_{0},x_{0}+\delta)$, $G=(x_{0},x_{0}+\delta)$. Для довільної $x\in U_{0}\cap G$ $f(x)>\underline{l}-\frac{\varepsilon}{2}$, а отже, $f(x)\notin V$, а тому $f(U_{0})\nsubseteq V$.
+
+Таким чином, ми знайшли $V$~--- окіл точки $y_{0}$ та $U$~--- окіл точки $x_{0}$, такі, що для довільної відкритої та непорожньої $U_{0}\subseteq U$ виконується $f(U_{0})\nsubseteq V$.
+
+Отже, ми отримали, що функція $f$ не є квазінеперервної в точці $x_{0}$.
+
+\newpage
+
+\textit{\textbf{\S3. Про відстані $d(f,K_{x_{0}}^{+})$ та $d(f,K^{*}(\mathbb{R}))$.}}
+
+\textbf{Означення 3.} Позначимо символом $K_{x_{0}}^{+}$ множину всіх квазінеперервних у точці $x_{0}$ функцій $f:[x_{0},+\infty)\rightarrow \mathbb{R}$, та $K_{x_{0}}^{-}$  множину всіх квазінеперервних у точці $x_{0}$ функцій $f:(-\infty,x_{0}]\rightarrow \mathbb{R}$.
+
+\textbf{Теорема 1.} Нехай $f:[x_{0},+\infty)\rightarrow \mathbb{R}$~--- функція, $D(f)\subseteq{x_{0}}$ та $y_{0}=f(x_{0})\notin [\underline{l},\overline{l}]$. Тоді $$d(f,K_{x_{0}}^{+})=\frac{1}{2}\min\{\mid \underline{l}-y_{0}\mid,\mid \overline{l}-y_{0}\mid\}=\Delta$$.
+
+\textit{Доведення.} Розглянемо функцію $g_{0}:[x_{0},+\infty)\rightarrow \mathbb{R}$, яка при $y_{0}>\overline{l}$ визначається як $g_{0}(x)=f(x)+\Delta$ при $x>x_{0}$ та $g_{0}(x)=y_{0}-\Delta$ при $x=x_{0}$, а при $y_{0}<\underline{l}$ визначається як $g_{0}(x)=f(x)-\Delta$ при $x>x_{0}$ та $g_{0}(x)=y_{0}+\Delta$ при $x=x_{0}$
+
+Оскільки $\mid f(x)-g_{0}(x)\mid=\mid\pm\Delta\mid=\Delta$ для всіх $x\geq x_{0}$, то $d(f,g_{0})=\Delta$.
+
+Доведемо, що $g_{0}$ - квазінеперервна в точці $x_{0}$.
+
+Оскільки $f$~--- неперервна при $x>x_{0}$, то такою ж буде і функція $g_{0}$, адже $g_{0}(x)=f(x)+\Delta$ або $g_{0}(x)=f(x)-\Delta$ при $x>x_{0}$.
+
+Якщо $y_{0}>\overline{l}$ то $0<y_{0}-\overline{l}\leq y_{0}-\underline{l}$, тому $\Delta=\frac{1}{2}(y_{0}-\overline{l})$. Знайдемо $\overline{g_{0}}(x_{0}+0)$ і $g_{0}(x_{0})$: $$\overline{g_{0}}(x_{0}+0)=\overline{\lim\limits_{x\rightarrow x_{0}+0}^{}}g_{0}(x)=\overline{\lim\limits_{x\rightarrow x_{0}+0}^{}}(f(x)+\Delta)=\overline{l}+\Delta=\overline{l}+\frac{1}{2}(y_{0}-\overline{l})=\frac{1}{2}(y_{0}+\overline{l}),$$
+$$g_{0}(x_{0})=y_{0}-\Delta=y_{0}-\frac{1}{2}(y_{0}-\overline{l})=\frac{1}{2}(y_{0}+\overline{l}).$$ Таким чином, $g_{0}(x_{0})=\overline{g_{0}}(x_{0}+0)$
+
+Якщо $y_{0}<\underline{l}$ то $\overline{l}-y_{0}\geq \underline{l}-y_{0}>0$, а отже, $\Delta=\frac{1}{2}(\underline{l}-y_{0})$. У цьому випадку: $$\underline{g_{0}}(x_{0}+0)=\underline{\lim\limits_{x\rightarrow x_{0}+0}^{}}g_{0}(x)=\underline{\lim\limits_{x\rightarrow x_{0}+0}^{}}(f(x)-\Delta)=\underline{l}-\Delta=\underline{l}-\frac{1}{2}(\underline{l}-y_{0})=\frac{1}{2}(y_{0}+\underline{l}),$$
+$$g_{0}(x_{0})=y_{0}+\Delta=\frac{1}{2}(y_{0}+\underline{l}).$$ Тут також маємо $g_{0}(x_{0})=\underline{g_{0}}(x_{0}+0)$. Отже, $g_{0}(x_{0})\in [\underline{g_{0}}(x_{0}+0),\overline{g_{0}}(x_{0}+0)]$, звідси, за Лемою 2 маємо, що $g_{0}$ є квазінеперервною в точці $x_{0}$.
+
+Таким чином, $g_{0}\in K_{x_{0}}^{+}$ і $d(f,g_{0})=\Delta$. Доведемо тепер, що ця відстань є мінімальною, тобто, що для довільного $g\in K_{x_{0}}^{+}$, $d(f,g_{0})\geq\Delta$.
+
+Припустимо, що $g(x)>f(x)+\Delta$ для деякого $x>x_{0}$. Тоді $$d(f,g)=|| f-g||\geq \mid g(x)-f(x)\mid=g(x)-f(x)>\Delta,$$ бо $g(x)-f(x)>\Delta>0.$
+
+Припустимо тепер, що $g(x)<f(x)-\Delta$ для деякого $x>x_{0}$. Тоді $$d(f,g)=|| f-g||\geq \mid g(x)-f(x)\mid=f(x)-g(x)>\Delta,$$ бо $f(x)-g(x)>\Delta>0.$
+
+Нехай тепер $f(x)-\Delta\leq g(x)\leq f(x)+\Delta$ для кожного $x>x_{0}$. Тоді $\overline{g_{0}}(x_{0}+0)=\overline{\lim\limits_{x\rightarrow x_{0}+0}^{}}g_{0}(x)=\overline{\lim\limits_{x\rightarrow x_{0}+0}^{}}(f(x)+\Delta)=\overline{l}+\Delta$ і $\underline{g_{0}}(x_{0}+0)=\underline{\lim\limits_{x\rightarrow x_{0}+0}^{}}g_{0}(x)=\underline{\lim\limits_{x\rightarrow x_{0}+0}^{}}(f(x)-\Delta)=\underline{l}-\Delta$. За лемою 2 з квазінеперервності функції $g$ в точці $x_{0}$ випливає, що $$\underline{g_{0}}(x_{0}+0)\leq g(x_{0})\leq \overline{g_{0}}(x_{0}+0).$$ Тому $\underline{l}-\Delta\leq g(x_{0})\leq \overline{l}+\Delta$. В такому разі $$d(f,g)=|| f-g||\geq \mid g(x_{0})-f(x_{0})\mid=f(x_{0})-g(x_{0})\geq y_{0}-\overline{l}-\Delta=2\Delta-\Delta=\Delta,$$ якщо $y_{0}>\overline{l}$, і $$d(f,g)=|| f-g||\geq \mid g(x_{0})-f(x_{0})\mid=g(x_{0})-f(x_{0})\geq \underline{l}-\Delta-y_{0}=2\Delta-\Delta=\Delta,$$ якщо $y_{0}<\underline{l}$.
+
+Ми показали, що для кожної функції $g\in K_{x_{0}}^{+}$ виконується нерівність $|| f-g||\geq \Delta$, а для функції $g_{0}\in K_{x_{0}}^{+}$ має місце рівність $|| f-g||=\Delta$. Тому $d(f,K_{x_{0}}^{+})=\Delta$.
+
+\textbf{Лема 3.} Нехай $f:X\rightarrow Y$~--- неперервне сюр'єктивне і відкрите відображення на $X$, $g:Y\rightarrow Z$~--- квазінеперервне в точці $y_{0}=f(x_{0})$ відображення. Тоді $h=g\circ f$~--- квазінеперервне в точці $x_{0}$.
+
+\textit{Доведення.} Нехай $W$~--- окіл точки $z_{0}=h(x_{0})$, та $U$~--- відкритий окіл точки $x_{0}$. $V=f(U)$~--- відкритий, оскільки $f$~--- відкрите. Оскільки відображення $g$~--- квазінеперервне, то $\exists H$ - відкрита і непорожня множина, така, що $H\subseteq V$ і $g(H)\subseteq W$.
+
+Оскільки $H$~--- відкрита і $f$~--- неперервне, то $f^{-1}(H)$~--- відкрите. Позначимо $G=f^{-1}(H)\cap U$. $G$~--- відкрита як перетин двох відкритих множин, та непорожня, оскільки $f$~--- сюр'єктивна. Окрім того, $h(G)=g(f(f^{-1}(H)\cap U))=g(H)\subseteq W$. Отже, для довільного $W$~--- околу точки $z_{0}=h(x_{0})$ і довільного $U$~--- околу точки $x_{0}$ існує $G$~--- відкрита і непорожня, така, що $G\subseteq U$ і $h(G)\subseteq W$. Ми отримали, що $h$ є квазінеперервною в точці $x_{0}$.
+
+\textbf{Теорема 2.} Нехай $f:(-\infty,x_{0}]\rightarrow\mathbb{R}$~--- функція, $D(f)\subseteq{x_{0}}$ та $y_{0}=f(x_{0})\notin[\underline{l}=,\overline{l}$. Тоді $$d(f,K_{x_{0}}^{-}=\frac{1}{2}\min\{\mid \underline{l}-y_{0}\mid,\mid \overline{l}-y_{0}\mid\}=\Delta$$.
+
+\textit{Доведення.} Позначимо $h=f\circ \varphi$, де $\varphi(x)=2x_{0}-x$~--- неперервна, сюр'єктивна і відкрита функція на $\mathbb{R}$. Знайдемо $h(x_{0})$, $\overline{h}(x_{0}+0)$ та $\underline{h}(x_{0}+0)$: $$h(x_{0})=f(\varphi(x_{0}))=f(x_{0})=y_{0}$$ $$\overline{h}(x_{0}+0)=\inf\limits_{\delta>0}^{}\sup\limits_{x_{0}<x<x_{0}+\delta}^{}h(x)=$$ $$=\inf\limits_{\delta>0}^{}\sup\limits_{x_{0}<x<x_{0}+\delta}^{}f(\varphi(x))=\inf\limits_{\delta>0}^{}\sup\limits_{x_{0}-\delta<\varphi(x)<x_{0}}^{}f(\varphi(x))=\overline{f}(x_{0}-0);$$
+оскільки при $x_{0}<x<x_{0}+\delta$, $x_{0}-\delta<\varphi(x)<x_{0}$.
+
+Аналогічно : $$\underline{h}(x_{0}+0)=\sup\limits_{\delta>0}^{}\inf\limits_{x_{0}<x<x_{0}+\delta}^{}h(x)=$$ $$=\sup\limits_{\delta>0}^{}\inf\limits_{x_{0}<x<x_{0}+\delta}^{}f(\varphi(x))=\sup\limits_{\delta>0}^{}\inf\limits_{x_{0}-\delta<\varphi(x)<x_{0}}^{}f(\varphi(x))=\overline{f}(x_{0}-0).$$ Згідно з теоремою 1 маємо, що : $$d(h,K_{x_{0}}^{+})=\frac{1}{2}\min{|h(x_{0})-\overline{h}(x_{0}+0)|,|h(x_{0})-\underline{h}(x_{0}+0)|}=$$$$=\frac{1}{2}\min{\mid \underline{l}-y_{0}\mid,\mid \overline{l}-y_{0}\mid}=\Delta.$$ Виберемо довільну $g\in K_{x_{0}}^{+}$, та порахуємо $d(h,g)$: $$d(h,g)=\sup\limits_{x\in[x_{0},+\infty)}^{}|h(x)-g(x)|=\sup\limits_{x^{*}\in(-\infty,x_{0}]}^{}|h(\varphi(x))-g(\varphi(x))|=$$$$=\sup\limits_{x^{*}\in(-\infty,x_{0}]}^{}|f(x^{*})-g^{*}(x^{*})|=d(f,g^{*}),$$ де $g^{*}=g\circ\varphi:(-\infty,x_{0}]\rightarrow\mathbb{R}$ - квазінеперервна за Лемою 3, $g^{*}\in K_{x_{0}}^{-}$.
+
+Отже, для довільної $g\in K_{x_{0}}^{+}$ $d(h,g)=d(f,g^{*})$, де $g^{*}=g\circ\varphi \in K_{x_{0}}^{-}$.
+
+З даної ріності маємо, що $$d(f,K_{x_{0}}^{-})=d(h,K_{x_{0}}^{+})=\Delta.$$
+
+\textbf{Означення 4.} Позначимо через $K^{*}_{x_{0}}(\mathbb{R})$ сукупність усіх двосторонньо квазінеперервних в точці $x_{0}$ функцій $f:\mathbb{R}\rightarrow\mathbb{R}$.
+
+\textbf{Теорема 3.} Нехай $f:\mathbb{R}\rightarrow\mathbb{R}$~--- функція, $D(f)={x_{0}}$, $y_{0}=f(x_{0})\notin [\underline{f}(x_{0}-0)=\underline{l^{-}},\overline{f}(x_{0}-0)=\overline{l^{-}}]\cup [\underline{l^{+}}=\underline{f}(x_{0}+0),\overline{l^{+}}=\overline{f}(x_{0}+0)]$. Позначимо: $$\Delta_{+}=\frac{1}{2}\min\{|\underline{l^{+}}-y_{0}|,|\overline{l^{+}}-y_{0}|\}$$ $$\Delta_{-}=\frac{1}{2}\min\{|\underline{l^{-}}-y_{0}|,|\overline{l^{-}}-y_{0}|\}$$
+
+Тоді $d(f,K^{*}_{x_{0}}(\mathbb{R}))=\min\{\Delta_{+},\Delta_{-}\}=\Delta.$
+
+\textit{Доведення.} Нехай $\Delta_{+}>\Delta_{-}$. Розглянемо звуження $f|_{(-\infty,x_{0}]}=f_{0}$. Очевидно, що $D(f_{0})=x_{0}$, $f_{0}(x_{0})\notin[\underline{l^{-}},\overline{l^{-}}]$. Згідно теореми 2, для довільної $g_{0}\in K_{x_{0}}^{-}$ і для довільного $x\in(-\infty,x_{0}]$ виконується: $$|| g_{0}-f_{0}||=\sup\limits_{x\in(-\infty,x_{0}]}^{}|g_{0}(x)-f_{0}(x)|\geq\Delta_{-}$$
+А тоді для довільного $g\in K^{*}_{x_{0}}(\mathbb{R})$ $$|| g-f||\geq\sup\limits_{x\in(-\infty,x_{0}]}^{}|g(x)-f(x)|\geq\Delta_{-}$$ оскільки $g\mid (-\infty,x_{0}]\in K_{x_{0}}^{-}$ як двосторонньо квазінеперервна.
+
+Отже, в цьому випадку $d(f,K^{*}_{x_{0}}(\mathbb{R}))\geq \Delta_{-}$
+
+Побудуємо функцію $g^{*}$ наступним чином : $g^{*}(x)=f(x)+\Delta_{-}\textit{sgn}(y_{0}-\overline{l^{-}})$ при $x<x_{0}$, $g^{*}(x)=y_{0}-\Delta_{-}\textit{sgn}(y_{0}-\overline{l^{-}})$ при $x=x_{0}$ та $g^{*}(x)=f(x)$ при $x>x_{0}$. Тоді $d(f,g^{*})=\Delta_{-}$, та $g*\in K^{*}_{x_{0}}(\mathbb{R})$. Отже, $d(f,K^{*}_{x_{0}}(\mathbb{R}))=\Delta_{-}$.
+
+Нехай тепер $\Delta_{-}>\Delta_{+}$. Розглянемо звуження $f|_{[x_{0},+\infty)}=f_{0}$. Очевидно, що $D(f_{0})={x_{0}}$, $f_{0}(x_{0})\notin[\underline{l^{+}},\overline{l^{+}}]$. Згідно теореми1, для довільної $g_{0}\in K_{x_{0}}^{+}$ і для довільного $x\in [x_{0},+\infty)$ виконується : $$|| g_{0}-f_{0}||=\sup\limits_{[x_{0},+\infty)}^{}|g_{0}(x)-f_{0}(x)|\geq \Delta_{+}$$ А тоді для довільного $g\in K^{*}_{x_{0}}(\mathbb{R})$: $$|| g-f||=\sup\limits_{[x_{0},+\infty)}^{}|g(x)-f(x)|\geq \Delta_{+}.$$ оскільки $g|_{[x_{0},+\infty)}\in K_{x_{0}}^{+}$, і $g$ - двосторонньо квазінеперервна. Отже, в цьому випадку $d(f,K^{*}_{x_{0}}(\mathbb{R}))\geq \Delta_{+}$.
+
+Побудуємо функцію $g_{*}$ наступним чином : $g_{*}(x)=f(x)+\Delta_{+}\textit{sgn}(y_{0}-\overline{l^{+}})$ при $x>x_{0}$, $g_{*}(x)=y_{0}-\Delta_{+}\textit{sgn}(y_{0}-\overline{l^{+}})$ при $x=x_{0}$ та $g_{*}(x)=f(x)$ при $x<x_{0}$. $g_{*}\in K^{*}_{x_{0}}(\mathbb{R})$, та $d(f,g_{*})=\Delta_{+}$. Отже, $d(f,K_{x_{0}}^{*}(\mathbb{R}))=\Delta_{+}$. Таким чином, маємо, що $d(f,K^{*}_{x_{0}}(\mathbb{R}))=\min\{\Delta_{+},\Delta_{-}\}$.
+
+\newpage
+
+\textit{\textbf{\S4. Деякі властивості $\delta$-околів множин.}}
+
+\textbf{Означення 5.} Нехай $X$~--- метричний прочтір, $A\subseteq X$, $\delta>0$. Замкненим $\delta$-околом множини $A$ називається множина всіх $x\in X$ таких, що $d(x,A)\leq \delta$, і позначається $V_{\delta}[A]$.
+
+Доведемо наступні властивості $\delta$-околів множин:
+
+\textbf{Лема 4.} Нехай $A\subseteq X$. Тоді $V_{\delta}[A]$~--- замкнена.
+
+\textit{Доведення.} Позначимо $f(x)=d(x,A):X\rightarrow\mathbb{R}$~--- функція з $X$. Оскільки $\forall x',x''\in X$: $$|f(x')-f(x'')|=|d(x',A)-d(x'',A)|\leq d(x',x'')=|x'-x''|,$$ то $f$ - ріномірно неперервна на $X$, а отже і неперервна на $X$. Оскільки $[0,\delta]$~--- замкнена в $\mathbb{R}$ то $f^{-1}([0,\delta])=\{x\in X: d(x,A)=f(x)\leq\delta\}=V_{\delta}[A]$~--- замкнена в $X$ як прообраз замкненої при неперервному відображенні.
+
+\textbf{Лема 5.} Нехай $A,B\subseteq X$. Тоді, якщо $A\subseteq V_{\delta}[B]$, то $\overline{A}\subseteq V_{\delta}[\overline{B}]$.
+
+\textit{Доведення.} Оскільки $V_{\delta}[B]\subseteq V_{\delta}[\overline{B]}$, і $V_{\delta}[B]$~--- замкнена, то з того, що $A\subseteq V_{\delta}[B]$ випливає, що $A\subseteq V_{\delta}[B]\subseteq V_{\delta}[\overline{B}] \Rightarrow \overline{A}\subseteq V_{\delta}[\overline{B}]$.
+
+\textbf{Лема 6.} Нехай $X$~--- обмежений секвенціально-компактний метричний простір, $A_{n}$~--- замнкнені і $A_{n}\downarrow A$. Тоді $\bigcap\limits_{n=1}^{\infty}V_{\delta}[A_{n}]=V_{\delta}[A]$.
+
+\textit{Доведення.} Нехай $x\in \bigcap\limits_{n=1}^{\infty}V_{\delta}[A_{n}]$. Тоді $x\in V_{\delta}[A_{n}]$ $\forall n\in \mathbb{N}$, а отже, $d(x,A_{n})\leq\delta$ $\forall n\in \mathbb{N}$. Існує $x_{n}\in A_{n}$, такий, що $d(x,x_{n})\leq \delta+\frac{1}{n}$. Тоді послідовність $(x_{n})_{n=1}^{\infty}$~--- обмежена, а звідси, оскільки $X$~--- обмежений секвенціально-компактний, то існує $(x_{n_{k}})_{k=1}^{\infty}$~--- підпослідовність елементів з $(x_{n})_{n=1}^{\infty}$, таких, що $x_{n_{k}}\rightarrow a$.
+
+Оскільки $\forall k\in \mathbb{N}$ $n_{k}\geq k$, то $n_{k}\geq m$ $\forall m\leq k$. А тоді $x_{n_{k}}\in A_{n_{k}}\subseteq A_{m}$ (оскільки при $k\geq m$ $A_{k}\subseteq A_{m}$). Отже, $x_{n_{k}}\in A_{m}$ $\forall m\in \mathbb{N}$ і $\forall k\geq m$, а отже, окільки $A_{m}$ - замкнений, то $a\in A_{m}$ $\forall m\in\mathbb{N}$. А тому, $a\in A$.
+
+Оскільки $d(x,x_{n_{k}})\leq \delta+\frac{1}{n_{k}}$, то спрямовуючи $k\rightarrow\infty$, маємо, що $d(x,a)\leq\delta$. Оскільки $a\in A$, то $x\in V_{\delta}[A_{n}]$, а звідси випливає, що $\bigcap\limits_{n=1}^{\infty}V_{\delta}[A_{n}]\subseteq V_{\delta}[A]$.
+
+З іншого боку, оскільки $A\subseteq A_{n}$ $\forall n\in \mathbb{N}$, то $V_{\delta}[A_{n}]\supseteq V_{\delta}[A]$, звідси випливає, що $\bigcap\limits_{n=1}^{\infty}V_{\delta}[A_{n}]\supseteq V_{\delta}[A]$. Таким чином, маємо, що $\bigcap\limits_{n=1}^{\infty}V_{\delta}[A_{n}]=V_{\delta}[A]$.
+
+\newpage
+
+\textit{\textbf{\S5. Граничні множини.}}
+
+\textbf{Означення 6.} Нехай $X$ і $Y$~--- топологічні простори, $D\subseteq X$, $x_{0}\in \overline{D}$, $\mathcal{U}_{x_{0}}$~--- система всіх околів точки $x_{0}$ в $X$ і $f:D\rightarrow Y$~--- відображення. Перетин $C(f,x_{0})=\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}\overline{f(U\cap D)}$ називається граничною множиною відображення $f$ у точці $x_{0}$.
+
+Для $f:X\rightarrow Y$ і точки $x_{0}\in X$ ($x_{0}\in\overline{ X\setminus \{x_{0}\} }$), покладемо $\dot{f}=f|_{X\setminus \{x_{0}\}}$ і $\dot{U}=U\setminus \{x_{0} \}$. Будемо розглядати граничні множини: $C(\dot{f},x_{0})=\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}f(\dot{U})$.
+
+\textbf{Лема 7.} Нехай $X$~--- топологічний простір, $Y$~--- компактний простір, $x_{0}\in X$, $f:X\rightarrow Y$~--- функція і $C(\dot{f},x_{0})$~--- гранична множина функції $\dot{f}=f|_{X\setminus \{x_{0}\}}:X\setminus \{x_{0}\}\rightarrow Y$. Тоді для довільної відкритої множини $W\supseteq C(\dot{f},x_{0})$ існує окіл $U\in \mathcal{U}_{x_{0}}$, такий, що $\overline{f(\dot{U})}\subseteq W$.
+
+\textit{Доведення.} Нехай $\overline{f(\dot{U})}\nsubseteq W$ для довільного $U\in \mathcal{U}_{x_{0}}$. Позначимо $F_{U}=\overline{f(\dot{U})}\setminus W\neq \emptyset$. Оскільки при $U=U_{1}\cap ...\cap U_{n}$ (де $U_{1},...,U_{n}$~--- околи з$\mathcal{U}_{x_{0}}$) $F_{U_{1}}\cap...F_{U_{n}}\supseteq F_{U}\neq \emptyset$, то $\{ F_{U}:U\in \mathcal{U}_{x_{0}} \}$~--- центрована система замкнених множин в компактному просторі $Y$. А отже, $\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}F_{U}$. Проте маємо, що: $$\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}F_{U} = \bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}(\overline{f(\dot{U})}\setminus W)=C(\dot{f},x_{0}) \setminus W=\emptyset$$ ми отримали суперечність. А отже, $\exists U\in \mathcal{U}_{x_{0}}|\overline{f(\dot{U})}\subseteq W$.
+
+\textbf{Теорема 4.} Нехай $X$~--- топологічний простір, $x_{0}\in X$, $\{ x_{0} \}$~--- замкнена множина в $X$, $x_{0}\in \overline{X\setminus \{ x_{0} \}}$, $f:X\rightarrow \mathbb{R}$~--- деяка функція і $C(\dot{f},x_{0})$~--- гранична множина функції $\dot{f}=f|_{X\setminus \{x_{0}\}}:X\setminus \{x_{0}\}\mathbb{R}$ зі значеннями в розширеній числовій прямій $\overline{\mathbb{R}}=\mathbb{R}\cup \{+\infty,-\infty\}$. Тоді:
+
+а) Якщо $D(f)\subseteq\{ x_{0} \}$ і $f(x_{0})\in C(\dot{f},x_{0})$, то $f\in K_{x_{0}}(X)$;
+
+б) Якщо $f(x_{0})\notin C(\dot{f},x_{0})$, то $f\notin K_{x_{0}}(X)$.
+
+\textit{Доведення.} а) Припустимо, що $y_{0}=f(x_{0})\in C(\dot{f},x_{0})$. Візьмемо довільне $\varepsilon >0$ і $V=(y_{0}-\varepsilon,y_{0}+\varepsilon)$~--- окіл точки $y_{0}$. Нехай $U$~--- довільний окіл $x_{0}$ в $X$, $U_{1}$~--- відкритий окіл точки $x_{0}$, такий, що $U_{1}\subseteq U$. Очевидно, що оскільки $y_{0}\in C(\dot{f},x_{0})$, то $y_{0}\in \overline{f(\dot{U_{1}})}$, а тому, оскільки $V$~--- відкрита, то $V\cap f(\dot{U_{1}})\neq\emptyset$. Отже, $\exists a\in \dot{U_{1}}$, така, що $f(a)=\dot{f}(a)\in V$. Звідси $|f(a)-y_{0}|<\varepsilon$. Позначимо $\varepsilon_{0}=\varepsilon-|f(a)-y_{0}|>0$. Оскільки $a\neq x_{0}$, то функція $f$ неперервна в точці $a$, а отже, існує $U_{2}$~--- відкритий окіл точки $a$, що $\forall x\in U_{2} |f(x)-f(a)|<\varepsilon_{0}$. Оскільки $\{ x_{0} \}$~--- замкнена в $X$, то $\dot{U_{2}}=U_{2}\setminus \{ x_{0} \}$ - відкрита в $X$, як різниця відкритої і замкненої множин. Позначимо $G=U_{1}\cap \dot{U_{2}}$~--- відкрита (як перетин двох відкритих множин) та непорожня ($a\in U_{1}$ і $a\in U_{2}$). Крім того, для довільного $x\in G$ $$|f(x)-f(x_{0})|\leq|f(x)-f(a)|+|f(a)-f(x_{0})|< \varepsilon_{0}+|f(a)-y_{0}|=$$$$=\varepsilon-|f(a)-y_{0}|+|f(a)-y_{0}|=\varepsilon,$$ отже, $f(x)\in V$.
+
+Таким чином, для довільного $V$~--- околу точки $f(x_{0})$ і довільного околу $U$ точки $x_{0}$ існує $G\subseteq U$~--- відкрита і непорожня, така, що $f(G)\subseteq V$. Тоді маємо, що $f$~--- квазінеперервна в точці $x_{0}$.
+
+б) Припустимо, що $f(x_{0})\notin C(\dot{f},x_{0})$. Позначимо $V=\mathbb{R}\setminus C(\dot{f},x_{0})$. Оскільки $C(\dot{f},x_{0})$~--- замкнена в $\overline{\mathbb{R}}$, то $V$~--- відкрита в $\overline{\mathbb{R}}$, а значить і в $\mathbb{R}$, бо $V\subseteq\mathbb{R}$ і $\mathbb{R}$~--- відкрита в $\overline{\mathbb{R}}$. Отже, оскільки $f(x_{0})\in V$, то $\exists\varepsilon>0|[y_{0}-\varepsilon,y_{0}+\varepsilon]\subseteq V$. Позначимо $W=\overline{\mathbb{R}}\setminus[y_{0}-\varepsilon,y_{0}+\varepsilon]$~--- відкрита множина в $\overline{\mathbb{R}}$. Очевидно, що $W\supseteq\overline{\mathbb{R}}\setminus V=C(\dot{f},x_{0})$. За лемою 5 маємо, що існує окіл $U\in \mathcal{U}_{x_{0}}$, такий, що $\overline{f(\dot{U})}\subseteq W$. Окрім того, $f(x_{0})\notin W$.
+
+Виберемо $G\subseteq U$~--- непорожню відкриту множину в $X$. Нехай $x_{0}\notin G$. Тоді $\exists a\in G | a\neq x_{0}$. Якщо ж $x_{0}\in G$, то $G$~--- окіл точки $x_{0}$. А тоді, оскільки $x_{0}\in \overline{X\setminus \{ x_{0} \}}$, то $G\cap (X\setminus \{ x_{0} \})=G\cap \dot{X}\neq \emptyset$. Тобто, $\exists a\in G\cap \dot{X}$, $a\in G$ та $a\neq x_{0}$.
+
+Отже, $\exists a\in G\setminus \{ x_{0} \}$. Оскільки $a\neq x_{0}$, то $a\in \dot{U}$, а тоді $f(a)\in f(\dot{U})\subseteq \overline{f(\dot{U})}\subseteq W$. Тоді $f(a)\notin (y_{0}-\varepsilon,y_{0}+\varepsilon)=V_{0}$, а отже, $f(G)\nsubseteq V_{0}$ (бо $a\in G$).
+
+Таким чином, існує $V_{0}$~--- окіл точки $f(x_{0})$ та $U$~--- окіл точки $x_{0}$ такі, що для довільної відкритої множини $G$ околу $U$, $f(G)\nsubseteq V$. Отже, маємо, що $f$ не є квазінеперервною в точці $x_{0}$.
+
+\newpage
+
+\textit{\textbf{\S6. Відстань до множини $K_{x_{0}}(X)$.}}
+
+\textbf{Теорема 5.} Нехай $X$~--- топологічний простір з першою аксіомою зліченності, $x_{0}$~--- неізольована точка в $X$, для якої множина $\{ x_{0} \}$~--- замкнена, і $f:X\rightarrow \mathbb{R}$~--- обмежена функція, для якої $D(f)\subseteq\{ x_{0} \}$, та $\dot{f}=f|_{X\setminus \{x_{0}\}}$. Тоді: $$d(f,K_{x_{0}}(X))=\frac{1}{2}\rho(f(x_{0}),C(\dot{f},x_{0}))=\delta$$
+
+\textit{Доведення.} Оскільки $C(\dot{f},x_{0}))$~--- компактна, то $\exists v_{0} \in C(\dot{f},x_{0}))$~--- така, що $\rho(y_{0},C(\dot{f},x_{0}))=\inf \{|y_{0}-v|:v\in C(\dot{f},x_{0})) \}=\min\limits_{v\in C(\dot{f},x_{0}))}^{}|y_{0}-v|=|y_{0}-v_{0}|$. Очевидно, що $|y_{0}-v_{0}|=2\delta$ і $v_{0} \in \overline{f(\dot{U})}$ для кожного $U\in \mathcal{U}_{x_{0}}$.
+
+Відповідно визначимо функцію $g_{0}$ наступним чином~--- при $y_{0}>v_{0}$ $g_{0}(x)=f(x)+\delta$ коли $x\neq x_{0}$ та $g_{0}(x)=y_{0}-\delta$ коли $x=x_{0}$; а при $y_{0}<v_{0}$ $g_{0}(x)=f(x)-\delta$ коли $x\neq x_{0}$ та $g_{0}(x)=y_{0}+\delta$ коли $x=x_{0}$. Оскільки $|f(x)-g_{0}(x)|=\delta$ для довільного $x\in X$, то $||f-g_{0}||=\delta$.
+
+Доведемо, що для довільного $U\in \mathcal{U}_{x_{0}}$ $g_{0}(x_{0})\in \overline{g_{0}(\dot{U})}$. Якщо $y_{0}>v_{0}$, то $\overline{g_{0}(\dot{U})}=\overline{(f+\delta)(\dot{U})}=\overline{f(\dot{U})+\delta}=\overline{f(\dot{U})}+\delta$. Оскільки $y_{0}-v_{0}=2\delta$, то $y_{0}-\delta=v_{0}+\delta$, а $g_{0}(x_{0})=f(x_{0})-\delta=y_{0}-\delta=v_{0}+\delta$. Зауважимо, що $v_{0}\in \overline{f(\dot{U})}$ адже $v_{0}\in C(\dot{f},x_{0}))$. Тому $g_{0}(x_{0})=v_{0}+\delta\in \overline{f(\dot{U})}+\delta=\overline{g_{0}(\dot{U})}$.
+
+Якщо ж $y_{0}<v_{0}$, то $\overline{g_{0}(\dot{U})}=\overline{(f-\delta)(\dot{U})}=\overline{f(\dot{U})-\delta}=\overline{f(\dot{U})}-\delta$ та $v_{0}+\delta\in\overline{f(\dot{U})}-\delta$. З того, що $v_{0}-y_{0}=2\delta$ маємо, що $y_{0}+\delta=v_{0}-\delta=f(x_{0})+\delta=g_{0}(x_{0})$. А тому $g_{0}(x_{0})=v_{0}-\delta\in \overline{f(\dot{U})}-\delta=\overline{g_{0}(\dot{U})}$. Таким чином, $g_{0}(x_{0})\in \overline{g_{0}(\dot{U})}$ $\forall U\in \mathcal{U}_{x_{0}}$. Маємо, що $g_{0}(x_{0}) \in C(\dot{g_{0}},x_{0})$, а звідси, за теоремою 4, маємо, що $g_{0}(x_{0})\in K_{x_{0}}(X)$.
+
+Таким чином, $d(f,K_{x_{0}}(X))\leq ||f-g_{0}||=\delta$.
+
+Доведемо тепер, що $d(f,g)\geq \delta$ при довільному $g\in K_{x_{0}}(X)$.
+
+Нехай $g\in K_{x_{0}}(X)$. Припустимо, що $g(x)>f(x)+\delta$ для деякого $x\neq x_{0}$. Тоді: $$d(f,g)=||f-g||\geq|g(x)-f(x)|=g(x)-f(x)>\delta,$$ бо $g(x)-f(x)>\delta>0$.
+
+Припустимо, що $g(x)<f(x)-\delta$ для деякого $x\neq x_{0}$. Тоді: $$d(f,g)=||f-g||\geq|f(x)-g(x)|=f(x)-g(x)>\delta,$$ бо $f(x)-g(x)>\delta>0$.
+
+Нехай тепер $f(x)-\delta\leq g(x)\leq f(x)+\delta$ $\forall x\neq x_{0}$. Доведемо, що тоді $|g(x_{0})-f(x_{0})|\geq\delta$. Оскільки $f(x)-\delta\leq g(x)\leq f(x)+\delta$ $\forall x\neq x_{0}$, то $g(x)\in V_{\delta}[f(x)]=[f(x)-\delta,f(x)+\delta]$ $\forall x\neq x_{0}$. Отже, $\forall U\in \mathcal{U}_{x_{0}}$ $g(\dot{U})\subseteq V_{\delta}[f(\dot{U})]$. Згідно з першою частиною леми 4, тоді $\overline{g(\dot{U})}\subseteq V_{\delta}[\overline{f(\dot{U})}]$ $\forall U\in \mathcal{U}_{x_{0}}$.
+
+Оскільки $X$~--- простір з першою аксіомою зліченності, то $\exists (U_{n})_{n=1}^{}|U_{n}\supseteq U_{n+1}$ і $U_{n}$~--- окіл точки $x_{0}$ $\forall n\in\mathbb{N}$, така, що $\{U_{n}:n\in\mathbb{N} \}$~--- база околів точки $x_{0}$, і $U_{n}$~--- монотонно спадаюча. А отже, $$\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}\overline{f(\dot{U})}=\bigcap\limits_{n=1}^{\infty}\overline{f(\dot{U_{n}})}.$$ Оскільки $f$ обмежена на $X\setminus x_{0}$, то і $g$ обмежена на $X\setminus x_{0}$ (тому що $f(x)-\delta\leq g(x)\leq f(x)+\delta$ $\forall x\neq x_{0}$). А тоді $\overline{g(\dot{U})}$ $\overline f(\dot{U_{n}})$~--- замкнені і обмежені , а отже і компактні $\forall U\in \mathcal{U}_{x_{0}}$.
+
+Тоді за другою частиною леми 4, маємо: $$C(\dot{g},x_{0})=\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}\overline{g(\dot{U})}=\bigcap\limits_{n=1}^{\infty}\overline{g(\dot{U_{n}})}\subseteq \bigcap\limits_{n=1}^{\infty} V_{\delta}[\overline{f(\dot{U_{n}})}] =$$$$=V_{\delta}[\bigcap\limits_{n=1}^{\infty}\overline{f(\dot{U_{n}})}]\subseteq V_{\delta}[\bigcap\limits_{U\in \mathcal{U}_{x_{0}}}^{}\overline{f(\dot{U})}]= V_{\delta}[C(\dot{f},x_{0})]$$ Оскільки $\overline{g(\dot{U_{n}})}\subseteq V_{\delta}[\overline{f(\dot{U_{n}})}]$ $\forall n\in \mathbb{N}$. Отже, $C(\dot{g},x_{0})\subseteq V_{\delta}[C(\dot{f},x_{0})] $. Оскільки $g\in K_{x_{0}}(X)$, то за теоремою 4, $g(x_{0})\in C(\dot{g},x_{0})$, а звідси $g(x_{0})\in V_{\delta}[C(\dot{f},x_{0})]$. Тоді $$\rho(g(x_{0}),C(\dot{f},x_{0}))\leq \delta,$$ а з іншого боку $\rho(f(x_{0}),C(\dot{f},x_{0}))\leq2\delta.$
+
+Отже, $\exists b\in C(\dot{f},x_{0})|\rho(g(x_{0}),b)\leq\delta$. Тоді $-|g(x_{0})-b|\geq-\delta$, $|f(x_{0})-b|\geq 2\delta$, та: $$|g(x_{0})-f(x_{0})|=|f(x_{0})-b-(-b+g(x_{0}))|\geq |f(x_{0})-b|-|g(x_{0})-b|\geq2\delta-\delta=\delta.$$
+
+Таким чином, $|g(x_{0})-f(x_{0})|\geq\delta$, і $d(f,g)\geq |g(x_{0})-f(x_{0})|\geq\delta$. Отже, $\forall g\in K_{x_{0}}(X)$ $d(f,g)\geq\delta$ і $d(f,g)=\delta$. Тоді $$d(f,K_{x_{0}}(X))=\delta.$$
+
+\newpage
+
+\textbf{\textit{\S7. Приклади.}}
+
+В [5] було знайдено відстані $d(f,K_{0}(\mathbb{R}))$ і $d(f,K(\mathbb{R}))$ від деяких конкретних не квазінеперервних у точці $0$ функцій $f$. Так, було встановлено, що для функції $f(x)$, такої, що $f(x)=\sin \frac{1}{x}$ при $x\neq 0$ і $f(0)=b$ ($| b|>1$), $d(f,K_{0}(\mathbb{R}))=\frac{| b|-1}{2}=d(f,K(\mathbb{R}))$.
+
+Знайдемо для цієї функції $f(x)$ відстань $d(f,K_{0}(\mathbb{R}))$ з допомогою поняття граничної множини функції у точці. В довільному околі $U$ точки $0$ існують точки, в яких функція $f(x)$ набуває значень $-1$ та $1$, а отже, за теоремою про проміжне значення, оскільки $f(x)$ неперервна на $\dot{U}$, довільне значення з $[-1,1]$ набувається функцією $f(x)$ в певній точці з $\dot{U}$. Таким чином, $f(\dot{U})=[-1,1]$ $\forall U\in \mathcal{U}_{0}$. А отже, гранична множина функції $f(x)$ в точці $0$ становить: $$C(\dot{f},0)=\bigcap\limits_{U\in \mathcal{U}_{0}}^{}f(\dot{U})=[-1,1].$$ Тоді, за теоремою 5, маємо: $$d(f,K_{0}(\mathbb{R}))=\frac{1}{2}\rho(f(0),C(\dot{f},0))=\frac{1}{2}\rho(b,[-1,1])=\frac{| b|-1}{2}.$$
+
+
+
+
+\newpage
+
+\begin{center}
+\textbf{Література}
+\end{center}
+
+1. Hahn H. Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.\\Wien.Math.~---naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+2.  Benyamini Y., Lindenstrauss J. Geometric nonlinear functional analysis. V.1.~--- Amer.Math.Soc., 2000.~--- 488p.
+
+3. Мельник В. Навколо теореми Гана-Д`єдонне-Тонґа-Катетова // Матеріали студ. наук. конф. ЧНУ. 17 - 19 квітня 2013. Фіз.-мат. науки.~--- Чернівці: ЧНУ, 2013.~--- С. 441-442.
+
+4. Энгелькинг Р. Общая топология.~--- М.: Мир, 1986.~--- 752 с.
+
+5. Мельник В. Про відстань до множин квазінеперервних або ледь неперервних у нулі функцій // Матеріали студ. наук. конф. ЧНУ. 5 - 6 квітня 2012. Фіз.-мат. науки.~--- Чернівці: ЧНУ, 2012.~--- С. 341-342.
+
+\end{document}
+

@@ -1,0 +1,301 @@
+%{{{ pdcpars.tex 1.1.9 1994/06/23 -- Misc paragraph macros
+%  Copyright (c) 1991-1994 Damian Cugley.
+\begingroup\catcode`\%=12 \toks0={\endgroup
+	\gdef\version{1.1.9} \gdef\lastedit{pdc 1994/06/23}
+}\the\toks0
+\message{\version\space \lastedit}
+\ifx\utilsversion\UNDEFINED \input pdcutil \fi
+
+%  Permission is granted to distribute verbatim copies if this file provided
+%  this copyright and permisions is preserved in all copies.
+
+%  Permission is granted to distribute modified versions of this file
+%  provided:
+%    -- no deletions are made (but you can comment things out);
+%    -- this copyright and permissions are preserved; and
+%    -- it is called something else (so as to prevent confusion). 
+
+%{{{  Active characters
+
+\def\active#1{\catcode`#1=13 }
+\def\plain#1{\catcode`#1=12 }
+
+\def\minus{-}			% \let isn't good enuf
+
+{\active\^^M \gdef\obeylines{\active\^^M\let^^M=\par}}%
+\def\obeyspaces{\active\ }
+%  Necessary because knuth uses \active to mean 13
+%}}}
+%{{{  Macros for making symbols etc
+
+\def\overstrike#1#2%	Used to fudge some characters
+{{%
+    \leavevmode
+    \setbox1=\hbox{#1}\setbox2=\hbox{#2}%
+    \dimen0=\wd1 \ifdim\dimen0<\wd2 \dimen0=\wd2\fi % d0 := max(wd1, wd2)
+    \rlap{\hbox to \dimen0{\hss#1\hss}}\hbox to \dimen0{\hss#2\hss}%
+}}
+
+\def\flushtop#1%
+{{%
+    \setbox0=\hbox{#1}\setbox1=\hbox{X}%
+    \dimen0=\ht1 \advance\dimen0-\ht0 % d0 := ht(``X'') - ht(#1)
+    \raise\dimen0\box0
+}}
+
+
+% \chdef CSNAME=cfxx \defs CSNAME to produce a math char with
+%    class c, using sym xx from family f
+%    Outside of maths mode, CSNAME produces the plain character
+%    Used so that \bullet etc. can be used out of maths mode...
+
+\def\chdef#1=#2#3#4#5%
+{\def#1{\ifmmode
+    \mathchar"#2#3#4#5
+ \else
+    \mathhexbox#3#4#5%
+ \fi}
+}
+
+%  \deldef CSNAME=cfxxFXX
+%     Similar except for thigns that are delimiters in maths mode.
+%     FXX gives ``large'' symbol
+
+\def\deldef#1=#2#3#4#5#6#7#8%
+{\def#1{\ifmmode
+    \delimiter"#2#3#4#5#6#7#8
+ \else
+    \mathhexbox#3#4#5%
+ \fi}
+}
+%}}}
+%{{{  Various symbols
+
+\chdef\bullet	= 220F
+\chdef\cdot	= 2201
+\chdef\times	= 2202
+\chdef\*	= 002A		% raised asterisk
+
+\deldef\langle	= 426830A
+\deldef\rangle	= 526930B
+\deldef\lbrace	= 4266308 \let\{=\lbrace
+\deldef\rbrace	= 5267309 \let\}=\rbrace
+
+\def\poundsign{{\it\char36}}	% plain TeX method
+\def\yensign{\overstrike=Y}	% ick
+
+\def\hyphen{\ifmmode\hbox{-}\else-\fi}
+\def\shortdash{\ifmmode\hbox{--}\else--\fi}
+\def\longdash{\ifmmode\hbox{---}\else---\fi}
+
+\def\tttilde{\leavevmode\lower 0.5ex\hbox{\tt\char`\~}}
+\def\ttcirc{\leavevmode\lower 0.5ex\hbox{\tt\char`\^}}
+\def\ttlq{\leavevmode\lower 0.125ex\hbox{\tt\char18}}
+\def\ttrq{\leavevmode\lower 0.125ex\hbox{\tt\char19}}
+\def\ttvert{{\tt\char`\|}}
+
+\def\Mc{M\flushtop{\the\scriptfont\fam \b{c}}}
+		% \Mc Gregor -> McGregor
+
+%}}}
+%{{{  Various logos etc
+
+\def\LaTeX{L\negthinspace\flushtop{a}\kern-0.05em\TeX} 
+%\def\AmSTeX{{\the\textfont2 A}\kern-.1667em\lower.5ex\hbox
+%        {\the\textfont2 M}\kern-.125em{\the\textfont2 S}-\TeX}
+\def\AMSTeX{AMS-\TeX}
+\def\AMSLaTeX{AMS-\LaTeX}
+\def\BibTeX{Bib\!\TeX}
+
+%}}}
+%{{{  Date and time-of-day
+
+\def\shortdates
+{\def\today
+ {{\sfcode`\.=1000 \n{\number\day} 
+  \ifcase\month\or
+	Jan. \or Feb. \or Mar. \or Apr. \or May \or June \or
+        July \or Aug. \or Sept. \or Oct. \or Nov. \or Dec. 
+  \fi
+  \n{\number\year}%
+ }}
+}
+
+\def\longdates
+{\def\today
+ {\n{\number\day} 
+  \ifcase\month\or
+	January \or February \or March \or April \or May \or June \or
+        July \or August \or September \or October \or November \or December
+  \fi
+  \n{\number\year}%
+ }
+}
+
+\shortdates
+
+\newcount\hour \newcount\minute
+\hour=\time \global\divide\hour by 60	% H = T/60
+\minute=-\hour \multiply\minute by 60 \advance\minute\time
+				% M = T - 60*H = T\60
+
+\def\nnumber#1{\ifnum#1<10 0\fi\number1}
+\def\timeofday{\n{\number\hour}:\n{\nnumber\minute}}
+%}}}
+%{{{  Numerals
+
+%  Numbers in a text context -- \n{12,345-56}
+%    commas become thinspaces in scientific numerals
+%    full stop becomes decimal point
+%    hyphen becomes shortdash (for ranges)
+%    \minus for minus sign 
+
+\begingroup\active\-
+    \gdef\n#1%
+    {\leavevmode \counta=\fam
+     \hbox{$\mathsurround=0pt
+	\mathcode`\.="0201 
+	\mathcode`\-="8000 \let-=\shortdash
+	\mathchardef\minus="2200
+	\fam=\counta \everyn
+	#1$}%
+    }
+\endgroup
+
+\begingroup \active\,
+    \gdef\scientificnumerals{\def\everyn{\mathcode`\,="8000 \let,=\,}}
+\endgroup
+
+\def\oldstylenumerals
+{\def\everyn{\ifnum\counta=0\mit\fi \mathcode`\,="702C }}
+
+\def\rangingnumerals{\def\everyn{\mathcode`\,="0702C }}
+
+%}}}
+%{{{  Verbatim text, using |...|
+
+\active\|
+
+\def\verbatimplains{\\\\\\\{\\\}\\\_\\\$\\\#\\\&\\\%} % \{}_$#&%
+\def\verbatimactives{\\\`\\\'\\\~\\\^\\\ } % `'~^<space>
+
+\begingroup \active\' \active\` \active\^
+    \gdef\setupverbatim
+    {%
+	\spaceskip0pt \xspaceskip0pt % use spacing of font
+	\let\\\plain\verbatimplains
+	\let\\\active\verbatimactives
+	\let`=\ttlq \let'=\ttrq 
+	\let~=\tttilde \let^=\ttcirc
+	\hyphenchar\font=-1
+	\the\everyverbatim
+    }
+\endgroup
+
+\newif\ifdblvert
+
+\def|%
+{%
+    \ifmmode
+	\mathchar"026A
+    \else
+	\leavevmode
+	\begingroup		% matched by closing |
+	\aftergroup\verbatimsetspacefactor
+	\tt \setupverbatim
+	\let|\endgroup
+	\ifnum\spacefactor=1003 \ttvert \fi
+    \fi
+}
+
+\def\verbatimsetspacefactor{\spacefactor1003 }
+
+% TeXbook, p.380
+\def\listing#1%		list file #1 verbatim in 
+{
+    \medskip
+    \begingroup
+	\parindent=0pt \parskip=0pt
+        \counta=0 \countb=5
+	\def\par{\leavevmode\endgraf}%
+	\obeylines \obeyspaces
+	\everypar={\linenum}%
+	\maketabstab
+	\setupverbatim 
+	\the\everylisting  
+	\tt
+	\input#1 
+    \endgroup
+    \medskip\noindent\ignorespaces
+}
+
+{\catcode`\^^I=13
+ \gdef\maketabstab{\catcode`\^^I=13 \def^^I{\hskip 4em}}
+}
+
+\def\linenum
+{%
+    \strut
+    \global\advance\counta+1 \global\advance\countb-1
+    \ifnum\countb>0\else
+	\global\advance\countb 5
+	\rlap{\the\everylinenum \kern\hsize\kern1em \the\counta}%
+    \fi
+}%
+
+{\obeyspaces\global\let =\ }	% active space = \SPACE
+%}}}
+%{{{  Misc
+
+\def\thinspaceamount		% usually 1/6em in CMR
+{\ifdim\spaceskip>0pt
+    0.5\spaceskip
+ \else
+    0.5\fontdimen2\font
+ \fi
+}
+
+\def\,{\ifmmode\mskip+\thinmuskip\else\kern+\thinspaceamount\fi}
+\def\!{\ifmmode\mskip-\thinmuskip\else\kern-\thinspaceamount\fi}
+\def\dots{.\,.\,.}
+
+\def\makestrut#1#2{\vrule height#1 depth#2 width0pt }
+
+\let\pTXunderline\underline
+\def\underline#1%
+{\ifmmode
+    \pTXunderline{#1}%
+ \else
+    \setbox0=\hbox{#1}%
+    \dp0=0pt
+    $\pTXunderline{\box0}$%
+ \fi
+}
+
+\def\crossedout#1%	print #1 with line through it
+{{%
+    \setbox0=\hbox{#1}%
+    \dimen0 = 0.6ex \advance\dimen0 by -0.4pt
+    \vrule height 0.6ex depth -\dimen0 width \wd0
+    \kern -\wd0
+    \box0
+}}
+%}}}
+%{{{  Hooks
+
+\rangingnumerals		% sets \everyn
+
+\newtoks\everyverbatim	
+
+\newtoks\everylisting  
+\everylisting={\tentt\baselineskip=10pt}
+
+\newtoks\everylinenum
+\everylinenum={\sevenrm}
+%}}}
+%}}} parmac.tex
+
+%Local variables:
+%fold-folded-p: t
+%tex-macros-p: t
+%End:

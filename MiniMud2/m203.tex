@@ -1,0 +1,72 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{cmap}
+\usepackage[cp1251]{inputenc}
+\usepackage[english, ukrainian, russian]{babel}
+\usepackage[left=2cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+\begin{large}
+
+\section*{Основи математичного аналізу: послідовності та їх границі.}
+
+\quad \textit{\textbf{Означення 1.}} \textit{Послідовність $\{x_{n}\}_{n=1}^{\infty}$ збігається до $a$, якщо для довільного $\varepsilon>0$ існує натуральне число $N$ таке, що для кожного $n>N$ справджується $|x_{n}-a|<\varepsilon$. }
+
+\textit{Позначаємо збіжність через $x_{n}\rightarrow a$ або $\lim_{n\rightarrow \infty}^{}x_{n}=a$.}
+
+\bigskip
+
+Чи збігаються наступні послідовності, і якщо так, то до чого:
+
+1) $x_{n}=\frac{1}{n}$
+
+2) $x_{n}=0$
+
+3) $x_{n}=\frac{1}{3}+\frac{1}{9}+...+\frac{1}{3^{n}}$
+
+4) $x_{n}=0$, коли $n\neq k^{2}$ та $x_{n}=1$, коли $n=k^{2}$.
+
+5) $x_{n}=\sqrt{2+\sqrt{2+...+\sqrt{2}}}$ (всього $n$ коренів).
+
+6) $x_{n}=1+\frac{1}{2}+\frac{1}{3}+...+\frac{1}{n}$.
+
+7) $x_{n}=\sqrt{n+1}-\sqrt{n}$
+
+8) $x_{n}=\frac{(2n+1)!+(2n+2)!}{(2n+3)!}$
+
+\bigskip
+
+\textbf{Теорема 1.} Довільна зростаюча обмежена послідовність має границю.
+
+\textbf{Теорема 2.} Нехай $\{a_{n}\}\rightarrow a$, $\{b_{n}\}\rightarrow b$. Тоді:
+
+$\{a_{n}+b_{n}\}\rightarrow a+b$,
+
+$\{a_{n}-b_{n}\}\rightarrow a-b$,
+
+$\{a_{n}*b_{n}\}\rightarrow a*b$,
+
+$\{\frac{a_{n}}{b_{n}}\}\rightarrow \frac{a}{b}$ (якщо $b\neq 0$).
+
+\textbf{Теорема 3.} Нехай $\{a_{n}\}$, $\{b_{n}\}$ та $\{c_{n}\}$~--- послідовності дійсних чисел, $a_{n}\leq c_{n}\leq b_{n}$ для кожного $n$, та $\{a_{n}\}\rightarrow c$ і $\{b_{n}\}\rightarrow c$. Тоді і $\{c_{n}\}\rightarrow c$
+
+\bigskip
+
+\textit{\textbf{Означення 2.}} \textit{Числом $e$ називається границя послідовності $x_{n}=(1+\frac{1}{n})^{n}$.}
+
+
+9) $x_{n}=(1-\frac{1}{n})^{n}$
+
+10) $x_{n}=\frac{2n^{2}-5n+3}{1+2n+3n^{2}}$
+
+11) $x_{n}=\frac{7n^{3}+10n^{2}+n+1}{10n^{4}-3n^{2}+3n-3}$
+
+
+
+\end{large}
+\end{document}
+

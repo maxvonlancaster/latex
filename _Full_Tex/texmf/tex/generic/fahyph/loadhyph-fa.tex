@@ -1,0 +1,8 @@
+\ifx\addlanguage\undefined
+ \errmessage{This file can be used only in babelised formats!}
+\fi
+\expandafter\ifx\csname XeTeXrevision\endcsname\relax
+\input zerohyph.tex
+\else
+\input fahyph.tex
+\fi

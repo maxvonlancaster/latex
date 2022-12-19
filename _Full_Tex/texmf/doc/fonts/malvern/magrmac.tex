@@ -1,0 +1,85 @@
+% %M% 1.%I% %E% -- hacks for typesetting Greek
+
+%  These macros are intended to be useful with the Malvern G fonts,
+%  and should also work pretty much with the Levy or KD Greek fonts.  In
+%  the long term, I expect to merge what little extra support is needed
+%  for Malvern into the GreekTeX distribution in some sense.
+
+%  These macros are not in final form and are not intended to be
+%  supported.  Use them at your own risk.  Enjoy!
+
+%  Damian Cugley 
+%  Oxford University Computing Laboratory, UK
+%  <Damian.Cugley@comlab.ox.ac.uk>
+
+%{{{ macros for greek
+
+\newtoks\everygreek
+
+%{{{  lunate sigma, curly phi
+
+{\catcode`\s=13 \catcode`\S=13
+\gdef\\%
+{%
+    \catcode`\s=13 \chardef s=`c%
+    \catcode`\S=13 \chardef S=`C%
+}}
+\let\grlunatesigma=\\
+
+{\uccode`\~=`\f \uppercase{
+\gdef\\%
+{%
+    \catcode`\f=13 \chardef~=92
+}}}
+\let\grvarphi=\\
+
+%}}}  lunate sigma
+%{{{  accent
+
+{\catcode`\<=13 \catcode`\>=13 \catcode`\'=13 \catcode`\`=13 
+\gdef\monotoniko
+{%
+    \catcode\lq\'=13 \catcode\lq\`=13 \catcode\lq\~=13
+    \catcode\lq\<=13 \catcode\lq\>=13  \catcode\lq\|=13 
+    \chardef'=3  \chardef`=3 \chardef~=3
+    \chardef<=64 \chardef>=64 \chardef|=64
+}
+\gdef\plutoniko
+{%
+    \catcode\lq\'=12 \catcode\lq\`=12 \catcode\lq\~=12
+    \catcode\lq\<=12 \catcode\lq\>=12 \catcode\lq\|=12
+}
+}
+
+%}}}  accent
+%{{{  define delims
+
+%  Define #1 to be a "greek shift" in the way $ is a maths shift.
+%  Like $, #1 stands for either \begingreek or \endgreek as required.
+%  #1 must be a single token that is definable with \def -- either
+%  a control sequence or an (already) active character.
+
+\def\grdelimiter#1%
+{
+    \def#1{\begingreek \let#1=\endgreek}
+}
+
+%}}}  define delims
+
+\def\begingreek
+{%
+    \begingroup
+    \catcode`\~=12 \catcode`\|=12 \catcode`\"=12
+    \the\everygreek
+}
+\def\endgreek
+{%
+    \endgroup
+}
+
+%}}} macros for greek
+
+% Local variables:
+% fold-folded-p: t
+% tex-macros-p: t
+% End:

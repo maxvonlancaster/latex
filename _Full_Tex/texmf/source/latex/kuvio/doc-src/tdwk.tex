@@ -1,0 +1,1743 @@
+%  tdwk.tex
+%  Anders G S Svensson
+
+%  Time-stamp: <1996/06/09 14:35:27 PDT agss@klagshamn>
+
+%  $Revision: 2.5.0.12 $
+%  $Date: 1996/06/09 21:43:53 $
+
+\input carrot  \usecarrot{sfss}  \usefs{arrsy,bbm}
+\input epsf
+\input kuvio \arrsy
+\input verbatim
+\input listing
+\input tdwk-r \kuviorequire\doclevel
+
+\let\bb\bbm
+
+\listingindent=10pt
+\verbatimindent=10pt
+
+\autocompileto{tdwk/tdwk}
+
+{\escapechar=-1
+ \xdef\AAAA{\expandafter\string\csname tdwk-A4\endcsname}\xdef\NAME{\jobname}}
+
+\newif\ifAAAA
+
+\ifx\AAAA\NAME
+\AAAAtrue
+\fi
+
+\ifAAAA
+\special{papersize=210mm,297mm}
+\hsize=15.9cm
+\vsize=24.6cm
+\kuviorevision{$Revision: 2.5.0.12 $ A4}
+\else
+\special{papersize=8.5in,11in}
+\kuviorevision{$Revision: 2.5.0.12 $}
+\fi
+
+\pagewidth\hsize \pageheight\vsize
+
+\def\verbatimit{\FontSize{9}\SelectTextFont{cmti}}
+\let\verbatimtt\listingtt
+
+\newverbatim{code}
+\def\everycode{\verbatimindent=25pt\everyverbatim}
+
+\newgroup*{indented}
+          {\par\parindent=25pt\leavevmode\parskip=0pt\obeylines}
+          {\par}
+
+\newwrite\tmpfile
+\def\opentmp{\immediate\openout\tmpfile=\jobname.tmp }
+\def\closetmp{\immediate\closeout\tmpfile}
+\def\writetmp{\immediate\write\tmpfile}
+
+\newverbatim{eg}
+\def\everyeg{\opentmp\obeyspaces}
+\def\egline#1\egendline{\writetmp{#1}}
+\def\endeg{\closetmp{\nolinenumbers\listing{\jobname.tmp}}%
+   \leavevmode\hskip\egindent
+   \vbox{\advance\hsize by -\egindent\leavevmode\input \jobname.tmp }\par}
+
+\def\egindent{10pt}
+
+\newverbatim{side}
+\let\everyside\everyeg
+\def\sideline#1\sideendline{\writetmp{#1}}
+\def\endside{\closetmp\par\leavevmode
+   \hbox to \hsize{%
+      \hbox to \ifx\sideedge\empty .6\else\sideedge\fi\hsize{%
+         \vbox{\nolinenumbers\listing{\jobname.tmp}}%
+         \hss}%
+      \vbox{\leavevmode\tall\input \jobname.tmp }%
+      \hss}%
+   \par}
+
+\let\sideedge\empty
+\def\edge#1{\def\sideedge{#1}}
+
+\let\stockepsffile\epsffile
+\def\epsffile#1{\stockepsffile{eps/#1}}
+
+\def\csq#1{{\tt\string#1}}
+\def\ch#1{{\escapechar=-1 \tt\string#1}}
+\def\newpage{\vfill\eject}
+\def\type{\emph{type}}
+\def\name{\emph{name}}
+\def\num{\emph{number}}
+\def\BAR{\ch\|}
+
+\def\PS{{\sf PostScript}}
+\def\LaTeXe{\LaTeX\kern.15em 2${}_{\textstyle\varepsilon}$}
+\def\AMS{{$\cal A$\kern-.1667em\lower.5ex\hbox{$\cal M$}\kern-.125em$\cal S$}}
+\def\AMSLaTeX{\AMS-\LaTeX}
+\def\LaTeX{L\kern-.36em\raise.3ex\hbox{\sc A}\kern-.15em\TeX}%
+
+%  Indexing
+
+\let\sidx\index
+\def\sidxe#1{\sidx{#1|emph}}
+\def\sidxm#1#2{\sidx{#2@#1{#2}}}
+\def\sidxme#1#2{\sidx{#2@#1{#2}|emph}}
+
+\def\index#1#2{\csname #1#2Idx\endcsname}
+\def\iindex#1#2#3{\emph{\index#1#2{#3}}}
+\def\sindex#1#2{\csname #1#2sIdx\endcsname}
+
+\def\tmsIdx{\sidxm\csqn}% text, macro
+\def\tpsIdx#1#2{\sidxm\csQ{#1 #2}}% text, macro pair
+\def\tcsIdx{\sidxm\ch}% text, character
+\def\twsIdx{\sidx}% text, word
+
+\def\tmIdx#1{\csqn{#1}\tmsIdx{#1}}
+\def\tpIdx#1#2{\csqqn#1 #2\tpsIdx{#1}#2}
+\def\tcIdx#1{\ch#1\tcsIdx#1}
+\def\twIdx#1{\EatAt#1@@\twsIdx{#1}}
+
+\def\mmsIdx{\sidxme\csqn}% main, macro
+\def\mpsIdx#1#2{\sidxme\csQ{#1 #2}}% main, macro pair
+\def\mcsIdx{\sidxme\ch}
+\def\mwsIdx#1{\sidxe{#1}}% main, word
+
+\def\mmIdx#1{\csqn{#1}\mmsIdx{#1}}
+\def\mpIdx#1#2{\csqqn#1 #2\mpsIdx{#1}#2}
+\def\mcIdx#1{\ch#1\mcsIdx#1}
+\def\mwIdx#1{\EatAt#1@@\mwsIdx#1}
+
+\def\EatAt#1@#2@{\def\Action{#2}%
+   \ifx\Action\empty\def\Action{#1}\else\def\Action{#2\Chomp}\fi
+   \Action}
+\def\Chomp#1{}
+\def\csqq#1#2{\csq#1\ \csq#2}
+\def\csqn#1{{\tt\expandafter\string\csname #1\endcsname}}
+\def\csQ#1{\csqqn#1}
+\def\csqqn#1 #2{{\tt\expandafter\string\csname #1\endcsname}\ \csq#2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Anders G. S. Svensson}
+\email{svensson@math.ubc.ca}
+\title{Typesetting diagrams with kuvio.tex}\footnote{}
+{\rcsrevision$Revision: 2.5.0.12 $ for patchlevel \doclevel.
+ \rcsdate$Date: 1996/06/09 21:43:53 $.\hfil\break}
+\revision{\rcsrevision$Revision: 2.5.0.12 $}
+
+The macros in \kuvio\ use \PS\ code embedded in \csq{\special} control
+sequences to perform rotations and reflections and to set graylevels.
+The \csq{\special} syntax used is that of Tomas Rokicki's excellent
+{\tt dvips}. Be forewarned that this is likely to confuse many {\tt
+dvi} (not \PS) previewers.
+
+A summary contains details on the syntax of control sequences as well
+as discussion of several points not covered in the main sections of
+this manual.
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cell Macros}
+
+Let's start with a simple diagram.
+
+\eg
+\Diagram
+P' \aTo (2,-4) <{b'} \aTo (4,-2) >{a'}                 \\
+             &  \rdTo                                  \\
+             &         &  P        &  \rTo ^a &  A     \\
+             &         &  \dTo <b  &          &  \dTo  \\
+             &         &  B        &  \rTo    &  X     \\
+\endDiagram
+\endeg
+
+The control sequences \csq\rTo, \csq\dTo,
+\csq\rdTo\ and \csq\aTo\ in this example each specify an arrow in the diagram.
+These control sequences are called \sindex tw{cell macro}\emph{cell
+macros} and, in this case, each is associated with the \iindex tw{cell
+type} {\tt To}.  Note that, except for \csq\aTo, the direction of the
+arrow is built into the name of the cell macro: \csq\rTo\ for a
+rightward {\tt To} cell, \csq\dTo\ for a downward {\tt To} cell, etc.
+In the case of \csq\aTo, the arrow extends from the alignment entry in
+which the macro was found to the alignment entry whose relative
+position is specified by a parenthesized pair of integers.  In our
+example, the arrow specified by
+\code
+\aTo (2,-4)
+\endcode
+points to the alignment entry 2 columns to the right and 4 rows below
+the entry in which this code is located.
+
+We shall soon see that there are many cell types predefined in \kuvio\
+and that other types can easily be defined by the user using the
+control sequence \csq\newcell.  The full list of cell macros
+associated with a cell type \type\ is as follows.
+
+{\parindent=25pt\leavevmode
+\vbox{\openup2pt\halign{#\hfil\qquad& #\hfil\cr
+\csq\a\type& \type\ cell originating at an alignment entry\cr
+\csq\b\type& \type\ cell terminating at an alignment entry\cr
+\csq\ru\type& rightward and upward \type\ cell\cr
+\csq\r\type& rightward \type\ cell\cr
+\csq\rd\type& rightward and downward \type\ cell\cr
+\csq\lu\type& leftward and upward \type\ cell\cr
+\csq\l\type& leftward \type\ cell\cr
+\csq\ld\type& leftward and downward \type\ cell\cr
+\csq\u\type& upward \type\ cell\cr
+\csq\d\type& downward \type\ cell\cr
+\ch\\\type& \type\ cell typeset as a \emph{modification}\cr
+}}}
+
+The last of these differs from the others in that it it not used in
+alignments. This will be discussed in \ref{Modification Cells I}.  The
+\csq\b\type\ cell macro is similar to \csq\a\type\ except that the
+required coordinate pair specifies the relative position of the tail
+(rather than the head) of the arrow.
+
+\side
+\Diagram
+A \aTo (1,-1) &              & A \\
+              & B \bTo (1,1)     \\
+\endDiagram
+\endside
+
+Let us refer to cell macros which can be used in alignments as
+\sindex tw{cell macro!alignment}\emph{alignment cell macros}
+and all others as
+\sindex tw{cell macro!modification}\emph{modification cell macros}.
+Thus, associated with any cell type we have ten alignment cell macros
+and one modification cell macro.
+
+Labels are tied to arrows using \index tc\<, \index tc\>, \index tc\_\
+and \index tc\^\ for labels to the left, right, below and above an
+arrow respectively. Many characteristics of an arrow and its labels
+can be modified using certain characters and control sequences, which
+we will refer to as \sindex tw{modifier}\emph{modifiers}, following an
+occurrence of a cell macro.  The \index tc\:\ modifier can be used to
+tie labels to a point other than the midpoint of an arrow.
+
+\side
+\Diagram
+A & \rTo ^f :{.75} & B \\
+\endDiagram
+\endside
+
+The argument passed to {\tt :} is used to interpolate linearly between
+the tail and head of an arrow, 0 being the tail and 1 being the head.
+One can also use {\tt :} to move labels in a direction perpendicular
+to that of an arrow by supplying it with a dimension rather than a
+real number.
+
+\side
+\Diagram
+A & \rTo ^f :{5pt} & B \\
+\endDiagram
+\endside
+
+To use both functions of the {\tt :} modifier, separate two arguments (in
+either order) by a comma or semicolon.
+
+\side
+\Diagram
+A & \rTo ^f :{.75,5pt} & B \\
+\endDiagram
+\endside
+
+Except for the \csq\a\type\ and \csq\b\type\ variants, arrows specified by
+alignment cell macros, \sindex tw{alignment cell}\emph{alignment cells},
+stretch to meet non-empty alignment entries.
+
+\goodbreak
+\side
+\Diagram
+A & \rTo & B        \\
+C &      & \rTo & D \\
+\endDiagram
+\endside
+
+The control sequence \index tm{stop} can be used to stop an alignment cell
+at an otherwise empty alignment entry.
+
+\side
+\Diagram
+  & \rTo & \stop & \rTo & \stop          \\
+  &      & \stop & \rTo & \stop & \rTo & \\
+\endDiagram
+\endside
+
+\ifAAAA \newpage \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Grid Lines}
+
+Each diagram is constructed on a grid, vertical grid lines
+corresponding to columns in an alignment and horizontal grid lines to
+rows.  Tokens preceding the first occurrence of a cell macro in an
+alignment entry are typeset at the intersection point of two grid
+lines.
+
+There are two kinds of grid: \sindex tw{grid!rigid}\emph{rigid} and
+\sindex tw{grid!flexible}\emph{flexible}. The grid lines of a rigid
+grid will be uniformly spaced unless explicitly moved while those of a
+flexible grid will be positioned using knowledge of the particular
+vertices and arrows occurring in a diagram.  The pair
+\csqq\Diagram\endDiagram\ uses a rigid grid by default.  Flexible
+grids are enabled using the control sequence
+\csq\flexible.  These will be discussed in \ref{Flexible Grids}.
+
+Grid lines can be moved using any of the control sequences
+\index tm{mx}, \index tm{my}, \index tm{dx}, \index tm{dy}, \index tm{ml},
+\index tm{mr}, \index tm{dl} and \index tm{dr}.
+\index tm{mx} adjusts the position of the vertical grid line
+associated with the column in which this control sequence occurs while
+\csq\dx\ simultaneously adjusts the position of all grid lines
+associated with columns lying to the right of the one in which it
+occurs.  The row in which either \csq\mx\ or \csq\dx\ occurs is
+immaterial.
+
+\side
+\gridlines
+\Diagram
+A & B \mx{-5mm} & C & D & E          & F \\
+A & B           & C & D & E \dx{5mm} & F \\
+\endDiagram
+\endside
+
+The behaviour of \csq\my\ and \csq\dy\ on horizontal grid lines
+corresponding to alignment rows is analogous, \csq\dy\ moving grid
+lines associated with rows lying on or above a particular row.
+
+The control sequence \csq\ml\ moves a vertical grid line leftward so
+that the alignment entry in which this control sequence occurs abuts
+the next entry typesetting as a box of non-zero dimensions.
+
+\side
+\gridlines
+\Diagram
+A    & \rTo       & B \\
+\dTo                  \\
+C    & {} = D \ml     \\
+\endDiagram
+\endside
+
+Similarly, \csq\mr\ moves a vertical grid line rightward.
+\csq\dl\ and \csq\dr\ have the same relation to \csq\ml\ and \csq\mr\
+that \csq\dx\ has to \csq\mx.
+
+The default \sindex tw{grid!spacing}spacing between grid lines can be
+adjusted in two ways: By scaling the current values using \index
+tm{xscale} and \index tm{yscale} or by explicitly setting new values
+using \index tm{xgrid} and \index tm{ygrid}.
+
+\side
+\gridlines \xgrid=2cm
+\Diagram
+A             \\
+  & \rdTo     \\
+  &       & B \\
+\endDiagram
+\endside
+
+The control sequence \index tm{scale} can be used to set both
+\csq\xscale\ and \csq\yscale\ to the same value. Similarly, \index
+tm{grid} can be used to set both \csq\xgrid\ and \csq\ygrid.
+
+\ifAAAA \newpage \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Coordinates and Modifications}
+
+Grid lines provide us with a coordinate system in which points with
+non-integral coordinates are obtained by linear interpolation between
+grid lines.  These coordinates can be used to typeset \sindex
+tw{modification}\emph{modifications} at arbitrary locations on (or
+outside) a diagram, following an occurrence of the control sequence
+\index tm{Modify}.
+
+\side
+\gridlines
+\Diagram
+A             \\
+  & \rdTo     \\
+  &       & B \\
+\Modify
+\Text{X} (2,1.5)
+\endDiagram
+\endside
+
+Here the control sequence \index tm{Text} takes a single argument,
+the material to be typeset, and must also be supplied with a
+parenthesized coordinate pair indicating a position on the diagram.
+
+Besides \csq\Text\ there are control sequences
+\index tm{Txt}, \index tm{Math}, \index tm{Vertex} and \index tm{Label}.
+The latter three typeset their argument in math mode:
+\csq\Math\ in \csq\textstyle, and \csq\Vertex\ and \csq\Label\
+in the current values of \index tm{vertexstyle} and \index
+tm{labelstyle}, the defaults being \csq\displaystyle\ and
+\csq\scriptstyle\ respectively.  These are the same styles in which
+vertices and labels in the alignment part of a diagram are typeset.
+
+Control sequences which typeset modifications behave very much like
+cell macros in that they are also affected by
+\sindex tw{modifier}modifiers. The \index tc\:\ modifier can be used to
+specify a position to \csq\Text, \csq\Txt, \csq\Math, \csq\Vertex\ and
+\csq\Label\ as a fractional distance from a first coordinate to a
+second.  The fraction $.5$ is assumed if none is specified explicitly.
+
+\side
+\gridlines
+\Diagram
+A       \\
+        \\
+  & & B \\
+\Modify
+\Text{X} (0,0) (1,1)
+\Text{Y} (0,0) (2,2) :{.75}
+\endDiagram
+\endside
+
+The position indicated to \csq\Text\ and its siblings are those of the
+\iindex tw{tag point}: The point on the typeset material which is
+placed at the position in question. For \csq\Text\ the default tag
+point lies at the midpoint of the baseline while for \csq\Txt,
+\csq\Math, \csq\Vertex\ and \csq\Label\ it lies at the midpoint of the
+math axis. The location of the tag point along the length of the
+typeset material can be changed using the \index tc\*\ modifier.
+
+\side
+\gridlines
+\Diagram
+     \\
+ & & \\
+     \\
+\Modify
+\Text{v\"anster}  (0,0) *0
+\Text{h\"oger}    (2,2) *1
+\endDiagram
+\endside
+
+Modifications can be rotated using the \index tc\/\ modifier.
+\sindex tw{modification!rotation}
+
+\side
+\gridlines
+\Diagram
+     \\
+ & & \\
+     \\
+\Modify
+\Text{leftish}  (0,0)  *{.2}  /{95}
+\Text{rightish} (2,2)  *{.8}  /{45}
+\endDiagram
+\endside
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modification Cells I}
+\label{Modification Cells I}
+
+Modification cell macros typeset arrows as modifications.  We refer to
+such arrows as \sindex tw{modification cell}\emph{modification cells}.
+
+\side
+\Diagram
+xF & \rTo ^{fF} & yF            \\
+\dTo <{x\eta} & & \dTo >{y\eta} \\
+xG & \rTo _{fG} & yG            \\
+\Modify
+\Para (1.5,.5) <{f\eta} /{-135}
+\endDiagram
+\endside
+
+The \sindex tw{modification cell!length}length of a modification cell
+can be specified explicitly using the \sindex tw{"|@\BAR}{\tt |}
+modifier.
+
+\side
+\Diagram
+xF & \rTo ^{fF} & yF            \\
+\dTo <{x\eta} & & \dTo >{y\eta} \\
+xG & \rTo _{fG} & yG            \\
+\Modify
+\Para (1.3,.7) <{f\eta} /{-135} |{14mm}
+\endDiagram
+\endside
+
+The following alternative to the previous two examples will become
+clear in \ref{Naming Points and Attaching Arrows}.
+
+\eg
+\ptpush+=3pt
+\Diagram
+xF            & \rTo ^{fF}        & yF                   \\
+\dTo <{x\eta} &                   & \dTo >{y\eta} \pt{t} \\
+xG            & \rTo _{fG} \pt{h} & yG                   \\
+\Modify
+\Para \pt{t} \pt{h} <{f\eta}
+\endDiagram
+\endeg
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Figures and Graphs}
+
+Before continuing our discussion of modification cells, let us first
+mention two variants of the \csqq\Diagram\endDiagram\ pair.  The
+first, \sindex tw{Figure}\index tp{Figure}\endFigure, can be used to
+typeset modifications on top of any \TeX\ box. One use for this is for
+typesetting \TeX\ labels on top of included \PS\ figures.
+
+\verbatim
+\input epsf  %  from the dvips distribution
+\endverbatim
+\eg
+\Figure
+\epsfxsize=3in
+\epsffile{plot.eps}
+\Modify
+\Math{x^2 + y^2 = 1}           (.8,.55)  *0
+\Math{z = 2\sqrt{x^2 + y^2}}   (.6,.9)   *0
+\endFigure
+\endeg
+
+The second, \index tp{Graph}\endGraph, uses \csq\Figure\ to typeset
+modifications on top of an empty box whose dimensions we specify.
+
+\eg
+\Graph{\hsize}{1.5cm}
+\Two         (0,.5)
+\Two /{45}   (.25,.5)
+\Two /{90}   (.5,.5)
+\Two /{135}  (.75,.5)
+\Two /{180}  (1,.5)
+\endGraph
+\endeg
+
+The coordinate \sindex tw{modification!coordinate system}system used
+for typesetting modifications on a \csq\Figure\ or \csq\Graph\ has its
+origin at the bottom left corner of the box in question.  There are
+two ways of specifying units of length in the coordinate directions of
+this coordinate system, the default units being chosen so that the top
+right corner of the box has coordinates (1,1).  First, the control
+sequences \index tm{xrange}, \index tm{yrange} and \index tm{range}
+can be used to divide the default units by any integer value.
+
+\ifAAAA \newpage \fi
+
+\eg
+\xrange=5 \yrange=20 \gridlines
+\Figure
+\epsfxsize=3in
+\epsffile{plot.eps}
+\Modify
+\Math{x^2 + y^2 = 1}           (4,11)  *0
+\Math{z = 2\sqrt{x^2 + y^2}}   (3,18)  *0
+\endFigure
+\endeg
+
+Second, one can use \index tm{xunit}, \index tm{yunit} and \index
+tm{unit} to explicitly specify units of length.
+
+\eg
+\xunit=.25\hsize \yrange=2 \gridlines
+\Graph{\hsize}{1.5cm}
+\Two (0,1)   \Two /{45} (1,1)   \Two /{90} (2,1)   \Two /{135} (3,1)   \Two /{180} (4,1)
+\endGraph
+\endeg
+
+For any individual \csq\Graph, unit and range specifications can be
+incorporated into the argument list.
+
+\eg
+\gridlines
+\Graph{\hsize,.25\hsize}{1.5cm,2}
+\Two (0,1)   \Two /{45} (1,1)   \Two /{90} (2,1)   \Two /{135} (3,1)   \Two /{180}  (4,1)
+\endGraph
+\endeg
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modification Cells II}
+
+The modification cells shown above place the midpoint of an arrow at a
+specified location on a diagram. Just as with ordinary modifications,
+we can change the \index tw{tag point} using the \index tc\*\
+modifier.
+
+\side
+\range=2
+\Graph{2cm}{2cm}
+\To (1,1) *0        \To (1,1) *0 /{180}
+\To (1,1) *0 /{90}  \To (1,1) *0 /{270}
+\endGraph
+\endside
+
+There is another variant of modification cell in which we specify the
+coordinates of the tail and head of an arrow rather the position of
+the tag point.
+
+\side
+\Graph{2cm,2}{15mm,2}
+\Line  (1,0)  (1,2)
+\Bar   (0,1)  (2,1)
+\endGraph
+\endside
+
+We will refer to modification cells as
+\sindex tw{modification cell!type 1}\emph{type 1} or
+\sindex tw{modification cell!type 2}\emph{type 2}
+depending on whether they have been specified with one or two
+coordinate pairs.
+
+Vertices can be attached to the tail and head of such a modification
+cell using the modifiers \index tm{tl} and
+\sindex tw{attaching!with \csq\hd\ or \csq\tl}\index tm{hd}.
+In the case of \csq\Diagram\ \csq\endDiagram, if the coordinates of
+either end of a type 2 \sindex tw{modification cell!type
+2}modification cell are integral then an implicit \csq\tl\ or \csq\hd\
+is performed with the contents of the appropriate alignment entry
+whenever a tail or head hasn't been explicitely attached.
+
+\side
+\Diagram
+A &  &   \\
+  &  & B \\
+\Modify
+\To   (0,1) (2,0)
+\Line (0,0) (2,1) \tl{C} \hd{D}
+\endDiagram
+\endside
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fudges and Moves}
+
+The length of individual arrows can be adjusted using the modifiers
+\index tm{dt} and \index tm{dh} for the tail and head of an arrow
+respectively.  Passing a single dimension to one of these control
+sequences lengthens the appropriate end of an arrow by the specified
+amount.
+
+{\edge{.65}
+\side
+\let\b\bullet
+\Diagram
+\b & \rTo \dh{10pt}  & \stop & \rTo \dt{-10pt} & \b \\
+\b & \rTo            & \stop & \rTo            & \b \\
+\b & \rTo \dh{-10pt} & \stop & \rTo \dt{10pt}  & \b \\
+\endDiagram
+\endside
+}
+
+\index tm{tx}, \index tm{ty}, \index tm{hx} and \index tm{hy}
+can be used to make an arrow point from or to a point other than the
+midpoint of a vertex.
+
+\side
+\Diagram
+A\times B                      \\
+\dTo      & \rdTo \tx{7pt}     \\
+A         &                & B \\
+\endDiagram
+\endside
+
+Length and positional adjustments with the aforementioned six control
+sequences are referred to as \sindex tw{fudge}\emph{fudges}.
+
+The length of a positionally fudged arrow is adjusted to accommodate
+the vertices at either end of the arrow.
+
+\side
+\Diagram
+X                                        \\
+  & \rdTo \hy{-20pt}
+    \rdTo
+    \rdTo \hx{20pt}                      \\
+  &                  & A\times B\times C \\
+\endDiagram
+\endside
+
+Arrows and modifications can be \sindex tw{move}\emph{moved}
+using the modifiers \index tm{up} and \index tm{rt}.
+
+\side
+\Diagram
+X & \rTo \up{3pt}
+    \lTo \up{-2pt} & A \\
+\endDiagram
+\endside
+
+Moves differ from fudges in that an entire arrow is literally just
+moved: No length adjustments are made.  Using the modifiers \index
+tm{ru} and \index tm{rr}, moves can be made relative to a coordinate
+system which has been rotated from the horizontal along with a
+(rightward pointing) arrow or modification.
+
+\side
+\Diagram
+A                          \\
+  & \rdTo ^f \ru{5pt}
+    \rdTo _g \ru{-5pt}     \\
+  &                    & B \\
+\endDiagram
+\endside
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Defining New Cell Types}
+
+The control sequence \index tm{newcell} is used to define cell types.
+For example, near the end of \kuvio\ we find the following two lines.
+\code
+\newcell{To}
+\let\Tofill\rightarrowfill
+\endcode
+Expansion of \@\newcell{@\\type\@}@\ causes several control sequences
+to be defined, one being the \iindex tw{box macro} \ch{\\\type box}.
+\indented %
+\@\def\@\\type\@box#1{\hbox to #1{\@\\type\@fill}}@\
+\endindented
+This definition tells the macros in \kuvio\ how to typeset a rightward
+arrow of cell type \type. As we can see, before using a cell macro
+associated with this cell type we were required to either define the
+\iindex tw{fill macro} \ch{\\\type fill} or else redefine \ch{\\\type
+box}.
+
+\newcell{Eql}
+\def\Eqlbox#1{\vcenter{\offinterlineskip
+   \hbox to #1{\rightarrowfill}
+   \vskip-2pt
+   \hbox to #1{\rightarrowfill}}}
+
+\side
+\newcell{Eql}
+\def\Eqlbox#1{\vcenter{\offinterlineskip
+   \hbox to #1{\rightarrowfill} \vskip-2pt \hbox to #1{\rightarrowfill}}}
+
+\Diagram
+A & \rEql & B \\
+\endDiagram
+\endside
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pads and Pushes}
+
+Let us try placing labels on our newly defined {\tt Eql} cells.
+
+{\bpad=5pt
+\side
+\Diagram
+X & \rEql ^{f_1} _{f_2} & A \\
+\endDiagram
+\endside
+}
+
+These labels are probably a little too close to the arrows for most
+people's tastes.  There are three \sindex tw{label pad}\emph{label
+pads} associated with every arrow in a diagram.  As we have already
+seen, a pad which applies to only a single arrow can be specified with
+the \index tc\:\ modifier.  Global and type-specific label pads can be
+assigned using \index tm{labelpad}.  For any individual arrow, these
+three label pads are summed to determine the distance at which a label
+is placed from line joining its endpoints.
+
+{\bpad=8pt
+\side
+\labelpad=4pt \labelpad{Eql}=2.5pt
+\Diagram
+X & \rEql ^{f_1} _{f_2} & A & \rTo ^g & B \\
+\endDiagram
+\endside
+}
+
+Another kind of padding determines how much space will be placed
+around the sides of a diagram. Assignments can be made to
+\index tm{lpad} (left), \index tm{rpad} (right), \index tm{bpad} (bottom)
+and \index tm{tpad} (top). Assignments can also be made to
+\index tm{Diagrampad}, \index tm{Figurepad}
+and \index tm{Graphpad} to add space to all four sides of a diagram.
+
+\eg
+\framed
+\Diagram A & \rTo & B \\ \endDiagram
+\quad\Diagrampad=10pt
+\Diagram A & \rTo & B \\ \endDiagram
+\quad\lpad=-5pt
+\Diagram A & \rTo & B \\ \endDiagram
+\endeg
+
+\sindex tw{cell push}\emph{Cell pushes} determine the spacing between
+an arrow and the vertices at its tail and head.  As with label pads,
+cell pushes are additive.  Global and type-specific cell pushes are
+assigned using \index tm{cellpush}, just as with \csq\labelpad.
+Length fudges with \index tm{dt} and \index tm{dh} can be thought of
+as arrow-specific pushes, although a positive fudge corresponds to a
+negative push.
+
+\side
+\cellpush{Eql}=3pt
+\Diagram
+X & \rEql & A & \rTo & B \\
+\endDiagram
+\endside
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Naming Points and Attaching Arrows}
+\label{Naming Points and Attaching Arrows}
+
+Modification cells can be \sindex tw{arrows!attaching}\emph{attached}
+to points on other arrows by \sindex tw{points!naming}\emph{naming}
+these points using the \index tm{pt} modifier. Once a point has been
+named it can be referenced as a coordinate.
+
+\side
+\Diagram
+X & \rTo \up{10pt}  \pt{a1,.2} \pt{b1,.8}
+    \rTo \up{-10pt} \pt{a2,.2} \pt{b2,.8} & Y \\
+\Modify
+\Two \pt{a1} \pt{a2}
+\Two \pt{b1} \pt{b2}
+\endDiagram
+\endside
+
+A point must be named \sindex tw{points!referencing}before it is
+referenced.  Note that cell macros are processed in order from left to
+right and top to bottom.
+
+The form \csq{\pt\ch\{\name,\num\ch\}} can be shortened to
+\csq\pt\ch\{\name\ch\} if \name\ has not already been named or if
+another coordinate is not expected. In this case the default position
+is chosen. Global and type-specific defaults can be set using \index
+tm{ptpoint}.
+
+\side
+\ptpoint=.75 \ptpoint{One}=.5
+\Diagram
+X & \rTo \up{10pt}  \pt1
+    \rTo \up{-10pt} \pt2 & Y & \rOne \up{10pt}  \pt3
+                               \rOne \up{-10pt} \pt4 & Z \\
+\Modify
+\Two \pt1 \pt2
+\Two \pt3 \pt4
+\endDiagram
+\endside
+
+A type-specific \csq\ptpoint\ can be unset, causing the global value
+to be used, by making an empty assignment of the form
+\csq{\ptpoint\ch\{\type\ch\}=\ch\{\ch\}}.
+
+Global and type-specific assignments can also be made with
+\index tm{ptpush} and \index tm{atpush}. The ends of an arrow of cell
+type \type\ attached to another arrow are shortened by the sum of the
+global and type-specific \csq\ptpush.  The ends of an arrow attached
+to an arrow of cell type \type\ are shortened by the sum of the global
+and type-specific \csq\atpush.
+
+\ifAAAA \else \newpage \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Defining New Diagram Types}
+
+Before actually typesetting a diagram, \csq\Diagram\ begins a group and
+expands \index tm{everyDiagram}. Similarly there a control sequences
+\index tm{everyFigure} and \index tm{everyGraph}. The control
+sequences \index tm{newDiagram}, \index tm{newFigure} and \index
+tm{newGraph} allow one to further customize the setup for a named
+class of diagrams.
+
+Expansion of
+\@\newDiagram{@\\type\@}@\ is roughly equivalent to the following.
+\indented %
+\@\def\@\\type\@{\bgroup\everyDiagram\every@\\type\@\D@Diagram}@\
+\@\def\end@\\type\@{\D@endDiagram\egroup}@\
+\@\let\every@\\type\@\relax@\
+\endindented
+Here \csq{\D@Diagram} and \csq{\D@endDiagram} are a pair of
+inaccessible control sequences in terms of which \csq{\Diagram} and
+\csq{\endDiagram} are similarly defined.  Thus, the setup for diagrams
+of type \type\ is customized by redefining
+\csq\every\type.
+
+\eg
+\newDiagram{Diag}
+\def\everyDiag{\flexible \xgrid=0pt}
+
+\Diag
+\cdots & \rTo & H_n A & \rTo & H_n X & \rTo & H_n(X,A) & \rTo & H_{n-1}A & \rTo & \cdots \\
+\endDiag
+\endeg
+
+The diagram type \sindex tw{Diag@{\tt Diag}}{\tt Diag} is predefined in
+\kuvio. The other predefined diagram types are \sindex tw{Dg@{\tt Dg}}{\tt Dg}
+and \sindex tw{Long@{\tt Long}}{\tt Long}, both of which have \index
+tm{flexible} and \csq{\xgrid=0pt} in addition to adjusting the values
+of certain parameters.
+
+By a \iindex tw{Diagram} (capitalized) we will mean any diagram
+typeset using \csqq\Diagram\endDiagram\ or any pair associated with a
+diagram type defined using \index tm{newDiagram}.  We will similarly
+use the terms \iindex tw{Figure} and \iindex tw{Graph}.
+
+Rather than make global changes to the parameters available in \kuvio,
+it is probably always best to identify the various kinds of diagrams
+one is interested in and then define diagram types for each of
+these. The predefined types have been set up with the author's
+interests and tastes in mind but a little experimentation should yield
+other useful possibilities.
+
+The following example uses \iindex tw{incremental assignment}, which
+is available for all dimension assignments made available by \kuvio.
+
+\side
+\newDiagram{Cat}
+\def\everyCat{\everyDiag\cellwidth+=25pt\ygrid+=-1mm}
+
+\Cat
+ &         & \stop & \rTo \pt t & \stop             \\
+ & \rTo _f & \stop & \rTo \pt m & \stop & \rTo _g & \\
+ &         & \stop & \rTo \pt b & \stop             \\
+\Modify
+\Two \pt t \pt m <\alpha
+\Two \pt m \pt b <\beta
+\endCat
+\endside
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flexible Grids}
+\label{Flexible Grids}
+
+Expansion of the control sequence \index tm{flexible} alters the way
+in which the macros in \kuvio\ position vertical grid lines in a
+Diagram.  Rather than simply spacing them uniformly, they are instead
+placed using the knowledge of the particular vertices and arrows
+occuring in the Diagram.
+
+The vertical grid lines in a flexible grid gravitate toward a single
+column, the \iindex tw{gravitating column}.  By default this will be
+the centermost column, or columns in case of an even number, but the
+gravitating column can also be set explicitly using the control
+sequence \index tm{grav}.  For many diagrams though, especially
+simpler ones, the actual column will be immaterial.
+
+Columns gravitate in such a way as to ensure that the distance between
+adjacent vertices which do not otherwise have a horizontal arrow
+between them are at least \csq\xgrid\ apart. When \csq{\xgrid=0pt}
+this behaviour can be used to make adjacent entries abut.
+
+\eg
+\def\xc#1{#1\cdots#1}
+
+\Dg
+v_1\xc\otimes v_k & \rMapsto & v_k\xc\otimes v_1 \\
+T(V)              & \rTo     & T(V)              \\
+\dTo <\theta      &          & \dTo >\theta      \\
+C(V,q)            & \rTo     & C(V,q)            \\
+v_1\cdots v_k     & \rMapsto & v_k\cdots v_1 & {} \equiv (v_1\cdots v_k)^* \\
+\endDg
+\endeg
+
+Alignment entries are always centered on the column in which they
+occur.  Notice how the two rightmost entries in the following example
+lie in different columns of the alignment.
+
+\eg
+\Dg
+A        &        & SO(4)       & {} \approx S^3\times SO(3) \\
+\dMapsto &        & \dTo                                     \\
+[Ae_1]   & \qquad & SO(4)/SO(3) &      & {} \approx S^3      \\
+\endDg
+\endeg
+
+The parameter \index tm{cellwidth} controls the minimum distance
+between vertices the ends of a horizontal arrow. Other components of a
+particular diagram may, of course, cause this distance to increase but
+for Diagrams consisting of a single row arrows will be of a uniform
+length.
+
+\eg
+\cellwidth=25pt
+\Diag
+\cdots & \rTo &
+\pi_j S^k & \rTo & \pi_j V(n,k) & \rTo & \pi_j V(n-1,k+1) & \rTo & \pi_{j-1} S^k &
+\rTo & \cdots \\
+\endDiag
+\endeg
+
+There are two parameters which control the distance between columns
+containing the vertices at the ends of a diagonal arrow. Unless one of
+the the \index tm{lb}, \index tm{rb} or \index tm{db} modifiers is
+specified, the distance between the centers of the columns containing
+the two vertices at either end of such an arrow will be at least
+\index tm{columndist}.  If one of these modifiers is specified, \index
+tm{bracewidth} will instead be used to position columns in the
+following manner.
+$$
+\scale=1.5
+\let\labelstyle\textstyle
+\Diagram
+\frame\phantom{XXX}\endframe \\
+     & \rdDashto \\
+     &       & \frame\phantom{XX}\endframe \\
+\Modify
+\Line (2,0) (3.2,0)  \tl\bullet \jt \hd{(R_r,C_r)}
+\Math{(R_\ell,C_r)} (2,2) *{-.2}
+\Line (0,2) (-1.3,2) \tl\bullet \jt \hd{(R_\ell,C_\ell)}
+\Math{(R_r,C_\ell)} (0,0) *{1.2}
+\Bij  (0,0) (2,0) \tl\bullet _{d_\ell}
+\Bij  (0,2) (2,2) \hd\bullet ^{d_r}
+\endDiagram
+\qquad
+\vcenter{\hsize=.4\ifAAAA 0\else 1\fi\hsize
+Suppose the vertices at the two ends of a diagonal arrow have row and
+column coordinates $(R_\ell,C_\ell)$ and $(R_r,C_r)$ with $C_\ell <
+C_r$.  If \csq\lb\ is specified then the distance $d_\ell$ from the
+vertex at $(R_r,C_\ell)$ to the vertex at $(R_r,C_r)$ will be at least
+\csq\bracewidth.  If \csq\rb\ is specified then the distance $d_r$
+from the vertex at $(R_\ell,C_\ell)$ to the vertex at $(R_\ell,C_r)$
+will be at least \csq\bracewidth. If \csq\db\ is specified then both
+requirements will be met.}
+$$
+Note that specifying \index tm{db} is not equivalent to specifying
+both \csq\lb\ and \csq\rb: The last modifier specified will take
+precedence.
+
+We will refer to a diagonal arrow as being either \sindex
+tw{arrows!braced}\emph{braced} or \sindex
+tw{arrows!unbraced}\emph{unbraced} depending on whether
+\csq\bracewidth\ or \csq\columndist\ has been used in positioning the columns
+containing its head and tail vertices.  We will also distinguish
+between \sindex tw{arrows!fully braced}\emph{fully braced},
+\sindex tw{arrows!left braced}\emph{left braced} and
+\sindex tw{arrows!right braced}\emph{right braced}
+diagonal arrows, the latter two having been specified using the
+\csq\lb\ and \csq\rb\ modifiers respectively.
+
+The control sequence \index tm{braced} causes all diagonal arrows to
+be fully braced by default. It also inverts the action of \index
+tm{db} so that diagonal arrows will be unbraced only when this
+modifier is specified.  The control sequence \index tm{loose} resets
+the behaviour to the default and, additionally, sets
+\csq{\columndist=0pt}.  This may be appropriate for certain triangular
+diagrams.
+
+\ifAAAA \newpage \fi
+
+The control sequence \csq\bb\ in the following (and other) examples invokes the
+beautiful bbm family of fonts.
+
+\side
+\loose
+\Dg
+       &        & {\bb R}^2              \\
+       & \ldTo  &      & \rdTo           \\
+C({\bb R}^2,-g)&& \rTo &       & {\bb H} \\
+\endDg
+\endside
+
+\ifAAAA \else \newpage \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Predefined Cell Types}
+
+There are a number of fill macros defined in \kuvio.
+
+\def\testfill#1{\leavevmode\hbox to 8cm{\csq#1\hfil\hbox to 3cm{#1}}\par}
+
+\null{\parskip=0pt\parindent=25pt
+%\testfill\leftarrowfill
+%\testfill\rleftarrowfill
+%\testfill\Leftarrowfill
+%\testfill\leftharpoonupfill
+%\testfill\leftharpoondownfill
+%\testfill\hookleftarrowfill
+%\testfill\leftintofill
+%\testfill\lleftarrowfill
+%\testfill\leftepifill
+%\testfill\rlleftarrowfill
+%\testfill\llleftarrowfill
+%\testfill\rllleftarrowfill
+%\testfill\rightarrowfill
+\testfill\lrightarrowfill
+%\testfill\Rightarrowfill
+\testfill\rightharpoonupfill
+\testfill\rightharpoondownfill
+\testfill\hookrightarrowfill
+\testfill\rightintofill
+\testfill\rrightarrowfill
+\testfill\rightepifill
+\testfill\lrrightarrowfill
+\testfill\rrrightarrowfill
+\testfill\lrrrightarrowfill
+%\testfill\relbarfill
+\testfill\linefill
+%\testfill\Relbarfill
+\testfill\barfill
+\testfill\cdotfill
+\testfill\mapstofill
+\testfill\leftrightarrowfill
+\testfill\Leftrightarrowfill
+%\testfill\leftarrowxfill
+%\testfill\leftarrowxxfill
+%\testfill\xleftarrowxfill
+%\testfill\leftarrowxxxfill
+%\testfill\xxleftarrowxfill
+\testfill\rightarrowxfill
+\testfill\rightarrowxxfill
+\testfill\xrightarrowxfill
+\testfill\rightarrowxxxfill
+\testfill\xxrightarrowxfill
+%\testfill\lleftarrowxfill
+%\testfill\lleftarrowxxfill
+%\testfill\xlleftarrowxfill
+%\testfill\lleftarrowxxxfill
+%\testfill\xxleftarrowxfill
+\testfill\rrightarrowxfill
+\testfill\rrightarrowxxfill
+\testfill\xrrightarrowxfill
+\testfill\rrightarrowxxxfill
+\testfill\xxrrightarrowxfill
+%\testfill\llleftarrowxfill
+%\testfill\llleftarrowxxfill
+%\testfill\xllleftarrowxfill
+%\testfill\llleftarrowxxxfill
+%\testfill\xxllleftarrowxfill
+\testfill\rrrightarrowxfill
+\testfill\rrrightarrowxxfill
+\testfill\xrrrightarrowxfill
+\testfill\rrrightarrowxxxfill
+\testfill\xxrrrightarrowxfill
+}
+
+Several of these also have leftward variants.
+Of course, all can be used in diagrams, the nicest way
+being to define a new cell type using \index tm{newcell}.
+
+The following cell types are predefined in \kuvio.
+
+\def\testcell#1{\leavevmode
+   \hbox to 6cm{{\tt #1}\hfil\csname #1box\endcsname{3cm}}\par}
+
+\null{\parskip=0pt\parindent=25pt
+\testcell{To}
+\testcell{Mapsto}
+\testcell{Into}
+\testcell{Epi}
+\testcell{Line}
+\testcell{Bij}
+\testcell{Nul}
+\testcell{Two}
+\testcell{Bar}
+\testcell{Eq}
+\testcell{Null}
+\testcell{Dots}
+}
+
+The difference between a {\tt Nul} cell and a {\tt Null} cell is the
+value of their respective label pads. The former acts like a phantom
+{\tt To} cell, the latter like a phantom {\tt Two} cell. Phantom cells
+can also be realized using the \csq{\nl} modifier.  The type {\tt One}
+can be used synonymously with {\tt To}.  The type {\tt Impl} can be
+used synonymously with {\tt Two}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Another Font: arrsy10}
+\label{Another Font: arrsy10}
+
+Expanding the control sequence \index tm{arrsy}
+causes the author's \index tw{arrsy10} font to be
+loaded.\footnote{$^\dagger$}% 
+{Use of this font is entirely optional and \csq\arrsy\ will result in an error
+if arrsy10 has not been installed. Also, users of \LaTeX\ should use the {\tt
+arrsy} option to the {\tt kuvio} package in place of the control sequence
+\csq\arrsy, as described in \ref{Using kuvio with LaTeX}.}
+The following fills then become available.
+
+\null{\parskip=0pt\parindent=25pt
+%\testfill\Leftharpoonupfill
+%\testfill\Leftparafill
+%\testfill\Leftharpoondownfill
+%\testfill\Leftallofill
+\testfill\Rightharpoonupfill
+%\testfill\Rightallofill
+\testfill\Rightharpoondownfill
+%\testfill\Rightparafill
+%\testfill\Lleftarrowfill
+\testfill\Rrightarrowfill
+%\testfill\Rrelbarfill
+\testfill\equivfill
+%\testfill\Lleftrightarrowfill
+%\testfill\dashbarfill
+\testfill\dashfill
+\testfill\rightdashfill
+%\testfill\leftdashfill
+\testfill\rightepifill
+%\testfill\leftepifill
+\testfill\rightmonofill
+%\testfill\leftmonofill
+\testfill\rightmonotailfill
+%\testfill\leftmonotailfill
+\testfill\rightisofill
+%\testfill\leftisofill
+\testfill\rightdashmonofill
+%\testfill\leftdashmonofill
+\testfill\rightdashmonotailfill
+%\testfill\leftdashmonotailfill
+\testfill\rightdashepifill
+%\testfill\leftdashepifill
+\testfill\rightdashisofill
+%\testfill\leftdashisofill
+\testfill\squigglefill
+}
+
+The following cell types also become available.
+
+\null{\parskip=0pt\parindent=25pt
+\testcell{Allo}
+\testcell{Para}
+\testcell{Three}
+\testcell{Equiv}
+\testcell{Nulll}
+\testcell{Dash}
+\testcell{Dashto}
+\testcell{Mono}
+\testcell{Tail}
+\testcell{Iso}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fill Cells and Box Cells}
+
+Both fill and box macros can be used to specify arrows in a diagram
+without defining a new cell type.  This (especially the former) may be
+useful for seldomly used arrows.  The macros in question are used
+exactly as if we had defined cell types {\tt Fillcell} and {\tt
+Boxcell} except that the cell macros associated with these types
+accept a single argument, a fill or box macro.
+
+\side
+\Diagram
+A & \rFillcell\lrightarrowfill ^f & B \\
+\endDiagram
+\endside
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Breaking Arrows}
+
+White rules can be used to break arrows in a more general way than is
+provided for by \csq{\stop}.  The modifier \sindex
+tw{arrows!breaking}\index tm{br} causes an arrow to be typeset on top
+of a white rule.
+
+\side
+\Graph{3cm,3}{2cm,2}
+\To   (2,2) (2,0)
+\Line (0,1) (3,1) \br
+\Two  (1,2) (1,0) \br
+\endGraph
+\endside
+
+The order in which arrows are typeset here is significant: Cell macros
+are processed from left to right and top to bottom.  The \index
+tm{pp} modifier can be used to change the order in which alignment
+cells are typeset.
+
+The modifier \index tm{rl} causes a white rule to be
+typeset in place of an arrow.
+
+Global and type-specific assignments made with \index tm{breakpad}
+determine the width of the rule used with \csq\br\ or \csq\rl.  The
+width used with an arrow of cell type \type\ is twice the sum of an
+optional dimension passed as an argument to \csq\br\ or \csq\rl\ and
+the global and type-specific values of \csq{\breakpad}.
+
+The cell type \sindex tw{Rule@{\tt Rule}}{\tt Rule} can also used to
+typeset rules as arrows in a diagram. In this case the \index tm{rw}
+modifier can be used to set the width of the rule. The default width
+can be set using \index tm{Rulewidth}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Shades of Gray}
+
+The pair \index tp{gr}\endgr\ can be used to typeset material in
+shades of gray.
+
+\side
+\gr{.5}\vrule width 1cm height 12pt\endgr
+\endside
+
+The \iindex tw{graylevel} should lie between 0 (black) and 1 (white)
+inclusive.  There are also pairs \index tp{gray}\endgray\ for a
+graylevel which can be set using \index tm{graygray} (the predefined
+value being .5), \index tp{black}\endblack\ for graylevel 0 and
+\index tp{white}\endwhite\ for graylevel 1. Arrows and modifications
+can be typeset in shades of gray using the first control sequence of
+one of the above pairs as a modifier.
+
+\side
+\Diagram
+A & \rTo \gray & B \\
+\endDiagram
+\endside
+
+Shades of gray may print unsatisfactorily on some printers.
+
+\ifAAAA \else \newpage \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Frames and Shades}
+
+The pair \index tp{frame}\endframe\ can be used to put a frame around
+the enclosed material.  This material should not contain any vertical
+commands (unless enclosed in a box).
+
+\eg
+\input calc  % my calculus macros
+
+Laplacian:\quad
+\frame$\displaystyle
+   \Delta f = \p\wrt{x^i}\left( g^{ki} \p f\wrt{x^k} \right)
+              + g^{kj} \p f\wrt{x^k} \Gamma^i_{ij}
+$\endframe
+\endeg
+
+The thickness of the rule can be changed by making an assignment to
+\index tm{framerulewidth} while the padding around the formula can be
+changed by making an assignment to \index tm{framepad}. Padding can
+also be applied selectively to the sides of the material being framed
+using \index tm{lpad}, \index tm{rpad}, \index tm{bpad} and \index
+tm{tpad}.  The graylevel of the frame can be changed using
+\index tm{framegray}. One can put a frame around a diagram using
+\index tm{framed}.
+
+The pair \index tp{shade}\endshade\ places a shadow behind a frame.
+The offsets of the bottom left and top right corners of the shadow
+must be specified as two coordinate pairs.
+
+\eg
+\framepad=1cm \shadegray=.5
+\shade{10pt,-10pt}{5pt,-5pt}\vbox{\hsize=.8\hsize
+``Om man l\"aser svenska k\"arleks visor fr\aa n 1600--talet \"ar det
+sl\aa ende hur vanligt det \"ar att de \"alskande drar sig undan och m\"ots i
+den gr\"ona naturen. F\"or de allra flesta var det endast d\"ar som man kunde
+uppn\aa\ n\aa gon sann avskildhet; under denna epok var sex en
+syssels\"attning som i h\"og grad idkades under \"oppen himmel.''\par
+Peter Englund, {\it F\"orflutenhetens Landskap}.}\endshade
+\endeg
+
+Frames and solid boxes can be typeset as modifications using
+\index tm{Frame} and \index tm{Box}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rotation and Reflection}
+
+There are several control sequence pairs in \kuvio\ for performing
+rotations and reflections. The material enclosed by these pairs is
+enclosed in an \csq\hbox\ and should not contain any vertical commands
+unless enclosed in a \csq\vbox.
+
+Let us play with the following {\tt .eps} file.
+
+\eg
+\epsffile{face.eps}
+\endeg
+
+{\escapechar=-1
+ \xdef\verbatimhook{\string\\vbhook}
+}
+{\catcode`\_=11 \catcode`\^^M=12 \endlinechar=-1 %
+ \gdef\hookedverbatim#1^^M{\def\_found{#1}%
+    \ifx\_found\_endverbatimverbatim
+       \def\_next{\egroup\endverbatim}%
+    \else
+       \ifx\_found\verbatimhook
+          \def\_next{\let\_everyline\verbatimline
+             \let\_everyendline\verbatimendline
+             \def\verbatimline{\leavevmode\bgroup\verbatimit}%
+             \def\verbatimendline{\egroup\par
+                \let\verbatimline\_everyline
+                \let\verbatimendline\_everyendline}
+             \hookedverbatim}%
+       \else
+          \def\_next{\verbatimline #1\verbatimendline\hookedverbatim}%
+       \fi
+    \fi
+    \_next}
+}
+
+\ifAAAA
+\newpage
+
+The pair \index tp{flip}\endflip\ rotates material by 180 degrees.
+
+\eg
+\flip\epsffile{face.eps}\endflip
+\endeg
+\fi
+
+The pair \index tp{land}\endland\ rotates material by 90 degrees
+counterclockwise. Similarly, the pair \index tp{opland}\endopland\
+rotates material by 90 degrees clockwise.
+
+\eg
+\land\epsffile{face.eps}\endland \opland\epsffile{face.eps}\endopland
+\endeg
+
+A diagram can be rotated using \index tm{landscape} or \index
+tm{oplandscape}.
+
+{\expandafter\let\csname _verbatimverbatim\endcsname\hookedverbatim
+\verbatim
+{\bf George W. Whitehead}, {\it Elements of Homotopy Theory}, page 592.
+\bigskip
+$$
+\landscape \let\labelstyle\textstyle \cellpad=10pt
+\Diagram
+\vbhook
+blah, blah, blah ...
+\endDiagram
+$$
+\endverbatim
+}
+
+\newpage
+{\bf George W. Whitehead}, \emph{Elements of Homotopy Theory}, page 592.
+\bigskip
+{\compileto{tdwk/eg03}
+ \input eg/eg03
+}
+\newpage
+
+\ifAAAA
+\else
+The pair \index tp{flip}\endflip\ rotates material by 180 degrees.
+
+\eg
+\flip\epsffile{face.eps}\endflip
+\endeg
+\fi
+
+Material can also be reflected across horizontal or vertical mirrors.
+
+\eg
+\hmir\epsffile{face.eps}\endhmir
+\endeg
+
+\side
+\vmir Who me, get carried away?!\endvmir
+\endside
+
+One can also rotate material by an arbitrary angle using \index
+tp{rot}\endrot\ but be aware that this pair does not modify the
+bounding box of the rotated material.
+
+\verbatim
+\rot{45}\epsffile{face.eps}\endrot
+\endverbatim
+\vskip12mm
+\rot{45}\epsffile{face.eps}\endrot
+\vskip5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compilation}
+
+Due to the large number of computations being performed, typesetting
+large diagrams can be rather time-consuming. The control sequence
+\index tm{compileto} can be used to compile a diagram into a form
+which the macros in \kuvio\ can typeset more quickly.  The information
+contained in a diagram is then written to two files having the
+extensions {\tt .kdg} and {\tt .kuv}.
+
+\verbatim
+\compileto{stable}
+\endverbatim
+\eg
+\Long
+0             &      &            &      &              &      & 0         \\
+\dEq          &      &            &      &              &      & \dEq      \\
+\pi_{n+1} S^k & \rTo & \pi_n O(k) & \rTo & \pi_n O(k+1) & \rTo & \pi_n S^k \\
+\endLong
+\endeg
+
+Expansion of \@\compileto{@\\name\@}@\ causes the next diagram in the input
+(at a given level of grouping) to be compiled to, or read from, the files
+\sindex tw{kdg@{\tt\leavevmode\llap{.}kdg}}%
+\sindex tw{kdg@{\tt\leavevmode\llap{.}kuv}}%
+\name{\tt .kdg} and \name{\tt .kuv}.
+If these files already exist, then the text of the diagram is compared
+with the contents of \name{\tt .kdg} to determine whether or not the
+diagram should be recompiled or read from
+\name{\tt .kuv}.
+
+To force the recompilation of a diagram, \index tm{recompileto} can
+be used in place of \csq{\compileto}. The control sequence \index
+tm{recompile} can also be used to force recompilation at a given
+level of grouping.  The control sequence \index tm{nocompile} can be
+used to turn off compilation at a given level of grouping. Note that
+\csq\global\csq\recompile\ and \csq\global\csq\nocompile\ behave as expected.
+
+Compilation can be automated using \csq\autocompileto.  Expansion of
+\@\autocompileto{@\\name\@}@\ allocates a count register, \index
+tm{autocompilecounter}, and causes the tokens
+\indented %
+\@\global\advance\autocompilecounter by 1@\
+\@\compileto{@\\name\@-\the\autocompilecounter}@\
+\endindented
+to be expanded just prior to each expansion of \csq\everyDiagram,
+\csq\everyFigure\ or \csq\everyGraph.
+Each subsequent expansion of \csq\autocompileto\ resets
+\csq\autocompilecounter\ to zero.
+Note that \csq\autocompilecounter\ is incremented even if
+\csq\nocompile\ has been specified.
+
+The control sequence \index tm{autocompile} is an abbreviation for
+\@\autocompileto{.\jobname}@\.
+
+\verbatim
+\input kuvio \autocompile
+\endverbatim
+\hskip\egindent{\verbatimit blah, blah, blah...}
+
+Be aware that compilation hard codes much information into {\tt .kuv}
+files.  While changes to diagram input are detected during future \TeX
+ings, changes to many parameters which affect the layout of components
+of a diagram are not.  It may be necessary to use \index
+tm{recompile} to have such changes propagate to compiled files.  Note
+that whether or not \csq\gridlines\ was specified when a diagram was
+compiled will be detected by the macros.  Also, parameters and control
+sequences which affect only the box containing a diagram
+(\csq\Diagrampad, \csq\lpad, \csq\landscape, \csq\deep, etc) can be
+safely applied to a diagram which has already been compiled.
+
+\ifAAAA \else \newpage \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Making Definitions}
+
+\TeX\ associates a category code with each character of input and once
+a category code has been assigned it cannot be changed. Unfortunately,
+since several category codes are changed between diagram delimiters
+like \csqq\Diagram\endDiagram, an ordinary \index tm{def} having
+diagram macros in the replacement text may not behave as expected. In
+particular, the following characters require special consideration.
+\code
+(    *    /    :    <    >    ^    _    |
+\endcode
+Each of these should be preceded by a backslash when
+used as a modifier in a macro definition.
+
+\eg
+\def\ReallySimpleRightwardArrow#1#2#3{%
+   \Dg #1 & \rTo \^{#2} & #3 \\ \endDg}
+
+\ReallySimpleRightwardArrow{X^I}{e_0}X
+\endeg
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Name Clashes}
+
+Macros are loaded safely from \kuvio. If a name conflict is detected
+for an accessible control sequence (except for those having the string
+``kuvio'' as part of their names), a message announces the
+conflict. The control sequence is then either made available through
+the control sequence \index tm{kuviocs}, or it is redefined and the
+old definition is made available through the control sequence \index
+tm{nonkuviocs}.
+
+For example, \index tw{LaTeX@\LaTeX} defines \index tm{center}. This
+control sequence is not redefined by \kuvio: One must use
+\@\kuviocs\center@\ to access the control sequence documented on page
+\pageref{center def}. Also, {\tt plain.tex} defines \index
+tm{land}. This control sequence {\sl is\/} redefined by
+\kuvio: The version defined in {\tt plain.tex} can be accessed as
+\@\nonkuviocs\land@\. (It is also available as
+\csq\wedge\ since {\tt plain.tex} make this equivalent to \csq\land.)
+
+If a control sequence has not been defined by \kuvio, then prefixing
+it by \csq\kuviocs\ or \csq\nonkuviocs\ does nothing.
+
+The control sequence \index tm{kuvioforce} can be used to force
+redefinition of a control sequence which \kuvio\ makes available
+through \csq\kuviocs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Using kuvio.tex with \LaTeX}
+\label{Using kuvio with LaTeX}
+
+Users of \sindex tw{LaTeX@\LaTeX!aka \LaTeXe}\LaTeX
+\footnote{$^\dagger$}{\LaTeXe, not \LaTeX\ 2.09.}
+can load \kuvio\ via the package file {\tt kuvio.sty} using the
+\@\usepackage{kuvio}@\ declaration. This package provides the option
+{\tt arrsy} which should be used in place of the control sequence
+\csq\arrsy.  This option causes the \LaTeX\ package file {\tt
+arrsy.sty} to be loaded in place of its {\tt plain} \TeX\ counterpart
+{\tt arrsy.tex}.
+
+\verbatim
+\usepackage[arrsy]{kuvio}
+\endverbatim
+
+There are also options {\tt autocompile}, {\tt gridlines}, {\tt
+kuviofmt}, {\tt nocompile}, {\tt overgrid} and {\tt recompile} which
+can be used in place of the corresponding control sequences to affect
+global changes on a document, although none of these options offer any
+additional functionality.
+
+Diagrams should still be input using the
+\ch\\\emph{type} \csq\end\emph{\type} syntax and {\sl not\/}
+the \LaTeX\ environment syntax, \@\begin{@\\emph{type}\@}@\
+\@\end{@\\emph{type}\@}@\. The latter may appear to work but will fail when
+diagrams are being compiled.
+
+Several environments in the {\tt amsmath} package of
+\sindex tw{AMSLaTeX@\AMSLaTeX}\AMSLaTeX\ read their
+bodies as the argument of a delimited macro. This has the side effect
+of setting the category codes of all the characters in the body before
+its expansion. This is causes trouble for \kuvio\ since it wants to
+change several catcodes between a pair of diagram delimiters.  To get
+around this the control sequence \index tm{forcekdg} will cause
+diagrams at the same level of grouping that are not already being
+compiled to be written to and then read from the file
+\csq{\jobname.kdg}, thereby circumventing any catcode assignments
+already made between a pair of diagram delimiters. This can be
+affected globally in \LaTeX\ by loading the {\tt kuvio} package with
+the {\tt forcekdg} option.
+
+\csq\forcekdg\ is expanded automatically if the {\tt amsmath} package
+is being used. If you don't want this, load {\tt kuvio} with the {\tt
+unforcekdg} option.
+
+The \LaTeX\ user should also aware of the following section when placing
+diagrams in an alignment-like environment.
+
+%*****************************************************************************
+\section{Specifying Diagrams in Alignments}
+\label{Specifying Diagrams in Alignments}
+
+Due to the nature in which \TeX\ processes alignments, it is an
+unfortunate necessity that a diagram specified inside an \index
+tw{alignment} (\csq\halign, etc) be enclosed in a pair of braces.
+
+\eg
+$$
+\eqalign{
+  {\rm equalizer:}\qquad&   {\Dg X & \rTo & Y & \rTo \up{3pt}
+                                                \rTo \up{-3pt} & Z \\ \endDg}\cr
+  \noalign{\medskip}
+  {\rm coequalizer:}\qquad& {\Dg X & \rTo \up{3pt}
+                                     \rTo \up{-3pt} & Y & \rTo & Z \\ \endDg}\cr
+}
+$$
+\endeg
+
+The same consideration should be bourn in mind by \LaTeX\ and \AMSLaTeX\
+users when using any {\tt array}-like environment.
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\input tdwk-s }
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input tdwk-e
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Availability}
+
+Both \kuvio\ and {\tt arrsy10} are available
+by anonymous ftp from the following location.
+\code
+ftp.math.ubc.ca:/pub/svensson
+\endcode
+They can also be found in
+$\langle${\it tex-archive}$\rangle${\tt /macros/generic/diagrams/kuvio}
+on any of the following CTAN hosts.
+\code
+ftp.dante.de   (Deutschland)
+ftp.tex.ac.uk  (England)
+ftp.cdrom.com  (USA)
+\endcode
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Copyright}
+
+The file \kuvio\ may be freely distributed and used, with the
+following restrictions.
+
+{\leftskip=15pt
+\def\pt#1 {\leavevmode\llap{\hbox to 15pt{#1.\hss}}}
+\pt1 Substantial use of \kuvio\ in any published work should be suitably
+acknowledged.
+
+\pt2 No changes or modifications are to be made to \kuvio.
+
+\pt3 The documentation, \emph{Typesetting diagrams with kuvio.tex},
+must be distributed with \kuvio.
+
+}
+
+I would enjoy receiving a copy of any book, journal
+article or thesis prepared using \kuvio.
+
+Thank you.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Final Thoughts}
+
+This document was written using {\tt plain.tex}, {\tt epsf.tex} (from
+the {\tt dvips} distribution) and homegrown macros.
+
+Remember to use grouping and diagram types to keep changes local to a
+particular level (as was done with the examples in this manual).
+
+As noted earlier, \csq\special\ may wreak havoc with your {\tt dvi}
+file previewer.  On the NeXT, Rokicki's \TeX view\ has no trouble.
+However, older versions of \TeX view may display rotated arrows
+improperly.  The version from February 1994 (last seen at {\tt
+labrea.stanford.edu:/pub/texview.tar.Z}) has fixed this problem.
+
+If you have trouble previewing a {\tt dvi} file and can preview a \PS\ file,
+the command
+\code
+dvips name.dvi -o
+\endcode
+generates the \PS\ file {\tt name.ps} from the {\tt dvi} file {\tt name.dvi}.
+Save trees. Ghostview does an excellent job of previewing \PS\ under X.
+
+Two notable limitations of \kuvio:
+(1) Diagrams cannot be nested and
+(2) there are no helpful error messages if something goes wrong.
+This will probably not change anytime soon, if ever.
+
+\opentmp\closetmp
+
+\def\csqn#1{\leavevmode\llap{\ch\\}{\tt #1}}
+\def\csqqn#1 #2{\leavevmode\llap{\ch\\}{\tt #1} \csq#2}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Index}
+
+The page number of a Summary entry is set in italics.
+
+\printindex
+
+\bye
+
+% Local Variables:
+% mode:TeX
+% agss-tex-jobname:"tdwk"
+% End:

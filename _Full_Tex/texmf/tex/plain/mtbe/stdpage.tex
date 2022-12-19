@@ -1,0 +1,259 @@
+%%% File: StdPage.tex
+%%% From `Mathematical TeX by Example' by Arvind Borde
+%%% (c) 1993, Academic Press.
+%%% Contents: The page layout, standard fonts, etc., used across the board in 
+%%% all the files of `Mathematical TeX by Example'.
+
+\input Utility
+
+%----------------------------------------------------------------------------
+%%% TYPEFACE NAMES:
+
+\font\TitleFont=cmb10 scaled 2986   % For chapter titles.
+\def\TitleFonts{\TitleFont}         % Needed for redefinition purposes later.
+\font\NumFont=cmb10 scaled 5160     % For the large chapter numbers.
+\font\SubTitleFont=cmbx12           % For subsection titles.
+\font\SubTitlett=cmtt10 scaled 1200 % Also used in section titles.
+\def\SubTitleFonts{\SubTitleFont}   % Needed for redefinition purposes later.
+\font\SubSectionTitleFont=cmti10 scaled\magstephalf % For subsection titles.
+\font\Bigsy=cmsy10 scaled 1200      % For `bullets' in subsection titles.
+\font\SmallPnoFont=cmfib8           % For page numbers at the bottom.
+\font\PnoFont=cmfib8 scaled\magstep1   % For page numbers in the margin.
+\font\Smallcaps=cmcsc10             % Small capitals, used in many places.
+\let\sc=\Smallcaps \let\smc=\Smallcaps % For compatibility w/other packages.
+\font\Sansserif=cmss10              % Sans serif, used in many places.
+\let\sf=\Sansserif                  % For LaTeX compatibility.
+\font\Ninerm=cmr9   
+\let\Smallrm=\Ninerm    % Used in places to give unobtrusive numerals, etc.
+
+% For section titles in the margins:
+\font\Eightbf=cmbx8  
+\font\Eighttt=cmtt8
+\let\MarginFont\Eightbf 
+
+% For chapter and section titles that use several fonts:
+\def\UseBigCal{\font\TitleCal=cmbsy10 scaled2986
+                \def\TitleFonts{\textfont2=\TitleCal 
+                    \exhyphenpenalty10000 \pretolerance10000 
+                    \hbadness10000 \TitleFont}}
+\def\Trick#1{{\Ninebf\uppercase{#1}}} % Used for the LaTeX logo in titles.
+\def\UseMedCal{\font\SubTitleCalFont=cmbsy10 scaled\magstep1
+               \font\SmSubTitleCalFont=cmbsy9
+               \font\Tenbsy=cmbsy10 
+               \font\Ninebf=cmbx9
+                \def\SubTitleFonts{\textfont2=\SubTitleCalFont
+                    \scriptfont2=\SmSubTitleCalFont
+                  \let\Eightsy\Tenbsy \let\Smallcaps\Trick 
+                  \SubTitleFont}}
+
+%---------------------------------------------------------------------------_%
+%%% REPRODUCING INPUT: 
+
+\let\XXX=\Literal   % Temporary assignment.
+\def\Literal {\XXX \cc`\*=12 \losenolines} % Redefine `\Literal' for use here.
+{\cc`\^^M=\active % 
+\gdef\losenolines{\cc`\^^M=\active \def^^M{\leavevmode\endgraf}}}
+
+% Use these to display input:
+\def\beginliteral{\penalty1000\vskip3pt plus2pt minus1pt \Literal \cc`\"=12 %
+  \parskip0pt \parindent\indsize \baselineskip2.77ex \thatisit}
+{\cc`\@=0 \cc`\\=12 @cc`@^^M=@active %
+ @gdef@thatisit^^M#1\endliteral{#1@endgroup%
+   @vskip.8@smallskipamount@noindent@ignorespaces}}
+
+%----------------------------------------------------------------------------
+%%% MISCELLANEOUS:
+
+% First, a utility command that gives lowercase small capitals:
+\def\LCSmCaps#1{{\let\ZZ=\&\def\&{{\sevenrm\:\ZZ\:}}\Smallcaps 
+                    \xspaceskip=.1667em\relax
+                    \lowercase\expandafter{#1}}} 
+% Next, utilities to save typing; the first of these typesets references
+% in the correct format.
+\def\Ref#1[#2]{\LCSmCaps{#1}{\Smallrm [#2]}} 
+\def\[#1]{{\Sansserif #1}}
+
+%----------------------------------------------------------------------------
+%%% CHAPTER AND SECTION FORMATTING:
+
+\newskip\BelowTitleSkip \BelowTitleSkip=4.5pc plus .5pc % Note: 1pc=12pt
+\newcount\StartAnew 
+\newtoks\NameofChapter
+\newtoks\SectionLabel
+\newcount\SectionNumber
+\newcount\ChapterNumber  
+\newcount\NumberSectionLbl   \NumberSectionLbl=1  % An indicator; see below.
+
+\def\NoSections{\NumberSectionLbl=0} % For chapters without sections.
+
+% The command that creates the format for chapter titles:
+\outer\def\Title #1/#2\par{\ChapterNumber=#1
+              {\parindent0pt 
+              \ifnum\ChapterNumber>0 {\NumFont\the\ChapterNumber}\medskip\fi
+              \pretolerance1000 \TitleFonts \righthyphenmin=50 
+              \raggedright \baselineskip2.75ex  #2\par}
+              \NameofChapter={\tensl#2}\StartAnew=1 \SectionNumber=0 
+              \SectionLabel={}\mark{}\vskip\BelowTitleSkip\relax
+              \noindent\ignorespaces}% _%
+% The command that follows does several things. It tests the current
+% position on the page by comparing `\pagetotal' and a reduced value of
+% `\pagegoal'. If there is enough space available to start a new section on
+% the current page, the section begins there (after a vertical skip);
+% otherwise, the section begins on the next page. The command also defines 
+% what is to go in the `token lists' called `\LMargStuff' and `\RMargStuff'
+% (see the output routine at the end of this file) and it `marks' the material
+% that is to go in the margin. Further, the command typesets the section title
+% and section number.
+\def\NewSection #1\par{\par \dimen0=\pagegoal \advance\dimen0 by-120pt
+                       \ifdim\pagetotal>\dimen0 
+                          \ifdim\pagetotal<\pagegoal \EndPage 
+                          \else \vskip 24pt plus 10pt minus 6pt \fi
+                       \else \vskip 24pt plus 10pt minus 6pt \fi
+                       \LMargStuff={\MarginFont
+                            \iftrue\firstmark\fi}
+                       \RMargStuff={\MarginFont
+                            \iftrue\botmark\fi}
+                       \global\advance\SectionNumber by1
+                       \leftline{\SubTitleFonts \let\tt\SubTitlett
+                             \the\ChapterNumber.\the\SectionNumber\ \ #1} 
+                       \ifnum\NumberSectionLbl=1
+                            \SectionLabel={\tenrm \quad
+                            \S\:\the\ChapterNumber.\the\SectionNumber}
+                       \else
+                            \SectionLabel={}
+                       \fi
+                       \mark{#1\noexpand\else \the\SectionLabel}
+                       \vskip 12pt plus2pt minus4pt\noindent\ignorespaces}%
+% The next command is used in starting subsections:
+\def\NewSub #1\par{\par \dimen0=\pagegoal \advance\dimen0 by-40pt
+                       \ifdim\pagetotal>\dimen0 
+                          \ifdim\pagetotal<\pagegoal \EndPage 
+                          \else \vskip 12pt plus6pt minus4pt\fi
+                       \else \vskip 12pt plus6pt minus4pt\fi
+                    \leftline{\Bullet\SubSectionTitleFont\ \:#1}
+                    \nobreak\vskip6pt plus1pt minus2pt\noindent\ignorespaces}%
+\def\Bullet{\leavevmode\raise.5pt\hbox{\Bigsy\char15 }}% _%
+% The next few commands go towards creating the large, `illuminated'  
+% opening letter that starts each chapter. The commands are crude,
+% `one-shot' ones, meant just to serve for this book. But, they may
+% help suggest how more general ones may be constructed. 
+
+% The first command, `\Patbox', fills the edges of a box of fixed size 
+% with nonletter characters from a given font (the height of each character 
+% is first examined, and only ones of height above a certain value are used).
+
+\def\Patbox #1#2{\vbox to 44pt{\hsize42pt \lineskip 0pt
+    \parindent0pt \baselineskip4.75pt \parfillskip0pt \hbadness10000
+    \count255=#2\font\temp=#1 \fontdimen2 \temp=0pt \temp \vfil
+    \def\X{\loop 
+             \ifnum\count255=60 \global\count255=63 \fi   % Skip <, /, >.
+             \ifnum\count255=65 \global\count255=91 \fi   % Skip letters.
+             \ifnum\count255=97 \global\count255=123 \fi  % Skip letters.
+             \ifnum\count255=126 \global\count255=0 \fi   % Start over.
+             \setbox0=\hbox{\char\count255}\ifdim\ht0<3pt 
+                \global\advance\count255 by 1 
+           \repeat % Use only the tall guys.      
+        \unhbox0 \hskip0pt minus.5pt\global\advance\count255 by 1 }
+    \hfuzz.2pt
+    \line{\X\hfil\X\hfil\X\hfil\X\hfil\X\hfil\X\hfil\X\hfil\X}
+    \line{\X\hfil\X}\line{\X\hfil\X}\line{\X\hfil\X}
+    \line{\X\hfil\X}\line{\X\hfil\X}\line{\X\hfil\X}\line{\X\hfil\X}
+    \line{\X\hfil\X\hfil\X\hfil\X\hfil\X\hfil\X\hfil\X\hfil\X}}}
+
+% Next, the font that will be used for the large letter is chosen:
+
+\font\BigFancy=cmr7 scaled 5160
+
+% Finally, the main command is constructed. Its first argument is the 
+% font that will be used for the boundary pattern (only 5-point fonts really
+% work well, and then too not all of them); the second, the starting
+% character position in that font; the third, the first letter of the 
+% paragraph that is to just open; the fourth and fifth, the first two 
+% words of that paragraph (spaces are used to `delimit' these arguments;
+% the words will appear in small capitals.
+
+\def\Fancy #1#2#3#4 #5 {\noindent \hangindent46pt \hangafter-4
+      \llap{\vbox to0pt{\vss
+      \hbox{\Patbox{#1}{#2}\kern-42pt
+      \vbox to44pt{\hsize42pt\vfil
+           \vskip3pt\centerline{\hskip2pt\BigFancy #3}\vfil
+      }}\vskip-3\baselineskip}\hskip4pt}{\Smallcaps #4\ #5\ }}  
+      
+% FOR EXAMPLE:
+%     `\Fancy{cmbsy5}{12} Let us begin with a bang.'
+% This will cause a large `L' to appear, surrounded by the taller characters 
+% of the font cmbsy5, starting with character number 12; the first two 
+% words will also appear capitalized.
+
+%---------------------------------------------------------------------------_%
+%%% IN THE MARGINS:
+
+\def\TopofRMarg #1{\vtop{\hsize .75in \parindent0pt \parskip0pt
+             \rightskip0pt \leftskip0pt % Just for protection.
+             \line{\vrule width1pt \hfil
+             \dimen0=\hsize \advance\dimen0 by-1pt \dimen1=10pt 
+             \vtop to\dimen1{\hsize\dimen0 \rightline{\PnoFont \Folio}\vfil}}
+              \Raggedleft \pretolerance10000 \lefthyphenmin=50 \hbadness10000  
+              \vrule height18pt width0pt #1\baselineskip2.7ex}}%
+\def\TopofLMarg #1{\vtop{\hsize .75in \parindent0pt \parskip0pt 
+             \rightskip0pt \leftskip0pt % Just for protection.
+             \line{\dimen0=\hsize \advance\dimen0 by-1pt \dimen1=10pt  
+             \vtop to\dimen1{\hsize\dimen0 
+               \leftline{\PnoFont \Folio}\vfil}\hfil \vrule width1pt}
+              \Raggedright \pretolerance10000 \lefthyphenmin=50 \hbadness10000 
+              \vrule height18pt width0pt #1\baselineskip2.7ex}}     
+
+%----------------------------------------------------------------------------
+%%% PAGE NUMBERING:
+
+\countdef\RealPno=1  % To be used as the `real' page number for this book.
+  \RealPno=1         % Default starting value
+\def\Folio{\ifnum\RealPno<0 \romannumeral-\RealPno \else \number\RealPno \fi}
+  
+%----------------------------------------------------------------------------
+%%% OUTPUT ROUTINE:
+
+\newtoks\LMargStuff   
+\newtoks\RMargStuff
+\newdimen\Llmargspace  \Llmargspace=.5in
+\newdimen\Rrmargspace  \Rrmargspace=.5in
+\newdimen\Lhoffset     \Lhoffset=.75in
+\newdimen\Rhoffset     \Rhoffset=0in
+
+\def\MTBEoutput {\ifodd\RealPno \hoffset\Rhoffset \else \hoffset\Lhoffset \fi
+   \ifnum\StartAnew=1 
+      \headline={\hfil}
+      \footline={\hss\SmallPnoFont\Folio\hss}
+   \else
+      \footline={\hfil}
+      \ifodd\RealPno   
+         \headline={\hfil \the\NameofChapter\expandafter\iffalse\botmark\fi  
+             \rlap{\hskip\Rrmargspace\TopofRMarg{\the\RMargStuff}}}
+      \else
+         \headline={\llap{\TopofLMarg{\the\LMargStuff}\hskip\Llmargspace 
+          }\the\NameofChapter\hfil}
+      \fi
+   \fi
+   \plainoutput \Advancepageno \global\StartAnew=0 }% _%
+\def\UseMTBEoutput{%
+  \gdef\Advancepageno{\ifnum\RealPno<0 \global\advance\RealPno by -1
+    \else\global\advance\RealPno by1 \fi }
+  \gdef\makefootline{\baselineskip36pt \line{\the\footline}}
+  \gdef\makeheadline{\vbox to 0pt{\vskip-.5in 
+     \line{\vbox to 8.5pt{}\the\headline}\vss}\nointerlineskip}
+  \output={\MTBEoutput}}
+
+%----------------------------------------------------------------------------
+%%% PARAGRAPH AND PAGE LAYOUT:
+
+\newdimen\indsize   \indsize23pt
+\parindent\indsize
+
+\widowpenalty300   \clubpenalty300
+
+\newdimen\StdHsize \StdHsize=4.75 in
+\newdimen\StdVsize \StdVsize=7in
+\hsize\StdHsize  \vsize\StdVsize 
+
+%----------------------------------------------------------------------------
+\endinput

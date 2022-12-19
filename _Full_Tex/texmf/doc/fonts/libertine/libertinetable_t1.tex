@@ -1,0 +1,7 @@
+\documentclass[ngerman]{libertinedoku}
+\begin{document}
+\pageTitle{Fonttabellen T1}
+\newcommand\printFDFont[1]{\InputIfFileExists{#1.inc}{}{}}
+\let\myfdentry=\PrintTableFontShape%
+\input{loadFDt1}
+\end{document}

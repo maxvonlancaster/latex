@@ -1,0 +1,22 @@
+\input epsf
+
+\centerline{
+\setbox0\vbox{
+ \hbox{It is a clipped text.}\hbox{It is a clipped text.}
+ \hbox{It is a clipped text.}\hbox{It is a clipped text.}
+ \vss % no depth
+}%
+\special{ps:
+ /mftoeps_save save def % the snapshoot of a current stage
+ /mftoeps_bhook {/q {} def /Q {} def} def
+ /CM matrix currentmatrix def
+ currentpoint /cy exch def /cx exch def
+ /ori@endspecial /@endspecial load def
+ /@endspecial {} def % neutralize /@endspecial locally
+}
+\hbox to\wd0{\hss\epsfysize\ht0\epsffile{holeclip.eps}\hss}% perform clipping
+\special{ps:cx cy moveto CM setmatrix}\llap{\copy0}% set the text
+\special{ps:ori@endspecial mftoeps_save restore}% restore a previous stage
+}
+
+\end

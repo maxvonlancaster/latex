@@ -1,0 +1,104 @@
+\documentclass[a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,german,italian]{babel}
+\usepackage[babel,italian=guillemets]{csquotes}
+
+\usepackage[%
+style=philosophy-verbose,
+scauthors=true,
+%scauthorsbib=true,
+%scauthorscite=true,
+%publocformat=locpubyear,%loccolonpub,
+%volnumformat=volnumstrings,% volnumparens,
+%romanvol=true,
+%inbeforejournal=true,
+%origfieldsformat=brackets,%parens
+latinemph=true,
+%commacit=true,
+annotation=true,
+%library=false,
+backref,
+hyperref,
+%babel=other
+]{biblatex}
+
+
+
+\bibliography{philosophy-examples}
+\bibliography{../philosophy-examples}
+%\bibliography{biblatex-examples} % il file examples.bib si trova nella cartella di biblatex
+
+\defbibheading{esempio}{\section*{Bibliografia esemplificativa}} 
+\defbibheading{primary}{\section*{Riferimenti bibliografici}}
+\defbibheading{siti}{\section*{Sitografia}}
+
+
+
+%% 			personalizzazioni
+%%-------------------------------------------------------
+
+%\DeclareFieldFormat{backrefparens}{#1}
+%\DeclareFieldFormat{backrefparens}{\mkbibbrackets{#1}}
+
+%\renewcommand{\annotationfont}{}
+%\renewcommand{\libraryfont}{\sffamily}
+%\renewcommand*{\volnumpunct}{/}
+%\renewcommand*{\volumfont}{}
+%\renewcommand*{\volumfont}{\scshape}
+%%-------------------------------------------------------
+
+
+%%----------------------------------------------------------------------------------------------------------
+\usepackage{hyperref}
+
+
+
+
+
+
+\begin{document}
+\nocite{*}
+\section{File test per lo stile \texttt{philosophy-verbose}}
+
+Qui abbiamo la prima citazione del \citetitle{Cartesio:2002} di Cartesio.\footcite[Cfr.][43]{Cartesio:2002}
+Ecco poi un riferimento alla stessa opera, con l'indicazione della pagina\autocite[26]{Cartesio:2002}, e un altro al medesimo luogo della citazione precedente\autocite[26]{Cartesio:2002}. Ora citiamo un altro testo, che comparirà per esteso,\autocite[59--61]{Termini:2007} e poi nuovamente il testo di Cartesio, che comparirà nella forma abbreviata.\autocite[35]{Cartesio:2002} 
+
+\section{Voci \texttt{@incollection}}
+Qui abbiamo un articolo su collettanea\footnote{\label{nota:federspil}\cite{Federspil:2009}.}
+e questo è un altro esempio.\footnote{\label{nota:corrocher}\cite{Corrocher:2009}.} Come si vede, le informazioni relative alla \texttt{collection} compaiono estesamente nella nota \ref{nota:federspil} e abbreviate nella nota \ref{nota:corrocher}. Nella bibliografia finale, invece, ogni voce \texttt{incollection} (o \texttt{inbook}) sarà completa di tutte le informazioni. In tutte le note di questo paragrafo è stato utilizzato il campo \texttt{crossref}, che nel caso di due o più citazioni dalla stessa \texttt{@collection} riporta quest'ultima in bibliografia, sebbene non direttamente citata.
+
+\section{Comando $\backslash$\texttt{ccite}}
+
+Ecco un esempio di nota composta utilizzando il comando \verb|\ccite|.\footnote{L'argomento è stato sviluppato da \cite{Pantieri:2008} e nel successivo 
+\ccite{Pantieri:2009}.}
+
+
+\newpage
+%% SIGLE
+\printshorthands
+
+
+% BIBLIOGRAFIE
+Si noti che nelle bibliografie seguenti la lista degli autori/editori è riportata completamente, sebbene venga troncata nelle citazioni. Ciò si può ottenere attraverso le opzioni \texttt{maxnames=999} e \texttt{minnames=999}, passate direttamente al comando \verb|\printbibliography|.
+
+% Note da stampare dopo il titolo ma prima della lista dei riferimenti
+\defbibnote{notaesempio}{\small\sffamily Questa bibliografia contiene gli esempi, più o 
+		meno fittizi, citati in questo articolo, esclusi i testi contenuti nei riferimenti 
+		bibliografici. I dati relativi alle voci si trovano nel file \texttt{philosophy-examples.bib}.}
+
+\defbibnote{notariferimenti}{\small\sffamily In questa bibliografia si noti come il campo 
+\texttt{annotation} venga usato per produrre delle voci commentate. In questo modo possiamo fornire per ciascuna voce un breve sommario}
+
+%% Bibliografia esemplificativa
+%\phantomsection{}
+%\addcontentsline{toc}{section}{Bibliografia esemplificativa}
+%\printbibliography[maxnames=999,minnames=999,prenote=notaesempio,heading=esempio,keyword=Esempio]
+%
+%% Riferimenti bibliografici
+%\phantomsection{}
+%\addcontentsline{toc}{section}{\refname}
+%\printbibliography[maxnames=999,minnames=999,prenote=notariferimenti,heading=primary,keyword=primary]
+
+\printbibliography
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish,english,italian,catalan]{babel}
+\title{Exemple de l'estil bibliogràfic \textsf{caunsrt}}
+\author{Robert Fuster}
+\date{15 de desembre de 2004}
+\begin{document}
+\maketitle
+Aquest és un exemple de l'estil bibliogràfic  \textsf{caunsrt}.
+
+Entre altres documents la bibliografia inclou dues entrades del mateix autor
+(\cite{lamport2,biblamport}), el document electrònic~\cite{hyperlatex}
+i algun llibre de text, com ara~\cite{rbjcjmau}. Diversos documents 
+\cite{biblamport, btxdoc,lamport2,vafus,jcccrf,liang} fan referència al \TeX, al 
+\LaTeX{} i al \textsc{Bib}\TeX.
+\nocite{*}
+\bibliographystyle{caunsrt}
+\bibliography{exemples}
+\end{document}

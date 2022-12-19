@@ -1,0 +1,133 @@
+%  arrsy.tex
+%  Anders G S Svensson
+%  $Date: 1995/03/31 21:55:00 $
+%  $Revision: 1.13 $
+
+\chardef\ArrsycodE=\catcode`\@
+\catcode`\@=11
+
+\def\@@bailout@@{\message{again}\catcode`\@=\ArrsycodE\endinput}
+
+\ifx\@@agss@arrsy@@\relax
+\else
+   \let\@@agss@arrsy@@\relax
+   \let\@@bailout@@\relax
+\fi
+
+\@@bailout@@
+
+
+\font\A@tenarr=arrsy10
+\font\A@sevenarr=arrsy10 at 7pt
+\font\A@fivearr=arrsy10 at 5pt
+
+\newfam\arrfam
+
+\textfont\arrfam=\A@tenarr
+\scriptfont\arrfam=\A@sevenarr
+\scriptscriptfont\arrfam=\A@fivearr
+
+\let\cmrightarrow\rightarrow
+\let\cmleftarrow\leftarrow
+\let\cmleftrightarrow\leftrightarrow
+\let\cmleftharpoonup\leftharpoonup
+\let\cmleftharpoondown\leftharpoondown
+\let\cmrightharpoonup\rightharpoonup
+\let\cmrightharpoondown\rightharpoondown
+
+\def\hex#1{\ifcase#1 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or 8\or 9\or
+   A\or B\or C\or D\or E\or F\fi}
+
+\edef\A@arrsy{\hex\arrfam}
+
+\def\A@newarrow#1#2#3#4{%
+   \expandafter\mathchardef\csname A@#1\endcsname="#2\A@arrsy#3#4
+   \expandafter\expandafter\expandafter\let\expandafter\expandafter
+      \csname #1\endcsname\csname A@#1\endcsname}
+
+\A@newarrow{Rightharpoonup}300
+\A@newarrow{Leftharpoondown}301
+\A@newarrow{Upharpoonleft}302
+\A@newarrow{Downharpoonright}303
+\A@newarrow{Rightharpoondown}304
+\A@newarrow{Leftharpoonup}305
+\A@newarrow{Upharpoonright}306
+\A@newarrow{Downharpoonleft}307
+\A@newarrow{Rrightarrow}308
+\A@newarrow{Lleftarrow}309
+\A@newarrow{Rrelbar}30A
+\A@newarrow{dashbar}30B
+\A@newarrow{shortrightarrow}30C
+\A@newarrow{shortleftarrow}30D
+\A@newarrow{rightmonotail}30E
+\A@newarrow{leftmonotail}30F
+\A@newarrow{squiggle}310
+\A@newarrow{rightarrow}311
+\A@newarrow{leftarrow}312
+\A@newarrow{leftrightarrow}313
+\A@newarrow{leftharpoonup}314
+\A@newarrow{leftharpoondown}315
+\A@newarrow{rightharpoonup}316
+\A@newarrow{rightharpoondown}317
+\edef\vect{\mathaccent"0\A@arrsy 18 }
+\mathchardef\comp="3\A@arrsy 19
+\mathchardef\dotp="3\A@arrsy 1A
+\mathchardef\cupp="3\A@arrsy 1B
+\mathchardef\capp="3\A@arrsy 1C
+
+\let\of\comp
+
+\let\gets\leftarrow
+\let\to\rightarrow
+
+\def\cmarrows{\let\leftrightarrow\cmleftrightarrow
+   \let\rightarrow\cmrightarrow\let\leftarrow\cmleftarrow
+   \let\gets\leftarrow\let\to\rightarrow
+   \let\leftharpoonup\cmleftharpoonup
+   \let\leftharpoondown\cmleftharpoondown
+   \let\rightharpoonup\cmrightharpoonup
+   \let\rightharpoondown\cmrightharpoondown}
+
+\def\rightepi{\A@rightarrow\mkern-13mu\A@shortrightarrow\mkern3mu}
+\let\epito\rightepi
+\def\leftepi{\A@leftarrow\mkern-15mu\A@shortleftarrow\mkern5mu}
+\let\A@rightepi\rightepi \let\A@leftepi\leftepi
+
+\def\rightmono{\A@rightmonotail\mkern-8mu\relbar\mkern-8mu\A@shortrightarrow}
+\let\monoto\rightmono
+\def\leftmono{\A@shortleftarrow\mkern-8mu\relbar\mkern-8mu\A@leftmonotail}
+
+\def\rightiso{\A@rightmonotail\mkern-5mu\A@shortrightarrow
+   \mkern-7mu\A@shortrightarrow}
+\let\isoto\rightiso
+\def\leftiso{\A@shortleftarrow\mkern-7mu\A@shortleftarrow
+   \mkern-5mu\A@leftmonotail}
+
+\def\longrightepi{\relbar\joinrel\A@rightepi}
+\def\longleftepi{\A@leftepi\joinrel\relbar}
+
+\def\longrightmono{\A@rightmonotail\mkern-7mu\relbar\mkern-6mu\A@rightarrow}
+\def\longleftmono{\A@leftarrow\mkern-6mu\relbar\mkern-7mu\A@leftmonotail}
+
+\def\longrightiso{\A@rightmonotail\mkern-7mu\relbar\mkern-6mu\A@rightepi}
+\def\longleftiso{\A@leftepi\mkern-6mu\relbar\mkern-7mu\A@leftmonotail}
+
+\def\Longrightharpoonup{\Relbar\joinrel\A@Rightharpoonup}
+\def\Longrightharpoondown{\Relbar\joinrel\A@Rightharpoondown}
+\def\Longleftharpoonup{\A@Leftharpoonup\joinrel\Relbar}
+\def\Longleftharpoondown{\A@Leftharpoondown\joinrel\Relbar}
+\def\Llongrightarrow{\A@Rrelbar\joinrel\A@Rrightarrow}
+\def\Llongleftarrow{\A@Lleftarrow\joinrel\A@Rrelbar}
+\def\Llongrelbar{\A@Rrelbar\joinrel\A@Rrelbar}
+
+\let\Leftallo\Leftharpoondown
+\let\Leftpara\Leftharpoonup
+\let\Rightallo\Rightharpoonup
+\let\Rightpara\Rightharpoondown
+
+\let\Longleftallo\Longleftharpoondown
+\let\Longleftpara\Longleftharpoonup
+\let\Longrightallo\Longrightharpoonup
+\let\Longrightpara\Longrightharpoondown
+
+\catcode`\@=\ArrsycodE

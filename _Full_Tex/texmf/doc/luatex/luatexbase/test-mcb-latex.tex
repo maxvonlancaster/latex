@@ -1,0 +1,41 @@
+%%
+%% This is file `test-mcb-latex.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% luatexbase-mcb.dtx  (with options: `testlatex')
+%% 
+%% Copyright (C) 2009 by Elie Roux <elie.roux@telecom-bretagne.eu>
+%% 
+%% This work is under the CC0 license.
+%% See source file 'luatexbase-mcb.dtx' for details.
+%% 
+\RequirePackage{luatexbase-mcb}
+\catcode 64 11
+\luatexbase@directlua{
+  local function one(head,...)
+      texio.write_nl("I'm number 1")
+      return head, true
+  end
+
+  local function two(head,...)
+      texio.write_nl("I'm number 2")
+      return head, true
+  end
+
+  local function three(head,...)
+      texio.write_nl("I'm number 3")
+      return head, true
+  end
+
+  luatexbase.add_to_callback("hpack_filter",one,"my sample function one",1)
+  luatexbase.add_to_callback("hpack_filter",two,"my sample function two",2)
+  luatexbase.add_to_callback("hpack_filter",three,"my sample function three",1)
+
+  luatexbase.remove_from_callback("hpack_filter","my sample function three")
+}
+\stop
+\endinput
+%%
+%% End of file `test-mcb-latex.tex'.

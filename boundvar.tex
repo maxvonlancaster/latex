@@ -1,0 +1,129 @@
+\documentclass[12pt, fleqn]{article}
+
+\usepackage[cp1251]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+
+\Ukrainian
+
+\setlength{\voffset}{-20mm} \setlength{\hoffset}{-20mm}
+\setlength{\textwidth}{170mm} \setlength{\textheight}{240mm}
+
+
+\tolerance=10000
+\sloppy
+\begin{document}
+
+\renewcommand{\baselinestretch}{1.2}
+
+\pagestyle{empty}
+\begin{center}
+{\Large {\textbf{Проміжна функція обмеженої варіації для пари Гана обмеженої варіації}}}
+
+\author{Конаровський В. В.}{Конаровський В.В.}
+\author{Маслюченко В. К.}{Маслюченко В. К.}
+\author{Мельник В. С.}{Мельник В. С.}
+
+\end{center}
+\large
+\bigskip
+
+\textbf{Постановка задачі:} Нехай $(g,h)$~--- пара функцій з $[0,1]$ в $\mathbb{R}$, $g$~--- напівнеперервна зверху, $h$~--- знизу, $g(x)\leq h(x)$ на $[0,1]$, $g$ та $h$~--- обмеженої варіації. Сконструювати функцію $f$~--- неперервну та обмеженої варіації, таку, що $g(x)\leq f(x)\leq h(x)$ на $[0,1]$.
+
+\textbf{Лема 1.} Якщо $V(g)<\infty$, то $D_{g}=\{x: g$~--- розривна в $x\}$~--- зліченна.
+
+\textbf{Доведення.} Оскільки $g$~--- обмеженої варіації, то $g=f_{1}-f_{2}$, $f_{1}$, $f_{2}$~--- монотонні функції. Позначимо $D_{n,1}=\{x:\omega_{f_{1}}(x)>\frac{1}{n}\}$~--- скінченна, звідси маємо, що $D_{f_{1}}=\bigcup\limits_{n=1}^{\infty} D_{n,1}$~--- зліченна. Таким чином, $D_{f_{1}}\cup D_{f_{2}}$~--- зліченна. Маємо, що  оскільки $C_{g}\supseteq C_{f_{1}}\cap C_{f_{2}}$, то $D_{g}\subseteq D_{f_{1}}\cup D_{f_{2}}.$ Отже, $D_{g}$~--- зліченна.
+
+Позначимо $T$~--- зліченна щільна в $[0,1]$ множина, така, що $T\supseteq D_{g}\cup D_{h}\cup \{0,1\}$, $T=\{u_{0},u_{1},u_{2},...\}$, де $u_{0}=0$ та $u_{1}=1$. Маємо, що $T=\bigcup\limits_{n=1}^{\infty}T_{n}$, $T_{n}=\{u_{0},...,u_{n}\}=\{t_{0},...,t_{n}\}$.
+
+\textbf{Лема 2.} Нехай $f_{n}\in C[0,1]$ і виконуються умови:
+
+1) Для кожного $t_{k}\in T_{n}:$ $f_{n}(t_{k})\in [g(t_{k}),h(t_{k})]$,
+
+2) $f_{n}\rightrightarrows f$.
+
+Тоді: $g\leq f\leq h$.
+
+\textbf{Доведення.} Нехай $t\in [0,1]$. Якщо $t\in D_{g}\cup D_{h}$, то існує $N$ такий, що $t\in T_{n}$ для кожного $n\geq N$. Звідси випливає, що $f(t)\in [g(t),h(t)]$.
+
+Нехай $t\notin D_{g}\cup D_{h}$, отже, $g$ та $h$ неперервні в $t$.
+
+\textbf{Конструкція функції $f_{n}$}
+
+Покладемо $x=(x_{0},x_{1},...,x_{n})$, $a_{k}=g(t_{k})$, $b_{k}=h(t_{k})$. Дослідимо на мінімум функцію: $$L_{n}(x)=\sum\limits_{k=0}^{n-1}\sqrt{(x_{k+1}-x_{k})^{2}+(t_{k+1}-t_{k})^{2}},$$ де $x_{k}\in [a_{k},b_{k}]$ для кожного $k=\overline{0,(n-1)}$. За теоремою Вейерштрасса, існує глобальний мінімум $L_{n}(x)$ на $A=\prod\limits_{k=0}^{n}[a_{k},b_{k}]\subseteq \mathbb{R^{n+1}}$, $x=(x_{0},...,x_{n})\in A$. Розглянемо функцію $s_{k}(t)=(x_{k+1}-x_{k})\frac{t-t_{k}}{t_{k+1}-t_{k}}+x_{k}$, $k=\overline{0,n-1}$, $s_{k}:[t_{k},t_{k+1}]\rightarrow\mathbb{R}$, та побудуємо $f_{n}(t)=\sum\limits_{k=0}^{n-1}\chi_{[t_{k},t_{k+1})}(t)s_{k}(t)+s_{n-1}(1)$~--- неперервна кусково-лінійна ламана.
+
+\textbf{Лема 3.} Нехай $t\in [0,1]$.
+
+(i) Якщо $\frac{d^{+}}{dt}f_{n}(t)|_{t_{k}}<\frac{d^{-}}{dt}f_{n}(t)|_{t_{k}}$, то $\exists k\in \overline{0,n}$: $t_{k}=t$ і $f_{n}(t_{k})=a_{k}$.
+
+(ii) Якщо $\frac{d^{+}}{dt}f_{n}(t)|_{t_{k}}>\frac{d^{-}}{dt}f_{n}(t)|_{t_{k}}$, то $\exists k\in \overline{0,n}$: $t_{k}=t$ і $f_{n}(t_{k})=b_{k}$.
+
+\textbf{Доведення.} (i) Нехай $f_{n}(t)$~--- кусково-лінійна, точки злому~--- $T_{n}$. При $t\notin T_{n}$ маємо $t\in (t_{k},t_{k+1})$, $f_{n}(t)=s_{k}(t)$, $$\frac{d^{+}}{dt}f_{n}(t)|_{t_{k}}=\frac{x_{k+1}-x_{k}}{t_{k+1}-t_{k}}= \frac{x_{k+1}-x_{k}}{t_{k+1}-t_{k}}=\frac{d^{-}}{dt}f_{n}(t)|_{t_{k}}.$$ Отже, $t\in T_{n}$, $\exists k=\overline{0,n}$: $t_{k}=t$.
+
+Нехай $x_{k}=f(t_{k})>a_{k}$. Покладемо $A=(t_{k-1},x_{k-1})$, $B=(t_{k},x_{k})$, $C=(t_{k+1},x_{k+1})$. Виберемо $\widetilde{x_{k}}\in (a_{k},x_{k})$ таку, що $D$ лежить всередині $\triangle ABC$. Доведемо, що $AD+DC<AB+BC$. Продовжимо $AD$ до перетину з $BC$ в точці $H$. Маємо, що $DC<DH+HC$, а отже, $AD+DC<AD+DH+HC=AH+HC$. Маємо з $\triangle ABC$: $AH<AB+BH$, отже, $$AD+DC<AH+HC<AB+BH+HC=AB+BC.$$ Таким чином, $$\sqrt{(x_{k+1}-\widetilde{x_{k}})^{2}+(t_{k+1}-t_{k})^{2}}+ \sqrt{(x_{k-1}-\widetilde{x_{k}})^{2}+(t_{k-1}-t_{k})^{2}}<$$ $$ < \sqrt{(x_{k+1}-x_{k})^{2}+(t_{k+1}-t_{k})^{2}}+ \sqrt{(x_{k-1}-x_{k})^{2}+(t_{k-1}-t_{k})^{2}},$$
+а отже, $L_{n}(x_{1},...,x_{k-1},\widetilde{x_{k}},x_{k+1},...,x_{n})<L_{n}(x_{1},...,x_{k-1},x_{k},x_{k+1},...,x_{n})$
+~--- це суперечить умові того, що в точці $x$ функція $L_{n}$ набуває глобальний мінімум.
+
+Доведення (ii) аналогічне.
+
+Маємо $\{f_{n}(t),t\in[0,1]\}$~--- побудована послідовність.
+
+\textbf{Твердження 1.} Послідовність функцій $\{f_{n}\}$, побудована вища, є рівностепенево неперервною.
+
+\textbf{Доведення.} Від супротивного. Нехай існує $\varepsilon>0$ такий, що для довільного $\delta>0$ існує $n\in \mathbb{N}$ існують $t',t''$ такі, що з того, що $|t'-t''|<\delta$ випливає, що $|f_{n}(t')-f_{n}(t'')|>\varepsilon$. Отже, $\forall m\in \mathbb{N}$ $\exists n_{m}\in \mathbb{N}$, $t'_{m}$, $t''_{m}$ такі, щоз того, що $|t'_{m}-t''_{m}|<\frac{1}{m}$ випливає, що $|f_{n_{m}}(t'_{m})-f_{n_{m}}(t''_{m})|>\varepsilon$.  Існує підпослідовність $(m_{l})_{l}$ така, що $t'_{m_{l}}\rightarrow t_{0}\in [0,1]$. Оскільки $|t'_{m_{l}}-t''_{m_{l}}|<\frac{1}{m_{l}}$, то $t''_{m_{l}}\rightarrow t_{0}$. Маємо, що $t'_{m_{k}}$, $t''_{m_{k}}\rightarrow t_{0}$.
+
+Ми хочемо показати, що для довільного $\gamma>0$ існують $\widetilde{t'}$, $\widetilde{t''}\in U_{\gamma}(t_{0})$: $$g(\widetilde{t''})\geq h(\widetilde{t'})+\frac{\varepsilon}{2}.$$ Покладемо: $M=\max\{\sup\limits^{}_{t\in [0,1]}|g(t)|,\sup\limits^{}_{t\in [0,1]}|h(t)|\}$. Виберемо $m\in \mathbb{N}$ такий, що $\frac{8M}{\gamma}<\frac{\varepsilon}{2}$, $|t''_{m}-t_{0}|<\frac{\gamma}{2}$, $|t'_{m}-t_{0}|<\frac{\gamma}{2}$, $\frac{1}{m}<\frac{\gamma}{2}$, покладемо $t'=t'_{m}$, $t''=t''_{m}$, $f_{n_{m}}=f$.
+
+Розглянемо випадок, коли $f(t')<f(t'')$.
+
+1) Нехай $f'_{+}(t)\uparrow$ на $[t'',t_{0}+\gamma)$ маємо, що $f(t'')+f^{+}(t'')(t_{0}+\gamma-t'')\leq f(t_{0}+\gamma)<M$. Оскільки $f(t'')>-M$ та $t_{0}+\gamma-t''>\frac{1}{2}\gamma$, маємо, що $f'_{+}(t'')<\frac{2M}{\frac{1}{2}\gamma}=\frac{4M}{\gamma}$.
+
+1.1.) Нехай тепер існує $\widetilde{\varepsilon}>0$ такий, що $f$~--- опукла на $[t',t'']$. Тоді: $$f(t')\geq f(t'')+f'_{+}(t'')(t'-t'')\geq f(t'')-\frac{4M}{\gamma}(t''-t')\geq f(t'')-\frac{4M}{\gamma}\frac{1}{m}\geq f(t'')-\frac{\varepsilon}{4}.$$ Маємо: $f(t'')-\frac{\varepsilon}{4}<f(t')<f(t'')$, отже, $|f(t')-f(t'')|<\frac{\varepsilon}{4}$~--- суперечність.
+
+Отже, існує $s\in (t',t'']$ така, що $f'_{+}(s)<f'{-}(s),(*)$. Нехай $\widetilde{t''}$~--- найближча до $t''$ така, що виконується $(*)$. Тоді $f(\widetilde{t''})=g(t'')$. Маємо, що $f$~--- опукла на $[\widetilde{t''},t'']$, отже: $$f(\widetilde{t''})\geq f(t'')+f'_{+}(\widetilde{t''} -t'')\geq f(t'')-\frac{4M}{\gamma}\frac{1}{m}>f(t'')-\frac{\varepsilon}{4}.$$ Отже, $g(\widetilde{t''})>f(t'')-\frac{\varepsilon}{4}$.
+
+2) Нехай $s''=\min\{s\in(t'',t_{0}+\gamma):\textmd{ виконується (*)}\}$.
+
+2.1) Якщо $f(t'')<f(s'')$, то $g(s'')=f(s'')\geq f(t'')>f(t'')-\frac{\varepsilon}{4}$.
+
+2.2) Нехай $f(s'')<f(t'')$. Маємо, що $f'_{+}(t)\uparrow$ на $(t'',s'')$, а отже $f(s'')\geq f'_{+}(t'')(s''-t'')+f(t'')$, звідси маємо, що $f'_{+}(t'')(s''-t'')\leq 0$,  тобто, $f'_{+}(t'')\leq0$.
+
+Нехай $f'_{+}(t)\uparrow$ на $[\widehat{t},s'')$, $\widehat{t}\leq t''$. Тоді для довільного $t\in [\widehat{t},t'')$: $$f(t)\geq f(t'')+f'_{+}(t'')(t-t'')\geq f(t''),$$ оскільки $f(t')<f(t'')$, то маємо, що $t'<\widehat{t}$. Існує $s'\in [t',t'')$, для якої виконується (*). Вибираємо найправішу з таких точок $s'$ і маємо, що $g(s')-f(s')>f(t'')>f(t'')-\frac{\varepsilon}{4}.$
+
+Окрім того, у випадку, коли (*) виконується в точці $t''$, маємо, що $g(t'')=f(t'')>f(t'')-\frac{\varepsilon}{4}$.
+
+Таким чином, існує $\widetilde{t''}\in (t',t_{0}+\gamma)$ такий, що $g(\widetilde{t''})>f(t'')-\frac{\varepsilon}{4}$. Покажемо тепер, що існує $\widetilde{t'}\in(t_{0}-\gamma,t'')$ такий, що $h(\widetilde{t'})<f(t')+\frac{\varepsilon}{4}$.
+
+1) Нехай $f'_{+}(t)\downarrow$ на $(t_{0}-\gamma,t']$. Тоді маємо, що: $$f(t')+f^{+}(t')(t_{0}-\gamma-t')\geq f(t_{0}-\gamma)>-M,$$ оскільки $f(t')>M$, то $$f^{+}(t')<\frac{2M}{\frac{\gamma}{2}}=\frac{4M}{\gamma}.$$
+
+1.1) Нехай тепер існує $\widetilde{\varepsilon}>0$, такий, що $f$~--- опукла вниз на $[t'-\widetilde{\varepsilon},t'']$. Тоді $$f(t'')\leq f(t')+f'_{+}(t')(t''-t')\leq f(t')+\frac{4M}{\gamma}\frac{1}{m}< f(t')+\frac{\varepsilon}{4}.$$ Маємо: $f(t')<f(t'')<f(t')+\frac{\varepsilon}{4}$, отже $|f(t')-f(t'')|<\frac{\varepsilon}{4}$~--- суперечність.
+
+Отже, існує $s\in [t',t'')$ такий, що $f'_{+}(s)>f'_{-}(s),(**)$. Нехай $\widetilde{t'}$~--- найближча до $t'$ така, що виконується (**). Тоді $f(\widetilde{t'})=h(\widetilde{t'})$. Маємо,  що $f$~--- опукла вниз на $[t',\widetilde{t'}]$, отже: $$f(\widetilde{t'})\leq f(t')+f'_{+}(t')(\widetilde{t'}-t')\leq f(t')+\frac{4M}{\gamma}\frac{1}{m}<f(t')+\frac{\varepsilon}{4}.$$ Маємо: $f(t')<f(t'')<f(t')+\frac{\varepsilon}{4}$, отже $|f(t')-f(t'')|<\frac{\varepsilon}{4}$~--- суперечність. Отже, існує $s\in [t',t'')$ такий, що $f'_{+}(s)>f'_{-}(s),(**)$. Нехай $\widetilde{t'}$~--- найближча до $t'$ така, що виконується (**). Тоді $f(\widetilde{t'})=h(\widetilde{t'})$. Маємо, що $f$~--- опукла вниз на $[t',\widetilde{t'}]$, отже: $f(\widetilde{t'})\leq f(t')+f'_{+}(t')(\widetilde{t'}-t')\leq f(t')+\frac{4M}{\gamma}\frac{1}{m}<f(t')+\frac{\varepsilon}{4}.$ Отже, $h(\widetilde{t'})<f(t')+\frac{\varepsilon}{4}$. Зауважимо, що якщо $t'=\widetilde{t'}$, то $h(t')=f(t')<f(t')+\frac{\varepsilon}{4}$.
+
+2) Нехай $s'=\max\{s\in(t_{0}-\gamma,t')\textmd{: виконується (**)}\}$
+
+2.1) Якщо $f(t')>f(s')$, то $f(t')>h(s')$, $f(t')+\frac{\varepsilon}{4}>f(s')=h(s')$.
+
+2.2) Нехай $f(t')\leq f(s')$. Маємо, що $f'_{+}(t)$ спадає на $(s',t')$, а отже $f(s')\leq f'_{+}(t')(s'-t')+f(t')$, звідси випливає, що $f'_{+}(t')\leq0$.
+
+Нехай $f'_{+}(t)\downarrow$ на $[s',\widehat{t}]$, $\widehat{t}>t'$.
+
+Тоді для довільного $t\in [t',\widehat{t}]$: $$f(t)\leq f(t')+f'_{+}(t')(t-t')<f(t').$$ Але $f(t'')>f(t')$.
+
+Отже, $\widehat{t}<t''$, таким чином, існує $s\in [t',t'']$, для якого виконується (**), вибираємо мінімальну з цих точок $\widetilde{t'}$, і маємо, що $h(\widetilde{t'})=f(\widetilde{t'})\leq f(t')<f(t')+\frac{\varepsilon}{4}$.
+
+Отже, для довільного $\gamma>0$ існують $\widetilde{t'}$, $\widetilde{t''}\in U_{\gamma}(t_{0})$, такі, що $g(\widetilde{t''})\geq f(\widetilde{t''})-\frac{\varepsilon}{4}$, та $h(\widetilde{t'})\leq f(\widetilde{t'})+\frac{\varepsilon}{4}.$ Звідси отримуємо, що: $g(\widetilde{t''})\geq h(\widetilde{t'})+\frac{\varepsilon}{2}.$ В такому випадку, маємо, що існує $\gamma>0$ такий, що для довільного $t',t''\in U_{\gamma}(t_{0})$: $h(t_{0})\leq h(t')+\frac{\varepsilon}{4}$ $g(t_{0})\geq g(t'')-\frac{\varepsilon}{4}$. Звідси $g(t_{0})-h(t_{0})\geq g(\widetilde{t'})-h(\widetilde{t''})-\frac{\varepsilon}{2}>\frac{\varepsilon}{2}-\frac{\varepsilon}{2}>0$. Ми отримали суперечність. Таким чином, послідовність $(f_{n})$~--- рівностепенево неперервна.
+
+Окрім того, маємо, що $(f_{n})$~--- рівномірно обмежена, а отже, за теоремою Асколі-Арцелла, існує збіжна до $f$ підпослідовність $f_{n_{k}}$. За лемою 2, ця $f$ і є проміжною неперервною функцією з обмеженою варіацією.
+
+
+
+
+
+
+
+
+
+
+\end{document} 

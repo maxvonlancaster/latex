@@ -1,0 +1,15 @@
+$$
+\joined \let\labelstyle\textstyle
+\Graph{3cm,2}{3cm,4}
+\Line (0,0) (0,4) <{f(z,s)}
+\Line (0,4) (2,4) ^{H(z,t)}
+\Line (0,0) (2,0) _{*}
+\Line (2,0) (2,4)
+\Line (0,4) (2,2) _{\;\;H(z,0) = f(z,1)} \ro
+\endGraph
+\qquad\qquad
+H'(z,t,s) =
+\cases{f(z,2s/(2-t))& if $0\le 2s\le 2 - t$\cr
+       \cr
+       H(z,2s - 2 + t)& if $2 - t\le 2s\le 2$\cr}
+$$

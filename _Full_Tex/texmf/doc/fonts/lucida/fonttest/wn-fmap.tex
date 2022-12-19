@@ -1,0 +1,11 @@
+%testtext stuff
+%
+\vsize10in
+\voffset-.5in\eject
+\let\noinit!\input testfox
+\input testtext
+\def\FontPage#1{\medbreak\vbox\bgroup\def\fontname{#1}\startfont\xtable\vfil\eject\alttext\vfil\eject}
+\def\fontii{wn}
+\input katalog.lh
+\input fontmisc.lh
+\end

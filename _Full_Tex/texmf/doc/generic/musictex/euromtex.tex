@@ -1,0 +1,814 @@
+%
+\def\text#1{\hbox{\rm #1}}%
+%\check
+\def\ital#1{{\sl #1\/}}%
+\def\mutex{M\raise 2pt\hbox{\kern -1pt u\kern -1pt}\TeX}
+\def\bslash{{\tt\char'134}}%
+\def\|{{\tt\char'174}}%
+\def\#{{\tt\char'043}}%
+\def\{{{\char'173}}%
+\def\}{{\char'175}}%
+\def\@{{\char'100}}%
+\def\musictex{Music\TeX}%
+\def\musicxx{\musictwenty}
+\def\keyindex#1{{\tt\bslash #1}\index{#1 \&\&\protect\tt\protect\bslash #1}}
+\def\zkeyindex#1{\index{#1 \&\&\protect\tt\protect\bslash #1}}
+\def\ixem#1{#1\index{#1}}
+\def\itxem#1{\ital{#1}\index{#1}}
+\def\aujourdhui{\today}
+\def\vboxit#1{\vbox{\hrule\hbox{\vrule\kern3pt
+    \vbox{\kern3pt#1\kern3pt}\kern3pt\vrule}\hrule}}
+\def\hboxit#1{\hbox{\vrule\vbox{\hrule\kern3pt
+    \hbox{\kern3pt\small\it #1\kern3pt}\kern3pt\hrule}\vrule}}
+%
+%\check
+\tracingstats=1
+%
+\input musicext
+\documentstyle[musictex,musictrp,euro92]{article}
+%% local commands
+\tolerance 10000
+\font\mf=logo10 \hyphenchar\mf=-1 \newcommand{\METAFONT}{{\mf METAFONT}}
+\begin{document}
+
+\title{\musictex : using \TeX\ to write\\polyphonic or
+instrumental music}
+\titlehead{\musictex -- Euro\TeX{}~92}
+
+\author{Daniel {\sc Taupin}$^{\dag}$}
+\authorhead{Taupin}
+
+\affiliation{$\dag$ Universit\'e de Paris-Sud\\
+Laboratoire de Physique des Solides\\
+b\^atiment 510\\
+F-91405 ORSAY Cedex, France}
+
+\maketitle
+
+\begin{abstract} \musictex\ is a set of \TeX\ or La\TeX\ macros which are
+fit to typeset polyphonic, instrumental or orchestral music. It is able to
+handle an important number of instruments or voices (up to nine) and staffs
+(up to four for each instrument). Many usual ornaments have been provided, including
+several note sizes which can handle grace notes or extra music like cadenzas.
+
+Except the risk of typing errors due to a sophisticated set of macros,
+the major difficulty still resides in glue and line breaking in the case of
+irregular music and slurs.
+ \end{abstract}
+
+\begin{resume}{R\'esum\'e}
+\musictex\ est un jeu de macro-instructions \TeX\ ou La\TeX\ adapt\'ees \`a
+l'\'ecriture de partitions polyphoniques, instrumentales ou orchestrales.
+\musictex\ est capable de g\'erer un nombre important d'instruments ou de voix
+(jusqu'\`a neuf) et de port\'ees (jusqu'\`a quatre par instrument).
+En outre, beaucoup d'ornements sont maintenant disponibles, notamment les notes
+de petite taille our indiquer les ornements explicites ou les cadences.
+
+\`A part les risques d'erreurs li\'ees \`a la difficult\'e d'usage de
+certaines proc\'edures, la principale difficult\'e est celle des coupures de
+lignes dans le cas o\`u d'une musique irr\'eguli\`ere et la r\'alisation de
+liaisons ou de phras\'es esth\'etiques. \end{resume}
+
+\begin{keywords}
+music typesetting, orchestral music, polyphonic music.
+\end{keywords}
+
+\section{What is \musictex\ ?}
+ \musictex\ is a set of \TeX\ macros to typeset polyphonic, orchestral or
+polyphonic music. Therefore, it is mainly supposed to be used to type wide
+scores -- just because true musicians seldom like to have to frequently turn
+pages -- and this is not really compatible with La\TeX's standard page
+formats, even the {\tt A4.sty} whose {\tt\bslash textheight} and  {\tt\bslash
+textwidth} are too small for musician needs.
+
+  However, a La\TeX\ style has been also provided (and it is used for the
+typing of the present paper) but this {\tt musictex} style is fit for
+musicographic books  rather than for normal scores to be actually played.
+
+ It is to be emphasized that \musictex\ is not intended to be a
+compiler which would translate into \TeX\ some \ixem{standard musical
+notation}s, nor to decide by itself about aesthetic problems in music typing.
+\musictex\ only typesets staves, notes, chords, beams, slurs and ornaments as
+requested by the composer. Since it makes very few typesetting decisions,
+\musictex\ appears to be a versatile and rather powerful tool. However, due
+to the important amount of informations to be provided to the typesetting
+process, coding \musictex\ might appear to be awfully complicated, just as
+the real keyboard or orchestral music. It should be interfaced therefore by
+some pre-compiler in the case of the composer/typesetter wanting aesthetic
+decisions to be automatically made by somebody (or something) else.
+
+\section{\musictex\ pricipal features}
+\subsection{Music typesetting is two-dimensional}
+
+ Most of the people who just learnt a bit of music at college probably think
+that music is a linear sequence of symbols, just as literary texts to be
+\TeX-ed. In fact, with the exception of strictly monodic instruments like
+most orchestral wind instruments and solo voices, one should be aware that
+reading music actually is a matricial operation~: the non-soloist musician
+successively reads \ital{columns} of simultaneous notes which he actually plays
+if he is a pianist, clavichordist or organist, which he actually reads and
+watches if he conducts an orchertra, and which he is supposed to check and
+partially play when he is a soloist who wants to play in time with the
+accompanying instrument or choir.
+
+ In fact, our personal experience of playing piano and organ as well as
+sometimes helping as an alternate Kapellmeister leads us to think that actual
+music reading and composing is a slightly more complicated intellectual
+process~: music reading, music composing and music thinking seems to be a
+three layer process. The musician usually reads or thinks several consecutive
+notes (typically a long \ital{beat} or a group of logically connected notes), then
+he goes down to the next instrument or voice and finally assembles the whole
+to build a part of music lasting roughly a few seconds. Then he handles the
+next \ital{beat} or \ital{bar} of his score.
+
+  Thus, it appears that the humanly logical way of coding music consists
+in horizontaly accumulating a set of \ital{vertical combs} with
+\ital{horizontal teeth} as described in Table \ref{readtable}.
+
+ \begin{table}
+ \begin{center}
+ \begin{tabular}{|ll|ll|}\hboxit{note sequence one}
+  &\hboxit{note seq.\ four}
+  &\hboxit{note seq.\ seven}
+  &\hboxit{note seq.\ ten}\\\hboxit{note sequence two}
+  &\hboxit{note seq.\ five}
+  &\hboxit{note seq.\ eight}
+  &\hboxit{note seq.\ eleven}\\\hboxit{note seqence three}
+  &\hboxit{note seq.\  six}
+  &\hboxit{note seq.\  nine}
+  &\hboxit{note seq.\  twelve}\\
+ \end{tabular}
+ \end{center}
+ \caption{The order in which a musician reads music}\label{readtable}
+ \end{table}
+
+This is the reason
+why, in {\bf \musictex} the fundamental \ital{macro} is of the form
+
+\begin{center}
+{\tt \bslash notes \dots\ \& \dots\ \& \dots\ \bslash enotes}
+\end{center}
+
+\noindent where the character {\tt\&} is used to separate the notes to be
+typeset on respective staffs of the various instruments, starting from the
+bottom.
+
+In the case of an instrument whose score has to be written with
+several staffs, these staffs are separated by the
+character \|. Thus, a score written for a keyboard instrument and
+a monodic instrument (for example piano and violin)
+will be coded as follows~:
+
+\begin{center}
+{\tt \bslash notes \dots\ \| \dots\ \& \dots\ \bslash enotes}
+\end{center}
+\noindent for each column of simultaneous \ital{groups of notes}.
+It is worth emphasizing that we actually said \ital{``groups of notes''}:
+this means that in each section of the previous macro, the music typesetter is
+welcome to insert, not only chord notes to be played at once, but small
+sequences of consecutive notes which build something he understands as a
+musical phrase. This is why note typing macros are of two kinds in \musictex,
+namely the note macros which are not followed by spacing afterwards, and those
+which induce horizontal spacing afterwards.
+
+\subsection{The spacing of the notes}
+
+It seems that many books have dealt with this problem.
+Although it can lead to interesting algorithms, we think it is
+in practice a rather minor one.
+
+In fact, each column of notes has not necessarily the same spacing
+and, in principle, this \itxem{spacing} should depend on the shortest
+duration of the simultaneous notes. But this cannot be established as a rule,
+for at least two reasons~:
+
+\begin{enumerate}
+ \item spacing does not depend only of the local notes,
+but also on the context, at least in the same bar.
+\item in the case of polyphonic music, exceptions can easily be found.
+Here is an example~:
+
+
+ \begin{music}
+\computewidths
+\def\nbinstruments{1}\relax
+\generalmeter{\meterfrac{4}{4}}\relax
+\debutextrait
+\normal\elemskip=0.110\hsize
+\temps\Notes\qsk\qsk\rlap{\hu j}\ql h\enotes
+\temps\Notes\hl g\enotes
+\temps\Notes\hu k\enotes
+\temps\Notes\ql f\enotes
+\finextrait
+ \end{music}
+
+%\check
+
+\noindent where it can be clearly seen that the half notes at beats 2 and 3
+must be spaced as if they were quarter notes since they overlap, which is
+obvious only because of the presence of the indication of the \itxem{meter} 4/4.
+\end{enumerate}
+%
+
+Therefore, we prefered to provide the composer/typesetter with a
+set of macros, the spacing of which increases by a factor of $\sqrt 2$
+(incidentally, this can be adjusted)~:
+
+\begin{center}
+{\tt \bslash notes \dots\ \& \dots\ \& \dots\ \bslash enotes\ \ \%
+\hbox to 2.5cm{\rm 1 spatial unit\hss}}
+\\
+{\tt \bslash Notes \dots\ \& \dots\ \& \dots\ \bslash enotes\ \ \%
+\hbox to 2.5cm{\rm 1.4 spacial unit\hss}}
+\\
+{\tt \bslash NOtes \dots\ \& \dots\ \& \dots\ \bslash enotes\ \ \%
+\hbox to 2.5cm{\rm 2 spatial units\hss}}
+\\{\tt \bslash NOTes \dots\ \& \dots\ \& \dots\ \bslash enotes\ \ \%
+\hbox to 2.5cm{\rm 2.8 spatial units\hss}}
+\\{\tt \bslash NOTEs \dots\ \& \dots\ \& \dots\ \bslash enotes\ \ \%
+\hbox to 2.5cm{\rm 4 spatial units\hss}}
+\\{\tt \bslash NOTES \dots\ \& \dots\ \& \dots\ \bslash enotes\ \ \%
+\hbox to 2.5cm{\rm 5.6 spatial units\hss}}
+\end{center}
+
+%\check
+ The size of the spatial unit (\keyindex{elemskip}) can be freely adjusted.
+In addition, \musictex\ provides a means of adjusting the note spacing
+according to an average number of elementary spaces within a line (macro
+\keyindex{autolines}).
+ 
+\subsection{Music tokens, rather than a readymade generator}
+%\check
+
+The tokens provided by \musictex\ are~:
+
+\begin{itemize}
+\item the note symbols \ital{without stem}~;
+\item the note symbols \ital{with stems, and hooks for eighth notes and
+beyond}~;
+\item the indications of beam beginnings and beam ends~;
+\item the indications of beginnings and ends of ties and slurs~;
+\item the indications of accidentals~;
+\item the ornaments~: arpeggios, trills, mordents, pinc\'es, turns, staccatos
+and pizzicatos, fermatas~;
+\item the bars, the meter and signature changes, etc.
+\end{itemize}
+
+ Thus, {\tt\bslash wh g} produces an \ital{A (445~Hz)} whose
+duration is a \ital{whole note}. In the same way, {\tt\bslash qu~c} produces
+a \ital{C (250~Hz approx.)} whose value is a \ital{quarter note with stem
+up}, {\tt \bslash cl J} produces a \ital{C (125~Hz approx.)} whose duration
+is an \ital{eighth note with stem down}, etc.
+
+ To generate quarter, eighth, sixteenth, etc. chords, the macro
+\keyindex{zq} can be used~: it produces a quarter note head whose position is
+memorized and recalled when another stemmed note (possibly with a hook) is
+coded~; then the stem is adjusted to link all simultaneous notes. Thus, the
+perfect C-major chord, i.e.
+
+%\check
+{\def\nbinstruments{1}\relax
+\cleftoksi={{0}{0}{0}{0}}\generalmeter{}\relax
+\debutextrait
+\normal
+\NOTes\qsk\zq c\zq e\zq g\qu j\enotes
+\finextrait}
+
+%\check
+\noindent is coded
+ \hbox{\tt\bslash zq~c\bslash zq~e\bslash zq~g\bslash qu~j}
+or, in a more concise way, \hbox{\tt\bslash zq\{ceg\}\bslash qu~j} (stem up)~:
+in fact, single notes are treated\dots\ like one-note chords.
+
+\subsection{Beams}
+ \ital{Beams}\index{beams} are generated using macros which define their
+beginning (at the current horizontal position), together with their altitude,
+their sense (upper of lower), their multiplicity, their slope and their
+reference number. This latter feature -- the reference number -- appears to
+be necessary, since one may want to write beams whose horizontal extents
+overlap~: therefore, it is necessary to specify which beam the notes hang on
+and which beam is terminated at a given position.
+
+%\check
+\subsection{Setting anything on the score}
+
+A general macro (\keyindex{zcharnote}) provides a means of
+putting any sequence of symbols (in fact, some {\tt \bslash hbox\{...\}}) at any
+pitch of any staff of any instrument. Thus, any symbol defined in a font
+(letters, math symbols, etc.) can be used to typeset music.
+
+\subsection{A simple example}
+
+ Before entering other details, we give below an example of the two first
+bars of the sonata in C-major K545 by {\sc\ixem{Mozart}}~:
+
+\begin{music}
+\parindent 1cm
+\def\nbinstruments{1}\relax
+\def\instrumenti{Piano}%
+\nbporteesi=2\relax
+\generalmeter{\meterfrac{4}{4}}\relax
+\debutextrait
+\normal
+\temps\Notes\ibu0f0\qh0{cge}\tbu0\qh0g|\hl j\enotes
+\temps\Notes\ibu0f0\qh0{cge}\tbu0\qh0g|\ql l\sk\ql n\enotes
+\barre
+\Notes\ibu0f0\qh0{dgf}|\qlp i\enotes
+\notes\tbu0\qh0g|\ibbl1j3\qb1j\tbl1\qb1k\enotes
+\temps\Notes\ibu0f0\qh0{cge}\tbu0\qh0g|\hl j\enotes
+\finextrait
+\end{music}
+%\check
+
+ The \ital{coding} is set as follows~:
+
+\begin{quote}\begin{verbatim}
+\begin{music}
+\parindent 1cm
+\def\nbinstruments{1}\relax % a single instrument
+\def\instrumenti{Piano}%    % whose name is Piano
+\nbporteesi=2\relax         % with two staffs
+\generalmeter{\meterfrac{4}{4}}\relax % 4/4 meter choosen
+\debutextrait               % starting real score
+\normal                     % normal 12 pt note spacing
+\temps\Notes\ibu0f0\qh0{cge}\tbu0\qh0g|\hl j\enotes
+\temps\Notes\ibu0f0\qh0{cge}\tbu0\qh0g|\ql l\sk\ql n\enotes
+\barre                      % bar
+\Notes\ibu0f0\qh0{dgf}|\qlp i\enotes
+\notes\tbu0\qh0g|\ibbl1j3\qb1j\tbl1\qb1k\enotes
+\temps\Notes\ibu0f0\qh0{cge}\tbu0\qh0g|\hl j\enotes
+\finextrait                 % terminate excerpt
+\end{music}
+ \end{verbatim}\end{quote}
+
+\begin{itemize}
+\item {\tt\bslash ibu0f0} begins an upper beam, aligned on the
+\ital{f}, reference number 0, slope 0
+\item {\tt\bslash tbu0} terminates this beam before writing
+the second \ital{g} by means of {\tt\bslash qh0g}
+\item {\tt\bslash qh..} indicates a note hanging on a beam.
+ \item {\tt\bslash sk } sets a space between the two quarters at the right
+hand, so that the second is aligned with the third eighth of the left hand.
+ \item{\tt\bslash qlp} is a  quarter with a point.
+ \item{\tt\bslash ibbl1j3} begins
+a double beam, aligned on the \ital{C} ({\tt j} at this pitch)
+of slope 0.15.
+\end{itemize}
+
+\subsection{Signatures}
+
+Signatures are stated either for all instruments, such as~:
+\keyindex{generalsignature}{\tt=-2} which sets two flats on each staff, but
+this can be partly overrided by \keyindex{signatureii}{\tt=1} which puts one
+sharp on the staffs of \itxem{instrument number} 2 (ii). Of course, the
+current signature may change at any time as well as meters and clefs.
+
+\subsection{Transposition}
+
+ An important question  is~: \ital{``can \musictex\ transpose a score~?''}.
+The answer is now 99.5~\% \ital{yes}. If fact, there is an internal register
+named \keyindex{transpose} the default value of which is zero, but it may be
+set to any positive of negative reasonable value. Then, it offsets all
+symbols pitched with letter symbols by that number of pitch steps. However,
+it will neither change the signature nor the local accidentals, and if -- for
+example -- you transpose by 1 pitch a piece written in $C$, \musictex\ will
+not know whether you want it in $D\flat$, in $D$ or in $D\sharp$. This might
+become tricky if accidentals occur within the piece, which might have to be
+converted into flats, naturals, sharps or double sharps, depending on the new
+choosen signature. To circumvent this trouble, \ital{relative} accidentals
+have been implemented, the actual output of which depends of the pitch of
+this accidental and of the current signature.\index{relative accidentals}
+
+\subsection{Grace notes and cadenzas}
+
+In addition to its facility of generating either sixteen point or twenty point
+staffs with note heads of corresponding size, \musictex\ also allows the user
+to type smaller notes, in order to represent either \ital{grace notes},
+\ital{cadenzas} or a proposed realization of a \ital{figured bass}. This may
+give something like~:
+
+\begin{music}
+\def\DS{\hbox{\ds}}
+\def\FS{\hbox{\kern 0.3\noteskip\soupir}\kern -0.3\noteskip}
+\def\qbl#1#2#3{\ibl{#1}{#2}{#3}\qb{#1}{#2}}%
+\def\qbu#1#2#3{\ibu{#1}{#2}{#3}\qh{#1}{#2}}%
+\def\nbinstruments{2}%
+\generalmeter{\meterfrac{4}{4}}%
+\signaturegenerale{0}%
+\nbporteesii=1\relax
+\nbporteesii=2\relax
+\cleftoksi={{6}{0}{0}{0}}
+\cleftoksii={{6}{0}{0}{0}}
+\etroit     
+\debutextrait
+\NOTes\soupir&\soupir|\qu g\enotes
+% mesure 1
+\advance\barno by -1\relax
+\barre\NOtes\itenu2J\wh J&\zw N\ibl0c0\qb0e|\qu j\enotes
+\notes&\qbl0c0|\noteskip=0.6\elemskip\tinynotesize
+\Ibbu1ki2\qh1{kj}\tqh1i\qsk\enotes
+\Notes&\qb0e\tbl0\qb0c|\qu j\enotes
+\temps\Notes&\ibl0c0\qb0{ece}\tbl0\qb0c|\ql l\sk\ql j\enotes
+% mesure 2
+\barre\Notes\tten2\wh J&\ql J\sk\ql L|\ppt g\rlap{\qu g}\qbl1e0\relax
+       \zq c\qb1e\zq c\qb1e\relax
+       \zq c\tbl1\rlap{\qb1e}\ \ \ccu h\enotes
+\temps\Notes&\ql N\sk\pt L\ibl0L{-4}\qb0L|\ibl1e0\zq c\rlap{\qb1e}\cu g\relax
+       \zq c\rlap{\qb1e}\raise\Interligne\DS \rlap{\qu g}\qb1g\enotes
+\notes&\sk\tbbl0\tbl0\qb0J|\tbl1\zq c\qb1e\enotes
+\finextrait
+\end{music}
+
+\subsection{Selecting special instrument scores}
+
+Another question is~: \ital{``can I write an orchestral score and extract the
+separate scores for individual instruments~?''} The answer is 95~\%
+\ital{yes}~: in fact, you can define your own macros {\tt \bslash
+mynotes...\bslash enotes}, {\tt \bslash myNotes...\bslash enotes} with as
+many arguments as there are in the orchestral score (hope this is less or
+equal to 9, but \TeX perts know how to work around) and change its definition
+depending on the selected instrument (or insert a test on the value of some
+selection register). But the limitation is that the numbering of instruments
+may change, so that {\tt \bslash signatureiii} may have to become {\tt
+\bslash signaturei} if instrument $iii$ is alone. But, in turn, this is not a
+serious problem for average \TeX\ wizard apprentices.
+
+ \section{How to get it}
+
+ The whole \itxem{distribution} fits into a single 1.2Mbyte or
+1.44Mbyte diskette. It can also be obtained through an \ital{anonymous ftp}
+at {\tt rsovax.ups.circe.fr} (130.84.128.100), after selecting the
+subdirectory {\tt [.musictex]}. All sources (including fonts) are provided,
+either separately or ``zipped'' or as VMS `savesets''.
+
+%\check
+\section{Implementation, restrictions and enhancement possibilities}
+
+The macroinstruction file \musictex\ contains approximately 2500 lines of
+code, that is 80~000 bytes approximately. This requires your score to be
+compiled by the most extended versions of \TeX\ (65~000 words of working
+memory). In desperate situations, we recommend using the
+``Big\TeX''\index{Big\protect\TeX} processors which, unfortunately, perform
+a great deal of disk input/outputs (on PCs) which make them awfully slow.
+
+In particular, the number of registers it uses can hinder its compatibility
+with some La\TeX\ styles or with La\TeX\ itself in case of restricted memory
+availability\index{La\protect\TeX}.
+
+\subsection{Recent easy enhancements}
+
+Many enhancements have been asked for, and this is a proof thet \musictex\ is
+considered as useful by many people. Some of these enhancements which seemed
+hard were in fact rather easy to implement, for example small notes to represent
+grace notes and cadenzas. But others may induce heavy problems, for example
+the need of having \ital{nice} slurs and ties.
+
+\subsection{The tie/slur problem}
+
+While typesetting notes and even beams is a rather simple problem because is
+is a \ital{local typesetting}, ties and slurs are much more difficult to handle.
+
+Or course there is little problem in case of a typesetter wanting a slur or a
+tie binding two consecutive notes, not separated by a bar. In practice this
+\ital{very restricted} use of slurs or ties can easily be solved by putting
+some symbols extracted from the {\tt slur16} or {\tt slurn16}/{\tt slurn20}
+fonts somewhere on the staffs using the general use \keyindex{zcharnote}
+macro.
+
+ But serious music typesetters or composers know that many ties are supposed
+to link notes which are on both sides of a bar, which is a likely place to
+insert line breakings, so that the \itxem{tie} coding must have various
+versions and sizes to resist that possible line breaking. What has been said
+about ties is still more serious in the case of \itxem{phrasing slurs} which
+may extend over several bars, lines and sometimes pages. In this case, their
+shape is not only a question of producing a long curved symbol of nice
+looking shape, it also has to cope with \itxem{glue}. An then the worst is
+that music way of typing does not accept \itxem{ragged lines} but equal
+length lines, even for the last line of a music piece. Thus, long distance
+slurs and ties need to be cut into separate parts (beginning, continuing(s),
+endings) which \TeX\ can only link using \ital{horizontal line overlaps}
+or \keyindex{leaders} to insure slur continuity over this unavoidable glue.
+
+
+
+Therefore and up to now, ties and slurs have been implemented in a way which
+may look rather ugly, but we think it is the only way of implementing
+\ital{in one pass} ties and slurs which run \ital{across glue}. The principle
+is to have tie/slur symbols with a rather long part of horizontal stuff.
+Then, at each time a glue occurs and at each time a group of notes is coded
+while a slur or tie is pending, an \keyindex{hrule} is issued which overlaps
+the preceeding tie/slur symbol so that the final output seems to contain a
+continuous line. Unfortunately, this is possible only in the glue expansion
+direction, namely in the horizontal direction.
+
+  It could be requested -- and this is thought of -- to have variable size
+initial and final curved slur symbols which the user would choose according
+to his intention to have short or long range slur symbols. This has not been
+\ital{yet} implemented for several reasons~:
+
+ \begin{itemize}
+
+   \item The author's natural lazyness (!)
+
+   \item More seriously~: this would require using some more registers (at
+least a dozen) to record the initial sizes (horizontal and vertical) of this
+symbol \ital{for each slur/tie} in order to make adequate links over glue and
+to close it with the symmetrical symbol. Unfortunately, \TeX\ registers are
+not numerous (256 of each kind) and we are afraid such a feature would make
+\TeX\ stupidly crash even when typesetting reasonable scores.
+
+  \item We do not think it wise to introduce in \musictex\ itself a great
+number of macros which would be pooly used by most users~: the reason is that
+\TeX\ memory is hardly limited and that unused macros may occupy some \TeX\
+storage which could make things crash because of {\tt TeX capacity
+exceeded}...
+
+ \end{itemize}  
+
+\section{Acknowledgements}
+
+The idea of implementing the present package is due to the previous work
+(\mutex)\index{mutex\&\%\protect\mutex} of Andrea {\sc Steinbach} and Angelika
+{\sc Schofer}[1]. This work
+provided the basis of the Metafont codes and some line breaking procedures,
+which both are still used here... with 99\% corrections and
+updates.\index{Schofer, A.}\index{Steinbach, A.}
+
+
+\section{Some examples}
+
+Many examples can be typeset from the \musictex\ distribution, but they are
+not included here because of their need to be compiled with \TeX\ rather than
+La\TeX\ and because they need output paper of the extended
+291$\times$297~mm$^2$ european size. However we chose to produce a small type
+size version of {\sc Haydn}'s \ital{aria} from the Creation and a piece of a
+personal composition heavily using beams.
+
+\vspace{.5cm}
+\begin{thebibliography}{Taupin 92}
+\bibitem[1]{} Andrea {\sc Steinbach} and Angelika
+{\sc Schofer}, {\em Theses} (1987, 1988),
+Rheinische Friedrich-Wilhelms Universit\"at, Bonn, Germany.
+
+\end{thebibliography}
+
+\newpage
+
+\begin{center}
+{\Large\bf Aria No. 24}
+\\{\large\bf (The Creation)}
+\\{\large Joseph {\sc Haydn}}
+\\Transcription for organ and tenor, D. {\sc Taupin} (1990)
+\end{center}
+
+\begin{music}
+\musicsize=16\relax
+\def\nbinstruments{2}%
+\generalmeter{\meterfrac{4}{4}}%
+\signaturegenerale{0}%
+\nbporteesii=2\relax
+\def\qbl#1#2#3{\ibl{#1}{#2}{#3}\qb{#1}{#2}}%
+\def\qbu#1#2#3{\ibu{#1}{#2}{#3}\qh{#1}{#2}}%
+\def\DS{\hbox{\ds}}\def\FS{\hbox{\kern 0.3\noteskip\soupir}\kern -0.3\noteskip}
+\cleftoksi={{6}{0}{0}{0}}
+\cleftoksii={{6}{0}{0}{0}}
+\debutmorceau
+\autolines {16}24\relax
+\NOTes\soupir&\rlap{\rmidtwotext{\bf II}}\relax
+\soupir\relax|\qu g\enotes
+% mesure 1
+\advance\barno by -1\relax
+\advance\barsinline by -1\relax
+\barre\NOtes\itenu2J\wh J&\zw N\ibl0c0\qb0e|\itenl0j\ibu1l0\qh1j\enotes
+\notes&\qbl0c0|\nbbu1\nbbbu1\tten0\qh1{jkj}\tbu1\qh1i\enotes
+\Notes&\qb0e\tbl0\qb0c|\qu j\enotes
+\temps\Notes&\ibl0c0\qb0{ece}\tbl0\qb0c|\ql l\sk\ql j\enotes
+% mesure 2
+\barre\Notes\tten2\wh J&\ql J\sk\ql L|\ppt g\rlap{\qu g}\qbl1e0\relax
+       \zq c\qb1e\zq c\qb1e\relax
+       \zq c\tbl1\rlap{\qb1e}\ \ \ccu h\enotes
+\temps\Notes&\ql N\sk\pt L\ibl0L{-4}\qb0L|\ibl1e0\zq c\rlap{\qb1e}\cu g\relax
+       \zq c\rlap{\qb1e}\raise\Interligne\DS \rlap{\qu g}\qb1g\enotes
+\notes&\sk\tbbl0\tbl0\qb0J|\tbl1\zq c\qb1e\enotes
+% mesure 3
+\autolines {14}24\relax
+\barre\NOtes\itenl2G\wh G&\zw N\raise 3.5\Interligne\ds
+|\rlap{\cl f}\itenl0k\ibu1m0\qh1k\enotes
+\notes&\qbl0b0|\nbbu1\nbbbu1\tten0\qh1{klk}\tbu1\qh1{^j}\enotes
+\Notes&\zq d\qb0f\tbl0\qb0b|\qu k\enotes
+\temps\Notes&\ibl0d0\zq d\qb0{fb}\zq d\qb0f|\qu m\sk\pt k\qbu1k{-4}\enotes
+\notes&\tbl0\qb0b|\sk\tbbu1\tbu1\qh1i\enotes
+% mesure 4
+\barre\Notes\tten2\wh G&\ql G\sk\ql I|\rlap{\qupp g}\ibl1c0\qb1g\relax
+       \zq{bd}\qb1f\zq{bd}\qb1f\relax
+       \zq{bd}\tbl1\rlap{\qb1f}\ \ \ccu h\enotes
+\temps\Notes&\ql K\sk\pt I\qbl0I{-4}|\ibl1d0\rlap{\qb1b}\cu g\relax
+       \zq{bd}\rlap{\qb1f}\raise\Interligne\DS \rlap{\qu g}\qb1g\enotes
+\notes&\sk\tbbl0\tbl0\qb0G|\tbl1\zq{bd}\qb1f\enotes
+% mesure 5
+\barre\Notes\hu J&\rlap{\lhu J}\ibl0M0\qb0J\zq N\qb0c\zq N\qb0c\tbl0\zq N\qb0c\relax
+      |\rlap{\hl e}\qu j\sk\qbu1l{-4}\tbu1\qh1j\enotes
+\temps\Notes\hu K&\rlap{\lhu K}\ibl0M0\qb0K\zq N\qb0b\zq N\qb0b\tbl0\zq N\qb0b\relax
+      |\rlap{\hl f}\ibu1k0\qh1{ikm}\tbu1\qh1k\enotes
+%\check
+% mesure 6
+\barre\Notes\wh L&\zw N\raise 3.5\Interligne\ds\qbl0c0\qb0e\relax
+      |\rlap{\hl g}\ppt j\qu j\enotes
+\notes&\tbl0\qb0c|\sk\ccu l\enotes
+\temps\Notes&\ibl0c0\qb0{ece}|\rlap{\hl g}\qu n\sk\raise 2\Interligne\DS\enotes
+\notes&\tbl0\qb0c|\ibbu1m{-3}\qh1m\tbu1\qh1l\enotes
+%\check
+% mesure 7
+\barre\Notes\wh M&\zw a\raise 3.5\Interligne\ds\qbl0d0\qb0f\tbl0\qb0d\relax
+      |\rlap{\hlp h}\qu k\sk\qu m\enotes
+\temps\Notes&\ibl0d0\qb0f|\pt o\qbu1o{-3}\enotes
+\notes&\zq d\qb0f\sk
+\zq d\qb0f\sk\tbl0\zq d\qb0f|\sk\tbbu1\tbu1\qh1n\relax
+      \ibbu1m{-3}\rlap{\raise -\Interligne\qp}\qh1{mlk}\tbu1\qh1j\enotes
+%\check
+% mesure 8
+\barre\Notes\hu G&\lcharnote c{\bf I}\relax
+\pz b\ibl0M3\qb0N\pz d\qb0b\pz f\qb0d\pz d\tqb0b|\ql i\rlap{\uptext{\bf I}}\sk\ds\ppz p\zq{km}\cl p\enotes
+\temps\Notes\hu G&\ibl0M3\pz b\qb0N\pz e\qb0c\pz g\qb0e\pz e\tqb0c\relax
+        |\zq{jl}\ql q\sk\ds\ppz l\zq{gj}\cl l\enotes
+%\check
+% mesure 9
+\barre\Notes\hu G&\pz b\ibl0M3\qb0N|\zq{gi}\ql k\enotes
+\notes&\nbbl0\qb0b\tqb0c\enotes
+\zglu\Notes&\pz f\ibl0d{-4}\qb0d\pz d\tqb0b|\ds\ppz p\zq{km}\cl p\enotes
+\temps\Notes\hu G&\pz b\ibl0M3\qb0N|\ppz q\ibl1m3\zq l\qb1q\enotes
+\notes&\nbbl0\qb0c\tqb0d|\nbbl1\qb1q\tqb1p\enotes
+\temps\notes&\pz g\ibl0e{-4}\qb0e\sk\pz e\tqb0c|\ibbl1p0\qb1{qpq}\tqb1s\enotes
+%\check
+% mesure 10
+\barre\Notes\hu G&\zq{Nb}\ql d|\pz t\ibl1o{-3}\qb1r\enotes
+\notes&|\nbbl1\qb1n\tqb1{^m}\enotes
+\zglu\notes&\soupir|\ibbl1m0\qb1{nmn}\tqb1m\enotes
+\temps\Notes\hpause&\ibl0I6\pz J\qb0G|\pz p\cl n\enotes
+\notes&\nbbl0\qb0N\tqb0{^M}|\ibbu1g{-3}\qh1g\tqh1{^f}\enotes
+\notes&\ibbl0N0\qb0{NMN}\tqb0M|\ibbu1g0\qh1{gfg}\tqh1f\enotes
+%\check
+\suspmorceau
+\def\nbinstruments{4}%
+\nbporteesiii=0\relax
+% mesure 11
+\reprmorceau
+\autolines {11}23\relax
+\NOtes\qu G&\ql N|\st n\qu g&&\hpause\enotes
+\zglu\NOtes\soupir&\rlap{\rmidtwotext{\bf II}}\soupir|\zq d\qu{=f}&&\enotes
+\temps\NOtes\hpause&\hpause|\zq c\qu e&&\soupir\enotes
+\zglu\NOtes&|\zq b\qu d&Mit~&\ilegu0p\qu g\enotes
+% mesure 12
+\barre\Notes&\qu J|\zw N\zq c\ibu0e0\qh0e\zq c\qh0e&W\"urd~&\ql j\enotes
+\Notes&\soupir|\zq c\qh0e\zq c\tqh0e&und~&\ql j\enotes
+\temps\Notes\pause&\hpause|\zq c\ibu0e0\qh0e\zq c\qh0e&Ho-&\ql l\enotes
+\Notes&\zcharnote C{\bf I}|\zq c\qh0e\zq c\tqh0e&heit~&\ql j\enotes
+% mesure 13
+\autolines {12}23\relax
+\barre\Notes&\qu C|\zw N\zq c\ibu0e0\qh0e\zq c\qh0e&an-&\qup g\enotes
+\Notes&\qu E|\zq c\qh0e\zq c\tqh0e&\sk ge-&\sk\cu h\enotes
+\temps\Notes\pause&\qu G|\zq c\ibu0e0\qh0e\zq c\qh0e&tan,~&\tleg0\qu g\enotes
+\Notes&\ibu1E{-3}\qhp1E|\zq c\qh0e&mit~&\ilegu0p\qu g\enotes
+\notes&\sk\tbbu1\tqh1C|\zq c\tqh0e&&\enotes
+% mesure 14
+\barre\Notes&\qu G|\zw N\ibu0e0\zq{bd}\qh0f\zq{bd}\qh0f\relax
+    &Sch\"on-&\ql k\enotes
+\Notes&\soupir|\zq{bd}\qh0f\zq{bd}\tqh0f&heit,~&\ql k\enotes
+\temps\Notes\pause&\hpause|\ibu0e0\zq{bd}\qh0f\zq{bd}\qh0f&St\"ark~&\ql m\enotes
+\Notes&|\zq{bd}\qh0f\zq{bd}\tqh0f&und~&\ibu2k{-4}\qh2k\tqh2i\enotes
+\suspmorceau
+\end{music}
+%\removelastskip\rightline{\sl\aujourdhui}
+\newpage
+
+\def\testpgs{4}%
+\begin{music}
+%
+\resettens
+\musicsize=16\relax
+\nbporteesi=2\relax
+\def\nbinstruments{1}%
+\global\cleftoksi={{6}{0}{0}{0}}%
+%
+\signaturegenerale{-3}\relax % trois bemols a la clef
+\def\quatretemps{\generalmeter{\meterfrac{4}{2}}}%
+%\check
+\def\instrumenti{Piano}
+\def\fff{{f}\kern -1pt{f}\kern -1pt{f}}%
+\def\ff{{f}\kern -1pt{f}}%
+% formes frequentes
+%
+%\check
+%
+\def\Tqbbh{\Tqbbu}%
+\def\Tqbh{\Tqbu}%
+%
+%\check
+% octave basse en blanche
+\def\bohl#1{\zh{`#1}\hl{'#1}}%
+\def\bohu#1{\zh{`#1}\hu{'#1}}%
+\def\sohl#1{\zh{'#1}\hl{`#1}}%
+\def\sohu#1{\zh{'#1}\hu{`#1}}%
+%
+\def\bozh#1{\zh{`#1'#1}}%
+\def\bozq#1{\zq{`#1'#1}}%
+\def\boql#1{\zq{`#1}\ql{'#1}}%
+\def\boqu#1{\zq{`#1}\qu{'#1}}%
+% octave sup. en croches u
+\def\soqh#1{\zq{'#1}\qh0{`#1}}%
+\def\soqb#1{\zq{'#1}\qb0{`#1}}%
+\def\soqu#1{\zq{'#1}\qu{`#1}}%
+\def\soql#1{\zq{'#1}\ql{`#1}}%
+%\check
+%
+\def\interfacteur{11}%
+\computewidths
+\staffbotmarg=5\Interligne %
+\def\sfhu#1{\lsf #1\hu #1}%
+\def\sfwu#1{\lsf #1\wh #1}%
+\def\sfhl#1{\usf #1\hl #1}%
+\def\sfwl#1{\usf #1\wh #1}%
+\def\Sfwu#1{\zw{'#1}\usf{#1}\wh{!#1}}%
+\def\Sfwp#1{\pt{'#1}\zw{#1}\pt{!#1}\usf{#1}\wh{#1}}%
+%
+\parindent 1cm\debutmorceau
+%
+\autolines{28}14\relax
+\znotes\zmidtwotext{\kern -3.5mm\ppff ff}|\raise 9\Interligne
+\llap{\moyen
+   appassionnato\kern -1.5cm}\uptext{\kern -1mm\rm(\metron{\qu}{80})}\enotes 
+% 
+%\check
+\newif\ifsupa
+\supafalse
+\def\accord#1#2#3#4#5#6#7{\notes
+\raise -2\Interligne\llap{\PED\sk}\Ibbu0{#1}{#3}3\qh0{!`#1!#1#2}\tqh0{#3}\relax
+|\pt{#5}\pt{#6}\pt{#7}\zw{#5}\zw{#6}\zw{#7}\relax
+\usf{!'#5}\pt{!'#5}\wh{!'#5}\Ibbu0{!#5}{!#7}3\qh0{!#5#6}\tqh0{#7}\enotes
+%\check 1
+\temps\notes
+\Qqbbu{!#4}{!'#2}{!'#3}{!'#4}|\Qqbbu{!'#5}{!'#5}{!'#6}{!'#7}\enotes
+%\check 1
+\temps\notes
+|\rlap{\Qqbbl{!''#2}{!''#3}{!''#4}{!'''#2}}\relax
+\Qqbbu{!''#5}{!''#5}{!''#6}{!''#7}\enotes
+%\check 1
+\temps\notes|\rlap{\Qqbbl{!'''#3}{!'''#2}{!''#4}{!''#3}}\relax
+\Qqbbu{!'''#5}{!''#7}{!''#6}{!''#5}\enotes
+%\check 1
+\temps\notes
+\ifsupa|\rlap{\Qqbbl{!'#4}{!'#4}{!'#3}{!'#2}}\relax
+\else\ibbu0{!''#3}{-9}\qh0{!''#3#2`#4}\tqh0{#3}|\fi
+\Qqbbu{!''#5}{!'#7}{!'#6}{!'#5}\enotes
+%\check 1
+\temps\notes\raise -2\Interligne
+\rlap{\sk\sk\DEP}\Ibbu0{!#4}{!`#4}3\qh0{!#4#3#2}\tqh0{!`#4}\relax
+|\Ibbu0{!'#5}{!#5}3\qh0{!'#5`#7#6}\tqh0{#5}\enotes
+}%
+%
+%\check
+\accord CEGJNce\relax
+% mesure 2
+\autolines{25}1{\testpgs}\relax
+\barre\accord CFHJacf\relax
+% mesure 3
+\barre\supatrue\accord CFHJcfh\relax
+% mesure 4
+\barre
+\accord CFHJdfh\relax
+% mesure 5
+\def\Accord#1#2#3#4#5#6#7{\notes
+\raise -2\Interligne\llap{\PED\sk}\Ibbu0{#1}{#3}3\qh0{`#1!#1#2}\tqh0{#3}\relax
+|\pt{#5}\pt{#6}\pt{#7}\zw{#5#6#7}\relax
+\usf{!'#5}\whp{!'#5}\Tqbbu{!#5}{!#6}{!#7}\enotes
+%\check 1
+\temps\notes\Qqbbu{!#4}{!'#2}{!'#3}{!'#4}\relax
+|\Qqbbu{!'#5}{!'#5}{!'#6}{!'#7}\enotes
+%\check 1
+\temps\notes|\rlap{\Qqbbl{!''#2}{!''#3}{!''#4}{!'''#2}}\relax
+\Qqbbu{!''#5}{!''#5}{!''#6}{!''#7}\enotes}\relax
+%
+%\check
+\barre\Accord CEGJNce\relax
+\temps\notes|\qsk\octfin{22}{12}\rlap{\Qqbbl gjln}\Qqbbu nnqs\enotes
+\temps\notes|\rlap{\Qqbbl qnlj}\Qqbbu usqn\enotes
+\temps\notes|\rlap{\Qqbbl gecN}\Qqbbu nljg\enotes
+% mesure 6
+\barre\notes\Qqbbu ecNL|\Qqbbu nljg\enotes
+\temps\notes\Qqbbu cNLJ|\Qqbbu ljge\enotes
+\temps\notes\Qqbbu NLJG|\zcharnote{a}{\DIMin}\Qqbbu jgec\enotes
+\temps\notes\Qqbbu LJGE|\Qqbbu gecN\enotes
+\temps\notes\Qqbbu JGEC|\Qqbbu ecNL\enotes
+\temps\notes\boqu C\DEP\qsk|\qu J\enotes
+% mesure 7
+\barre\supafalse\znotes\zmidtwotext{\llap{\ppff ff}}\enotes
+\accord CEGJNce\relax
+% mesure 8
+\barre\accord CFHJacf\relax
+\suspmorceau
+
+
+
+\end{music}
+\end{document}
+

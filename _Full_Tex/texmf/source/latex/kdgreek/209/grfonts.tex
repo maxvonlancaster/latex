@@ -1,0 +1,303 @@
+%	This file is part of the GreekTeX Package
+%
+% File: grfonts.tex
+%
+% This version of grfonts is for KD greek fonts. It is based on the
+% standard LaTeX lfonts.tex which it actually compliments.
+% This version was written by K J Dryllerakis (kd@doc.ic.ac.uk)
+% Dec 7, 1992
+%
+% Important note: This file has to be loaded AFTER the greek mcaros 
+% are read so that greek is declared as a new language. If this is NOT
+% the case then simply add a comand:
+% \newlanguage\greek at the beginning of the file
+% Note that lfonts has also to be read in advance!
+% 
+%	New Families
+%	^^^^^^^^^^^^
+% \gr   -  greek
+% \grbf -  greek bold-face
+% \grit -  greek italic
+% \grtt -  greek typewriter
+% \grsl - greek slanted
+% 
+%
+%	Let us define again some of the lfonts macros
+\let\@prtct=\relax
+
+\def\@addfontinfo#1#2{{\def\@prtct{\noexpand\@prtct\noexpand}\def\def{\noexpand
+    \def\noexpand}\xdef#1{#1#2}}}
+
+\def\@getfont#1#2#3#4{\@ifundefined{\string #1\string #3}{\global\expandafter
+    \font \csname \string #1\string #3\endcsname #4\relax
+     \@addfontinfo#3{\textfont #2\csname \string #1\string #3\endcsname
+     \scriptfont #2\csname \string #1\string #3\endcsname
+     \scriptscriptfont #2\csname \string #1\string #3\endcsname
+     \def#1{\fam #2\csname\string #1\string #3\endcsname}}}{}#3#1}
+
+% We need to redifine normalize to take greek into account.
+
+\def\normalsize{\ifx\@currsize\normalsize\ifnum\language=\greek\else\rm\fi %
+ \else \@normalsize\fi}
+
+% Load the main Greek Fonts
+%
+%
+\font\sixgr   = kdgr8 scaled 750 	% Classic Greek
+\font\sixgrbf = kdbf8 scaled 750	% Boldface Greek
+\font\ningr   = kdgr9              	%  9 point Classic Greek Font
+\font\eiggr   = kdgr8             	%  8 point Classic Greek Font
+\font\tengr   = kdgr10              	% 10 point Classic Greek Font
+\font\tengrsl = kdsl10            	% 10 Point Slanted Greek Font
+\font\tengrbf = kdbf10            	% 10 Point Boldface Greek Font
+\font\tengri  = kdti10             	% 10 Point Italic Greek Font
+\font\tengrtt = kdtt10            	% 10 Point Typewritter Greek Font
+\font\twlgr   = kdgr10 scaled\magstep1	% Classic Greek
+%
+% Greek font changing command as protected
+%
+\def\gr{\protect\pgr}
+\def\grbf{\protect\pgrbf}
+\def\grit{\protect\pgrit}
+\def\grtt{\protect\pgrtt}
+\def\grsl{\protect\pgrsl}
+%
+\def\gr@@k{kdgr10}
+\def\gr@@kb{kdbf10}
+\def\gr@@ki{kdti10}
+\def\gr@@kt{kdtt10}
+\def\gr@@ks{kdsl10}
+\def\@eiggr{kdgr8}
+\def\@ningr{kdgr9}
+\def\@eiggrbf{kdbf8}
+\def\@ningrbf{kdbf9}
+%
+% families
+%
+%
+\newfam\grfam		% \gr is family 11
+\newfam\grbfam		% \grbf is family 12
+\newfam\grifam		% \gri is family 13
+\newfam\grttfam		% \grtt is family 14
+\newfam\grsfam		% \grs is family 14
+
+% Now add commands to each LaTeX size changing command which defines
+% the Greek font selections to invoke macros which load the font ``on
+% demand''.
+%
+% This hack is needed to reset to a greek font at the font changing commands
+% This command will be included in \@??pt info which has the last word when
+% a font sizing command is executed. In the same command we also reset
+% the t@f@nt info.
+\gdef\@setgr@@k{\gdef\t@f@nt{\gr}\ifnum\language=\greek\gr\fi}
+%
+%
+%
+%	We redifine here the setsize macro to take into account the
+% 	greek language. The main problem was that a \setgreek command
+% 	must be executed at the end of the setsize command to 
+%	reset the \t@f@nt command and to switch to gr instead of rm in
+% 	case we are in greek mode.
+%	This is a harmless modification and the command setgreek is appended
+%	to setsize
+
+\def\@setsize#1#2#3#4{\@nomath#1\let\@currsize#1\baselineskip
+   #2\setbox\strutbox\hbox{\vrule height.7\baselineskip
+      depth.3\baselineskip width\z@}\baselineskip\baselinestretch\baselineskip
+   \normalbaselineskip\baselineskip#3#4\@setgr@@k}
+
+
+\@addfontinfo\@vpt{\def\pgr{\@prtct\gr@vpt}%
+                   \def\pgrbf{\@prtct\grb@vpt}%
+		   \def\pgrit{\@prtct\gri@vpt}%
+		   \def\pgrtt{\@prtct\grt@vpt}%
+		   \def\pgrsl{\@prtct\grs@vpt}%
+                     }
+\@addfontinfo\@vipt{\@prtct\textfont\grfam\sixgr%
+                    \@prtct\scriptfont\grfam\sixgr%
+                    \@prtct\textfont\grbfam\sixgrbf%
+                    \@prtct\scriptfont\grbfam\sixgrbf%
+                    \def\pgr{\@prtct\gr@vipt}%
+                    \def\pgrbf{\@prtct\grb@vipt}%
+		    \def\pgrit{\@prtct\gri@vipt}%
+		    \def\pgrtt{\@prtct\grt@vipt}%
+		   \def\pgrsl{\@prtct\grs@vipt}%
+                     }
+\@addfontinfo\@viipt{\def\pgr{\@prtct\gr@viipt}%
+                     \def\pgrbf{\@prtct\grb@viipt}%
+		     \def\pgrit{\@prtct\gri@viipt}%
+		     \def\pgrtt{\@prtct\grt@viipt}
+		   \def\pgrsl{\@prtct\grs@viipt}%
+                     }
+\@addfontinfo\@viiipt{\@prtct\textfont\grfam\eiggr%
+                      \@prtct\scriptfont\grfam\sixgr%
+                      \def\pgr{\@prtct\gr@viiipt}%
+                      \def\pgrbf{\@prtct\grb@viiipt}%
+		      \def\pgrit{\@prtct\gri@viiipt}%
+		      \def\pgrtt{\@prtct\grt@viiipt}%
+		   \def\pgrsl{\@prtct\grs@viiipt}%
+                     }
+\@addfontinfo\@ixpt{\@prtct\textfont\grfam\ningr%
+                    \@prtct\scriptfont\grfam\sixgr%
+                    \def\pgr{\@prtct\gr@ixpt}%
+                    \def\pgrbf{\@prtct\grb@ixpt}%
+		    \def\pgrit{\@prtct\gri@ixpt}%
+		    \def\pgrtt{\@prtct\grt@ixpt}
+		   \def\pgrsl{\@prtct\grs@ixpt}}
+\@addfontinfo\@xpt{\@prtct\textfont\grfam\tengr%
+                   \@prtct\scriptfont\grfam\eiggr%
+                   \@prtct\scriptscriptfont\grfam\sixgr%
+                   \@prtct\textfont\grbfam\tengrbf%
+                   \@prtct\textfont\grsfam\tengrsl%
+                   \@prtct\textfont\grttfam\tengrtt%
+                   \@prtct\textfont\grifam\tengri%
+                   \def\pgr{\@prtct\gr@xpt}%
+	           \def\pgrbf{\@prtct\grb@xpt}%
+		   \def\pgrit{\@prtct\gri@xpt}%
+		   \def\pgrtt{\@prtct\grt@xpt}%
+		   \def\pgrsl{\@prtct\grs@xpt}%
+		   }
+\@addfontinfo\@xipt{\def\pgr{\@prtct\gr@xipt}%
+                    \def\pgrbf{\@prtct\grb@xipt}%
+		    \def\pgrit{\@prtct\gri@xipt}%
+		    \def\pgrtt{\@prtct\grt@xipt}
+		   \def\pgrsl{\@prtct\grs@xipt}%
+                     }
+\@addfontinfo\@xiipt{\@prtct\textfont\grfam\twlgr%
+                     \@prtct\scriptfont\grfam\tengr%
+                     \@prtct\scriptscriptfont\grfam\eiggr%
+		     \def\pgr{\@prtct\gr@xiipt}%
+                     \def\pgrbf{\@prtct\grb@xiipt}%
+		     \def\pgrit{\@prtct\gri@xiipt}%
+		     \def\pgrtt{\@prtct\grt@xiipt}%
+		   \def\pgrsl{\@prtct\grs@xiipt}%
+                     }
+\@addfontinfo\@xivpt{\def\pgr{\@prtct\gr@xivpt}%
+                     \def\pgrbf{\@prtct\grb@xivpt}%
+		     \def\pgrit{\@prtct\gri@xivpt}%
+		     \def\pgrtt{\@prtct\grt@xivpt}%
+		   \def\pgrsl{\@prtct\grs@xiv}%
+                     }
+\@addfontinfo\@xviipt{\def\pgr{\@prtct\gr@xviipt}%
+                      \def\pgrbf{\@prtct\grb@xviipt}%
+		      \def\pgrit{\@prtct\gri@xviipt}%
+		      \def\pgrtt{\@prtct\grt@xviipt}%
+		   \def\pgrsl{\@prtct\grs@xviipt}%
+                     }
+\@addfontinfo\@xxpt{\def\pgr{\@prtct\gr@xxpt}%
+                    \def\pgrbf{\@prtct\grb@xxpt}%
+		    \def\pgrit{\@prtct\gri@xxpt}%
+		    \def\pgrtt{\@prtct\grt@xxpt}%
+		   \def\pgrsl{\@prtct\grs@xxpt}%
+                     }
+\@addfontinfo\@xxvpt{\def\pgr{\@prtct\gr@xxvpt}%
+                     \def\pgrbf{\@prtct\grb@xxvpt}%
+		     \def\pgrit{\@prtct\gri@xxvpt}%
+		     \def\pgrtt{\@prtct\grt@xxvpt}%
+		   \def\pgrsl{\@prtct\grs@xxvpt}%
+                     }
+
+% Finally, we can define WHICH fonts are to be loaded on demand.
+%
+%	Classical Greek
+%
+\def\gr@vpt{\@subfont\gr\rm}
+\def\gr@vipt{\fam\grfam\sixgr}
+\def\gr@viipt{\@getfont\pgr\grfam\@viipt{\gr@@k\@ptscale7}}
+\def\gr@viiipt{\fam\grfam\eiggr}
+\def\gr@ixpt{\fam\grfam\ningr}
+\def\gr@xpt{\fam\grfam\tengr}
+\def\gr@xipt{\@getfont\pgr\grfam\@xipt{\gr@@k\@halfmag}}
+\def\gr@xiipt{\fam\grfam\twlgr}
+\def\gr@xivpt{\@getfont\pgr\grfam\@xivpt{\gr@@k\@magscale2}}
+\def\gr@xviipt{\@getfont\pgr\grfam\@xviipt{\gr@@k\@magscale3}}
+\def\gr@xxpt{\@getfont\pgr\grfam\@xxpt{\gr@@k\@magscale4}}
+\def\gr@xxvpt{\@getfont\pgr\grfam\@xxvpt{\gr@@k\@magscale5}}
+%
+%	BoldFace Greek
+%
+\def\grb@vpt{\@subfont\grbf\bf}
+\def\grb@vipt{\fam\grbfam\sixgrbf}
+\def\grb@viipt{\@getfont\pgrbf\grbfam\@viipt{\gr@@kb\@ptscale7}}
+\def\grb@viiipt{\@getfont\pgrbf\grbfam\@viiipt{\@eiggrbf}}
+\def\grb@ixpt{\@getfont\pgrbf\grbfam\@ixpt{\@ningrbf}}
+\def\grb@xpt{\fam\grbfam\tengrbf}
+\def\grb@xipt{\@getfont\pgrbf\grbfam\@xipt{\gr@@kb\@halfmag}}
+\def\grb@xiipt{\@getfont\pgrbf\grbfam\@xiipt{\gr@@kb\@magscale1}}
+\def\grb@xivpt{\@getfont\pgrbf\grbfam\@xivpt{\gr@@kb\@magscale2}}
+\def\grb@xviipt{\@getfont\pgrbf\grbfam\@xviipt{\gr@@kb\@magscale3}}
+\def\grb@xxpt{\@getfont\pgrbf\grbfam\@xxpt{\gr@@kb\@magscale4}}
+\def\grb@xxvpt{\@getfont\pgrbf\grbfam\@xxvpt{\gr@@kb\@magscale5}}
+%
+%	Greek Italics
+%
+\def\gri@vpt{\@subfont\grit\it}
+\def\gri@vipt{\@getfont\pgrit\grifam\@vipt{\gr@@ki\@ptscale6}}
+\def\gri@viipt{\@getfont\pgrit\grifam\@viipt{\gr@@ki\@ptscale7}}
+\def\gri@viiipt{\@getfont\pgrit\grifam\@viiipt{\gr@@ki\@ptscale8}}
+\def\gri@ixpt{\@getfont\pgrit\grifam\@ixpt{\gr@@ki\@ptscale9}}
+\def\gri@xpt{\fam\grifam\tengri}
+\def\gri@xipt{\@getfont\pgrit\grifam\@xipt{\gr@@ki\@halfmag}}
+\def\gri@xiipt{\@getfont\pgrit\grifam\@xiipt{\gr@@ki\@magscale1}}
+\def\gri@xivpt{\@getfont\pgrit\grifam\@xivpt{\gr@@ki\@magscale2}}
+\def\gri@xviipt{\@getfont\pgrit\grifam\@xviipt{\gr@@ki\@magscale3}}
+\def\gri@xxpt{\@getfont\pgrit\grifam\@xxpt{\gr@@ki\@magscale4}}
+\def\gri@xxvpt{\@getfont\pgrit\grifam\@xxvpt{\gr@@ki\@magscale5}}
+%
+%	Slanted Greek
+%
+\def\grs@vpt{\@subfont\grsl\sl}
+\def\grs@vipt{\@getfont\pgrsl\grsfam\@vipt{\gr@@ks\@ptscale6}}
+\def\grs@viipt{\@getfont\pgrsl\grsfam\@viipt{\gr@@ks\@ptscale7}}
+\def\grs@viiipt{\@getfont\pgrsl\grsfam\@viiipt{\gr@@ks\@ptscale8}}
+\def\grs@ixpt{\@getfont\pgrsl\grsfam\@ixpt{\gr@@ks\@ptscale9}}
+\def\grs@xpt{\fam\grsfam\tengrsl}
+\def\grs@xipt{\@getfont\pgrsl\grsfam\@xipt{\gr@@ks\@halfmag}}
+\def\grs@xiipt{\@getfont\pgrsl\grsfam\@xiipt{\gr@@ks\@magscale1}}
+\def\grs@xivpt{\@getfont\pgrsl\grsfam\@xivpt{\gr@@ks\@magscale2}}
+\def\grs@xviipt{\@getfont\pgrsl\grsfam\@xviipt{\gr@@ks\@magscale3}}
+\def\grs@xxpt{\@getfont\pgrsl\grsfam\@xxpt{\gr@@ks\@magscale4}}
+\def\grs@xxvpt{\@getfont\pgrsl\grsfam\@xxvpt{\gr@@ks\@magscale5}}
+%
+%	Greek Typewriter
+%
+\def\grt@vpt{\@subfont\grtt\tt}
+\def\grt@vipt{\@getfont\pgrtt\grttfam\@vipt{\gr@@kt\@ptscale6}%
+         \@nohyphens\pgrtt\@vipt}
+\def\grt@viipt{\@getfont\pgrtt\grttfam\@viipt{\gr@@kt\@ptscale7}%
+         \@nohyphens\pgrtt\@viipt}
+\def\grt@viiipt{\@getfont\pgrtt\grttfam\@viiipt{\gr@@kt\@ptscale8}%
+         \@nohyphens\pgrtt\@viiipt}
+\def\grt@ixpt{\@getfont\pgrtt\grttfam\@ixpt{\gr@@kt\@ptscale9}%
+         \@nohyphens\pgrtt\@ixpt}
+\def\grt@xpt{\fam\grttfam\tengrtt}
+\def\grt@xipt{\@getfont\pgrtt\grttfam\@xipt{\gr@@kt\@halfmag}%
+         \@nohyphens\pgrtt\@xipt}
+\def\grt@xiipt{\@getfont\pgrtt\grttfam\@xiipt{\gr@@kt\@magscale1}%
+         \@nohyphens\pgrtt\@xiipt}
+\def\grt@xivpt{\@getfont\pgrtt\grttfam\@xivpt{\gr@@kt\@magscale2}%
+         \@nohyphens\pgrtt\@xivpt}
+\def\grt@xviipt{\@getfont\pgrtt\grttfam\@xviipt{\gr@@kt\@magscale3}%
+         \@nohyphens\pgrtt\@xviipt}
+\def\grt@xxpt{\@getfont\pgrtt\grttfam\@xxpt{\gr@@kt\@magscale4}%
+         \@nohyphens\pgrtt\@xxpt}
+\def\grt@xxvpt{\@getfont\pgrtt\grttfam\@xxvpt{\gr@@kt\@magscale5}%
+         \@nohyphens\pgrtt\@xxvpt}
+
+%% End of grfont.tex
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

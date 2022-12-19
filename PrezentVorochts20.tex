@@ -1,0 +1,490 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+%\usecolortheme[named=CarnationPink]{structure}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme{structureitalicserif}
+%\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo}
+
+% \usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!1}{blue!5}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+%\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+%{\usebeamercolor{yellow}}
+%\setbeamertemplate{sidebar canvas left}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+%\setbeamertemplate{sidebar canvas right}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{Мельник Василь Сергійович}}]
+
+%\subject{Мельник Василь Сергійович}
+
+\title{Про перше рівномірне найкраще наближення.}
+
+
+\author[Маслюченко В.К., Мельник В.С.]{\textbf{Маслюченко В.К., Мельник В.С.}}
+
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+
+
+\begin{frame}{Найкраще наближення у метричному просторі.}
+\begin{block}{}
+Нехай $(X,d)$~--- метричний простір, $E$~--- непорожня підмножина простору $X$ і $x\in X$. Число $$d(x,E)=\inf \{d(x,u): u\in E \}.$$ називається відстаню від точки $x$ домножини $E$, або, найкращим наближенням елемента $x$ елементами з множини $E$. Елемент $u_{0}\in E$ для якого $d(x,u_{0})=d(x,E)$ називається елементом найкращого наближення.
+\end{block}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}{Найкращі рівномірні наближення.}
+
+\begin{block}{}
+Нехай $||f||=\max\limits_{a\leq x\leq b}^{} \{|f(x)|\}$~--- рівномірна норма на просторі $C=C[a,b]$ всіх неперервних функцій $f:[a,b]\rightarrow \mathbb{R}$ і $d(f,g)=||f-g||$~--- відповідна їй рівномірна відстань. Розглянемо простір $P_{m}=P_{m}[a,b]$ ~--- простір всіх многочленів $$g(x)=a_{0}+a_{1}x+...+a_{m}x^{m}$$ степіня $\leq m$. Для функції $f\in C$ число $$E_{n}(f)=d(f,P_{n})$$ називається $n$-м найкращим рівномірним наближенням. Відомо, що для кожного $f\in C$ існує єдиний елемент найкращого наближення $g=Q_{n}f\in P_{n}$ і оператор $Q_{n}:C\rightarrow P_{n}$~--- неперервний відносно рівномірної норми.
+\end{block}
+
+\end{frame}
+
+
+
+\begin{frame}{Обернена теорема Бернштейна.}
+
+\begin{block}{}
+Нехай $f\in C$ очевидно, що числа $\alpha_{n}=E_{n}(f)$ невідємні і спадають з ростом номера $n$. За першою теоремою Вейерштрасса про наближення, $\alpha_{n}\rightarrow 0$. 
+\end{block}
+
+\begin{block}{}
+С.Н. Бернштейн у 1938 році встановив і обернений результат, відомий тепер під назвою обернена теорема Бернштейна.
+\end{block}
+
+\begin{exampleblock}{Теорема 1.}
+Для довільної спадної нескінченно малої послідовності невід'ємних чисел $\alpha_{n}$ існує така неперервна функція $f:[a,b]\rightarrow \mathbb{R}$, що $E_{n}(f)=\alpha_{n}$ для $n=0,1,...$ .
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1} 1. Bernstein S.N. Sur probleme inverse de la theorie de la meilleure approximation des fonctions continues // Comp. Rend – 1938. – P. 1520-1523.
+\end{thebibliography}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Квазінормовані простори.}
+
+\begin{block}{}
+Ще С.М. Нікольський зауважив, що теорему Бернштейна можна перенести на довільні банахові простори. Після цього з'явилося багато узагальнень теореми Бернштейна. Наведемо тут узагальнення з праці [2]
+\end{block}
+
+\begin{thebibliography}{10}
+\bibitem{1} 2. Волошин Г., Маслюченко В. Узагальнення однієї теореми Бернштейна // Мат. Вісник НТШ.~--- 2009 р.~--- \textbf{6}~--- С.62-72.
+\end{thebibliography}
+
+\begin{block}{}
+Квазінормою на абелевій групі $X$ називається така функція $x\mapsto |x|:X\rightarrow \mathbb{R}$, що для будь-яких $x$ і $y\in X$ виконуються умови: 1) $|x|\geq 0$, $|x|=0 <=> x=0$; 2) $|-x|=|x|$; 3) $|x+y|\leq |x|+|y|$. Кожна квазінорма породжує метрику $d(x,y)=|x-y|$, відносно якої операція додавання неперервна. Квазінорма на вектороному просторі $X$ над полем $\mathbb{K}$ дійсних або комплексних чисел~--- це квазігрупа на абелевій групі цього простору. Вона називається лінійною, якщо і операція множення на скаляр $(\lambda , x)\mapsto \lambda x$ є неперервною. Квазінормований простір~--- це векторний простір з лінійною квазінормою. Кожний квазінормований простір є топологічним векторним простором. Підмножина квазінормованого простору називається обмеженою, якщо вона обмежена як підмножина відповідного топологічного векторного простору.
+\end{block}
+
+
+
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Узагальнення теореми Бернштейна для квазінормованих просторів.}
+
+\begin{block}{}
+Ми кажемо, що квазінормований простір задовільняє умову (A), якщо для кожного скінченновимірного підпростору $L$ простору $X$ і довільног $x\in X\setminus L$ відстань $d(\lambda x, L)\rightarrow +\infty$ при $\lambda \rightarrow +\infty$.
+\end{block}
+
+
+
+\begin{exampleblock}{Теорема 2.}
+Нехай $(L_{n})_{n=1}^{\infty}$~--- строго зростаюча послідновність скінченновимірних лінійних підпросторів $L_{n}$ повного квазінормованого простору $X$ з обмеженими кулями, який задовільняє умову (A), і $(\alpha_{n})_{n=1}^{\infty}$~--- спадна послідовність невід'ємних чисел $\alpha_{n}$, яка прямує до нуля. Тоді існує такий елемент $x\in X$, що $d(x,L_{n})=\alpha_{n}$ для кожного $n$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{Функціональні обернені задачі.}
+
+\begin{block}{}
+У статті [3] були сформульованні функціональні обернені задачі для функцій двох змінних. Для простоти розглянемо функцію $f:[0,1]^{2}\rightarrow \mathbb{R}$, для якої функції $f^{x}:[0,1]\rightarrow\mathbb{R}$, $f^{x}(y)=f(x,y)$~--- неперервні. Для неї можна розглянути функції $\alpha_{n}(x)=E_{n}(x)$, $0\leq x\leq 1$. Коли функція $f$ сукупно неперервна, то функції $\alpha_{n}$~--- неперервні, якщо ж $f$ лише нарізно неперервна, то функції $\alpha_{n}$ можуть виявитися розривними, але обов'язково належать до першого класу Бера. В розглянутій статті поставлені питання про опис функціональних послідовностей $\alpha_{n}(x)=E_{n}(f^{x})$ для сукупно чи нарізно неперерних функцій $f$, зокрема, сформульовано проблему: чи для кожної спадної послідовності неперерервних невід'ємних функцій $\alpha_{n}:[0,1]\rightarrow\mathbb{R}$, яка поточково прямує до нуля, існує така сукупно неперервна функція $f:[0,1]^{2}\rightarrow\mathbb{R}$, для якої $E_{n}(f^{x})=\alpha_{n}(x)$ на $[0,1]$ для кожного номера $n$?
+\end{block}
+
+
+
+\begin{thebibliography}{10}
+\bibitem{1} 3. Власюк Г., Маслюченко В. Многочлени Бернштейна і наріно неперервні функції // Наук. вісн. Чернів. унів., Мат.~--- 2007 р.~--- В. 333-336~--- С.52-59.
+\end{thebibliography}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Сукупна обернена задача для скінченного числа функцій.}
+
+
+\begin{thebibliography}{10}
+\bibitem{1} 4. Волошин Г.А., Маслюченко В.К. Функціональне узагалльнення однієї теореми Бернштейна // Мат. студ.~--- 2010 р.~--- \textbf{33}, №2~--- С.220-224.
+\end{thebibliography}
+
+
+\begin{exampleblock}{Теорема 3.}
+Нехай $\alpha_{k}:[0,1]\rightarrow \mathbb{R}$~--- неперервні невід'ємні функції при $k=0,1,...,n$ і $\alpha_{0}(x)\geq \alpha_{1}(x)\geq ... \geq \alpha_{n}(x)$. Тоді існує така сукупно неперервна функція $f:[0,1]^{2}\rightarrow\mathbb{R}$, що $E_{k}(x^{x})=\alpha_{k}(x)$ на $[0,1]$ для кожного $k=1,2,...,n$.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Нарізна нульова обернена задача.}
+
+\begin{thebibliography}{10}
+\bibitem{1} 5. Волошин Г.А., Маслюченко В.К,, Мельник В.С. Пари Гана і нульова обернена задача // Мат. студії.~--- 2017.~--- \textbf{48}, №1.~--- С.74-81.
+\end{thebibliography}
+
+\begin{block}{}
+В цій статті дано відповідь на питання: якими можуть бути функції $\alpha_{0}(x)=E_{0}(f^{x})$ для нарізно неперервних функцій $f:[0,1]^{2}\rightarrow \mathbb{R}$. 
+\end{block}
+
+\begin{block}{}
+Формула для $E_{0}(f)$. Для довільної функції $f:X\rightarrow \mathbb{R}$, заданої на множині $X$ розглянемо числа $$M(f)=\sup\limits_{x\in X}^{} f(x) \textmd{ і } m(f)=\inf\limits_{x\in X}^{} f(x),$$ і нульове найкраще рівномірне наближення $E_{0}(f)=\inf\{||f-c||:c\in \mathbb{R}\}$
+\end{block}
+
+\begin{exampleblock}{Теорема 4.}
+Нехай $X$ -- непорожня множина і $f:X\rightarrow \mathbb{R}$ -- обмежена функція і $\mu=$ $=\frac{1}{2}(M(f)-m(f))$. Тоді $E_0(f)=\mu$, причому стала функція $c_0=\frac{1}{2}(M(f)+m(f))$ є єдиною серед сталих функцій, для якої виконується рівність
+$$E_0(f)=\mu=\|f-c_0\|.$$
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Теорема Гана-Д'єдонне-Тонґа-Катетова.}
+
+\begin{block}{}
+Нехай $X$~--- топологічний простір. Парою Гана на просторі $X$ ми називаємо таку пару $(g,h)$ функцій $g,h:X\rightarrow \mathbb{R}$, що $g(x)\leq h(x)$ на $X$, $g$~--- напівнонеперервна зверху і $h$~--- напівнеперервна знизу. Будь-яка функція $f:X\rightarrow\mathbb{R}$, для якої $g(x)\leq f(x)\leq h(x)$ називається проміжною для пари Гана $(g,h)$. Наступний результат називається теоремою Гана-Д'єдонне-Тонґа-Катетова. Ганс Ган довів її для метричних просторів у 1917 році.
+\end{block}
+
+\begin{exampleblock}{Теорема 5.}
+$T_{1}$~--- простір $X$ буде нормальним тоді і тільки тоді, коли кожна пара Гана $(g,h)$ має неперервну проміжну функцію.
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1} 6. Мельник В.С. Рівномірні відстані до різних функціональних класів та розвиток теореми Гана про проміжні функції // дис. ... доктора фіз.-мат. наук: 01.01.01 / Мельник Василь Сергійович.~--- Чернівці, 2018.~--- 276 с.
+\end{thebibliography}
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Пара Гана що пов'язана з нарізно неперервною функцією.}
+
+
+\begin{exampleblock}{Теорема 6.}
+Нехай $X$ -- топологічний простір, $Y$ -- непорожня множина, $f: X\times Y \rightarrow \mathbb{R}$ -- неперервна відносно першої змінної і обмежена відносго другої функція і $g(x)=\inf\limits_{y\in Y}f^x(y)$, a $h(x)=\sup\limits_{y\in Y}f^x(y)$ на $X$. Тоді $(g,h)$ -- це пара Гана на $X$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Побудова нарізно неперервної функції за даною парою Гана.}
+
+\begin{block}{}
+Для довільної функції $f:X\times Y\rightarrow \mathbb{R}$ визначимо функції $S_{f}:X\rightarrow (-\infty, +\infty]$ та $I_{f}:X\rightarrow [-\infty,+\infty)$ формулами $$S_{f}(x)=\sup\limits_{y\in Y}^{} f(x,y) \textmd{ та } I_{f}(x)=\inf\limits_{y\in Y}^{} f(x,y).$$
+\end{block}
+
+\begin{exampleblock}{Теорема 7.}
+Нехай $X=[a, b]$,  $Y=[c, d]$, де $a<b$, $c<d$ i $(g,h)$ -- довільна пара Гана на відрізку  $X$.  Тоді існує така нарізно неперервна функція $f: X\times Y\rightarrow\mathbb{R}$, що $(I_f, S_f)=(g, h)$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{Нарізно неперервні функції з даним нульовим наближенням.}
+
+\begin{block}{}
+Згідно з теоремою 4 для кожної нарізно неперервної функції $f: [a,b]\times [c,d]\rightarrow \mathbb{R}$ її нульове найкраще наближення $\alpha_f$ визначається на відрізку $X=[a,b]$ формулою
+$$\alpha_f(x)=\frac{M(f^x)-m^(f^x)}{2},$$
+а тому за теоремою 5 є невід'ємною і напівнеперервною знизу функцією. Справедливе і обернене твердження.
+\end{block}
+
+
+\begin{exampleblock}{Теорема 8.}
+Для довільного прямокутника $P=X\times Y$, де $X=[a, b]$ i $Y=[c, d]$ і кожної невід'ємної напівнеперервної знизу функції $\varphi: X \rightarrow \mathbb{R}$ існує така нарізно неперервна функція $f: P \rightarrow \mathbb{R}$, що $\alpha_f=\varphi$  .
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Ледь-опуклі і вгнуті функції.}
+
+\begin{block}{}
+Для кожної функції $f:[a,b]\rightarrow \mathbb{R}$ число $$k=k_{f}=k_{f}(a,b)=\frac{f(b)-f(a)}{b-a}$$ ~--- це кутовий коефіцієнт січної $g=S(f)$, яка задається формулою $g(x)=f(a)+k(x-a)$. Вона з'єднує початок $(a,f(f))$ і кінець $(b,f(b))$ кривої $y=f(x)$, $a\leq x \leq b$. Функцію  $f:[a,b]\rightarrow\mathbb{R}$ ми називаємо ледь опуклою /вгнутою/, якщо $g(x)\geq f(x)$ /$g(x)\leq f(x)$/ на $[a,b]$. Зрозуміло що кожна оукла /вгнута/ функція є і опуклою /вгнутою/. 
+\end{block}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Перше рівномірне наближення.}
+
+\begin{block}{}
+Для довільної неперервної функції $f:[a,b]\rightarrow \mathbb{R}$, заданої на невиродженому відрізку $[a,b]$, розглянемо її перше рівномірне наближення $$E_{1}(f)=d(f,P_{1})=\inf\{||f-g||:g\in P_{1}\},$$ де $P_{1}=P_{1}[a,b]$~--- простір всіх лінійних функцій $g(x)=\alpha x+ \beta$ на $[a,b]$.
+\end{block}
+
+\begin{block}{}
+Для ледь опуклих чи вгнутих неперервних функцій $f:[a,b]\rightarrow \mathbb{R}$ ми можемо вказати формулу для знаходження числа $E_{1}(f)$.
+\end{block}
+
+
+\begin{exampleblock}{Теорема 9.}
+Нехай $f:[a,b]\rightarrow \mathbb{R}$~--- неперервна і ледь опукла чи вгнута функція, $g=S(f)$, $h=|f-g|$ і $\mu = \frac{1}{2}||h||$. Тоді існує таке число $c$ з відрізка $[a,b]$, що $h(c)=||h||$ і для будь-якого такого числа $$E_{1}(f)=\mu=||f-g_{0}||,$$ де $g_{0}=f(c)+\mu+k(x-c)$ на $[a,b]$, якщо $f$ ледь опукла, і $g_{0}(x)=f(c)-\mu+k(x-c)$ на $[a,b]$, якщо $f$ ледь вгнута.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Істотність умови ледь опуклості чи вгнутості.}
+
+\begin{exampleblock}{Теорема 10.}
+Для функції $f(x)=x^{3}$ на відрізку $[-1,1]$ $$E_{1}(f)=\frac{1}{4}=f-g_{0},$$ де $g_{0}(x)=\frac{3}{4}x$.
+\end{exampleblock}
+
+\begin{block}{}
+Зауважимо, що для функції з цієї теореми число $\mu$ з теореми 9 дорівнює $\frac{1}{3\sqrt{3}}\neq \frac{1}{4}$. Таким чином, умова ледь опуклості чи ледь вгнутості істотна.
+\end{block}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Про одне наближення лінійними функціями.}
+
+\begin{block}{}
+Нехай $L$~--- сукупність усіх лінійних однорідних функцій $y=\alpha x$ на відрізку $[a,b]$. Для кожної неперервної функції $f$ існує така функція $l_{0}=\alpha_{0}x$, що $d(f, L)=||f-l_{0}||$. Далі, існує таке число $\beta_{0}$, що $E_{0}(f-l_{0})=f-l_{0}-\beta_{0}$. Нехай $g_{0}(x)=f(x)-l_{0}(x)-\beta_{0}$ і $F_{1}(f)=||f-g_{0}||$. Чи обов'язково $E_{1}(f)=F_{1}(f)$?
+\end{block}
+
+\begin{exampleblock}{Теорема 11.}
+Для функції $f(x)=x^{2}$ на $[0,1]$ маємо: $E_{1}(f)=\frac{1}{4}$, $F_{1}(f)=\frac{3-2\sqrt{2}}{2}$. Отже $E_{1}(f)\neq F_{1}(f)$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Нерозв'язана задача.}
+
+\begin{block}{}
+Для неперервних функцій, які не є ледь опуклими чи вгнутими, знаходження першого рівномірного наближення $E_{1}(f)$ кожний раз потребує індивідуального підходу, і невідомо, чи існує якась загальна формула для знаходження $E_{1}(f)$, подібна до формули для $E_{0}(f)$. Тому знаходження $E_{1}(f)$ для таких функцій кожний раз є цікавою задачею, яка потребує свого підходу. Наприклад, нам невідомо як знайти $E_{1}(f)$ для функції $f(x)=x\sin\frac{\pi}{x}$ при $x\neq 0$ і $f(0)=0$ на відрізку $[0,1]$
+\end{block}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Нарізна перша обернена задача.}
+
+\begin{exampleblock}{Теорема 12.}
+Нехай $\alpha :[a,b]\rightarrow \mathbb{R}$~--- невід'ємна напівнеперервна знизу функція. Тоді існує така функція $f\in CC_{a}(P)$, що $E_{1}(f^{x})=\alpha(x)$ на $[a,b]$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{.}
+
+\begin{block}{}
+
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Дякую за увагу!}
+\end{frame}
+
+\end{document}
+

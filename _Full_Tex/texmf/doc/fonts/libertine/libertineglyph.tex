@@ -1,0 +1,46 @@
+\documentclass[ngerman]{libertinedoku}
+
+
+
+\begin{document}
+\pageTitle{Libertine Glyphen}
+
+\section{Libertine}
+
+{%
+\setlength{\columnseprule}{.5pt}
+\setlength{\columnsep}{1cm}
+\begin{multicols}{3}
+   \renewcommand*\DeclareTextGlyphX[5]{\index{#4 (Libertine)}%
+   \makebox[3cm][l]{%\hypertarget{glyph.#4}{}\hyperlink{gglyph.#4}{#4}
+   \texttt{#4}}\hfill%
+   {\Huge\fbox{\libertineGlyph{#4}\strut}}\hfill\mbox{}\newline}
+   \catcode`\_=12%
+   \InputIfFileExists{fxl.inc}{}{}
+\end{multicols}
+}
+
+\newpage
+\section{Biolinum}
+
+{%
+\setlength{\columnseprule}{.5pt}
+\setlength{\columnsep}{1cm}
+\begin{multicols}{3}
+   \renewcommand*\DeclareTextGlyphX[5]{\index{#4 (Biolinum)}%
+   \makebox[3cm][l]{%\hypertarget{glyph.#4}{}\hyperlink{gglyph.#4}{#4}
+   \texttt{#4}}\hfill%
+   {\Huge\fbox{\libertineGlyph{#4}\strut}}\hfill\mbox{}\newline}
+   \catcode`\_=12%
+   \InputIfFileExists{fxb.inc}{}{}
+\end{multicols}
+}
+
+\section{Index}
+
+{%
+\catcode`\_=12%
+\def\indexcolumn{3}
+\printindex
+}
+\end{document}

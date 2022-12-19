@@ -1,0 +1,22 @@
+$$
+\cellpush=4pt
+\let\labelstyle\textstyle
+\lpad=1in \bpad=1cm
+\Graph{4in,4}{3.5in,1in}
+\To (0,0) (3.3,0)    \hd{p}
+\To (0,0) (0,3.5)    \hd{q}
+\Line (2,0) (2,3.25) \Line (0,1) (3.2,1) \Dot (2,1)
+\Dot (0,0)
+%
+\Dot (2,0) \Dot (2.25,0) \Dot (2.5,0) \Dot (2.75,0) \Dot (3,0)
+%
+\Dot (0,1) \Dot (0,1.25) \Dot (0,1.5) \Dot (0,1.75)
+\Dot (0,2) \Dot (0,2.25) \Dot (0,2.5) \Dot (0,2.75) \Dot (0,3)
+%
+\Line (0,2.25) (2.5,0)  ^{d^p} :{.35,5pt} \ro
+\Line (0,3) (3,0)  ^{p + q = m + n} :{.35,5pt} \ro
+%
+\Math{q = n} (-.1,1) *1     \Math{E_{0,p-1}^2 = E_{0,p-1}^p} (-.1,2.25) *1
+\Math{p = m} (2,-.2) *{.55} \Math{E_{p,0}^2 = E_{p,0}^p} (2.75,-.2) *{.6}
+\endGraph
+$$

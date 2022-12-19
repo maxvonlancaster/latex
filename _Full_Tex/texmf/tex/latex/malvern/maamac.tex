@@ -1,0 +1,290 @@
+% maamac.tex 1.1.8 94/07/20 -- the Malvern-A font conventions
+% Copyright (c) 1991, 1992, 1993, 1994 P. Damian Cugley.
+
+%%% @TeX-macro-file {
+%%%   filename       = "maamac.tex",
+%%%   version        = "1.1.8",
+%%%   date           = "1994/07/20",
+%%%   package        = "Malvern 1.1",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "Malvern, METAFONT, font, typefont, TeX",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Macros for using the Malvern-A font coding
+%%%   			scheme in plain TeX documents.",
+%%%   dependencies   = "pdcutil.tex",
+%%% }
+
+%  See the Malvern Handbook (maman.tex) for more info about Malvern.
+%  This software is available freely but without warranty.
+%  See the file COPYING for details.
+
+\begingroup\catcode`\%=12 \toks0={\endgroup
+	\gdef\maaversion{1.1.8} \gdef\lastedit{pdc 1994/07/20}
+}\the\toks0
+\message{\maaversion\space \lastedit}
+\ifx\utilsversion\UNDEFINED \input pdcutil \fi
+
+%  If #1 is letter or "other character", or is <chardef token>,
+%  then return its ASCII code:
+\def\code#1%
+{%
+    \ifcat#1a%	letter?
+	`#1
+    \else \ifcat#1+%	<otherchar>?
+	`#1
+    \else \ifx\char#1
+	%  assume \char followed by number
+    \else
+	#1%	Assume it is chardef name
+    \fi \fi \fi
+}
+
+%  #1 <character> to test
+%  #2 TRUE text
+%  #3 FALSE text
+\def\Ifcap#1#2#3{\ifnum\lccode\code{#1}=\code{#1}#3\else #2\fi}
+\def\Iflower#1#2#3{\ifnum\uccode\code{#1}=\code{#1}#3\else #2\fi}
+
+
+%  Place text #3 at displacement (#1,#2) from current position:
+\def\putxy#1#2#3{\rlap{\hskip#1\raise#2\hbox{#3}}}
+
+%  Strip the "pt" from the result of \the applied to a dimen:
+{ \catcode`p=12 \catcode`t=12
+    \gdef\\#1pt{#1}
+}
+\let\stripPT=\\
+
+%  Find desimal string representing slant of font #1
+\def\fontslant#1{\expandafter\stripPT\the\fontdimen1#1}
+
+%  Place a mark \char#2 over #3
+%  #1 -- <decimal constant> in range 0-1, gives optical centre of #4
+%  #2 -- TeX code that calculates the amount mark must be raised
+%  	(assuming \box0 contains #3 and putting result in \dimen0)
+%  #3 -- <8-bit number> -- character code of mark
+%  #4 -- TeX text -- the thing to be marked
+\def\xyaccent#1#2#3#4%
+{{%
+    \setbox0=\hbox{#4}%
+    #2\relax%  must calc. dy into \dimen0
+    \dimen1=#1\wd0 \advance\dimen1 \fontslant\font\dimen0
+    \leavevmode
+    \putxy{\dimen1}{\dimen0}{\hbox to 0pt{\hss\char#3\hss}}%
+    \box0
+}}
+\def\yaccent{\xyaccent{0.5}}
+
+%  Place Type I mark (\char#1) over character #2:
+\def\typeImark#1#2%
+{{%
+    \setbox1=\hbox{#2}%
+    \ifdim \ht1=1ex
+	\accent#1\relax#2%
+    \else
+	\counta=\code{#2}%
+	\ifnum \counta>64 \ifnum \counta<96
+	    \advance\counta 128
+	\fi \fi
+	\yaccent{\dimen0=0.5\ht0 \advance\dimen0-0.5ex}
+		{#1}{\char\counta}%
+    \fi
+}}
+
+%  Place Type II mark (#1) over character #2
+%\def\typeIImark#1#2%
+%{{%
+%    \counta=#1\relax \countb=\code{#2}%
+%    \ifnum \countb<224 \ifnum \countb>127
+%	\ifnum \counta<128 \advance\counta 128 \fi
+%    \else \ifnum \countb<96 \ifnum \countb>64
+%	\advance\countb 128
+%	\ifnum \counta<128 \advance\counta 128 \fi    
+%    \fi \fi \fi \fi
+%    \accent\counta \char\countb
+%}}
+
+\def\typeIImark#1#2%
+{{%
+    \counta=#1\relax \countb=\code{#2}%
+    \Ifcap{#2}{%
+	\ifnum \counta<128 \advance\counta 128 \fi
+	\ifnum \countb<128 \advance\countb 128 \fi
+      }{}%
+    \accent\counta \char\countb
+}}
+
+
+\def\.{\typeImark{22}}
+\def\"{\typeImark{23}}
+\def\={\typeImark{150}}
+
+\def\'{\typeIImark8}
+\def\`{\typeIImark9}
+\def\^{\typeIImark{10}}
+\def\~{\typeIImark{11}}
+\def\ringmark{\typeIImark{12}}%	ring for Scandinavian a
+\def\v{\typeIImark{13}}
+\def\u{\typeIImark{14}}
+\def\H{\typeIImark{15}}
+
+\def\c{\cidellalike{6}{134}}
+\def\ogonek{\cidellalike{7}{135}}
+\def\cidellalike#1#2#3%
+{%
+    \setbox0=\hbox{#3}%
+    \ifdim\ht0>1ex
+	{\ooalign{\hidewidth\char#2\relax\hidewidth\crcr\unhbox0 }}%
+    \else
+	\accent#1 #3%
+    \fi
+}
+
+\chardef\TH="00  \chardef\th="10 % Icelandic thorn
+\chardef\A ="01  \chardef\a ="11 % Polish A-ogonek
+\chardef\NG="02  \chardef\ng="12 % Lappish eng
+\chardef\L ="03  \chardef\l ="13 % Polish l with bar
+\chardef\DH="04  \chardef\dh="14 % Icelandic eth/D with bar
+\chardef\E ="05  \chardef\e ="15 % Polish E-ogonek
+
+\chardef\ss= "18
+\chardef\i = "19  
+\chardef\j = "1A  
+\chardef\vd= "9C
+\chardef\vt= "9D
+\chardef\h = "9E
+\chardef\vl= "9F
+
+\chardef\O ="5C  \chardef\o ="7C % o with slash
+\chardef\AE="5E  \chardef\ae="7E % ae ligature
+\chardef\OE="5F  \chardef\oe="7F % oe ligature
+
+\def\aa{\ringmark a}
+\def\AA{\ringmark A}
+\def\Mc{M\char"9B } % as in {\Mc}Donald
+\def\No{N\char"99 } % short for number, numero, etc.
+\def\Na{N\char"98 } % is this correct?
+
+\chardef\bullet         = "20
+\mathchardef\spot       = "3020 % bullet as relation
+\chardef\trademark      = "22
+\chardef\orda		= "98
+\chardef\ordo		= "99
+\chardef\careof		= "9A
+\chardef\Box            = "A0
+\chardef\cents          = "A2
+\chardef\pounds         = "A3
+\chardef\currency       = "A4
+\chardef\permille       = "A5
+\chardef\times          = "A6
+\chardef\yen            = "A8
+\chardef\florin         = "A9
+\chardef\dag            = "AA
+\chardef\ddag           = "AB
+\chardef\brdecimal      = "AE
+        \def\cdot{\ifmmode\mathchar"00AE \else\brdecimal\fi}
+\chardef\minus		= "AF
+\chardef\S              = "BA
+\chardef\P              = "BB
+\chardef\degrees        = "C0
+\let\mathlangle=\langle \def\langle{\ifmmode\mathlangle\else\char"DB \fi}
+\let\mathrangle=\rangle \def\rangle{\ifmmode\mathrangle\else\char"DD \fi}
+\chardef\copyright      = "FB
+\chardef\registered     = "FD
+
+\def\{{\ifmmode \delimiter"407B308 \else \char123 \fi} \let\lbrace=\{
+\def\}{\ifmmode \delimiter"507C309 \else \char125 \fi} \let\rbrace=\}
+
+\uccode\th=\TH  \lccode\TH=\th  \uccode\TH=\TH  \lccode\th=\th
+\uccode\a =\A   \lccode\A =\a   \uccode\A =\A   \lccode\a =\a 
+\uccode\ng=\NG  \lccode\NG=\ng  \uccode\NG=\NG  \lccode\ng=\ng
+\uccode\l =\L   \lccode\L =\l   \uccode\L =\L   \lccode\l =\l 
+\uccode\dh=\DH  \lccode\DH=\dh  \uccode\DH=\DH  \lccode\dh=\dh
+\uccode\e =\E   \lccode\E =\e   \uccode\E =\E   \lccode\e =\e 
+\uccode\o =\O   \lccode\O =\o   \uccode\O =\O   \lccode\o =\o
+\uccode\ae=\AE  \lccode\AE=\ae  \uccode\AE=\AE  \lccode\ae=\ae
+\uccode\oe=\OE  \lccode\OE=\oe  \uccode\OE=\OE  \lccode\oe=\oe
+
+\uccode\i=`I    \uccode\j=`J	\lccode\i=\i	\lccode\j=\j
+\uccode"9B=`C  %  McDonald -> MCDONALD
+
+
+\newcount\chcdA \newcount\chcdC \newcount\chcdN
+
+\def\changecodes#1#2#3#4%
+{%
+    \chcdA=#2\relax \chcdC=#3\relax \chcdN=#4\relax
+    \loop
+    \ifnum\chcdN>0
+	#1\chcdA\chcdC
+	\advance\chcdA 1
+	\advance\chcdC 1
+	\advance\chcdN-1
+    \repeat
+}
+
+\changecodes\uccode{"E1}{`A}{26}     %  \uppercase{scap} = cap
+\changecodes\uccode{"C1}{"C1}{26}    %  \uppercase{mcap} = mcap
+\changecodes\lccode{"E1}{"E1}{26}    %  \lowercase{scap} = scap
+\changecodes\lccode{"C1}{`a}{26}     %  \lowercase{mcap} = lc
+
+\changecodes\lccode{"B0}{`0}{10}
+\changecodes\uccode{`0}{"B0}{10}
+\changecodes\mathcode{`0}{"70B0}{10}
+
+%  for \sc and \mc, arg should be all-capitals (lowercase deliberately
+%  left untouched -- useful occasionally for odd effects)
+
+\def\capspecials#1#2%  #1,#2 hex digits
+{%
+    \chardef\TH="#10 \chardef\A ="#11 \chardef\NG="#12
+    \chardef\L ="#13 \chardef\DH="#14 \chardef\E ="#15
+    \chardef\O ="#2C \chardef\AE="#2E \chardef\OE="#2F 
+}
+
+\def\lcspecials#1#2#3%
+{%
+    \chardef\th="#10 \chardef\a ="#11 \chardef\ng="#12
+    \chardef\l ="#13 \chardef\dh="#14 \chardef\e ="#15
+    \chardef\o ="#2C \chardef\ae="#2E \chardef\oe="#2F
+    \def\ss{\char"#23 \char"#23 }%  \ss -> ss
+    \chardef\i = "#39 %  \i -> I  
+    \chardef\j = "#3A %  \j -> J
+}
+
+\def\sc#1%
+{{%
+    \changecodes\lccode{`A}{"E1}{26}%
+    \capspecials9F%
+    \lowercase{#1}%
+}}
+
+\def\mc#1%
+{{%
+    \changecodes\lccode{`A}{"C1}{26}%
+    \capspecials8D%
+    \lowercase{#1}%
+}}
+
+\def\csc#1%
+{{%
+    \changecodes\uccode{`a}{"E1}{26}%
+    \lcspecials9FE%
+    \uppercase{#1}%
+}}
+
+\def\caps#1%
+{{%
+    \lcspecials054%
+    \uppercase{#1}%
+}}
+
+\def\lc#1%
+{{%
+    \capspecials17%
+    \lowercase{#1}%
+}}

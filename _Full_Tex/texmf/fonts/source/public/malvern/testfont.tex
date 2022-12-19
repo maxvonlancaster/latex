@@ -1,0 +1,495 @@
+% A testbed for font evaluation (see The METAFONTbook, Appendix H)
+
+%  Modified by pdc to add uppercase text.  29-Nov-89
+%  Modified some more by me again for testing Malvern.
+
+% ************************************************************************
+%
+%  This file should NOT, repeat  * N * O * T *  be installed in the
+%  standard TeX macro file area.  Instead you should leave it in
+%  the same directory as the Malvern program files.  It customizes
+%  testfont for the Malvern encoding conventions.
+%
+%  ************************************************************************
+
+\input malvern
+\errorcontextlines=20
+
+\tracinglostchars=0
+\tolerance=1000
+\raggedbottom
+\nopagenumbers
+\parindent=0pt
+\newlinechar=`@
+\hyphenpenalty=200
+\doublehyphendemerits=30000
+
+\newcount\m \newcount\n \newcount\p \newdimen\dim
+\chardef\other=12
+
+\def\today{\ifcase\month\or
+  January\or February\or March\or April\or May\or June\or
+  July\or August\or September\or October\or November\or December\fi
+  \space\number\day, \number\year}
+\def\hours{\n=\time \divide\n 60
+  \m=-\n \multiply\m 60 \advance\m \time
+  \twodigits\n\twodigits\m}
+\def\twodigits#1{\ifnum #1<10 0\fi \number#1}
+
+\def\init{\message{@Name of the font to test = }
+  \read-1 to\fontname \startfont
+  \message{Now type a test command (\string\help\space for help):}}
+\def\startfont{\font\testfont=\fontname
+  \leftline{\sevenrm Test of \fontname\unskip\ on \today\ at \hours}
+  \medskip
+  \testfont \setbaselineskip
+  \ifdim\fontdimen6\testfont<10pt \rightskip=0pt plus 20pt
+  \else\rightskip=0pt plus 2em \fi
+  \spaceskip=\fontdimen2\testfont % space between words (\raggedright)
+  \xspaceskip=\fontdimen2\testfont \advance\xspaceskip by\fontdimen7\testfont}
+
+{\catcode`\|=0 \catcode`\\=\other
+|gdef|help{|message{%
+\init switches to another font;@%
+\end or \bye finishes the run;@%
+\text prints a sample text, assuming TeX text font conventions;@%
+\TEXT prints the sample text in uppercase;@%
+\display prints all the characters in the font in a nice order;@%
+\sample combines \display and \text;@%
+\table prints the font layout in tabular format;@%
+\mixture mixes a background character with a series of others;@%
+\alternation interleaves a background character with a series;@%
+\alphabet prints all lowercase letters within a given background;@%
+\ALPHABET prints all uppercase letters within a given background;@%
+\series prints a series of letters within a given background;@%
+\lowers prints a comprehensive test of lowercase;@%
+\uppers prints a comprehensive test of uppercase;@%
+\digits prints a comprehensive test of numerals;@%
+\math prints a comprehensive test of TeX math italic;@%
+\names prints a text that mixes upper and lower case;@%
+\punct prints a punctuation test;@%
+\bigtest combines many of the above routines;@%
+\help repeats this message;@%
+and you can use ordinary TeX commands (e.g., to \input a file).}}}
+
+\def\setbaselineskip{\setbox0=\hbox{\n=0
+\loop\char\n \ifnum \n<255 \advance\n 1 \repeat}
+\baselineskip=6pt \advance\baselineskip\ht0 \advance\baselineskip\dp0 }
+
+\def\setchar#1{{\escapechar-1\message{\string#1 character = }%
+  \def\do##1{\catcode`##1=\other}\dospecials
+  \read-1 to\next
+  \expandafter\finsetchar\next\next#1}}
+\def\finsetchar#1#2\next#3{\global\chardef#3=`#1
+  \ifnum #3=`\# \global\chardef#3=#2 \fi}
+\def\promptthree{\setchar\background
+  \setchar\starting \setchar\ending}
+
+\def\mixture{\promptthree \domix\mixpattern}
+\def\alternation{\promptthree \domix\altpattern}
+\def\mixpattern{\0\1\0\0\1\1\0\0\0\1\1\1\0\1}
+\def\altpattern{\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0}
+\def\domix#1{\par\chardef\0=\background \n=\starting
+  \loop \chardef\1=\n #1\endgraf
+  \ifnum \n<\ending \advance\n 1 \repeat}
+
+\def\!{\discretionary{\background}{\background}{\background}}
+\def\series{\promptthree \!\doseries\starting\ending\par}
+\def\doseries#1#2{\n=#1\loop\char\n\!\ifnum\n<#2\advance\n 1 \repeat}
+\def\complower{\!\doseries{`a}{`z}\doseries{'31}{'34}\par}
+\def\compupper{\!\doseries{`A}{`Z}\doseries{'35}{'37}\par}
+\def\compdigs{\!\doseries{`0}{`9}\par}
+\def\alphabet{\setchar\background\complower}
+\def\ALPHABET{\setchar\background\compupper}
+
+\def\lowers{\docomprehensive\complower{`a}{`z}{'31}{'34}}
+\def\uppers{\docomprehensive\compupper{`A}{`Z}{'35}{'37}}
+\def\digits{\docomprehensive\compdigs{`0}{`4}{`5}{`9}}
+\def\docomprehensive#1#2#3#4#5{\par\chardef\background=#2
+  \loop{#1} \ifnum\background<#3\m=\background\advance\m 1
+  \chardef\background=\m \repeat \chardef\background=#4
+  \loop{#1} \ifnum\background<#5\m=\background\advance\m 1
+  \chardef\background=\m \repeat}
+
+\def\names{ {\AA}ngel\aa\ Beatrice Claire
+  Diana \'Erica Fran\c{c}oise Ginette H\'el\`ene Iris
+  Jackie K\=aren {\L}a\u{u}\.ra Mar{\'\i}a N\H{a}ta{\l}{\u\i}e {\O}ctave
+  O\^ctavia\~n
+  Pauline Qu\^eneau Roxanne Sabine T\~a{\'\j}a Ur\v{s}ula
+  Vivian Wendy Xanthippe Yv{\o}nne Z\"azilie\par}
+\def\punct{\par\dopunct{min}\dopunct{pig}\dopunct{hid}
+  \dopunct{HIE}\dopunct{TIP}\dopunct{fluff}
+  \$1,234\cdot56 + 7/8 = 9\% = 90\permille\ @ \#0 2\times4 \S3 \P4 
+	57\degrees\ = 57\thinspace\degrees C\par}
+\def\dopunct#1%
+{
+    #1,\ #1:\ #1;\ `#1'\ ?`#1?\ !`#1!\ (#1)\ [#1]\ \langle#1\rangle\ 
+    <#1>\ <<#1>>\ <<\thinspace#1\thinspace>>\
+    #1*\ #1\dag\ #1\ddag\ #1.\par
+}
+
+\def\bigtest{\sample
+  hamburgefonstiv HAMBURGEFONSTIV\par
+  \names \punct \lowers \uppers \digits \table}
+
+\def\math{\textfont1=\testfont \skewchar\testfont=\skewtrial
+ \mathchardef\Gamma="100 \mathchardef\Delta="101
+ \mathchardef\Theta="102 \mathchardef\Lambda="103 \mathchardef\Xi="104
+ \mathchardef\Pi="105 \mathchardef\Sigma="106 \mathchardef\Upsilon="107
+ \mathchardef\Phi="108 \mathchardef\Psi="109 \mathchardef\Omega="10A
+ \def\ii{i} \def\jj{j}
+ \def\\##1{|##1|+}\mathtrial
+ \def\\##1{##1_2+}\mathtrial
+ \def\\##1{##1^2+}\mathtrial
+ \def\\##1{##1/2+}\mathtrial
+ \def\\##1{2/##1+}\mathtrial
+ \def\\##1{##1,{}+}\mathtrial
+ \def\\##1{d##1+}\mathtrial
+ \let\ii=\imath \let\jj=\jmath \def\\##1{\hat##1+}\mathtrial}
+\newcount\skewtrial \skewtrial='177
+\def\mathtrial{$\\A \\B \\C \\D \\E \\F \\G \\H \\I \\J \\K \\L \\M \\N \\O
+ \\P \\Q \\R \\S \\T \\U \\V \\W \\X \\Y \\Z \\a \\b \\c \\d \\e \\f \\g
+ \\h \\\ii \\\jj \\k \\l \\m \\n \\o \\p \\q \\r \\s \\t \\u \\v \\w \\x \\y
+ \\z \\\alpha \\\beta \\\gamma \\\delta \\\epsilon \\\zeta \\\eta \\\theta
+ \\\iota \\\kappa \\\lambda \\\mu \\\nu \\\xi \\\pi \\\rho \\\sigma \\\tau
+ \\\upsilon \\\phi \\\chi \\\psi \\\omega \\\vartheta \\\varpi \\\varphi
+ \\\Gamma \\\Delta \\\Theta \\\Lambda \\\Xi \\\Pi \\\Sigma \\\Upsilon
+ \\\Phi \\\Psi \\\Omega \\\partial \\\ell \\\wp$\par}
+\def\mathsy{\begingroup\skewtrial='060 % for math symbol font tests
+ \def\mathtrial{$\\A \\B \\C \\D \\E \\F \\G \\H \\I \\J \\K \\L
+  \\M \\N \\O \\P \\Q \\R \\S \\T \\U \\V \\W \\X \\Y \\Z$\par}
+ \math\endgroup}
+
+
+\newcount\whichtext
+\newif\ifuppercase
+
+\def\text
+{{\advance\baselineskip-4pt
+  \setbox0=\hbox{abcdefghijklmnopqrstuvwxyz}
+  \ifdim\hsize>2\wd0 \ifdim 15pc>2\wd0 \hsize=15pc \else \hsize=2\wd0
+  \fi\fi
+  \parindent = 0.1\hsize \parskip = 1ex plus 2pt
+  \ifuppercase \uppercase \fi {
+  \ifcase\whichtext
+	It isn't easy to explain what attracts some people to letterforms
+	with such joy and fury.  Most people can't tell typing from printing
+	and the latest figures on illiteracy suggest that we should be
+	grateful, while we can, that they can read at all.
+
+	    In comparison to the details of such other callings as, say, keeping
+	rabbits, small particulars of the alphabet can easily become an
+	obsession.  I often think of Thomas Codben-Sanderson, a remarkable
+	man and a bookbinder of distinction, as he stood on
+	Hammersmith Bridge in the dark, throwing the printing type of the
+	Doves Press into the Thames.  This was a crime of passion and has a
+	comical side that the decades often give to such things.  But I can
+	see him, heart pounding, full of earnest purpose, as he puts his
+	beloved type to rest.  He was not about to wonder, as the song
+	wonders about the lady, who might be kissing her now.
+
+	    I could name a few things I'd like to throw into the Thames
+	myself in the shadow of the night.  But my reasons would not be as
+	pure has his.  My motive wouldn't be love.
+
+    \or 
+	Lettering people disagree over everything.  They argue about the
+	very purpose of the alphabet, which is as good a point for a fight
+	as any.
+
+	    Some people say that letters exist to be read and therefore the
+	things that interfere with legibility should be discouraged.  (This
+	is a bit like saying that the purpose of liquor is to get you drunk.
+	If they were right, people would swig metal polish, and the farmers
+	of Cognac, Burgundy and Champagne grow potatoes.)
+
+	    The alphabet, the argument goes, should be a well-mannered
+	servant who quietly carries messages from author to reader.  This is
+	sometimes true: it is just what we need in a telephone directory.
+	Fortunately, the world still has some other uses for letters as
+	well.  We celebrate the alphabet for other reasons than legibility.
+	We enjoy all the passions and the fury and could hardly have more
+	fun without breaking the furniture.
+
+    \or
+	The alphabet as a style for every need.  For dignity, the style of
+	Roman inscriptions is unsurpassed.  To attempt the limits of human
+	skill, people have decorated letters almost beyond recognition in
+	some of the world's greatest manuscript books.  More than a code for
+	text, the alphabet has developed throught the centuries into a
+	splendid medium of expression.  Even the greeting card with pink
+	pigs from your friend Henry had a printed message that was made to
+	look silly expressly to match his sense of humour.  I think it's
+	marvellous and I don't think any permanent damage was done to our
+	heritage.
+
+	    As long as people seem to like letters made of soap bubbles, the
+	world can't be all bad.  A few colleagues of mine have been driven
+	to despair over some lovely letters with snow on top that are used
+	in winter advertising.  These things disd not come about by
+	accident.  No designer consciously decided to forfeit his reputation
+	and go down in history wearing a fool's cap.  They were made because
+	people wanted them and it is because people still do that they are
+	used every year as the waether gets cold.
+
+    \or
+	Even if we agree that expression is a part of the alphabet, and agree
+	again that it sometimes comes before legibility, we still have many
+	things to disagree over.  One thing that divides people is apprach.
+	They ask what kind of lettering is permissible in polite society.  What
+	kind of expression can the common man be trusted with?
+
+	One view, especially liked by amateurs, is that the only legitimate way
+	of using the alphabet for expression is to imitate medieval methods.
+	This means that you should write with a feather.  You should work on
+	vellum if you can afford it, on hand-made paper if not (even if it only
+	differs comparably from machine-made paper in the direction of the
+	fibres).  You should approach the job with reverence and possibly make
+	your own ink.  All this is said to be justified by regarding writing,
+	illuminating, and lettering as medieval crafts.
+
+	\null\hfill Gunnlaugur S. E. Briem\par
+
+	\whichtext = -1
+    \fi
+    }
+\global\advance\whichtext by 1
+\moretext
+(!`THE DAZED BROWN FOX QUICKLY GAVE 12345--67890 JUMPS!)\par}}
+\def\moretext{?`But are{\ng}'t Kafka's Schlo{\ss} 
+and {\AE}sop's {\OE}uvres
+often na{\"\i}ve vis-\`a-vis the {\dh}{\ae}monic {\th}h{\oe}nix's official
+r\^ole in fluffy souffl\'es? }
+\def\omitaccents{\let\moretext=\relax}
+
+\def\TEXT{{\uppercasetrue\text}}
+
+\def\,{\kern 0.1667em }
+
+\def\display
+{{\par \rightskip = 0pt plus 0.25\hsize
+  \displayloop{65}{91}
+  \displayloop{97}{123}
+  \displayloop{48}{58}
+  ,.;: ` ' `` '' ()[]*+=/?!@\$\%\& - -- ---
+  \displayloop{0}{16}
+  \displayloop{16}{32}
+  \char32\char`\" \char`\<\char`\>
+  \char`\\\char`\^\char`\_
+  \char`\|\char`\~\char127
+  \par{\sevenrm 128+:}
+  \displayloop{128}{144}
+  \displayloop{144}{160}
+  \displayloop{160}{176}
+  \displayloop{176}{192}
+  \displayloop{192}{208}
+  \displayloop{208}{224}
+  \displayloop{224}{240}
+  \displayloop{240}{256}
+  \par
+}}
+
+\def\displayloop#1#2%
+{%
+    \n=#1
+    \loop
+    \ifnum\n<#2
+	\char\n
+	\advance\n+1
+    \repeat
+}
+
+\def\grecoroman
+{{\rightskip = 0pt plus 0.25\hsize
+  AB%
+  \char0 C%	  Gamma
+  \char1 D%	  Delta
+  EFZGH\char2	% Theta
+  IJK%
+  \char3 L%	  Lambda
+  MN\char4	% Xi
+  O\char5 P%	  Pi
+  QR%	
+  \char6 S% 	  Sigma
+  T\char7 	% Upsilon
+  UVW%
+  \char8 X\char9% Phi, Psi
+  Y\char10
+  \par
+}}
+
+\def\liggy
+{{\def\\{\kern0pt}%
+  ff, f\\f; fi, f\\i; fl, f\\l; ffi, f\\f\\i; ffl, f\\f\\l.
+  \par Kafka often fluffy souffle official fife.
+  \par Kaf\\ka of\\ten f\\luf\\fy souf\\f\\le of\\f\\icial f\\if\\e.
+  \par
+}}  
+
+\def\sample{\display\TEXT\text\names}
+
+\newcount\hexcount
+\def\hexdigit#1{\ifcase#1\relax 0\or 1\or 2\or 3\or 4\or 5\or 6\or 7\or
+	8\or 9\or A\or B\or C\or D\or E\or F\fi}
+
+\def\tablecr
+{%
+    \cr
+    \noalign{\nointerlineskip}
+    \multispan2\hfill &\multispan{33}\hrulefill
+    \cr
+    \noalign{\nointerlineskip}
+}
+\def\table
+{
+    \def\\{\char\n \global\advance\n 1}
+    \def\0##1{&\omit&\sevenrm##1}
+    \halign to \hsize
+      {%
+	\chartstrut\hss##\tabskip=0pt plus 10pt &
+	&\hss##\hss&##\vrule\cr
+	\lower 6.5pt\null
+        &\00\01\02\03\04\05\06\07\08\09\0A\0B\0C\0D\0E\0F
+	\tablecr 
+	\global\n=0
+	\tablelines
+      }
+    \bigbreak
+}
+
+\def\tablelines
+{
+    \ifnum\n<256
+	& \hexcount=\n \divide\hexcount16 \sevenrm\hexdigit\hexcount
+	&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\&
+	\tablecr \noalign{\penalty5000 }
+        \tablelines
+    \fi
+}
+\def\chartstrut{\lower 0.25\baselineskip \vbox to \baselineskip{}}
+
+\def\oneaccent#1%
+{
+  O \'#1 \`#1 \^#1 \~#1 \"#1 \v #1 \u #1 \H #1 \.#1 \=#1 \accent9 #1 
+  O \par
+}
+
+\def\currencies
+{
+ \pounds19\cdot66 = 99\cents\ =  \$1\cdot00 = \currency66\cdot66 =
+	123456\yen = \florin358 (or is that 358\florin\ or what?\par
+ \pounds\char"B1\char"B9\cdot\char"B6\char"B6\ = \char"B9\char"B9\cents\
+	= \$\char"B1\cdot\char"B0\char"B0\ =
+	\currency\char"B6\char"B6\cdot\char"B6\char"B6\ =
+	\char"B1\char"B2\char"B3\char"B4\char"B5\char"B6\yen 
+	= \florin\char"B3\char"B5\char"B8\ (or is that 
+	\char"B3\char"B5\char"B8\florin\ or what?\par
+}
+
+\ifx\noinit!\else\init\fi
+
+%  insane smallcaps hacks 
+
+\newcount\alphaone \newcount\alphatwo \newcount\alphathr
+\def\doalphabet#1#2#3%
+{%
+    \alphaone=#2\relax \alphatwo=#3\relax \alphathr=26
+    \loop
+	\advance\alphathr-1
+    \ifnum\alphathr>0
+	#1\alphaone\alphatwo
+	\advance\alphaone+1
+	\advance\alphatwo+1
+    \repeat
+}
+
+\def\sctext{{\doalphabet\uccode{`a}{"E1}\uc\text}}
+\def\lc#1{\lowercase{#1}}
+\def\mctext{{\doalphabet\lccode{`A}{"C1}\lc\text}}
+
+\def\scnames{{\doalphabet\uccode{`a}{"E1}\uppercase\expandafter{\names}}}
+\def\mcnames{{\doalphabet\lccode{`A}{"C1}\lowercase\expandafter{\names}}}
+
+\def\accents
+{{
+    \leftskip=1em \parindent=-1em \def\\##1:{\par{\tenrm ##1:}}
+    {\tenrm Accents according to HART'S:}
+    \\Anglo-Saxon: \TH\th\ \DH\dh (not quite right) \ \AE\ae\ \OE\oe\
+	\=A\=a \=E\=e \=I \=\i\ \=O\=o \=U\=u \AAEE\aaee\ \OOEE\ooee\
+	{\tenrm wyn, yogh}
+	{\tenrm and in textbooks:} \dotG\.g \dotC\dotc 
+    \\Arabic: {\arabic \`alim, mu\`allim, \.d^a\`. \'am^ir, mu\'allim,
+	\.d^a\'.  taw^ar^i_{kh} ma\`l^um} 
+    \\Cyrllic languages: \'C\'c \'E\'e \"E\"e \'{} \u{I}o\u{\i} \=Y\=y 
+	\v{Z}\v{z}
+    \\Czech: \'A\'a \hacekC\hacekc\ {\hacekD}d' \'E\'e \v{E}\v{e} \'I\'\i\
+	\v{N}\v{n} \'O\'o \v{R}\v{r} \v{S}\v{s} \v{T}t' \'U\'u \@U\@u
+	\'Y\'y \v{Z}\v{z}
+    \\Danish: \AE\ae\ \O\o\ \AA\aa
+    \\English: \'E\'e \"I \"\i\ 
+    \\Esperanto: {\esperanto ^Cu ^ci tia ^Genevulo ^guas ^Hano^h ^Jones
+	kaj la ^jipo de ^Sim^son kiu ^Uaas kaj ba^umas?}
+    \\Finnish: \"A\"a \"O\"o \AA\aa
+    \\French: \OE\oe\ \`A\`a \^A\^a \c{C}\c{c} \'E\'e \`E\`e \^E\^e
+	\"E\"e \^I \^\i\ \"I \"\i\ \^O\^o \`U\`u \^U\^u \"U\"u
+    \\Gaelic (Irish): \'A\'a \'E\'e \'I\'\i\ \'O\'o \'U\'u
+    \\Gaelic (Scots): \`A\`a \`E\`e \'E\'e \'I\'\i\ \`O\`o \'O\'o \'U\'u
+    \\German: {\german "S"s "A"a "O"o "U"u}
+    \\Hungarian: \'A\'a \'E\'e \'I\'\i\ \'O\'o \"O\"o \H{O}\H{o} \'U\'u
+	\"U\"u \H{U}\H{u}
+    \\Icelandic: \TH\th\ \DH\dh\ \AE\ae\ \OE\oe\ \'A\'a \'E\'e
+	\'I\'\i\ \'O\'o \"O\"o \'U\'u \'Y\'y
+    \\Norwegian: \AE\ae\ \O\o\ \AA\aa
+    \\Polish: \ogonek{A}\ogonek{a} \'C\'c \ogonek{E}\ogonek{e} 
+	\L\l\ \'N\'n \'O\'o \'S\'s \'Z\'z \.Z\.z
+    \\Portuguese: \`A\`a \'A\'a \^A\^a \~A\~a \c{C}\c{c} \`E\`e \'E\'e
+	\^E\^e \`Io\`\i\ \'Io\'\i\ \`O\`o \'O\'o \^O\^o \~O\~o \'U\'u
+	\`U\`u
+    \\Romanian: \`A\`a \^A\^a \u{A}\u{a} \`E\`e \`Io\`\i\ \^Io\^\i\
+	\c{S}\c{s} \c{T}\c{t} \`U\`u
+    \\Spanish: \'A\'a \'E\'e \'Io\'\i\ \~N\~n \'O\'o \'U\'u
+    \\Swedish: \AA\aa\ \"A\"a \"O\"o
+    \\Turkish: \^A\^a \c{C}\c{c} \u{G}\u{g} \.Ii I\i\ \^Io\^\i\ \"O\"o
+	\c{S}\c{s} \"U\"u \^U\^u
+    \\Welsh: \^A\^a \'A\'a \^E\^e \"E\"e \^Io\^\i\ \^O\^o \"O\"o \^U\^u
+	\^W\^w \^Y\^y
+    \par
+}}
+
+
+\def\greekaccents
+{
+    \n=12
+    \loop \ifnum \n<32
+	\accent\n a\accent\n e\accent\n i%
+	\char\n A\char\n E\char\n I%
+	\space
+	\advance\n1
+    \repeat
+}
+
+
+\def\corkquote#1#2{#1min#2 #1pig#2 #1hid#2 #1HIE#2 #1TIP#2 #1fluff#2 \par}
+\def\corkpunct
+{
+   	\corkquote{\char34 }{\char34 }
+	\corkquote{`}{'} \corkquote{``}{''}
+	\corkquote{,}{`} \corkquote{,,}{``}
+	\corkquote{\char14 }{\char15 } \corkquote{<<}{>>}
+	\corkquote{\char15 }{\char14 } \corkquote{>>}{<<}
+	\corkquote{\char123 }{\char125 }
+}
+\def\corkascii	% various computer language symbols using ASCII chars
+{{
+    \let\\=\corkbinary f(x) a[i] p.q !x \ \char`\~a \ a++ \ b--\/-- \
+	\&a \ \\* \\/ \\\% \\< \\{<\/<} \\{<=} \\> \\{>\/>} \\{>=}
+	\\{==} \\{!=} \\{\char`\~=} \\{/=} \\{<>} \\{\#} \\{@} \\{+} 
+	\\{\char`\\}
+	\\{--} \\{=} \\{\&} \\{\&\&} \\| \\{||} \\{\char`\^} \\{\char`\^.}
+	\\{\char`\~} \\{+=} \\{--=} \\{*=} \\{/=} \\{\%=} \\{\&=} \\{:=}
+	\\{::=} \\{:==} \\{<--} \\{-->} \\{\char`\^=} \\{|=} \\{<\/<=}
+	\\{>\/>=} \par
+}}
+\def\corkbinary#1{x #1\ y \ x#1y \ }
+
+\def\corkstuff{\corkpunct \corkascii}

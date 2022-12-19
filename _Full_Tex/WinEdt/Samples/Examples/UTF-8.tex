@@ -1,0 +1,457 @@
+% -----------------------------------------------------------------
+% !Mode:: "TeX:UTF-8:Hard"
+% PDFLaTeX this document and view or print it from Acrobat Reader!
+% -----------------------------------------------------------------
+% Preamble Starts here:
+% -----------------------------------------------------------------
+\documentclass{article}
+\usepackage[colorlinks]{hyperref}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+%\usepackage{pdfsync} % Forward PDF Search!
+% EURO ---------------------------------------
+% HINT: Use MiKTeX's Package Manger to install eurosym package!
+% UTF-8 \u8:??? (€) Euro symbol is currently not supported with LaTeX
+% unless the following package is used:
+\usepackage{textcomp} % required for \texteuro
+\usepackage{eurosym}  % required for \euro
+% get a "nicer" looking euro symbol:
+%\let\texteuro\euro   % if you want \texteuro=\euro
+% WinEdt's Bullets ----------------------------------
+% Allow WinEdt's Bullets (placeholders) in TeX Files!
+% The bullets (eg. in automatically generated tables)
+% should be replaced by actual data. In WinEdt you can
+% use Ctrl+Space (Tools Menu -> Next Bullet) to navigate
+% through bullets and replace them with "real" entries...
+\catcode`\=13
+\def{$\bowtie$}
+% -----------------------------------------------------------------
+% Document Starts here:
+% -----------------------------------------------------------------
+
+\begin{document}
+
+\section{WinEdt and Unicode (UTF-8) encoding}
+
+WinEdt is an ASCII editor and does not have full support for
+Unicode or UTF-8 encoding. WinEdt always displays documents in
+your default Windows code page (ACP).
+
+\medskip
+
+However, WinEdt can transparently convert Unicode (UTF-8)
+documents into ACP when they are loaded and back to UTF-8 when
+they are saved. This makes it possible to work with UTF-8
+documents as long as they can be converted into ACP (Ansi Code
+Page). For example, a document that contains a mix of Western
+European languages will convert from UTF-8 to ACP and back.
+Similarly, (properly configured) WinEdt is capable of handling
+Korean UTF-8 documents.
+
+\bigskip
+
+\emph{WinEdt is not capable to handle Unicode (UTF-8) documents
+that require more than one code page (eg. a mix of Russian and
+French). Furthermore, without a support for bi-directional text
+WinEdt is not suitable for editing Hebrew or Arab languages.}
+
+\bigskip
+\bigskip
+
+There are two ways to make WinEdt properly handle document
+coding. The most reliable and robust method is to include a
+mode-comment that allows WinEdt determine how a document should
+be handled before it is loaded.
+
+\bigskip
+
+\textbf{1.} A comment in the beginning of a TeX document:
+\begin{verbatim}
+  % !Mode:: "TeX:UTF-8"
+\end{verbatim}
+will ensure that the document is properly loaded and saved. A
+similar convention is used by emacs:
+\begin{verbatim}
+  % -*-coding: utf-8 -*-
+\end{verbatim}
+WinEdt ``understands'' emacs coding directive for UTF-8.
+
+\bigskip
+
+\textbf{2.} In the Wrapping section of the configuration Wizard
+you can specify the modes for which UTF-8 encoding is
+automatically enabled. For example, if by default all TeX
+documents should be treated as UTF-8 documents you should
+enter:
+\begin{verbatim}
+  TeX;UTF-8|ACP;EDT;INI
+\end{verbatim}
+as a mode filter for UTF-8 format. Do not remove \texttt{UTF-8}
+and \texttt{ACP} submodes from this filter!
+
+\begin{center}
+  \includegraphics[width=4.5in]{Images/WinEdt-Wizard}\\
+\end{center}
+
+\bigskip
+
+Many Unicode or UTF-8 Documents start with a Byte Order Mark
+(BOM). Unicode-aware applications can determine the coding of a
+document from its BOM. Windows Notepad always includes BOM in
+Unicode or UTF documents. Unfortunately, the BOM signature also
+causes problems with many applications and compilers (including
+TeX with UTF-8 encoding) and that makes it rather useless...
+
+Without BOM and without any convention as described above it is
+hard to distinguish between UTF-8 and Ansi documents.
+
+% -----------------------------------------------------------------
+
+\bigskip
+\bigskip
+
+\section{WinEdt and (Sub)Modes}
+
+A document mode is initially determined from the filetype and
+is stored as a local attribute of a file in WinEdt's File List
+(Project File). This works in most cases for the main mode.
+However, bilingual users might want to tie certain attributes
+(such as dictionaries) to sub-modes that may not be apparent
+from the filetype.
+
+\medskip
+
+Instead of setting such modes in the Document Settings Dialog
+or adopting a practice to name your files with more than one
+filetype (eg. Paper.fr.tex) it is possible to enter sub-modes
+(as comments) in the first (or second) line of a document.
+
+\bigskip
+
+WinEdt Modes can be specified as a comment:
+\begin{verbatim}
+  % !Mode:: "Mode:Submode:Submode"
+\end{verbatim}
+
+WinEdt also recognizes mode specification as used by emacs:
+\begin{verbatim}
+  % -*- mode: TeX -*-
+  % -*- coding: utf-8 -*-
+\end{verbatim}
+
+It is also possible to specify mode and submode in a single
+comment:
+\begin{verbatim}
+  % -*- TeX:DE:UTF-8 -*-
+\end{verbatim}
+Emacs might not recognize such specification and it is better
+to use WinEdt's convention \verb|!Mode:: "TeX:DE:UTF-8"| as
+described above.
+
+Furthermore, for TeX documents WinEdt also detects the language
+submode from Babel and UTF-8 coding from the inputenc package:
+\begin{verbatim}
+  // Determine Language Submodes from babel:
+  // \usepackage[french,german,italian,spanish]{babel}
+
+  // Determine Coding (UTF-8) from the preamble:
+  // \usepackage[utf8]{inputenc}
+\end{verbatim}
+
+This functionality is implemented thought the event handler
+macros that are executed before a document is loaded into
+WinEdt. In the Preferences| MDI Events Dialog you should
+specify:
+\begin{verbatim}
+  [Exe("%b\Macros\Events\MDIOpen-Before.edt")]
+\end{verbatim}
+as the MDI Open Macro event handler (default settings already
+do this)...
+
+This will ensure that WinEdt opens and treats the document
+properly. WinEdt's Help explains how to use Modes and
+submodes...
+
+The actual macro that is by default called from this event
+handler is
+\begin{verbatim}
+  %b\Macros\Events\GetMode.edt
+\end{verbatim}
+
+If for some reason mode detection (or some portion of it) from
+comments is unwanted for your style of work you can edit this
+macro and comment out unwanted portions or make any other
+desirable changes. However, note that this macro is executed
+frequently and it has to be fast or else you'll notice delays
+when opening documents or even when collecting data in
+previously un-opened documents...
+
+\bigskip
+
+If a WinEdt mode-comment
+\begin{verbatim}
+  % !Mode:: "Mode:Submode:Submode"
+\end{verbatim}
+is detected WinEdt does not perform any additional searches for
+packages or emacs convention. The presence of such a comment at
+the beginning of a document makes loading of documents slightly
+faster and reduces a possibility of unwanted mode changes.
+
+\newpage
+
+% -----------------------------------------------------------------
+
+\section{More on WinEdt and UTF-8}
+
+If you are writing only in English then Unicode and UTF-8 is of
+no concern to you. Also, if you don't have problems with
+portability of your document to other platforms (such as Linux)
+then working with your default code page is by far the simplest
+and most efficient method.
+
+UTF-8, on the other hand, might be a good choice for those that
+share documents with users on different platforms or when the
+publisher requires your document to be in such format.
+
+Windows has no native support for UTF-8. Thus handling UTF-8
+documents \emph{always} requires (transparent) conversions when
+a document is loaded and saved. WinEdt can currently only
+convert it to your default code page ACP (rather than 16-bit
+UNICODE). This means that there is a limit in regard to the
+international characters present in your document. For example,
+a mix of Greek and western characters cannot be translated into
+a single document. However, all western languages fit in a
+single code page.
+
+\bigskip
+\bigskip
+
+The format and mode of a document can be changed in the
+Document Settings Dialog (Document Menu). You should, however,
+understand what you are doing and proceed with caution. As
+always, a backup of your document (just in case if something
+goes wrong) would be in order. In practice a few possibilities
+might arise:
+
+\bigskip
+
+1. You are working on an ANSI document but you would like to
+convert it to UTF-8. In Document Settings Dialog remove the
+\texttt{":ACP"} submode (if necessary) and add
+\texttt{":UTF-8"} submode. Then in the same dialog change the
+format to UTF-8. To ensure proper treatment of the document in
+the future you can add a comment:
+\begin{verbatim}
+  % -*- coding: utf-8 -*-
+\end{verbatim}
+somewhere at the beginning of a document.
+
+\begin{center}
+  \includegraphics[width=2.5in]{Images/WinEdt-DocMode}\\
+\end{center}
+
+\begin{center}
+  \includegraphics[width=2.5in]{Images/WinEdt-DocFormat}\\
+\end{center}
+
+\bigskip
+
+2. You are working on a UTF-8 document but you would like to
+convert it to ANSI. In Document Settings Dialog remove the
+\texttt{":UTF-8"} submode (if necessary) and optionally add
+\texttt{":ACP"} submode. Then in the same dialog change the
+format to ANSI. To ensure proper treatment of the document in
+the future you can add a comment:
+\begin{verbatim}
+  % -*- coding: ACP -*-
+\end{verbatim}
+somewhere at the beginning of a document.
+
+\bigskip
+
+3. You opened a document in ANSI mode but instead of
+international characters such as (à,ä,å,æ,ç, etc...) you see a
+sequence of two or more "strange" looking symbols. Chances are
+that your document is in UTF-8 format. Close it and use the
+\texttt{":UTF-8"} mode filter in the Open dialog to properly
+load the document. If you want to make sure that the document
+will be properly treated from here on you can include a
+comment:
+\begin{verbatim}
+  % -*- coding: utf-8 -*-
+\end{verbatim}
+somewhere at the beginning of a document.
+
+\medskip
+
+\textsc{Warning:} \emph{Do not change the format to UTF-8 and
+then save such a document until it is properly displayed in
+WinEdt! This would result in a corrupted file...}
+
+\bigskip
+
+4. You try to open a document that is in ANSI format as UTF-8.
+WinEdt will alert you about this and it will load the document
+as ANSI and mark it as modified. Upon saving the document will
+be converted in UTF-8. No damage done...
+
+\bigskip
+\bigskip
+
+Depending on whether you set UTF-8 as a default format in the
+Configuration Wizard you will have use the \texttt{:ACP}
+submode to handle non UTF-8 documents. WinEdt dictionaries,
+macros and configuration files should not use UTF-8 format!
+
+\newpage
+
+% -----------------------------------------------------------------
+
+\section{TeX and International Characters (UTF-8)}
+
+Putting
+\begin{verbatim}
+  \usepackage[utf8]{inputenc}
+\end{verbatim}
+enables you to use UTF-8 (Unicode) coding. As long as you open
+the document in WinEdt in UTF-8 mode you see the same
+characters in WinEdt as in your compiled document (as is the
+case with this UTF-8 document):
+
+\bigskip
+
+ \noindent \texttt{À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ñ Ò Ó Ô Õ Ö Ø Œ Ù Ú Û Ü Ý Ÿ Š ß ¡}
+
+ \noindent \texttt{à á â ã ä å æ ç è é ê ë ì í î ï ñ ò ó ô õ ö ø œ ù ú û ü ý ÿ š € ¿}
+
+ \noindent \texttt{† ‡ § ¶ © ®}
+
+\bigskip
+
+ \noindent {À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ñ Ò Ó Ô Õ Ö Ø Œ Ù Ú Û Ü Ý Ÿ Š ß ¡}
+
+ \noindent {à á â ã ä å æ ç è é ê ë ì í î ï ñ ò ó ô õ ö ø œ ù ú û ü ý ÿ š € ¿}
+
+ \noindent {† ‡ § ¶ © ®}
+
+\bigskip
+
+Not all UTF-8 characters are currently supported by LaTeX
+unless you load extra packages. For example the \euro\ (€)
+symbol requires:
+
+\begin{verbatim}
+  \usepackage{textcomp} % required for \texteuro
+  \usepackage{eurosym}  % required for \euro
+  % get a "nicer" looking euro symbol:
+  %\let\texteuro\euro   % if you want \texteuro=\euro
+\end{verbatim}
+
+Note the difference between the shape of the \verb"\euro"
+(\euro) and \verb"\texteuro" (\texteuro) symbols. Such issues
+are non-WinEdt related and you will have to consult TeX's
+documentation or, if needed, seek help on the appropriate forum
+(such as TeX Newsgroup where \LaTeX\ related topics are
+discussed).
+
+\bigskip
+
+\noindent Our preamble contains:
+
+\begin{verbatim}
+  \catcode`\=13
+  \def{$\bowtie$}
+\end{verbatim}
+
+\noindent This allows \TeX\ to process an ``empty'' Tabular
+Environment from WinEdt's Insert Menu. Bullets are represented
+by :
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+     &  &  &  &  \\
+    \hline
+     &  &  &  &  \\
+     &  &  &  &  \\
+     &  &  &  &  \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\noindent \emph{In WinEdt you can use Ctrl+Space (Tools Menu:
+Next Bullet) to move through placeholders and fill-in the
+actual data.}
+
+\newpage
+
+% -----------------------------------------------------------------
+
+\section{Translation Tables}
+
+If you prefer your documents to contain plain \TeX\ notation
+for international characters (eg. \verb"\`{A}" stands for
+\texttt{À}) then you should consider applying WinEdt's Read and
+Write translation tables. This will make working with WinEdt
+more comfortable and it is required if you want to take
+advantage of WinEdt's Spell-checking ability with international
+dictionaries.
+
+\medskip
+
+\emph{WinEdt can convert certain strings into their ANSI
+equivalents when the file is being read and then translate
+these characters back to the original strings representing
+international characters in \TeX\ notation.}
+
+\medskip
+
+Suitable translation tables for \TeX\ mode are already defined
+(but not enabled) in the default settings: see Options/
+Settings/ Translations Dialog. The help in this dialog provides
+the details.
+
+\bigskip
+
+For example, the default \verb"TeX_Read" and \verb"TeX_Write"
+translation table contain definitions like:
+
+\begin{verbatim}
+          "{\ss}" -> "ß"               "ß" -> "{\ss}"
+          "{\AA}" -> "Å"               "Å" -> "{\AA}"
+          "{\AE}" -> "Æ"               "Æ" -> "{\AE}"
+          "{\aa}" -> "å"               "å" -> "{\aa}"
+          "{\ae}" -> "æ"               "æ" -> "{\ae}"
+          "{\OE}" -> "Œ"               "Œ" -> "{\OE}"
+          "{\oe}" -> "œ"               "œ" -> "{\oe}"
+          "{\O}" -> "Ø"                "Ø" -> "{\O}"
+          "{\o}" -> "ø"                "ø" -> "{\o}"
+          "\c{C}" -> "Ç"               "Ç" -> "\c{C}"
+          "\c{c}" -> "ç"               "ç" -> "\c{c}"
+          "\^{A}" -> "Â"               "Â" -> "\^{A}"
+          "\~{A}" -> "Ã"               "Ã" -> "\~{A}"
+          "\""{A}" -> "Ä"              "Ä" -> "\""{A}"
+
+          etc...
+
+\end{verbatim}
+
+\emph{Note that the last item is not a ``typo''! To specify
+double quotes inside a double-quoted string they have to be
+repeated twice! Failing to observe this convention may
+completely corrupt WinEdt's translation table.}
+
+\bigskip
+
+The read translation table supports two notations (eg.
+\verb"\^{A}" and \verb"{\^A}"). The write translation table
+\verb"TeX_Write" is the inverse of the Read Translation Table
+(except that it uses the first, preferable, notation where
+applicable). You should use translation tables with some care:
+make a backup copy of your documents until you verify that the
+tables are set up correctly. Careless application of
+translation tables may irreversibly corrupt your documents
+(just like a global replace)!!!
+
+\end{document}

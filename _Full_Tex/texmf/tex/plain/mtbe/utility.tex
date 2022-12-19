@@ -1,0 +1,89 @@
+%%% File: Utility.tex
+%%% From `Mathematical TeX by Example' by Arvind Borde
+%%% (c) 1993, Academic Press.
+%%% Contents: Utility commands to allow verbatim reproduction of input, to 
+%%% allow `"' to be used as an in-line verbatim quoting mechanism, to produce
+%%% various logos, etc. 
+
+%----------------------------------------------------------------------------
+%%% REPRODUCING INPUT:
+
+% The present book is filled with pieces of input files, or even entire input
+% files, that are reproduced verbatim. The commands shown here provide
+% the basis for this reproduction.
+
+\def\cc{\catcode}   % Abbreviation used when changing category codes.
+
+% The next command reproduces input verbatim by switching off special
+% category codes and assigning code 12 to all normal command characters:
+
+\def\Literal {\begingroup \cc`\\=12 \cc`\{=12 \cc`\}=12 \cc`\$=12
+    \cc`\&=12 \cc`\#=12 \cc`\%=12 \cc`\~=12 \cc`\_=12 \cc`\^=12 
+    \cc`\@=0 \cc`\`=\active \obeyspaces \VFont} % A `space' is now active.
+
+{\obeyspaces\gdef {\hglue.5em\relax}} % Interword spacing.
+
+{\cc`\`=\active \gdef`{\relax\lq}} % To block certain ligatures. 
+
+% The next few lines define the role that `"' plays if it is later made 
+% active (it will be used to reproduce in-line input):
+
+{\cc`\"=\active
+\gdef"{\Literal \VQuotingFont \com}
+{\cc`\@=0 
+@gdef@com#1"{@leavevmode@hbox@bgroup#1@egroup@endgroup}}}
+\def\VQuotingOn{\cc`\"=\active }
+\def\VQuotingOff{\cc`\"=12 }
+
+\let\VFont=\tt         % Default; may be changed as desired.
+\let\VQuotingFont=\tt  % Ditto.
+
+%---------------------------------------------------------------------------_%
+%%% LOGOS:
+   
+\def\cal{\fam2 }   % Restore `Plain' definition, in case it has been altered.
+\def\AmS{$\cal A\kern-.1667em\lower.5ex\hbox{$\cal M$}\kern-.125em S$}
+\def\AmSTeX{\AmS-\TeX}
+\font\Eightsy=cmsy8 \skewchar\Eightsy='60
+\def\LamSTeX{L\kern-.4em\raise.3ex\hbox{$\scriptstyle\cal 
+       A$}\kern-.25em\lower.4ex\hbox{\Eightsy M}\kern-.1em$\cal S$-\TeX}     
+\font\LogoTen=logo10   
+\def\MF{{\LogoTen META}\-{\LogoTen FONT}}
+\font\LogoTenSl=logosl10   
+\def\MFsl{{\LogoTenSl META}\-{\LogoTenSl FONT}}
+\font\Smallcaps=cmcsc10
+\def\LaTeX{L\kern-.36em\raise.35ex\hbox{\Smallcaps a}\kern-.15em\TeX} 
+\font\Eightit=cmti8 % The logo below is for use in italics.
+\def\ItLaTeX{L\kern-.32em\raise.32ex\hbox{\Eightit A}\kern-.22em\TeX} 
+\def\PiC{P\kern-.12em\lower.5ex\hbox{I}\kern-.075emC}
+\def\PiCTeX{\PiC\kern-.11em\TeX}
+\def\ssfTeX{T\kern-.15em\lower.5ex\hbox{E}\kern0em X} % When using sans-serif.
+% Just to be complete:
+% \def\TeX{T\kern-.1667em\lower.5ex\hbox{E}\kern-.125em X}
+
+%----------------------------------------------------------------------------
+%%% FOOTNOTES:
+
+\def\OnFootnoterule #1{%
+ \def\footnoterule{\kern-3pt \hrule width#1 height.4pt \kern2.6pt }}
+\def\OffFootnoterule{\def\footnoterule{}}
+
+%----------------------------------------------------------------------------
+%%% MISCELLANEOUS:
+
+\def\raggedleft{\leftskip=0pt plus 2em \parfillskip0pt
+                \spaceskip.3333em \xspaceskip=.5em\relax}
+\def\Raggedleft{\leftskip=0pt plus 4em minus.6em \parfillskip0pt
+                \spaceskip.3333em \xspaceskip=.5em\relax}
+\def\Raggedright{\rightskip=0pt plus 4em minus.6em \parfillskip0pt 
+                \spaceskip.3333em \xspaceskip=.5em\relax}
+\def\EndPage{\vfil\eject}
+\def\EndLine{\ifhmode \hfil\break \fi}
+\def\:{\thinspace }
+\def\T {\vrule width0pt\kern-.1em} % To occasionally adjust spacing. 
+\def\Lcase #1{\lowercase\expandafter{#1}}
+\def\Sn #1.{\S\:#1.}
+
+%----------------------------------------------------------------------------
+\endinput
+_%%

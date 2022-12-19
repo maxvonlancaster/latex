@@ -1,0 +1,246 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% This is a (brief) model paper for submission to the RSC using
+%% standard LaTeX packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% A few core packages which are really essential
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc} % Modern font encoding
+\usepackage{float}       % For creating charts, graphs and schemes
+\usepackage{helvet}      % Helvetica font for sans serif
+\usepackage{mathptmx}    % Times font ("Word-like")
+\usepackage{rsc}         % Loads natbib, etc.
+\usepackage{setspace}    % For double-spacing
+\AtBeginDocument{\doublespacing}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% New floats are created for standard chemistry graphics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newfloat{chart}{htbp}{loc}
+\newfloat{graph}{htbp}{loh}
+\newfloat{scheme}{htbp}{los}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Place any additional packages needed here.  Only include packages
+%% which are essential, to avoid problems later.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[version=3]{mhchem} % Formula subscripts using \ce{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% If issues arise when submitting your manuscript, you may want to
+%% un-comment the next line.  This provides information on the
+%% version of every file you have used.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\listfiles
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Place any additional macros here.  Please use \newcommand* where
+%% possible, and avoid layout-changing macros (which are not used
+%% when typesetting).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand*{\mycommand}[1]{\texttt{\emph{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Meta-data block
+%% ---------------
+%% Give details for all authors here, using the standard LaTeX
+%% method.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{%
+  Andrew N. Other\thanks{%
+    Department of Chemistry, Unknown University, Unknown Town%
+  }%
+  \and
+  I. Ken Groupleader\thanks{%
+    Department of Chemistry, Unknown University, Unknown Town,
+    E-mail: \texttt{i.k.groupleader@unknown.uu}
+  }%
+  \and
+  Susanne K. Laborator\thanks{%
+    Lead Discovery, BigPharma, Big Town, USA
+  }%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The document title should be given as usual
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{A demonstration for submission to the RSC}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Make a title, of course
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+
+\begin{abstract}
+  This is an example document for writing a submission to the
+  Royal Society of Chemistry. It does not seek to reproduce the
+  layout of a published paper, but instead shows how the standard
+  \LaTeX\ tools can be used to create a manuscript.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Start the main part of the manuscript here.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+This is a paragraph of text to fill the introduction of the
+demonstration file.
+
+\section{Results and discussion}
+
+\subsection{Outline}
+
+The document layout should follow the style of the journal concerned.
+Consult the appropriate Instructions for Authors to see what is
+required. Some journals, for example, do not allow sections in
+articles.
+
+\subsection{References}
+
+The rsc bibliography style requires the \textsf{natbib} package,
+which is loaded automatically by the \textsf{rsc} package.
+References can be made using the normal method; if the
+\textsf{natmove} package is available, citations can be placed
+before any punctuation, and they will be moved as necessary
+\cite{Mena2000,Abernethy2003}. The \textsf{natmove} package is
+part of the \textsf{achemso} bundle.
+
+The use of \textsf{natbib} allows the use of the various citation
+commands of that package: \citeauthor{Abernethy2003} have shown
+something, in \citeyear{Cotton1999}, or as given by
+Ref.~\citenum{Mena2000}. If you encounter problems with the
+citation macros, please check that your copy of \textsf{natbib}
+is up to date.
+
+Multiple citations to be combined into a list can be given as
+a single citation.  This uses the \textsf{mciteplus} package
+\cite{Arduengo1992,*Eisenstein2005,*Arduengo1994}.  Citations
+other than the first of the list should be indicated with a star.
+If the \textsf{mciteplus} package is not installed, the standard
+bibliography tools will still work but starred references will be
+ignored.
+
+\subsection{Floats}
+
+Setting up new float types is demonstrated in the premable, where
+charts, graphs and schemes are defined.  As illustrated, the float
+is ``here'' if possible (Scheme~\ref{sch:example}).
+\begin{scheme}
+  \centering
+  Your scheme graphic would go here: \texttt{.eps} format\\
+  for \LaTeX\, or \texttt{.pdf} (or \texttt{.png}) for pdf\LaTeX\\
+  \textsc{ChemDraw} files are best saved as \texttt{.eps} files;\\
+  these can be scaled without loss of quality, and can be\\
+  converted to \texttt{.pdf} files easily using \texttt{eps2pdf}.\\
+  %\includegraphics{graphic}
+  \caption{An example scheme}
+  \label{sch:example}
+\end{scheme}
+
+\begin{figure}
+  \centering
+  As well as the standard float types \texttt{table}\\
+  and \texttt{figure}, the premable defines\\
+  \texttt{scheme}, \texttt{chart} and \texttt{graph}.
+  \caption{An example figure}
+  \label{fgr:example}
+\end{figure}
+
+Charts, figures and schemes do not necessarily have to be labelled or
+captioned.  However, tables should always have a title. It is
+possible to include a number and label for a graphic without any
+title, using an empty argument to the \texttt{\textbackslash caption}
+macro.
+
+The use of the different floating environments is not required, but
+it is intended to make document preparation easier for authors. In
+general, you should place your graphics where they make logical
+sense; the production process will move them if needed.
+
+\subsection{Math(s)}
+
+This file does not load any particular additional support for
+mathematics.  If the author \emph{needs} things like
+\textsf{amsmath}, they should be loaded in the preamble.  However,
+the basics should work fine.  Some inline material $ y = mx + c$
+followed by some display. \[ A = \pi r^2 \]
+
+It is possible to label equations in the usual way.
+\begin{equation}
+  \frac{\mathrm{d}}{\mathrm{d}x} r^2 = 2r
+\end{equation}
+This can also be used to have equations containing graphical
+content.
+\begin{equation}
+  \textrm{Some content}
+  %\includegraphics{graphic}
+  \label{eqn:graphic}
+\end{equation}
+
+\section{Experimental}
+
+The usual experimental details should appear here.  This could
+include a table, which can be referenced as Table~\ref{tbl:example}.
+Do not worry about the appearance of the table: this will be altered
+during production.
+\begin{table}
+  \centering
+  \caption{An example table}
+  \label{tbl:example}
+  \begin{tabular}{ll}
+    \hline
+    Header one & Header two \\
+    \hline
+    Entry one & Entry two \\
+    Entry three & Entry four \\
+    Entry five & Entry five \\
+    Entry seven & Entry eight \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Adding notes to tables can be complicated.  Perhaps the easiest
+method is to generate these using the basic
+\texttt{\textbackslash textsuperscript} and
+\texttt{\textbackslash emph} macros, as illustrated
+(\ref{tbl:notes}).
+\begin{table}
+  \caption{A table with notes}
+  \label{tbl:notes}
+  \begin{tabular}{ll}
+    \hline
+    Header one & Header two \\
+    \hline
+    Entry one\textsuperscript{\emph{a}}
+      & Entry two \\
+    Entry three\textsuperscript{\emph{b}}
+      & Entry four \\
+  \hline
+  \end{tabular}
+
+  \textsuperscript{\emph{a}} Some text;
+  \textsuperscript{\emph{b}} Some more text.
+\end{table}
+
+The example file also loads the \textsf{mhchem} package, so
+that formulas are easy to input: \texttt{\textbackslash
+\ce\{H2SO4\}} gives \ce{H2SO4}.  See the use in the
+bibliography file (when using titles in the references
+section).
+
+The use of new commands should be limited to simple things which will
+not interfere with the production process.  For example,
+\texttt{\textbackslash mycommand} has been defined in this example,
+to give italic, monospaced text: \mycommand{some text}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The appropriate \bibliographystyle and \bibliography commands
+%% should be placed here.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{rsc}
+\bibliography{rsc}
+
+\end{document}

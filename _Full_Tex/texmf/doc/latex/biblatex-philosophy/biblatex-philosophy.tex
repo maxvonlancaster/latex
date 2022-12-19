@@ -1,0 +1,724 @@
+\documentclass{ltxdockit}
+\usepackage{btxdockit}
+\usepackage[latin1]{inputenc}
+\usepackage{lmodern,graphicx,wrapfig}
+\usepackage[greek,american,english,german,italian]{babel}
+\usepackage[babel,italian=guillemets]{csquotes}
+\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage{tikz}
+\usepackage[left=1.75in,top=1in,right=1in,bottom=1in, includeheadfoot]{geometry}                   
+
+\hypersetup{%
+citecolor=spot,
+linkcolor=spot,
+urlcolor=Maroon}
+
+\usepackage{fancybox}
+\usepackage{sectsty}
+\sectionfont{\spotcolor}\subsectionfont{\spotcolor}\subsubsectionfont{\spotcolor} 
+\paragraphfont{\spotcolor}\subparagraphfont{\spotcolor} 
+
+\usepackage{booktabs,shortvrb,paralist,enumitem,guit}
+
+% loading biblatex
+\usepackage[%
+style=philosophy-modern,
+scauthors=true,
+%scauthorsbib=true,
+%scauthorscite=true,
+%publocformat=locpubyear,loccolonpub,
+volnumformat= volnumparens,%volnumstrings,
+%romanvol=true,
+%inbeforejournal=true,
+%origfieldsformat=parens, brackets,
+hypernames,
+annotation=true,
+library=true,
+natbib=true,
+%square=true,
+%yearleft=true,
+backref,
+hyperref,
+%babel=other
+]{biblatex}
+
+ 
+% 					bibliography databases
+%%-------------------------------------------------------------------------------------------------
+\bibliography{philosophy-examples}
+%\bibliography{biblatex-examples}
+
+%					     biblatex settings
+%%-------------------------------------------------------------------------------------------------
+\defbibheading{esempio}{\section*{Bibliografia esemplificativa}\label{sec:bibesempio}} 
+\defbibheading{primary}{\section*{Riferimenti bibliografici}\label{sec:bibprimary}}
+\defbibheading{biblatex}{\section*{Altre voci bibliografiche}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					Title-page declarations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rcsid{$Id: biblatex-philosophy-doc.tex,v 0.7a 2010/04/03 17:00:00 Valbusa beta $}
+\titlepage{%
+  title= {\color{spot}Guida al pacchetto\\ \sty{biblatex-philosophy}},
+  subtitle={Per il pacchetto \sty{biblatex}},
+  url={http://tug.ctan.org/tex-archive/macros/latex/exptl/biblatex-contrib/biblatex-philosophy},
+  author={Ivan Valbusa},
+  email={ivan.valbusa@univr.it},
+  revision={\rcsrevision},
+  date={\rcstoday}}
+	
+\hypersetup{%
+  pdftitle={Guida al pacchetto \sty{biblatex-philosophy}},
+  pdfsubject={\sty{biblatex}},
+  pdfauthor={Ivan Valbusa},
+  pdfkeywords={philosophy, biblatex, latex, bibtex, notes, bibliography, references, citation, italian, PhD}}
+
+% New commands and environments
+
+\DeclareCiteCommand{\sdcite}
+  {\boolfalse{citetracker}%
+   \boolfalse{pagetracker}%
+   \usebibmacro{prenote}}
+  {\indexnames{labelname}%
+   \printtext[bibhyperref]{\printnames{labelname}}%
+   \setunit{\addcomma\space}%
+   \indexfield{indextitle}%
+   \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+  
+  
+\lstnewenvironment{bibexample}[1][]
+  {\lstset{%
+     aboveskip=1.5\lstenvsep,
+     xleftmargin=3pt,
+     xrightmargin=3pt,
+     frame=single,
+     backgroundcolor=\color{boxfill},
+     fillcolor=\color{white},
+     rulecolor=\color{boxframe},
+     framesep=2.5pt,
+     framerule=0.5pt,
+     style=latex,#1}}
+  {}
+  \lstnewenvironment{latexcode}[1][]
+  {\lstset{%
+     aboveskip=\lstenvsep,
+     xleftmargin=3pt,
+     xrightmargin=3pt,
+     frame=single,
+     backgroundcolor=\color{boxfill},
+     fillcolor=\color{boxfill},
+     rulecolor=\color{boxfill},
+     framesep=2.5pt,
+     framerule=3pt,
+     style=bibtex,#1}
+    }
+  {}
+  
+
+
+\newenvironment{esempiovoce}% 
+{\vskip1ex\noindent\begin{Sbox}\begin{minipage}{\textwidth}}% 
+{\end{minipage}\end{Sbox}\shadowbox{\TheSbox}\vskip1ex}
+
+\newcommand{\phil}{\sty{philosophy}}
+\renewcommand{\sty}[1]{\textsf{#1}}
+
+
+\frenchspacing
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%						BEGIN DOCUMENT
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%---	TITLEPAGE	---------------------------------------
+%%*******************************************************************
+\printtitlepage
+
+%%---	ABSTRACT	---------------------------------------
+%%*******************************************************************
+\begin{abstract}
+\small
+\begin{otherlanguage}{english}
+This package provides three bibliography and citation styles for use with Philipp Lehman's \sty{biblatex} package: \sty{philosophy-classic} and \sty{philosophy-modern} are based on the model of \sty{biblatex} \sty{authoryear-comp} style;  \sty{philosophy-verbose} is intended for citations given in footnotes. New options and features allow you  to manage the information about the translation of foreign texts or their reprints.
+The default settings are based on the styles predominant 
+in Italian publications but these styles can be used with every language recognized by \texttt{babel}. This package actually provides the localization file for use the styles in english and italian documents. Simple redefinitions are needed for the other languages (see section \ref{sec:lingue}).  \end{otherlanguage}
+\end{abstract} 
+%%*******************************************************************
+
+ 
+%%---	INDICE	-------------------------------------------
+\tableofcontents
+%*******************************************************************
+
+%*******************************************************************
+\section{Introduzione}
+%*******************************************************************
+
+Il pacchetto \sty{biblatex-philosophy} fornisce un set di stili bibliografici e di citazioni composto da due stili autore--anno (\sty{philosophy-classic} e \sty{philosophy-modern}) e uno stile per le citazioni estese in nota (\sty{philosophy-verbose}).
+Gli stili \phil{} consentono di gestire record bibliografici che contengono le informazioni sulla traduzione della voce bibliografica o sulla eventuale ristampa e di personalizzare alcuni elementi della voce bibliografica. È inoltre possibile comporre bibliografie commentate, utilizzando il campo \bibfield{annotation}, e sono a disposizione alcuni campi, oltre a quelli standard, utili per voci bibliografiche particolarmente complesse.
+
+Questi stili sono impostati per rispondere in particolare alle esigenze del pubblico italiano, ma possono essere usati con qualsiasi lingua riconosciuta da \sty{babel}. Attualmente sono disponibili i supporti per la lingua italiana e inglese. Per le altre lingue sono necessarie delle semplici modifiche.
+
+Nella scrittura dei codici ho largamente preso ispirazione da altri stili che si trovano in rete, in particolare gli stili \sty{dw} di Dominik Waßenhoven, \sty{mla} di James Clawson e \sty{historian} di Sander Glibof. Fondamentale è stata inoltre la lunga discussione (tutt'ora in corso) sul forum del \GuIT\fnurl{http://www.guit.sssup.it/phpbb/viewtopic.php?t=6717.}. A tutti coloro che hanno partecipato alla discussione va un mio particolare ringraziamento.
+
+%*******************************************************************
+\subsection{License}
+%*******************************************************************
+
+Copyright \copyright\ 2009-2010 Ivan Valbusa. This package is author-maintained. 
+Permission is granted to copy, distribute and/or modify this software under the 
+terms of the LaTeX Project Public License, version 1.3c.\fnurl{http://www.ctan.org/tex-archive/macros/latex/base/lppl.txt}
+
+%*******************************************************************
+\subsection{Installazione}
+%*******************************************************************
+
+Se il pacchetto \sty{biblatex} non fa già parte della propria distribuzione \LaTeX{}, 
+prima di poter usare gli stili \sty{philosophy} è necessario installarlo,\footnote{\sty{biblatex} può essere scaricato da CTAN: \url{http://www.ctan.org/tex- archive/help/Catalogue/entries/biblatex.html}.}
+posizionando i file degli stili \sty{philosophy} nelle cartelle corrette dell'albero locale o dell'albero personale\footnote{Per un'introduzione a \sty{biblatex} si veda \textcite{Pantieri:2009}; per informazioni sulle modalità di installazione dei pacchetti rimando a \textcite{Pantieri:2008}.}:
+\begin{compactitem}
+\item  \sty{philosophy-classic.bbx} e  \sty{philosophy-modern.bbx} nella sottocartella ``bbx''
+\item \sty{philosophy-classic.cbx} e  \sty{philosophy-modern.cbx} nella sottocartella ``cbx''
+\item \sty{<language>-philosophy.lbx} nella sottocartella ``lbx''
+\end{compactitem}
+Dopo aver installato correttamente tutti i file necessari, gli stili si usano nel seguente modo:
+\begin{latexcode}
+\usepackage[style=philosophy-classic]{biblatex}
+\usepackage[style=philosophy-modern]{biblatex}
+\usepackage[style=philosophy-verbose]{biblatex}
+\end{latexcode}
+
+Per ottenere la bibliografia sono necessari tre passaggi:
+\begin{compactenum}
+\item Compilare una volta con \bin{latex}.
+\item Eseguire \bin{bibtex}.
+\item Compilare un'altra volta con \bin{latex}.
+\end{compactenum}
+In alcuni casi potrebbe essere necessaria un'ulteriore compilazione con \bin{latex}.
+Ricordo infine che per un corretto funzionamento degli stili va caricato il pacchetto \sty{csquotes}, con le opportune opzioni:
+\begin{latexcode}
+\usepackage[babel,italian=guillemets]{csquotes}
+\end{latexcode}
+
+
+%*******************************************************************
+\section{Caratteristiche degli stili}
+%*******************************************************************
+
+
+%*******************************************************************
+\subsection{Traduzioni e ristampe}
+%*******************************************************************
+
+Gli stili \phil{} prevedono alcuni campi per gestire le voci bibliografiche in cui compaiono informazioni sulla traduzione di testi stranieri o sulla ristampa. Di seguito si farà riferimento al caso di voci bibliografiche con relativa traduzione italiana, tuttavia gli stili possono essere usati con qualsiasi lingua riconosciuta da babel. In questo caso, tuttavia, potrebbero essere necessari alcuni aggiustamenti (vedi sezione \ref{sec:lingue}).
+Rimangono naturalmente disponibili tutti i campi standard previsti da \sty{biblatex} per ciascun tipo di voce bibliografica, per i quali si rimanda alla documentazione del pacchetto \autocite[Vedi][]{lehman:2010}.
+
+Un esempio di voce bibliografica che si può ottenere con gli stili \phil{} è la seguente \parencite{Poincare:1968}: 
+
+Opzione \opt{origfieldsformat=semicolon} (default):
+\begin{esempiovoce}
+Poincaré, Jules-Henri (1968), \emph{La science et l'hypothèse}, Paris: Flammarion, prima edizione 1902; \textcolor{Maroon}{trad. it. \emph{La scienza e l'ipotesi}, testo greco a fronte, a cura di Corrado Sinigaglia, Milano: Bompiani, 2003}.
+\end{esempiovoce}
+
+Opzione \opt{origfieldsformat=parens}:
+\begin{esempiovoce}
+Poincaré, Jules-Henri (1968), \emph{La science et l'hypothèse}, Paris: Flammarion, prima edizione 1902 (\textcolor{Maroon}{trad. it. \emph{La scienza e l'ipotesi}, testo greco a fronte, a cura di Corrado Sinigaglia, Milano: Bompiani, 2003}).
+\end{esempiovoce}
+
+Opzione \opt{origfieldsformat=brackets}:
+\begin{esempiovoce}
+Poincaré, Jules-Henri (1968), \emph{La science et l'hypothèse}, Paris: Flammarion, prima edizione 1902 [\textcolor{Maroon}{trad. it. \emph{La scienza e l'ipotesi}, testo greco a fronte, a cura di Corrado Sinigaglia, Milano: Bompiani, 2003}].
+\end{esempiovoce}
+
+\subsection{Campi}
+
+\begin{fieldlist}
+\fielditem{origtitle}{literal} Il campo per il titolo della traduzione italiana.
+\fielditem{origpublisher}{list} Il campo per l'editore della traduzione italiana.
+\fielditem{origlocation}{list} Il campo per il luogo di pubblicazione della traduzione italiana.
+\fielditem{origdate}{range} Il campo per l'anno di pubblicazione della traduzione italiana. Sostituisce il campo \bibfield{origyear} usato in recedenti versioni di \sty{biblatex}.
+\fielditem{reprinttitle}{literal} Il campo per il titolo della ristampa di un volume o di un articolo. Deve essere usato in alternativa al campo \bibfield{origtitle}.
+\fielditem{usera}{literal} Questo campo viene stampato prima del campo \bibfield{origtitle} e può essere usato nelle voci \bibtype{inbook}, \bibtype{incollection} e \bibtype{article},  per inserire il titolo dell'edizione italiana di un articolo apparso su rivista o di un contributo apparso in una raccolta, e successivamente pubblicato in una collezione in lingua italiana \parencite[vedi][]{Moore:1903}.
+Il campo \bibfield{usera} produce testo nello stile del titolo della relativa voce bibliografica. Per modificare il formato di questo campo solo per le voci tipo \bibtype{article}, e ottenere testo in stile italico, è sufficiente scrivere:
+
+\begin{latexcode}
+\DeclareFieldFormat[article]{usera}{\emph{#1}}
+\end{latexcode}
+\fielditem{userb}{literal} Questo campo viene stampato dopo il campo \bibfield{origtitle} (o \bibfield{reprinttitle}), in carattere normale, e può essere utilizzato per inserire informazioni sull'ed\-izio\-ne italiana, come il nome del curatore.
+ \fielditem{userc}{literal} Questo campo viene stampato alla fine della voce bibliografica, dopo il campo \bibfield{origdate}, e può essere usato per i numeri di pagina dell'edizione italiana o per qualsiasi altra informazione utile. Nel primo caso è sufficiente inserire il numero o l'intervallo, senza le stringhe ``p.'' o ``pp.''.
+ 
+ \fielditem{userd}{literal} Questo campo è disponibile solo per gli stili \sty{philosophy-classic} e \sty{philosophy-modern}. Serve nelle voci \bibtype{incollection} e \bibtype{inbook} per inserire qualsiasi tipo di informazione si desideri. Viene stampato dopo l'etichetta relativa alla \bibtype{collection} (o \bibtype{book}) a cui la voce \bibtype{incollection} (o \bibtype{inbook}) fa riferimento attraverso il campo \bibfield{crossref}.
+\end{fieldlist}
+
+
+Nel caso delle ristampe è possibile usare il campo \bibfield{reprinttitle} per ottenere una voce come \textcite{Galilei1}:
+
+\begin{esempiovoce}
+Galilei, Galileo (1632), \emph{Dialogo sopra i due massimi sistemi del mondo}; \textcolor{Maroon}{rist. a cura di Franz Brunetti, Torino: UTET, 1980, vol. 2}. Edizione usata: UTET, Torino 2000.
+\end{esempiovoce}
+
+Tale campo sostituisce il campo \bibfield{origtittle}, che pertanto non deve essere usato contemporaneamente, pena l'annullamento di quest'effetto. Preciso che per ottenere le informazioni sulla ristampa \emph{deve} essere usato comunque il campo \bibfield{reprinttitle}. Tuttavia se il titolo della ristampa è identico al titolo originale il campo \bibfield{reprinttitle} non verrà stampato. 
+
+%*******************************************************************
+\subsection[Bibliografie commentate]{Bibliografie commentate: i campi \bibfield{library} e \bibfield{annotation}}\label{sec:annotation}
+%*******************************************************************
+
+Gli stili permettono di utilizzare altri due campi molto utili, per esempio, per produrre bibliografie commentate. Nelle bibliografie di questo articolo se ne possono trovare numerosi esempi.
+%
+\begin{fieldlist}
+\fielditem{library}{literal} Il contenuto di questo campo viene stampato alla fine della voce bibliografica, prima dei riferimenti alle pagine in cui è stato citato il testo (che si ottengono con l'opzione \opt{backref}).
+\fielditem{annotation}{literal} Questo campo viene stampato dopo il campo \bibfield{library}, in un nuovo paragrafo. Il font di default è \cmd{sffamily}. È possibile anche usare l'alias \bibfield{annote}.\footnote{Gli utenti di BibDesk potranno inserire le informazioni direttamente nella finestra ``Annote'' del record bibliografico.}
+\end{fieldlist}
+
+Ecco un esempio di voce bibliografica commentata:
+\begin{esempiovoce}
+Gregorio, Enrico (2009), \emph{Appunti di programmazione in \LaTeX{} e \TeX}, 2a ed., \texttt{http://profs.sci. univr.it/~gregorio/introtex.pdf}. 
+
+{\footnotesize\sffamily\color{Maroon}Un testo avanzato che entra nel dettaglio della definizione delle macro in \TeX{} e \LaTeX.  «Di sicuro questo non è una guida per il principiante, anche se ci sono tutte le indicazioni fondamentali su come usare i comandi per definire nuove macro; tuttavia anche chi è agli inizi potrebbe trovare qualche spunto interessante per avvicinarsi al mondo misterioso (non poi troppo) delle macro di \TeX».\par}
+\end{esempiovoce}
+
+ Per modificare il font di questi campi sarà sufficiente ridefinire i comandi  \cmd{libraryfont} e \cmd{annotationfont}. Vedi sezione \ref{sec:commands}.
+
+%*******************************************************************
+\subsection{Nuove opzioni}\label{sec:options}
+%*******************************************************************
+
+Oltre alle opzioni standard di \sty{biblatex}, gli stili \sty{philosophy} forniscono alcune nuove opzioni, che permettono di personalizzare alcuni elementi delle citazioni e della  bibliografia\footnote{Per le altre innumerevoli personalizzazioni rimando alla documentazione del pacchetto \sty{biblatex} \parencite[cfr.][]{lehman:2010} e all'ottimo \textcite{Pantieri:2009}. Per un'introduzione generale su come gestire la bibliografia con \LaTeX\ si veda \textcite{Mori:2008}.}.
+
+\subsubsection{Opzioni generali}
+%*******************************************************************
+
+\begin{optionlist}
+\boolitem[false]{scauthors}
+Stampa in maiuscoletto i nomi degli autori e dei curatori (compresi eventuali prefissi o affissi come ``Von'', ``De'', ``Junior'') o dell'etichetta, nel caso non siano presenti, sia nella bibliografia sia nelle citazioni. Vengono stampati in maiuscoletto solo i nomi che compaiono all'inizio della voce bibliografica. Per avere in maiuscoletto anche i nomi che compaiono all'interno della voce bibliografica (campi \bibfield{translator}, \bibfield{foreword}, \bibfield{introduction}, ecc.), sia nella bibliografia sia nelle citazioni, è sufficiente il seguente codice, da inserire nel preambolo:
+\begin{latexcode}
+\renewcommand*{\mkbibnamelast}[1]{\textsc{#1}}
+\renewcommand*{\mkbibnamefirst}[1]{\textsc{#1}}
+\renewcommand*{\mkbibnameprefix}[1]{\textsc{#1}}
+\end{latexcode}
+
+\boolitem[false]{scauthorsbib}
+Stampa in maiuscoletto i nomi degli autori e dei curatori (compresi eventuali prefissi o affissi) o dell'etichetta, nel caso non siano presenti, solo nella bibliografia. Vengono stampati in maiuscoletto solo i nomi che compaiono all'inizio della voce bibliografica.
+
+\boolitem[false]{scauthorscite}
+Stampa in maiuscoletto i nomi degli autori e dei curatori (compresi eventuali prefissi o affissi) o dell'etichetta, nel caso non siano presenti, solo nelle citazioni. Vengono stampati in maiuscoletto solo i nomi che compaiono all'inizio della voce bibliografica.
+
+\optitem[semicolon]{origfieldsformat}{\opt{semicolon}, \opt{parens}, \opt{brackets}}
+\begin{valuelist}
+\item[parens] Stampa i dati relativi alla traduzione tra parentesi tonde.
+\item[brackets] Stampa i dati relativi alla traduzione tra parentesi quadre.
+\item[semicolon] I dati relatvi alla traduzione vengono semplicemente preceduti dal punto e virgola.
+\end{valuelist}
+
+\optitem[publocyear]{publocformat}{\opt{publocyear}, \opt{locpubyear}, \opt{loccolonpub}}
+Permette di scegliere la stile in cui vengono stampati il luogo, la casa editrice e l'anno. Questa opzione agisce sia sui campi dell'edizione originale sia sui campi relativi alla traduzione o alla ristampa.
+\begin{valuelist}
+\item[publocyear] Ex: Oxford University Press, Oxford 2007
+\item[locpubyear] Ex: Oxford, Oxford University Press, 2007
+\item[loccolonpub] Ex: Oxford: Oxford University Press, 2007 
+\end{valuelist}
+
+\optitem[volnumdefault]{volnumformat}{\opt{volnumstrings}, \opt{volnumparens}, \opt{volnumdefault}}
+Permette di scegliere fra tre stili in cui vengono stampati il numero e il volume nelle voci \bibtype{article}.
+\begin{valuelist}
+\item[volnumdefault] Ex: \ldots \emph{Journal Title}, 5, 8, \ldots 
+\item[volnumstrings] Ex: \ldots \emph{Journal Title}, vol.~5, n.~8, \ldots
+\item[volnumparens] Ex: \ldots \emph{Journal Title} (5, 8), \ldots 
+\end{valuelist}
+Se si usa l'opzione \opt{volnumparens} consiglio di caricare anche l'opzione \opt{romanvol}.
+
+\boolitem[false]{romanvol}
+Stampa il numero del volume in cifre romane e in maiuscolo:\\
+\begin{quote}
+Ex: \ldots \emph{Journal Title} (\textsc{V}, 8), \ldots 
+\end{quote}
+Ridefinendo il comando \cmd{volnumpuct} (vedi sezione \ref{sec:commands}) è possibile ottenere la forma:\\
+\begin{quote}
+Ex: \ldots \emph{Journal Title} (\textsc{V}/8), \ldots 
+\end{quote}
+Per avere il minuscolo o il maiuscoletto è sufficiente ridefinire il comando \cmd{volumfont} (vedi sez.~\ref{sec:commands}).
+
+\boolitem[false]{inbeforejournal}
+Stampa la stringa ``in'' prima del nome della rivista nelle voci \bibtype{article}.
+
+\boolitem[false]{annotation}
+Permette di mostrare il contenuto del campo \bibfield{annotation}, se 
+presente, e solo nella bibliografia.  È possibile anche usare l'alias \bibfield{annote}, come è stato fatto in questo documento.\footnote{Gli utenti di BibDesk potranno inserire le informazioni direttamente nella finestra ``Annote'' del record bibliografico.}
+
+
+\boolitem[true]{library}
+Permette di mostrare il contenuto del campo \bibfield{library}, se 
+presente.
+
+
+\subsubsection{Opzioni specifiche per gli stili \sty{philosophy-classic} e \sty{philosophy-modern}}
+%*******************************************************************
+
+\boolitem[false]{square}
+
+Permette di usare le parentesi quadre al posto delle parentesi tonde nelle citazioni e nell'etichetta dell'anno nella bibliografia. È analoga all'opzione \bibfield{square} del pacchetto \sty{natbib} e può essere efficacemente usata assieme all'opzione \bibfield{natbib} di \sty{biblatex}.
+
+\boolitem[false]{yearleft}
+Questa opzione ha effetto solo con lo stile \sty{philosophy-modern} e permette di ottenere la data allineata a sinistra nella bibliografia (vedi sezione \ref{sec:msb}).
+
+\subsubsection{Opzioni specifiche per lo stile \sty{philosophy-verbose}}
+%*******************************************************************
+
+\boolitem[false]{latinemph}
+Questa opzione permette di stampare le \emph{latinitates} \emph{ivi} e \emph{ibidem} in corsivo.
+
+\boolitem[false]{commacit}
+Questa opzione permette di aggiungere una virgola tra il titolo e l'espressione ``cit.''. Esempio: 
+\begin{quote}
+Cartesio, \emph{Discorso sul metodo}, cit. 
+\end{quote}
+Tengo a precisare che a mio avviso tale forma è corretta solo se si riporta sempre il titolo per intero. Scrivere 
+\begin{quote}
+Cartesio, \emph{Discorso}, cit.
+\end{quote}
+ potrebbe far pensare che il titolo è ``\emph{Discorso}'', mentre questo è solo il titolo abbreviato. Nello stile \sty{philosophy-verbose} viene usato il campo \bibfield{shorttitle} nelle citazioni successive alla prima, quindi questa opzione è di default disattivata.
+
+\end{optionlist}
+
+%*******************************************************************
+\subsection{Nuovi comandi}\label{sec:commands}
+%*******************************************************************
+
+\begin{ltxsyntax}
+\cmditem{annotationfont}
+
+Gestisce il font del campo \bibfield{annotation}. Può essere ridefinito, per esempio, con:
+\begin{latexcode}
+\renewcommand{\annotationfont}{\small\itshape}
+\end{latexcode}
+
+\cmditem{libraryfont}
+
+Gestisce il font del campo \bibfield{library}. Può essere ridefinito, per esempio, con:
+\begin{latexcode}
+\renewcommand{\libraryfont}{\small\itshape}
+\end{latexcode}
+
+\cmditem{volumfont}
+
+Gestisce il font del campo \bibfield{volume} ed è attivo solo con l'opzione \opt{romanvol}. Può essere ridefinito per avere il volume in cifre romane minuscole o in maiuscoletto:
+\begin{latexcode}
+\renewcommand*{\volumfont}{}
+\renewcommand*{\volumfont}{\scshape}
+\end{latexcode}
+
+
+\cmditem{volnumpunct}
+
+Il separatore tra il volume e il numero nelle voci \bibfield{article}. Se si imposta l'opzione \opt{romanvol} è opportuno ridefinire questo comando con:
+\begin{latexcode}
+\renewcommand*{\volnumpunct}{/}
+\end{latexcode}
+
+\end{ltxsyntax}
+
+
+%*******************************************************************
+\subsection{Impostazioni per le lingue}\label{sec:lingue}
+%*******************************************************************
+
+Gli stili \phil{} vengono forniti con il supporto linguistico per la lingua inglese e italiana. Per l'uso degli stili con lingue differenti saranno necessarie alcune righe di codice da aggiungere nel preambolo.
+Si può prendere ad esempio il codice che sarebbe necessario per la lingua inglese (se non fosse già supportata):
+\begin{latexcode}
+\NewBibliographyString{transtolang}
+\DefineBibliographyStrings{english}{%
+	inherit={english},
+	opcit	= {cit\adddot},
+	ibidem = {ivi},
+	loccit	= {ibidem},
+	transtolang = {eng\adddotspace trans\adddot},
+	andothers = {\mkbibemph{et\addabbrvspace al\adddot}},
+	editor	  = {\mkpureparens{edited by}},
+	editors	  = {\mkpureparens{edited by}},
+	backrefpage = {cited on p\adddot},
+	backrefpages = {cited on pp\adddot}}
+\end{latexcode}
+
+
+%*******************************************************************
+\section{Gli stili \sty{philosophy-classic} e \sty{philosophy-modern}}
+%*******************************************************************
+%*******************************************************************
+\subsection[Le opere senza data]{Il trattamento dei classici del pensiero e delle opere senza data di pubblicazione}\label{sec:senzadata}
+%*******************************************************************
+
+Per quanto riguarda i testi moderni o antichi, ovvero quelli privi di una data di pubblicazione, è opportuno fare delle scelte, che non dovrebbero però essere troppo dolorose. 
+
+Se si cita un'opera di un autore classico o moderno apparsa in un'edizione critica, è possibile riferirsi a tale edizione, come in \textcite{nietzsche:historie}. Se proprio non si accetta questo tipo di citazione, si può usare un'abbreviazione, da inserire nell'apposito campo \bibfield{shorthand}.\footnote{\cite[Cfr.][]{kant:kpv}; \cite[$\Delta$ 2, 1069 b 3-7]{Metaphysica}, \cite[V, 1-2, 1129 b 29-1130 a 26]{Ethica}. Come si vede, anche in questo caso, il riferimento viene riportato in nota, soluzione molto frequente in alcune  discipline umanistiche.}
+
+
+Se non si vogliono usare le abbreviazioni si può convenientemente definire un nuovo comando \cmd{sdcite} con:
+\begin{latexcode}
+\DeclareCiteCommand{\sdcite}
+  {\boolfalse{citetracker}%
+   \boolfalse{pagetracker}%
+   \usebibmacro{prenote}}
+  {\indexnames{labelname}%
+   \printtext[bibhyperref]{\printnames{labelname}}%
+   \setunit{\addcomma\space}%
+   \indexfield{indextitle}%
+   \printtext[bibhyperref]{\printfield[citetitle]{labeltitle}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+\end{latexcode}
+
+In questo modo è possibile riferirsi ad un'opera indicando l'autore e il titolo, di fatto adottando localmente uno schema di citazione diverso. Questo comporta sicuramente un'incongruenza, perché nella bibliografia tale voce sarebbe riportata comunque seguendo lo schema autore-anno. Ma è un'incongruenza per la quale molti sarebbero disposti a chiudere un occhio.
+Seguendo questa soluzione si potrà rimandare a \sdcite[15]{Platone:timeo}, col semplice comando \verb|\sdcite[15]{Platone:timeo}|.
+
+In alcuni casi, in particolare per gli autori antichi, è possibile inserire nel campo \bibfield{year} l'espressione ``s.d.'' (senza data), o espressioni analoghe \parencite[cfr.][]{Ethica}.
+Se i testi senza data relativi ad uno stesso autore non sono molti questa è una buona soluzione, ed è abbastanza diffusa\footnote{Viene adottata, per esempio, da Umberto Eco in alcuni suoi libri.}.
+Se invece i testi relativi ad uno stesso autore sono molti, per evitare successioni troppo lunghe di ``s.d.a'', ``s.d.b'', ``s.d.c'', ecc., sarà opportuno indirizzarsi verso le soluzioni indicate sopra.
+
+Ritengo tuttavia che rinunciare allo schema autore-anno solo perché in una bibliografia ci sono alcune voci relative a testi antichi, a classici del pensiero o senza data di pubblicazione mi sembra eccessivo. Se invece la bibliografia è composta solo (o in gran parte) da testi di questo tipo si potrebbe essere tentati di passare a un altro stile bibliografico e di citazione.
+Questa scelta sarebbe però dettata solo da questioni di gusto, perché dal punto di vista della funzionalità le soluzioni indicate sopra sono sufficienti a raggiungere lo scopo di una bibliografia: indicare in maniera \emph{chiara e distinta} le fonti che vengono citate nel testo. È inoltre il caso di ricordare che \sty{biblatex} mette a disposizione molti campi, come \bibfield{note}, \bibfield{addendum}, \bibfield{titleaddon}, nei quali si possono inserire moltissime informazioni utili per identificare un'opera citata. Se questi non dovessero bastare è sempre possibile utilizzare il campo \bibfield{library}.
+
+
+%*******************************************************************
+\subsection{Riferimenti incrociati}\label{sec:crossref}
+%*******************************************************************
+
+Gli stili \sty{philosophy-classic} e \sty{philosophy-modern} permettono di gestire in maniera efficace voci bibliografiche complesse, nelle quali sia contenuto un riferimento ad un altro testo, usando il campo \bibfield{crossref}. 
+
+Nel caso di citazioni di voci \bibtype{incollection} (ma ciò che segue vale anche per le voci \bibtype{inbook}) si possono presentare due casi:
+
+\begin{compactenum}
+	\item La citazione di un solo contributo \bibtype{incollection} può essere fatta:
+		\begin{compactenum}
+		\item usando il campo \bibfield{crossref}  \parencite[cfr.][]{Rossitto:1977,Termini:2007}. Si noti come in questo caso, trattandosi di un solo contributo non viene riportata nella bibliografia finale la voce relativa alla \bibtype{collection};
+		\item mettendo i dati necessari all'interno della stessa voce e usando il campo \bibfield{xref}, dove andrà inserita l'etichetta relativa alla \bibtype{collection}.  Trattandosi di una sola voce, questo metodo sarà analogo al precedente.
+	\item mettendo semplicemente i dati necessari all'interno della stessa voce \parencite[cfr.][]{Valbusa:2007,nietzsche:historie}.
+		\end{compactenum}
+	\item Se si devono citare due o più contributi  di una \bibtype{collection} con gli stili \sty{philosophy-classic} e \sty{philosophy-modern} è opportuno usare il campo \bibfield{crossref} \parencite[cfr.][]{Corrocher:2009,Federspil:2009,kant:ku}. In questo modo nella voce \bibtype{incollection} comparirà il riferimento alla \bibtype{collection} attraverso un rimando simile a quello usato per le citazioni. Naturalmente, in questo caso, la voce relativa alla \bibtype{collection} verrà riportata come voce autonoma, sebbene non sia direttamente citata nel testo. 
+	\end{compactenum}
+
+In tutti questi casi è possibile aggiungere informazioni utili all'interno della voce \bibtype{incollection} o \bibtype{inbook} usando il campo \bibfield{userd} \parencite[cfr.][]{Facchinetti:2009a,Degani:2009}. Naturalmente nel campo \bibfield{userd} si è liberi di scrivere quello che si vuole, pertanto bisogna stare attenti all'uniformità del documento. Se per esempio si inserisce l'informazione relativa al volume  si dovrà fare attenzione al caso in cui venga ridefinita la stringa \bibfield{volume}. Questa ridefinizione infatti non avrebbe alcun effetto su questo campo. Si è preferito però fornire all'utente la possibilità di avere un campo disponibile per ogni evenienza. In sede di revisione finale non dovrebbe essere difficile uniformare questi (si spera) pochi casi. 
+
+\looseness=-1 Tipicamente, in una raccolta di opere di uno stesso autore possono comparire sia volumi singoli sia articoli apparsi originariamente su rivista, oltre a scritti inediti, lettere, comunicazioni di convegni e quant'altro. Per ciascuna di queste voci si dovrebbe usare una formattazione distinta. Anziché creare un nuovo tipo di voce per ognuna di questi casi (per esempio \bibtype{artincollection}, \bibtype{bookincollection}, ecc.) si è adottato un criterio diverso: i titoli delle voci \bibtype{inbook} verranno stampati in corsivo indipendentemente dalla tipologia di scritto, sia esso un  volume singolo o un articolo.
+
+
+%*******************************************************************
+\subsection{Nuovi comandi}\label{sec:classiccommands}
+%*******************************************************************
+
+\begin{ltxsyntax}
+\cmditem{sdcite}{label} 
+
+Questo comando è disponibile solo con gli stili \sty{philosophy-classic} e \sty{philosophy-modern} e permette di ottenere delle citazioni in formato autore-titolo, utili nel caso di opere senza data o classici del pensiero (vedi sez.~). 
+
+\cmditem{footcitet}{label} 
+
+Analogo a \cmd{footcite}, ma produce un riferimento con lo stesso stile di \cmd{textcite}, come in questa\footcitet[12-13]{Corrocher:2009} e quest'altra nota.\footcitet{Corrocher:2009}
+\end{ltxsyntax}
+
+
+%*******************************************************************
+\section{Lo stile \sty{philosophy-modern}}\label{sec:msb}
+%*******************************************************************
+
+
+Lo stile \sty{philosophy-modern} si basa sullo stile \sty{philosophy-classic}, del quale 
+eredita le caratteristiche principali, e che pertanto ne è parte integrante. 
+Permette di produrre una bibliografia organizzata per autori suddivisi a blocchi, come quelle riportate alla fine di questo articolo (p.~\pageref{sec:bibesempio} ss.).\footnote{Questo stile nasce da una richiesta che Lorenzo Pantieri ha avanzato sul forum del \GuIT, \url{http://www.guit.sssup.it/phpbb/viewtopic.php?t=6472}.} Data la sua struttura, questo stile è adatto a bibliografie in cui vi sono pochi autori e molti testi relativi ad uno stesso autore. In bibliografie con molti autori per i quali si cita solo un testo o due, la resa grafica non è delle migliori. In questo caso consiglio di usare lo stile \sty{philosophy-classic}. Infine faccio notare che con lo stile \sty{philosophy-modern} è molto efficace l'opzione \opt{scauthorsbib} (o \opt{scauthors}), perché in questo modo si riescono ad individuare ancor più facilmente i blocchi dei diversi autori.
+\begin{esempiovoce}
+\includegraphics[width=.9\textwidth]{modern3}
+\end{esempiovoce}
+
+%*******************************************************************
+\subsection{Nuove lunghezze}
+%*******************************************************************
+
+Oltre alle lunghezze previste da \sty{biblatex}, lo stile \sty{philosophy-modern} definisce le seguenti lunghezze:
+
+\begin{ltxsyntax}
+	\lenitem{postnamesep} Lo spazio tra l'autore (o il curatore) e la prima voce bibliografica relativa 
+	ad esso.
+	\lenitem{yeartitle} Lo spazio tra l'anno e il titolo. Quest'ultima lunghezza, 
+	naturalmente, è strettamente legata al valore dato a \len{bibhang}, ovvero lo 
+	spazio riservato per l'etichetta dell'anno, impostata di default al valore di 
+	\verb|4\parindent|.
+\end{ltxsyntax}
+
+Per modificare lo spazio che separa il nome dell'autore dall'ultima voce bibliografica dell'autore precedente, ossia lo spazio che separa i blocchi relativi a due autori diversi, è prevista da \sty{biblatex} la lunghezza \len{bibnamesep}.
+
+Queste lunghezze possono essere ridefinite in base alle proprie esigenze. Le definizioni di default sono le seguenti:
+\begin{latexcode}
+  \setlength{\bibnamesep}{1.5ex plus 2pt minus 1pt}
+  \setlength{\postnamesep}{0.5ex plus 2pt minus 1pt}
+  \setlength{\yeartitle}{0.8em}
+  \setlength{\bibhang}{4\parindent}
+\end{latexcode}
+Ricordo che è anche disponibile l'opzione \opt{yearleft}, che equivale a:
+\begin{latexcode}
+  \setlength{\yeartitle}{\fill}
+\end{latexcode}
+
+Per quanto riguarda le altre impostazioni si deve fare riferimento alla documentazione del pacchetto \sty{biblatex} e al già citato \textcite{Pantieri:2009}. Per esempio, per modificare lo spazio che separa le voci bibliografiche sarà sufficiente ridefinire la lunghezza\cmd{bibitemsep}, che per lo stile \sty{philosophy-modern} è impostata al valore di \cmd{postnamesep}.
+
+
+
+%**************************************************************************
+\section{Lo stile \sty{philosophy-verbose}}\label{sec:verbose}
+%***************************************************************************
+
+Lo stile \sty{philosophy-verbose} è basato sugli stili \sty{verbose-trad1} e \sty{verbose-trad2}. Ciò che distingue questo stile dagli altri stili \phil{} è naturalmente lo schema di citazione.
+
+Il funzionamento dello schema di citazione fornito dallo stile \sty{philosophy-verbose} è molto semplice. La prima volta che un'opera viene citata, compare l'intera voce bibliografica, così come appare nella bibliografia finale,  escluso il campo \bibfield{annotation} (vedi sezione \ref{sec:annotation}). Nelle citazioni successive alla prima comparirà il titolo o il titolo breve, se presente (\bibfield{shorttitle}), seguito dall'espressione ``cit.''. Se la stessa opera viene citata due volte consecutivamente, nella seconda occorrenza comparirà l'espressione ``ivi''. Se una citazione si riferisce alla stessa opera e alla stessa pagina della citazione precedente, verrà usata l'espressione ``ibidem'':
+\begin{esempiovoce}
+\textsuperscript{1} Cfr. Cartesio, \emph{Discorso sul metodo}, trad. e introd. di Lucia Urbani Ulivi, 1a ed., testo francese a fronte, Bompiani, Milano 2002, p. 43.\\
+\textsuperscript{2} Ivi, p. 26. \\
+\textsuperscript{3} Ibidem. \\
+\textsuperscript{4} Settimo Termini, «Vita morte e miracoli di Alan Mathison Turing», in \emph{Vite matematiche. Protagonisti del '900 da Hilbert a Wiles}, a cura di Claudio Bartocci et al., Springer-Verlag Italia, Milano 2007, pp. 59-61.\\
+\textsuperscript{5} Cartesio, \emph{Discorso sul metodo} cit., p. 35.
+\end{esempiovoce}
+
+Le \emph{latinitates}, ad esclusione di ``cit.'',  vengono stampate di default in tondo. Se si preferiscono in corsivo si usi l'opzione \opt{latinemph} (vedi sezione \ref{sec:options}). Si veda il file 
+\href{Test-philosophy-verbose.pdf}{Test-philosophy-verbose.pdf}.
+
+%*********************************************************************
+\subsection{Voci \bibtype{incollection} e \bibtype{inbook}}\label{sec:incoll}
+%*********************************************************************
+
+Nel caso delle citazioni di contributi su volumi collettivi (voci \bibtype{incollection}) o di opere raccolte in una collezione di uno stesso autore (voci \bibtype{inbook}), nella prima citazione viene sempre riportato per esteso il riferimento al \bibtype{book} o alla \bibtype{collection} di riferimento. 
+
+Se si citano altri contributi della stessa \bibtype{collection} (\bibtype{book}), per quest'ultima viene usata la forma abbreviata. 
+Nella bibliografia finale, invece, ogni voce \bibtype{incollection} (o \bibtype{inbook}) sarà completa di tutte le informazioni.  Se non si vuole che la \bibtype{collection} venga riportata in bibliografia è possibile usare il campo \bibfield{options}, con l'opzione \opt{skibib=true}.
+Per alcuni esempi si veda il file 
+\href{Test-philosophy-verbose.pdf}{Test-philosophy-verbose.pdf}.
+
+
+%***************************************************************************
+\subsection{Nuovi comandi}\label{sec:vercommands}
+%***************************************************************************
+
+Nelle citazioni estese possono capitare situazioni particolari in cui i comandi standard di \sty{biblatex} non possono essere d'aiuto. Lo stile \sty{philosophy-verbose} fornisce un comando per rispondere (per il momento) a una di queste esigenze.
+Consideriamo una nota di questo tipo:
+\begin{esempiovoce}
+\textsuperscript{1} L'argomento è stato sviluppato da P. Rossi, \emph{Storia dei tipi}, La TeXnica, Verona 2007 e nel successivo \emph{Tipi della storia}, Typographica, Milano 2008.
+\end{esempiovoce}
+
+Per ottenere il secondo riferimento omettendo l'indicazione dell'autore, è disponibile il comando: 
+
+\begin{ltxsyntax}
+\cmditem{ccite}{label}
+
+Analogo a \cmd{cite}, ma omette il nome dell'autore (curatore). Si usa come segue:
+\begin{latexcode}
+L'argomento è stato sviluppato da \cite{Rossi:2007} e nel successivo 
+\ccite{Rossi:2008}.
+\end{latexcode}
+
+\end{ltxsyntax}
+
+
+
+%*******************************************************************
+\section{Conclusione}
+%*******************************************************************
+
+Arrivati a questo punto credo risulti abbastanza chiara la difficoltà nella gestione della bibliografia con \LaTeX. A mio avviso questa difficoltà non è però imputabile al programma, bensì ad alcune cattive abitudini o ad alcune nostre discutibili esigenze.
+Lo scopo di una bibliografia è fornire al lettore tutte le indicazioni necessarie per individuare con certezza e in maniera inequivocabile le fonti che vengono citate o i testi a cui si rimanda. Quando si riesce ad ottenere questo risultato si è già a metà dell'opera. Rimangono solo le questioni stilistiche per le quali vale i detto: \emph{quot capita tot sententiae}. Mi pare infine che anche la tanto annosa quanto seria questione che sorge ``quando si hanno opere la cui edizione originale non coincide con l'edizione consultata'' sia risolta, purché si adotti il criterio, lodevole sul piano del rigore, di indicare sempre almeno il titolo e l'anno dell'edizione originale.
+
+
+\section{Changes}
+
+\begin{changelog}
+
+\begin{release}{0.7a}{2010-04-03}
+
+\item Added command \opt{volumfont}\see{sec:commands}
+\item Added command \opt{footcitet}\see{sec:classiccommands}
+\item Updated documentation
+
+
+\end{release}
+
+\begin{release}{0.7}{2010-03-30}
+
+\item Removed package option \opt{colonloc}
+\item Removed package option \opt{origparens}
+\item Removed package option \opt{origbrackets}
+\item Added package option \opt{origfieldsformat}\see{sec:options}
+\item Added package option \opt{publocformat}\see{sec:options}
+\item Added package option \opt{commacit}\see{sec:options}
+\item Added package option \opt{inbeforejournal}\see{sec:options}
+\item Added package option \opt{romanvol}\see{sec:options}
+\item Added package option \opt{volnumformat}\see{sec:options}
+\item Added command \opt{volnumpunct}\see{sec:commands}
+\item Added citation command \cmd{sdcite}\see{sec:senzadata}
+\item Added citation command \cmd{ccite}\see{sec:vercommands}
+\item Updated documentation
+
+\end{release}
+
+\begin{release}{0.6}{2010-03-07}
+
+\item Added localization file \texttt{italian-philosophy.lbx}
+\item Added file \texttt{philosophy-standard.bbx}
+\item New documentation file \texttt{biblatex-philosophy}
+\item Removed file \texttt{philosophy-authoryear-doc.tex}
+\item Removed file \texttt{philosophy-verbose-doc.tex}
+
+\end{release}
+
+\begin{release}{0.5}{}
+\item Added new bibliography style \texttt{philosophy-verbose}\see{sec:verbose}
+\item Added localization file \texttt{italian-philosophy.lbx}
+\item Added package option \opt{origparens}\see{sec:options}
+\item Added package option \opt{origbrackets}\see{sec:options}
+\item Added package option \opt{latinemph}\see{sec:options}
+\item Changed package option \opt{scauthors}\see{sec:options}
+\item Changed package option \opt{scauthorscite}\see{sec:options}
+\item Changed package option \opt{scauthorsbib}\see{sec:options}
+\item Renamed file \texttt{biblatex-philosophy-doc.tex} to \texttt{philosophy-authoryear-doc.tex}
+\item Added file \texttt{philosophy-verbose-doc.tex}
+\item Updated documentation
+\end{release}
+
+\begin{release}{0.4}{}
+\item Improved compatibility for \sty{biblatex}, version 0.9
+\end{release}
+
+\end{changelog}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%				BIBLIOGRAPHY and SHORTHANDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Sigle
+\phantomsection{}
+\addcontentsline{toc}{section}{Sigle}
+\printshorthands
+
+\defbibnote{notaesempio}{\small\sffamily Questa bibliografia contiene gli esempi, più o meno fittizi, citati in questo articolo, esclusi i testi contenuti nei riferimenti bibliografici.  Si veda il file \sty{philosophy-examples.bib}.}
+
+\defbibnote{notariferimenti}{\small\sffamily In questa bibliografia si noti come il campo 
+\bibfield{annotation} venga usato per produrre delle voci commentate. In questo modo possiamo fornire per ciascuna voce un breve sommario.\nobreak}
+
+% Bibliografia esemplificativa
+\nocite{*}
+\phantomsection{}
+\addcontentsline{toc}{section}{Bibliografia esemplificativa}
+\printbibliography[maxnames=999,minnames=999,prenote=notaesempio,heading=esempio,keyword=Esempio]
+
+% Riferimenti bibliografici
+\nocite{Gregorio:2009}
+\phantomsection{}
+\addcontentsline{toc}{section}{\refname}
+\printbibliography[maxnames=999,minnames=999,prenote= notariferimenti,heading=primary,keyword=primary]
+
+\end{document}

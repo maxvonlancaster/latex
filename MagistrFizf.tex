@@ -1,0 +1,85 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{cmap}
+\usepackage[cp1251]{inputenc}
+\usepackage[english, ukrainian, russian]{babel}
+\usepackage[left=2cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amssymb}
+
+\begin{document}
+
+\begin{flushleft}
+
+\end{flushleft}
+
+\begin{center}
+\section*{Вплив статичного та динамічного просторових зарядів на електронну динамічну провідність трибар'єрних резонансно-тунельних структур}
+\end{center}
+
+\begin{center}
+\parbox{15cm}{
+}
+\end{center}
+
+\textbf{1. Вступ.}
+Плоскі напівпровідникові резонансно-тунельні структури (РТС) вже тривалий час активно застосовуються як базові елементи сучасних квантових каскадних лазерів (ККЛ). Оптимальна робота ККЛ суттєво визначається тунельними властивостями тих РТС, які є їх базовими елементами. В свою чергу, тунельні характеристики  РТС залежать як від геометричного дизайну, так і від полів, в яких вони знаходяться.
+
+Для оптимізації роботи цих наноприладів, що працюють у терагерцовому та інфрачервоному діапазонах частот електромагнітного поля важливо знати суть фізичних процесів, що відбуваються при когерентному транспорті електронів крізь багатошарові РТС. На електронний транспорт крізь багатошарові РТС впливають дисипативні процеси пов'язані з міжелектронною взаємодією, взаємодією електронів з домішками і фононами, а також зі створеним ними полем статичного і динамічного зарядів.
+
+\textbf{2. Активна динамічна провідність електронів ТБРТС. Самоузгоджені рівняння Шредінгера та Пуассона.}
+
+Для розрахунку активної динамічної провідності електронів ТБРТС будемо вважати, що ця система у декартових координатах розташована так, що її шари перпендикулярні до осі OZ. Геометричні й фізичні параметри відомі.
+
+Незначна різниця між сталими решіток шарів-ям та шарів-бар'єрів дозволяє застосовувати до електрона в ТБРТС модель ефективних мас та прямокутних потенціалів:
+
+
+$$m(z)= \left\{ \begin{array}{c} m_{w}, \textmd{ в областях  ям };\\ m_{b},\textmd{ в областях  бар'єрів }  \end{array} \right. \eqno (1) $$
+
+$$U(z)= \left\{ \begin{array}{c} 0, \textmd{ в областях  ям };\\ U_{0},\textmd{ в областях  бар'єрів }  \end{array} \right. \eqno (2) $$
+
+$$m(z)=m_{w}\{\theta(-z)+\sum\limits_{p=1}^{3}[\theta(z-z_{2p-1})-\theta(z-z_{2p})]\}+ \\ m_{b}\sum\limits_{p=0}^{2}[\theta(z-z_{2p})-\theta(z-z_{2p+1})],$$
+
+$$U(z)=U\sum\limits_{p=0}^{2}[\theta(z-z_{2p})-\theta(z-z_{2p+1})],$$
+
+Де $z_{6}=\infty$, а $\theta(z)$~--- функція Хевісайда: $$\theta(z)=\left\{ \begin{array}{c} 0, \textmd{  } z<0;\\ 1,\textmd{  } z\geq0  \end{array} \right.$$
+
+Уважається, що моноенергетичний потік електронів з енергією $E$ і початковою концентрацією $n_{0}$ падає перпендикулярно до площини двоямної відкритої РТС зліва. Рух електрона вважається одновимірним і таким, що описується хвильовою функціїю $\Psi(z,t)$, яка задовольняє повне рівняння Шредінгера:
+
+$$i\hbar \frac{\partial \Psi(z,t)}{\partial t}=(-\frac{\hbar^{2}}{2}\frac{\partial}{\partial z}\frac{1}{m(z)}\frac{\partial}{\partial z}+U(z)+H(z,t))\Psi(z,t).(3)$$
+
+Тут $$H(z,t)=-e\mathcal{E}[z\theta(z)-(z_{5}-z)\theta(z_{5}-z)](e^{i\omega t}+e^{-i\omega t})+e\varphi(z,t) (4)$$ ~--- гамільтонан, перший доданок якого описує взаємодію електрона зі змінним електромагнітним полем з частотою $\omega$ та амплтудою напруженост його електричної складової $\mathcal{E}$; другий доданок характеризує взаємодію електрона з полем просторового заряду, потенціал $\varphi(z,t)$ якого визначається рівнянням Пуассона: $$\frac{\partial}{\partial z}[\varepsilon(z)\frac{\partial \varphi(z,t)}{\partial z}]=-4\pi e n(z,t), (5)$$ де $$\varepsilon(z)=\varepsilon_{w}\{\theta(-z)+\sum\limits_{p=1}^{3}[\theta(z-z_{2p-1})-\theta(z-z_{2p})]\}+\\ +\varepsilon_{b}\sum\limits_{p=0}^{2}[\theta(z-z_{2p})-\theta(z-z_{2p+1})] (6)$$ ~--- діелектрична проникливість ТБРТС, а $$n(z,t)=n_{0}|\Psi(z,t)^{2}| (7)$$ зміна конценртації електронів.
+
+Зі структури рівнянь (3) і (5), враховуючи вигляд гамільтоніана (4) та спввідношення (7) видно, що вони утворюють самоузгоджену систему.
+
+Розв'язок повного рвняння Шредінгера (3) з гамільтоніаном  (4) шукається у наближенні слабкого сигналу у вигляді: $$\Psi(E,z,t)=\Psi_{0}(E,z)e^{-i\omega_{0} t}+\Psi_{-1}(E,z)e^{-i(\omega_{0}-\omega) t}+\Psi_{+1}(E,z)e^{-i(\omega_{0}+\omega) t},\textmd{ } \omega_{0}=E/\hbar (8)$$ Зауважимо, що далі для спрощення громіздких виразів символ $E$ у хвильових функціях тимчасово опустимо.
+
+Підставляючи співвідношення (7) у рівняння Пуассона (5) з урахуванням (8) зі збереженням доданків одного порядку малості отримуємо рівняння: $$\frac{\partial}{\partial z}[\varepsilon(z)\frac{\partial\varphi(z,t)}{\partial z}]=-4\pi e n_{0}[\zeta_{0}(z)+\zeta_{-}(z)e^{i\omega t}+\zeta_{+}(z)e^{-i\omega t}],(9)$$ де $$\zeta_{0}(z)=|\Psi_{0}(z)|^{2},\textmd{ }\zeta_{+}(z)=\Psi_{0}(z)\Psi_{+1}^{*}(z)+\Psi_{0}^{*}(z)\Psi_{-1}(z),\textmd{ }\zeta_{-}(z)=\zeta_{+}^{*}(z).\textmd{ }(10)$$ Для довільного $p$-го шару всередині РТС розв'язок рівняння (9) шукається у вигляді: $$\varphi(z,t)=\sum\limits_{p=1}^{5}[\varphi_{st}^{(p)}(z)+\varphi_{-}^{(p)}(z)e^{i\omega t}+\varphi_{+}^{(p)}(z)e^{-i\omega t}][\theta(z-z_{p-1})-\theta(z-z_{p})].\textmd{ }(11)$$
+
+З рівняння (9) з урахуванням (11) та після прирівнювання величин одного порядку отримуються рівняння: $$\frac{\partial^{2}\varphi_{st}^{(p)}(z)}{\partial z^{2}}=-\frac{4\pi en_{0}}{\varepsilon_{p}}\xi_{0}^{(p)}(z), (12)$$ $$\frac{\partial^{2}\varphi_{\pm}^{(p)}(z)}{\partial z^{2}}=-\frac{4\pi en_{0}}{\varepsilon_{p}}\xi_{\pm}^{(p)}(z), (13)$$ розв'язки яких мають вигляд: $$\varphi_{st}^{(p)}(z)=-\frac{4\pi en_{0}}{\varepsilon_{p}}\xi_{0}^{(p)}(z)\int\limits_{0}^{z}dz\prime\int\limits_{0}^{z\prime}\xi_{0}^{(p)}(z \prime\prime)dz\prime\prime+C_{1}^{(p)}(z-z_{p-1})+C_{2}^{(p)}, (14)$$ $$\varphi_{\pm}^{(p)}(z)=-\frac{4\pi en_{0}}{\varepsilon_{p}}\xi_{0}^{(p)}(z)\int\limits_{0}^{z}dz\prime\int\limits_{0}^{z\prime}\xi_{\mp}^{(p)}(z \prime\prime)dz\prime\prime+C_{1}^{(p)}(z-z_{p-1})+C_{2}^{(p)}, (15)$$ і визначають потенціал $\varphi^{(p)}_{st}(z)$ спричинений статичним просторовим зарядом у $p$-тій області, а також потенціали, що визначаються просторовим динамічним зарядом у випадку електронних переходів з поглинанням $\varphi^{(p)}_{+}(z)$ і випромнюванням $\varphi^{(p)}_{-}(z)$ фотонів відповдно.
+
+Усі невідомі коефіцієнти  однозначно визначаються з умов неперервності потенціалу  та вектора електричної індукції на всіх гетеромережах РТС у довільний момент часу: $$  \left[ \begin{array}{c} \varphi_{p}(z_{p},t)=\varphi_{p+1}(z_{p},t); \\ \varepsilon_{p}\frac{\partial\varphi_{p}(z,t)}{\partial z}|_{z=z_{p}}= \varepsilon_{p+1}\frac{\partial\varphi_{p+1}(z,t)}{\partial z} \end{array} \right. \eqno (16)$$ З урахуванням (11) з системи (16) маємо: $$ \left\{ \begin{array}{c} \varphi^{(p)}_{st}(z_{p})+\varphi^{(p)}_{-}(z_{p})e^{i\omega t}+\varphi^{(p)}_{+}(z_{p})e^{-i\omega t}=\varphi^{(p+1)}_{st}(z_{p})+\varphi^{(p+1)}_{-}(z_{p})e^{i\omega t}+\varphi^{(p+1)}_{+}(z_{p})e^{-i\omega t}; \\ \varepsilon_{p}(\frac{\partial\varphi_{st}^{(p)}(z)}{\partial z}+\frac{\partial\varphi_{-}^{(p)}(z)}{\partial z}e^{i\omega t}+\frac{\partial\varphi_{+}^{(p)}(z)}{\partial z}e^{-i\omega t})|_{z=z_{p}}= \varepsilon_{p+1}(\frac{\partial\varphi_{st}^{(p+1)}(z)}{\partial z}+\frac{\partial\varphi_{-}^{(p+1)}(z)}{\partial z}e^{i\omega t}+\frac{\partial\varphi_{+}^{(p+1)}(z)}{\partial z}e^{-i\omega t})|_{z=z_{p}} \end{array} \right. \eqno (17) $$ звідки отримуються граничні умови для потенціалів $\varphi_{st}^{(p+1)}(z)$, $\varphi_{\pm}^{(p+1)}(z)$: $$\left\{ \begin{array}{c} \varphi^{(p)}_{st}(z_{p})=\varphi^{(p+1)}_{st}(z_{p}); \\ \varepsilon_{p}\frac{\partial\varphi_{st}^{(p)}(z)}{\partial z}|_{z=z_{p}}=\varepsilon_{p+1}\frac{\partial\varphi_{st}^{(p+1)}(z)}{\partial z}|_{z=z_{p}}, \end{array} \right. \left\{ \begin{array}{c} \varphi^{(p)}_{\pm}(z_{p})=\varphi^{(p+1)}_{\pm}(z_{p}); \\ \varepsilon_{p}\frac{\partial\varphi_{\pm}^{(p)}(z)}{\partial z}|_{z=z_{p}}=\varepsilon_{p+1}\frac{\partial\varphi_{\pm}^{(p+1)}(z)}{\partial z}|_{z=z_{p}}, \end{array} \right. \eqno (18)$$
+
+Зліва  справа за межами РТС для потенціалів, що спричинен статичним та динамічним зарядами повинні виконуватися умови їх зникнення: $$\varphi_{st}(z)|_{z\rightarrow 0}=0;\textmd{ } \varphi_{st}(z)|_{z\rightarrow z_{5}}=0;\textmd{ }\varphi_{\pm}(z)|_{z\rightarrow 0}=0;\textmd{ } \varphi_{\pm}(z)|_{z\rightarrow z_{5}}=0. \eqno (19)$$
+
+Враховуючи (11) та (8) з повного рівняння Шредінгера після прирівнювання величин одного порядку малості отримуються рівняння: $$(-\frac{\hbar^{2}}{2}\frac{\partial}{\partial z}\frac{1}{m(z)}\frac{\partial}{\partial z}+U(z)+e\varphi_{st}(z)-E)\Psi_{0}(z)=0,\eqno (20)$$ $$(-\frac{\hbar^{2}}{2}\frac{\partial}{\partial z}\frac{1}{m(z)}\frac{\partial}{\partial z}+U(z)+e\varphi_{st}(z)-\hbar(\omega\pm\omega_{0}))\Psi_{\pm 1}(z)=e(\mathcal{E}[z\theta(z)+(z_{5}-z)\theta(z_{5}-z)]-\varphi_{\pm}(z))\Psi_{0}(z). \eqno (21)$$
+Рівняння Шредінгера (20), (21) разом з рівнянями Пуассона (12), (13) утворюють систему взаємоузгодженних рівнянь. Розв'язуючи цю систему спочатку у нульовому наближенні шукається розв'язок рівняння (20) без урахування статичного просторового заряду, покладаючи в ньому $\varphi_{st}^(z)=0$. Цей розв'язок такий: $$ \begin{array}{c} \tilde{\Psi_{0}}(z)=\Psi_{0}^{(0)}(z)\theta(-z)+\Psi_{0}^{(6)}(z)\theta(z-z_{5})+\sum\limits_{p=1}^{5} \Psi_{0}^{(p)}(z)[\theta(z-z_{p-1})-\theta(z-z_{p})]=\\=(A_{0}^{(0)}e^{ik_{0}^{(0)}z}+ B_{0}^{(0)}e^{-ik_{0}^{(0)}z})\theta(-z)+A_{0}^{(6)}e^{ik_{0}^{(6)}(z-z_{5})}\theta(z-z_{5})+ \\+ \sum\limits_{p=1}^{5} [A_{0}^{(p)}e^{ik_{0}^{(p)}(z-z_{p-1})}+ B_{0}^{(p)}e^{-ik_{0}^{(p)}(z-z_{p-1})}][\theta(z-z_{p-1})-\theta(z-z_{p})], \end{array} \eqno (22)$$ де $$k_{0}^{(0)}=k_{0}^{(2)}=k_{0}^{(4)}=k_{0}^{(6)}=\sqrt{\frac{2m_{\omega}E}{\hbar^{2}}};\textmd{ }k_{0}^{(1)}=k_{0}^{(3)}=k_{0}^{(5)}=\sqrt{\frac{2m_{b}(E-U)}{\hbar^{2}}}.  \eqno (23)$$ Підставляючи розв'язок (22) у рівняння Пуассона (12), з урахуванням (14) визначається потенцал $\varphi_{st,0}(z)$. Далі потенціал $\varphi_{st,0}(z)$ лінеаризється $$\varphi_{st,0}(z)= \sum\limits_{p=0}^{4}\sum\limits_{l=0}^{N}\varphi_{st}^{(p)}(z_{l})[\theta(z-z_{l-1})-\theta(z-z_{l})]\eqno (24)$$ де $$z_{l}=\frac{1}{2N}(z_{p+1}-z_{p}),\textmd{ }p=0\div 4;\textmd{ }z_{0}=0, \eqno (25)$$ $N$ - кількість розбиттів $p$-го шару РТС.
+
+Підставивши потенціал $\varphi_{st,0}(z)$ у (20) отримуємо рівняння: $$(-\frac{\hbar^{2}}{2}\frac{\partial}{\partial z}\frac{1}{m(z)}\frac{\partial}{\partial z}+U(z)+e\varphi_{st,0}(z)-E)\Psi_{1}(z)=0, \eqno (26)$$ для хвильової функції першого наближення $\Psi_{1}(z)$. Його розв'язком є $$ \begin{array}{c} \Psi_{1}(z)=(A_{1}^{(0)}e^{ik_{0}^{(0)}z}+ B_{1}^{(0)}e^{-ik_{0}^{(0)}z})\theta(-z)+A_{1}^{(6)}e^{ik_{0}^{(0)}(z-z_{5})}\theta(z-z_{5})+\\+\sum\limits_{p=1}^{5} \sum\limits_{l=0}^{N}[A_{Il}^{(p)}e^{iK_{I}^{(l)}(z-z_{l-1})}+ B_{0}^{(Il)}e^{-iK_{I}^{(l)}(z-z_{l-1})}][\theta(z-z_{l-1})-\theta(z-z_{l})], \end{array} \eqno (27)$$ де $$K_{I}^{(l)}=K_{I}^{(l)}(z_{l})=\left\{ \begin{array}{c} \hbar^{-1}\sqrt(2m_{\omega}(\hbar\omega_{0}-e\varphi_{st,0}(z_{l}));)\textmd{ }wells \\ \hbar^{-1}\sqrt(2m_{b}(\hbar\omega_{0}-U-e\varphi_{st,0}(z_{l}));)\textmd{ }barriers  \end{array} \right. \eqno (28)$$
+
+Знайдена у першому порядку ітерацій стаціонарна хвильова функція $\Psi_{1}(z)$ дозволяє щойно застосованим алгоритмом отримати потенціал статичного просторового заряду $\varphi_{st,l}(z)$ також у першому порядку. Самоузгоджений розв'язок системи рівнянь (20) і (12) з необхідною точністю отримується в $L$-му циклі ітерацій, якщо виконується очевидне співвідношення: $$|\varphi_{st,L-1}(z)-\varphi_{st,L}(z)|/|\varphi_{st,L}(z)|<<1. \eqno (29)$$
+
+Тоді, відновлюючи опущений раніше символ енергії ($E$), отримується $$\Psi_{0}(E,z)\approx \Psi_{L}(E,z),\textmd{   }\Psi_{st}(E,z)\approx \Psi_{st,L}(E,z). \eqno (30)$$ Знайдена хвильова функція $$\Psi_{0}(E,z)$$ дозволяє виконати аналітичний розрахунок коефіцієнта прозорості ТБРТС $$D(E)=|\frac{A_{L}^{(6)}}{A_{L}^{(0)}}|^{2} \eqno (31)$$
+
+Хвильова функція $\Psi_{0}(E,z)$ дозволяє також подібним до щойно застосованого ітераційним способом знайти самоузгоджені розв'язки систем рівнянь (21) і (13). У нульовому порядку ітерацій уважається, що в рівняннях (21) можна покласти $\varphi_{\pm}(z)=0$. Тоді розв'язки цих рівнянь з лінеаризованим потенціалом $\varphi_{st,L}(z)$ шукаються у вигляді: $$\Psi_{\pm 1}^{0}(z)=\Psi_{0\pm}(z)+\Psi_{0\pm}(z). \eqno (32)$$
+
+Тут $$ \begin{array}{c} \Psi_{0\pm}(z)=B_{0\pm}^{(0)}e^{-ik_{\pm}^{(0)}z}\theta(-z)+A_{0\pm}^{(6)}e^{ik_{\pm}^{(6)}(z-z_{5})}\theta(z-z_{5})+\\
+\sum\limits_{p=1}^{4}\sum\limits_{l=1}^{N}[A_{0\pm}^{(p,l)}e^{iK_{\pm}^{(p,l)}(z-z_{l-1})}+ B_{0\pm}^{(p,l)}e^{-iK_{\pm}^{(p,l)}(z-z_{l-1})}][\theta(z-z_{l-1})-\theta(z-z_{l})] \end{array} (33)$$~--- розв'язки однорідних рівнянь (21);
+
+$$\Phi_{0\pm}(z)=\sum\limits_{p=1}^{4}\sum\limits_{l=1}^{N}(\mp\frac{e \mathcal{E}z}{\hbar \omega}\Phi_{0}^{(l)}(z)+\frac{e \mathcal{E}}{m_{p}\omega^{2}}\frac{d\Phi_{0}^{(l)}(z)}{dz})[\theta(z-z_{l-1})-\theta(z-z_{l})]+\frac{e \mathcal{E}z_{5}}{\hbar \omega}\Phi_{0}^{(6)}(z)\theta(z-z_{5})  (34)$$~--- часткові розв'язки відповідних неоднорідних рівнянь, де $$k_{\pm}^{(0)}=k_{\pm}^{(6)}=\hbar^{-1}\sqrt(2m_{\omega}(\hbar(\omega_{0}\pm \omega)));$$ $$K_{\pm}^{(p,l)}=K_{\pm}^{(p,l)}(z_{l})=\left\{ \begin{array}{c} \hbar^{-1}\sqrt(2m_{\omega}(\hbar(\omega_{0}\pm\omega)-e\varphi_{st,0}(z_{l}));)\textmd{ }wells \\ \hbar^{-1}\sqrt(2m_{b}(\hbar(\omega_{0}\pm\omega)-U-e\varphi_{st,0}(z_{l}));)\textmd{ }barriers  \end{array} \right. (35)$$
+
+Подібно до викладеної раніше схеми розрахунку статичного потенціалу, далі виконується аналітичний розрахунок динамічної складової потенціалу $\varphi_{\pm,0}(z)$ у нульовому порядку ітерацій. У результаті отримується $$\varphi_{\pm,0}(z)=\sum\limits_{p=1}^{4}\sum\limits_{l=1}^{N} \varphi_{\pm}^{(p,l)}(z_{l})[\theta(z-z_{l-1})-\theta(z-z_{l})](36)$$ де $$\begin{array}{c} \varphi_{\pm}^{(p,l)}(z)=C_{1}^{\pm(p,l)}(z-z_{l-1})+C_{2}^{\pm(p,l)}+\frac{4\pi e n_{0}}{\varepsilon_{p}}\times \\ \times \{\frac{A_{0}^{(p,l)}A_{\pm}^{*(p,l)}e^{i(K_{0}^{(p,l)}-K_{\pm}^{(p,l)})(z-z_{l})}+ B_{0}^{(p,l)}B_{\pm}^{*(p,l)}e^{-i (K_{0}^{(p,l)}-K_{\pm}^{(p,l)})(z-z_{l})}}{(K_{0}^{(p,l)}+K_{\pm}^{(p,l)})^{2}}\}+ \\ +\frac{A_{0}^{(p,l)}B_{\pm}^{*(p,l)}e^{i(K_{0}^{(p,l)}+K_{\pm}^{(p,l)})(z-z_{l})}+ B_{0}^{(p,l)}A_{\pm}^{*(p,l)}e^{-i (K_{0}^{(p,l)}+K_{\pm}^{(p,l)})(z-z_{l})}}{(K_{0}^{(p,l)}+K_{\pm}^{(p,l)})^{2}}+\\ + \frac{A_{0}^{*(p,l)}A_{\mp}^{(p,l)}e^{-i(K_{0}^{(p,l)}-K_{\pm}^{(p,l)})(z-z_{l})}+ B_{0}^{*(p,l)}B_{\mp}^{(p,l)}e^{i (K_{0}^{(p,l)}-K_{\pm}^{(p,l)})(z-z_{l})}}{(K_{0}^{(p,l)}-K_{\mp}^{(p,l)})^{2}}\}  \end{array}$$
+
+
+
+
+
+\end{document}  

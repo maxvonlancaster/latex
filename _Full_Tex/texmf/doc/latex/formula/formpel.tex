@@ -1,0 +1,89 @@
+%%
+%% This is file `formpel.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% formula.dtx  (with options: `exampl')
+%% 
+%% Copyleft 1997  Andreas Tille
+%% 
+%% Usage without any waranty
+%% 
+
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[nopredefinition]{formula}
+
+\pagestyle{empty}
+\textheight 55\baselineskip
+\advance\oddsidemargin by -10mm
+\textwidth 150mm
+
+\formuladef IQ  {\text{IQ}}  {Intelligenzquotient}  {der}
+\formuladef Kl  {K}          {Klugheit}             {die}
+\formuladef Du  {D}          {Dummheit}             {die}
+\begin{document}
+\section*{Wie dumm ist der Zufall}
+
+Herr Rainer Zufall hat einen \IQ von \texttt{???} {(\em Zensiert,
+Frau Emma N. Z. Daten-Schutz)}. Dabei ist der \IQ definiert als
+\beq
+   \IQ = \frac{\Kl}{\Du} \label{IQ}
+\eeq
+wobei \Kl \Klart \Kltxt des Herrn Zufall und \Du \Duart \Dutxt
+dieses werten Herrn ist. \par
+\formulaarg {Kli} {K_} {Klugheit bei der T\"atigkeit $X$} {die} {X}
+\formulaarg {Dui} {D_} {Dummheit bei der T\"atigkeit $X$} {die} {X}
+
+Angenommen, Herr Zufall stellt sich bei verschiedenen T\"atigkeiten
+unterschiedlich dumm an, so l\"a\ss{}t sich (\ref{IQ}) folgenderma\ss{}en
+pr\"azisieren:
+\beq \label{IQi}
+   \IQ = \frac{\sum\limits_{i=1}^M\Kli{i}}{\sum\limits_{i=1}^N\Dui{i}}
+\eeq\par
+\formulamit {KlT} {K_} {^T} {Klugheit am Tag} {die} {X}
+\formulamit {KlN} {K_} {^N} {Klugheit in der Nacht} {die} {X}
+\formulamit {DuT} {D_} {^T} {Dummheit am Tag} {die} {X}
+\formulamit {DuN} {D_} {^N} {Dummheit in der Nacht} {die} {X}
+
+Wird nun noch in Betracht gezogen, da\ss{} der Zufall im Traum eine ganz
+andere Rolle spielt, als im realen Leben, so kann zwischen den Klugheiten
+bei Tag (\KlT{X}) und Nacht (\KlN{X}), sowie den Dummheiten zu diesen
+Tageszeiten (\DuT{X} bzw. \DuN{X}) unterschieden werden. Bei Reiner
+Zufall ist die Klugheit tags\"uber vernachl\"assigbar klein gegen\"uber
+der beim Tr\"aumen. Die Dummheit verh\"alt sich genau umgekehrt.
+
+Also ergibt sich aus (\ref{IQi})
+\beq
+   \IQ \simeq \frac{\sum\limits_{i=1}^M\KlN{i}}{\sum\limits_{i=1}^N\DuT{i}}.
+\eeq
+
+\formuladiff Klt {d} {\Kl} {t} {Klugheitszuwachs n-ten Grades} {der}
+
+Da Herr Zufall ein eifriger Leser der Boulevardpresse ist, gilt:
+\bea
+  \Klt{}  & < & 0 \qquad\forall\quad t > t_0 \\
+  \Klt{2} & > & 0 \qquad\forall\quad t > t_0
+\eea
+
+\bigskip\bigskip\noindent
+Und hier noch einmal alle definierten Gr\"o\ss{}en auf einen Blick:
+
+\medskip
+\begin{tabular}{@{}ll}
+\IQdoc
+\Kldoc
+\Dudoc
+\Klidoc
+\Duidoc
+\KlTdoc
+\KlNdoc
+\DuTdoc
+\DuNdoc
+\Kltdoc
+\end{tabular}
+\end{document}
+\endinput
+%%
+%% End of file `formpel.tex'.

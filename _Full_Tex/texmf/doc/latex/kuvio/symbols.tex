@@ -1,0 +1,43 @@
+
+\input arrsy
+
+\parindent=0pt
+\nopagenumbers
+\parskip=10pt
+
+\def\disp#1{{\tt\string#1}\hfil\hbox to 0pt{\hss$#1$\hss}}
+\def\test#1{\leavevmode\hbox to 4cm{\disp#1}\par}
+
+\test\Rightharpoonup
+\test\Leftharpoondown
+\test\Upharpoonleft
+\test\Downharpoonright
+\test\Rightharpoondown
+\test\Leftharpoonup
+\test\Upharpoonright
+\test\Downharpoonleft
+\test\Rrightarrow
+\test\Lleftarrow
+\test\Rrelbar
+\test\dashbar
+\test\shortrightarrow
+\test\shortleftarrow
+\test\rightmonotail
+\test\leftmonotail
+\test\squiggle
+\test\rightarrow
+\test\leftarrow
+\test\leftrightarrow
+\test\leftharpoonup
+\test\leftharpoondown
+\test\rightharpoonup
+\test\rightharpoondown
+{\def\disp#1{#1}%
+ \leavevmode\test{{\tt \string\vect}\hfil\hbox to 0pt{\hss$\vect{ }$\hss}}
+}%
+\test\of
+\test\dotp
+\test\cupp
+\test\capp
+
+\bye

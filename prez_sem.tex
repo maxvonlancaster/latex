@@ -1,0 +1,626 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+%\usecolortheme[named=CarnationPink]{structure}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme{structureitalicserif}
+%\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo}
+
+% \usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!1}{blue!5}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+%\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+%{\usebeamercolor{yellow}}
+%\setbeamertemplate{sidebar canvas left}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+%\setbeamertemplate{sidebar canvas right}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{Мельник Василь Сергійович}}]
+
+%\subject{Мельник Василь Сергійович}
+
+\title{РІВНОМІРНІ ВІДСТАНІ ДО РІЗНИХ ФУНКЦІОНАЛЬНИХ КЛАСІВ ТА РОЗВИТОК ТЕОРЕМИ ГАНА ПРО ПРОМІЖНУ ФУНКЦІЮ}
+
+
+\author[Мельник В.С., науковий керівник проф. Маслюченко В.К.]{\textbf{Мельник В.С., науковий керівник проф. Маслюченко В.К.}}
+
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+\begin{frame}{Список публікацій.}
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В. К., Мельник В. С. Про рівномірне відхилення від
+простору неперервних функцій // Збірник праць Ін-ту математики НАН України ~--- Київ: Інститут математики НАН України, 2014. ~--- №1  ~--- \textbf{Т.XI.} ~--- С.158-166.
+http://trim.imath.kiev.ua/index.php/trim/issue/view/3
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В. К., Мельник В. С. Про відстань до множин квазінеперервних у точці функцій // Бук. мат. журн.  ~---  2014. ~--- \textbf{2} (2-3). ~--- С. 154-161.
+http://www.bmj.chv.ua/issue.php?i=4
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В.К., Мельник В.С. Теореми про проміжну афінну функцію для опуклої і вгнутої функцій // Бук. мат. журн. ~--- 2016. ~--- \textbf{4},№1. ~--- С.110-116.
+http://www.bmj.chv.ua/issue.php?i=9
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В.К., Маслюченко О.В., Мельник В.С. Існування проміжних кусково лінійних та нескінченно диференційовних функцій // Бук. мат. журн. ~--- 2016. ~--- \textbf{4},№2-3. ~--- С.93-100.
+http://www.bmj.chv.ua/issue.php?i=10
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}Волошин Г.А., Маслюченко В.К., Мельник В.С. Пари Гана і нульова обернена задача // Мат. студії.~--- 2017. ~--- \textbf{48}, №1. ~--- С. 74-81.
+\end{thebibliography}
+
+\end{frame}
+
+\begin{frame}{Список публікацій.}
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В.К., Мельник В.С. Побудова проміжних диференційовних функцій // Укр. мат. журн. ~--- 2018. ~--- \textbf{70}, № 5. ~--- С. 672-681.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}Мельник В. Знаходження відхилень від функцій першшого класу Бера до простору неперервних функцій // Матеріали студ. наук. конф. ЧНУ. 17-18 травня 2011. Фіз.-мат. науки.~--- Чернівці: ЧНУ, 2011.~--- С.409-410.
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}Мельник. В. Про відстань до множини квазінеперервних або ледь неперервних у нулі функцій // Матеріали студ. наук. конф. ЧНУ. 5-6 квітня 2012 Фіз.-мат. науки.~--- Чернівці: ЧНУ, 2012.~--- С.341-342.
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}Мельник. В. Навколо теореми Гана-Д'єдонне-Тонґа-Катетова // Матеріали
+студ. наук. конф. ЧНУ.
+17-19 квітня 2013 Фіз.-мат. науки.~--- Чернівці: ЧНУ, 2013.~--- С.441-442.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}V. Maslyuchenko, V.Mel'nyk. Uniform distance to the space of continuous functions // Міжн. конф. "Комплексний аналіз, теорія потенціалу та її застосування"  19 - 23 серпня 2013. - Київ; Інститут математики НАН України, 2013.
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{Список публікацій.}
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В. К., Мельник В. С. Про рівномірну відстань до різних функціональних класів // Тези доповідей IV Міжнародної Ганської конференції ~--- Чернівці: Чернівецький національний університет імені Юрія Федьковича, 2014. ~--- С.110-113.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В. К., Мельник В. С. Про модифікацію однієї функції Гана // Наукова конференція, присвячена 100-річчю від дня народження К.М. Фішмана та М.К. Фаге. Тези доповідей. ~--- Чернівці: ЧНУ, 2015. ~--- С.68-69.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В.К, Мельник В.С.  Теореми про проміжну функцію для опуклих функцій// Сучасні проблеми теорії ймовірностей та математичного аналізу: Всеукраїнська наукова конференція, Ворохта 24-27 лютого 2016. (тези доповідей), ~--- Івано-Франківськ: ДВНЗ "Прикарпатський національний університет імені Василя Стефаника", 2016. ~--- С.98-100.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}Vasyl Melnyk, Volodymyr Maslyuchenko The development of Hahn's theorem on an intermediate function//  International Conference dedicated to the 120-th anniversary of Kazimierz Kuratowski ~--- 27 September - 1 October, 2016.  ~--- P. 36-37.
+\end{thebibliography}
+
+
+
+\end{frame}
+
+
+
+\begin{frame}{Список публікацій.}
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В.К, Мельник В.С.  Про побудову диференційовних проміжних функцій // Сучасні проблеми теорії ймовірностей та математичного аналізу:
+Всеукраїнська наукова конференція, тези доповідей. Ворохта, 22 - 25 лютого
+2017 р. ~--- Івано-Франківськ: ДВНЗ "Прикарпатський національний
+університет імені Василя Стефаника", 2017. ~--- С. 138.
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В.К, Мельник В.С. Асплундові простори та проміжні диференційовні функції // Міжнародна конференція "Теорія наближення функцій та її застосування" присвячена 75-річчю з дня народження члена-кореспондента НАН України, професора О.І. Степанця (1942-2007)
+28 травня - 3 червня 2017 року, Словянськ, Україна: Тези доповідей. ~--- Словянськ: Донбаський державний педагогічний університе, 2017. ~--- С. 104.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}Melnyk V.S., On the intermediate multivalued function // Doctoral summerschool on Evolutionary Computing in Optimization and Data Mining JUNE 19 - 22, 2017, Alexandru Ioan Cuza University of Iasi, Romania. https://profs.info.uaic.ro/~summerschool/summerschool/public/
+\end{thebibliography}
+
+
+\end{frame}
+
+
+\begin{frame}{Список публікацій.}
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В. К., Мельник В. С. Аналог теореми Гана для диференційовних за Фреше функцій // XII-та літня школа АТА, ~--- 10-23 липня 2017 р. ~--- С. 13-14.
+\end{thebibliography}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}V. Maslyuchenko, V.Mel'nyk On the intermediate separately continuous function // International Conference in Functional Analysis dedicated to the 125th anniversary of Stefan Banach Lviv, Ukraine, ~--- 18-23 September 2017
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}Маслюченко В. К., Мельник В. С. Про проміжну многозначу функцію // Матеріали міжвузівського наукового семінару Прикладні задачі та ІТ-технології, присвячений 100-річчю з дня народження професора Василя Павловича Рубаника (1917~--- 1993) і 55-річчю кафедри прикладної математики та інформаційних технологій. ~--- С. 66-68.
+\end{thebibliography}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Теорема Гана про проміжну функцію.}
+
+\begin{block}{}
+У 1917 році відомий австрійський математик Ганс Ган встановив такий результат: якщо $g:X\longrightarrow \mathbb{R}$ і $h:X\longrightarrow \mathbb{R}$ $-$ це напівнеперервні відповідно зверху і знизу функції, що задані на метричному просторі $X$, і такі, що $g(x)\leq h(x)$ на $X$, то існує неперервна функція $f:X\longrightarrow \mathbb{R}$, така, що $g(x)\leq f(x)\leq h(x)$ на $X$. Це твердження пізніше дістало назву "теорема про проміжну функцію". У 1944 році Ж. Д'єдонне переніс теорему Гана на випадок паракомпактних просторів. Пізніше Ґ. Тонґ і М. Катетов з'ясували, що існування проміжної функції є характеристичною умовою нормальності в класі $T_{1}$-просторів.
+
+
+\end{block}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Hahn H.} Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{Результат Тонґа-Катетова.}
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Tong H. } Some characterizations of normal and perfectly normal spaces // Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Katetov M.} On real-valued functions in topological spaces // Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Dowker C. H.} On countably paracompact spaces // Canad. J. Math.~--- 1951.~--- \textbf{3}.~--- P.219-224.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{ Michael E.} Continuous selections I // Ann. of Math.~--- 1956.~--- \textbf{63}.~--- P.361–382.
+\end{thebibliography}
+
+\begin{block}{}
+К.Г. Даукер і М. Катетов для функцій $g$ і $h$, таких, що $g(x)< h(x)$ на $X$ цікавилися побудовую неперервної функції $f:X\longrightarrow \mathbb{R}$, для якої $g(x)< f(x)< h(x)$ на $X$. Виявляється, що для цього необхідною і достатньою умовою є нормальність і зліченна паракомпактність простору $X$.
+
+Е. Майкл будував таку функцію $f$, що $g(x)< f(x)< h(x)$, якщо $g(x)< h(x)$, і $g(x)= f(x)= h(x)$, якщо $g(x)= h(x)$. Для цього необхідно і достатньо, щоб $X$ був досконально нормальним.
+\end{block}
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{Подальший розвиток теореми Гана.}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{ Good C., Stares I.} New proofs of classical insertion theorems // Comm. Math. Univ. Carolinae.~--- 2000.~--- \textbf{41},№1.~--- P.139-142.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{ Маслюченко В.К., Петей С.П.} Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації // Бук. мат. журн. — 2015. — 3,№2. — С.64-71.
+\end{thebibliography}
+
+
+\begin{block}{}
+Нові підходи до доведення цих результатів виявили К. Ґуд і Я. Старс. Недавно у працях К. Ямазакі та інших авторів вивчалась можливість перенесення теореми Гана про проміжну функцію на випадок відображень зі значеннями у банахових ґратках.
+\end{block}
+
+\begin{block}{}
+В. Маслюченко С. Петей встановили, що для кожної пари функцій $g$ та $h$ на відрізку $[a,b]$, такої, що $g$~--- напівнеперервна зверху, та $h$~--- знизу, та $g$ і $h$ зростають, існує проміжна зростаюча неперервна функція.
+\end{block}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Відстань до простору неперервних функцій.}
+\begin{block}{}
+Теорема Гана має застосування в питанні знаходження відстані до простору непервних функцій.
+\end{block}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Benyamini Y., Lindenstrauss J. }  Geometric nonlinear functional analysis. V.1.~--- Amer.Math.Soc., 2000.~--- 488p.
+\end{thebibliography}
+
+\begin{exampleblock}{Теорема (Benyamini Y., Lindenstrauss J.)}
+Нехай $X$~--- паракомпактний простір і $f:X\rightarrow \mathbb{R}$~--- обмежена функція. Тоді $d(f,C_{b}(X))=\frac{1}{2}||\omega_{f}||$.
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{Позначення.}
+\begin{block}{}
+Введемо надалі такі означення: пару $(g,h)$ напівнеперервних відповідно зверху і знизу функцій $g,h:X\rightarrow \mathbb{R}$ на топологічному просторі $X$, таких, що $g(x)\leq h(x)$ на $X$ ми називатимемо \textit{парою Гана} на $X$. Якщо ж $g(x)<h(x)$ на $X$, то пара Гана називається \textit{строгою}. Функція $f:X\rightarrow \mathbb{R}$, для якої $g(x)\leq f(x)\leq h(x)$ на $X$ називається \textit{проміжною} для пари $(g,h)$, а коли $g(x)<f(x)<h(x)$ при $g(x)<h(x)$ і $g(x)=f(x)=h(x)$ при $g(x)=h(x)$, то~--- \textit{строго проміжною}.
+\end{block}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Задачі дисертації.}
+
+
+\begin{block}{}
+\begin{enumerate}
+\item Перенесення результату Беньяміні-Лінденштраусса на випадок нормального простору $X$.
+
+\item Заміна простору неперервних функцій на інші функціональні класи.
+
+\item Аналоги Теореми Гана для інших функціональних класів.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}{Теореми про проміжну функцію для опуклих функцій.}
+
+\begin{block}{}
+Для функцій $g:E\rightarrow \mathbb{R}$ і $h:E\rightarrow \mathbb{R}$ ми будемо використовувати позначення: $$Gr^{-}(g)=\{(x,y):x\in E\quad \textmd{і} \quad y<g(x)\}$$ і $$Gr^{+}(h)=\{(x,y):x\in E\quad \textmd{і} \quad y>h(x)\}.$$
+\end{block}
+
+
+\begin{exampleblock}{Теорема 3.1.4.}
+Нехай $E$ — відкрита опукла множина в дійсному топологічному векторному просторі $X$, $g:E\rightarrow \mathbb{R}$ — вгнута функція, $h:E\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$, і одна з функцій $g$ чи $h$ неперервна. Тоді існує така неперервна афінна функція $f:E\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $E$.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{Теореми про проміжну функцію для опуклих функцій.}
+
+\begin{exampleblock}{Теорема 3.1.8.}
+Нехай $X$~--- дійсний векторний топологічний простір, $g:X\rightarrow \mathbb{R}$ — вгнута функція, $h:X\rightarrow \mathbb{R}$ — опукла функція, такі, що $g(x)\leq h(x)$ на $E$, і одна з множин $A=Gr^{-}g$ чи $B=Gr^{+}h$ має $C$-внутрішню точку в добутку $X\times \mathbb{R}$. Тоді існує така афінна функція $f:X\rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $X$.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Проміжна кусково лінійна функція.}
+
+\begin{block}{}
+Нехай $C_{u}[a,b]$~--- банаховий простір всіх неперервних функцій\\ $f:[a,b]\rightarrow\mathbb{R} $ з рівномірною нормою $||f||=\max\limits_{x\in[a,b]}^{}|f(x)|$.
+\end{block}
+
+\begin{exampleblock}{Теорема 3.2.1.}
+Нехай $E$~--- всюди щільна множина у просторі $C_{u}[a,b]$ і $(g,h)$ строга пара Гана на $[a,b]$. Тоді існує проміжна для $(g,h)$ функція $f$ з множини $E$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Проміжна $C^{\infty}$-функція на відрізку}
+
+
+\begin{exampleblock}{Теорема 3.3.1.}
+Нехай ($ g $, $ h $) строга пара Гана на невиродженому відрізку $[a,b]$ числової прямої, і $\gamma\in (g(a),h(a))$. Тоді існує строго проміжна $C^{\infty}$-функція $f:[a,b]\rightarrow \mathbb{R}$ для пари $(g,h)$, локально стала на кінцях відрізка, і $f(a)=\gamma$.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 3.3.3.}
+Нехай ($ g $, $ h $) строга пара Гана на невиродженому проміжку $X$ числової прямої, $x_{0}\in X$ і $y_{0}\in (g(x_{0}),h(x_{0}))$. Тоді існує строго проміжна $C^{\infty}$-функція $f:X\rightarrow \mathbb{R}$ для пари $(g,h)$, така, що $f(x_{0})=y_{0}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Проміжні диференційовні функції на паралелепіпедах.}
+
+\begin{exampleblock}{Лема 3.4.1.}
+Для кожного невиродженого обмеженого відкритого паралелепіпеда $Q=(a_{1},b_{1})\times...\times(a_{n},b_{n})$ в $\mathbb{R}^{n}$ існує така $C^{\infty}$-функція $\varphi:\mathbb{R}^{n}\rightarrow \mathbb{R}$, що $\varphi(x)\geq 0$ на $\mathbb{R}^{n}$ і $\textmd{supp}\varphi=Q$.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 3.4.3.}
+Нехай $X=[a_{1},b_{1}]\times...\times[a_{n},b_{n}]$~--- замкнений паралелепіпед в $\mathbb{R}^{n}$, $(g,h)$~--- строга пара Гана на $X$, $x_{0}\in X$ і $g(x_{0})<y_{0}<h(x_{0})$. Тоді існує така строго проміжна для пари $(g,h)$ нескінченно диференційовна функція $f:X\rightarrow \mathbb{R}$, що $f(x_{0})=y_{0}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}{Диференційовність за Фреше. Асплундові простори.}
+
+\begin{block}{Означення}
+Нехай $X$ і $Y$ дійсні нормовані простори і $f:X\rightarrow Y$~--- відображення. Воно називається \textit{диференційовним за Фреше у точці} $x$ з $X$, якщо існує такий оператор $A$ з $L(X,Y)$, що  $$\lim\limits_{h\rightarrow  0}^{}\frac{f(x+h)-f(x)-Ah}{||h||}=0.$$ Такий оператор визначається однозначно, він називається \textit{похідною Фреше} відображення $f$ у точці $x$ і позначається символом $f'(x)$. Диференційовні за Фреше відображення $f:X\rightarrow Y$ ми будемо називати просто \textit{диференційовними}, що означає диференційовність за Фреше у кожній точці $x\in X$.
+\end{block}
+
+\begin{block}{Означення}
+Дійсний банаховий простір $X$ називається асплундовим, якщо для довільного його сепарабельного підпростору $L$ і спряжений з ним простір $L^{*}$ сепарабельний. Зокрема, асплундовим буде сепарабельний дійсний банаховий простір $X$ з сепарабельним спряженим $X^{*}$.
+\end{block}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Існування диференційовної проміжної функції на асплундових просторах.}
+
+\begin{exampleblock}{Теорема 3.6.3.}
+Нехай $X$~--- сепарабельний асплундовий простір і $(U_{j})_{j\in J}$~--- його відкрите покриття, що складається з обмежених множин $U_{j}$. Тоді існує локально скінченне розбиття одиниці $(\varphi_{i})_{i\in I}$ на $X$, яке підпорядковане покриттю $(U_{j})_{j\in J}$ і складається з диференційовних функцій $\varphi_{i}$.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 3.6.4.}
+Нехай $(g,h)$~--- строга пара Гана на сепарабельному асплундовому просторі $X$. Тоді для неї існує строго проміжна диференційовна функція $f:X\rightarrow \mathbb{R}$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Існування нескінченно диференційовної проміжної функції на сепарабельному гільбертовому просторі.}
+
+\begin{exampleblock}{Теорема 3.5.1.}
+Нехай $X$~--- сепарабельний гільбертовий простір і $(U_{j})_{j\in J}$~--- відкрите покриття простору $X$. Тоді існує локально скінченне $C^{\infty}$-розбиття одиниці $(\varphi_{i})_{i\in I}$ на $X$, яке підпорядковане цьому покриттю.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 3.5.2.}
+Нехай $X$~--- сепарабельний гільбертовий простір і $(g,h)$~--- строга пара Гана на $X$. Тоді існує $C^{\infty}$-функція $f:X\rightarrow \mathbb{R}$, яка буде строго проміжною для пари $(g,h)$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+\begin{frame}{Многозначні пари Гана та проміжні функції.}
+
+\begin{exampleblock}{Теорема 4.1.1.}
+Нехай $X$ нормальний простір і $(G,H)$ пара Гана, така, що $G(x)=[g_{1}(x),g_{2}(x)]$ і $H(x)=[h_{1}(x),h_{2}(x)]$ для кожного $x\in X$. Тоді існує проміжна для $(G,H)$ неперервна $F:X\rightarrow \mathbb{R}$ така, що $F(x)=[f_{1}(x),f_{2}(x)]$ на $X$, де функції $f_{1}$ і $f_{2}$ є неперервними.
+\end{exampleblock}
+
+\begin{exampleblock}{Теорема 4.1.2.}
+Нехай $X$~--- топологічний простір, $(g,h)$~--- пара Гана на $X$, $G(x)=(-\infty,g(x)]$  і $H(x)=(-\infty,g(x)]$, і пара Гана $(G,H)$ має проміжну неперервну функцію $F:X\rightarrow \mathbb{R}$. Тоді пара Гана $(g,h)$ також має проміжну неперервну функцію $f:X\rightarrow \mathbb{R}$
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Нульова обернена задача.}
+
+\begin{block}{Означення}
+Для нарізно неперервної функції $f:[a,b]\times [c,d]\rightarrow\mathbb{R}$ покладемо $\alpha_f(x)=\frac{M(f^x)-m(f^x)}{2}$.
+\end{block}
+
+\begin{exampleblock}{Теорема 4.4.8.}
+Для довільного прямокутника $P=X\times Y$, де $X=[a, b]$ i $Y=[c, d]$, і кожної невід'ємної напівнеперервної знизу функції $\varphi: X \rightarrow \mathbb{R}$ існує така нарізно неперервна функція $f: P \rightarrow \mathbb{R}$, що $\alpha_f=\varphi$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+\begin{frame}{Відстань до простору неперервних функцій}
+
+
+
+\begin{exampleblock}{Теорема 5.2.1.}
+Нехай $g:X\to {\mathbb R}$ - функція. Тоді відстань від функції $g$ до простору неперервних функцій на $X$ дорівнює $\frac{1}{2} \left\| \omega _{g} \right\| =\delta $
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{Відстань до простору квазінеперервних в точці функцій}
+
+
+\begin{block}{Означення}
+Функція $f:X\rightarrow \mathbb{R}$ називається \textit{квазінеперервною в точці} $x_{0}$ з $X$, якщо для довільного $\varepsilon>0$ і довільного околу $U$ точки $x_{0}$ в $X$ існує така відкрита в $X$ і непорожня множина $G$, що $G\subseteq U$ і $| f(x)-f(x_{0})|<\varepsilon$, як тільки $x\in G$. Функція $f$ називається \textit{квазінеперервною}, якщо вона є такою в кожній точці з простору $X$. Множину таких функцій ми позначаємо $K(X)$.
+\end{block}
+
+\begin{block}
+
+Множину всіх функцій $f:X\rightarrow \mathbb{R}$, які є квазінеперервними в точці $x_{0}$, ми позначаємо символом $K_{x_{0}}(X)$.
+\end{block}
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{Відстань до простору квазінеперервних в точці функцій}
+
+Нехай $X$ і $Y$ - топологічні простори, $D\subseteq X$, $x_{0}\in \overline{D}$, $\mathcal{U}_{x_{0}}$~--- система всіх околів точки $x_{0}$ у просторі $X$ і $f:D\rightarrow Y$ - відображення.
+
+\begin{block}{Означення}
+Перетин $C(f,x_{0})=\bigcap\limits_{U\in\ \mathcal{U}_{x_{0}}}^{}\overline{f(U\bigcap D)}$ називається \textit{граничною множиною функції} $f$ \textit{у точці} $x_{0}$.
+
+Позначимо символом $\rho(\xi,A)$~--- відстань від точки $\xi$ до множини $A$ на числовій прямій $\mathbb{R}$.
+\end{block}
+
+\begin{exampleblock}{Теорема 5.4.2.}
+Нехай $X$~--- топологічний простір з першою аксіомою зліченності, $x_{0}$~--- неізольована точка в $X$, для якої множина $\{x_{0}\}$ замкнена в $X$, $f:X\rightarrow \mathbb{R}$~--- обмежена функція, яка неперервна при $x\neq x_{0}$, і $\dot{f}=f|_{X\setminus x_{0}}$. Тоді $$d(f,K_{x_{0}}(X))=d(f,K(X))=\frac{1}{2} \rho (f(x_{0}),C(\dot{f},x_{0})),$$
+причому існує функція $g\in K(X)$, для якої $||f-g||=d(f,K(X))$.
+\end{exampleblock}
+
+
+
+\end{frame}
+
+
+\begin{frame}{Висновки.}
+\begin{block}{}
+\begin{enumerate}
+
+\item досліджено питання про існування проміжної афінної функції для пари функцій $(g,h)$, де $g$~--- вгнута, $h$~--- опукла, та $g(x)\leq h(x)$ на векторному просторі $X$;
+
+\item доведено існування проміжної кусково лінійної функції з даним значенням для пари функцій $(g,h)$, де $g$~--- напівнеперервна зверху, $h$~--- знизу, та $g(x)< h(x)$ на відрізку;
+
+\item доведено існування проміжної нескінченно диференційовної функції з даним значенням для пари функцій $(g,h)$, де $g$~--- напівнеперервна зверху, $h$~--- знизу, та $g(x)< h(x)$ на відрізку, невиродженому проміжку та замкненому паралелепіпеді в $\mathbb{R}^{n}$;
+
+\item доведено існування строго проміжної нескінченно диференційовної функції $f:X\rightarrow \mathbb{R}$ для строгих пар Гана, заданих на сепарабельних гільбертових просторах з допомогою диференційовних розбиттів одиниці, вписаних в задані відкриті покриття;
+
+\item побудовано строго проміжну диференційовну функцію $f:X\rightarrow \mathbb{R}$ для строгих пар Гана, заданих на асплундових просторах з допомогою диференційовних розбиттів одиниці на цих просторах;
+
+\item отримано аналог теореми Гана для певних многозначних відображень з топологічного простору $X$ в $\mathbb{R}$;
+\end{enumerate}
+\end{block}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Висновки.}
+\begin{block}{}
+\begin{enumerate}
+\item введено поняття нарізної пари Гана на добутку просторів $X$ та $Y$ і встановлено, що для існування проміжної нарізно неперервної функції $f:X\times Y \rightarrow \mathbb{R}$ необхідною і достатньою умовою є нормальність простору $(X\times Y,\mathcal{C})$, де $\mathcal{C}$~--- хрест-топологія на добутку топологічних просторів;
+
+\item для кожної напівнеперервної знизу функції $\varphi:[a,b]\rightarrow [0,+\infty)$  і довільного відрізка $[c,d]$ побудовано нарізно неперервну функцію $f:[a,b]\times[c,d]\rightarrow \mathbb{R}$, таку, що нульове найкраще наближення $E_{0}(f^{n})=\varphi(x)$ на $[a,b]$;
+
+\item знайдено рівномірну відстань від довільної функції до простору неперервних на $X$ функцій для нормального простору $X$;
+
+\item знайдено відстань до простору квазінеперервних в неізольованій точці $x_{0}$, функцій заданих на топологічному просторі $X$ з першою аксіомою зліченності для обмеженої функції $f:X\rightarrow \mathbb{R}$, у якої $D(f)\subseteq \{x_{0}\}$.
+
+\end{enumerate}
+\end{block}
+\end{frame}
+
+
+
+
+
+
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Дякую за увагу!}
+\end{frame}
+
+\end{document}
+

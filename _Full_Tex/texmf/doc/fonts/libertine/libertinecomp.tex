@@ -1,0 +1,30 @@
+\documentclass[ngerman]{libertinedoku}
+
+\usepackage{eqlist}
+\usepackage{libertinecomp}
+
+\begin{document}
+\pageTitle{Libertine \& Biolinum: Kompatiblitäts-Modus}
+
+\section{für Umsteiger}
+
+In der aktuellen Version stehen für die Glyphenauswahl folgende Makros zur Verfügung:
+
+\begin{eqlist}[\def\makelabel#1{\textbf{\bs\texttt{#1}}}]
+\item [libertineGlyph\{<glyphname>\}] Verwendung eines Zeichens mit dem Glyphnamen (Font Libertine).
+\item [biolinumGlyph\{<glyphname>\}] Verwendung eines Zeichens mit dem Glyphnamen (Font Biolinum).
+\end{eqlist}
+
+Um das alte Makro \verb|\useTextGlyph| für alte Dokumente weiter zu verwenden, kann das
+Makro über das Paket \texttt{libertinecomp.sty} zur Verfügung gestellt werden.
+
+\begin{minipage}{10cm}
+\verb|{\Huge\useTextGlyph{fxl}{uni211A}}| \hfill {\Huge\useTextGlyph{fxl}{uni211A}} \par
+\verb|{\Huge\useTextGlyph{fxl}{uni263A}}| \hfill {\Huge\useTextGlyph{fxl}{uni263A}} \par
+\verb|{\Huge\useTextGlyph{fxl}{Tux}}| \hfill {\Huge\useTextGlyph{fxl}{Tux}} \par
+
+\bigskip
+\verb|{\Huge\useTextGlyph{fxb}{uni211A}}| \hfill {\Huge\useTextGlyph{fxb}{uni211A}} \par
+\end{minipage}
+
+\end{document}

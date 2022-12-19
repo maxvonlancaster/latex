@@ -1,0 +1,228 @@
+%%%%% List your macros below %%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% Beginning of setup (Do not change) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[10pt,draft,reqno]{amsart}
+   % MODIFYING AMSART.CLS:
+     \makeatletter
+     \def\section{\@startsection{section}{1}%
+     \z@{.7\linespacing\@plus\linespacing}{.5\linespacing}%
+     {\bfseries%\normalfont\scshape
+     \centering
+     }}
+     \def\@secnumfont{\bfseries}
+     \makeatother
+   % END OF MODIFICATION OF AMSART.CLS.
+\usepackage[russian,ukrainian,english]{babel}
+
+\setlength{\textheight}{19.5 cm}
+\setlength{\textwidth}{12.5 cm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\setcounter{page}{1}
+%%%%% End of setup (Do not change) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\selectlanguage{english}
+\begin{document}
+
+\title[Про проміжні многозначні функції]
+
+\author{В.К. Маслюченко}
+\address{В.К. Маслюченко: Чернівецький національний університет, Україна}
+\email{v.maslyuchenko@gmail.com}
+
+\author{В.С. Мельник}
+\address{В.С. Мельник: Чернівецький національний університет, Україна}
+\email{windchange7@gmail.com}
+
+
+
+
+
+
+\begin{otherlanguage}{english}
+\begin{abstract}
+Для топологічних просторів $X$ та $Y$ ми розглядаємо умови, при яких для довільних многозначних відображень $G:X\rightarrow Y$ та $H:X\rightarrow Y$, таких, що $G(x)\subseteq H(x)$ для кожного $x\in X$ та $G$ і $H$ є відповідно напівнеперервними зверху та знизу, існує $F:X\rightarrow Y$ неперервна, така, що $G(x)\subseteq F(x)\subseteq H(x)$. Ми також розглядаємо умови на топологічні простори, за яких виконується аналог теореми Гана для многозначних функцій.
+\end{abstract}
+\end{otherlanguage}
+
+
+
+\maketitle
+
+
+
+\section{Історія}
+
+Припустимо $X$~--- множина, $Y$~--- частково впорядкована множина, $g:X\rightarrow Y$ та $h:X\rightarrow Y$~--- відображення, такі, що $g(x)\leq h(x)$ для кожного $x\in X$. Відображення $f:X\rightarrow Y$ називається проміжним / строго проміжним / для пари $(g,h)$ якщо $g(x)\leq f(x)\leq h(x)$ на $X$ /$g(x)<f(x)<h(x)$, якщо $g(x)<h(x)$, та $g(x)=f(x)=h(x)$, якщо $g(x)=h(x)$/. Якщо $X$ є топологічним простором, $Y=\mathbb{R}$, то ми кажемо, що відображення $g:X\rightarrow \mathbb{R}$ та $h:X\rightarrow \mathbb{R}$ утворюють пару Гана / строгу пару Гана/, якщо $g$~--- напівнеперервна зверху, $h$~--- напівнеперервна знизу і $g(x)\leq h(x)$ /g(x)<h(x)/ на $X$. Г. Ган [5] довів, що кожна пара Гана $(g,h)$ на метричному просторі $X$ має неперервну проміжну функцію $f:X\rightarrow \mathbb{R}$. Ж. Дєдонне [2] довів це для паракомпактного простору $X$, Г. Тонг [10,11] і М. Катетов [6,7] довели теорему Гана для нормальних просторів, при тому, з існування проміжної неперервної функції $f$ для кожної пари Гана на $T_{1}$-просторі $X$ випливає нормальність простору $X$.
+
+Ці результати були розвинуті в роботах К. Даукера [3] та Е. Майкла [8]. В першій разом з М. Катетовим [6] було встановлено, що в класі $T_{1}$-просторів $X$ існування строго проміжних неперервних функцій $f:X\rightarrow \mathbb{R}$ для кожної строгої пари Гана $(g,h)$ є еквівалентним до нормальності та паракомпактності простору X, в другій роботі було встановлено, що в класі $T_{1}$-просторів $X$ існування строго проміжної неперервної функції $f:X\rightarrow \mathbb{R}$ для кожної пари Гана $(g,h)$ є еквівалентним до досконалої нормальності X. Nновий метод доведення цих результатів був презентований К. Ґудом та Й. Старсом [4]. К. Ямазакі [13], розвиваючи свої попередні дослідження [14] та результати Ж.М. Борвейна, М. Трери [1], довів теореми про проміжне відображення $f:X\rightarrow \mathbb{R}$ для аналогів пар Гана $(g,h)$ зі значеннями в Банахових ґратках.
+
+Недавно появилися нові версії теореми Гана. В статті [15] було доведено що для кожної пари Гана $(g,h)$ на відрізку $[a,b]$, де $g$ та $h$~--- зростаючі функції, існує проміжна зростаюча функція $f:[a,b]\rightarrow \mathbb{R}$. Потім в [16] для строгих пар Гана $(g,h)$ на відрізку $X$ в $\mathbb{R}$ було побудовано кусково лінійні та нескінченно диференційовні функції $f:X\rightarrow \mathbb{R}$ такі що задовільняють додаткові умови. Ці результати були узагальнені в [18,19] для Диференційовних за Фреше відображень використовуючи розбиття одиниці.
+
+\section{Многозначні відображення та постановка задачі}
+
+Добре відомо, що поняття напівнеперервності зверху та знизу можна застосувати до многозначних відображень $F:X\rightarrow Y$, що ставлять у відповідність непорожні підмножини $Y$ до кожної точки $x\in X$, т.б., є відображеннями $F:X\rightarrow \mathcal{P}(Y)$ зі значеннями в множині $\mathcal{P}(Y)=2^{Y}\setminus \{\emptyset\}$ всіх непорожніх множин простору $Y$. Нагадаємо, що многозначне відображення $F:X\rightarrow Y$ з топологічного простору $X$ в топологічний простір $Y$ напівнеперервним зверху /знизу/ в точці $x_{0}\in X$, якщо для кожної відкритої множини $U$ в $Y$, такої, що $F(x_{0})\subseteq V$ /$F(x_{0})\cap V\neq {\O}$/ існує такий окіл $U$ точки $x_{0}\in X$, що $F(x)\subseteq V$ /$F(x)\cap V\neq {\O}$/ для кожної точки $x\in U$ (тут ми використовуємо термінологію з [9]). Ми кажемо, що $F$ є неперервною в $x_{0}$, якщо вона є напівнеперервною зверху та знизу в цій точці. Відображення $F:X\rightarrow Y$ називається неперервним, зверху чи знизу напівнеперервним, якщо воно є таким в кожній точці простору $X$.
+
+Множина $\mathcal{P}(Y)$ є наділеною природним відношенням часткового порядку, яким є відношення $\subseteq$ підмножин з $Y$, це дозволяє перенести концепт пар Гана на випадок многозначних відображень. Ми кажемо що многозначні відображення утворюють пару Гана /строгу пару Гана/, якщо $G$ є напівнеперервною зверху, $H$ є напівнеперервною знизу і $G(x)\subseteq H(x)$ /$G(x)\subset H(x)$/ для кожного $x\in X$.
+
+Природно постають наступні задачі:
+
+
+\textit{Задача 1.} За яких умов на простори $X$ і $Y$ кожна пара Гана $(G,H)$ многозначних відображень $G,H:X\rightarrow Y$ має проміжне неперерервне многозначне відображення $F:X\rightarrow Y$?
+
+
+
+\textit{Задача 2.} За яких умов на кожна строга пара Гана $(G,H)$ з $X$ в $Y$ має строго проміжне многозначне відображення $F:X\rightarrow Y$?
+
+
+
+\textit{Problem 3.} За яких умов на кожна пара Гана $(G,H)$ з $X$ в $Y$ має строго проміжне многозначне відображення $F:X\rightarrow Y$?
+
+
+
+В цій статті ми досліджуємо ці задачі. Наші результати відносяться до задачі 1. Ми показуємо що для нормального $T_{1}$-простору $X$ і кожної пари Гана $(G,H)$ з многозначних відображень $G:X\rightarrow Y$ і $H:X\rightarrow Y$, зі значеннями які є відрізками, існує проміжне неперервне відображення $F:X\rightarrow Y$, що має значеннями відрізки в $\mathbb{R}$. Тоді ми показуємо, що з існування проміжного неперервного відображення $F:X\rightarrow Y$ для пари Гана $(G,H)$ відображень $G:X\rightarrow \mathbb{R}$, $G(x)=(-\infty,g(x)]$, і $H:X\rightarrow \mathbb{R}$, $H(X)=(-\infty,h(x)]$, випливає що $(g,h)$ є парою Гана на $X$ і має проміжну неперервну функцію $f:X\rightarrow \mathbb{R}$ на $X$.
+
+\section{Існування неперервних проміжних многозначних відображень.}
+
+Нехай $X$~--- топологічний простір і $F:X\rightarrow \mathbb{R}$ многозначне відображення, зі значеннями які є відрізками $F(x)=[f_{1}(x),f_{2}(x)]$, де $f_{1}:X\rightarrow \mathbb{R}$ є функціями, для яких $f_{1}(x)\leq f_{2}(x)$ на $X$.
+
+\begin{lemma}
+Відображення $F:X\rightarrow \mathbb{R}$, $F(x)=[f_{1}(x),f_{2}(x)]$, є напівнеперервним зверху тоді і тільки тоді, коли функція $f_{1}:X\rightarrow \mathbb{R}$ є напівнеперервною знизу, і $f_{2}:X\rightarrow \mathbb{R}$ є напівнеперервною зверху.
+\end{lemma}
+
+\begin{proof}
+Нехай $F$ напівнеперервна зверху в $x_{0}$ і $\varepsilon>0$. Відкрита множина $V=(f_{1}(x_{0})-\varepsilon,f_{2}(x_{0})+\varepsilon)$ містить відрізок $F(x_{0})$. З цього випливає існування $U$ околу точки $x_{0}$ такої що $F(x)\subseteq V$ при $x\in U$. Оскільки $f_{1}(x)\in F(x)$ та $f_{2}(x)\in F(x)$ для кожної $x$, тоді $\{f_{1}(x),f_{2}(x)\}\subseteq  V$ для кожної $x\in U$, тоді, $$f_{1}(x_{0})-\varepsilon<f_{1}(x)\leq f_{2}(x)<f_{2}(x_{0})+\varepsilon$$ для кожного $x\in U$, отже $f_{1}$ є напівнеперервним знизу, і $f_{2}$ є напівнеперервним зверху в $x_{0}$.
+
+Нехай $f_{1}$ напівнеперервна знизу, $f_{2}$ напівнеперервна зверху в $x_{0}$ і $\varepsilon>0$. Тоді існують такі околи $U_{1}$ і $U_{2}$ точки $x_{0}$, що $$f_{1}(x)>f_{1}(x_{0})-\varepsilon\textmd{ on }U_{1}\textmd{ and }f_{2}(x)<f_{2}(x_{0})+\varepsilon\textmd{ on }U_{2}$$ Перетин $U=U_{1}\cap U_{2}$ також є околом точки $x_{0}$ і для $x\in U$: $$f_{1}(x_{0})-\varepsilon<f_{1}(x)\leq f_{2}(x)<f_{2}(x)+\varepsilon.$$  Нехай $V$ довільна підмножина $\mathbb{R}$, що містить $F(x_{0})=[f_{1}(x_{0}),f_{2}(x_{0})]$. Оскільки $f_{i}(x_{0})\in V$ для $i=1,2$ то існують такі $\varepsilon_{i}>0$ для $i=1,2$ що: $$(f_{i}(x_{0})-\varepsilon_{i},f_{i}(x_{0})+\varepsilon_{i})\subseteq V\textmd{, where }i=1,2.$$ Покладемо $\varepsilon=\min\{\varepsilon_{1},\varepsilon_{2}\}$. Очевидно, тоді: $$V_{0}=(f_{1}(x_{0})-\varepsilon_{1},f_{2}(x_{0})+\varepsilon_{2})\subseteq V.$$ З доведеного раніше випливає, що існує окіл $U$ точки $x_{0}$ в $X$, такий, що $$F(x)\subseteq V_{0},$$ як тільки $x\in U$. Тоді також $F(x)\subseteq V$ для кожного $x\in U$, отже, многозначне відображення $F$ є напівнеперервним зверху в $x_{0}$.
+\end{proof}
+
+\begin{lemma}
+Відображення $F:X\rightarrow \mathbb{R}$, $F(x)=[f_{1}(x),f_{2}(x)]$, є напівнеперервним знизу тоді і тільки тоді, коли функція $f_{1}:X\rightarrow \mathbb{R}$ є напівнеперервнною зверху, і $f_{2}:X\rightarrow \mathbb{R}$ є напівнеперервною знизу.
+\end{lemma}
+
+\begin{proof}
+Нехай $F$ є напівнеперервною знизу в $x_{0}$ і $\varepsilon>0$. Розглянемо відкриту множину $V=(-\infty,f_{1}(x_{0})+\varepsilon)$, для якої, очевидно, $V\cup F(x_{0})\neq {\O}$, з цього випливає існування такого околу $U$ точки $x_{0}$ в $X$, що $V\cup F(x)\neq {\O}$, як тільки $x\in U$. В якості точки $x\in U$ розглянемо точку $y_{1}\in V\cup F(x)$. Тоді $y_{1}\in V$, отже, $y_{1}<f_{1}(x_{0})+\varepsilon$, і $y_{1}\in F(x)$, тоді $y_{1}\geq f_{1}(x)$. Звідси маємо $f_{1}(x)<f_{1}(x_{0})+\varepsilon$ на $U$, і $f$ є напівнеперервною зверху в $x_{0}$.
+
+Аналогічно доводиться напівнеперервність знизу функції $f_{2}$ в $x_{0}$, для цього достатньо розглянути відкриту множину $V=(f_{2}(x_{0})-\varepsilon,+\infty)$.
+
+Vice versa, let function $f_{1}$ be upper semicontinuous, $f_{2}$ lower and point $x_{0}$ and $V$ is open set in $\mathbb{R}$, for which $V\cup F(x_{0})\neq {\O}$. Lets consider any point $y\in V\cup F(x_{0})$. Then $f_{1}(x_{0})\leq y\leq f_{2}(x_{0})$ and $y\in V$. The fact that set $V$ is open implies that there is $\varepsilon>0$, such that $(y-\varepsilon,y+\varepsilon)\subseteq V$. Also, the fact that $f_{1}$ and $f_{2}$ are semicontinuous upper and lower respectively at the point $x_{0}$ implies that that there is neighborhood $U$ of point $x_{0}$ in $X$, such that for $x\in U$: $$f_{1}(x)<y+\varepsilon\textmd{ and }f_{2}(x)>y-\varepsilon.$$ Then for $x\in U$ we have: $F(x)\cup V\neq {\O}$. Indeed, for points $y_{1}=f_{1}(x)$ and $y_{2}=f_{2}(x)$ we have that $y_{1}<y+\varepsilon$ and $y_{2}>y-\varepsilon$. If $y_{2}<y+\varepsilon$, then $y_{2}\in (y-\varepsilon,y+\varepsilon)\cup F(x)\subseteq V\cup F(x)$, and if $y_{1}>y-\varepsilon$, then $y_{1}\in V\cup F(x)$. Lets now $y_{2}\geq y+\varepsilon$ and $y_{1}\leq y-\varepsilon$. Then $(y-\varepsilon,y+\varepsilon)\subseteq[y_{1},y_{2}]=F(x)$ and from that $y\in V\cup F(x)$. In any case $F(x)\cup V\neq {\O}$.
+\end{proof}
+
+\begin{theorem}
+Let $X$ be a normal space and $(G,H)$ be Hahn's pair such that $G(x)=[g_{1}(x),g_{2}(x)]$ and $H(x)=[h_{1}(x),h_{2}(x)]$ for each $x\in X$. Then there is intermediate for $(G,H)$ continuous $F:X\rightarrow \mathbb{R}$ such that $F(x)=[f_{1}(x),f_{2}(x)]$ on $X$, where functions $f_{1}$ and $f_{2}$ are continuous.
+\end{theorem}
+
+\begin{proof}
+From the condition $G(x)\subseteq H(x)$ on $X$ we get that $$h_{1}(x)\leq g_{1}(x) \leq g_{2}(x)\leq h_{2}(x)$$ for each $x\in X$. From lemmas 1 and 2 we obtain, that $(h_{1},g_{1})$ and $(g_{2},h_{2})$ are Hahn's pairs on $X$. The Hahn theorem implies that there exist continuous functions $f_{i}:X\rightarrow \mathbb{R}$ for $i=1,2$ such,that: $$h_{1}(x)\leq f_{1}(x)\leq g_{1}(x)\textmd{ and }h_{1}(x)\leq f_{1}(x)\leq g_{1}(x)$$ for each $x\in X$. Since $g_{1}(x)\leq g_{2}(x)$, then $f_{1}(x)\leq f_{2}(x)$ on $X$. Lemma 3 implies that the map $$F:X\rightarrow \mathbb{R}, F(x)=[f_{1}(x),f_{2}(x)],$$ is continuous, and $G(x)\subseteq F(x)\subseteq H(x)$ for each $x\in X$.
+\end{proof}
+
+\section{Hahn's theorem as a corollary of it's multivalued version.}
+
+Lets $f:X\rightarrow \mathbb{R}$ be a function, defined on the topological space $X$ and $F(x)=(-\infty,f(x)]$.The following lemmas can be proven similarly to the proofs of lemmas 1-3:
+
+\begin{lemma}
+Function $f$ is upper semicontinuous if and only if multivalued function $F$ is upper semicontinuous.
+\end{lemma}
+
+
+\begin{lemma}
+Function $f$ is lower semicontinuous if and only if multivalued function $F$ is lower semicontinuous.
+\end{lemma}
+
+\begin{lemma}
+Function $f$ is continuous if and only if multivalued function $F$ is continuous.
+\end{lemma}
+
+Lemmas 1 and 2 immediately imply:
+
+\begin{lemma}
+Lets $X$ be topological space, $(g,h)$ be a Hahn's pair on $X$, $G(x)=(-\infty,g(x)]$  and $H(x)=(-\infty,g(x)]$. Then $(G,H)$ is also Hahn's pair on $X$.
+\end{lemma}
+
+
+
+
+
+\begin{theorem}
+Lets $X$ be topological space, $(g,h)$ be a Hahn's space on $X$, $G(x)=(-\infty,g(x)]$  and $H(x)=(-\infty,g(x)]$, and Hahn's pair $(G,H)$ has intermediate continuous function $F:X\rightarrow \mathbb{R}$. Then Hahn's pair $(g,h)$ also has intermediate continuous function $f:X\rightarrow \mathbb{R}$
+\end{theorem}
+
+\begin{proof}
+From condition $G(x)\subseteq F(x)\subseteq H(x)$ on $X$. Lets put $$f(x)=\sup F(x).$$ Since $g(x)\in G(x)$, then $g(x)\in F(x)$, and $g(x)\leq f(x)$. Here, the inclusion $F(x)\subseteq H(x)$ implies, that $$f(x)=\sup F(x)\leq\sup H(x)=h(x).$$ Since that, we have, that $g(x)\leq f(x)\leq h(x)$ on $X$.
+
+Lets $\varepsilon>0$. Consider open set $V_{1}=(-\infty, f(x_{0})+\varepsilon)$. It is clear, that $F(x_{0})\subseteq V_{1}$. The fact that $F$ is upper semicontinuous at $x_{0}$ implies that there is neighborhood $U_{1}$ of point $x_{0}$ in $X$, such, that $F(x)\subseteq V_{1}$ as soon as $x\in U$. In that case: $$f(x)=\sup F(x)\leq \sup V_{1}=f(x_{0})+\varepsilon$$ on $U_{1}$, so, function $f$ is upper semicontinuous at $x_{0}$.
+
+For open set $V_{2}=(f(x_{0})-\varepsilon,+\infty)$ we have, that $V_{2}\cup F(x_{0})\neq{\O}$. Indeed, since $f(x_{0})=\sup F(x_{0})$, we have, that there is $y\in F(x_{0})$, such, that $y>f(x_{0})-\varepsilon$. It is clear that $y\in V_{2}\cup F(x_{0})$. The fact that $F$ is lower semicontinuous at $x_{0}$ implies, that there is neighborhood $U_{2}$ of the point $x_{0}$m such, that $F(x)\cup V_{2}\neq {\O}$ when $x\in U_{2}$. Then for each $x\in U$ there is $y_{x}\in F(x)\cup V_{2}$, for which, obviously, $f(x_{0})-\varepsilon<y_{x}\leq f(x)$, and then: $$f(x)>f(x_{0})-\varepsilon$$ on $U_{2}$ and $f$ is lower semicontinuous at $x_{0}$.
+
+On the neighborhood $U=U_{1}\cup U_{2}$ of the point $x_{0}$ in $X$ the following inequalities are true: $$f(x_{0})-\varepsilon<f(x)<f(x_{0})+\varepsilon,$$ and that implies the continuity of function $f$ at point $x_{0}$.
+
+\end{proof}
+
+\par\bigskip\noindent
+
+
+\bibliographystyle{amsplain}
+
+\begin{thebibliography}{99}
+1. Borwein J.M., Thґera M.: Sandwich theorems for semicontinuous operators,  Canad.
+Math. Bull. 35 (1992) 463–474.\\
+
+2. Dieudonne J.: Une g\'{e}n\'{e}ralisation des espaces compacts,  J. de Math. Pyres et Appl. 23 (1944) 65-76.\\
+
+3. Dowker C. H.: On countably paracompact spaces, Canad. J. Math. 3 (1951) 219-224.\\
+
+4.  Good C., Stares I.: New proofs of classical insertion theorems, Comm. Math. Univ. Carolinae. 41 №1 (2000) 139-142\\
+
+5.  Hahn H.: Uber halbstetige und unstetige Functionen, Sitzungsberichte Akad.Wiss.Wien. Math. - naturwiss.Kl.Abt.IIa. 127 (1917) 91-110.\\
+
+6. Katetov M.: On real-valued functions in topological spaces, Fund.Math. 38 (1952) 85-91.
+\\
+
+7. Katetov M.: Correction to 'On real-valued functions in topological spaces', Fund.Math. 40 (1953) 203-205.\\
+
+8. Michael E.: Continuous selections I, Ann. of Math. 63 (1956) 361–382.\\
+
+9. Neubrunn T.: Quasi-continuity, Real. Anal. Exch. 14 №3 (1988-1989) 259-306.\\
+
+10. Tong H.: Some characterizations of normal and perfectly normal spaces, Bull.Amer.Math.Soc. 54 (1948) 65.\\
+
+11. Tong H.: Some characterizations of normal and perfectly normal spaces, Duke Math.J. 19 (1952) 289-292.\\
+
+12. Yamauchi T.: Continuous selections avoiding extreme points, Topology Appl. 155
+(2008) 916–922.\\
+
+13. Yamazaki K.: The range of maps on classical insertion theorems, Acta Math. Hungar. 132 parts 1-2 (2011) 42-48.\\
+
+14. Yamazaki K.: Insertion theorems for maps to Banach lattices, Topology Appl. 157
+(2010) 1955–1965.
+\\
+
+\begin{otherlanguage}{ukrainian}
+15. Маслюченко В.К., Петей С.П.: Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації, Бук. мат. журн. 3 №2 (2015) 64-71.\\
+
+
+16. Маслюченко В.К., Маслюченко О.В., Мельник В.С.:  Існування проміжних кусково лінійних та нескінченно диференційовних функцій, Бук. мат. журн. 4 № 3-4 (2016) 93-100.\\
+\end{otherlanguage}
+
+17. Maslyuchenko V., Melnyk V.: The development of Hahn's theorem on an intermediate function, in: International conference dedicated to the 120th anniversary of Kazimierz Kuratowski, (2016) 36-37, Ivan Franko National University of Lviv, Ukraine\\
+
+\begin{otherlanguage}{ukrainian}
+18. Маслюченко В.К, Мельник В.С.: Про побудову диференційовних проміжних функцій, in: Сучасні проблеми теорії ймовірностей та математичного аналізу: Всеукраїнська наукова конференція, Ворохта (2017) 105-106, Івано-Франківськ: ДВНЗ "Прикарпатський національний університет імені Василя Стефаника"\\
+\end{otherlanguage}
+
+19. Maslyuchenko V., Melnyk V.: Побудова проміжних диференційовних функцій, Ukrainian Mathematical Journal (2017)\\
+
+
+
+
+\end{thebibliography}
+
+
+\end{document}

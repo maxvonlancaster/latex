@@ -1,0 +1,116 @@
+\documentclass[a5paper,10pt]{article}
+
+\usepackage[cp1251]{inputenc} % Можна [utf8] для Linux
+\usepackage[english,ukrainian]{babel}
+\usepackage[T2A]{fontenc}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage[dvips]{graphicx}
+% Можна ще додати потрібні пакети
+
+% Це не змінювати %%%%%%%%%%%%%%%%%%%%%%
+%\pagestyle{empty}
+\textwidth=120mm
+\textheight=180mm
+\topmargin=-10mm
+\parskip4pt plus2pt minus2pt
+\oddsidemargin=-10mm
+\evensidemargin=-15mm
+\headsep=0mm
+\headheight=0mm
+\renewcommand{\title}[1]{\begin{center}\textbf{\large #1}\end{center}}
+\renewcommand{\author}[3]{\begin{center}
+\textsc{#1}\\\medskip\textit{#2}\\
+\smallskip\textrm{#3}\end{center}}
+\newcounter{abs}
+\renewenvironment{abstract}{\setcounter{abs}{0}\setcounter{equation}{0}
+\noindent}{}
+\renewcommand{\labelenumi}{\theenumi)}
+\tolerance=3000
+\sloppy
+
+
+% Можна додати подібні означення %%%%%%%%
+\newtheorem{theorem}[abs]{Теорема}
+\newtheorem{lemma}[abs]{Лема}
+\newtheorem{definition}[abs]{Означення}
+\newtheorem{question}[abs]{Питання}
+\newtheorem{proposition}[abs]{Твердження}
+\newtheorem{corollary}[abs]{Наслідок}
+\newtheorem{remark}[abs]{Зауваження}
+\newtheorem{example}[abs]{Приклад}
+\newtheorem{problem}[abs]{Проблема}
+
+
+\def\C{{ \mathbb{C}}}
+\def\U{{\mathcal{U}}}
+\def\N{{ \mathbb{N}}}
+\def\R{{ \mathbb{R}}}
+\def\Q{{ \mathbb{Q}}}
+\def\Z{{ \mathbb{Z}}}
+\def\K{{ \mathbb{K}}}
+\def\P{{ \mathcal{P}}}
+\def\W{{ \mathcal{W}}}
+\def\I{{ \mathcal{I}}}
+\def\E{{ \mathcal{E}}}
+\def\A{{ \mathcal{A}}}
+\def\eN{{\mathcal{N}}}
+\def\spn{{ \rm{ span }}}
+
+
+
+\begin{document}
+
+\begin{abstract}
+
+\title{Про перше рівномірне найкраще наближення.}
+\author{Кушнір А.С.}{Чернівецький національний університет ім. Юрія Федьковича}{kigayip500@seo-mailer.com}
+\author{Маслюченко В.К.}{Чернівецький національний університет ім. Юрія Федьковича}{vmaslyuchenko@ukr.net}
+\author{Мельник В.С.}{Чернівецький національний університет ім. Юрія Федьковича}{windchange7@gmail.com}
+
+
+Розглянемо банаховий простір $C[a,b]$ всіх неперервних функцій $f:[a,b]\rightarrow \mathbb{R}$ з рівномірною нормою $||f||=\max\limits_{a\leq x\leq b}^{}|f(x)|$, його лінійний підпростір $P_{n}[a,b]$, що складається з усіх многочленів $$g(x)=a_{0}+a_{1}x+...+a_{n}x^{n}$$ степеня $\leq n$ з дійсними коефіцієнтами, і для кожної функції $f\in C[a,b]$ її найкраще рівномірне наближення $$E_{n}(f)=d(f,P_{n}[a,b])=\inf\{||f-g||:g\in P_{n}[a,b]\}$$ многочленами з $P_{n}[a,b]$. Послідовність невід'ємних чисел $\alpha_{n}=E_{n}(f)$ спадає і згідно з теоремою Вейєрштрасса прямує до нуля для кожної функції $f$ з $C[a,b]$. Як встановив С.Н. Бернштейн \cite{1} і навпаки: для кожної спадної до нуля послідовності чисел $\alpha_{n}\geq 0$ існує така неперервна функція $f:[a,b]\rightarrow \mathbb{R}$, що $E_{n}(f)=\alpha_{n}$ для кожного $n=0,1,...$ .
+
+Це твердження, що відоме під назвою обернена теорема Бернштейна, узагальнювалось і модифікувалося багатьма математиками (див., наприклад, \cite{2} і вказану там літературу). Зокрема, для функції $f:[0,1]^{2}\rightarrow \mathbb{R}$, яка неперервна відносно другої змінної, можна ввести функції $\alpha_{n}:[0,1]\rightarrow \mathbb{R}$, $\alpha_{n}(x)=E_{n}(f^{x})$, де $f^{x}(y)=f(x,y)$ для $x,y\in [0,1]$. Для сукупно неперервної функції $f$ функції $\alpha_{n}$ неперервні, а для нарізно неперервної~--- належать до першого класу Бера. У праці \cite{3} було поставлено задачу про опис функціональних послідовностей $(\alpha_{n})_{n=1}^{\infty}$ для сукупно і нарізно неперервних функцій $f:[0,1]^{2}\rightarrow \mathbb{R}$. Для сукупно неперервних функцій задача розв'язана лише для скінченного числа функцій \cite{4}, а для нарізно неперервних~--- лише для $n=0$ \cite{5}.
+
+Тут мова йтиме про перше рівномірне наближення $\alpha_{1}=E_{1}(f)$ для неперервної функції $f$  і його функціональний аналог $\alpha_{1}(x)=E_{1}(f^{x})$ для нарізно неперервної функції $f$.
+
+Для кожної функції $f:[a,b]\rightarrow \mathbb{R}$ розглянемо січну $g=S(f):[a,b]\rightarrow \mathbb{R}$, яка задається формулою $g(x)=f(a)+k(x-a)$, де $k=\frac{f(b)-f(a)}{b-a}$. Вона з'єднує кінці $(a,f(a))$ і $(b,f(b))$ кривої $y=f(x)$, $a\leq x\leq b$. Ми кажемо, що функція $f$ ледь опукла /вгнута/, якщо $f(x)\leq g(x)$ /$f(x)\geq g(x)$/ на $[a,b]$. Ясно, що опуклі функції будуть і ледь опуклими, а вгнуті~--- ледь вгнутими.
+
+\begin{theorem} Нехай $f:[a,b]\rightarrow \mathbb{R}$~--- неперервна і ледь опукла чи вгнута функція, $g=S(f)$, $h=|f-g|$ і $\mu = \frac{1}{2}||h||=\frac{1}{2}h(c)$, де $c\in [a,b]$. Тоді $E_{1}(f)=\mu=||f-g_{0}||$, де $g_{0}(x)=f(c)+\mu+k(x-c)$, якщо $f$ ледь опукла, і $g_{0}(x)=f(c)-\mu+k(x-c)$, якщо $f$ ледь вгнута.
+\end{theorem}
+
+Приклад функції $f(x)=x^{3}$ на відрізку $[-1,1]$ показує, що умова ледь опуклості чи вгнутості в теоремі 1 істотна.
+
+Позначимо символом $C_{a}$ властивість неперервності і ледь опуклості чи вгнутості. Для прямокутника $P=[a,b]\times[c,d]$ символом $CC_{a}(P)$ ми позначаємо множину всіх нарізно неперервних функцій $f:P\rightarrow \mathbb{R}$, таких, що для кожного $x\in [a,b]$ функція $f^{x}:[c,d]\rightarrow \mathbb{R}$ буде ледь опуклою чи вгнутою. З результатів праці \cite{5} випливає
+
+\begin{theorem} Нехай $f\in CC_{a}(P)$. Тоді функція $\alpha_{1}(x)=E_{1}(f^{x})$ напівнеперервна знизу на $[a,b]$.
+\end{theorem}
+
+Використовуючи ідеї праці \cite{5}, можна встановити і обернений результат.
+
+\begin{theorem} Нехай $\alpha :[a,b]\rightarrow \mathbb{R}$~--- невід'ємна напівнеперервна знизу функція. Тоді існує така функція $f\in CC_{a}(P)$, що $E_{1}(f^{x})=\alpha(x)$ на $[a,b]$.
+\end{theorem}
+
+
+{\small
+\begin{thebibliography}{10}
+\bibitem{1} Bernstein S.N. Sur le proble me inverse de la theorie de la meilleure approximationn des fonctions continues // Comp. Rend.~--- 1938.~--- \textbf{206}. ~--- P.1520-1523.
+
+\bibitem{2} Волошин Г., Маслюченко В. Узагальнення однієї теореми Бернштейна // Мат. вісн. НТШ. ~--- 2009.~--- \textbf{6}. ~--- С. 62-72.
+
+\bibitem{3} Власюк Г.А., Маслюченко В.К. Многочлени Бернштейна і нарізно неперервні функції // Наук. вісн. Чернів. ун-ту. В.336-337. Математика.~--- Чернівці: Рута, 2007.~--- C. 52-59.
+
+\bibitem{4} Волошин Г.А., Маслюченко В.К. Функціональне узагальнення однієї теореми Бернштейна // Мат. студії. ~--- 2010. ~--- \textbf{33}, №2.~--- С.220-224.
+
+\bibitem{5} Волошин Г.А., Маслюченко В.К., Мельник В.С. Пари Гана і нульова обернена задача // Мат. студії.~--- 2017.~--- \textbf{48}, №1.~--- С.74-81.
+
+\end{thebibliography}}
+
+
+
+\end{abstract}
+
+
+\end{document}
+

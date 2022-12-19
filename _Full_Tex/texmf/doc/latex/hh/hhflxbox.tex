@@ -1,0 +1,1031 @@
+\documentclass[11pt]{article}
+\usepackage{hhflxbox}               % for presentation
+\usepackage{amssymb,epic,curves}    % for illustrations
+\usepackage{verbatim}               % for verbatim displaying of examples
+\usepackage{xspace}                 % for ease of typing
+
+\makeatletter
+
+\setlength\parindent\z@
+\setlength\parskip{.5\baselineskip}
+
+\setcounter{errorcontextlines}{10}     % For ease of debugging.
+\def\0#1.{\oldstylenums{#1}}           % For ease of typing.
+\def\packagename#1{{\sffamily #1}}     % For consistent displaying of
+                                       % package names. To be redefined
+                                       % by the editor if desired.
+\chardef\@ttbs="5C                     % This the only way I could figure
+\def\macroname#1{{\ttfamily\@ttbs#1}}  % out to get the right backslashes
+                                       % when displaying macro names
+                                       % (math \backspace is too thin).
+\def\envirname#1{{\ttfamily #1}}       % For consistent etc.
+\def\scheiding{\par                    % Because I cannot help to show my
+                                       % `stamp' in and out of season.
+                                       % Remove the stamps it you cannot
+                                       % stand them.
+  \nobreak\addvspace{18pt plus 6pt minus 6pt}%
+  \nobreak\centerline{{\unitlength1pt\begin{picture}(0,0)%
+       \thicklines
+       \put(-10,0){\line(1,-1){10}}\put(-10,0){\line(1,1){10}}%
+       \put(10,0){\line(-1,-1){10}}\put(10,0){\line(-1,1){10}}%
+       \put(-5,5){\line(0,-1){10}}\put(5,5){\line(0,-1){10}}%
+       \put(-5,-2.5){\line(2,1){10}}%
+     \end{picture}}}%
+  \addvspace{18pt plus 6pt minus 6pt}}
+
+% The following are document specific macros defined for ease of typing:
+
+\def\hhflxbox{\packagename{hhflxbox}\xspace}
+% If incorrect fl ligature shows, then replace following line by:
+% \def\hhfLxbox{\packagename{\hbox{hhf}\hbox{lxbox}}\xspace}
+\def\hhfLxbox{\packagename{hhf\hbox{}lxbox}\xspace}
+\def\={\verb=}
+\def\<#1>{\macroname{#1}}
+\def\:{\linebreak[1]}
+
+% The following input definitions used for examples:
+
+\newcommand\sillyshape{%
+  \begin{picture}(2000,2000)
+    \thicklines
+    \put(1000,1000){\arc(0,1000){360}}
+    \put(1000,-498){\arc(662,749){83}}
+    \put(1000,2498){\arc(-662,-749){83}}
+  \end{picture}}
+\newcommand\jarshape{%
+  \begin{picture}(1800,1500)
+    \thicklines
+    \put(360,0){\line(-1,3){360}}
+    \put(0,1080){\line(3,1){1260}}
+    \put(540,1500){\line(1,0){720}}
+    \put(1440,0){\line(1,3){360}}
+    \put(1800,1080){\line(-3,1){1260}}
+    \put(360,0){\line(1,0){1080}}
+  \end{picture}}
+\newcommand\jarframe[1]{%
+ \iframe\jarshape(300,180){1200}{10pt}%
+  \ifrch\ifrb:{\separbox{1pt}{#1}}}
+\newcommand\templebox[1]{\sframe
+  [1]\fancycolumn [2]\fancytympan
+  [1]\fancycolumn [-]\-%
+  {\separbox{3pt}{#1}}}
+
+\def\dashbox(#1,#2)(#3,#4){
+  \dashline{40}(#1,#2)(#1,#4)\dashline{40}(#1,#4)(#3,#4)
+  \dashline{40}(#1,#2)(#3,#2)\dashline{40}(#3,#2)(#3,#4)}
+\def\hmeasure(#1,#2)(#3,#4){
+  \put(#1,#2){\makebox(0,0)[l]{$\blacktriangleleft$}}
+  \put(#3,#4){\makebox(0,0)[r]{$\blacktriangleright$}}
+  \drawline(#1,#2)(#3,#4)}
+\def\vmeasure(#1,#2)(#3,#4){
+  \put(#1,#2){\makebox(0,0)[b]{$\blacktriangledown$}}
+  \put(#3,#4){\makebox(0,0)[t]{$\blacktriangle$}}
+  \drawline(#1,#2)(#3,#4)}
+
+\def\fancycolumn#1#2#3#4#5#6#7#8{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \def\\##1;##2;{\vrule height\@tempdimq width ##1pt\kern ##2pt}%
+    \\0.05;0.15;\\0.60;0.44;\\1.11;0.65;\\1.45;0.77;\\1.57;0.77;%
+    \\1.45;0.65;\\1.11;0.44;\\0.60;0.15;\\0.05;0;}%
+  \sfrsetoffsets{15pt}{#3}{#4}#5#6#7#8}%
+\def\fancytympan#1#2#3#4#5#6#7#8{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \unitlength\@tempdimq
+    \vbox{\hsize\@tempdimq\offinterlineskip
+      \hbox{\begin{picture}(1,0.1)
+        \thicklines
+        \put(0,0){\line(1,0){1}}
+        \put(0,0){\line(5,1){0.5}}
+        \put(0.5,0.1){\line(5,-1){0.5}}
+        \thinlines
+        \put(0.5,0.05){\circle*{0.072}}
+      \end{picture}}
+      \hbox{\vrule width\@tempdimq height 2pt}}}%
+  \sfrsetoffsets{\ht#1}{#3}{#4}#5#6#7#8}%
+
+% THE FOLLOWING DEFINITION IS ALSO INCLUDED VERBATIM AS AN EXAMPLE!
+\newenvironment{templeboxed}{%
+  \begin{sframed}%
+    [1]\fancycolumn[2]\fancytympan[1]\fancycolumn[-]\-
+    \begin{separboxed}{3pt}
+      \begin{broadboxed}{30pt}
+}{%
+      \end{broadboxed}%
+    \end{separboxed}%
+  \end{sframed}%
+}
+
+\makeatother
+
+\title{\hhflxbox\ --- Manual}
+\author{Herman Haverkort\\\normalsize\normalfont\texttt{hermanh@cistron.nl}}
+\date{May 1995 -- Addresses corrected March 1999}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\hhflxbox contains a number of boxing macros. The kernel consists of
+\<iframe>, which boxes things and sets self-scaling frames around, and
+\<sframe>, which sets more complex self-scaling and -stretching frames.
+Besides \hhflxbox provides the encircling macros \<ringbox>, \<bellybox>
+and \<outringbox> (which use \<iframe>), the macros \<sepbox> and
+\<separbox>, which set empty space around boxes, and \<broadbox>, which
+boxes its argument in a \<vbox> of which the width is the line width
+minus some specified value. Thus \<broadbox> facilitates the construction
+of frames which stretch to line width.
+
+Furthermore \hhflxbox defines some tools for the proper positioning
+of boxes: \<clap> for some kind of horizontal centering
+and \<lcenter> (line centering) for vertical centering on a line of
+text. \<boxhigh>, \<boxlow>, \<topsqueezeout>, \<topsqueezein>,
+\<botsqueezeout> and \<botsqueezein> help getting the spacing in and
+around framed passages right.
+
+To be able to use \hhflxbox one should have
+\texttt{hhflxbox.sty}, \texttt{hhunits.sty}, \texttt{hhqueue.sty}
+and \texttt{hhutils0.sty} available, all of which can be obtained
+from the library of my website at
+http://come.to/hh and from \textsc{ctan}.
+
+\section{\<sepbox> and \<separbox>}
+For introduction of \<sepbox> and \<separbox> it is convenient to
+introduce \<bellybox> first. \<bellybox> is one of the
+\hhflxbox macros which can be used to encircle things, for example
+\bellybox:{3}, which is set with: \=\bellybox=\:\=:{3}=.
+
+You probably notice that the circle around the digit is somewhat
+tight. This problem can be solved by putting a \<separbox> around the
+digit, like in \=\bellybox=\:\=:{\separbox=\:\={1pt}{3}}=, which
+yields: \bellybox:{\separbox{1pt}{3}}.
+Actually \=\separbox=\:\={={\it dimension\/}\=}{={\it stuff\/}\=}= puts
+{\it dimension\/} wide empty space around {\it stuff\/} on all sides.
+
+A more general form is:\\
+\=\sepbox=\:\=(={\it leftspace\/}\=,={\it topspace\/}%
+\=,={\it rightspace\/}\=,={\it bottomspace\/}\=){={\it stuff\/}\=}=\\
+which adds empty spaces of the specified widths to the sides of the box
+containing {\it stuff\/}.
+
+\section{\<iframe>: Isomorphous Frames}
+\<iframe> is only a frame drawing {\em tool}: it does not draw frames
+itself but it can take care of the proper positioning and scaling of frames
+drawn by other macros. To explain the functioning of \<iframe> it is
+probably best to give an example of the development of a framing macro
+using \<iframe>.
+
+Suppose we want to set self-scaling frames which have the following shape:
+\begin{center}\unitlength.01pt\sillyshape\end{center}
+then we could imagine a box-shaped area in the frame which will contain
+the frame's contents (the inner dashed box in the figure below). Also
+we could imagine a box surrounding the frame (the outer dashed box in
+the figure).
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \rlap{\sillyshape}%
+    \begin{picture}(2000,2000)
+      \thinlines
+      \dashbox(0,0)(2000,2000)\dashbox(134,500)(1866,1500)
+      \hmeasure(134,500)(0,500)\put(67,450){\makebox(0,0)[t]{$x$}}
+      \vmeasure(134,500)(134,0)\put(184,150){\makebox(0,0)[l]{$y$}}
+      \hmeasure(134,1250)(1866,1250)\put(1000,1300){\makebox(0,0)[b]{$w$}}
+      \vmeasure(584,500)(584,1500)\put(634,800){\makebox(0,0)[l]{$h=1000$}}
+    \end{picture}}%
+\end{center}
+
+\<iframe> expects the inner box height to be 1000 times the
+\<unitlength>, so all dimensions have to be chosen so that the inner box
+height equals 1000 indeed. Then \<iframe> can scale the frame by
+setting the \<unitlength>. Furthermore \<iframe> expects the lower left
+corner of the outer box to have coordinates $(0,0)$. Taking these
+expectations in account we can design a macro which draws the frame:
+
+\begin{verbatim}
+\newcommand\sillyshape{%
+  \begin{picture}(2000,2000)
+    \thicklines
+    \put(1000,1000){\arc(0,1000){360}}
+    \put(1000,-498){\arc(662,749){83}}
+    \put(1000,2498){\arc(-662,-749){83}}
+  \end{picture}}
+\end{verbatim}
+
+(\<arc> is defined in the \packagename{curves} package by I.L. Maclaine-cross.)
+Now we can define a silly shape framing macro by defining \<sillyframe>
+as: \=\iframe=\:\=\sillyshape=\:\=(=$x$\=,=$y$\=){=$w$\=}{0pt}\ifrch=\:%
+\=\ifrcv=\:\=:{#1}=. Actually we will set \=#1= in a
+\=\sepbox=\:\=(0pt,2pt,0pt,2pt){#1}= to prevent the frame from touching
+its contents. In the above example we have $x=134$, $y=500$ and $w=1732$,
+so we write:
+
+\begin{verbatim}
+\newcommand\sillyframe[1]{%
+ \iframe\sillyshape(134,500){1732}{0pt}%
+  \ifrch\ifrcv:{\sepbox(0pt,2pt,0pt,2pt){#1}}}
+
+Now we can put \sillyframe{all}
+\sillyframe{sorts} \sillyframe{of}
+\sillyframe{things} in silly frames.
+\end{verbatim}
+
+\newcommand\sillyframe[1]{%
+ \iframe\sillyshape(134,500){1732}{0pt}%
+  \ifrch\ifrcv:{\sepbox(0pt,2pt,0pt,2pt){#1}}}
+
+Now we can put \sillyframe{all}
+\sillyframe{sorts} \sillyframe{of}
+\sillyframe{things} in silly frames.
+
+Note that I do not claim this kind of silly frame to be good-looking:
+it is just an example.
+
+The dimension \=0pt= in the example above determines the minimal height
+of the silly frame's inner box. Sometimes it is necessary to define it
+because \LaTeX's picture environment suppresses small line segments.
+
+The macro \<ifrch> determines what should be done if the frame's
+contents width/height ratio is too small. By specifying \<ifrch>
+we instruct \<iframe> to center the contents. Instead of
+\<ifrch> we could have specified \<ifrl> or \<ifrr> to
+have the contents flush left or right.
+
+The macro \<ifrcv> determines what should be done if the frame's
+contents height/width ratio is too small. \<ifrcv> yields
+vertical centering, while \<ifrt> and \<ifrb> yield top and bottom
+flushing.
+
+\leavevmode\jarframe{As} another example of isomorphous frames, consider
+the following framing macro.
+Note that the inner box height is 1000 again, as expected
+by \<iframe>.
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \rlap{\jarshape}%
+    \begin{picture}(1800,1500)
+      \thinlines
+      \dashbox(0,0)(1800,1500)\dashbox(300,180)(1500,1180)
+      \hmeasure(300,180)(0,180)\put(150,280){\makebox(0,0)[br]{$x=300$}}
+      \vmeasure(300,180)(300,0)\put(400,60){\makebox(0,0)[l]{$y=180$}}
+      \hmeasure(300,930)(1500,930)\put(1050,980){\makebox(0,0)[b]{$w=1200$}}
+      \vmeasure(550,180)(550,1180)\put(600,500){\makebox(0,0)[l]{$h=1000$}}
+    \end{picture}}%
+\end{center}
+
+\begin{verbatim}
+\newcommand\jarshape{%
+  \begin{picture}(1800,1500)
+    \thicklines
+    \put(360,0){\line(-1,3){360}}
+    \put(0,1080){\line(3,1){1260}}
+    \put(540,1500){\line(1,0){720}}
+    \put(1440,0){\line(1,3){360}}
+    \put(1800,1080){\line(-3,1){1260}}
+    \put(360,0){\line(1,0){1080}}
+  \end{picture}}
+
+\newcommand\jarframe[1]{%
+ \iframe\jarshape(300,180){1200}{10pt}%
+  \ifrch\ifrb:{\separbox{1pt}{#1}}}
+\end{verbatim}
+
+\section{Using the Units System with \<iframe>}
+
+If we put frames around for example page numbers, then
+the self-scaling properties of isomorphous frames may have an unpleasant
+result: numbers of the same type, like
+page number \sillyframe{\oldstylenums{21}} and
+page number \sillyframe{\oldstylenums{25}}, might get differently sized
+frames because of their different natural sizes. This can be solved by
+redefining \<sillyframe> to specify a {\em unit name}, since all things
+typeset with the same unit name get equally sized frames. The unit name,
+for example \=pagenr=, should be placed between the vertical alignment
+specification and the colon, like in:
+
+\begin{verbatim}
+\newcommand\pagenrframe[1]{%
+  \iframe\sillyshape(134,500){1732}%
+    {0pt}\ifrch\ifrcv pagenr:{%
+      \sepbox(0pt,2pt,0pt,2pt){#1}}}
+
+framed numbers like \pagenrframe{\oldstylenums
+{21}} and \pagenrframe{\oldstylenums{25}}.
+\end{verbatim}
+
+which yields (after compiling our document twice):
+
+\newcommand\pagenrframe[1]{%
+  \iframe\sillyshape(134,500){1732}%
+    {0pt}\ifrch\ifrcv pagenr:{%
+      \sepbox(0pt,2pt,0pt,2pt){#1}}}
+
+framed numbers like \pagenrframe{\oldstylenums
+{21}} and \pagenrframe{\oldstylenums{25}}.
+
+\section{\<lcenter>: Centering on a Line}
+
+The result shown above is not fully satisfactory yet: now the frames are
+equally sized but the first frame is positioned higher than the second.
+This is no bug, it is a feature. No really, it is! It is, however, a
+sometimes unwanted feature. The solution is using \<lcenter> to center
+the frames on their line, like in:
+
+\begin{verbatim}
+pages \lcenter{\pagenrframe{\oldstylenums{21}}}
+and \lcenter{\pagenrframe{\oldstylenums{25}}}
+\end{verbatim}
+
+resulting in:
+
+pages \lcenter{\pagenrframe{\oldstylenums{21}}}
+and \lcenter{\pagenrframe{\oldstylenums{25}}}
+
+\section{\<ringbox>, \<bellybox> and \<outringbox>: Encircling}
+
+\=\ringbox{={\it optional unit name\/}\=}:{={\it stuff\/}\=}= sets
+a circle around {\it stuff\/}. The specification of a unit name is optional;
+its use is explained above.
+
+\<outringbox> is very much like \<ringbox>,
+but the following example demonstrates their difference:
+
+\begin{verbatim}
+1\ringbox:{2}3 and 1\outringbox:{2}3
+\end{verbatim}
+
+yields:
+
+1\ringbox:{2}3 and 1\outringbox:{2}3
+
+If \<ringbox> is used, the circle contributes to the width, height and
+depth of the result. If \<outringbox> is used, the circle does not
+contribute any width, height or depth, so that the text is typeset as
+if the circle were not present and the circle were added after typesetting
+the text.
+
+The result of \<bellybox> is a circle which contributes a bit to the
+dimensions of the encircled result but also sticks out a bit
+(by 10 percent of its radius to be sort of exact). So \<bellybox> is
+an intermediate form of \<ringbox> and \<outringbox>.
+
+\section{\<sframe>: Stretchable Frames}
+
+Putting the current \<sframe> to good use is a rather complex task,
+so I still look for ways to simplify its `user' interface.
+Therefore there is a chance that \<sframe> will
+be reorganized quite thoroughly in future. However there is no need
+to be afraid that macros using \<sframe> run the risk of incompatibility
+with future releases of \hhflxbox: as soon as I find out that anyone
+is actually using \<sframe>, I will take care that future releases
+of \hhflxbox will always support the old \<sframe>, possibly along
+with a new \<sframe>-like macro.
+
+In the remainder of this section I will first explain how \<sframe>
+constructs a frame. After that I will give an example of the development
+of a simple frame, using concepts introduced in the preceding explanation.
+Reading the explanation and the example is necessary if you want to
+take full advantage of \<sframe>. Maybe it does not make clear enough
+how to construct the most complex frames, but at least it will give you
+an idea of what to experiment with. By the way: I will very
+gratefully welcome any alternative or supplementary explanations and
+suggestions for improving the explanation or the examples.\footnote
+{Please e-mail me at: \texttt{hermanh@cistron.nl}}
+After this thorough tutorial some more examples of frames constructed
+with \<sframe> are given, with full \TeX\ code. If you do not feel like
+reading the entire manual, then just studying the examples may
+teach you enough to learn how to construct moderately complex frames
+yourself, by imitating the examples and experimenting with small
+modifications.
+
+\<sframe> constructs a frame out of four frame components: a left side,
+a top ledger, a right side and a bottom ledger.
+The frame components actually are macros which set the values of a
+box and several dimension registers.
+To understand how these values should be determined by the component
+macros, one needs to understand the internal representation of a
+box which is being framed.
+
+Such a box is represented by four
+junctures $A$, $B$, $C$ and $D$, to which the frame components will
+eventually be attached. Each juncture $J$ is related to
+a corner $R_J$ of a surrounding box $R = R_AR_BR_CR_D$. The location
+of each juncture $J$ is given by a vector $(x_J,y_J)$, which has its
+origin in the related corner $R_J$ while it is oriented \emph{into}
+the box.
+Thus each juncture $J$ which is \emph{inside} the box $R$ will have positive
+coordinates $x_J$ and $y_J$, while a juncture $J$ outside the box
+will have one or both of its coordinates negative.
+
+The following figure might clarify the above definitions. In this figure
+all of the coordinates $x$ and $y$ are positive.
+
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \begin{picture}(2600,2100)
+      \thinlines
+      \dashbox(0,0)(2600,2100)
+      \put(-100,2100){\makebox(0,0)[tr]{$R_A$}}
+      \put(2700,2100){\makebox(0,0)[tl]{$R_B$}}
+      \put(2700,0){\makebox(0,0)[bl]{$R_C$}}
+      \put(-100,0){\makebox(0,0)[br]{$R_D$}}
+      \put(700,1600){\circle*{100}}\put(800,1400){\makebox(0,0)[tl]{$A$}}
+      \hmeasure(0,1600)(700,1600)\put(350,1500){\makebox(0,0)[t]{$x_A$}}
+      \vmeasure(700,1600)(700,2100)\put(800,1850){\makebox(0,0)[l]{$y_A$}}
+      \put(2000,1600){\circle*{100}}\put(1800,1400){\makebox(0,0)[tr]{$B$}}
+      \hmeasure(2000,1600)(2600,1600)\put(2300,1500){\makebox(0,0)[t]{$x_B$}}
+      \vmeasure(2000,1600)(2000,2100)\put(1900,1850){\makebox(0,0)[r]{$y_B$}}
+      \put(2200,400){\circle*{100}}\put(2000,600){\makebox(0,0)[br]{$C$}}
+      \hmeasure(2200,400)(2600,400)\put(2400,500){\makebox(0,0)[b]{$x_C$}}
+      \vmeasure(2200,0)(2200,400)\put(2100,200){\makebox(0,0)[r]{$y_C$}}
+      \put(400,700){\circle*{100}}\put(600,800){\makebox(0,0)[bl]{$D$}}
+      \hmeasure(0,700)(400,700)\put(200,800){\makebox(0,0)[b]{$x_D$}}
+      \vmeasure(400,0)(400,700)\put(500,350){\makebox(0,0)[l]{$y_D$}}
+      \put(700,1600){\line(1,0){1300}}
+      \put(2000,1600){\line(1,-6){200}}
+      \put(400,700){\line(1,3){300}}
+      \put(400,700){\line(6,-1){1800}}
+    \end{picture}}%
+\end{center}
+
+In practice the surrounding box is most often the smallest rectangle which
+includes all junctures, like in the following figure:
+
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \begin{picture}(2600,2100)
+      \thinlines
+      \dashbox(400,400)(2200,1600)
+      \put(300,1600){\makebox(0,0)[tr]{$R_A$}}
+      \put(2300,1600){\makebox(0,0)[tl]{$R_B$}}
+      \put(2300,300){\makebox(0,0)[bl]{$R_C$}}
+      \put(400,300){\makebox(0,0)[tl]{$R_D$}}
+      \put(700,1600){\circle*{100}}\put(800,1400){\makebox(0,0)[tl]{$A$}}
+      \hmeasure(700,1700)(400,1700)\put(550,1800){\makebox(0,0)[b]{$x_A$}}
+      \put(2000,1600){\circle*{100}}\put(1800,1400){\makebox(0,0)[tr]{$B$}}
+      \hmeasure(2200,1700)(2000,1700)\put(2100,1800){\makebox(0,0)[b]{$x_B$}}
+      \put(2200,400){\circle*{100}}\put(2000,600){\makebox(0,0)[br]{$C$}}
+      \put(400,700){\circle*{100}}\put(600,800){\makebox(0,0)[bl]{$D$}}
+      \vmeasure(300,700)(300,400)\put(200,550){\makebox(0,0)[r]{$y_D$}}
+      \put(700,1600){\line(1,0){1300}}
+      \put(2000,1600){\line(1,-6){200}}
+      \put(400,700){\line(1,3){300}}
+      \put(400,700){\line(6,-1){1800}}
+    \end{picture}}%
+\end{center}
+
+where $y_A = y_B = y_C = 0$ and $x_C = x_D = 0$. The reason to use
+such a minimal surrounding rectangle for $R$ is that frame components
+can only be attached to a pair of junctures which lies on a border
+of $R$ (or on a line overlapping a border).
+
+In the figure above $(A,B)$ is such a pair. Since the corresponding
+corners $(R_A,R_B)$ represent the \emph{top} edge of the box, the
+\emph{top} ledger component can be attached to $A$ and $B$. In order
+to do so the top ledger component macro is called to construct the ledger,
+so that \<sframe> can subsequently attach the ledger to the junctures.
+
+The top ledger component macro gets eight arguments. The first identifies
+the box register in which the ledger is to be set. The second, third
+and fourth give the values of $|R_AR_B|$ (the length of $R$'s top edge),
+$x_A$ and $x_B$. These values can be used to determine the appropriate
+length for the ledger. Usually this length is $|AB|$, which equals
+$|R_AR_B| - x_A - x_B$.
+To ease the development of component macros \hhflxbox defines
+a macro \<sfrcalclength>, which takes these three terms as its
+three arguments and stores the result of the above calculation in
+\<@tempdimq>. Note that \<sfrcalclength> should only be used inside
+a group inside a component macro, to avoid interference with other
+macros using \<@tempdimq> (like \<sframe> itself).
+
+Now let us construct our first prototype of a top ledger part. We simply
+ignore the last four arguments for the ledger component macro: we will
+add them later. We will construct a ledger which consists of an
+hollow beam spanning its junctures, adorned with two differently
+sized squares at the ends.
+
+\begin{verbatim}
+\newcommand\squaredbeam[4]{%
+  \sbox#1{%    #1 is the box register to contain the ledger;
+          %    set left square, raised 10pt, centered, and
+          %    not contributing any width:
+    \raise 10pt\clap{\vrule height 20pt width 20pt}%
+          %    set left end of beam, not contrib. any width:
+    \rlap{\vrule height 20pt width 1.2pt}%
+          %    calculate distance between the junctures and
+          %    store result in \@tempdimq:
+    \sfrcalclength{#2}{#3}{#4}%
+          %    set hollow beam (without the ends) of
+          %    appropriate width:
+    \vbox{\hsize\@tempdimq\offinterlineskip
+      \hrule height 2pt width \hsize
+      \kern 17.6pt
+      \hrule height 2pt width \hsize}%
+          %    set right end of beam, not contrib. any width:
+    \llap{\vrule height 20pt width 1.2pt}%
+          %    set right square, raised 10pt, centered etc.:
+    \raise 10pt\clap{\vrule height 15pt width 15pt}}}
+\end{verbatim}
+\newcommand\squaredbeam[1]{\hbox{%
+    \raise 10pt\clap{\vrule height 20pt width 20pt}%
+    \rlap{\vrule height 20pt width 1.2pt}%
+    \vbox{\hsize #1\offinterlineskip
+      \hrule height 1.2pt width \hsize
+      \kern 17.6pt
+      \hrule height 1.2pt width \hsize}%
+    \llap{\vrule height 20pt width 1.2pt}%
+    \raise 10pt\clap{\vrule height 15pt width 15pt}}}
+
+\<squaredbeam> will produce beams like shown in the following figure.
+The dashed box denotes the size and shape of the \<hbox> in which
+the beam is set. The $P$ spot indicates its reference point.
+
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \begin{picture}(2600,700)
+      \thinlines
+      \dashbox(700,100)(2000,700)
+      \put(700,100){\makebox(0,0)[bl]{\squaredbeam{1300\unitlength}}}
+      \put(700,100){\circle*{100}}\put(600,0){\makebox(0,0)[tr]{$P$}}
+    \end{picture}}%
+\end{center}
+
+It is important to be aware of the position of the reference point.
+When the ledger is attached, the reference point is aligned with the
+left juncture, as in the following figure:
+
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \begin{picture}(2600,2200)
+      \thinlines
+      \dashbox(400,400)(2200,1600)
+      \put(300,1600){\makebox(0,0)[tr]{$R_A$}}
+      \put(2300,1600){\makebox(0,0)[tl]{$R_B$}}
+      \put(2300,300){\makebox(0,0)[bl]{$R_C$}}
+      \put(400,300){\makebox(0,0)[tl]{$R_D$}}
+      \put(700,1600){\circle*{100}}\put(800,1400){\makebox(0,0)[tl]{$A$}}
+      \put(2000,1600){\circle*{100}}\put(1800,1400){\makebox(0,0)[tr]{$B$}}
+      \put(2200,400){\circle*{100}}\put(2000,600){\makebox(0,0)[br]{$C$}}
+      \put(400,700){\circle*{100}}\put(600,800){\makebox(0,0)[bl]{$D$}}
+      \put(2000,1600){\line(1,-6){200}}
+      \put(400,700){\line(1,3){300}}
+      \put(400,700){\line(6,-1){1800}}
+      \put(700,1600){\makebox(0,0)[bl]{\squaredbeam{1300\unitlength}}}
+      \put(700,1600){\circle*{100}}\put(600,1500){\makebox(0,0)[tr]{$P$}}
+    \end{picture}}%
+\end{center}
+
+Now that the ledger has been attached to the junctures $A$ and $B$, those
+junctures cannot be used anymore. Therefore the ledger component macro
+should define new positions for the junctures $A$ and $B$, and that is
+what the fifth to eighth parameters of the component macro are for.
+The fifth argument specifies the dimension register in which the new
+value of $x_A$ should be set. We denote that value by $x_{A'}$ and its
+register by $[x_{A'}]$. Similarly the sixth, seventh and eighth argument
+provide $[x_{B'}]$, $[y_{A'}]$ and $[y_{B'}]$. Now to what values should those
+registers be set? The following figure shows the new positions $A'$ and
+$B'$ of the junctures:
+
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \begin{picture}(2600,2500)
+      \thinlines
+      \dashbox(400,400)(2200,1600)
+      \put(300,1600){\makebox(0,0)[tr]{$R_A$}}
+      \put(2300,1600){\makebox(0,0)[tl]{$R_B$}}
+      \put(2300,300){\makebox(0,0)[bl]{$R_C$}}
+      \put(300,300){\makebox(0,0)[br]{$R_D$}}
+      \hmeasure(500,2200)(400,2200)\put(450,2400){\makebox(0,0)[b]{$x_{A'}$}}
+      \vmeasure(400,1600)(400,2200)\put(300,1900){\makebox(0,0)[r]{$y_{A'}$}}
+      \hmeasure(2200,2100)(2150,2100)\put(2175,2300){\makebox(0,0)[b]{$x_{B'}$}}
+      \vmeasure(2200,1600)(2200,2100)\put(2300,1850){\makebox(0,0)[l]{$y_{B'}$}}
+      \put(2000,1600){\line(1,-6){200}}
+      \put(400,700){\line(1,3){300}}
+      \put(400,700){\line(6,-1){1800}}
+      \put(700,1600){\makebox(0,0)[bl]{\squaredbeam{1300\unitlength}}}
+    \end{picture}}%
+\end{center}
+
+Now the values to store in $[x_{A'}]$, $[x_{B'}]$, $[y_{A'}]$ and $[y_{B'}]$
+can be measured from the figure above. Note that the positive direction is
+always pointing into the surrounding box $R$ (which is too small to really
+surround now; we will discuss that later). In the example above this means
+that $y_{A'}$ and $y_{B'}$ are negative. Now let us incorporate the setting
+of the $A'$ and $B'$ positions in our ledger component macro:
+
+\begin{verbatim}
+\newcommand\squaredbeam[8]{%
+  \sbox#1{%    #1 is the box register to contain the ledger;
+          %    set left square, raised 10pt, centered, and
+          %    not contributing any width:
+    \raise 10pt\clap{\vrule height 20pt width 20pt}%
+          %    set left end of beam, not contrib. any width:
+    \rlap{\vrule height 20pt width 1.2pt}%
+          %    calculate distance between the junctures and
+          %    store result in \@tempdimq:
+    \sfrcalclength{#2}{#3}{#4}%
+          %    set hollow beam (without the ends) of
+          %    appropriate width:
+    \vbox{\hsize\@tempdimq\offinterlineskip
+      \hrule height 2pt width \hsize
+      \kern 17.6pt
+      \hrule height 2pt width \hsize}%
+          %    set right end of beam, not contrib. any width:
+    \llap{\vrule height 20pt width 1.2pt}%
+          %    set right square, raised 10pt, centered etc.:
+    \raise 10pt\clap{\vrule height 15pt width 15pt}}%
+  \setlength#5{#3}%       initialize xA' to xA
+  \addtolength#5{-10pt}%  subtract half width of left square
+  \setlength#7{-30pt}%    set yA' to -30pt
+  \setlength#6{#4}%       initialize xB' to xB
+  \addtolength#6{7.5pt}%  add half the width of right square
+  \setlength#8{-25pt}%    set yB' to -25pt
+}
+\end{verbatim}
+
+Now our top ledger component macro has been completed.
+Component macros for the bottom ledger and the sides have similar
+structure. Their characteristics are summarized in the following table:
+
+\begin{tabular}{|r|c|c|c|c|}\hline\label{sframetable}%
+           & left       & top        & right      & bottom     \\\hline\hline
+junctures  & $A,D$      & $A,B$      & $B,C$      & $C,D$      \\\hline
+arg. \#2   & $|R_AR_D|$ & $|R_AR_B|$ & $|R_BR_C|$ & $|R_CR_D|$ \\\hline
+arg. \#3   & $y_A$      & $x_A$      & $y_B$      & $x_D$      \\\hline
+arg. \#4   & $y_D$      & $x_B$      & $y_C$      & $x_C$      \\\hline
+arg. \#5   & $[y_{A'}]$ & $[x_{A'}]$ & $[y_{B'}]$ & $[x_{D'}]$ \\\hline
+arg. \#6   & $[y_{D'}]$ & $[x_{B'}]$ & $[y_{C'}]$ & $[x_{C'}]$ \\\hline
+arg. \#7   & $[x_{A'}]$ & $[y_{A'}]$ & $[x_{B'}]$ & $[y_{D'}]$ \\\hline
+arg. \#8   & $[x_{D'}]$ & $[y_{B'}]$ & $[x_{C'}]$ & $[y_{C'}]$ \\\hline
+\parbox{80pt}{\raggedleft\strut reference point aligned with\strut} &
+             $y_D$      & $x_A$      & $y_C$      & $x_D$      \\\hline
+\end{tabular}
+
+Now that we know the structure of frame component macros, let us construct
+a simple frame. In fact we will construct a \emph{very} simple frame:
+we will simulate an \<fbox> with zero \<fboxsep>. The result is not useful
+(\<fbox> itself is much more efficient than an \<sframe> simulation), but
+the construction process is useful as an example.
+
+We can consider fboxing to be a four-phase process. First the box to
+be framed is constructed and it is given four junctures at the corners.
+Then the left and right sides of the frame are added, causing the junctures
+to be moved out horizontally. Third a new surrounding box is assumed,
+which surrounds both the original box and the already added frame components,
+thus causing the moved out junctures to lie on the borders of the new
+surrounding box. Finally the top and bottom ledgers of the frame are added
+(and the junctures are moved again, although that is not really necessary
+anymore). The first three phases are shown in the following figure:
+
+\begin{center}\unitlength.05pt\noindent
+  \hbox{%
+    \begin{picture}(2000,2000)
+      \dashbox(100,100)(1900,1900)
+      \put(100,100){\circle*{100}}
+      \put(1900,100){\circle*{100}}
+      \put(1900,1900){\circle*{100}}
+      \put(100,1900){\circle*{100}}
+      \put(0,0){\makebox(0,0)[tl]{$D=R_D$}}
+      \put(2000,0){\makebox(0,0)[tr]{$C=R_C$}}
+      \put(2000,2000){\makebox(0,0)[br]{$B=R_B$}}
+      \put(0,2000){\makebox(0,0)[bl]{$A=R_A$}}
+    \end{picture}%
+    \hspace{1cm}%
+    \begin{picture}(2400,2000)
+      \dashbox(300,100)(2100,1900)
+      \put(100,100){\circle*{100}}
+      \put(2300,100){\circle*{100}}
+      \put(2300,1900){\circle*{100}}
+      \put(100,1900){\circle*{100}}
+      \put(300,100){\makebox(0,0)[br]%
+        {\vrule width 200\unitlength height 1800\unitlength}}
+      \put(2100,100){\makebox(0,0)[bl]%
+        {\vrule width 200\unitlength height 1800\unitlength}}
+      \put(300,0){\makebox(0,0)[tl]{$R_D$}}    \put(0,0){\makebox(0,0)[tl]{$D$}}
+      \put(2100,0){\makebox(0,0)[tr]{$R_C$}}   \put(2400,0){\makebox(0,0)[tr]{$C$}}
+      \put(2100,2000){\makebox(0,0)[br]{$R_B$}}\put(2400,2000){\makebox(0,0)[br]{$B$}}
+      \put(300,2000){\makebox(0,0)[bl]{$R_A$}} \put(0,2000){\makebox(0,0)[bl]{$A$}}
+    \end{picture}%
+    \hspace{1cm}
+    \begin{picture}(2400,2000)
+      \dashbox(100,100)(2300,1900)
+      \put(100,100){\circle*{100}}
+      \put(2300,100){\circle*{100}}
+      \put(2300,1900){\circle*{100}}
+      \put(100,1900){\circle*{100}}
+      \put(300,100){\makebox(0,0)[br]%
+        {\vrule width 200\unitlength height 1800\unitlength}}
+      \put(2100,100){\makebox(0,0)[bl]%
+        {\vrule width 200\unitlength height 1800\unitlength}}
+      \put(100,0){\makebox(0,0)[t]{$D=R_D$}}
+      \put(2300,0){\makebox(0,0)[t]{$C=R_C$}}
+      \put(2300,2000){\makebox(0,0)[b]{$B=R_B$}}
+      \put(100,2000){\makebox(0,0)[b]{$A=R_A$}}
+    \end{picture}}%
+\end{center}
+
+The initialisation of the junctures and the (re)selection of surrounding
+boxes is all taken care of by \<sframe>. Our job is to define proper
+frame component macros. Let us start with the left side part:
+
+\begin{verbatim}
+\newcommand\leftside[8]{%
+  \sbox#1{%   as usual, #1 is the box register to contain
+          %   the side part;
+          %   as usual, calculate the distance between the
+          %   junctures involved; store result in \@tempdimq:
+    \sfrcalclength{#2}{#3}{#4}%
+          %   set solid side part:
+    \vrule height \@tempdimq width \fboxrule}%
+  \setlength#5{#3}%         set yA' to yA
+  \setlength#7{-\fboxrule}% set xA' to negative width of
+                          % frame component
+  \setlength#6{#4}%         set yD' to yD
+  \setlength#8{-\fboxrule}% set xD' to negative width of
+                          % frame component
+}
+\end{verbatim}
+
+The meaning of the various parameters was found in the table
+on page \pageref{sframetable}. Now let us write the right side
+part:
+
+\begin{verbatim}
+\newcommand\rightside[8]{%
+  \sbox#1{%   as usual, #1 is the box register to contain
+          %   the side part;
+          %   as usual, calculate the distance between the
+          %   junctures involved; store result in \@tempdimq:
+    \sfrcalclength{#2}{#3}{#4}%
+          %   set solid side part:
+    \vrule height \@tempdimq width \fboxrule}%
+  \setlength#5{#3}%         set yB' to yB
+  \setlength#7{-\fboxrule}% set xB' to negative width of
+                          % frame component
+  \setlength#6{#4}%         set yC' to yC
+  \setlength#8{-\fboxrule}% set xC' to negative width of
+                          % frame component
+}
+\end{verbatim}
+
+Now take a close look at the left and right side macros: they
+consist of exactly the same \TeX\ code! This is not purely a coincedence.
+The meanings of the frame component macro parameters have been
+chosen so that the same macro can be used for opposite frame
+components in many cases. Let us turn to the top ledger macro:
+
+\begin{verbatim}
+\newcommand\topledger[8]{%
+  \sbox#1{%   as usual, #1 is the box register to contain
+          %   the side part;
+          %   as usual, calculate the distance between the
+          %   junctures involved; store result in \@tempdimq:
+    \sfrcalclength{#2}{#3}{#4}%
+          %   set solid side part:
+    \vrule width \@tempdimq height \fboxrule}%
+  \setlength#5{#3}%         set xA' to xA
+  \setlength#7{-\fboxrule}% set yA' to negative height of
+                          % frame component
+  \setlength#6{#4}%         set xB' to xB
+  \setlength#8{-\fboxrule}% set yB' to negative height of
+                          % frame component
+}
+\end{verbatim}
+
+Compare the top ledger macro to the side macros. You will notice that
+there are many similarities. Moreover, all the \<setlength> lines
+are exactly the same (ignoring the explanatory comments). In fact
+the \<setlength> lines in the above macro represent a common case,
+in which the only variable is the thickness (width for side parts,
+height for ledger parts) of the frame component. To ease the development
+of frame component macros a macro \<sfrsetoffsets> has been included
+in \hhflxbox which handles the common case. Using this macro, one can
+replace the macro definitions above by:
+
+\begin{verbatim}
+\newcommand\side[8]{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \vrule height \@tempdimq width \fboxrule}%
+  \sfrsetoffsets{\fboxrule}{#3}{#4}#5#6#7#8}
+
+\newcommand\ledger[8]{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \vrule width \@tempdimq height \fboxrule}%
+  \sfrsetoffsets{\fboxrule}{#3}{#4}#5#6#7#8}
+\end{verbatim}
+
+Yes indeed, the ledger macro is suited for use as both a top and a bottom
+ledger. Now that our frame components are ready, we only have to let them
+be combined by \<sframe>. This is done by defining:
+
+\begin{verbatim}
+\newcommand\simulatedfbox[1]{%
+  \sframe [1]\side [2]\ledger [1]\side [2]\ledger {#1}}
+\end{verbatim}
+
+In the example above the left side, top ledger, right side and bottom
+ledger are succesively specified. Each of the frame components is
+preceded by a bracketed number which determines its phase. The choice
+of phases above guarantees that the sides are added before the ledgers,
+as planned in our four-phase fboxing model. In general phase numbers
+1 to 4 can be used; if omitted, phase 4 is assumed.
+
+The parameter \=#1= in the example above will contain the contents of
+the framed box.
+
+\makeatletter
+\newcommand\side[8]{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \vrule height \@tempdimq width \fboxrule}%
+  \sfrsetoffsets{\fboxrule}{#3}{#4}#5#6#7#8}
+\newcommand\ledger[8]{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \vrule width \@tempdimq height \fboxrule}%
+  \sfrsetoffsets{\fboxrule}{#3}{#4}#5#6#7#8}
+\newcommand\simulatedfbox[1]{%
+  \sframe [1]\side [2]\ledger [1]\side [2]\ledger {#1}}
+\makeatother
+
+And finally here is an example, the result of \=\simulatedfbox=\:\={hello}=:
+\simulatedfbox{hello}.
+
+\section{An example of \<sframe>}
+
+\begin{verbatim}
+\def\fancycolumn#1#2#3#4#5#6#7#8{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \def\\##1;##2;{\vrule height\@tempdimq width ##1pt\kern ##2pt}%
+    \\0.05;0.15;\\0.60;0.44;\\1.11;0.65;\\1.45;0.77;\\1.57;0.77;%
+    \\1.45;0.65;\\1.11;0.44;\\0.60;0.15;\\0.05;0;}%
+  \sfrsetoffsets{15pt}{#3}{#4}#5#6#7#8}%
+
+\def\fancytympan#1#2#3#4#5#6#7#8{%
+  \sbox#1{%
+    \sfrcalclength{#2}{#3}{#4}%
+    \unitlength\@tempdimq
+    \vbox{\hsize\@tempdimq\offinterlineskip
+      \hbox{\begin{picture}(1,0.1)
+        \thicklines
+        \put(0,0){\line(1,0){1}}
+        \put(0,0){\line(5,1){0.5}}
+        \put(0.5,0.1){\line(5,-1){0.5}}
+        \thinlines
+        \put(0.5,0.05){\circle*{0.072}}
+      \end{picture}}
+      \hbox{\vrule width\@tempdimq height 2pt}}}%
+  \sfrsetoffsets{\ht#1}{#3}{#4}#5#6#7#8}%
+\end{verbatim}
+
+Now we can define:
+
+\begin{verbatim}
+\newcommand\templebox[1]{\sframe
+  [1]\fancycolumn [2]\fancytympan
+  [1]\fancycolumn [-]\-%
+  {\separbox{3pt}{#1}}}
+\end{verbatim}
+
+which should be read as: after 3pt wide empty space is set around \=#1=,
+first add columns to the left and the right, second put a tympan on top
+of the result, and never put anything at the foot. Then typing this:
+
+\begin{verbatim}
+\templebox{hello there!} and \templebox{%
+  \vbox{\hbox{b}\hbox{y}\hbox{e}}}
+\end{verbatim}
+
+will yield:
+
+\leavevmode
+\templebox{hello there!} and \templebox{%
+  \vbox{\hbox{b}\hbox{y}\hbox{e}}}
+
+More examples will be added later.
+
+\section{Alignment and Units System with \<sframe>}
+
+This section is yet to be written.
+
+\section{\<broadbox> for Setting Line Wide Frames}
+
+\noindent
+\begin{templeboxed}
+\<broadbox> can be useful to set frames that fill the line. Its use is best
+explained through an example. Suppose we want to set a paragraph of text
+in a line wide temple box. Then the lines will be filled by (from left to
+right): a column, empty space added by \<separbox>, text, empty space and
+a column. In other words: the whole line is available for setting text,
+except for the space needed by the columns and the empty space set by
+\<separbox>. The columns are 12pt each while \<separbox> adds 3pt wide empty
+space to the left and the right: that makes a total of 30pt. So we write:
+\=\templebox=\:\={\broadbox=\:\={30pt}{\<broadbox>= \=can= \=be= \ldots
+\=\textit=\:\={dimension}.}}=, yielding a paragraph typeset like this.
+So \=\broadbox=\:\={={\it dimension\/}\=}{={\it stuff\/}\=}= sets {\it stuff\/}
+in a \<vbox> which has width line width minus \textit{dimension}.
+\end{templeboxed}
+
+\section{Environment Versions}
+
+Some of the macros defined in \hhflxbox are available as \LaTeX\
+environments. For example: instead of \=\broadbox=\:\={30pt}{={\it
+text to be boxed\/}\=}= one could also use \=\begin=\:\={broadboxed}{30pt}=
+{\it text to be boxed\/}\=\end=\:\={broadboxed}=. Similarly one
+could use the environments \envirname{sepboxed}, \envirname{separboxed}
+and \envirname{sframed} instead of the macros \<sepbox>, \<separbox>
+and \<sframe>.
+
+Actually I have to confess something: I lied to you about the
+typesetting of the section about \<broadbox>. I did it with:
+
+\begin{verbatim}
+\newenvironment{templeboxed}{%
+  \begin{sframed}%
+    [1]\fancycolumn [2]\fancytympan
+    [1]\fancycolumn [-]\-
+    \begin{separboxed}{3pt}
+      \begin{broadboxed}{30pt}
+}{%
+      \end{broadboxed}%
+    \end{separboxed}%
+  \end{sframed}%
+}
+
+\begin{templeboxed}%
+  \<broadbox> can be useful to set frames that
+       :        :        :        :        :
+  width line width minus \textit{dimension}.
+\end{templeboxed}
+\end{verbatim}
+
+I hope you will forgive me my cheating. I mean\ldots\ without using
+the environments typesetting verbatim stuff is so troublesome\ldots
+
+\section{Squeezing out white space}
+
+When framing passages, leading white space should often be set above
+the frame, not in the frame. Suppose a macro has been defined for
+type-setting 1 cm of white space, some sentence, and another cm of
+white space:
+
+\begin{verbatim}
+\newcommand\sentence[1]{\addvspace{1cm}#1\par\addvspace{1cm}}
+\end{verbatim}
+\newcommand\sentence[1]{\addvspace{1cm}#1\par\addvspace{1cm}}
+
+Now suppose you want to templebox the sentence occasionally, without
+modifying the argument of \<sentence>. (Keeping the argument of \<sentence>
+free of templeboxing and other macros may be needed if the argument may
+be reused for entries in the table of contents or the like.)
+This may seem to be a solution:
+
+\begin{verbatim}
+\templebox{\vbox{\hsize 4cm\sentence{lots of bla}}}
+\end{verbatim}
+
+but it has an unwanted side-effect: the templebox now includes
+the white space above and below the sentence:
+
+\templebox{\vbox{\hsize 4cm\sentence{lots of bla}}}
+
+The white space can be squeezed out of the templebox as follows
+(rules have been added to clearify the amounts of white space added):
+
+\begin{verbatim}
+\hrule height 1pt width 100pt
+\sbox0{\templebox{\vbox{\hsize 4cm
+      \topsqueezeout
+      \sentence{lots of bla}
+      \botsqueezeout}}}
+\topsqueezein
+\box0%
+\botsqueezein
+\hrule height 1pt width 100pt
+\end{verbatim}
+
+which produces:
+
+\hrule height 1pt width 100pt
+\sbox0{\templebox{\vbox{\hsize 4cm
+      \topsqueezeout
+      \sentence{lots of bla}
+      \botsqueezeout}}}
+\topsqueezein
+\box0%
+\botsqueezein
+\hrule height 1pt width 100pt
+
+The macro \<topsqueezeout> stores and suppresses the leading white space, while
+\<topsqueezein> typesets the suppressed leading space.
+Similarly the macros \<botsqueezeout> and \<botsqueezein> take care of white space
+at the bottom.
+
+\end{document}
+
+

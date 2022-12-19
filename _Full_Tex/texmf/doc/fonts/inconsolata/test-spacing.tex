@@ -1,0 +1,58 @@
+% From Enrico Gregorio, testing stretch and shrink of the font.
+% Public domain.
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{inconsolata}
+\parindent=0pt
+
+\begin{document}
+\ttfamily
+Inconsolata
+
+\settowidth{\dimen0}{123456789012345678901234567}
+
+\vbox{\hsize=\dimen0
+1234567890123456789012345\\
+This should be monospaced\\
+without spaces shrinking!\\
+1 3 5 7 9 1 3 5 7 9 1 3 5 28
+}
+
+In the following only 30
+characters should fit:
+
+\settowidth{\dimen0}{A}
+
+\leavevmode\hbox to30\dimen0{%
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8} (they are 35)
+
+\hbox{%
+123456789012345678901234567890}
+
+% 
+\bigskip \hrule \bigskip
+
+\fontfamily{cmtt}\selectfont
+Computer Modern Typewriter
+
+\settowidth{\dimen0}{123456789012345678901234567}
+
+\vbox{\hsize=\dimen0
+1234567890123456789012345\\
+This should be monospaced\\
+without spaces shrinking!\\
+1 3 5 7 9 1 3 5 7 9 1 3 5 28
+}
+
+In the following only 30
+characters should fit:
+
+\settowidth{\dimen0}{A}
+
+\leavevmode\hbox to30\dimen0{%
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8} (they are 35)
+
+\hbox{%
+123456789012345678901234567890}
+
+\end{document}

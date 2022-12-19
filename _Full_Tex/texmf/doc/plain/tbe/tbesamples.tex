@@ -1,0 +1,548 @@
+%`TEX' THIS FILE, AND PRINT IT.
+
+%                TBESAMPLES, Version 1.0, July 10, 1991
+
+%This file contains examples of the uses of some new commands defined in
+%`TeX by Example' by Arvind Borde (copyright (c) 1992, Academic Press). The
+%commands are also stored in the file `TBEMACROS.TEX'.
+
+%The commands in `TBEMACROS.TEX' and the examples of their uses shown in this
+%file are provided `as is'. The author provides no warranty whatsoever,
+%either express or implied, regarding this work, or with respect to its
+%fitness for any particular purpose.
+
+%-------------------------------------------------------------------------------
+\input tbemacros
+\vquotingon   %Allows the use of `"' when quoting commands verbatim.
+
+%-------------------------------------------------------------------------------
+%LAYOUT
+
+\hsize 7.25 true in \hoffset -.5 true in
+\vsize 9.75 true in \voffset -.5 true in
+\output={\shipout\vbox{\fitframe{.4}{9}{\vbox{\pagebody}}\kern-12pt
+                                        \makefootline}
+                                        \advancepageno}
+\def\ctbe{Commands from `\TeX\ by Example'; version 1.0}
+\footline={\ifodd\pageno {\sevenrm\ctbe\hfil Page \folio\kern-18pt}%
+\else {\sevenrm Page \folio\hfil\ctbe\kern-18pt}\fi}
+
+%-------------------------------------------------------------------------------
+%RESETTING SOME SPACING PARAMETERS
+
+\parskip 1pt plus 1pt
+\parindent 11pt
+\abovedisplayskip=2pt plus2pt minus2pt   %These are spaces around math displays
+\belowdisplayskip=\abovedisplayskip
+\belowdisplayshortskip=\belowdisplayskip
+\abovedisplayshortskip=0pt plus1pt
+
+%-------------------------------------------------------------------------------
+%FONTS
+
+\font\title=cmbx10 scaled\magstep3   % For the title.
+\font\bbf=cmbx10 scaled\magstep1     % For section headings
+
+%-------------------------------------------------------------------------------
+%UTILITY COMMANDS
+
+\def\beginex{\noindent{\it Illustration\/}: \medskip \noindent}
+\def\endex{\medskip \noindent {\it The input for this was\/}:}
+
+\newcount\topicno  \topicno=1
+\def\newtopic#1{\noindent {\bbf\the\topicno. #1}
+                \global\advance\topicno by1
+                \smallskip\noindent\ignorespaces}%
+
+\def\newpage{\beginart \dividerule \coljump=.25 true in/ {2}}
+\def\endpage{\endart\vfil\eject}
+
+%-------------------------------------------------------------------------------
+
+\setbox0=\vbox{\title E}% Makes a box whose height is used to fix other heights.
+
+\def\llines{\vbox to \ht0{\hsize 1in \parindent0pt \raggedleft
+\offinterlineskip
+\vrule height 1pt depth 0pt width .8in
+\vfil
+\vrule height 1pt depth 0pt width .5in
+\vfil
+\vrule height 1pt depth 0pt width 1in}}
+
+\def\rlines{\vbox to \ht0{\hsize 1in \parindent0pt \raggedright
+\offinterlineskip
+\vrule height 1pt depth 0pt width .8in
+\vfil
+\vrule height 1pt depth 0pt width .5in
+\vfil
+\vrule height 1pt depth 0pt width 1in}}
+
+\vglue.5pt
+\centerline{\title\llines\ \ Commands from `\TeX\ by Example'\ \ \rlines}
+\bigskip
+\medskip
+\centerline{\vbox{\hsize4.5in \raggedright \raggedleft
+\pretolerance=10000  \hbadness=10000
+\noindent\hfil The commands illustrated below are taken from the book\hfil\break
+{\it \TeX\ by Example}, by Arvind Borde ({\sl Academic Press}, 1992). Their
+definitions are printed in that book and are also available in a file called
+{\sl tbemacros.tex}\thinspace. To use the commands you must copy the
+definitions from the book, or type `{\tt\string\input\ tbemacros}' in your
+file.}}
+\bigskip\medskip
+\hrule
+\bigskip
+\newpage
+\newtopic{Letters}
+\beginex
+\letterhead
+\date{\today}
+\address{Name\cr Street\cr City\cr
+Postal code\cr Country.\cr}
+\smallskip
+\sal{Dear Reader,}
+
+This shows you how to make a simple letter.
+
+\endletter{Sincerely,}{The Author.}
+\endex
+\beginliteral
+\letterhead
+\date{\today}
+\address{Name\cr Street\cr City\cr
+Postal code\cr Country.\cr}
+\smallskip
+\sal{Dear Reader,}
+
+This shows you how to make a simple letter.
+
+\endletter{Sincerely,}{The Author.}
+\endliteral
+
+\noindent For this to be useful, you must edit the definition of
+"\letterhead" in the {\sl tbemacros\/} file, replacing ``Your name''
+by your name, etc.
+
+\bigskip
+\newtopic{Framing text}
+\beginex
+\centerline{\frame{.5}{6}{2.25in}{\noindent
+This text is 2.25 inches wide, with 6 points
+of white space all around. The rules that
+make the frame around the text are each .5
+point thick.}}
+\endex
+\beginliteral
+\centerline{\frame{.5}{6}{2.25in}{\noindent
+This text is 2.25 inches wide, with 6 points
+of white space all around. The rules that
+make the frame around the text are each .5
+point thick.}}
+\endliteral
+\medskip
+\beginex
+\centerline{\fitframe{.3}{.5}{This frame hugs
+its contents.}}
+\endex
+\beginliteral
+\centerline{\fitframe{.3}{.5}{This frame hugs
+its contents.}}
+\endliteral
+\medskip
+\beginex
+\centerline{\shframe{3}{10}{110pt}{%
+\centerline{\s{S}\s{H}\s{A}\s{D}\s{O}\s{W}}}}
+\endex
+\beginliteral
+\centerline{\shframe{3}{10}{110pt}{%
+\centerline{\s{S}\s{H}\s{A}\s{D}\s{O}\s{W}}}}
+\endliteral
+
+\bigskip
+\newtopic{Memoranda}
+\beginex
+\memo
+TO: The reader.
+FROM: The author.
+SUBJECT: Writing memoranda.
+DATE: Today.
+
+This shows you one way to do a memorandum.
+\bigskip
+\centerline{\pattern{$\star$}{25}}
+\endex
+\beginliteral
+\memo
+TO: The reader.
+FROM: The author.
+SUBJECT: Writing memoranda.
+DATE: Today.
+
+This shows you one way to do a memorandum.
+\bigskip
+\centerline{\pattern{$\star$}{25}}
+\endliteral
+\noindent The "\memo" command is somewhat rigid in that it requires
+you to type `"TO:"', `"FROM:"', `"SUBJECT:"' and `"DATE:"' {\sl exactly\/}
+as shown, and in that order.
+\endpage
+
+\newpage
+\newtopic{Ignoring text}
+The command shown below allows you to make multi-line
+comments without using a "%" sign at the start of each line. It is
+useful when you want \TeX\ to temporarily ignore parts of a document
+and to process only a portion of it.
+\ignore
+All input lines will be ignored from now on
+unless they start with an `!'.
+`\ignore' is switched off by typing `!E' at
+the START of a line, as here:
+!E
+\beginliteral
+\ignore
+All input lines will be ignored from now on
+unless they start with an `!'.
+`\ignore' is switched off by typing `!E' at
+the START of a line, as here:
+!E
+\endliteral
+
+\bigskip
+\newtopic{Ruled tables}
+It is tedious work to make tables with `rules' (i.e., drawn lines)
+from scratch, each time they are needed. The "\table" command in this
+package, along with its associates, gives you one easy way to make
+ruled tables.
+\medskip
+\beginex
+$$\table{\bf Table A}
+One ! Two ! Three \rr
+101 ! 102 ! 103   \r
+104 ! 105 ! 10691
+\caption{}$$
+\endex
+\beginliteral
+$$\table{\bf Table A}
+One ! Two ! Three \rr
+101 ! 102 ! 103   \r
+104 ! 105 ! 10691
+\caption{}$$
+\endliteral
+\noindent The "$$" signs center the table and leave space above and below. They
+can be omitted, if you don't want this. The table entries are typed between
+"\table{}" and "\caption{}". Entries that are to go on the same line are
+separated by "!". You signal the end of a line by typing `"\rr"' if you want a
+horizontal rule just below, or `"\r"' if you don't---for all but the last line.
+\medskip
+\beginex
+\medskip\hfil   % This combination serves
+%to center the table.
+\table{\bf B}
+\hfill\bf 1\hfill!\hfill\bf 2\hfill\rr
+\hfill          A! $\alpha$        \r
+\it Italics.     !                 \rr
+\multispan{2}Like it? \hfil
+\caption{Your caption can be many lines
+long\exclaim}
+\endex
+\beginliteral
+\medskip\hfil  % This combination serves
+%to center the table.
+\table{\bf B}
+\hfill\bf 1\hfill!\hfill\bf 2\hfill\rr
+\hfill          A! $\alpha$        \r
+\it Italics.     !                 \rr
+\multispan{2}Like it? \hfil
+\caption{Your caption can be many lines
+long\exclaim}
+\medskip
+\endliteral
+\noindent Thus, you can use "\multispan" to span table entries, as normal, and
+you can center entries, set them flush right, or change typeface, as shown. The
+"\exclaim" at the end of the caption gives `!': a special command is needed
+because the character is reserved in this application for special duty as
+a column separator. The `special duty' that `!' performs does not work correctly
+from within commands like "\centerline". To center, you must use "$$" on
+either side, or the method employed above. The next example shows how to specify
+your own table `preambles'.
+\medskip
+\beginex
+$$\preamble{\hfill\it ##\hfill\strut&##&\hfill
+\sl ##&##}
+\table{\bf C}
+\bf Col. 1 &!\bf Col. 2\hfill\rr
+One        &!        44987.01\r
+Two        &!       513.1\dig\rr
+%\dig will make the decimal points align.
+Three      &&       316.9\dig\rr
+Four       &!\large{1.6in}{This shows you
+how you can make entries that are many lines
+long.}
+\caption{} $$
+\endex
+\beginliteral
+$$\preamble{\hfill\it ##\hfill\strut&##&\hfill
+\sl ##&##}
+\table{\bf C}
+\bf Col. 1 &!\bf Col. 2\hfill\rr
+One        &!        44987.01\r
+Two        &!       513.1\dig\rr
+%\dig will make the decimal points align.
+Three      &&       316.9\dig\rr
+Four       &!\large{1.6in}{This shows you
+how you can make entries that are many lines
+long.}
+\caption{} $$
+\endliteral
+\noindent Specifying a customized preamble can get a little tricky, so you
+may wish
+not to indulge. The preamble has to have extra slots for the vertical rules,
+for one thing, and you have to make sure you enclose everything in a group
+(either explicitly within braces, or between "$$" signs) to prevent the
+new preamble specification from interfering with the default preamble that
+goes with these commands. Easier to use from the table above, are "\dig",
+which merely leaves a horizontal space of size equal to the width of a digit,
+and "\large{}{}", which can be used to place large-size material in the table.
+"\dig" can be used to align columns of digits along decimal points. To use
+"\large" you have to specify a width ("1.6in" above).
+\endpage
+
+\newpage
+\indent
+You can adjust other attributes to suit your own tastes. Rule thicknesses
+are governed by "\toprule" (thickness of the top rule), "\othick" (thickness of
+the outer rules; default value .4pt) and "\ithick" (thickness of the inner
+rules; default value .4pt). A minimum height is assigned to every line by
+"\spacing" (default 9pt); the space above and below horizontal rules is set by
+the values of "\abovehr" (default 6pt) and "\belowhr" (default 8pt); the space
+next to vertical rules by "\nexttovr" (default 8pt). All these parameters can
+be altered, as they have been below.
+\medskip
+\beginex
+\line{{\othick=2pt
+\table{} 1!2\rr
+3!4\caption{\centerline{\bf D}} }
+\hfil
+{\ithick=.8pt \othick=0pt \spacing=12pt
+\abovehr=18pt \belowhr=20pt \nexttovr=30pt
+\table{\bf E} 1!2\rr 3!4\caption{} }
+\hfil
+{\toprule{2pt}
+\table{} 1!\hgap{1pt}! 2\rr 3!\hgap{1pt}! 4
+\caption{\centerline{\bf F}} }}
+\endex\removelastskip
+\beginliteral
+\line{{\othick=2pt
+\table{} 1!2\rr
+3!4\caption{\centerline{\bf D}} }
+\hfil
+{\ithick=.8pt \othick=0pt \spacing=12pt
+\abovehr=18pt \belowhr=20pt \nexttovr=30pt
+\table{\bf E} 1!2\rr 3!4\caption{} }
+\hfil
+{\toprule{2pt}
+\table{} 1!\hgap{1pt}! 2\rr 3!\hgap{1pt}! 4
+\caption{\centerline{\bf F}} }}
+\endliteral
+\noindent The command "\hgap", used for the third table, makes a narrow column
+of specified size, so it may be used to effectively get double vertical lines.
+\medskip
+\beginex
+\centerline{{\othick=0pt \nexttovr=.1in
+\abovehr=.1in \belowhr=0in
+\table{}
+\large{2.25in}{You can make displays like
+this, by playing tricks with rule thickness.}
+\global\othick=3pt
+\caption{}}
+\othick=.4pt % MUST reset \othick.
+\qquad\qquad
+{\othick=1pt \ithick=1pt
+\table{}
+1\global\othick=0pt\rr 2\global\othick=1pt
+\caption{} }}
+\othick=.4pt % Reset \othick again.
+\endex
+\beginliteral
+\centerline{{\othick=0pt \nexttovr=.1in
+\abovehr=.1in \belowhr=0in
+\table{}
+\large{2.25in}{You can make displays like
+this, by playing tricks with rule thickness.}
+\global\othick=3pt
+\caption{}}
+\othick=.4pt % MUST reset \othick.
+\qquad\qquad
+{\othick=1pt \ithick=1pt
+\table{}
+1\global\othick=0pt\rr 2\global\othick=1pt
+\caption{} }}
+\othick=.4pt % Reset \othick again.
+\endliteral
+\noindent It was all right to use "\centerline" here, because "!" was not used
+anywhere.
+
+\bigskip
+\newtopic{Stacking symbols}
+Plain \TeX, a mathematician's creation, lacks two symbols essential to the
+emotional well-being of physicists, $\gapproxeq$ and $\lapproxeq$. This
+package provides them.
+\medskip
+\beginex
+$$a\lapproxeq b \qquad\qquad
+\alpha\gapproxeq\beta $$
+\endex
+\beginliteral
+$$a\lapproxeq b \qquad\qquad
+\alpha\gapproxeq\beta $$
+\endliteral
+\noindent These are special cases of a more general command that creates
+composite symbols like $\stacksymbols{g}{\tilde{}}{8}{1}$, i.e.,
+it allows you to take any two symbols and place one above the other. This
+particular composite symbol was created by
+\beginliteral
+$\stacksymbols{g}{\tilde{}}{8}{1}$
+\endliteral
+\noindent The first number controls the overall vertical position, the second
+the spacing within the new symbol. This allows you to fine tune spacing to your
+satisfaction. Even after `fine tuning', you may have to make further
+adjustments: e.g., the new symbol shown above has too large a `depth', as you
+can see from the gap between the line in which it appears and the line below.
+The required adjustments can be made with standard commands like "\smash"
+and "\vphantom".
+
+\bigskip
+\newtopic{Verbatim reproduction}
+Input lines are reproduced like this (for example):
+\beginliteral
+\beginliteral
+$$a\lapproxeq b \qquad\qquad
+\alpha\gapproxeq\beta $$
+\@-endliteral
+\endliteral
+% `@-' is a trick, to get the program to ignore the first `\endliteral'
+\noindent If you type `"\vquotingon"' in your
+\vquotingoff
+file, you can then use `{\tt"}' to quote commands verbatim
+within text. For example, the first input line for this paragraph was
+\vquotingon
+\beginliteral
+\noindent If you type `"\vquotingon"' in your
+\endliteral
+\noindent Typing `"\vquotingoff"' switches the feature off.
+
+\bigskip
+\newtopic{Multi-column output}
+The two column stuff on these pages is produced by
+\beginliteral
+\beginart \dividerule \coljump=.25in / {2}
+@bgroup@it stuff @egroup
+\endart
+\endliteral
+\noindent
+The specifications before the "/" are optional ("\dividerule" places a
+vertical rule between columns and "\coljump" resets the gap between
+columns---the default is no rule, with a .2 inch gap); the
+specification after the "/" gives the number of columns. This multi-column
+command has limited uses: it is suitable only for output that will fit on a
+single page.
+\endpage
+
+\newpage
+\newtopic{Character tables}
+\beginex
+\chartable{cmsy10}
+\endex
+\beginliteral
+\chartable{cmsy10}
+\endliteral
+\noindent To use the command, you must know the `external name' of the
+font (i.e., the name under which information about the font
+is filed). The one used above, "cmsy10", is the standard Computer Modern
+mathematics symbols font.
+
+\bigskip
+\newtopic{Scripts}
+\beginex
+\vskip-\smallskipamount
+\beginscript
+Now, at last, you can easily typeset
+conversations you eavesdrop on in
+restaurants and on planes.
+
+Really? That's just what I've been waiting
+for! How do I do it?
+
+Exactly the way this script was done.
+
+Is it easy?
+
+Extremely.
+\endscript
+\endex
+\beginliteral
+\beginscript
+Now, at last, you can easily typeset
+conversations you eavesdrop on in
+restaurants and on planes.
+
+Really? That's just what I've been waiting
+for! How do I do it?
+
+Exactly the way this script was done.
+
+Is it easy?
+
+Extremely.
+\endscript
+\endliteral
+
+\bigskip
+\newtopic{Dating}
+\beginex
+Gosh darn it, it's \monthname\ already!
+Even worse, it is \now\ on \today.
+\endex
+\beginliteral
+Gosh darn it, it's \monthname\ already!
+Even worse, it is \now\ on \today.
+\endliteral
+
+\bigskip
+\newtopic{Fun with numbers}
+\beginex
+\fermat{15}{16}{3}
+\smallskip\noindent
+\fermat{3}{4}{2}
+\endex
+\beginliteral
+\fermat{15}{16}{3}
+\smallskip\noindent
+\fermat{3}{4}{2}
+\endliteral
+
+\bigskip
+\newtopic{Trapezoids galore}
+\beginex
+\trap{0}{20}{50}{10}{10}{60}\quad
+\trap{10}{40}{30}{-10}{30}{100}\quad
+\rect{20}{48}{5}{120}\quad
+\trap{1}{1}{30}{50}{5}{60}
+\endex
+\beginliteral
+\trap{0}{20}{50}{10}{10}{60}\quad
+\trap{10}{40}{30}{-10}{30}{100}\quad
+\rect{20}{48}{5}{120}\quad
+\trap{1}{1}{30}{50}{5}{60}
+\endliteral
+\noindent The parameters in "\trap" are, respectively, the top width,
+the bottom width, the height and the bottom displacement (all in points);
+the rule thickness and the gap between rules (in 1/64th of a point). For
+"\rect" the numbers are the top width, the bottom width, the rule thickness
+and the gap. (If you use small numbers for the rule specifications, you
+are likely to cause \TeX\ to `overflow'.)
+\endpage
+
+\end
+

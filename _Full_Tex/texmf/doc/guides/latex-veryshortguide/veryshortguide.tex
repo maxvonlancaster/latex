@@ -1,0 +1,573 @@
+% This is the Very Short Guide to LaTeX, a 4pp folder designed as an
+% aide-mémoire for people who have just done a course in LaTeX and
+% need something by them on their desk the next day to refresh their
+% memories. It is NOT intended as a substitute for full documentation.
+%
+% Copyright 2006-2009 by Silmaril Consultants <peter@silmaril.ie>
+%
+% This is free documentation, issued under the LaTeX Rroject Public
+% License. For details see
+% http://www.ctan.org/tex-archive/help/Catalogue/licenses.lppl.html
+%
+% 2009-10-01
+%
+% Please do NOT complain that there is no math here. It won't fit.
+% Someone else can do a math leaflet. IANAM.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Acknowledgments
+%
+% Thanks to all those on c.t.t whose suggestions made this version more
+% useful. 
+%
+% Alan Munn for the distinction between base font and font package and
+% for suggesting ``expected functionality'' packages on sectioning,
+% long tables, headers, and double spacing, and links to FAQ and CTAN.
+%
+% Lars Madsen, Will Robertson, Robin Fairbairns and others for asking
+% for the center environment in tables and figures to be replaced with
+% the \centering command (I still disagree, but WTF :-)
+%
+% Tsy for spotting a typo in the table code sample.
+%
+% Rob Felty and Domink Wass for pointing me at Winston Chang's
+% excellent LaTeX Cheat Sheet summary.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is laid out for A5 pages with margins optimised for my HP K7100
+% so that I can impose two pages per A4 sheet and print double-sided.
+% It has not been tested at letterpaper size (and may not fit).
+%
+\documentclass[a5paper]{article}
+%
+% The 12mm margin is needed because my printer cannot print the
+% bottom 12mm of a sheet, so if I print 2-up A5 pages on an A4
+% sheet, I need to allow for the fact that one edge of two of the
+% pages must have a 12mm margin -- so it's preferable to make it
+% the same all round.
+%
+% For HP K7100
+\usepackage[margin=12mm,nohead]{geometry}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Packages
+%
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{utopia,graphicx,url,fancybox,mdwlist,fix-cm,multicol}
+\usepackage{fancyvrb,bbding,parskip,ragged2e,calc,ifthen,textcomp,array}
+\usepackage[svgnames]{xcolor}
+\usepackage[scaled=.95]{helvet}
+%\usepackage[scaled=.87]{luximono}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Assorted extra commands
+%
+% Provide a lite font option in case you want to use a font that has it
+% (uncomment only ONE of the next two lines!)
+\newcommand{\lite}{\relax}
+%\newcommand{\lite}{\fontseries{l}\selectfont}
+%
+% Use a pointy pencil from the bbding package for itemized lists
+\renewcommand{\labelitemi}{\raisebox{-.5ex}{\textcolor{Purple}{\PencilRight}}}
+%
+% Provide commands for distinguishing examples and their output
+\newcommand{\example}{\color{DarkGreen}\textsf{\bfseries Example:} \color{Grey}}
+\def\endexample{\color{black}}
+\newcommand{\gives}[1]{\thinspace\color{DarkGreen}\raisebox{-.7ex}
+  {\ArrowBoldRightStrobe}~\color{DarkBlue}{\fontfamily{cmr}\selectfont
+    #1}\color{black}}
+\newcommand{\nobox}{~\raisebox{-.25ex}{\footnotesize\Square\llap\XSolidBrush}}
+\newcommand{\yesbox}{~\raisebox{-.25ex}{\footnotesize\Square\llap\CheckmarkBold}}
+%
+% In fancyverb's Verbatim, allow rubric embedded as marked text in red
+\newcommand{\comment}[1]{\ifthenelse{\equal{#1}{ }}{}{#1}\normalfont
+  \itshape\footnotesize\color{red}}
+% This reverts rubric back to normal, to avoid embedded spaces
+\newcommand{\revert}{\ttfamily\upshape\normalsize\color{black}}
+%
+% Provide keyboard or screen keys or buttons and their icons
+\newcommand{\button}[2][\relax]{\if#1\relax
+  \ovalbox{\sffamily\bfseries\footnotesize#2}%
+  \else\raisebox{#1}{\ovalbox{\sffamily\bfseries\footnotesize#2}}\fi}
+\newcommand{\icon}[1]{\raisebox{-2pt}{\includegraphics[height=1em]{#1}}}
+%
+% Define a month-year date European way round
+\newcommand{\monthdate}{\ifcase\month\or January\or
+  February\or March\or April\or May\or June\or July\or August\or
+  September\or October\or November\or December\fi\space\number\year}
+%
+% There's something odd about the hyphenation...these were broken:
+\hyphenation{mathe-mati-cal auto-mati-cal-ly docu-ment docu-ments
+  statis-ti-cal}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Formatting changes
+%
+\makeatletter
+% title block
+\renewcommand{\maketitle}{%
+  \hbox to\textwidth{%
+    \vbox{\hsize=.75\textwidth\huge\bfseries\raggedright
+      \@title}
+    \hss
+    \vbox{\hsize=.25\textwidth\scriptsize\raggedright
+      \@author
+      \par
+      \textit{\@date}}}
+  \par\bigskip\hrule\medskip
+}
+% notes
+\renewenvironment{note}{\small\textbf{Note.}\quad}{\par}
+% pack headings together more tightly
+\renewcommand\section{\@startsection{subsection}{1}{\z@}%
+  {-0pt\@plus -.2ex \@minus -.2ex}%
+  {1pt \@plus .2ex}%
+  {\normalfont\Large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-0pt\@plus -.2ex \@minus -.2ex}%
+  {1pt \@plus .2ex}%
+  {\normalfont\large\bfseries}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+  {-.5ex\@plus -1ex \@minus -.2ex}%
+  {.25ex \@plus .2ex}%
+  {\normalfont\normalsize\bfseries}}
+\makeatother
+\renewcommand{\footnoterule}{\kern-3pt
+  \hrule height.2pt width.25\columnwidth\kern 2.8pt}
+\setcounter{secnumdepth}{0}% we don't want numbered sections
+\setlength{\leftmargini}{18pt}% don't waste margin space in lists
+\pagestyle{empty}% no page numbers, we're faking it
+\spaceskip=4pt plus3pt minus2pt% let text go very sloppy to fit
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% WARNING: a lot of stuff is faked up in this document, because we're
+% combining incompatible things for the sake of showing examples which
+% would not normally occur in the same document (eg both scientific
+% and humanities-style bibliographic references). The demands of space
+% also mean that there is far more manual adjustment needed than would
+% be seen in a normal continuous-text document. Live with it.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\begin{document}
+
+\title{The very short guide to typesetting with~\LaTeX}
+\author{Silmaril Consultants\\
+  \textbf{Textual Therapy Division}\\
+  \protect\url{latex.silmaril.ie}}
+\date{\monthdate}
+\maketitle
+
+\subsection{What's this all about? What's \LaTeX?}
+
+\LaTeX\ is a document preparation system for the \TeX\ typesetting
+program. It enables you to produce publication-quality output with
+great accuracy and consistency. \LaTeX\ works on any computer and
+produces industry-standard PS or PDF documents. It is available both
+in free (open-source) and commercial implementations. \LaTeX\ can be
+used for any kind of document, but it is especially suited to those
+with a complex structure, repetitive formatting, or notations like
+mathematics\footnote{For reasons of space this guide does not cover
+  details of mathematics typesetting.}; or where technical stability,
+dimensional accuracy, or a persistent and non-proprietary file format
+are needed.
+
+
+\subsection{Syntax (how to type \LaTeX\ commands --- these are the rules)}
+
+\begin{itemize*}
+  \item \textbf{All \LaTeX\ commands begin with a backslash}.\\
+    \example \verb+\tableofcontents+\endexample
+  \item \textbf{If a command needs text to work
+    with, it goes in curly braces}.\\
+    \example \verb+\title{Irisches Tagebuch}\author{Heinrich Böll}+\endexample
+  \item \textbf{If options are used, they go in square brackets first}.\\
+    \example \verb+\documentclass[a4paper,11pt]{book}+\endexample
+  \item \textbf{Space after commands \emph{without} braces gets suppressed}.\\
+    \example \verb+Copyright \copyright +\texttt{\number\year} 
+    \gives{Copyright \copyright \number\year}~\nobox\\
+    To prevent this, put empty curly braces after the command.\\
+    \example \verb+Copyright \copyright{} +\texttt{\number\year} 
+    \gives{Copyright \copyright{} \number\year}~\yesbox
+  \item \textbf{Curly braces are also used to restrict the scope of
+    effects inside them}.\\
+    \example \verb+Some {\tiny little} word+ \gives{Some {\tiny little} word}
+\end{itemize*}
+
+\subsection{Creating and typesetting your document}
+
+\begin{enumerate*}\setlength{\fboxsep}{1pt}
+   \item Create your document using any suitable plain-text editor
+     with \LaTeX\ controls, eg \textit{\TeX shop} (Mac), \textit{\TeX
+       nicCenter} (Win), \textit{Kile} (Linux), \textit{Emacs} (all);
+   \item Save the file with a name ending in \verb+.tex+
+     (\emph{never} use spaces in filenames!);
+   \item Use the toolbar buttons or menu items in your editor to typeset
+     and display the document;\label{typeset}
+   \item Make any changes needed in your original document and repeat
+     step \ref{typeset}. 
+\end{enumerate*}
+
+\vfill
+\begin{note}
+This guide shows only a tiny fraction of \LaTeX's power. For
+information, visit the \TeX\ Users Group site (\url{www.tug.org}). For
+help, see the FAQ (\url{www.tex.ac.uk/faq}) and the Usenet newsgroup
+\url{comp.text.tex}. For packages, use the Comprehensive \TeX\ Archive
+Network (\url{www.ctan.org}). For documentation, use the sources in
+the \textit{References} [2].
+\end{note}
+
+\begin{multicols}{2}\small\parskip4pt
+
+\subsubsection{Basic document structure}
+
+Here's the skeleton of a \LaTeX\ document. These three lines are
+\emph{compulsory}: your document will not work without them:
+
+\begin{Verbatim}[frame=single,fontsize=\small,commandchars=!<>]
+\documentclass{article}
+!comment your preamble goes here (extra setups, if any)
+\begin{document}
+!comment your document text goes here
+\end{document}
+\end{Verbatim}
+
+\begin{itemize*}
+  \item The document class name must be one of \verb+book+,
+    \verb+article+, or \verb+report+, or an extra one you have
+    downloaded and installed (eg \verb+thesis+, \verb+memoir+, etc).
+  \item There are paper size options \verb+a4paper+
+    (210\thinspace mm$\times$297\thinspace mm) and \verb+letterpaper+
+    (8½$''\times$11$''$) and others (eg \verb+a5paper+).
+  \item There are base type size options \verb+10pt+ (the default),
+    \verb+11pt+, and \verb+12pt+.
+\end{itemize*}
+
+\subsubsection{Front matter}
+
+The \textbf{preamble} is where you specify any extra \textbf{packages}
+(\LaTeX\ plugins) such as typefaces or special formatting
+requirements, and where you put any changes to standard features.
+
+\begin{Verbatim}[frame=single,fontsize=\small,commandchars=!<>]
+\documentclass[a4paper,11pt]{book}
+\usepackage{charter,graphicx}
+\setlength{\parindent}{1em}
+\begin{document}
+\title!comment{your document title!revert}
+\author!comment{your name!revert}
+\date!comment{date of publication!revert}
+\maketitle
+\begin{abstract}
+!comment the paragraphs of the abstract go here
+\end{abstract}
+\tableofcontents
+!comment rest of the document goes here
+\end{document}
+\end{Verbatim}
+
+In a typical report or article, the title, author, date, abstract
+(summary), and table of contents (optional) all go at the start,
+followed by your text. 
+
+Leave a blank line between paragraphs as you type. This means `start a
+new paragraph', \emph{not} `leave a blank line'. You can control
+spacing and indentation by setting \verb+\parskip+ and
+\verb+\parindent+ (see examples), or with the \textsf{parskip}
+package.
+
+\subsubsection{Sections and cross-references}
+
+Sections get numbered automatically in bold type, and get included in
+the Table of Contents (if any). Numbering can be turned off
+selectively. Section heading layout can be modified with the
+\textsf{sectsty}, \mbox{\textsf{titlesec}}, and other packages. Use
+the \textsf{babel} package for other languages.
+
+\begin{Verbatim}[frame=single,fontsize=\small,commandchars=!<>]
+!comment (Preamble, titling, and abstract as above)
+\tableofcontents
+\section!comment{heading of a section!revert}
+!comment text for the section goes here
+...as shown in section \ref{blah}.
+\subsubsection!comment{heading of a subsection!revert}
+!comment text for the subsection goes here
+\section!comment{heading of a new section!revert}
+\label{blah} !comment make up name for the label
+!comment text for the section goes here
+\end{document}
+\end{Verbatim}
+
+For cross-references, use \verb+\label{...}+ to label the target 
+and \verb+\ref{...}+ and/or \verb+\pageref{...}+ to refer to
+it. Make up the label values: \LaTeX\ will use them to work
+out the right numbers to print.\\
+\example{...\ttfamily section \verb+\ref{blah}+ on p.\\
+\verb+\pageref{blah}+.}\gives{...section 3 on p.9}.
+
+\subsubsection{Typefaces}
+
+\LaTeX's default typeface is Computer Modern. There is a selection of
+other typeface packages (use them in your Preamble):
+
+{\footnotesize\tabcolsep4pt
+\def\ff#1{\fontfamily{#1}\selectfont}
+\begin{tabular}{l>{\ttfamily}l|l>{\ttfamily}l@{}}
+\ff{ptm}Times&mathptmx&\ff{pcr}Courier&courier\\
+\ff{ppl}Palatino&mathpazo&\ff{pag}\scriptsize Avant Garde&avant\\
+\ff{pbk}Bookman&bookman&\ff{phv}Helvetica&helvet\\
+\ff{bch}Charter&charter&\ff{pzc}Zapf Chancery&chancery\\
+\ff{put}Utopia&utopia&\fontencoding{OT1}\ff{pnr}Pandora&pandora\\
+\multicolumn3l{\ff{pnc}New Century Schoolbook}&newcent\\
+\end{tabular}
+}
+
+\columnbreak\parskip5pt
+
+Dozens of others are available, including mathematical and decorative
+fonts.  To switch to a sans-serif type family (eg Helvetica, Avant
+Garde), use \verb+\sffamily+ in your text. To change font for a word
+or phrase, use these commands (they can be nested---see below):
+
+{\small
+\begin{tabular}{l@{\enspace}>{\ttfamily\char'134 text}l<{\char'173
+      Hello\char'175}@{}>{\ \gives\bgroup}l<{\ Hello\egroup}}
+Italics&it&\itshape\\
+Boldface&bf&\bfseries\\
+Smallcaps&sc&\scshape\\
+Sans-serif&sf&\sffamily~~\\
+Monospace&tt&\ttfamily\\
+\end{tabular}}
+
+\example \verb+\textit{\textbf{\textsf+\linebreak
+\verb+{bold ital sans}}}+
+\gives{\textit{\textbf{\textsf{bold ital sans}}}}
+
+Font sizing is automatic for titles, headings, and footnotes. There
+are some named step-size commands (in points, relative to the base size):
+
+{\small
+\begin{tabular}{>{\ttfamily\char'134}lrrr}
+normalsize&10&11&12\\\hline\vrule height1.1em width0pt
+tiny&5&6&7\\
+scriptsize&6&7&8\\
+footnotesize&7&8&9\\
+small&9&10&11\\
+large&11&12&14\\
+Large&12&14&17\rlap*\\
+LARGE&14&17\rlap*&20\rlap*\\
+huge&17\rlap*&20\rlap*&24\rlap*\\
+Huge&20\rlap*&24\rlap*&28\rlap*\\
+\end{tabular}
+\quad
+\rotatebox[origin=c]{90}{\scriptsize* sizes rounded here to save space}
+}
+
+but you can specify an exact size with the \textsf{fix-cm} package and
+the command
+\verb+\fontsize{+\texttt{\textit{pp}}\verb+}{+\texttt{\textit{bb}}\verb+}\selectfont+
+for any point-size (\textit{pp}) on any baseline (\textit{bb}). Group
+(enclose) the command \emph{with} its applicable text in curly braces
+to prevent it affecting the rest of the document. For wider line-spacing
+(eg in theses) use the \textsf{setspace} package. You can also use
+\linebreak colour with the 
+\\\textsf{xcolor} package and\hfil \smash{\raisebox{0ex}{\Huge 
+\textcolor[HTML]{2F50AD}{G}%
+\textcolor[HTML]{B32F17}{o}% 
+\textcolor[HTML]{F3C20B}{o}%
+\textcolor[HTML]{2F50AD}{g}% 
+\textcolor[HTML]{48C847}{l}%
+\textcolor[HTML]{B32F17}{e}}}%
+% web colour for l was 567122
+% web colour for o2 was CAB340
+\\the \verb+\color{+\texttt{\textit{name}}\verb+}+ command.
+
+\subsubsection{Lists}
+
+There are three basic kinds: \textbf{itemized} lists (bulleted);
+\textbf{enumerated} lists (numbered or lettered); and
+\textbf{descriptive} lists (topic-and-explanation format). Others can
+be defined, or downloaded from CTAN [5].
+
+\begingroup\tiny
+\renewcommand{\labelitemi}{\textbullet}
+\leftmargini=2em
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{%@{}%
+    p{.22\columnwidth}|%
+    p{.28\columnwidth}|%
+    p{.33\columnwidth}}
+\begin{Verbatim}
+\begin{itemize}
+\item 1lb Sugar
+\item ½pt Cream
+\item Chocolate
+\end{itemize}
+\end{Verbatim}
+&
+\begin{Verbatim}[commandchars=!()]
+\begin{enumerate}
+\item Mix together
+\item Boil to 112!textdegree()C
+\item Stir and cool
+\end{enumerate}
+\end{Verbatim}
+&
+\begin{Verbatim}
+\begin{description}
+\item[Fudge] is fun...
+\item[Broccoli] sucks...
+\item[Exercise] is good
+\end{description}
+\end{Verbatim}
+\\\hline
+\begin{itemize}
+\item 1lb Sugar
+\item ½pt Cream
+\item Chocolate
+\end{itemize}
+&
+\begin{enumerate}
+\item Mix together
+\item Boil to 112\textdegree C
+\item Stir and cool
+\end{enumerate}
+&\tiny
+\begin{description}
+\item[Fudge] is fun but not if made too often.
+\item[Broccoli] sucks, period.
+\item[Exercise] is good for you if taken daily and not to extremes.
+\end{description}
+\end{tabular}
+\endgroup
+You can nest lists inside each other. See packages like
+\textsf{paralist} and \textsf{mdwlist} to control list formatting.
+
+\subsubsection{Tables and figures}
+
+Formal tables and figures \emph{float} (change position to fill
+available space) so they may not be printed where you typed them. 
+
+\begin{Verbatim}[frame=single,fontsize=\footnotesize,commandchars=!<>]
+\begin{table}
+\caption{Mean growth rate and intakes 
+of supplement, milk, and water for 4 
+diets.}
+\label{dietgrowth}\centering
+\begin{tabular}{|l|r|r|r|r|}\hline
+&Growth&Supplement&Milk&Water\\
+Supplement&rate&intake&intake&intake\\
+&(g/day)&(g/day)&(ml/kg$^{0.75}$)&
+(ml/kg$^{0.75}$)\\\hline 
+Lucerne &145&450&10.5&144\\\hline 
+Sesbania&132&476& 9.2&128\\\hline 
+Leucaena&128&364& 8.9&121\\\hline 
+None    & 89&  0& 9.8&108\\\hline 
+\end{tabular}
+\end{table}
+\end{Verbatim}
+
+% fake it
+\begin{center}\fontfamily{cmss}\fontsize56\selectfont
+\setlength{\tabcolsep}{2pt}
+\setlength{\arrayrulewidth}{.2pt}
+\begin{tabular}{@{}|l|r|r|r|r|@{}}
+\multicolumn5l{\textbf{Table 2}: \textit{Mean growth rate and intakes 
+of supplement,}}\\
+\multicolumn5l{\textit{milk, and water for four diets} (after
+    Sherington, J, undated)}\\[6pt]\hline
+\vrule height1.1em width0pt&Growth&Supplement&Milk&Water\\[-1pt]
+Supplement&rate&intake&intake&intake\\[-1pt]
+&(g/day)&(g/day)&(ml/kg\textsuperscript{\fontsize34\selectfont 0.75})&(ml/kg\textsuperscript{\fontsize34\selectfont 0.75})\\[3pt]\hline 
+Lucerne &145&450&10.5&144\\\hline 
+Sesbania&132&476& 9.2&128\\\hline 
+Leucaena&128&364& 8.9&121\\\hline 
+None    & 89&  0& 9.8&108\\\hline 
+\end{tabular}
+\end{center}
+Packages like \textsf{longtable} and \textsf{array} can help
+with more complex table formats.
+
+\colorbox{LightGrey}{\color{black}\begin{minipage}{.965\columnwidth}%
+\sffamily\scriptsize\bfseries\raggedright
+For help, see the links on the front and back pages. There is a
+summary of common commands at
+\url{www.stdout.org/~winston/latex/latexsheet.pdf} and a
+comprehensive list at
+\url{computing.ee.ethz.ch/.soft/latex/green/ltx-2.html}. 
+\end{minipage}}
+
+\end{multicols}
+
+\textbf{Tables and Figures}, \textit{continued}
+
+\begin{Verbatim}[frame=single,fontsize=\footnotesize,commandchars=!<>]
+\begin{figure}
+\caption{Swiss and Dutch Mennonite migrations of the 1700s and 1800s}\label{lmig}
+\centering !comment (graphics must be EPS files for standard !LaTeX; but JPG, PNG, or PDF for pdf!LaTeX)
+\includegraphics[width=.8\columnwidth]{menno-a}
+\\\scriptsize Courtesy of Paul C. Adams, Department of Geography and the 
+Environment, University of Texas at Austin. \cite{adams}\end{figure}
+\end{Verbatim}
+
+\begin{center}\fontfamily{cmss}\selectfont
+\textbf{Figure 1}: \textit{Swiss and Dutch Mennonite migrations of the
+  1700s and 1800s}\\[3pt]
+\includegraphics[width=.8\columnwidth]{menno-a}\\\scriptsize
+Courtesy of Paul C. Adams, Department of Geography
+and the Environment, University of Texas at Austin.~[1]
+\end{center}
+
+\subsubsection{Footnotes, citations, references, and indexes (back matter)}
+\setcounter{footnote}{1} 
+You do footnotes with a simple command,\footnote{Like this.} see
+below.  Citations using BIB\TeX{} (Patashnik, 1988) are also easy (see
+[2], \S7.4.2) and there are packages for more complex formats for
+journals and publishers. You can add indexes with the \verb+\index+
+command and the \textsf{makeindex} program.
+
+\begin{Verbatim}[frame=single,fontsize=\footnotesize,commandchars=!<>]
+You do footnotes with a simple command,\footnote{Like this.} see below. Citations 
+using BIB\TeX{} \citeauthoryear{oren} are also easy (see \cite[§7.4.2]{flynn} and 
+there are packages for more complex formats for journals and publishers. You can 
+add  indexes with the \verb`\index` command and the \textsf{makeindex} program.
+!comment add the following at the end of your document and create!ttfamily myrefs.bib!rmfamily (see BIB!TeX manual [3])
+\bibliography{myrefs}\bibliographystyle{apalike}
+\end{Verbatim}
+
+\vspace*{-3pt}
+\subsubsection{References}
+
+\begin{enumerate*}\footnotesize\RaggedRight
+\item Adams, Paul C. \textit{Linguistic Chaos in Montreal},
+  \url{www.utexas.edu/depts/grg/adams/chaos.ppt}, 2/59, Oct 2006.
+\item {\bfseries Flynn, P. \textit{Formatting Information}, 
+  2005, at \url{latex.silmaril.ie/formattinginformation/}}
+\item Patashnik, O. \textit{BIB\TeX ing}, \TeX\ Users Group, 1988
+  (distributed with all copies of \LaTeX).
+\item Sherington, J. example table in `Informative Presentation of
+  Tables, Graphs and Statistics', 4.2, Statistical Services Centre,
+  University of Reading,
+  \url{www.reading.ac.uk/ssc/publications/guides/toptgs.html}
+\item \bfseries\TeX\ Users Group, for \TeX\ Live 
+  (\url{www.tug.org/texlive/}) and CTAN
+  (Comprehensive \TeX\ Archive Network) for downloads (\url{www.ctan.org}).
+\end{enumerate*}
+
+\begin{note}
+Commercial implementations of \TeX\ with business
+support are available from Personal \TeX, Inc (PC\TeX); Blue Sky
+Research (Textures~[Mac]); MacKichan Software, Inc (Scientific Word);
+Micropress, Inc (V\TeX), True\TeX\ Software (True\TeX), and others.
+\end{note}
+
+\end{document}

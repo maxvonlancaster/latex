@@ -1,0 +1,70 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{cmap}
+\usepackage[cp1251]{inputenc}
+\usepackage[english, ukrainian, russian]{babel}
+\usepackage[left=1cm,right=1cm,top=1cm,bottom=2cm]{geometry}
+
+
+\begin{document}
+
+\section*{Тема: Мартингали}
+
+Означення1. Випадковий процес ${\xi(t), t\geq0}$ називається мартингалом відносно фільтрації $(F_{t})_{t\geq0}$, якщо
+
+1) $M|\xi(t)|<\infty, \forall t\geq0$
+
+2)$\xi(t)$ - вимірна відносно $F_{t}$
+
+3) $M(\xi(t)|F_{s})=\xi(s),t\geq s$
+
+Означення2. Випадковий процес називається субмартингалом відносно , якщо 
+
+1) $M|\xi(t)|<\infty, \forall t\geq0$
+
+2)$\xi(t)$ - вимірна відносно $F_{t}$
+
+3) $M(\xi(t)|F_{s})\geq\xi(s),t\geq s$
+
+Означення3. Випадковий процес називається супермартингалом відносно , якщо 
+
+1) $M|\xi(t)|<\infty, \forall t\geq0$
+
+2)$\xi(t)$ - вимірна відносно $F_{t}$
+
+3) $M(\xi(t)|F_{s})\leq\xi(s),t\geq s$
+
+Приклад: ${w(t),t\geq0}$ - вінерівський процес, $F_{t}^{w}=\sigma(w(s),s\leq t)$
+
+Теорема1 (про перетворення вільного вибору) Нехай ${\xi(t),t\geq0}$ - мартингал відносно $(F_{t})_{t\geq0}$, у якого траекторії неперервні, і $\tau_{1},\tau_{2}$ -марковські моменти відносно $(F_{t})_{t\geq0}$. Тоді для $\forall t\geq0$: $$M(\xi(t\wedge\tau_{2})|F_{\tau_{1}})=\xi(t\wedge\tau_{2}\wedge\tau_{1})$$
+
+Якщо $\tau_{2}<\infty$, $M(|\xi(\tau_{2})|)<\infty$ і $\lim_{t\rightarrow\infty}M(\xi(t)I_{{t\leq\tau_{2}}})=0$ то $$M(\xi(\tau_{2})|F_{\tau_{1}})=\xi(\tau_{2}\wedge\tau_{1})$$
+
+Дана теорема залишається вірною і для субмартингалів та супермартингалів, якщо знак рівності замінити на чи  відповідно.
+
+Теорема2 (Нерівність Дуба) Нехай ${\xi(t), t\geq0}$ - неперервний додатній субмартингал відносно $(F_{t})_{t\geq0}$. Тоді:
+
+1) Для довільного $t\geq0$: $$P{\sup \limits_{s\leq t}\xi(s)\geq x}\leq \cfrac M\xi(t){x}$$ 
+
+2) Для довільного $\alpha\geq1$: $$M((\sup \limits_{s\leq t}\xi(t))^{\alpha})\leq(\cfrac\alpha{\alpha-1})^{\alpha}M\xi^{\alpha}(t)$$
+
+Доведення. Позначимо: $\tau_{x}=inf{t:\xi(t)=x}$ . Оскільки ${\xi(t), t\geq0}$ має неперервні траекторії, то $\tau_{x}$ - марківський момент відносно $F_{t}$.
+
+Застосуємо теорему про перетворення вільного вибору: $\tau_{2}=t$, $\tau_{1}=\tau_{x}$, маємо наступне: $$M(\xi(t)|F_{\tau_{x}})\geq\xi(t\wedge\tau_{x})\geq\xi(t\wedge\tau_{x})I_{{t\geq\tau_{x}}}=xI_{{t\geq\tau_{x}}}$$
+$$M(\xi(t))\geq MxI_{{t\geq\tau_{x}}}=xP{t\geq\tau_{x}}=xP{\sup \limits_{s\leq t}\xi(s)\geq x}$$
+Звідси і отримуємо нерівність $P{\sup \limits_{s\leq t}\xi(s)\geq x}\leq \cfrac M\xi(t){x}$
+
+Лема1. Нехай ${\xi(t), t\geq0}$ - неперервний мартингал відносно $(F_{t})_{t\geq0}$, такий, що  $M|\xi^{2}(t)|<\infty$. Тоді $$P{\sup \limits_{s\leq t}\xi(s)\geq x}\leq \cfrac M\xi(t){x},$$ 
+$$M(\sup \limits_{s\leq t}\|xi(s)|)^{2}\leq4M(\xi(t))^{2}$$
+
+Нехай ${\xi(t), t\geq0}$ - випадковий процес, $\lambda:0=t_{0}<t_{1}<...<t_{n}=t$. Варіацією випадкового процесу називається границя $\lim_{|\lambda|\rightarrow0}\sum_{k=1}^{n} |\xi(t_{k})-\xi(t_{k-1})|$, де $|\lambda|=\max_{k=1,...,n}|t_{k}-t_{k-1}|$, якщо така границя існує.
+
+Означення4. ${\xi_{n}}_{n\geq1}$ збігається до $\xi$ за ймовірністю, якщо для $\forall\varepsilon>0$ $$P{|\xi_{n}-\xi|>\varepsilon}\rightarrow0, n\rightarrow\infty$$
+
+Означення5.$[\xi]_{t}=\lim_{|\lambda|\rightarrow0}\sum_{k=1}^{n}(\xi(t_{k})-\xi(t_{k-1}))^{2}$ називається квадратичною варіацією випадкового процесу $\xi(t)$, якщо така границя існує.
+
+Лема2. Якщо  має обмежену варіацію, і  - неперервна, то
+
+
+
+\end{document}
+

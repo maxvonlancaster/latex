@@ -1,0 +1,367 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+\usecolortheme{orchid}
+\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+%\newcommand{\proof}[1]{{\bf \sffamily Доведення.} #1\hfill$\diamondsuit$}
+%\newcommand{\eop}{\hfill$\diamondsuit$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Грецькi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\a{\alpha}       \def\b{\beta}   \def\g{\gamma}   \def\d{\delta}
+\def\e{\varepsilon}  \def\f{\varphi} \def\w{\omega}   \def\s{\sigma}
+\def\x{\xi}          \def\y{\eta}    \def\z{\zeta}    \def\c{\chi}
+\def\l{\lambda}      \def\m{\mu}     \def\n{\nu}      \def\k{\varkappa}
+\def\r{\varrho}      \def\t{\tau}    \def\i{\iota}    \def\p{\psi}
+\def\th{\theta}
+\def\G{\Gamma}       \def\D{\Delta}  \def\F{\Phi}     \def\W{\Omega}
+\def\SS{\Sigma}       \def\L{\Lambda} \def\P{\Psi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Писанi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\ca{{\cal A}} \def\cb{{\cal B}} \def\cc{{\cal C}} \def\cd{{\cal D}} \def\cy{{\cal Y}}
+\def\cf{{\cal F}} \def\ch{{\cal H}} \def\cu{{\cal U}} \def\cv{{\cal V}}
+\def\cw{{\cal W}} \def\cl{{\cal L}} \def\ct{{\cal T}} \def\cs{{\cal S}}
+\def\cg{{\cal G}} \def\ck{{\cal K}} \def\cm{{\cal M}} \def\cp{{\cal P}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Потовщенi букви %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\br{{\mathbb R}} \def\bc{{\mathbb C}} \def\bn{{\mathbb N}}
+\def\bz{{\mathbb Z}} \def\bd{{\mathbb D}} \def\bi{{\mathbb I}}
+\def\bq{{\mathbb Q}} \def\obr{\ov{{\mathbb R}}}
+\def\bs{{\mathbb S}} \def\bp{{\mathbb P}} \def\bl{{\mathbb L}}
+\def\bb{{\mathbb B}}  \def\ba{{\mathbb A}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Операцiї та функцiї %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Cup{\bigcup\limits}    \def\Cap{\bigcap\limits}    \def\iy{\infty}
+\def\Prod{\prod\limits}     \def\Sum{\sum\limits}
+\def\<{\subseteq}           \def\>{\supseteq}           \def\*{\times}
+\def\ov{\overline}          \def\Int{{\rm int}}       \def\Cl{{\rm cl}}
+\def\pr{{\rm pr}}         \def\copr{{\rm copr}}     \def\dim{{\rm dim}}
+\def\fr{{\rm fr}}         \def\ext{{\rm ext}}       \def\st{{\rm st}}
+\def\os{\stackrel{\underline{\phantom{\subset}}}{\subset}}
+\def\diam{{\rm diam}}     \def\span{{\rm span}}     \def\co{{\rm co}}
+\def\absco{{\rm absco}} \def\sup{\mathop{\rm sup}\limits}
+\def\inf{\mathop{\rm inf}\limits}  \def\lim{\mathop{\rm lim}\limits}
+\def\Lim{\mathop{\rm Lim}\limits}  \def\stm{\setminus}  \def\xp{{\rm xp}}
+\def\toto{\stackrel{\longrightarrow}{\scriptstyle\longrightarrow}}
+\def\lra{\Longleftrightarrow}    \def\la{\Leftarrow}  \def\ra{\Rightarrow}
+\def\wg{\wedge}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Iнше %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\dis{\displaystyle}
+\def\~{\tilde}
+\def\wt{\widetilde}
+\def\#{\prec}
+\def\ua{U^\alpha}
+\def\ub{U^\beta}
+\def\va{V^\alpha}
+\def\vb{V^\beta}
+\def\lt{\ell_\iy(T)}
+\def\sp{{\rm sp}}
+\def\pr{{\rm pr}}
+\def\ssq{\subseteq}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+%\usepackage{mathpazo}
+
+%\usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!2}{blue!3}
+% \beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+{\usebeamercolor{sidebar}}
+\setbeamertemplate{sidebar canvas left}[horizontal shading]
+[left=white,middle=sidebar.bg,right=white]
+\setbeamertemplate{sidebar canvas right}[horizontal shading]
+[left=white,middle=sidebar.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{}}}
+
+\title[The development of Hahn's theorem on the intermediate function]
+{The development of Hahn's theorem on the intermediate function}
+
+
+\author[Maslyuchenko V., Melnyk V.]{\textbf{Maslyuchenko V., Melnyk V.}}
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+\begin{frame}{1. Hahn's theorem on the intermediate function}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Hahn H.} Uber halbstetige und unstetige Functionen // Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+\end{thebibliography}
+
+
+\begin{exampleblock}{Theorem 1}
+For metrizable space $ X $ and respectively upper and lower semicontinuous functions $ g, h: X \rightarrow \mathbb {R} $, such that $ g (x) \leq h (x) $ on $ X $, there is a continuous function $ f: X \rightarrow \mathbb {R} $, for which $g(x) \leq f (x) \leq h (x) $ on $ X $.
+\end{exampleblock}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Dieudonne J.} Une g\'{e}n\'{e}ralisation des espaces compacts // J. de Math. Pyres et Appl.~--- 1944.~--- \textbf{23}.~--- P.65-76.
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{2. Hahn's pairs and Katetov-Tong's theorem}
+
+\begin{block}{}
+We will call a pair $ (g, h) $ of functions $ g, h: X \rightarrow \mathbb {R} $ \textit{Hahn's pair on} $ X $, if $ g $ is upper semicontinuous, $ h $ is lower semicontinuous, and $ g (x) \leq h (x) $ on $ X $.
+\end{block}
+
+\begin{exampleblock}{Theorem 2}
+$T_{1}$-space $X$ is normal if and only if for any Hahn's pair $g,h:X\rightarrow \mathbb{R}$, there is a continuous function $f$ such, that $g\leq f\leq h$.
+\end{exampleblock}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Tong H.}  Some characterizations of normal and perfectly normal spaces // Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{ Katetov M.} On real-valued functions in topological spaces // Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+\end{thebibliography}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{3. Hahn's strict pairs and theorems by Dowker-Katetov and Michael}
+
+\begin{block}{}
+We will call a pair $ (g, h) $ of functions $ g, h: X \rightarrow \mathbb {R} $ \textit{Hahn's strict pair on} $ X $, if $ g $ is upper semicontinuous, $ h $ is lower semicontinuous, and $ g (x) <h (x) $ on $ X $.
+\end{block}
+
+\begin{exampleblock}{Theorem 3, (Dowker, Katetov)}
+$T_{1}$-space $X$ is normal and countably paracompact if and only if for any Hahn's strict pair $g,h:X\rightarrow \mathbb{R}$, there is a continuous function $f$ such, that $g< f< h$.
+\end{exampleblock}
+
+
+\begin{exampleblock}{Theorem 4, Michael}
+$T_{1}$-space $X$ is perfectly normal if and only if for any Hahn's pair $g,h:X\rightarrow \mathbb{R}$, there is a continuous function $f$ such, that $g(x)\leq f(x)\leq h(x)$ for any $x\in X$ and $g(x)< f(x)< h(x)$, whenever $g(x)<h(x)$.
+\end{exampleblock}
+
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Dowker C. H.}  On countably paracompact spaces // Canad. J. Math.~--- 1951.~--- \textbf{3}.~--- P.219-224.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{ Michael E.} Continuous selections I // Ann. of Math.~--- 1956.~--- \textbf{63}.~--- P.361–382.
+\end{thebibliography}
+
+\end{frame}
+
+
+
+\begin{frame}{4. Theorem on the intermediate function for the monotonous functions}
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Маслюченко В.К., Петей С.П. }  Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+\end{thebibliography}
+
+
+\begin{exampleblock}{Theorem 5}
+Let $(g,h)$ be Hahn's pair on $[a,b]$, and both functions are monotonically increasing, then there is a continuous monotonically increasing function $f:[a,b]\rightarrow \mathbb{R}$ such that $g(x)\leq f(x)\leq h(x)$ on $[a,b]$.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+
+\begin{frame}{5. Problem on the functions of bounded variation}
+
+\begin{exampleblock}{Problem}
+Let $(g,h)$ be a Hahn's pair on $[a,b]$ of functions of bounded variation. Is there a function $f:[a,b]\rightarrow \mathbb{R}$ of bounded variation such that $g(x)\leq f(x)\leq h(x)$
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{6. Local separation by a constant}
+
+\begin{exampleblock}{Theorem 6.}
+Let $X$~--- be a topological space, $g,h:X\rightarrow \mathbb{R}$~--- lower and upper semicontinuous in $x_{0}$ respectively functions, such that $g(x_{0})<h(x_{0})$, and $g(x_{0})<\gamma<h(x_{0})$. Than there exists an open neighborhood $U$ of point $x_{0}$ in $X$, such that $g(x)<\gamma<h(x)$ on $U$.
+\end{exampleblock}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{7. Intermediate piecewise linear functions }
+\begin{block}{}
+The function $ f: [a, b] \rightarrow \mathbb {R} $ is called \textit{piecewise linear} if there exists a partition $ a = x_ {0} <x_ {1} <... <x_ {n} = b $ of the segment $ [a, b] $, such, that for each $ k = 1, ..., n $ restriction $ f | _ {[x_ {k-1}, x_ {k}]} $ is a linear function on the segment $ [x_ {k-1}, x_ {k}] $. It is clear that every piecewise linear function is continuous.
+\end{block}
+
+\begin{exampleblock}{Theorem 7.}
+Let ($ g $, $ h $) be a Hahn's strict pair on the segment $ [a, b] $. Then there is such a piecewise linear function $ f: [a, b] \rightarrow \mathbb {R} $, that $ g (x) <f (x) <h (x) $ on $ [a, b] $.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{8. Intermediate $C^{\infty}$-function on segment}
+
+\begin{block}{}
+We will denote the set of all infinitely differentiable functions $ f: X \rightarrow \mathbb {R}$ by $C^{\infty}$.
+\end{block}
+
+
+\begin{exampleblock}{Theorem 8.}
+Let ($ g $, $ h $) be Hahn's  strict pair on the segment $ [a, b] $. Then there exists such an $C^{\infty}$-function $f:[a,b]\rightarrow \mathbb{R}$, that $ g (x) <f (x) <h (x) $ on $ [a, b] $.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{9. Intermediate $C^{\infty}$-function on closed parallelepiped in $\mathbb{R}^{n}$}
+\begin{exampleblock}{Lemma 1.}
+Let $Q=(\alpha_{1},\beta_{1})\times(\alpha_{2},\beta_{2})\times...\times(\alpha_{n},\beta_{n}) $ be a nonempty open parallelepiped in $X=\mathbb{R}^{n}$. Then there is such an $C^{\infty}$-function $ \varphi:\mathbb{R}^{n}\rightarrow [0,1] $, that $ \textmd{supp}\varphi=Q$.
+\end{exampleblock}
+
+\begin{exampleblock}{Theorem 9.}
+Let $P=[a_{1},b_{1}]\times[a_{2},b_{2}]\times...\times[a_{n},b_{n}]$~--- be a nonempty closed parallelepiped in $\mathbb{R}^{n}$, $(g,h)$~--- Hahn's strict pair on $P$. Then there exists a finite sequence of $C^{\infty}$-functions $\varphi_{j}:\mathbb{R}^{n}\rightarrow[0,1]$, $j=1,...,m$ and sequence of numbers $\gamma_{1},...,\gamma_{m}$, such that sum $\sum\limits_{j=1}^{m}\varphi_{j}(x)=1$ on $P$ and $g(x)<\gamma_{j}<h(x)$ on $\textmd{supp}\varphi_{j}$, $j=1,...,m$. Function $f=\sum\limits_{j=1}^{m}\gamma_{j} \varphi_{j}$ is a $C^{\infty}$-function, and $g(x)<f(x)<h(x)$ on $P$.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{10. Intermediate $C^{\infty}$-function on $\mathbb{R}^{n}$}
+\begin{exampleblock}{Theorem 10.}
+Let $X=\mathbb{R}^{n}$, $U_{s}=B(a_{s},r_{s})$~--- collection of open balls in $X$, $\mathcal{U}=\{U_{s}\}$~--- locally finite open cover of $X$. Then there are $C^{\infty}$-functions $f_{s}:X\rightarrow [0,1]$ such, that $\sum f_{s}(x)=1$ on $\mathbb{R}^{n}$ and $\textmd{supp}f_{s}\subseteq U_{s}$ for any $s$.
+\end{exampleblock}
+
+\begin{exampleblock}{Theorem 11.}
+Let ($ g $, $ h $) be Hahn's strict pair on $X=\mathbb{R}^{n} $. Then there exists a collection of $C^{\infty}$-functions $\varphi_{s}:\mathbb{R}^{n}\rightarrow[0,1]$ and collection of numbers $\gamma_{s}$, such that sum $\sum\limits_{s}^{}\varphi_{s}(x)=1$ on $X$ and $g(x)<\gamma_{s}<h(x)$ on $\textmd{supp}\varphi_{s}$. Function $f=\sum\limits_{s}^{}\gamma_{s} \varphi_{s}$ is a $C^{\infty}$-function, and $g(x)<f(x)<h(x)$ on $X$.
+\end{exampleblock}
+\end{frame}
+
+
+
+
+\begin{frame}{11. Intermediate $C^{\infty}$-function on separable Hilbert spaces}
+\begin{thebibliography}{10}
+\bibitem{1}\textbf{Ленг С.} Введение в теорию дифференцируемых многообразий // 1967.
+\end{thebibliography}
+
+\begin{exampleblock}{Lemma 2.}
+Let $A$, $B$ be a nonempty closed disjoint sets in separable Hilbert space $X$. Then there is such an infinitely differentiable function $f:X\rightarrow [0,1]$, that $f|_{A}=0$ and $f|_{B}=1$.
+\end{exampleblock}
+
+\begin{exampleblock}{Theorem 12.}
+Let ($ g $, $ h $) be Hahn's strict pair on separable Hilbert space $X$. Then there exists such an $C^{\infty}$-function $ f: X \rightarrow \mathbb {R} $, that $ g (x) <f (x) <h (x) $ on $ X $.
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Thanks for your attention}
+\end{frame}
+
+\end{document}
+
+
+Let $\mathcal{U}=(U_{s})$ be an open locally finite cover in separable Hilbert space $X$. Then there are $C^{\infty}$-functions $f_{s}:X\rightarrow [0,1]$ such, that $\sum f_{s}(x)=1$ on $\mathbb{R}^{n}$ and $\textmd{supp}f_{s}\subseteq U_{s}$ for any $s$.
+
+\end{frame}

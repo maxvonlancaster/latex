@@ -1,0 +1,217 @@
+% pdcutil.tex 1.1.7 1994/07/20 -- various ``utility'' macros
+% Copyright 1994 P. Damian Cugley
+
+%%% @TeX-macro-file {
+%%%   filename       = "pdcutil.tex",
+%%%   version        = "1.1.7",
+%%%   date           = "1994/07/20",
+%%%   package        = "Malvern 1.1",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "A few useful macros used by other macro files",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Character programs for the Malvern
+%%%                     font family.",
+%%%   dependencies   = "other program files",
+%%% }
+
+%{{{ pdcutil.tex
+%  Copyright (c) 1991, 1992, 1993 Damian Cugley.
+
+\ifx\utilsversion\UNDEFINED
+    \let\next\relax
+\else
+    \message{Warning: pdcutil.tex \string\input\space more than once.}
+    \let\next=\endinput
+\fi
+\next
+
+\begingroup\catcode`\%=12 \toks0={\endgroup
+	\gdef\utilsversion{1.1.7} \gdef\lastedit{pdc 1994/07/20}
+}\the\toks0
+\message{\utilsversion\space \lastedit}
+
+%{{{  List macros
+
+% TeXbook pp.378-9
+%  Note -- parameters in different order!
+
+\toksdef\toksa=0
+\toksdef\toksb=1
+\toksdef\toksc=2
+
+\long\def\prepend#1#2%  	#1 := <#2> + #1
+{%
+    \toksa={\\{#2}}\toksb=\expandafter{#1}%
+    \edef#1{\the\toksa\the\toksb}%
+}
+
+\long\def\gprepend#1#2%  	#1 := <#2> + #1
+{%
+    \toksa={\\{#2}}\toksb=\expandafter{#1}%
+    \xdef#1{\the\toksa\the\toksb}%
+}
+
+\long\def\append#1#2%  		#1 := #1 + <#2>
+{%
+    \toksa={\\{#2}}\toksb=\expandafter{#1}%
+    \edef#1{\the\toksb\the\toksa}%
+}
+
+\long\def\gappend#1#2%  		#1 := #1 + <#2>
+{%
+    \toksa={\\{#2}}\toksb=\expandafter{#1}%
+    \xdef#1{\the\toksb\the\toksa}%
+}
+
+\def\catenate#1#2#3%		#1 := #2 + #3
+{%
+    \toksa=\expandafter{#2}\toksb=\expandafter{#3}%
+    \edef#1{\the\toksa\the\toksb}%
+}
+
+\def\gcatenate#1#2#3%		#1 := #2 + #3
+{%
+    \toksa=\expandafter{#2}\toksb=\expandafter{#3}%
+    \xdef#1{\the\toksa\the\toksb}%
+}
+
+\def\lop#1#2%			#1, #2 := hd #2, tl #2
+{%
+    \expandafter\lopoff#2\lopoff#1#2%
+}
+\long\def\lopoff\\#1#2\lopoff#3#4%    #3, #4 := #1, #2
+{%
+    \def#3{#1}\def#4{#2}%
+}
+
+\def\glop#1#2%
+{%
+    \expandafter\glopoff#2\glopoff#1#2%
+}
+\long\def\glopoff\\#1#2\glopoff#3#4%    #3, #4 := #1, #2
+{%
+    \gdef#3{#1}\gdef#4{#2}%
+}
+
+\def\length#1#2%		#1 := length(#2)
+{%
+    #1=0 \long\def\\##1{\advance#1 1}#2%
+}
+%}}}
+%{{{  Macro expansion
+
+% \expcs\def{foo}... is like \def\foo...
+%  #1 a single token
+%  #2 a token string
+\def\expcs#1#2{\expandafter#1\csname#2\endcsname}
+
+% \noexpcs{foo} -> \noexpand\foo (for in \edefs)
+\def\noexpcs{\expcs\noexpand}
+
+% \letcs\tok{foo} is like \let\tok=\fo
+%  #1 is a single token
+%  #2 is a token string
+\def\letcs#1#2{\expandafter\let\expandafter#1\csname#2\endcsname}
+
+% Append to a macro definition
+%  #1 is the name of a macro
+%  #2 is a token string (it is not expanded)
+\def\macappend#1#2%
+{%
+    \toksa=\expandafter{#1}\toksb={#2}%
+    \edef#1{\the\toksa\the\toksb}%
+}
+
+%}}}
+%{{{  Numbers
+
+%  Convert <dimen> to pure number in TeX's mouth:
+%  the following is likely to be used on \fontdimen1
+%  to find the slant expressed as a pure number:
+
+% #1 -- <internal dimen>
+\def\dimentonumber#1{\expandafter\stripPT\the#1 }
+{ \catcode`p=12 \catcode`t=12
+    \gdef\\#1pt{#1}
+}
+\let\stripPT=\\
+
+%  Convert <chardef token> to hexadecimal in TeX's mouth:
+
+\def\chardeftohex#1{\expandafter\stripCHAR\meaning#1}
+\def\stripCHAR#1"{}
+
+%}}}  Numbers
+%{{{  Arithmetic
+
+\newcount\counta
+\newcount\countb
+\newcount\countc
+\newcount\countd
+\newcount\counte
+
+\newcount\tmodulus
+\def\modulus#1#2%	#1 := #1 MOD #2
+{%
+    \tmodulus=#1%
+    \divide\tmodulus by#2\relax
+    \multiply\tmodulus by#2\relax
+    \advance#1-\tmodulus
+}
+%}}}
+%{{{  \begin foo ...\end foo  is like {\foo ... \endfoo}.
+
+\let\END=\end
+\outer\def\bye{\par\vfill\supereject\END}
+
+% TeXbook Ex.7.7, Ex.5.7:
+\def\begin #1 %
+{%
+    \expcs\ifx{#1}\relax % is \#1 undefined?
+	\errhelp{Give up and type X now, that's my advice to you.
+		(I will carry on as if \char`\\#1 was def'd to {}.)}%
+	\errmessage{Don't understand #1 environment}%
+    \fi
+    \def\curenvironment{#1}%
+    \begingroup
+    \csname#1\endcsname	% if \#1 undefined this does nothing
+}
+
+\def\end #1 %
+{%
+    \csname end#1\endcsname % if \end#1 undefined this does nothing
+    \endgroup
+    \def\temp{#1}%
+    \ifx\temp\curenvironment \else
+	\errhelp={Argh.  Why not just type X and get it over with?}%
+	\errmessage{Expecting \string\end \curenvironment\space
+		but got \string\end #1}%
+    \fi
+}
+%}}}
+%{{{  include file iff it exists
+
+\newread\inputifexistsfile
+
+\def\inputifexists#1%
+{%
+    \openin\inputifexistsfile=#1
+    \ifeof\inputifexistsfile
+	\message{Note: no file #1.}%
+    \else
+	\input #1
+    \fi
+    \closein\inputifexistsfile
+}
+
+%}}}  include file iff it exists
+%}}} pdcutil.tex
+
+%Local variables:
+%fold-folded-p:t
+%tex-macros-p: t
+%End:

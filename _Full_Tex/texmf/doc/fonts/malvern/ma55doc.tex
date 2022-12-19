@@ -1,0 +1,310 @@
+%{{{ ma55doc.tex 1.1.10 1994/06/23 -- style file for documents in Malvern 55
+% Copyright (c) 1991-1994 Damian Cugley.
+\begingroup\catcode`\%=12 \toks0={\endgroup
+	\gdef\docversion{1.1.10} \gdef\lastedit{pdc 1994/06/23}
+}\the\toks0
+\message{\docversion\space \lastedit}
+
+\input pdchyex
+\input pdcimth
+\input pdcmigr
+\input pdcpars
+\input pdcfmt
+\input pdcoput
+\input pdcfsel
+\input maamac
+
+%{{{  Ensure top/bot margins large enough to fit headlines on
+%  even if printed on American paper:
+\topmarge=297mm \advance\topmarge-11in \advance\topmarge7mm
+\botmarge=\topmarge
+\advance\topmarge\ht\strutbox \advance\topmarge\headlineskip
+\ifdim \topmarge<20mm \topmarge=20mm \fi
+\ifdim \botmarge<27mm \botmarge=27mm \fi
+
+\setpaper{210mm}{297mm}
+
+\hyphenpenalty=200
+\exhyphenpenalty=100
+%}}}
+%{{{  layout
+
+\setnkgrid{4}{3}
+\leftmargin=\gridwd
+\everypage={\setbox\leftbox=\hbox to \leftmargin{}}
+\colrule=0pt
+
+\everyfootnote={\notefonts}
+\def\footnotetextmark#1{$^{#1}$}
+\def\footnotenotemark#1{{\bf\n{#1}}}
+\everylinenum={\smallfonts}
+\everytag={\bf}
+
+%}}}
+%{{{  fonts
+
+\autoloadfonts
+
+\def\HEADINGtemplate
+{%
+    \f{rm}{ma75a}\f{mi}{eurb}\f{sy}{eusb}%
+    \f{it}{ma76a}\f{tt}{cmtt}\f{mf}{mf75s}\f{mfi}{mf76s}%
+}
+\ldfont\headingmi{eurb10 scaled \magstep4}
+\ldfont\headingsy{eusb10 scaled \magstep4}
+\ldfont\headingtt{cmtt10 scaled \magstep4}
+\ldfont\subheadingmi{eurb10 scaled \magstep2}
+\ldfont\subheadingsy{eusb10 scaled \magstep2}
+\ldfont\subheadingtt{cmtt10 scaled \magstep2}
+
+\fontset{subheading}\HEADINGtemplate{12}{14pt}{subheading}{subheading}
+\fontset{heading}\HEADINGtemplate{18}{20pt}{subheading}{subheading}
+
+\def\BODYtemplate
+{%
+    \m{rm}{ma55a}\m{it}{ma56a}%
+    \m{bf}{ma75a}\f{bi}{ma76a}%
+    \m{mi}{cmmi}\m{sy}{cmsy}%
+    \@\f{mf}{logo10}\@\f{mfi}{logosl10}%
+    \f{tt}{cmtt}\f{tb}{cmttsl}%
+}
+
+\ldfont\bodytt{cmtt10 scaled \magstep2}
+\ldfont\notett{cmtt10 scaled \magstep1}
+\ldfont\smalltt{cmtt10 scaled \magstephalf}
+\ldfont\bodytb{cmttsl10 scaled \magstep2}
+\ldfont\smalltb{cmttsl10 scaled \magstep1}
+\ldfont\notetb{cmttsl10 scaled \magstephalf}
+\font\bodymi=cmmi10 scaled \magstep2
+\font\bodysy=cmsy10 scaled \magstep2
+\font\notemi=cmmi10 scaled \magstep1
+\font\notesy=cmsy10 scaled \magstep1
+\font\smallmi=cmmi10 scaled \magstephalf
+\font\smallsy=cmsy10 scaled \magstephalf
+
+\fontset{tiny}\BODYtemplate{7}{9pt}{tiny}{tiny}
+\fontset{small}\BODYtemplate{9}{11pt}{tiny}{tiny}
+\fontset{note}\BODYtemplate{10}{12pt}{tiny}{tiny}
+\fontset{body}\BODYtemplate{12}{14pt}{small}{tiny}
+
+\def\everyloadfont#1#2{\fontdimen3#1=0pt \fontdimen4#1=0pt}
+\rightskip=0pt plus 20mm
+\bodyfonts
+\tolerance=1000
+
+%}}}
+%{{{  malvern maths
+
+\mathcode`,="602C
+
+%}}}
+%{{{  TOC
+
+\newwrite\TOCfile
+\openout\TOCfile=\jobname.toc
+
+%  #1 is \TOCentryfoo control sequence
+%  #2 is stuff to be evaluated NOW -- e.g., section number
+%  #3 is stuff to be evaluated WHEN PRINTED -- e.g., section title
+%  folio is written after this in file
+\def\TOCwrite#1#2#3%
+{%
+    \def\tmp{#3}%
+    \edef\tmp{\string#1{#2}{\expandafter\TOCtrim\meaning\tmp}}
+    \write\TOCfile\expandafter{\tmp{\folio}}
+}
+\def\TOCtrim#1:->{}		% strip off "macro:->"
+
+\def\TOCentrypart#1#2#3%
+{
+    \smallskip
+    \dimen0=\hsize \advance\dimen0\leftmargin
+    \moveleft\leftmargin\hbox to\dimen0{\strut\bf #1. #2\hfil}
+    \smallskip
+}
+
+\def\TOCentrysection#1#2#3%
+{
+    \smallskip\noindent\llap{#1\quad}%
+	{\bf \ignorespaces #2\quad\rm \n{#3}}\par
+}
+
+\def\TOCentrysubsec#1#2#3%
+{
+    \noindent{#1\enspace}{\ignorespaces #2\quad\rm \n{#3}}\par
+}
+
+\def\TOCentrysubsubsec#1#2#3%
+{
+    \indent\indent\llap{#1\enspace}{\ignorespaces #2\quad\rm \n{#3}}\par
+}
+
+%}}}
+%{{{  sectioning
+
+%  sections run continuously
+%  divisions start new page but do not reset section counters
+
+\newcount\partno
+\def\thepartno
+{%
+    \ifcase\partno O\or I\or II\or III\or IV\or V\else
+	\expandafter\uppercase\expandafter{\romannumeral\partno}%
+    \fi
+}
+\def\part#1%
+{%
+    \advance\partno1
+    \newpageheading{2\baselineskip}{\headingfonts}{}{\thepartno.\quad#1}
+    \TOCwrite\TOCentrypart{\thepartno}{#1}
+}
+
+\newcount\secno \newcount\subsecno \newcount\subsubsecno
+
+\def\thesecno
+{%
+    \n{%
+	\number\secno
+	\ifnum\subsecno>0 
+	    .\number\subsecno
+	    \ifnum\subsubsecno>0
+		.\number\subsubsecno
+	    \fi
+	\fi
+    }%
+}
+
+\def\sectionheading#1{\dosectionheading{#1}}
+\def\dosectionheading#1%
+{
+    \par
+    \removelastskip
+    \vskip 0pt plus 0.3\vsize 
+    \penalty-200
+    \vskip 1\bigskipamount plus -0.3\vsize
+    \begingroup \advance\leftskip-\leftmargin
+	\parskip=0pt \parindent=0pt
+	\hyphenpenalty=10000 \exhyphenpenalty=500 
+	\interlinepenalty=100
+	\headingfonts
+	\hbox{\hskip-\leftmargin 
+		\vrule height 2pt depth 0pt width \leftmargin
+		\vrule height 2pt depth 0pt width \hsize}
+	\nobreak\medskip
+        \Box\enspace#1\par
+	\nobreak\smallskip
+    \endgroup
+}
+
+\def\section#1%
+{
+    \counta=\secno \advance\counta1
+    \mark{\thesecno \noexpand\else \n{\number\counta}}% OLD \else NEW
+    \secno=\counta \subsecno=0 \subsubsecno=0
+    \dosectionheading{\thesecno\quad #1}
+    \mark{\thesecno \noexpand\else \thesecno}% NEW \else NEW
+    \TOCwrite\TOCentrysection{\thesecno}{#1}
+}
+
+\def\subsec#1%
+{%
+    \counta=\subsecno \advance\counta1
+    \mark{\thesecno \noexpand\else \n{\number\secno.\number\counta}}
+    \subsecno=\counta  \subsubsecno=0
+    \doheading\medskipamount{\subheadingfonts}{}{\thesecno\quad#1}
+    \mark{\thesecno \noexpand\else \thesecno}
+    \TOCwrite\TOCentrysubsec{\thesecno}{#1}
+}
+
+\def\subsubsec#1%
+{%
+    \advance\subsubsecno+1
+    \doheading\smallskipamount{}{}{\ifdim\leftmargin=0pt\thesecno\quad\fi#1}	
+    \TOCwrite\TOCentrysubsubsec{\thesecno}{#1}
+}
+
+\newif\ifnoheader
+\newif\iftwosided
+
+\footline={%
+    \ifnoheader 
+	\global\noheaderfalse
+	\hfil\bodyfonts\n\folio\hfil 
+    \else
+	\hfil
+    \fi
+}
+
+\headline={%
+    \ifnoheader
+	\hfil
+    \else
+	\bodyfonts \hskip-\leftmargin
+	\iftwosided
+	    \ifodd\pageno
+		\iftrue\botmark\fi
+		\hfil 
+		{\bf\n\folio}%
+	    \else
+		{\bf\n\folio}\quad
+		\hfil
+		\expandafter\iffalse\topmark\fi
+	    \fi
+	\else
+	    \expandafter\iffalse\topmark\fi
+	    \hfil 
+	    {\bf\n\folio}%
+	\fi
+    \fi
+}
+
+%}}}
+%{{{  abbrevs
+
+\def\pt{\,{\rm pt}}
+\def\mm{\,{\rm mm}}
+
+\def\MF{{\ifdim\fontdimen1\font>0pt \mfi \else \mf \fi METAFONT}}
+\def\TeX{T\kern-0.1em \lower0.5ex\hbox{E}\kern-0.01em X}
+\def\La{L\kern-0.1667em \flushtop{\char"E1 }}
+\def\LaTeX{\La\kern-0.05em \TeX}
+\def\MagTeX{M{\char"E1 \char"E7 }\kern-0.1em \TeX}
+\csc{
+    \gdef\PS{PostScript}
+}
+
+\def\MSDOS{\hbox{MS-DOS}}
+
+\def\MFjob{{\mf MF}\kern-0.125em job} % Eberhard Mattes' emTeX MFjob
+
+{\plain|
+\gdef\dfn#1{\index{#1|idxunderline}{\bi #1}}
+}
+
+\def\<#1>{\leavevmode\hbox{\langle{\it#1\/}\rangle}} 
+
+\active\* \def*#1*{{\it#1\/}}
+\append\verbatimplains\*
+
+%  _xxx_ is xxx as typed by user to a program.
+\active\_
+\def_%    _xxx_ is bold verbatim text
+{%
+    \ifmmode
+	\sb
+    \else
+	\begingroup		% matched by closing _
+	\tb\setupverbatim
+  	\plain\|\active\_%
+	\let_\endgroup
+    \fi
+}
+
+%}}}
+%}}} ma55doc.tex
+
+
+%Local variables:
+%fold-folded-p: t
+%tex-macros-p: t
+%End:

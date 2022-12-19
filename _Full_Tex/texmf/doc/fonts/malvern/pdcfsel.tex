@@ -1,0 +1,209 @@
+%{{{ pdcfsel.tex 1.1.6 92/07/17 -- basic font loading
+% started - Damian Cugley <pdc@prg.ox.ac.uk> Tue. 23 Apr. 1991
+{\catcode`\%=12 \gdef\ldfontsversion{1.1.6 <pdc 92/07/17>}}
+% \catcode for SCCS's sake
+
+\ifx\utilsversion\UNDEFINED \input utils \fi
+\counta=\catcode`\_ \catcode`\_=11
+
+%{{{  setting the AUTOLOAD flag
+
+%  If autoloading is true then the magnification and fonts used
+%  are written to a file \jobname.fnt in the hope that it will be
+%  possible to create them easily using the mff program.
+
+\newwrite\font_list
+\newif\if_autoloading
+
+\def\autoloadfonts	% set autoload flag to TRUE
+{
+    \_autoloadingtrue
+    \immediate\openout\font_list=\jobname.fnt
+    \def\setmag##1{\writemag{##1}\mag##1\relax}
+}
+
+\def\setmag#1{\mag=#1\relax \write_mag }
+
+\def\write_mag#1%	#1 is file #2 is mag
+{{%
+    \def\magstep##1{\ifcase##1 1000\or1200\or1440\or1728\or2074\or2488\fi}%
+    \edef\tmp{-s #1}%
+    \write\font_list\tmp
+}}
+
+%}}}
+%{{{  how to set up the csname for one font
+
+% All parameters are token strings
+% #1 is fontset name, e.g., body
+% #2 is the size part of external name
+%	-- either ` at 12pt' or `12'
+% #3 is fam name -- e.g., rm
+% #4 is "external" name sans size info -- e.g., cmbx
+%  This does the equivalent of \font\bodyrm=cmbx12
+%  except if autoloading then the actual \font is delayed.
+\def\ld_font#1#2#3#4%	
+{\expcs\ifx{#1#3}\relax
+    \if_autoloading
+	\expcs\edef{#1#3}%
+	  {%
+	    \write\font_list{#4#2}%	make note that font used
+	    \def\noexpand\subfont
+	    {\global\font\noexpcs{#1#3}=cmr10 }% use i\subfont if not found
+	    \global\font\noexpcs{#1#3}=#4#2\relax	      % load the font
+	    \noexpand\everyloadfont\noexpcs{#1#3}{#4#2}%  hook
+	    \expcs\noexpand{#1#3}%			and select it
+	  }%
+     \else
+	\global\expcs\font{#1#3}=#4#2\relax
+	\expcs\everyloadfont{#1#3}{#4#2}%
+    \fi
+ \else
+    %  The font is already loaded; call \everyloadfont anyway
+    \expcs\everyloadfont{#1#3}{#4#2}%
+ \fi
+}
+
+%  Ad-hoc laoding of fonts by user
+%  #1 is csname
+%  #2 is tokens for external name
+\def\ldfont#1#2%
+{%
+    {\escapechar=-1\xdef\ldfont_tmp{{\string#1}}}%  get name sans \
+    \expandafter\ld_font\ldfont_tmp{#2}{}{}%
+}%
+%{%
+%    \if_autoloading \write\font_list{#2}\fi
+%    \def\subfont{\font#1=cmr10 }%
+%    \global\font#1=#2\relax
+%    \everyloadfont#1{#2}%
+%}
+
+%  Hook for user's customization
+%  #1 is one token, the csname of the newly-loaded font
+%  #2 is token string that is its external name
+\def\everyloadfont#1#2{}
+%}}}
+%{{{  how to set up a fontset
+
+% fontset map macro:
+%  \FOOmap is of form {\m{rm}{ma}[\@]\f{it}{mai}...}
+%   \f -- non-maths font
+%   \m -- maths font (has \textfont and \scriptfont)
+%   \M -- ditto plus \scriptscriptfont
+
+% Set up a fontset
+% #1 is name
+% #2 is \FOOmap
+% #3 is size
+% #4 is baselineskip
+% #5 is script (fontset name)
+% #6 is scriptscript
+\def\fontset#1#2#3#4#5#6%
+{
+    \xfontset{#1}{#2}{#3}
+    %
+    % set up the \bodyfonts macro
+    \expcs\edef{#1fonts}%
+      {%
+	\if_autoloading \expcs\noexpand{#1mathsfonts}\fi
+	\noexpand\set_short_names{#1}{#5}{#6}\noexpand#2%
+		% \def\rm{...}...
+		% \textfont\rmfam\bodyrm
+	\noexpand\set_baseline{#4}%	set \baselineskip etc.
+	\noexpand\rm
+      }
+    \if_autoloading
+	% set up \bodymathsfonts macro
+	\expcs\def{#1mathsfonts}{\force_maths_fonts{#1}{#5}{#6}#2}
+    \fi
+}
+
+% xfontset can be used to make a fontset that is never selected
+% in its own right -- e.g., used for maths subscripts only
+%
+% #1 is name
+% #2 is map macro
+% #3 is size
+\def\xfontset#1#2#3%  
+{
+    % call \ld_font for each font:
+    \def\f##1##2{\ld_font{#1}{#3}{##1}{##2}}
+    \let\m=\f \let\M=\f 
+    \def\@##1##2##3{\ld_font{#1}{ at #3pt }{##2}{##3}}%
+    #2
+}
+
+%  Set up the \rm style names and the \textfont etc. vectors
+% #1 -- fontset name -- e.g., body
+% #2 -- script -- e.g., small
+% #3 -- scriptscript -- e.g., tiny
+% followed by map macro
+\def\set_short_names#1#2#3%
+{%
+    \let\@\relax
+    \def\f##1##2%
+      {%
+	\expcs\edef{##1}{\noexpcs{#1##1}}%  has to be def'd not let'd
+      }%
+    \def\m##1##2%
+      {%
+	\expcs\textfont{##1fam}\csname#1##1\endcsname
+	\expcs\scriptfont{##1fam}\csname#2##1\endcsname
+	\expcs\edef{##1}{\fam\expcs\noexpand{##1fam}\expcs\noexpand{#1##1}}%
+      }%
+    \def\M##1%
+      {%
+	\expcs\scriptscriptfont{##1fam}\csname#3##1\endcsname
+	\m{##1}%
+      }%
+}
+
+\def\set_baseline#1%
+{%
+    \baselineskip#1\relax \normalbaselineskip\baselineskip
+    \jot0.25\baselineskip
+    \smallskipamount 0.25\baselineskip plus 0.083\baselineskip
+	minus 0.083\baselineskip
+    \medskipamount 0.5\baselineskip plus 0.167\baselineskip
+	minus 0.167\baselineskip
+    \bigskipamount 1\baselineskip plus 0.333\baselineskip
+	minus 0.333\baselineskip
+    \abovedisplayskip=\medskipamount
+    \abovedisplayshortskip=\abovedisplayskip 
+    \advance\abovedisplayshortskip-1\abovedisplayskip
+    \belowdisplayskip=\medskipamount
+    \belowdisplayshortskip=\smallskipamount
+}
+
+%  Force all the fonts used in maths to be loaded --
+%  then redefine #1mathsfonts to be \relax
+% #1 -- fontset name
+% #2 -- script fontset name
+% #3 -- scriptscript fontset name
+\def\force_maths_fonts#1#2#3%
+{%
+    %\message{Loading maths fonts for #1...}%
+    \let\@\relax
+    \def\f##1##2{}%
+    \def\m##1##2{\csname#1##1\endcsname \csname#2##1\endcsname}%
+    \def\M##1{\csname#3##1\endcsname \m{##1}}%
+    \global\expcs\let{#1mathsfonts}\relax
+}
+%}}}
+%{{{  example fontset templates
+
+\chardef\rmfam=0
+\chardef\mifam=1
+\chardef\syfam=2
+% \itfam \bffam \ttfam \slfam set in plain.tex
+
+%}}}
+
+\catcode`\_=\counta
+%}}} pdcfsel.tex
+
+%Local variables:
+%fold-folded-p: t
+%tex-macros-p: t
+%End:

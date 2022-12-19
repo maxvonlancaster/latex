@@ -1,0 +1,277 @@
+\documentclass[notes=show,9pt]{beamer}
+
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[cp1251]{inputenc}       % allow Latin1 characters
+
+\usepackage{textcomp}
+\usepackage{pgf}%,pgfarrows,pgfnodes,pgfautomata,pgfheaps
+
+\usepackage{beamerthemeshadow}
+\useinnertheme[shadow=true]{rounded}
+%\usecolortheme[named=CarnationPink]{structure}
+\usecolortheme{seahorse}
+%\usecolortheme{whale}
+\useoutertheme{shadow}
+\usefonttheme{structureitalicserif}
+%\usefonttheme[onlysmall]{structurebold}
+
+\setbeamercolor{title}{use=structure,fg=white,bg=structure.fg}
+\setbeamerfont{block title}{size={}}
+
+
+\usepackage{times}
+
+\usepackage{color}
+
+\newcommand{\tblue}[1]{\textcolor{blue}{#1}}
+\newcommand{\tred}[1]{\textcolor{red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{green}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{yellow}{#1}}
+\newcommand{\tbrown}[1]{\textcolor{brown}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\tmagenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\torange}[1]{\textcolor{orange}{#1}}
+\newcommand{\tviolet}[1]{\textcolor{violet}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\tpink}[1]{\textcolor{pink}{#1}}
+\newcommand{\tolive}[1]{\textcolor{olive}{#1}}
+\newcommand{\tdarkgray}[1]{\textcolor{darkgray}{#1}}
+\newcommand{\tgray}[1]{\textcolor{gray}{#1}}
+\newcommand{\tlightgray}[1]{\textcolor{lightgray}{#1}}
+\newcommand{\twhite}[1]{\textcolor{white}{#1}}
+
+%\newcommand{\proclim}[2]{{\bf\sffamily #1} {\sffamily #2}}
+
+\usepackage{verbatim}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\usepackage{fancybox}
+
+\usepackage{mathptmx}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo}
+
+% \usepackage[sc]{mathpazo}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pifont}
+
+
+
+
+\beamertemplateshadingbackground{red!1}{blue!5}
+\beamertemplatetransparentcovereddynamic
+\beamertemplateballitem
+\beamertemplatenumberedballsectiontoc
+%\beamertemplatenotecompress
+
+%\setbeamersize{sidebar width left=0.3cm,sidebar width right=0.3cm}
+%{\usebeamercolor{yellow}}
+%\setbeamertemplate{sidebar canvas left}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+%\setbeamertemplate{sidebar canvas right}[horizontal shading]
+%[left=white,middle=yellow.bg,right=white]
+
+
+ \DeclareMathOperator{\re}{Re}
+ \DeclareMathOperator{\dist}{dist}
+ \DeclareMathOperator{\ecc}{\overline{\mathrm{co}}}
+ \DeclareMathOperator{\ec}{co}
+\newcounter{equi1}
+\newenvironment{equi}
+{\begin{list}
+        {$(\roman{equi1})$}
+        {\setlength{\itemsep}{0ex plus 0.2ex minus 0ex}
+         \setlength{\topsep}{0ex}
+         \setlength{\parsep}{0ex}
+         \setlength{\labelwidth}{7ex}
+         \usecounter{equi1}}}
+{\end{list}}
+
+\renewcommand{\raggedright}{\leftskip=4pt \rightskip=4pt plus 0cm}
+
+\hypersetup{pdfkeywords={pdftex, acrobat}, pdfpagemode={FullScreen}}
+
+
+
+%\title[\twhite{\small \centerline{Про рівномірну відстань до різних функціональних класів}}]
+
+\title[Про рівномірну відстань до різних функціональних класів]{Про рівномірну відстань до різних функціональних класів}
+
+
+\author[Маслюченко В. К., Мельник В. С.]{\textbf{Маслюченко В. К., Мельник В. С.}}
+
+
+\begin{document}
+
+
+\begin{plainframe}
+  \titlepage
+\end{plainframe}
+
+\begin{frame}{Функції першого класу Бера}
+
+
+\begin{block}{Означення}
+\textit{Функція першого класу Бера} $f:X\rightarrow \mathbb{R}$, що задана на топологічному
+просторі $X$,~--- це поточкова границя деякої послідовності неперервних функцій $f_{n}:X\rightarrow\mathbb{R}$.
+\end{block}
+
+\begin{block}
+
+Коли $f$~--- розривна, то вона не може бути рівномірною границею неперервних функцій $f_{n}$ і тому для неї \textit{рівномірна відстань} $$d(f,C(X))=\inf\{||f-g|| : g\in C(X)\}>0$$ (тут $|| h||=\sup\limits_{x\in X}^{}|h(x)|$ і $C(X)$ - простір неперервних функцій $g:X\rightarrow \mathbb{R}$).
+\end{block}
+
+
+
+\end{frame}
+
+\begin{frame}{Рівномірна відстань до простору неперервних функцій}
+
+\begin{block}
+
+Наприклад, для цілої частини $f(x)=[x]$ $d(f,C(\mathbb{R}))=\frac{1}{2}$ і
+найближчою неперервною функцією буде $f(x)=x-\frac{1}{2}$, а для функції $f(x)=\textmd{sgn}x$ відстань $d(f,C(\mathbb{R}))=1$ і функція $g(x)=0$ буде найближчою до $f$ неперервною функцією.
+\end{block}
+
+\begin{exampleblock}{Теорема 1}
+Нехай $X$~--- нормальний топологічний простір, $f:X\rightarrow \mathbb{R}$ - довільна функція і
+$\omega_{f}$ її коливання. Тоді $$d(f,C(X))=\frac{1}{2}||\omega_{f}||,$$ причому існує така функція
+$g\in C(X)$, що $|| f-g||=d(f,C(X))$.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Історія досліджень}
+\begin{thebibliography}{10}
+
+\bibitem{1}\textbf{ Hahn H.} Uber halbstetige und unstetige Functionen //
+    Sitzungsberichte Akad.Wiss.\\Wien.Math.~---naturwiss.Kl.Abt.IIa.~--- 1917.~---
+    \textbf{126}.~--- S.91-110.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+
+\bibitem{1}\textbf{Benyamini Y., Lindenstrauss J.}  Geometric nonlinear functional
+    analysis. V.1.~--- Amer.Math.Soc., 2000.~--- 488p.
+\end{thebibliography}
+
+\begin{thebibliography}{10}
+
+\bibitem{1}\textbf{ Маслюченко В. К., Мельник В. С.} Про рівномірне відхилення від
+простору неперервних функцій // Збірник праць Ін-ту математики НАН України~--- Київ: Інститут математики НАН України, 2014.~--- №1 ~--- Т.XI.~--- с.158-166.
+
+\end{thebibliography}
+
+
+\end{frame}
+
+\begin{frame}{Теорема Гана-Д'єдонне-Тонґа-Катетова}
+
+\begin{exampleblock}{Теорема 2}
+$T_{1}$-простір $X$ буде нормальним тоді і тільки тоді, коли для довільних функцій $g:X \rightarrow \mathbb{R}$ і $h:X \rightarrow \mathbb{R}$, таких, що $g(x)\leq h(x)$ на $X$, $g$~--- напівнеперервна зверху і $h$~--- напівнеперервна знизу, існує така неперервна функція $f:X \rightarrow \mathbb{R}$, що $g(x)\leq f(x)\leq h(x)$ на $X$.
+\end{exampleblock}
+
+
+
+\begin{thebibliography}{10}
+
+\bibitem{1}\textbf{ Энгелькинг Р.} Общая топология.~--- М.: Мир, 1986.~--- 752 с.
+
+\end{thebibliography}
+
+\end{frame}
+
+
+\begin{frame}{Квазінеперервні функції}
+
+
+
+\begin{block}{Означення}
+Функція $f:X\rightarrow \mathbb{R}$ називається \textit{квазінеперервною в точці} $x_{0}$ з $X$, якщо для довільного $\varepsilon>0$ і довільного околу $U$ точки $x_{0}$ в $X$ існує така відкрита в $X$ і непорожня множина $G$, що $G\subseteq U$ і $| f(x)-f(x_{0})|<\varepsilon$, як тільки $x\in G$.
+\end{block}
+
+\begin{block}
+
+Множину всіх функцій $f:X\rightarrow \mathbb{R}$, які квазінеперервні в точці $x_{0}$, ми позначаємо символом $K_{x_{0}}(X)$.
+\end{block}
+
+\end{frame}
+
+
+
+\begin{frame}{Квазінеперервні функції}
+
+\begin{block}{Означення}
+Функція $f$ називається \textit{квазінеперервною}, якщо вона є такою в кожній точці з простору $X$.
+
+Множину таких функцій ми позначаємо $K(X)$.
+\end{block}
+
+\begin{block}
+
+Для функції $f(x)=\textmd{sgn}x$ $d(f,K_{0}(\mathbb{R}))=d(f,K(\mathbb{R}))=\frac{1}{2}$ (найближча квазінеперервна функція~--- це функція $g:\mathbb{R}\rightarrow \mathbb{R}$, для якої $g(x)=\frac{1}{2}$ при $x\geq 0$ і $g(x)=-\frac{1}{2}$ при $x<0$), а для функції $f(x)=\chi_{(-\infty,0)}b_{1}+\chi_{\{0\}}b_{2}+\chi_{(0,+\infty)}b_{3}$ (де $b_{1},b_{2},b_{3}$~--- довільні дійсні числа, а $\chi$~--- характеристична функція множини) відстань: $$d(f,K_{0}(\mathbb{R}))=d(f,S_{0}(\mathbb{R}))=\frac{1}{2}\min\{|b_{1}-b_{2}|,| b_{2}-b_{3}|\}.$$
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}{Граничні множини}
+
+
+Нехай $X$ і $Y$ - топологічні простори, $D\subseteq X$, $x_{0}\in \overline{D}$, $\mathcal{U}_{x_{0}}$~--- система всіх околів точки $x_{0}$ у просторі $X$ і $f:D\rightarrow Y$ - відображення.
+
+\begin{block}{Означення}
+
+Перетин $C(f,x_{0})=\bigcap\limits_{U\in\ \mathcal{U}_{x_{0}}}^{}\overline{f(U\bigcap D)}$ називається \textit{граничною множиною функції} $f$ \textit{у точці} $x_{0}$.
+\end{block}
+
+
+\begin{exampleblock}{Теорема 3}
+Нехай $X$~--- топологічний простір, $x_{0}\in X$, $\{ x_{0} \}$~--- замкнена множина в $X$, $x_{0}\in \overline{X\setminus \{ x_{0} \}}$, $f:X\rightarrow \mathbb{R}$~--- деяка функція і $C(\dot{f},x_{0})$~--- гранична множина функції $\dot{f}=f|_{X\setminus \{x_{0}\}}:X\setminus \{x_{0}\}\rightarrow\mathbb{R}$ зі значеннями в розширеній числовій прямій $\overline{\mathbb{R}}=\mathbb{R}\cup \{+\infty,-\infty\}$. Тоді:
+
+а) Якщо $D(f)\subseteq\{ x_{0} \}$ і $f(x_{0})\in C(\dot{f},x_{0})$, то $f\in K_{x_{0}}(X)$;
+
+б) Якщо $f(x_{0})\notin C(\dot{f},x_{0})$, то $f\notin K_{x_{0}}(X)$.
+\end{exampleblock}
+
+
+\end{frame}
+
+
+\begin{frame}{Відстань до простору квазінеперервних в точці функцій}
+
+Нехай $\rho(x,A)=\inf\{|x-y|:y\in A\}$ - відстань від точки $x$ до непорожньої множини $A$ на числовій осі.
+
+\begin{exampleblock}{Теорема 4}
+Нехай $X$~--- топологічний простір з першою аксіомою зліченності, $x_{0}$~--- неізольована точка в $X$, для якої множина $\{x_{0}\}$ замкнена в $X$, $f:X\rightarrow \mathbb{R}$~--- обмежена функція, яка неперервна при $x\neq x_{0}$, і $\dot{f}=f|_{X\setminus x_{0}}$. Тоді $$d(f,K_{x_{0}}(X))=d(f,K(X))=\frac{1}{2} \rho (f(x_{0}),C(\dot{f},x_{0})),$$
+причому існує функція $g\in K(X)$, для якої $||f-g||=d(f,K(X))$.
+\end{exampleblock}
+
+\end{frame}
+
+
+\begin{frame}{Приклад}
+
+\begin{block}
+
+Для функції $f(x)=\sin \frac{1}{x}$ при $x\neq 0$ і $f(0)=b$, де $| b|>1$, гранична множина в точці $0$: $C(\dot{f},0)=[-1,1]$, а тому рівномірна відстань до простору квазінеперервних в точці $0$ функцій становить:  $$d(f,K_{0}(\mathbb{R}))=d(b,C(\dot{f},0))=\frac{| b|-1}{2}$$
+\end{block}
+
+\end{frame}
+
+
+
+
+\begin{frame}\frametitle{}
+\Huge \centerline{Дякую за увагу!}
+\end{frame}
+
+\end{document}
+

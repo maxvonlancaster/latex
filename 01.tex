@@ -1,0 +1,70 @@
+\documentclass[10pt,fleqn,twoside]{article}
+\usepackage{latexsym,amsmath,amsfonts,amssymb,conf2016}
+\usepackage[cp1251]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian,ukrainian]{babel}
+
+\begin{document}
+
+
+
+\Author{Маслюченко В. К. $^1$, Мельник В. С.$^2$}
+
+\Title{Існування проміжної нескінченно диференційовної функції на паралелепіпедах в $\mathbb{R}^{n}$}
+
+\Address{$^1$ Чернівецький національний університет ім. Ю. Федьковича\\
+$\phantom{^1}$
+E-mail: mathan@ukr.net\\
+$^2$ Чернівецький національний університет ім. Ю. Федьковича\\
+$\phantom{^2}$
+E-mail: windchange7@gmail.com }
+
+
+%Begin of body text
+%Please use this template and conf2016.sty to prepare your abstract.
+%We strongly suggest that it should not exceed one half-page.
+%Please submit the abstract both in TeX and PDF file by e-mail to
+%\\ \textbf{dfe2016@ukr.net}.
+
+
+Теорема Гана про існування проміжної неперервної функції [1], яка дістала розвиток у серії праць [2,3,4], останнім часом породила різні аналоги про існування проміжних монотонних [5] і опуклих [6] функцій. Тут ми подамо теорему про існування проміжної нескінченно диференційовної функції на паралелепіпедах в $\mathbb{R}^{n}$.
+
+Вихідним є таке просте спостереження :
+
+\textit{Лема 1.} Нехай $X$~--- топологічний простір, $g,h:X\rightarrow \mathbb{R}$~--- напівнеперервні зверху і знизу в точці $x_{0}$ відповідно функції, такі, що $g(x_{0})<h(x_{0})$, і $g(x_{0})<\gamma<h(x_{0})$. Тоді існує такий окіл $U$ точки $x_{0}$ в $X$, що $g(x)<\gamma<h(x)$ на $U$.
+
+Крім того, ми використовуємо такий результат :
+
+\textit{Лема 2.} Нехай $Q=(\alpha_{1},\beta_{1})\times(\alpha_{2},\beta_{2})\times...\times(\alpha_{n},\beta_{n})$~--- відкритий паралелепіпед в $\mathbb{R}^{n}$. Тоді існує нескінченно диференційовна функція $\varphi:\mathbb{R}^{n}\rightarrow [0,1]$, у якої носій $\textmd{supp}\varphi=Q$.
+
+Використовуючи леми 1 і 2 і компактність замкненого паралелепіпеда ми отримуємо такий результат :
+
+\begin{theorem}
+{\it Нехай $P=[a_{1},b_{1}]\times[a_{2},b_{2}]\times...\times[a_{n},b_{n}]$~--- замкнений паралелепіпед в $\mathbb{R}^{n}$, $g,h:P\rightarrow \mathbb{R}$~--- напівнеперервні відповідно зверху і знизу функції, такі, що $g(x)<h(x)$ на $P$. Тоді існують скінчена послідовність нескінченно диференційовних функцій $\varphi_{j}:\mathbb{R}^{n}\rightarrow[0,1]$, $j=1,...,m$ і послідовність чисел $\gamma_{1},...,\gamma_{m}$, такі, що сума $\sum\limits_{j=1}^{m}\varphi_{j}(x)=1$ на $P$ і $g(x)<\gamma_{j}<h(x)$ на носії $\textmd{supp}\varphi_{j}$ при $j=1,...,m$. При цьому функція $f=\sum\limits_{j=1}^{m}\gamma_{j} \varphi_{j}$ буде нескінченно диференційовною, і для неї $g(x)<f(x)<h(x)$ на $P$.}
+\end{theorem}
+
+
+
+
+
+
+
+%End of body text
+
+
+\begin{thebibliography}{99}
+\footnotesize
+\bibitem{Label1} Hahn H. {\it Uber halbstetige und unstetige Functionen }// Sitzungsberichte Akad.Wiss.Wien.Math.-naturwiss.Kl.Abt.IIa.~--- 1917.~--- \textbf{126}.~--- S.91-110.
+
+\bibitem{Label2} Tong H. {\it Some characterizations of normal and perfectly normal spaces }// Duke Math.J.~--- 1952.~--- \textbf{19}.~--- P.289-292.
+
+\bibitem{Label3} Katetov M. {\it On real-valued functions in topological spaces }// Fund.Math.~--- 1952.~--- \textbf{38}.~--- P.85-91.
+
+\bibitem{Label4} Dowker C.H. {\it On countably paracompact spaces }// Canad. J. Math.~--- 1951.~--- \textbf{3}.~--- P.219-224.
+
+\bibitem{Label5} Маслюченко В.К., Петей С.П. {\it Поточкові границі неперервних монотонних функцій та функцій обмеженої варіації} // Бук. мат. журн. — 2015. — \textbf{3},№2. — С.64-71.
+
+\bibitem{Label6} Маслюченко В.К, Мельник В.С. {\it Теореми про проміжну афінну функцію для опуклої і вгнутої функцій}// Бук. мат. журн. — 2016. — \textbf{4},№1-2. — С.110-116.
+\end{thebibliography}
+
+\end{document}

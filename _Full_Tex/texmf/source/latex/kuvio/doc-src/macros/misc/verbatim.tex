@@ -1,0 +1,96 @@
+%  verbatim.tex
+%  Anders G S Svensson
+%  $Date: 1995/08/07 09:39:00 $
+%  $Revision: 1.4 $
+
+\chardef\VerbatimcodE=\catcode`\_
+\catcode`\_=11
+
+\def\__bailout__{\message{again}\catcode`\_=\VerbatimcodE \endinput}
+
+\ifx\__agss_verbatim__\relax
+\else
+   \let\__agss_verbatim__\relax
+   \let\__bailout__\relax
+\fi
+
+\__bailout__
+
+%%%%%%%%%%
+
+\newdimen\verbatimindent  \verbatimindent=30pt
+\newdimen\verbatimskip    \verbatimskip=12pt
+
+{\escapechar=-1
+ \xdef\_namedtestdef#1{\noexpand\expandafter\edef
+       \noexpand\csname _end#1verbatim\noexpand\endcsname{\string\\end#1}}
+}
+
+{\catcode`\^^M=12 \endlinechar=-1 %
+ \gdef\_verbeatim#1#2^^M{\csname _#1verbatim\endcsname}
+ \gdef\_namedsetup#1{%
+    \expandafter\def\csname _#1verbatim\endcsname##1^^M{\def\_found{##1}%
+       \expandafter\ifx\csname _end#1verbatim\endcsname\_found
+          \def\_next{\egroup\csname end#1\endcsname}%
+       \else
+          \def\_next{%
+             \def\_found{\csname #1line\endcsname ##1}%
+             \expandafter\_found\csname #1endline\endcsname
+             \csname _#1verbatim\endcsname}%
+       \fi
+       \_next}}
+}
+
+\def\newverbatim#1{%
+   \_namedtestdef{#1}%
+   \_namedsetup{#1}%
+   \expandafter\def\csname #1\endcsname{\bgroup
+      \def\do####1{\catcode`####1=12}\dospecials
+      \frenchspacing
+      \vbadness10000\csname #1tt\endcsname\csname every#1\endcsname
+      \endlinechar`\^^M \catcode`\^^M=12
+      \_verbeatim{#1}}%
+%
+%  Default setup is for verbatim blocks.
+%
+   \expandafter\def\csname every#1\endcsname{\par
+      \parindent=\verbatimindent\leavevmode\parskip=0pt
+%     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%  The order here is important. TeX skips vertically by \parskip just before
+%  entering horizontal mode so \parskip=0pt\leavevmode won't work: We'll
+%  skip by 0pt instead of whatever \parskip is outside the group. Similarly
+%  \parindent has to be set before entering into horizontal mode.
+      \baselineskip=\verbatimskip\verbatimspaces}%
+   \expandafter\let\csname #1line\endcsname\leavevmode
+   \expandafter\let\csname #1endline\endcsname\par
+   \expandafter\let\csname end#1\endcsname\par
+   \expandafter\let\csname #1tt\endcsname\tt}
+
+\let\verbatimspaces\obeyspaces
+
+\newverbatim{verbatim}
+
+%  Commented blocks.
+%
+\newverbatim{comment}
+\let\everycomment\relax
+\def\commentline#1\commentendline{}
+\let\endcomment\relax
+\let\commenttt\relax
+
+%  Short verbatim selections delimited by \@ and @\.
+%  Use @@ for a literal ampersand.
+
+\def\@{\leavevmode\bgroup\frenchspacing\_vb\vbtt\everyvb}
+\def\_vb{\def\do##1{\catcode`##1=12}\dospecials
+   \let\_endvb\endvb\def\endvb{\_endvb\egroup}\_vbactivate}
+
+{\catcode`\@=\active \gdef\_vbactivate{\catcode`\@=\active\let@\_vbtest}}
+{\catcode`\/=0 /catcode`\\=11
+ /gdef/_vbtest#1{/if/noexpand#1\/endvb/else/if/noexpand#1@@/else@#1/fi/fi}}
+
+\let\vbtt\tt
+\let\everyvb\obeyspaces
+\let\endvb\relax
+
+\catcode`\_=\VerbatimcodE

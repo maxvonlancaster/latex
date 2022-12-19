@@ -1,0 +1,28 @@
+% pdcdcap.tex - drop capitals for start of paragraphs
+% Copyright (C) 1990-1991 Damian Cugley
+
+\newcount\dropcaptmp
+
+%  #1  -- font to use
+%  #2  -- letter to use as dropcap
+%  #3  -- rest of 1st word
+%  #4  -- second word of paragraph
+%
+\gdef\dropcap#1#2#3 #4 % 
+{%
+    \smallbreak			% finish previous par
+    \setbox0=\hbox{#1hX\/}\dimen0=\ht0 
+    \setbox0=\hbox{hX}\advance\dimen0 by -\ht0 % d := ht(#1X) - ht(X)
+    \dropcaptmp=\dimen0 \advance\dropcaptmp+\hfuzz
+    \divide\dropcaptmp\baselineskip \global\advance\dropcaptmp +1
+				% c := ((d + hfuzz)/bl + 1)
+    \message{bl=\the\baselineskip\space d=\the\dimen0 \space
+	c=\the\dropcaptmp }
+    \dimen0 = \dropcaptmp\baselineskip \advance\dimen0 by -\baselineskip
+				% d := (c - 1)*bl
+    \setbox0=\hbox{#1\kern-0.0555em#2\/}%
+    \setbox0=\hbox{\smash{\lower\dimen0 \box0 }}%
+    \hangindent=\wd0 \hangafter=-\dropcaptmp
+    {\parindent=0pt \leavevmode}%
+    \llap{\box0 }\uppercase{#3}\space \uppercase{#4}\space
+}

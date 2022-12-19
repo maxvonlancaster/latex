@@ -1,0 +1,311 @@
+% cmdoc.tex 1.1.9 1994/07/20 -- sets up for general docs
+% Copyright  1991-4 P. Damian Cugley.
+
+%%% @TeX-macro-file {
+%%%   filename       = "cmdoc.tex",
+%%%   version        = "1.1.9",
+%%%   date           = "1994/07/20",
+%%%   package        = "Malvern 1.1",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "TeX, plain TeX, style file",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Top-level macro file for documents in
+%%%			Computer Modern fonts.",
+%%%   dependencies   = "other program files",
+%%% }
+
+%{{{ cmdoc.tex
+\begingroup\catcode`\%=12 \toks0={\endgroup
+    \def\docversion{1.1.9 <pdc 1994/07/20>}
+}\the\toks0
+\message{\docversion}
+
+\input pdcimth
+\input pdcmigr
+\input pdcpars
+\input pdcfmt
+\input pdchyex
+\input pdcoput
+\input pdcfsel
+
+% Comment out following 1 line for TeX 2.x:
+\errorcontextlines=100 
+
+%  Ensure top/bot margins large enough to fit headlines on
+%  even if printed on American paper:
+\topmarge=297mm \advance\topmarge-11in \advance\topmarge7mm
+\botmarge=\topmarge
+\advance\topmarge\ht\strutbox \advance\topmarge\headlineskip
+\ifdim \topmarge<20mm \topmarge=20mm \fi
+\ifdim \botmarge<27mm \botmarge=27mm \fi
+
+\setpaper{210mm}{297mm}
+
+\hyphenpenalty=200
+\exhyphenpenalty=100
+
+%{{{  layout
+
+\setnkgrid{4}{3}
+\leftmargin=\gridwd \advance\leftmargin\colsep
+\everypage={\ifdim\leftmargin>0pt \setbox\leftbox=\hbox to \gridwd{}\fi}
+\colrule=0pt
+
+\everyfootnote={\notefonts}
+\everylinenum={\smallfonts}
+\everytag={\bf}
+
+%}}}
+%{{{  fonts
+
+\autoloadfonts
+
+\def\HEADINGtemplate
+{%
+    \f{rm}{cmss}\f{mi}{eurb}\f{sy}{eusb}%
+    \f{it}{cmssi}\f{tt}{cmtt}\f{mf}{logo}\f{mfi}{logosl}%
+}
+
+\font\headingrm=cmss17 \font\headingit=cmssi17
+\fontset{subheading}\HEADINGtemplate{10 scaled 1200}{14pt}
+	{subheading}{subheading}
+\fontset{heading}\HEADINGtemplate{10 scaled 1728}{20pt}
+	{subheading}{subheading}
+
+\def\BODYtemplate
+{%
+    \m{rm}{cmr}\m{it}{cmti}%
+    \m{bf}{cmbx}\@\f{bi}{cmbxti10}%
+    \m{mi}{cmmi}\m{sy}{cmsy}%
+    \@\f{mf}{logo10}\@\f{mfi}{logosl10}%
+    \f{tt}{cmtt}\@\f{tb}{cmsltt10}%
+}
+
+\font\bodysy=cmsy10 at 12pt
+
+\fontset{tiny}\BODYtemplate{7}{9pt}{tiny}{tiny}
+\fontset{small}\BODYtemplate{9}{11pt}{tiny}{tiny}
+\fontset{note}\BODYtemplate{10}{12pt}{tiny}{tiny}
+\fontset{body}\BODYtemplate{12}{14pt}{small}{tiny}
+
+\def\everyloadfont#1#2{\fontdimen3#1=0pt \fontdimen4#1=0pt}
+\rightskip=0pt plus 2em
+\bodyfonts
+\tolerance=1000
+
+\let\sc=\relax
+\let\csc=\relax
+\let\mc=\relax
+\let\n=\relax
+
+%}}}
+%{{{  malvern maths
+
+\mathcode`,="602C
+
+%}}}
+%{{{  TOC
+
+\newwrite\TOCfile
+\openout\TOCfile=\jobname.toc
+
+%  #1 is \TOCentryfoo control sequence
+%  #2 is stuff to be evaluated NOW -- e.g., section number
+%  #3 is stuff to be evaluated WHEN PRINTED -- e.g., section title
+%  folio is written after this in file
+\def\TOCwrite#1#2#3%
+{%
+    \def\tmp{#3}%
+    \edef\tmp{\string#1{#2}{\expandafter\TOCtrim\meaning\tmp}}
+    \write\TOCfile\expandafter{\tmp{\folio}}
+}
+\def\TOCtrim#1:->{}		% strip off "macro:->"
+
+\def\TOCentrypart#1#2#3%
+{
+    \smallskip
+    \dimen0=\hsize \advance\dimen0\leftmargin
+    \moveleft\leftmargin\hbox to\dimen0{\strut\bf #1. #2\hfil}
+    \smallskip
+}
+
+\def\TOCentrysection#1#2#3%
+{
+    \smallskip\noindent\llap{#1\quad}%
+	{\bf \ignorespaces #2\quad\rm \n{#3}}\par
+}
+
+\def\TOCentrysubsec#1#2#3%
+{
+    \noindent{#1\enspace}{\ignorespaces #2\quad\rm \n{#3}}\par
+}
+
+\def\TOCentrysubsubsec#1#2#3%
+{
+    \indent\indent\llap{#1\enspace}{\ignorespaces #2\quad\rm \n{#3}}\par
+}
+
+%}}}
+%{{{  sectioning
+
+%  sections run continuously
+%  divisions start new page but do not reset section counters
+
+\newcount\partno
+\def\thepartno
+{%
+    \ifcase\partno O\or I\or II\or III\or IV\or V\else
+	\expandafter\uppercase\expandafter{\romannumeral\partno}%
+    \fi
+}
+\def\part#1%
+{%
+    \global\advance\partno1
+    \newpageheading{2\baselineskip}{\headingfonts}{}{\thepartno.\quad#1}
+    \TOCwrite\TOCentrypart{\thepartno}{#1}
+}
+
+\newcount\secno \newcount\subsecno \newcount\subsubsecno
+
+\def\thesecno
+{%
+    \n{%
+	\number\secno
+	\ifnum\subsecno>0 
+	    .\number\subsecno
+	    \ifnum\subsubsecno>0
+		.\number\subsubsecno
+	    \fi
+	\fi
+    }%
+}
+
+\def\sectionheading#1 \par{\dosectionheading{#1}}
+\def\dosectionheading#1%
+{
+    \par
+    \removelastskip
+    \vskip 0pt plus 0.3\vsize 
+    \penalty-200
+    \vskip 1\bigskipamount plus -0.3\vsize
+    \begingroup \advance\leftskip-\leftmargin
+	\parskip=0pt \parindent=0pt
+	\hyphenpenalty=10000 \exhyphenpenalty=500 
+	\interlinepenalty=100
+	\headingfonts
+	\hbox{\hskip-\leftmargin 
+		\vrule height 2pt depth 0pt width \leftmargin
+		\vrule height 2pt depth 0pt width \hsize}
+	\nobreak\medskip
+        \enspace#1\par
+	\nobreak\smallskip
+    \endgroup
+}
+
+\def\section#1 \par
+{
+    \counta=\secno \advance\counta1
+    \mark{\thesecno \noexpand\else \n{\number\counta}}% OLD \else NEW
+    \global\secno=\counta \global\subsecno=0 \global\subsubsecno=0
+    \dosectionheading{\thesecno\quad #1}
+    \mark{\thesecno \noexpand\else \thesecno}% NEW \else NEW
+    \TOCwrite\TOCentrysection{\thesecno}{#1}
+}
+
+\def\subsec#1 \par
+{%
+    \counta=\subsecno \advance\counta1
+    \mark{\thesecno \noexpand\else \n{\number\secno.\number\counta}}
+    \global\subsecno=\counta  \global\subsubsecno=0
+    \doheading\medskipamount{\subheadingfonts}{}{\thesecno\quad#1}
+    \mark{\thesecno \noexpand\else \thesecno}
+    \TOCwrite\TOCentrysubsec{\thesecno}{#1}
+}
+
+\def\subsubsec#1 \par
+{%
+    \global\advance\subsubsecno+1
+    \doheading\smallskipamount{}{}{\ifdim\leftmargin=0pt\thesecno\quad\fi#1}	
+    \TOCwrite\TOCentrysubsubsec{\thesecno}{#1}
+}
+
+\newif\ifnoheader
+\newif\iftwosided
+
+\footline={%
+    \ifnoheader 
+	\global\noheaderfalse
+	\hfil\bodyfonts\n\folio\hfil 
+    \else
+	\hfil
+    \fi
+}
+
+\headline={%
+    \ifnoheader
+	\hfil
+    \else
+	\bodyfonts \hskip-\leftmargin
+	\iftwosided
+	    \ifodd\pageno
+		\iftrue\botmark\fi
+		\hfil 
+		{\bf\n\folio}%
+	    \else
+		{\bf\n\folio}\quad
+		\hfil
+		\expandafter\iffalse\topmark\fi
+	    \fi
+	\else
+	    \expandafter\iffalse\topmark\fi
+	    \hfil 
+	    {\bf\n\folio}%
+	\fi
+    \fi
+}
+
+%}}}
+%{{{  abbrevs
+
+\def\pt{\,{\rm pt}}
+\def\mm{\,{\rm mm}}
+
+\def\MF{{\ifdim\fontdimen1\font>0pt \mfi \else \mf \fi META}\-%
+	{\ifdim\fontdimen1\font>0pt \mfi \else \mf \fi FONT}}
+\def\MSDOS{\leavevmode\hbox{MS-DOS}}
+\def\PS{PostScript}
+
+{\plain|
+\gdef\dfn#1{\index{#1|idxunderline}{\bi #1}}
+}
+
+\def\<#1>{\leavevmode\hbox{\langle{\it#1\/}\rangle}} 
+
+\active\* \def*#1*{{\it#1\/}}
+\append\verbatimplains\*
+
+%  _xxx_ is xxx as typed by user to a program.
+\active\_
+\def_%    _xxx_ is bold verbatim text
+{%
+    \ifmmode
+	\sb
+    \else
+	\begingroup		% matched by closing _
+	\tb\setupverbatim
+  	\plain\|\active\_%
+	\let_\endgroup
+    \fi
+}
+
+%}}}
+%}}} cmdoc.tex
+
+%Local variables:
+%fold-folded-p: t
+%tex-macros-p: t
+%End:

@@ -1,0 +1,286 @@
+%                  TBEMACROS, Version 1.0, July 10, 1991
+
+%This file contains some new commands defined in the book `TeX by Example',
+%by Arvind Borde (copyright (c) 1992, Academic Press). The commands may be
+%copied and modified freely, as long as (1) such copies and modifications are
+%not made or distributed for re-sale, (2) this notice is retained, and
+%(3) the date of any modifications is added below this notice.
+
+%The commands are provided `as is'. The author provides no warranty whatsoever,
+%either express or implied, regarding them, or with respect to their fitness
+%for any particular purpose.
+
+%The commands were put together to demonstrate the versatility of TeX and the
+%variety of applications possible with it. They are not all equally useful.
+%An effort has been made to keep them reasonably simple and to avoid
+%certain advanced constructions. Though this has meant sacrificing
+%sophistication at various points, it should allow even new users to edit
+%the definitions to suit their own purposes with relative ease.
+
+%Samples of the uses of these commands are to be found in a companion file,
+%`TBESAMPLES.TEX'.
+
+%********** LETTERS ************************************************************
+\def\letterhead {\hrule height 1pt depth 0pt width\hsize
+      \medskip
+      \rightline{\vbox{\hsize 1.5true in \baselineskip=12pt \parindent=0pt
+      Your name, \hfil\break
+      Your address, \hfil\break
+      Etc. }}}
+
+\def\date #1{\rightline{\vbox{\hsize 1.5true in\noindent #1}}\bigskip}
+
+\def\address #1{\vbox{\baselineskip=12pt\halign{## \hfil\cr #1}}}
+
+\def\sal #1{\noindent #1}
+
+\def\endletter #1#2{\nobreak\medskip\rightline{\vbox{\hsize 1.5true in
+      \parindent=0pt #1\vskip 1.25 true cm #2}}}
+
+%********** MEMORANDA **********************************************************
+\def\block #1{\vbox{\hsize 2.5 true cm\noindent \bf#1:}}
+
+\def\memo TO:#1FROM:#2SUBJECT:#3DATE:#4\par{\centerline{\sl MEMO!}
+      \bigskip \hrule height1pt \medskip
+      \vbox{\parindent=75pt\parskip=1pt
+      \item{\block{TO}}#1
+      \item{\block{FROM}}#2
+      \item{\block{SUBJECT}}#3
+      \item{\block{DATE}}#4 }\medskip \hrule height1pt \bigskip}
+
+%********** SCRIPTS ************************************************************
+\newcount\spk
+\def\beginscript {\bgroup \parindent=0pt \spk=1 \sl \rightskip.4in
+      \def\par {\ifnum\spk=1 \endgraf \it \spk=2 \leftskip.4in \rightskip0in
+               \else \endgraf \sl \spk=1 \leftskip0in \rightskip.4in \fi}}
+
+\def\endscript {\egroup}
+
+%********** FERMAT *************************************************************
+\newcount\var \newcount\pw \newcount\tmp \newcount\cnt
+\def\pow#1#2#3{\var=#1 \pw=#2 \tmp=\var \cnt=1
+      \loop \multiply\var by\tmp \advance\cnt by1 \ifnum\cnt<\pw \repeat
+      \global#3=\var}
+
+\newcount\xf \newcount\xnf \newcount\yf \newcount\ynf \newcount\zf \newcount\znf
+\def\n {\number}
+
+\def\fermat#1#2#3{$\global\xf=#1 \global\yf=#2 \global\pw=#3
+      \pow{\xf}{\pw}{\xnf} \pow{\yf}{\pw}{\ynf}
+      \global\tmp=\ynf \global\advance\tmp by\xnf
+      {\n\xf}^{\n\pw}+{\n\yf}^{\n\pw}={\n\tmp}$.\hfil\break
+      \ifnum\xf>\yf \zf=\xf \else \zf=\yf \fi
+      \loop {\pow{\zf}{\pw}{\znf}} \ifnum\znf<\tmp \advance\zf by1 \repeat
+      \ifnum\znf=\tmp  The sum seems to be exactly ${\n\zf}^{\n\pw}$.
+        \ifnum\pw=2 {\it Yawn!\/} Tell me something I don't know, will you?
+        \else Incredible!  But, perhaps you'd better check my work.\fi
+      \else \advance\zf by-1
+      This lies between ${\n\zf}^{\n\pw}$\pow{\zf}{\pw}{\znf}($={\n\znf}$)
+      \advance\zf by1
+      and ${\n\zf}^{\n\pw}$\pow{\zf}{\pw}{\znf}($={\n\znf}$).\fi}%
+
+%********** FRAMING ************************************************************
+\def\frame #1#2#3#4{\vbox{\hrule height #1pt%    TOP RULE
+ \hbox{\vrule width #1pt\kern #2pt%              RULE AND SPACE ON LEFT
+ \vbox{\kern #2pt%                               SPACE AT TOP
+ \vbox{\hsize #3\noindent #4}%                   MATERIAL THAT WILL BE BOXED
+ \kern #2pt}%                                    SPACE AT BOTTOM
+ \kern #2pt\vrule width #1pt}%                   SPACE AND RULE ON RIGHT
+ \hrule height0pt depth #1pt}}%,                 BOTTOM RULE
+
+\def\fitframe #1#2#3{\vbox{\hrule height#1pt%    TOP RULE
+ \hbox{\vrule width#1pt\kern #2pt%               RULE AND SPACE ON LEFT
+ \vbox{\kern #2pt\hbox{#3}\kern #2pt}%           TOP, MATERIAL, BOTTOM
+ \kern #2pt\vrule width#1pt}%                    SPACE AND RULE ON RIGHT
+ \hrule height0pt depth#1pt}}%                   BOTTOM RULE
+
+\def\shframe #1#2#3#4{\vbox{\hrule height 0pt%   NO TOP SHADOW
+ \hbox{\vrule width #1pt\kern 0pt%               LEFT SHADOW
+ \vbox{\kern-#1pt\frame{.3}{#2}{#3}{#4}%         SHADOW STARTS #1 PT FROM TOP
+ \kern-.3pt}%                                    MOVE UP RULE THICKNESS AT BOT.
+ \kern-#1pt\vrule width 0pt}%                    STOPS #1 PT FROM RT; NO RT SHAD
+ \hrule height #1pt}}%                           BOTTOM SHADOW
+
+\def\s #1{\frame{.3}{2}{8pt}{\centerline{#1\vphantom{(}}}\ }
+
+%********** RULED TRAPEZOID ****************************************************
+\newcount\tw        %top width in pt
+\newcount\bw        %bottom width in pt
+\newcount\h         %height in pt
+\newcount\bs        %bottom shift in pt
+\newcount\th        %line thickness in 1/64th of a pt
+\newcount\gp        %line gap in 1/64th of a point
+\newcount\rs        %running shift
+\newcount\rw        %running width
+\newcount\rh        %running height
+\newcount\tmp       %for temporarily storing variables
+
+\def\trap #1#2#3#4#5#6{\vbox{\offinterlineskip
+      \tw=#1 \bw=#2 \h=#3 \bs=#4 \th=#5 \gp=#6 \rh=0
+      \multiply\tw by 65536 \multiply\bw by 65536 \multiply\bs by 65536
+      \multiply\th by 1024 \multiply\gp by 1024
+      \loop
+      \tmp=\bs \multiply\tmp by\rh \divide\tmp by\h
+      \rs=\tmp                                        %running shift calculated
+      \tmp=\bw \advance\tmp by-\tw \multiply\tmp by\rh
+      \divide\tmp by\h \advance\tmp by\tw \rw=\tmp    %running width calculated
+      \hbox{\kern\rs sp\vrule height0sp depth\th sp width\rw sp}%RULE DRAWN HERE
+      \vskip\gp sp                                              %GAP LEFT HERE
+      \ifnum\rh<\h  \tmp=\rh \multiply\tmp by 65536
+       \advance\tmp by\th \advance\tmp by\gp \divide\tmp by65536 \rh=\tmp
+      \repeat}}%
+
+\def\rect #1#2#3#4{\trap{#1}{#1}{#2}{0}{#3}{#4}}%
+
+%********** MULTIPLE COLUMN ****************************************************
+\newcount\colnumber \newbox\col \newdimen\tmpdim \newdimen\size
+\newdimen\coljump \coljump=.2 true in                  %GAP BETWEEN COLUMNS
+
+\def\niceskip {\vskip\baselineskip}
+\def\nstrut {\vrule height\topskip depth0pt width0pt}  %TO PROP THINGS UP
+\def\divider{\hskip\coljump}
+\def\dividerule{\dimen0=.4pt \dimen1=\coljump \advance\dimen1 by-\dimen0
+      \divide\dimen1 by2
+      \def\divider{\hskip\dimen1 \vrule width\dimen0 \hskip\dimen1}}
+
+\def\beginart #1/#2{\vbox\bgroup#1 \colnumber=#2  \parskip=0pt
+      \advance\colnumber by-1 \tmpdim=\coljump \multiply\tmpdim by\colnumber
+      \size=\hsize  \advance\size by-\tmpdim
+      \advance\colnumber by1 \divide\size by\colnumber
+      \vbadness=10000 \hbadness=2000 \tolerance=2000
+      \setbox\col=\vbox\bgroup\hsize\size \noindent\nstrut}
+
+\def\endart {\global\size=\baselineskip \vfil \egroup
+      \multiply\size by\colnumber  \advance\size by-\baselineskip
+      \tmpdim=\ht\col  \advance\tmpdim by\size  \divide\tmpdim by\colnumber
+      \hbox{\splittopskip=\topskip \doittoit}\egroup}
+
+\def\doittoit{\ifnum\colnumber>0 \vsplit\col to \tmpdim
+      \global\advance\colnumber by-1
+      \ifnum\colnumber>0 \divider \fi \doittoit \fi}
+
+%********** FONT AND CODE TABLE ************************************************
+\def\chartable #1{\smallbreak\vbox{\noindent%
+     \underbar{Characters in the {\sl#1\/} font, with decimal codes:}
+     \raggedright \hbadness5000 \tolerance10000 \medskip
+     \font\ft=#1 \ft \dimen0=14pt \baselineskip=\dimen0
+     \ifdim\dimen0<3.25ex \baselineskip=3.25ex \fi \count255=0 \dimen0=10pt
+     \loop \setbox0=\hbox{\char\count255}
+     \ifdim\wd0>\dimen0 \dimen0=\wd0 \fi \advance\count255 by1
+     \ifnum\count255<128 \repeat \count255=0
+     \advance\dimen0 by 25pt \noindent \loop
+     \hbox to\dimen0{\hbox to23pt{\hfil\rm\the\count255:\ }\char\count255\hfil}
+     \advance\count255 by1 \ifnum\count255<128 \quad\repeat
+     \smallbreak} \font\tenrm=cmr10 }
+
+%********** THE `IGNORE' COMMAND ***********************************************
+\def\ignore {\count255=0 \begingroup
+      \loop \catcode\count255=14  % Make everything a comment character.
+         \advance\count255 by1 \ifnum\count255<127
+      \repeat \catcode`\!=0 }     % Makes ! an escape character.
+{\catcode`\!=0 !gdef!E{!endgroup}}% Defines the `stop ignoring' command.
+
+%********** STACKSYMBOLS *******************************************************
+\def\stacksymbols #1#2#3#4{\def\theguybelow{#2}
+    \def\verticalposition{\lower#3pt}
+    \def\spacingwithinsymbol{\baselineskip0pt\lineskip#4pt}
+    \mathrel{\mathpalette\intermediary#1}}
+\def\intermediary#1#2{\verticalposition\vbox{\spacingwithinsymbol
+      \everycr={}\tabskip0pt
+      \halign{$\mathsurround0pt#1\hfil##\hfil$\crcr#2\crcr
+               \theguybelow\crcr}}}
+
+\def\lapproxeq{\stacksymbols{<}{\sim}{2.5}{.2}}
+\def\gapproxeq{\stacksymbols{>}{\sim}{3}{.5}}
+
+%********** DATING *************************************************************
+\def\monthname {\ifcase\month\or January\or February\or March\or
+April\or May\or June\or July\or August\or September\or October\or
+November\or December\fi}
+
+\newcount\mins  \newcount\hours  \hours=\time \mins=\time
+\def\now{\divide\hours by60 \multiply\hours by60 \advance\mins by-\hours
+     \divide\hours by60         % NOTE: \divide only gives integer answers.
+     \ifnum\hours>12 \advance\hours by-12
+       \number\hours:\ifnum\mins<10 0\fi\number\mins\ P.M.\else
+       \number\hours:\ifnum\mins<10 0\fi\number\mins\ A.M.\fi}
+\def\today {\monthname\ \number\day, \number\year}
+
+%********** TABLE COMMANDS *****************************************************
+\newdimen\tempdim                 % For temporary storage.
+\newdimen\othick   \othick=.4pt   % To set the outer rule thickness.
+\newdimen\ithick   \ithick=.4pt   % To set the inner rule thickness.
+\newdimen\spacing  \spacing=9pt   % To set the interline spacing.
+\newdimen\abovehr  \abovehr=6pt   % Space above horizontal rules.
+\newdimen\belowhr  \belowhr=8pt   % Space below horizontal rules.
+\newdimen\nexttovr \nexttovr=8pt  % Space next to vertical rules.
+
+\def\r{\hfil&\omit\vrsp\vrule width\othick\cr&}   % To start a new line.
+\def\rr{\hfil\down{\abovehr}&\omit\vrsp\vrule width\othick\cr
+     \noalign{\hrule height\ithick}\up{\belowhr}&}% To draw an \hrule.
+\def\up#1{\tempdim=#1\advance\tempdim by1ex
+     \vrule height\tempdim width0pt depth0pt}%   For space above a line.
+\def\down#1{\vrule height0pt depth#1 width0pt}%  For space below a line.
+\def\large#1#2{\setbox0=\vtop{\hsize#1 \lineskiplimit=0pt \lineskip=1pt
+     \baselineskip\spacing \advance\baselineskip by 3pt \noindent
+     #2}\tempdim=\dp0\advance\tempdim by\abovehr\box0\down{\tempdim}}
+% `\large' allows you to make multi-line table entries.
+\def\dig{{\hphantom0}}  % To leave a space, the width of a digit.
+\def\hgap#1{\hskip-\nexttovr\hskip#1\hskip-\nexttovr\relax} % For a gap.
+\def\vrsp{\hskip\nexttovr\relax}
+\def\toprule#1{\def\startrule{\hrule height#1\relax}} % Set a top rule.
+\toprule{\othick}                      % Picking the `\toprule' default.
+\def\nstrut{\vrule height\spacing depth3.5pt width0pt}
+\def\exclaim{\char`\!}                 % To print an exclamation mark.
+\def\preamble#1{\def\startup{#1}}      % For `customized' preambles.
+\preamble{&##}                         % Choosing the default preamble.
+{\catcode`\!=\active
+ \gdef!{\hfil\vrule width0pt\vrsp\vrule width\ithick\relax\vrsp&}}
+% Setting up `!' as the entry separator.
+
+\def\table #1{\vbox\bgroup \setbox0=\hbox{#1}
+     \vbox\bgroup\offinterlineskip  \catcode`\!=\active
+     \halign\bgroup##\vrule width\othick\vrsp&\span\startup\nstrut\cr
+     \noalign{\medskip}
+     \noalign{\startrule}\up{\belowhr}&}
+
+\def\caption #1{\down{\abovehr}&\omit\vrsp\vrule width\othick\cr
+     \noalign{\hrule height\othick}\egroup\egroup \setbox1=\lastbox
+     \tempdim=\wd1 \hbox to\tempdim{\hfil \box0 \hfil} \box1 \smallskip
+     \hbox to\tempdim{\advance\tempdim by-20pt\hfil\vbox{\hsize\tempdim
+     \noindent #1}\hfil}\egroup}
+
+%********** VERBATIM REPRODUCTION **********************************************
+\let\cc=\catcode
+{\cc`\^^M=\active %
+\gdef\losenolines{\cc`\^^M=\active \def^^M{\leavevmode\endgraf}}}
+\def\literal {\begingroup \cc`\\=12 \cc`\{=12 \cc`\}=12 \cc`\$=12 \cc`\&=12
+ \cc`\#=12 \cc`\%=12 \cc`\~=12 \cc`\_=12 \cc`\^=12 \cc`\*=12 \cc`\@=0
+ \cc`\`=\active \losenolines \obeyspaces \tt}%
+{\obeyspaces\gdef {\hglue.5em\relax}}
+
+{\cc`\`=\active \gdef`{\relax\lq}}
+
+\def\vquotingon{\cc`\"=\active}
+\def\vquotingoff{\cc`\"=12}
+\vquotingon
+\def"{\literal\leavevmode\hbox\bgroup\com}
+%`\leavevmode' starts a new paragraph, if needed.
+
+\def\beginliteral{\medskip \literal \cc`\"=12%
+  \parskip0pt \baselineskip11pt \thatisit}
+
+{\cc`\@=0 \cc`\\=12 @cc`@^^M=@active %
+ @gdef@com#1"{#1@egroup@endgroup} %
+ @gdef@thatisit^^M#1\endliteral{#1@endgroup@smallskip}}
+\vquotingoff
+
+%********** GENERAL ************************************************************
+\def\pattern #1#2{\count0=0
+      \loop #1\advance\count0 by 1 \ifnum\count0<#2 \repeat}
+
+\def\raggedleft{\leftskip=0pt plus2em \parfillskip0pt
+     \spaceskip=.3333em \xspaceskip=.5em\relax}
+
+%*******************************************************************************
+\endinput

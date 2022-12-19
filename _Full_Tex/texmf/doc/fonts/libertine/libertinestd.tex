@@ -1,0 +1,160 @@
+\documentclass[ngerman]{libertinedoku}
+
+\usepackage{eqlist}
+
+\begin{document}
+\pageTitle{Libertine \& Biolinum}
+
+\section{Einbindung}
+
+Der Libertine-Font wird über
+\begin{lstlisting}
+\usepackage{libertine}
+\end{lstlisting}
+eingebunden. Er steht dann unter \texttt{pdflatex} und \texttt{xelatex} zur Verfügung.
+Für die Serifenschrift wird dabei Libertine und für die serifenlose Schrift Biolinum verwendet.
+
+\section{Optionen}
+
+Es stehen dabei folgende Optionen zur Verfügung:
+
+\begin{eqlist}[\def\makelabel#1{\textbf{#1}}]
+\item [nf]  Es werden normale Ziffern verwendet (Grundeinstellung).
+\item [osf] Es werden anstelle der normalen Ziffern Medivalziffern bzw. Minuskelziffern verwendet.
+\item [ss]  Es wird \textsc{ss} anstelle von \textsc{ß} verwendet.
+\item [osfss] Es wird \textsc{ss} anstelle von \textsc{ß} und Medivalziffern verwendet.
+\item [scaled] Skaliert den Font.
+\end{eqlist}
+
+\section{Makros}
+
+Es stehen folgende Makros zur Verfügung:
+
+\begin{eqlist}[\def\makelabel#1{\textbf{\bs\texttt{#1}}}]
+\item [libertine] Schaltet auf den Libertine-Font um.
+\item [biolinum] Schaltet auf den Biolinum-Font um.
+\item [libertineGlyph\{<glyphname>\}] Verwendung eines Zeichens mit dem Glyphnamen (Font Libertine).
+\item [biolinumGlyph\{<glyphname>\}] Verwendung eines Zeichens mit dem Glyphnamen (Font Biolinum).
+\end{eqlist}
+
+\begin{minipage}{10cm}
+\verb|{\Huge\libertineGlyph{uni211A}}| \hfill {\Huge\libertineGlyph{uni211A}} \par\medskip
+\verb|{\Huge\libertineGlyph{uni263A}}| \hfill {\Huge\libertineGlyph{uni263A}} \par\medskip
+\verb|{\Huge\libertineGlyph{Tux}}| \hfill {\Huge\libertineGlyph{Tux}} \par\medskip
+\verb|{\Huge\libertineGlyph{uni20A8}}| \hfill {\Huge\libertineGlyph{uni20A8}} \par
+
+\bigskip
+\verb|{\Huge\libertineGlyph{uni211A}}| \hfill {\Huge\libertineGlyph{uni211A}} \par\medskip
+\verb|{\Huge\textbf{\libertineGlyph{uni211A}}}| \hfill{\Huge\textbf{\libertineGlyph{uni211A}}} \par\medskip
+\verb|{\Huge\textit{\libertineGlyph{uni211A}}}| \hfill {\Huge\textit{\libertineGlyph{uni211A}}} \par\medskip
+
+\end{minipage}
+
+Eine Liste aller Glyphen findet sich in der Glyphentabelle.
+
+\newpage
+\section{Beliebige Fontauswahl}
+
+\subsection{pdflatex}
+
+Ansonsten können Sie jeden Teilbereich über z.\,B.
+\begin{lstlisting}
+\usefont{T1}{fxl}{m}{n}\selectfont
+\end{lstlisting}
+auswählen. Siehe hierzu auch die Fonttabellen.
+
+Für \texttt{T1} stehen folgende Schnitte zur Verfügung.
+
+\subsubsection{Libertine - fxl}
+
+\begin{lstlisting}
+\usefont{T1}{fxl}{m}{n}\selectfont
+\usefont{T1}{fxl}{m}{it}\selectfont
+\usefont{T1}{fxl}{m}{sl}\selectfont
+\usefont{T1}{fxl}{b}{n}\selectfont
+\usefont{T1}{fxl}{b}{it}\selectfont
+\usefont{T1}{fxl}{b}{sl}\selectfont
+\usefont{T1}{fxl}{m}{sc}\selectfont
+\usefont{T1}{fxl}{b}{sc}\selectfont
+\usefont{T1}{fxl}{m}{ic}\selectfont
+\usefont{T1}{fxl}{b}{ic}\selectfont
+\end{lstlisting}
+
+\subsubsection{Biolinum - fxb}
+
+\begin{lstlisting}
+\usefont{T1}{fxb}{m}{n}\selectfont
+\usefont{T1}{fxb}{m}{it}\selectfont
+\usefont{T1}{fxb}{m}{sl}\selectfont
+\usefont{T1}{fxb}{b}{n}\selectfont
+\usefont{T1}{fxb}{b}{sl}\selectfont
+\usefont{T1}{fxb}{m}{sc}\selectfont
+\usefont{T1}{fxb}{b}{sc}\selectfont
+\usefont{T1}{fxb}{o}{n}\selectfont
+\usefont{T1}{fxb}{o}{it}\selectfont
+\usefont{T1}{fxb}{o}{b}\selectfont
+\usefont{T1}{fxb}{s}{n}\selectfont
+\usefont{T1}{fxb}{s}{it}\selectfont
+\usefont{T1}{fxb}{s}{b}\selectfont
+\end{lstlisting}
+
+\subsection{xelatex}
+
+In \texttt{xelatex} wird der Stil des Fonts über \texttt{RawFeature}, z.\,B.
+\texttt{RawFeature=+liga;+onum} festgelegt. Der eigentliche Font wird über seinen
+Namen ausgewählt.
+
+\begin{lstlisting}
+Linux Libertine O
+Linux Biolinum O
+Linux Libertine O Bold
+Linux Libertine O Italic
+...
+\end{lstlisting}
+
+Mehr dazu im Paket \texttt{libertine.sty}.
+
+\newpage
+\section{Beispiele}
+
+\subsection{Zahlen}
+
+\begin{tabularx}{\linewidth}{lXXXXX}
+\textbf{Stile} & \textbf{Libertine} &
+                 \textbf{Libertine bold} & \textbf{Libertine italic} &
+                 \textbf{Libertine bold italic} \\
+\textbf{normale} & \usefontx{fxl}{m}{n}{\FontNumber}  &
+                   \usefontx{fxl}{b}{n}{\FontNumber}  &
+                   \usefontx{fxl}{m}{it}{\FontNumber}  &
+                   \usefontx{fxl}{b}{it}{\FontNumber}  \\
+\textbf{old stlye} & \usefontx{fxlj}{m}{n}{\FontNumber}  &
+                   \usefontx{fxlj}{b}{n}{\FontNumber}  &
+                   \usefontx{fxlj}{m}{it}{\FontNumber}  &
+                   \usefontx{fxlj}{b}{it}{\FontNumber}  \\
+\textbf{fitted} & \usefontx{fxlf}{m}{n}{\FontNumber}  &
+                   \usefontx{fxlf}{b}{n}{\FontNumber}  &
+                   \usefontx{fxlf}{m}{it}{\FontNumber}  &
+                   \usefontx{fxlf}{b}{it}{\FontNumber}  \\
+
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{lXXXXX}
+\textbf{Stile} & \textbf{Biolinum} &
+                 \textbf{Biolinum bold} & \textbf{Biolinum italic} &
+                 \textbf{Biolinum bold slanted} \\
+\textbf{normale} & \usefontx{fxb}{m}{n}{\FontNumber}  &
+                   \usefontx{fxb}{b}{n}{\FontNumber}  &
+                   \usefontx{fxb}{m}{it}{\FontNumber}  &
+                   \usefontx{fxb}{b}{sl}{\FontNumber}  \\
+\textbf{old stlye} & \usefontx{fxbj}{m}{n}{\FontNumber}  &
+                   \usefontx{fxbj}{b}{n}{\FontNumber}  &
+                   \usefontx{fxbj}{m}{it}{\FontNumber}  &
+                   \usefontx{fxbj}{b}{sl}{\FontNumber}  \\
+\textbf{fitted} & \usefontx{fxbf}{m}{n}{\FontNumber}  &
+                   \usefontx{fxbf}{b}{n}{\FontNumber}  &
+                   \usefontx{fxbf}{m}{it}{\FontNumber}  &
+                   \usefontx{fxbf}{b}{sl}{\FontNumber}  \\
+\end{tabularx}
+
+
+\end{document}

@@ -1,0 +1,45 @@
+% Copyright 2009 Karl Berry.
+% You may freely use, modify and/or distribute this file.
+
+\documentclass{article}
+
+% No need for excessive margins.
+\usepackage{fullpage}
+
+% Try to output everything in a given TFM.
+\usepackage{fonttable}
+
+% What we're testing.
+\usepackage{inconsolata}  % can use [scaled=1.1]
+
+% For testing, much easier not to have to put entries in the system map files.
+\pdfmapfile{+fi4.map}
+
+\usepackage[T1]{fontenc}
+
+\def\dofontenc#1#2{{\tt #1:} \fonttable{#2 at 15pt}\newpage}
+
+\begin{document}
+
+\thispagestyle{empty}
+\pagestyle{empty}
+
+% tables of (mostly) supported encodings.
+% To actually use them in a document, need to specify
+%  \usepackage[XYZ1]{fontenc}
+% where XYZ1 is the LaTeX encoding name: T1, TS1, EI1, OT1, LY1, QX.
+% 
+\dofontenc{ec/T1}{ec-inconsolata}
+\dofontenc{EI1}{ei1-inconsolata}
+\dofontenc{qx/QXtt}{qx-inconsolata}
+\dofontenc{rm/OT1tt}{rm-inconsolata}
+\dofontenc{texnansi/LY1}{texnansi-inconsolata}
+\dofontenc{TS1}{ts1-inconsolata}
+
+\rm A bit of text in cmr: Hello \textparagraph \texteuro end.\par
+\tt Switching to tt for Inconsolata: ``Hello'' \textparagraph
+end. O0123456789. `H\'e\'al\`e\`ane' \& \`\i
+\'\j  see documentation about dotless j.
+
+\sf this is sf.
+\end{document}

@@ -1,0 +1,75 @@
+% Cut Here - line.tex
+
+% These macros maintain the box of lines used for the leaders
+
+\newbox\@linbox
+\global\setbox\@linbox\hbox{}
+\def\@uplinbox{\global\setbox\@linbox\hbox{}\global\n@l=0\relax
+\@uplinboxes}
+\def\@uplinboxes{\ifnum\n@l<4\relax\selectligne{\n@l}\ifnum
+\l@s=0\relax\else\up@linbox\fi
+\global\advance\n@l by 1\relax\@uplinboxes\else\fi}%
+\def\up@linbox{\y@ii\l@z\advance\y@ii by-\linthick\relax
+\global\setbox\@linbox\hbox{\unhbox\@linbox
+\kern-\tenboxwidth\vrule width\tenboxwidth height\l@z depth-\y@ii\relax}}
+
+% This macro makes the leaders
+\def\@tenleader#1{\@tenuskip=#1\advance\@tenuskip by2\tenboxwidth\relax
+\nobreak\kern-\tenboxwidth\nobreak\cleaders\hbox{\unhcopy\@linbox
+\unhcopy\@tenubox}\hskip\@tenuskip\kern-\tenboxwidth\nobreak}
+
+% Everything that follows is similar to the tie macros, except that there is
+% no need to place a special character at each end of a line.
+
+% positions x et z de debut des lignes
+\newdimen\l@xi\newdimen\l@zi
+\newdimen\l@xii\newdimen\l@zii
+\newdimen\l@xiii\newdimen\l@ziii
+\newdimen\l@xiv\newdimen\l@ziv
+% etat des lignes (0= inactive, 1= actif)
+%
+\newcount\l@si
+\newcount\l@sii
+\newcount\l@siii
+\newcount\l@siv
+\newdimen\linthick\linthick0.2pt
+%
+\def\selectligne#1{{\n@i=#1\relax
+\ifnum\n@i<1\relax\n@i=4\fi
+\xdef\l@x{\csname l@x\romannumeral\n@i\endcsname}%
+\xdef\l@z{\csname l@z\romannumeral\n@i\endcsname}%
+\xdef\l@s{\csname l@s\romannumeral\n@i\endcsname}}%
+}%
+%
+% continuation des lignes
+\def\clignes{\locx@skip=\x@skip\advance\locx@skip by \n@skip\global\n@l
+=0\relax\c@lignes}%
+\def\c@lignes{\ifnum\n@l<5\relax\selectligne{\n@l}\ifnum
+\l@s=0\relax\else\c@ligne\fi
+\global\advance\n@l by 1\relax\c@lignes\fi}%
+%
+\def\ilin#1#2#3{\selectligne{#1}\global\l@s=1\relax
+ \global\l@x=\locx@skip\global\advance\l@x by#2\relax
+ \global\l@z=#3\global\advance\l@z by\altportee\relax\up@linbox}
+\def\tlin#1{\selectligne{#1}\t@ligne\global\l@s=0\@uplinbox\relax}
+%
+\def\c@ligne{\y@ii=\x@skip\advance\y@ii by -\l@x
+\ifnum\l@s=1\relax
+      \raise\l@z\llap{\hbox to\y@ii{\leaders
+      \hrule height\z@ depth\linthick\hss}}\relax
+      \global\l@x=-1pt
+\fi}
+%
+\def\t@ligne{\y@i=\l@z\relax
+\advance\y@i by -\altportee\relax
+\y@ii=\locx@skip\advance\y@ii by-\wd@skip\relax
+\advance\y@ii by -\l@x\relax
+  \ifnum\l@s=1\relax
+    \raise\y@i\llap{\vrule height\z@ depth\linthick width\y@ii\hskip\wd@skip}%
+\fi}
+
+% The lines are activated by adding \clignes to the \ctenuti macro.
+
+\let\ctenuti@=\ctenuti\def\ctenuti{\ctenuti@\clignes}
+
+

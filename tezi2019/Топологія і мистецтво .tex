@@ -1,0 +1,101 @@
+\documentclass[a5paper,10pt]{article}
+
+\usepackage[cp1251]{inputenc} % Можна [utf8] для Linux
+\usepackage[english,ukrainian]{babel}
+\usepackage[T2A]{fontenc}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage[dvips]{graphicx}
+% Можна ще додати потрібні пакети
+
+% Це не змінювати %%%%%%%%%%%%%%%%%%%%%%
+%\pagestyle{empty}
+\textwidth=120mm
+\textheight=180mm
+\topmargin=-10mm
+\parskip4pt plus2pt minus2pt
+\oddsidemargin=-10mm
+\evensidemargin=-15mm
+\headsep=0mm
+\headheight=0mm
+\renewcommand{\title}[1]{\begin{center}\textbf{\large #1}\end{center}}
+\renewcommand{\author}[3]{\begin{center}
+\textsc{#1}\\\medskip\textit{#2}\\
+\smallskip\textrm{#3}\end{center}}
+\newcounter{abs}
+\renewenvironment{abstract}{\setcounter{abs}{0}\setcounter{equation}{0}
+\noindent}{}
+\renewcommand{\labelenumi}{\theenumi)}
+\tolerance=3000
+\sloppy
+
+
+% Можна додати подібні означення %%%%%%%%
+\newtheorem{theorem}[abs]{Теорема}
+\newtheorem{lemma}[abs]{Лема}
+\newtheorem{definition}[abs]{Означення}
+\newtheorem{question}[abs]{Питання}
+\newtheorem{proposition}[abs]{Твердження}
+\newtheorem{corollary}[abs]{Наслідок}
+\newtheorem{remark}[abs]{Зауваження}
+\newtheorem{example}[abs]{Приклад}
+\newtheorem{problem}[abs]{Проблема}
+
+
+\def\C{{ \mathbb{C}}}
+\def\U{{\mathcal{U}}}
+\def\N{{ \mathbb{N}}}
+\def\R{{ \mathbb{R}}}
+\def\Q{{ \mathbb{Q}}}
+\def\Z{{ \mathbb{Z}}}
+\def\K{{ \mathbb{K}}}
+\def\P{{ \mathcal{P}}}
+\def\W{{ \mathcal{W}}}
+\def\I{{ \mathcal{I}}}
+\def\E{{ \mathcal{E}}}
+\def\A{{ \mathcal{A}}}
+\def\eN{{\mathcal{N}}}
+\def\spn{{ \rm{ span }}}
+
+
+\begin{document}
+
+
+
+\begin{center}
+
+\textbf{\Large \sc Топологія і мистецтво}\\[1ex]
+
+
+\textbf{Маслюченко В. К.${}^1$, Маслюченко Г.-Ж. Я.${}^2$} \\ [0.4ex]
+
+\author{Маслюченко В. К.}{Чернівецький національний університет імені Юрія Федьковича}{v.maslyuchenko@gmail.com}
+\author{Маслюченко Г.-Ж. Я.}{Чернівецький національний університет імені Юрія Федьковича}{galarta@ukr.net}
+
+\end{center}
+
+
+
+Математика здавна використовується в мистецтві (див., наприклад, монографію [1] і статті [2,3]). Топологія -- це порівняно молода галузь математики, але й вона вже знайшла своє застосування в мистецтві, зокрема, в малярстві.
+
+Поняття фрактала, що його ввів Б. Мандельброт у 1975 році, спирається на поняття топологічної вимірності $dim(E)$. У математиці розглядають фрактали в широкому розумінні, які характеризуються тим, що  $dim(E)$ не збігається з вимірність Гаусдорфа-Безиковича $\alpha_{0}(E)$ і вузькому, для яких $\alpha_{0}(E)$, не є цілим числом [4, с.67]. Вікіпедія трактує поняття фрактала як самоподібної множини [4, с.67].
+
+Про фрактали в мистецтві йдеться в працях [5, 6], які знайдуть своє відображення в доповіді. Фрактальні мотиви є і у картинах відомого російського математика, історика і художника українського походження А. Т. Фоменка, книгу-альбом якого з 84 картинами видало  Американська математичне товариство [7], де є і  коментарі автора до своїх картин. Багато з них проникнуті топологічними мотивами, адже топологія -- основна математична спеціальність автора .
+
+Техніка роботи буковинської мисткині  з Вашківців Олени Чорногуз також пов'язана з фракталами і про неї йтиме мова в доповіді.
+
+\begin{thebibliography}{99}
+\bibitem{1} Волкогонов А. В. Математика и искуство. --- М.: Просвещение, 2000, ---400 с.
+\bibitem{2} Маслюченко В. К. Маслюченко Г.-Ж. Я. Математика в мистецтві:історія і сучасність. //  Прикарпатьський вісник НТШ. Число, 2018, 1(45). С. 230 -- 234.
+\bibitem{3} Маслюченко В. К. Маслюченко Г.-Ж. Я. Про впливи математики на мистецтво. // Вісник Львів. ун-ту. Серія мех.-мат., 2019. ( у друці)
+\bibitem{4} Турбин А. Ф. Працевитый Н.В. Фрактальные множества, функции, распридиляния. --К. Наукова думка, 1992, -- 208 с.
+\bibitem{5} Шлык В. А. Фракталы в абстрактном искусстве и дизайн // Известия Челябинсого научного центра. -- 2004. -- вып. 1 (22). -- С. 231-244.
+\bibitem{6} Яковець І. А. Лесковська О.О. Фрактал -- математика мистецтва. Дослідження природності фрактальних проявів. // Образотворче мистецтво. -- 2011. --166, № 2
+\bibitem{7} Fomenko A. T. Mathematikal impressions. Fmerican Math. Society, USA, 1990. 
+
+
+ \end{thebibliography} 
+
+
+
+\end{document} 

@@ -1,0 +1,162 @@
+\fulltitle{Dans une \'etable obscure}
+\shorttitle{Dans une \'etable obscure}
+ \fullauthor{Praetorius 1571(env.) -- 1621\\Version fran\c caise d'A.
+Mahot\\Transposition Daniel Taupin}
+ \othermention{Paroisse de Gif-sur-Yvette\\Transposition \`a usage
+priv\'e}
+ \shortauthor{Praetorius}
+ \maketitle
+ %
+\tracingstats=1\relax
+\relativeaccidentals
+\sepbarrules
+%
+\parindent 15mm
+% soufflets crescendo et decrescendo
+%
+\def\soufflcr#1{\zcharnote{#1}{\kern -1cm\cresc}}%
+\def\Soufflcr#1{\zcharnote{#1}{\kern -1cm\CResc}}%
+%
+\def\souffldim#1{\zcharnote{#1}{\kern -1cm\dimin}}%
+\def\Souffldim#1{\zcharnote{#1}{\kern -1cm\DImin}}%
+%
+%\check
+\def\nbinstruments{3}\resetsignatures
+\barsinline=0\relax\linesinpage=0\relax
+\global\nbporteesii=0
+\global\nbporteesi=1\relax
+\global\nbporteesiii=1\relax
+\global\cleftoksi={{6}{0}{0}{0}}%
+\global\cleftoksiii={{0}{0}{0}{0}}%
+\def\lowersonginstrum{1}  % to be used to make heavy bars at staff left
+\def\uppersonginstrum{3}   % to be used to make heavy bars at staff left
+%
+\signaturegenerale{\Signature}%
+\generalmeter{\meterfrac{4}{4}}
+%\check
+\def\interfacteur{12}%
+\def\instrumenti{\vbox{\hsize=\parindent
+\centerline{T\'enors}\centerline{basses}}}%
+\def\instrumentiii{\vbox{\hsize=\parindent
+\centerline{Sopran.}\centerline{Altos}}}%
+%\check
+\def\instrumentii{}%
+\def\respire{\notes&&\cbreath\enotes}%
+%
+\def\eightpoint{\Tenpoint}%
+%\check
+\catcode`\@=13
+\catcodesmusic
+\def@#1|#2|#3&{&\vbox to 0pt{\vss
+\parindent 0pt\parskip 0pt\hsize=1.5\Interligne
+\centerline{\vphantom{\'EQ}#1}\centerline{\vphantom{\'EQ}#2}\relax
+\centerline{\vphantom{\'EQ}#3}\vskip -2\Interligne\vss}&}%
+%
+\debutmorceau
+\autolines 754\relax
+\transpose=\Transpose
+\notes&&\Uptext{\raise 2\Interligne\hbox{\moyen Lent}}\enotes
+ %
+\znotes\zcharnote C{\ppff pp}&&\Uptext{\kern -2\Interligne
+ \ppff pp \it et myst\'erieux}\enotes
+\temps\NOtes\zhl a\hu c@Dans|Tan -|Plein&\zhl h\hu l\enotes
+%\advance\barsinline by 1\relax
+%
+\barre\Notes\zql a\qu c@une|dis|d'u -&\zql h\qu l\enotes
+\temps\Notes\zql a\qu c@\'e -|que|ne&\zql h\qu l\enotes
+\temps\Notes\Soufflcr C\zql K\qu d@table|les|foi&\Soufflcr t\zql h\qu m\enotes
+\temps\Notes\zql a\qu c@obs -|Rois|pro -&\zql h\qu l\enotes
+%
+%\check
+\barre\Notes\zhl L\hu b@cu -|ma -|fon -&\zhl g\hu l\enotes
+\temps\notes\souffldim C&&\souffldim t\enotes
+\temps\NOtes\zhl M\hu a@re,|ges,|de,&\zhl h\hu j\enotes
+%
+%\check
+\barre\NOtes\zcharnote C{\ppff ppp}\zhl I\hu f@Sous|Tan
+-|Le&\Uptext{\ppff ppp}\zhl i\hu k\enotes
+\temps\Notes\zql J\qu e@le|dis|monde&\zql f\qu j\enotes
+\temps\Notes\zql K\qu d@ciel|que|est&\zql f\qu i\enotes
+%
+%\check
+\barre\NOtes\zhl L\hu c@\'e -|les|\`a&\zhl e\hu h\enotes
+\temps\NOtes\zhl L\hu b@toi -|ber -|ge -&\zhl e\hu g\enotes
+%
+%\check
+\barre\NOtes\pointdurgue C\zhl H\hu c@l\'e !|gers|noux !&\pointdorgue m\zhl e\hu h\enotes
+\temps\NOtes\zhl a\hu c@Et|Lui|Toi&\zhl h\hu l\enotes
+%
+\barre\Notes\zql a\qu c@d'u -|por|sou -&\zql h\qu l\enotes
+\temps\Notes\zql a\qu c@ne|tent|ve -&\zql h\qu l\enotes
+\temps\Notes\Soufflcr C\zql K\qu d@Vier -|leurs|rain&\Soufflcr t\zql h\qu m\enotes
+\temps\Notes\zql a\qu c@ge|hom -|du&\zql h\qu l\enotes
+%
+%\check
+\barre\Notes\zhl L\hu b@pu -|ma -|mon -&\zhl g\hu l\enotes
+\temps\notes\souffldim C&&\souffldim t\enotes
+\temps\NOtes\zhl M\hu a@re,|ges,|de,&\zhl h\hu j\enotes
+%
+%\check
+\barre\NOtes\zcharnote C{\ppff p}\zhl I\hu f@Un|Por
+-|\'E -&\Uptext{\ppff p}\zhl i\hu k\enotes
+\temps\Notes\zql J\qu e@doux|tons -|tends&\zql f\qu j\enotes
+\temps\Notes\zql K\qu d@Sau -|Lui|les&\zql f\qu i\enotes
+%
+%\check
+\barre\NOtes\zhl L\hu c@veur|nos|mains&\zhl e\hu h\enotes
+\temps\NOtes\zhl L\hu b@est|bai -|sur&\zhl e\hu g\enotes
+%
+%\check
+% \autolines 654
+\barre\NOTes\pointdurgue C\zhl H\hu c@n\'e.|sers !|nous !&\pointdorgue m\zhl e\hu h\enotes
+\Changecontext
+\temps\Notes\zcharnote C{\ppff mf}\soupir&&\uptext{\ppff mf}\soupir\enotes
+\temps\notes\zcl H\cu a@Le|Le|\^O&\zcl e\cu j\enotes%
+\temps\notes\zcl H\cu a@Sei -|Sei -|J\'e&\zcl e\cu j\enotes%
+%
+%\check
+\barre\Notes\itenl0I\itenu1c\zql I\qu M@gneur|gneur|sus---
+ &\itenl3d\itenu4i\zql{^d}\qu i\enotes
+\Notes\Souffldim C\tten0\tten1\zql J\qu c&&\relax
+ \tten3\tten4\Souffldim t\zql e\qu g\enotes
+\temps\Notes\zql M\qu c@J\'e -|J\'e -|tout&\zql f\qu h\enotes
+\temps\Notes\zql I\qu a@sus|sus|pe -&\zql d\qu f\enotes
+%
+%\check
+\barre\NOTes\rlap{\hlp L}\hup N@Christ|Christ|tit !&\relax
+\rlap{\hlp e}\hup e\enotes
+\temps\Notes\zcharnote C{\ppff f}\zql a\qu c\relax
+ @Est|Sau -|Le&\Uptext{\ppff f}\zql h\qu l\enotes
+%
+%\check
+%\autolines 754
+\barre\Notes\zql N\qu d@n\'e|ra|monde&\zql i\qu l\enotes
+\temps\Notes\zql a\qu c@dans|bien|en -&\zql h\qu l\enotes
+\temps\Notes\zql K\qu d@u -|nous|tier&\zql h\qu m\enotes
+\temps\Notes\zql a\qu c@ne|sou -|T'ac -&\zql h\qu l\enotes
+%
+%\check
+\barre\Notes\zhl L\hu b@cr\`e -|ri -|cla -&\zhl g\hu l\enotes
+\temps\notes\souffldim C&&\souffldim t\enotes
+\temps\NOtes\zhl M\hu a@che,|re,|me,&\zhl h\hu j\enotes
+%
+%\check
+\barre\NOtes\zcharnote C{\ppff pp}\zhl I\hu f@Quand|En|Dans&\Uptext{\ppff
+ pp}\zhl i\hu k\enotes
+\temps\Notes\zql J\qu e@a|cette|l'a -&\zql f\qu j\enotes
+\temps\Notes\zql K\qu d@son -|heu -|do -&\zql f\qu i\enotes
+%
+%\check
+\barre\NOtes\zhl L\hu c@n\'e|reu -|ra -&\zhl e\hu h\enotes
+\temps\Notes\itenu0d\zh E\zhl L\qu b\tten0\qu d@mi -|se|ble&\zhl e\hu g\enotes
+%
+%\check
+\barre\temps\NOtes\pointdurgue C\zh L\zhl H\hu c@nuit.|nuit.|nuit.&\relax
+ \pointdorgue m\zhl e\hu h\enotes
+\temps
+\finmorceau
+\medskip\rightline{\it le \aujourdhui}
+\absoluteaccidentals
+\vfil\eject
+ 
+\endinput

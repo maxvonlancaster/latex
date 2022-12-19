@@ -1,0 +1,48 @@
+%%% File: EightPt.tex
+%%% From `Mathematical TeX by Example' by Arvind Borde
+%%% (c) 1993, Academic Press.
+%%% Contents: Provides a command for loading 8-point fonts, provides a 
+%%% comprehensive font-switching command, and a command to use 8-point type 
+%%% in footnotes. 
+
+%----------------------------------------------------------------------------
+
+\def\LoadEight {\font\Eightrm=cmr8  \font\Eightsl=cmsl8 
+                \font\Eightit=cmti8 \font\Eightbf=cmbx8 
+                \font\Eighttt=cmtt8 \font\Eighti=cmmi8 
+                \font\Eightsy=cmsy8 
+                \font\Eightcsc=cmcsc8
+                \font\Sixrm=cmr6    \font\Sixbf=cmbx6   
+                \font\Sixi=cmmi6    \font\Sixsy=cmsy6 
+                \def\LoadEight{}}% 
+% Note: The last line above protects against inefficiencies.
+
+\def\Eightpoint {\def\rm{\fam0\Eightrm}%
+  \textfont0=\Eightrm \scriptfont0=\Sixrm \scriptscriptfont0=\fiverm
+  \textfont1=\Eighti  \scriptfont1=\Sixi  \scriptscriptfont1=\fivei
+  \textfont2=\Eightsy \scriptfont2=\Sixsy \scriptscriptfont2=\fivesy
+  \textfont3=\tenex   \scriptfont3=\tenex \scriptscriptfont3=\tenex
+  \textfont\itfam=\Eightit  \def\it{\fam\itfam\Eightit}%
+  \textfont\slfam=\Eightsl  \def\sl{\fam\slfam\Eightsl}%
+  \textfont\ttfam=\Eighttt  \def\tt{\fam\ttfam\Eighttt}%
+  \textfont\bffam=\Eightbf  \scriptfont\bffam=\Sixbf
+     \scriptfont\bffam=\fivebf  \def\bf{\fam\bffam\Eightbf}%
+  \let\Smallcaps=\Eightcsc 
+  \let\Smallrm=\Eightrm  % This is needed just for the present book.
+  \normalbaselineskip=9pt
+  \setbox\strutbox=\hbox{\vrule height7pt depth2pt width0pt}%
+  % Also reset the spacing around displays:
+  \abovedisplayskip 8pt plus2pt  minus7pt
+  \abovedisplayshortskip 0pt plus2pt 
+  \belowdisplayskip 8pt plus2pt  minus7pt
+  \belowdisplayshortskip 5pt plus2pt  minus3pt
+  \normalbaselines \rm }
+% For Footnotes: 
+\let\FFFFFF=\footstrut  % Store the standard `value'.
+\def\SmallFootnotes {\LoadEight 
+  \def\footnoterule{}\def\footstrut{\Eightpoint\FFFFFF}}% 
+\def\NormalFootnotes{\def\footstrut{\FFFFFF}%
+  \def\footnoterule{\kern-3pt \hrule width2truein height.4pt \kern2.6pt}}%
+%----------------------------------------------------------------------------
+\endinput
+_%%

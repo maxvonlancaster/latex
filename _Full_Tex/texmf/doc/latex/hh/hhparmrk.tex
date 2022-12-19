@@ -1,0 +1,369 @@
+\documentclass[11pt]{article}
+\usepackage{hhparmrk}               % for presentation
+\usepackage{verbatim}               % for verbatim displaying of examples
+\usepackage{xspace}                 % for ease of typing
+\usepackage{hhmuf}                  % used in examples
+\usepackage{amssymb}                % used in examples
+
+\makeatletter
+
+\setlength\parindent\z@
+\setlength\parskip{.5\baselineskip}
+
+% The following has been copied from my personal tools style file hhutils.sty
+% (NB: This is _not_ the same file as the public style file hhutils0.sty!)
+
+\setcounter{errorcontextlines}{10}     % For ease of debugging.
+\showboxdepth=10                       % For ease of debugging.
+\showboxbreadth=100                    % For ease of debugging.
+\def\0#1.{\oldstylenums{#1}}           % For ease of typing.
+\def\packagename#1{{\sffamily #1}}     % For consistent displaying of
+                                       % package names. To be redefined
+                                       % by the editor if desired.
+\chardef\@ttbs="5C                     % This the only way I could figure
+\def\macroname#1{{\ttfamily\@ttbs#1}}  % out to get the right backslashes
+                                       % when displaying macro names
+                                       % (math \backspace is too thin).
+\def\envirname#1{{\ttfamily #1}}       % For consistent etc.
+\def\scheiding{\par                    % Because I cannot help to show my
+                                       % `stamp' in and out of season.
+                                       % Remove the stamps it you cannot
+                                       % stand them.
+  \nobreak\addvspace{26pt plus 6pt minus 6pt}%
+  \nobreak\centerline{{\unitlength1pt\begin{picture}(0,0)
+       \thicklines
+       \put(-10,2.5){\line(1,-1){10}}\put(-10,2.5){\line(1,1){10}}
+       \put(10,2.5){\line(-1,-1){10}}\put(10,2.5){\line(-1,1){10}}
+       \put(-5,7.5){\line(0,-1){10}}\put(5,7.5){\line(0,-1){10}}
+       \put(-5,0){\line(2,1){10}}%
+       \qbezier(-31.8,-2.5)(-12.6,12.2)(0,12.5)
+       \qbezier(0,12.5)(14.2,12.8)(20.9,-2.5)
+       \qbezier(-31.8,-2.5)(-16.5,15.8)(0,16.1)
+       \qbezier(0,16.1)(16,16.4)(20.9,-2.5)
+     \end{picture}}}%
+  \addvspace{18pt plus 6pt minus 6pt}}
+
+% The following are document specific macros defined for ease of typing:
+
+\def\hhparmrk{\packagename{hhparmrk}\xspace}
+\def\hhflxbox{\packagename{hhflxbox}\xspace}
+\def\hhunits{\packagename{hhunits}\xspace}
+\def\hhutils0{\packagename{hhutils0}\xspace}
+\def\hhqueue{\packagename{hhqueue}\xspace}
+\def\hhmuf{\packagename{hhmuf}\xspace}
+
+\def\={\verb=}
+\def\<#1>{\macroname{#1}}
+\def\:{\linebreak[1]}
+
+% Furthermore I defined a macro for short framed verbatim:
+\def\fverb{\sbox\@tempboxa\bgroup\verb}
+\def\brevf{%
+  \egroup\leavevmode{\setlength\fboxsep{2pt}\fbox{\box\@tempboxa}} }
+
+\makeatother
+
+\title{\hhparmrk\ --- Manual}
+\author{Herman Haverkort\\\normalsize\normalfont\texttt{hermanh@cistron.nl}}
+\date{May 1995 -- Addresses corrected March 1999}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\hhparmrk contains macros to mark paragraphs by putting signs next to
+them. The signs can be mathematical delimiter symbols, or three-part signs
+built of boxes. These two families of signs can be produced by the
+environments \envirname{bracespanned} and \envirname{markspanned},
+which I will present in this manual. Besides the environments
+\envirname{trafficsigned} and \envirname{optionframe}, which use
+\envirname{markspanned}, are presented.
+
+To be able to use \hhparmrk, you should also have the
+files \texttt{hhparmrk.sty}, \texttt{hhflxbox.sty}, \texttt{hhunits.sty},
+\texttt{hhqueue.sty} and \texttt{hhutils0.sty} available, all of
+which can be obtained from the library of my website at
+http://come.to/hh and from \textsc{ctan}.
+
+\section{\envirname{bracespanned}}
+
+\begin{bracespanned}%
+({\{}:-{FG}(){\}}:-{HH})
+  The environment
+\envirname{bracespanned} can be used to set paragraphs
+braced like this one. This paragraph is done with:
+
+\begin{verbatim}
+\begin{bracespanned}%
+({\{}:-{FG}(){\}}:-{HH})
+  The environment
+\end{verbatim}
+
+\ldots\ concluded by:
+
+\begin{verbatim}
+  demonstrated here.
+\end{bracespanned}
+\end{verbatim}
+
+The nasty details which determine the way of bracing are all specified
+just after \=\begin{bracespanned}=;\\ the concluding \=\end{bracespanned}= is
+always as straightforward as % demonstrated here.
+  demonstrated here.
+\end{bracespanned}
+
+You might suspect that the left brace and comment (``FG'' in the above
+example) are specified between left parentheses, while the right brace
+and comment are specified between right parentheses. Well, that is right.
+You do not have to specify both left and right stuff: you may leave
+one of them out, as in some of the examples below. The following paragraphs
+will all start with a box containing its bracing specification, that is:
+all that appears between \=\begin{bracespanned}= and the text
+of the paragraph.
+
+\begin{bracespanned}){\}}:-{\muf:{Just an example}})
+\fverb=){\}}:-{\muf:{Just an example}})=\brevf
+Instead of the comments ``FG'' en ``HH'' in the above example, you can
+of course specify whatever you want for a comment, for example a footnote.
+This paragraph provides an example using the \<muf> footnote macro, which
+is defined in the \hhmuf package.
+If you want to use standard footnotes, note that all that is
+spanned by \envirname{bracespanned} and the comments are so-called
+forbidden environments. To set a footnote you would have
+to use \<footnotemark> and \<footnotetext>; just using \<footnote>
+would not work.
+\end{bracespanned}
+
+\begin{bracespanned}){(}:-{})
+\fverb=){(}:-{})=\brevf
+This paragraph illustrates that any extendable mathematical delimiter
+symbols can be used instead of braces, even symbols which are pointing
+the `wrong' way. Just replace the \={\{}= or \={\}}= in the example
+above by \={(}=, as in this example, or whatever symbol you like.
+\end{bracespanned}
+
+\begin{bracespanned}){\}}:{65pt}{This may be read by fiends and friends})
+\fverb=){\}}:{65pt}{This= \ldots\ \=friends})=\brevf
+The \=:-= in the examples above specifies the width of the spanning
+symbol plus comment. \=:-= stands for the natural width of the symbol
+with comment, which usually satisfies. Another possible width
+specification is a colon followed by a braced dimension, like
+\=:{65pt}=. Such a specification fixes the width of the symbol plus
+comment, thus enabling multi-line comments, like demonstrated here.
+\end{bracespanned}
+
+\begin{bracespanned}){]}{ExampleId}:{ex. i})
+\fverb=){]}{ExampleId}:{ex. i})=\brevf
+Sometimes it may be desirable to have the comments of several spanned
+paragraphs set all to the same width, thus leaving equal line widths
+for the spanned paragraphs. This can be accomplished by
+giving a width specification which consists of some braced identifier
+followed by a colon. The identifier may be chosen freely.
+\end{bracespanned}
+
+\begin{bracespanned}){]}{ExampleId}:{ex. ii})
+\fverb=){]}{ExampleId}:{ex. ii})=\brevf
+The previous paragraph and this one get the same width identifier
+(\=ExampleId=) so that their comments are set to the same width:
+the natural width of the widest. As a result, the text bodies of
+both paragraphs are equally wide. However, in general you have to
+compile your document twice to get this result. If a second run
+may be necessary, the \hhunits package issues a warning ``Unit
+values may have changed. Rerun to get them right.''
+\end{bracespanned}
+
+\begin{bracespanned}({\|}:-[50pt]{Gosh!}(
+\fverb=({\|}:-[50pt]{Gosh!}(=\brevf
+In the examples above paragraphs were indented on the sides to make room
+for the spanning symbols and comments. The amount of indention was
+automatically determined by the \hhparmrk macros. This automatic
+determination can be overruled by specifying the amount of indention
+in a bracketed optional argument, given between the width
+specification and the comment. This paragraph provides an example:
+it is indented exactly 50pt. Specifying a 0pt indention
+would cause the spanning symbol and the comment to be set in the
+margin.
+\end{bracespanned}
+
+\begin{bracespanned}([:-()]:-)
+\fverb=([:-()]:-)=\brevf
+\TeX\ hackers who know when braces can be omitted are able to specify
+the way of spanning a paragraph quite elegantly --- I think --- as
+demonstrated by this paragraph.
+\end{bracespanned}
+
+\subsection{Formatting the Comments}
+The comments set by \envirname{bracespanned} are type-set raggedright,
+small and with a emergencystretch of 10pt by default. Furthermore
+footnote markers are set normally sized rather than
+superscripted. This is useful for using footnotes as comments; however
+it can be disturbing if you use footnotes {\em in} comments for some reason.
+The default comment format is specified by the macro
+\<@makespancomment>, which is defined in the \hhparmrk package.
+The macro takes one argument: the comment to be type-set.
+You can redefine if you like.
+
+\section{\envirname{markspanned}}
+
+\begin{markspanned}%
+({\sc start}[\msprule]{\sc finish}{10pt}(
+The environment
+\envirname{markspanned} can be used to set three-part marks
+next to paragraphs. Such a mark consists of an upper part, a
+lower part, and a fill part in between. The upper and lower
+part have fixed size, but the fill part can be stretched so
+that the assembled mark spans the entire paragraph. This paragraph
+provides a simple example.
+\end{markspanned}
+
+The above paragraph is typeset with:
+
+\begin{verbatim}
+\begin{markspanned}%
+({\sc start}[\msprule]{\sc finish}{10pt}(
+  The environment \envirname{markspanned} can
+     :      :      :      :      :      :
+  This paragraph provides a simple example.
+\end{markspanned}
+\end{verbatim}
+
+In the above example an upper part, a fill, a lower part and the mark
+seperation are successively specified. The fill is the \hhparmrk
+macro \<msprule>, which connects the upper and the lower part
+by a rule. The 10pt mark seperation determines the smallest
+distance between the text and the three-part mark.
+
+The nasty details which determine the way of marking are all specified
+just after \=\begin{markspanned}=; the concluding \=\end{markspanned}= is
+always as straightforward as demonstrated above. The following paragraphs
+will all start with a box containing its marking specification, that is:
+all that appears between \=\begin{markspanned}= and the text
+of the paragraph.
+
+\begin{markspanned}({\sc st}[\msprule]{\sc fi}[r]{10pt}(
+\fverb=({\sc st}[\msprule]{\sc fi}[r]{10pt}(=\brevf
+In the example above the mark parts are centered with respect to each
+other. Instead of centering one can force left or right alignment by
+means of \=[l]= or \=[r]= just after the definition of the lower
+part. This paragraph gives an example of right alignment.
+\end{markspanned}
+
+Until now marked paragraphs were automatically indented just enough
+to make room for the marks so that they did not stick out into the
+margins. Like with \envirname{bracespanned} one can control the
+amount of indention `manually' by specifying an optional argument,
+just after the mark seperation.
+
+\begin{markspanned}({$\cap$}{$\cup$}{5pt}[20pt](
+\fverb=({$\cap$}{$\cup$}{5pt}[20pt](=\brevf
+This paragraph provides an example.
+It is indented exactly 20pt. This paragraph also shows that the
+fill part of a mark is optional and may be left out.
+\end{markspanned}
+
+\begin{markspanned}({$/$}{$\backslash$}{5pt}(){$\backslash$}{$/$}{5pt})
+\fverb=({$/$}{\bs}{5pt}(){\bs}{$/$}{5pt})=\brevf
+(\<bs> assumed to be defined as \=$\backslash$=)
+Of course three-part marks could be set on the right by using right
+parentheses instead of left ones, just like with\\\envirname{bracespanned}.
+Three-part marks on both sides are possible too, like demonstrated here.
+\end{markspanned}
+
+\subsection{More about the Fill Part}
+As shown in the above examples, the second argument of a three-part mark
+specification determines the fill part of the mark. You may omit this
+specification: in that case an empty fill is used. Besides \<msprule> and
+the empty fill one could use any desired self-made fill as long as the
+following is regarded:\begin{itemize}
+\item the fill should be a macro that takes one argument: the required
+      size. For example \<msprule> is defined by \=\newcommand=\:%
+      \=\msprule=\:\=[1]{\vrule= \=height= \=#1= \=width=
+      \=\fboxrule=\:\=}=.
+\item the width of the fill is not taken in account when determining the
+      positioning of the mark. Therefore the width of the fill should not
+      be greater than both the width of the upper part and the width
+      of the lower part of the three-part mark.
+\end{itemize}
+
+\subsection{Traffic Signs}
+
+\hhparmrk contains the following definition (shown here in syntactically
+simplified version):
+
+\begin{verbatim}
+\newenvironment{trafficsigned*}[2]{%
+    \begin{markspanned}(%
+    {#1{\separbox{2pt}{\large\bf #2}}}%
+    [\msprule]%
+    {\sepbox(0pt,1pt,0pt,0pt){%
+        \large\ensuremath{\bigtriangleup}}}%
+    {1em}(%
+  }{%
+    \ifhmode\strut\fi
+    \end{markspanned}%
+    \scopecorrection
+  }
+\end{verbatim}
+
+\begin{trafficsigned*}{\trapbox:}{A}
+\fverb=\begin{trafficsigned*}{\trapbox:}{A}=\brevf
+The environment\\\envirname{trafficsigned*} produces a three-part mark on
+the left which forces the signed text to indent. Its upper part is
+the second argument, boxed by the \hhflxbox macro
+\<separbox>
+and the tokens specified by the first
+argument. These are typically framing macros like \=\trapbox:= (defined
+in \hhparmrk; sets a trapezium frame), \=\ringbox:= (defined in
+\hhflxbox; sets a circle frame), or \=\setlength=\:\=\fboxsep=\:%
+\={0pt}\fbox= (sets
+a rectangular frame). These paragraphs show some possible results.
+The \TeX\ code used to start each paragraph is shown in the boxes at the
+beginnings. Each paragraph is ended in the source file by
+\=\end{trafficsigned*}=.
+\end{trafficsigned*}
+
+\begin{trafficsigned*}{\ringbox:}{B}
+\fverb=\begin{trafficsigned*}{\ringbox:}{B}=\brevf
+Before the \=\end=\\\={markspanned}= in
+the definition of \envirname{trafficsigned*} a conditional \<strut>
+is added. This is to prevent
+the foot of the sign from ostensibly floating according to the
+depth of the last line of a signed paragraph.
+% HH % toegevoegd:
+The \<scopecorrection>
+is not really needed in most cases but it guards against some rare
+mysterious errors.
+\end{trafficsigned*}
+
+\begin{trafficsigned*}{\setlength\fboxsep{0pt}\fbox}{C}
+\fverb==\ldots\ \=*}{\setlength\fboxsep{0pt}\fbox}{C}=\brevf
+Besides\\\envirname{trafficsigned*} there exists a similar environment
+\envirname{trafficsigned} which sets the traffic sign in the left margin.
+To avoid letter-traffical collisions it is not demonstrated here.
+\end{trafficsigned*}
+
+\section{Option Frames}
+
+\begin{optionframed}{0pt}{0pt}{?}
+\=\begin=\:\={optionframed}{=\textit{beforeskip}\=}{=\textit{afterskip}\=}{=%
+\textit{label}\=}= \textit{stuff}\=\end=\\\={optionframed}= renders paragraphs
+like this. The \textit{beforeskip} and \textit{afterskip} determine the
+minimum amount of space to be left above and below the frame.
+The \textit{label}, typically a single character, determines the contents
+of the circle in the upper left corner. \textit{stuff} is the paragraph
+to be framed.
+\end{optionframed}
+
+This kind of frames is called option frames since I first used them
+to denote optional passages in regulations which were subject to
+discussion yet. The option frames are already included in \hhparmrk;
+however they are not completely stable and reliable yet. The way
+in which option frames surpress or squeeze out vertical white space
+at the top and bottom of the framed paragraph is not fully satisfactory,
+and is still subject to experiments and improvements.
+
+\end{document}
+
+

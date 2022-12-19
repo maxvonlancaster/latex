@@ -1,0 +1,35 @@
+\documentclass[ngerman]{scrartcl}
+
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+%\usepackage{libertine}
+
+\usepackage{luaotfload}
+
+      \DeclareFontFamily{T1}{libertine}{}
+      \DeclareFontShape{T1}{libertine}{m}{n}{<-> "fxlr:+liga"}{}
+      \DeclareFontShape{T1}{libertine}{m}{it}{<-> "fxlri:+liga"}{}
+      \DeclareFontShape{T1}{libertine}{m}{sl}{<-> "fxlro:+liga"}{}
+      \DeclareFontShape{T1}{libertine}{b}{n}{<-> "fxlb:+liga"}{}
+      \DeclareFontShape{T1}{libertine}{b}{it}{<-> "fxlbi:+liga"}{}
+      \DeclareFontShape{T1}{libertine}{b}{sl}{<-> "fxlbo:+liga"}{}
+      \DeclareFontShape{T1}{libertine}{m}{sc}{<-> "fxlr:+liga:+smcp"}{}
+      \DeclareFontShape{T1}{libertine}{b}{sc}{<-> "fxlb:+liga:+smcp"}{}
+      \DeclareFontShape{T1}{libertine}{m}{ic}{<-> "fxlric:+liga:+smcp"}{}
+      \DeclareFontShape{T1}{libertine}{b}{ic}{<-> "fxlbic:+liga:+smcp"}{}
+      \DeclareFontShape{T1}{libertine}{bx}{n}{<->ssub * libertine/b/n}{}
+      \DeclareFontShape{T1}{libertine}{bx}{it}{<->ssub * libertine/b/it}{}
+      \DeclareFontShape{T1}{libertine}{bx}{sl}{<->ssub * libertine/b/sl}{}
+      \DeclareFontShape{T1}{libertine}{bx}{sc}{<->ssub * libertine/b/sc}{}
+      \DeclareFontShape{T1}{libertine}{bx}{ic}{<->ssub * libertine/b/ic}{}
+      \def\libertine{\fontfamily{libertine}\selectfont}
+      \renewcommand\rmdefault{libertine}%
+
+\begin{document}
+
+
+Text \par
+ \textbf{Text} \par
+
+
+\end{document}

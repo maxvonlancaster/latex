@@ -1,0 +1,224 @@
+% mkfd.tex -- generate FD file for Malvern 1.2
+% version: 73
+% creator: mkdrivers 3.7 <pdc 1994.10.12>
+% creation date: 1994.10.12
+
+\input fontinst.sty
+
+\needsfontinstversion{1.328}
+
+\declaresize{7}{<5-8>}
+\declaresize{10}{<8-11>}
+\declaresize{12}{<11-13>}
+\declaresize{14}{<13-16>}
+\declaresize{18}{<16-21>}
+\declaresize{24}{<21->}
+
+\declareencoding{MALVERN A 1.1}{pdcmaa}
+\declareencoding{MALVERN B 1.1}{pdcmab}
+\declareencoding{MALVERN A 1.2}{pdcmaa}
+\declareencoding{MALVERN B 1.2}{pdcmab}
+\declareencoding{TEX TEXT WITH OLD-STYLE NUMERALS}{OT19}
+% \substitutesilent{n}{nn}
+% \substitutesilent{it}{in}
+% \substitutesilent{sc}{nc}
+
+\installfonts
+    \installfamily{T1}{fmv}{}
+    \installfamily{T1}{fmv9}{}
+    \installfont{ma55ar7}
+        {ma55a7,ma55b7,pdcmat1,latin}{T1}{T1}{fmv}{m}{n}{7}
+    \installfont{ma55ar10}
+        {ma55a10,ma55b10,pdcmat1,latin}{T1}{T1}{fmv}{m}{n}{10}
+    \installfont{ma55ar12}
+        {ma55a12,ma55b12,pdcmat1,latin}{T1}{T1}{fmv}{m}{n}{12}
+    \installfont{ma55ar14}
+        {ma55a14,ma55b14,pdcmat1,latin}{T1}{T1}{fmv}{m}{n}{14}
+    \installfont{ma55ar18}
+        {ma55a18,ma55b18,pdcmat1,latin}{T1}{T1}{fmv}{m}{n}{18}
+    \installfont{ma55ar24}
+        {ma55a24,ma55b24,pdcmat1,latin}{T1}{T1}{fmv}{m}{n}{24}
+    \installfont{ma56ar7}
+        {ma56a7,ma56b7,pdcmat1,latin}{T1}{T1}{fmv}{m}{it}{7}
+    \installfont{ma56ar10}
+        {ma56a10,ma56b10,pdcmat1,latin}{T1}{T1}{fmv}{m}{it}{10}
+    \installfont{ma56ar12}
+        {ma56a12,ma56b12,pdcmat1,latin}{T1}{T1}{fmv}{m}{it}{12}
+    \installfont{ma56ar14}
+        {ma56a14,ma56b14,pdcmat1,latin}{T1}{T1}{fmv}{m}{it}{14}
+    \installfont{ma56ar18}
+        {ma56a18,ma56b18,pdcmat1,latin}{T1}{T1}{fmv}{m}{it}{18}
+    \installfont{ma56ar24}
+        {ma56a24,ma56b24,pdcmat1,latin}{T1}{T1}{fmv}{m}{it}{24}
+    \installfont{ma75ar7}
+        {ma75a7,ma75b7,pdcmat1,latin}{T1}{T1}{fmv}{b}{n}{7}
+    \installfont{ma75ar10}
+        {ma75a10,ma75b10,pdcmat1,latin}{T1}{T1}{fmv}{b}{n}{10}
+    \installfont{ma75ar12}
+        {ma75a12,ma75b12,pdcmat1,latin}{T1}{T1}{fmv}{b}{n}{12}
+    \installfont{ma75ar14}
+        {ma75a14,ma75b14,pdcmat1,latin}{T1}{T1}{fmv}{b}{n}{14}
+    \installfont{ma75ar18}
+        {ma75a18,ma75b18,pdcmat1,latin}{T1}{T1}{fmv}{b}{n}{18}
+    \installfont{ma75ar24}
+        {ma75a24,ma75b24,pdcmat1,latin}{T1}{T1}{fmv}{b}{n}{24}
+    \installfont{ma76ar7}
+        {ma76a7,ma76b7,pdcmat1,latin}{T1}{T1}{fmv}{b}{it}{7}
+    \installfont{ma76ar10}
+        {ma76a10,ma76b10,pdcmat1,latin}{T1}{T1}{fmv}{b}{it}{10}
+    \installfont{ma76ar12}
+        {ma76a12,ma76b12,pdcmat1,latin}{T1}{T1}{fmv}{b}{it}{12}
+    \installfont{ma76ar14}
+        {ma76a14,ma76b14,pdcmat1,latin}{T1}{T1}{fmv}{b}{it}{14}
+    \installfont{ma76ar18}
+        {ma76a18,ma76b18,pdcmat1,latin}{T1}{T1}{fmv}{b}{it}{18}
+    \installfont{ma76ar24}
+        {ma76a24,ma76b24,pdcmat1,latin}{T1}{T1}{fmv}{b}{it}{24}
+    \installfont{ma55as7}
+        {ma55a7,ma55b7,pdcmat1,latin}{T19}{T1}{fmv9}{m}{n}{7}
+    \installfont{ma55as10}
+        {ma55a10,ma55b10,pdcmat1,latin}{T19}{T1}{fmv9}{m}{n}{10}
+    \installfont{ma55as12}
+        {ma55a12,ma55b12,pdcmat1,latin}{T19}{T1}{fmv9}{m}{n}{12}
+    \installfont{ma55as14}
+        {ma55a14,ma55b14,pdcmat1,latin}{T19}{T1}{fmv9}{m}{n}{14}
+    \installfont{ma55as18}
+        {ma55a18,ma55b18,pdcmat1,latin}{T19}{T1}{fmv9}{m}{n}{18}
+    \installfont{ma55as24}
+        {ma55a24,ma55b24,pdcmat1,latin}{T19}{T1}{fmv9}{m}{n}{24}
+    \installfont{ma56as7}
+        {ma56a7,ma56b7,pdcmat1,latin}{T19}{T1}{fmv9}{m}{it}{7}
+    \installfont{ma56as10}
+        {ma56a10,ma56b10,pdcmat1,latin}{T19}{T1}{fmv9}{m}{it}{10}
+    \installfont{ma56as12}
+        {ma56a12,ma56b12,pdcmat1,latin}{T19}{T1}{fmv9}{m}{it}{12}
+    \installfont{ma56as14}
+        {ma56a14,ma56b14,pdcmat1,latin}{T19}{T1}{fmv9}{m}{it}{14}
+    \installfont{ma56as18}
+        {ma56a18,ma56b18,pdcmat1,latin}{T19}{T1}{fmv9}{m}{it}{18}
+    \installfont{ma56as24}
+        {ma56a24,ma56b24,pdcmat1,latin}{T19}{T1}{fmv9}{m}{it}{24}
+    \installfont{ma75as7}
+        {ma75a7,ma75b7,pdcmat1,latin}{T19}{T1}{fmv9}{b}{n}{7}
+    \installfont{ma75as10}
+        {ma75a10,ma75b10,pdcmat1,latin}{T19}{T1}{fmv9}{b}{n}{10}
+    \installfont{ma75as12}
+        {ma75a12,ma75b12,pdcmat1,latin}{T19}{T1}{fmv9}{b}{n}{12}
+    \installfont{ma75as14}
+        {ma75a14,ma75b14,pdcmat1,latin}{T19}{T1}{fmv9}{b}{n}{14}
+    \installfont{ma75as18}
+        {ma75a18,ma75b18,pdcmat1,latin}{T19}{T1}{fmv9}{b}{n}{18}
+    \installfont{ma75as24}
+        {ma75a24,ma75b24,pdcmat1,latin}{T19}{T1}{fmv9}{b}{n}{24}
+    \installfont{ma76as7}
+        {ma76a7,ma76b7,pdcmat1,latin}{T19}{T1}{fmv9}{b}{it}{7}
+    \installfont{ma76as10}
+        {ma76a10,ma76b10,pdcmat1,latin}{T19}{T1}{fmv9}{b}{it}{10}
+    \installfont{ma76as12}
+        {ma76a12,ma76b12,pdcmat1,latin}{T19}{T1}{fmv9}{b}{it}{12}
+    \installfont{ma76as14}
+        {ma76a14,ma76b14,pdcmat1,latin}{T19}{T1}{fmv9}{b}{it}{14}
+    \installfont{ma76as18}
+        {ma76a18,ma76b18,pdcmat1,latin}{T19}{T1}{fmv9}{b}{it}{18}
+    \installfont{ma76as24}
+        {ma76a24,ma76b24,pdcmat1,latin}{T19}{T1}{fmv9}{b}{it}{24}
+    \installfont{ma55at7}
+        {ma55a7,ma55b7,pdcmat1,latin}{T1c}{T1}{fmv}{m}{sc}{7}
+    \installfont{ma55at10}
+        {ma55a10,ma55b10,pdcmat1,latin}{T1c}{T1}{fmv}{m}{sc}{10}
+    \installfont{ma55at12}
+        {ma55a12,ma55b12,pdcmat1,latin}{T1c}{T1}{fmv}{m}{sc}{12}
+    \installfont{ma55at14}
+        {ma55a14,ma55b14,pdcmat1,latin}{T1c}{T1}{fmv}{m}{sc}{14}
+    \installfont{ma55at18}
+        {ma55a18,ma55b18,pdcmat1,latin}{T1c}{T1}{fmv}{m}{sc}{18}
+    \installfont{ma55at24}
+        {ma55a24,ma55b24,pdcmat1,latin}{T1c}{T1}{fmv}{m}{sc}{24}
+    \installfont{ma75at7}
+        {ma75a7,ma75b7,pdcmat1,latin}{T1c}{T1}{fmv}{b}{sc}{7}
+    \installfont{ma75at10}
+        {ma75a10,ma75b10,pdcmat1,latin}{T1c}{T1}{fmv}{b}{sc}{10}
+    \installfont{ma75at12}
+        {ma75a12,ma75b12,pdcmat1,latin}{T1c}{T1}{fmv}{b}{sc}{12}
+    \installfont{ma75at14}
+        {ma75a14,ma75b14,pdcmat1,latin}{T1c}{T1}{fmv}{b}{sc}{14}
+    \installfont{ma75at18}
+        {ma75a18,ma75b18,pdcmat1,latin}{T1c}{T1}{fmv}{b}{sc}{18}
+    \installfont{ma75at24}
+        {ma75a24,ma75b24,pdcmat1,latin}{T1c}{T1}{fmv}{b}{sc}{24}
+    \installfont{ma55au7}
+        {ma55a7,ma55b7,pdcmat1,latin}{T1c9}{T1}{fmv9}{m}{sc}{7}
+    \installfont{ma55au10}
+        {ma55a10,ma55b10,pdcmat1,latin}{T1c9}{T1}{fmv9}{m}{sc}{10}
+    \installfont{ma55au12}
+        {ma55a12,ma55b12,pdcmat1,latin}{T1c9}{T1}{fmv9}{m}{sc}{12}
+    \installfont{ma55au14}
+        {ma55a14,ma55b14,pdcmat1,latin}{T1c9}{T1}{fmv9}{m}{sc}{14}
+    \installfont{ma55au18}
+        {ma55a18,ma55b18,pdcmat1,latin}{T1c9}{T1}{fmv9}{m}{sc}{18}
+    \installfont{ma55au24}
+        {ma55a24,ma55b24,pdcmat1,latin}{T1c9}{T1}{fmv9}{m}{sc}{24}
+    \installfont{ma75au7}
+        {ma75a7,ma75b7,pdcmat1,latin}{T1c9}{T1}{fmv9}{b}{sc}{7}
+    \installfont{ma75au10}
+        {ma75a10,ma75b10,pdcmat1,latin}{T1c9}{T1}{fmv9}{b}{sc}{10}
+    \installfont{ma75au12}
+        {ma75a12,ma75b12,pdcmat1,latin}{T1c9}{T1}{fmv9}{b}{sc}{12}
+    \installfont{ma75au14}
+        {ma75a14,ma75b14,pdcmat1,latin}{T1c9}{T1}{fmv9}{b}{sc}{14}
+    \installfont{ma75au18}
+        {ma75a18,ma75b18,pdcmat1,latin}{T1c9}{T1}{fmv9}{b}{sc}{18}
+    \installfont{ma75au24}
+        {ma75a24,ma75b24,pdcmat1,latin}{T1c9}{T1}{fmv9}{b}{sc}{24}
+    \installfont{ma55aa7}
+        {ma55s7,ma55a7,latin}{OT1c}{OT1}{fmv}{m}{sc}{7}
+    \installfont{ma55aa10}
+        {ma55s10,ma55a10,latin}{OT1c}{OT1}{fmv}{m}{sc}{10}
+    \installfont{ma55aa12}
+        {ma55s12,ma55a12,latin}{OT1c}{OT1}{fmv}{m}{sc}{12}
+    \installfont{ma55aa14}
+        {ma55s14,ma55a14,latin}{OT1c}{OT1}{fmv}{m}{sc}{14}
+    \installfont{ma55aa18}
+        {ma55s18,ma55a18,latin}{OT1c}{OT1}{fmv}{m}{sc}{18}
+    \installfont{ma55aa24}
+        {ma55s24,ma55a24,latin}{OT1c}{OT1}{fmv}{m}{sc}{24}
+    \installfont{ma75aa7}
+        {ma75s7,ma75a7,latin}{OT1c}{OT1}{fmv}{b}{sc}{7}
+    \installfont{ma75aa10}
+        {ma75s10,ma75a10,latin}{OT1c}{OT1}{fmv}{b}{sc}{10}
+    \installfont{ma75aa12}
+        {ma75s12,ma75a12,latin}{OT1c}{OT1}{fmv}{b}{sc}{12}
+    \installfont{ma75aa14}
+        {ma75s14,ma75a14,latin}{OT1c}{OT1}{fmv}{b}{sc}{14}
+    \installfont{ma75aa18}
+        {ma75s18,ma75a18,latin}{OT1c}{OT1}{fmv}{b}{sc}{18}
+    \installfont{ma75aa24}
+        {ma75s24,ma75a24,latin}{OT1c}{OT1}{fmv}{b}{sc}{24}
+    \installfont{ma55ab7}
+        {ma55az7,ma55a7,latin}{OT1c9}{OT1}{fmv9}{m}{sc}{7}
+    \installfont{ma55ab10}
+        {ma55az10,ma55a10,latin}{OT1c9}{OT1}{fmv9}{m}{sc}{10}
+    \installfont{ma55ab12}
+        {ma55az12,ma55a12,latin}{OT1c9}{OT1}{fmv9}{m}{sc}{12}
+    \installfont{ma55ab14}
+        {ma55az14,ma55a14,latin}{OT1c9}{OT1}{fmv9}{m}{sc}{14}
+    \installfont{ma55ab18}
+        {ma55az18,ma55a18,latin}{OT1c9}{OT1}{fmv9}{m}{sc}{18}
+    \installfont{ma55ab24}
+        {ma55az24,ma55a24,latin}{OT1c9}{OT1}{fmv9}{m}{sc}{24}
+    \installfont{ma75ab7}
+        {ma75az7,ma75a7,latin}{OT1c9}{OT1}{fmv9}{b}{sc}{7}
+    \installfont{ma75ab10}
+        {ma75az10,ma75a10,latin}{OT1c9}{OT1}{fmv9}{b}{sc}{10}
+    \installfont{ma75ab12}
+        {ma75az12,ma75a12,latin}{OT1c9}{OT1}{fmv9}{b}{sc}{12}
+    \installfont{ma75ab14}
+        {ma75az14,ma75a14,latin}{OT1c9}{OT1}{fmv9}{b}{sc}{14}
+    \installfont{ma75ab18}
+        {ma75az18,ma75a18,latin}{OT1c9}{OT1}{fmv9}{b}{sc}{18}
+    \installfont{ma75ab24}
+        {ma75az24,ma75a24,latin}{OT1c9}{OT1}{fmv9}{b}{sc}{24}
+\endinstallfonts
+
+\bye
+

@@ -1,0 +1,30 @@
+$$
+\def\T{{\bf T}} \def\S{{\bf S}}
+\landscape \let\labelstyle\textstyle
+\cellpush=10pt \xscale=2.2
+\Diagram
+       &                  & H_n(X^+\cup\T A^+, X^+) &
+   \lTo ^{H_n(k_1)} &        & H_n(\T A^+,A^+)
+                               \aTo (-3,-2) _{H_n(p_1)}
+                               \aTo (3,-4) ^{\partial_1}                   \\
+       &                  & \dTo >{H_n{q_1}}                               \\
+       &                  & H_n(\S A^+,P)           &
+                    &        & * \dx{.7}                                   \\
+       & \ruTo _{H_n(q_4)} \tx{15pt}
+                          & \uTo >{H_n(t)}                                 \\
+H_n(X^+\cup\T A^+,P) \aTo (2,4)  ^{H_n(j_1)} \tx{15pt}
+                     \aTo (2,-4) _{H_n(j_2)} \tx{15pt}
+       &   &   &    &        &   & H_{n-1}(A) &
+                                     \rTo ^{H_{n-1}(i_A)} & H_{n-1}(A^+,P) \\
+       & \rdTo ^{H_n(q_2)} \tx{15pt}
+                          &                         & & & \ruTo            \\
+       &                  & H_n(X^+/A^+,P)          &
+  \lTo ^{P_n(X,A)}  & H_n(X,A)
+                      \aTo (1,-2) >{H_n(i_X)}                              \\
+       &                  & \uTo >{H_n(q_3)}                               \\
+       &                  & H_n(X^+\cup\T A^+,\T A^+)&
+  \lTo _{H_n(k_2)} & & H_n(X^+,A^+)
+                       \aTo (3,4) _{\partial_2}
+                       \aTo (-3,2) _{H_n(p_X)}                             \\
+\endDiagram
+$$

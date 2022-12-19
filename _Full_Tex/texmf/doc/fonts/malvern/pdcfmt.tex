@@ -1,0 +1,361 @@
+% pdcfmt.tex 1.1.9 1994/07/20 -- macros for larger-scale formatting of text
+% Copyright  1991, 1992, 1993 P. Damian Cugley.
+
+%%% @TeX-macro-file {
+%%%   filename       = "pdcfmt.tex",
+%%%   version        = "1.1.9",
+%%%   date           = "1994/07/20",
+%%%   package        = "Malvern 1.1",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "TeX, plain TeX, macros",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Formatting macros for plain TeX documents.",
+%%%   dependencies   = "pdcutil.tex",
+%%% }
+
+%{{{ pdcfmt.tex
+\begingroup\catcode`\%=12 \toks0={\endgroup
+	\gdef\version{1.1.9} \gdef\lastedit{pdc 1994/07/20}
+}\the\toks0
+\message{\version\space \lastedit}
+\ifx\utilsversion\UNDEFINED \input pdcutil \fi
+
+%{{{  \everypar -- \noindenttrue and \parbox
+
+\newif\ifnoindent
+%  If set then next paragraph is not indented
+
+\newbox\parbox	
+\newdimen\parboxsep \parboxsep=1pc
+%  box to go at left of current paragraph -- usually a \vtop or void:
+%  If not void then next paragraph is not indented, and
+%  the box is set \parboxsep from left margin.
+
+\everypar=
+{%
+    \ifvoid\parbox
+	\ifnoindent {\setbox0=\lastbox}\global\noindentfalse \fi 
+	    % after \noindent this has no effect anyway
+    \else
+	{\setbox0=\lastbox}\global\noindentfalse % implied noindenttrue
+	\dp\parbox=0pt
+	\hbox to 0pt{\hss \box\parbox \hskip\parboxsep}%
+    \fi
+}
+%}}}
+\newdimen\envindent \envindent=1pc  % used when \parindent=0pt
+\def\endenv
+{
+    \par
+    \ifdim\lastskip<\smallskipamount \removelastskip\smallskip \fi
+    \global\noindenttrue
+}  
+	% generic end of environ.
+%{{{  Bullets
+
+\newcount\bulletlevel \bulletlevel=-1
+\def\bulletsign
+{%
+    \ifcase\bulletlevel \bullet\or --\or \circ\else \cdot\fi
+}
+
+\def\bullets
+{%
+    \par 
+    \advance\bulletlevel 1
+    \def\\{\smallskip\noindent\llap{\bulletsign\enspace}\ignorespaces}
+    \ifdim\parindent>0pt
+	\advance\leftskip\parindent
+    \else
+	\advance\leftskip\envindent
+    \fi
+    \the\everybullets
+}
+
+\let\endbullets=\endenv
+
+\newcount\enumerateitem
+\def\enumerate
+{%
+    \global\enumerateitem=0
+    \def\bulletsign{\global\advance\enumerateitem1 \n{\the\enumerateitem}.}%
+    \bullets
+}
+
+\let\endenumerate=\endbullets
+%}}}
+%{{{  Tagged
+
+\newdimen\taglabelwidth
+\def\tagged			% like bullets, but with tags
+{%
+    \par
+    \def\\%
+    {
+	\smallskip\noindent
+	\setbox0=\hbox\bgroup	% matched by \finishtag
+	\the\everytag\ignorespaces
+	\let\\\finishtag
+    }
+    \def\finishtag
+    {
+	\unskip\enspace\egroup		% matches \\
+	\ifdim \wd0 < \taglabelwidth
+	    \wd0=\taglabelwidth
+	    \llap{\box0}%
+	\else
+	    \hskip-\taglabelwidth
+	    \unhbox0
+	    \hfil\break
+	    \vadjust{\nobreak}%
+	\fi
+  	\ignorespaces
+    }
+    \ifdim\leftmargin=0pt 
+	\ifdim\parindent>0pt
+	    \envindent=2\parindent
+	\fi
+	\leftskip=\envindent 
+	\taglabelwidth=\envindent
+    \else
+	\taglabelwidth=\leftmargin
+    \fi
+    \the\everytagged
+}
+
+\let\endtagged=\endenv
+%}}}
+%{{{  Quotations
+
+\def\quotation
+{
+    \smallskip
+    \ifdim\parindent>0pt
+	\advance\leftskip\parindent % \advance\rightskip\parindent
+    \else
+	\advance\leftskip\envindent % \advance\rightskip\envindent
+    \fi
+    \noindenttrue
+    \the\everyquotation
+}
+\let\endquotation=\endenv
+%}}}
+%{{{  lines (for verbatim listings etc)
+
+\def\lines
+{
+    \smallskip\hrule\nobreak\smallskip
+    \obeylines
+    \parindent=0pt \parskip=0pt 
+    \parfillskip=0pt plus 1fil
+    \the\everylines % user chooses font to use
+    \counta=0 \countb=5 \everypar{\linenum}%	number lines
+    % %  Cut into left margin to allow for at least 72 columns:
+    % \leftskip=-\leftmargin \advance\leftskip2em % space for ~3 digits
+    % \setbox0=\hbox{\tt x}\dimen0=-72\wd0 % estimate of 72 \tt characters
+    % \advance\dimen0\hsize  
+    % \ifdim\leftskip<\dimen0 \leftskip=\dimen0 \fi
+    \let\end\linesend
+}
+
+\let\normalend\end
+{\obeylines   \gdef\linesend#1^^M{\normalend #1 }}
+
+\def\endlines
+{
+    \par
+    \ifdim\lastskip<\smallskipamount \removelastskip\nobreak\smallskip \fi
+    \hrule\smallskip
+    \global\noindenttrue
+}  
+
+\def\linesskipped#1%
+{%
+    \hskip20pt\strut$\vdots$\hskip20pt{\rm(\it #1 lines omitted\rm)}\par
+    \advance\counta#1\relax
+}
+%}}}
+%{{{  Displays, Tables -- wrapper about \halign
+
+%  \begin table #\hfil&#\cr
+%    ...&...\cr
+%  \end table
+
+\def\table
+{
+    \noindent
+    $$ % matching $$ is in \endtable
+    \halign \bgroup\indent
+}
+\def\endtable
+{
+	\crcr \egroup $$ % matches $$ in \table
+    \global\noindenttrue
+}
+
+%  Random displayed text
+%  
+%  \begin display
+%    ... [&...\cr...]
+%  \end display
+
+
+\def\display
+{%
+    $$%					$$ for matching
+	\halign\bgroup\indent##\hfil&&\quad##\hfil\cr
+}
+
+\def\enddisplay
+{%
+	    \crcr
+	\egroup%						$$ for matching
+    $$
+}
+
+%}}}
+%{{{  (E)BNF
+
+\def\bnf
+{
+    \nobreak\smallskip
+    \advance\leftskip2\parindent \parindent=-\parindent 
+    \parskip=0.5\smallskipamount
+    \rightskip=1\rightskip plus 3em
+    \def\\{$\mid$}  % use \\ for alternatives
+    \def\>{\unskip\enspace$::=$\enspace\ignorespaces}
+    \def|{`\begingroup\tt\setupverbatim\def|{\endgroup'}}
+    \chardef\*=`\*
+    \the\everybnf
+}
+\def\endbnf
+{
+    \smallskip
+    \global\noindenttrue
+}
+
+\newtoks\everybnf
+
+%}}}
+%{{{  headings
+
+\newdimen\leftmargin  % size of left margin
+%  Set this to 0pt for headings in text, and > 0pt for left margin headingfs
+%  
+
+%  #1 is skip before -- usu bigskip or medskip
+%  #2 is pre-text text -- usu. style: e.g. \headerfonts or just \bf
+%  #3 is post-text text -- e.g. to do a rule, maybe?
+%  #4 is text of heading
+%
+\newskip\headingtemp
+\def\doheading#1#2#3#4%
+{
+    \ifdim\lastskip<#1\relax \removelastskip \vskip#1\relax \fi
+    \ifdim \leftmargin>0pt
+	\global\setbox\parbox=\vtop
+	  {%
+	    \hsize=\leftmargin \advance\hsize-\parboxsep
+	    \parindent=0pt
+	    \leftskip=0pt \rightskip=0pt plus 3em
+	    \hyphenpenalty=10000 \exhyphenpenalty=5000
+	    \strut#2#4#3
+	  }
+    \else
+	\begingroup
+	    \parindent=0pt \parfillskip=0pt plus 1fil
+	    \leftskip=0pt \rightskip=0pt plus0.25\hsize 
+	    \hyphenpenalty=10000 \exhyphenpenalty=5000
+	    \strut#2#4#3
+	    \global\headingtemp=\baselineskip % sets fixed part only
+	    \par
+	\endgroup
+	\advance\headingtemp-\baselineskip 
+%	\advance\headingtemp\smallskipamount
+	\nobreak
+	\vskip 1.0\headingtemp
+  	\smallskip
+	\noindenttrue
+    \fi
+}
+
+%  #1 is white space at top of page
+%  #2 is pre-text
+%  #3 is post-text
+%  #4 is text of heading
+%
+\def\newpageheading#1#2#3#4%
+{
+    \vfill\supereject % ensure no insertions still floating
+    \null\vskip#1\relax
+    \moveleft\leftmargin\vbox
+      {
+	\advance\hsize\leftmargin
+	\parindent=0pt \parfillskip=0pt plus 1fil
+	\leftskip=0pt \rightskip=0pt plus0.25\hsize 
+	\hyphenpenalty=10000 \exhyphenpenalty=5000
+	\strut#2#4#3
+	\global\headingtemp=\baselineskip % sets fixed part only
+	\par
+      }
+    \advance\headingtemp-\baselineskip 
+    \advance\headingtemp\smallskipamount
+    \vskip \headingtemp 
+    \smallskip
+    \noindenttrue
+    \def\tmp{#4}
+    \message{*\expandafter\TOCtrim\meaning\tmp.  }
+}
+%}}}
+%{{{  footnotes
+
+\newcount\notecount		% initially 0
+\def\note
+{%
+    \global\advance\notecount+1
+    \footnote{\number\notecount}%
+}
+
+\catcode`\@=11			%  See TeXbook p.363:
+\def\footnote#1{\let\@sf\empty
+  \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+  \flushtop{\footnotetextmark{#1}}\@sf\vfootnote{#1}}
+\def\vfootnote#1%
+{\insert\footins\bgroup		% matched by \@foot
+    \interlinepenalty=\interfootnotelinepenalty
+    \leftskip=0pt 
+    \the\everyfootnote
+    \splittopskip=\ht\strutbox \splitmaxdepth=\dp\strutbox
+    \floatingpenalty=20000
+    \indent\footstrut
+    \ifdim\parindent>1em 
+	\llap{\footnotenotemark{#1}\enspace}%
+    \else
+	\footnotenotemark{#1}\enspace
+    \fi
+    \futurelet\next\fo@t
+}
+\def\@foot{\smallskip\egroup}
+\catcode`\@=12
+\def\footnotetextmark#1{$^{#1}$}
+\def\footnotenotemark#1{$^{#1}$}
+%}}}
+%{{{  Hooks
+
+\newtoks\everybullets
+\newtoks\everytagged
+\newtoks\everytag % e.g., \everytag={\bf}
+\newtoks\everyquotation	% e.g., \everyquotation={\smallfonts}
+\newtoks\everylines
+\newtoks\everyfootnote
+\newtoks\everyfootnotemark%} }}
+%}}} pdcfmt.tex
+
+%Local variables:
+%fold-folded-p:t
+%tex-macros-p:t
+%End:

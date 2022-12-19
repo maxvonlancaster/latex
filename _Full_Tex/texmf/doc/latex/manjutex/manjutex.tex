@@ -1,0 +1,334 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{manju}
+\usepackage{ctib}
+
+\newcommand\exa{\nopagebreak \begin{flushleft}\smallskip \nopagebreak
+                \begin{minipage}[t]{6cm}\sloppy}
+\newcommand\exb{\end{minipage}\kern 1cm\begin{minipage}[t]{8cm}\sloppy }
+\newcommand\exc{\end{minipage}\kern -3cm \smallskip\end{flushleft}}
+
+\title{\mabosoo{manju}\mabosoo{late|h'}\\[0.35cm]
+	ManjuTeX 0.2\\[0.35cm]
+	A Manju Script Package for \LaTeXe}
+\author{Oliver Corff}
+\date{April 1st, 2001}
+\begin{document}
+\maketitle
+\begin{abstract}
+	Manju\TeX\ is a package offering Manju support for \TeX\ and
+	\LaTeXe.  This package is founded on Mon\TeX\ and will
+	finally merge with Mon\TeX\ in order to provide all
+	Mongolian writings. In contrast to the Mongolian Script
+	of early Mon\TeX\ versions, the complete retransliteration
+	process which generates Manju writing out of romanized input is
+	built on the ligature functionality of \TeX\ and Metafont, thus
+	effectively eliminating the need for installing any external
+	preprocessor.
+\end{abstract}
+\tableofcontents
+
+\section{Introduction}
+
+As long as a full-fledged support of all Mongolian-based languages
+and writing systems (Mongolian, Manju, Tod, Sibe as well as various
+transcription systems for Tibetan, Sanskrit and Chinese, also known
+as Galig or Ali Gali) is not available for the \TeX\ and \LaTeXe\
+community, the author considered it useful to prepare a stand-alone
+Manju package which can be used with \TeX\ and \LaTeXe. The package
+comes in two varieties: while \TeX\ users can access the Manju
+fonts, \LaTeXe\ users enjoy the additional privilege of being able
+to typeset vertical capsules of Manju text. Users of both
+communities never have to bother with encoding issues or external
+preprocessors. Manju is typed in a fairly standard romanization and
+is converted to the presentation form automatically.
+
+
+\section{Installation\label{Installation}}
+
+Installation of this software package is straightforward:
+The installation procedure depends on the nature of the actual
+\TeX\ system. The directory tree of e.\,g., teTeX is different
+from the emtex tree; hence the source archive \texttt{manjutex.zip}
+features the following subdirectories the contents of which has to be
+placed into appropriate branches of the \TeX\ installation:
+\begin{itemize}
+	\item \texttt{mfinput} holds the complete Metafont sources 
+		for the Tibetan fonts. The suggested path for emtex
+		users is \verb"\emtex\mfinput\manju"; for teTeX users
+		\verb"$TEXMF/fonts/source/public/manju" is a suitable
+		choice.
+	\item \texttt{tfm} holds all necessary font metrics files.
+	The suggested path for emtex users is \verb"\emtex\tfm\manju";
+	for teTeX users \verb"$TEXMF/fonts/tfm/public/manju"
+	is a suitable choice.
+	\item \texttt{texinput} holds all style files, font encoding
+		definitions etc. which are read by \TeX\ and \LaTeXe.
+		The suggested path for emtex users is
+		\verb"\emtex\texinput\manju"; for teTeX users
+		\verb"$TEXMF/tex/latex/manju" is a suitable choice.
+	\item \texttt{doc} contains the documentation (the document
+		which you are reading right now). It can be placed
+		in \verb"\emtex\doc\manju" (for emtex users) or 
+		\verb"$TEXMF/doc/latex/manju" (for teTeX users).
+\end{itemize}
+
+It may become necessary to rehash the directory database of the
+\TeX\ system. When in doubt, consult your system administrator or
+local \TeX\ wizard.
+On teTeX systems, the command \texttt{texhash} will perform this service.
+
+
+\section{User Commands\label{UserCommands}}
+
+Manju\TeX\ provides the common command
+\verb|\bth| (as in {\bth bithe} \textit{bithe}) to switch to
+Manju mode. A Manju font is selected and the Latin input is
+automatically interpreted as transliterated Manju. The
+transliteration closely follows Hauer's system and is presented in
+the next section.
+
+\subsection{Using \ManjuTeX\ with \TeX}
+
+If you only use \LaTeXe\ then you can safely skip reading this
+paragraph.
+
+Near the beginning of your \TeX\ document (or before your first
+instance of Manju text) you have to input the Manju macros by saying
+\begin{verbatim}
+	\input manju
+\end{verbatim} 
+which will provide a size selection command, \verb*-msize-, and the
+font switching command \verb*-\bth-.
+
+A complete Manju \TeX\ document could look like this:
+
+\exa
+	This is Manju:\\
+	{\bth manju bithe}
+\exb
+	\begin{verbatim}
+	\input manju
+	\msize
+	This is Manju:\\
+	{\bth manju bithe}
+	\bye
+	\end{verbatim}
+\exc
+
+In effect, three different font sizes can be selected using
+\verb*-msize- (10~points),
+\verb*-msizei- (11~points) and
+\verb*-msizeii- (12~points).
+
+The commands to toggle between Manju writing and Computer Modern
+are \verb*-\bth- and \verb*-\tenrm-, respectively. Please note that
+\verb*-\tenrm- is redefined by \ManjuTeX\ to the effect that the size
+selection command overrides the 10~point size of \verb*-\tenrm-%
+	\footnote{This `feature' was taken from the Tibetan
+		package.}.
+
+\subsection{Using \ManjuTeX\ with \LaTeXe}
+
+\LaTeXe\ users activate the Manju package by saying
+\begin{verbatim}
+	\usepackage{manju}
+\end{verbatim} 
+in the preamble of the document. The font selection command is
+\verb*-\bth-. The size is set through the NFSS system.
+
+A Manju document could contain the following code snippet:
+
+\exa
+	This is Manju:\\
+	{\bth manju bithe}
+\exb
+	\begin{verbatim}
+	This is Manju:\\
+	{\bth manju bithe}
+	\end{verbatim}
+\exc
+
+\subsubsection{Vertical Text Capsules}
+
+With PostScript support it becomes possible to typeset vertical
+capsules of Manju text. Simply issue the command \verb*-\mabosoo{}-,
+include a text argument and see how it works:
+\exa
+	\mabosoo{manju}\mabosoo{bithe}
+	is \textit{manju bithe}.
+\exb
+	\begin{verbatim}
+	\mabosoo{manju}\mabosoo{bithe}
+	is \textit{manju bithe}.
+	\end{verbatim}
+\exc
+
+\section{Character Set and Romanization}
+Given by dictionary order, the system provides the following basic
+character set:
+
+\subsection{Basic Character Set}
+\newcommand{\ManjuEntry}[3]{\mabosoo{#1}& #2 & #3 }
+\begin{center}
+\begin{tabular}{ccc|ccc|ccc}
+Manju&Input&Latin&Manju&Input&Latin&Manju&Input&Latin\\
+\hline
+\ManjuEntry{a}{a}{a}	& \ManjuEntry{h}{h}{h}	& \ManjuEntry{c}{c}{c}	\\
+\ManjuEntry{e}{e}{e}	& \ManjuEntry{b}{b}{b}	& \ManjuEntry{j}{j}{j}	\\
+\ManjuEntry{i}{i}{i}	& \ManjuEntry{p}{p}{p}	& \ManjuEntry{y}{y}{y}	\\
+\ManjuEntry{o*}{o}{o}	& \ManjuEntry{s}{s}{s}	& \ManjuEntry{k'}{k'}{k'}\\
+\ManjuEntry{u*}{u}{u}	& \ManjuEntry{s'}{s'}{\v s}& \ManjuEntry{g'}{g'}{g'}\\
+\ManjuEntry{v}{v}{\={u}}& \ManjuEntry{t}{t}{t}	& \ManjuEntry{h'}{h'}{h'}\\
+\ManjuEntry{n}{n}{n}	& \ManjuEntry{d}{d}{d}	& \ManjuEntry{r}{r}{r}	\\
+\ManjuEntry{k}{k}{k}	& \ManjuEntry{l}{l}{l}	& \ManjuEntry{f}{f}{f}	\\
+\ManjuEntry{g}{g}{g}	& \ManjuEntry{m}{m}{m}	& \ManjuEntry{w}{w}{w}	\\
+\end{tabular}
+\end{center}
+
+While the input method for the majority of characters matches the
+transliteration conventions, some letters require a slightly
+different treatment:
+\begin{enumerate}
+	\item Although the diphtong \mabosoo{*aii*} is
+		usually rendered as \textit{ai}, it must be entered
+		as \texttt{aii} in order to produce the desired
+		effect.
+	\item The vowel which is conventionally rendered as \textit{\^u}
+		or \textit{\=u} \mabosoo{v} can be entered as \texttt{v}
+		or as \verb|\={u}| due to the fact that a character
+		\textit{\^u} is not readily available on most systems.
+	\item The consonant \textit{\v s} \mabosoo{s'} can be entered as
+		\texttt{s'}or as \verb|\v{s}|, but not as *\texttt{sh}
+		as to avoid undesired mergers of \textit{s} and \textit{h}
+		like in \textit{ishun} \mabosoo{ishun} which should not be
+		*\textit{i\v{s}un} \mabosoo{is'un}!
+\end{enumerate}
+
+\subsection{Extended Character Set}
+The following special characters listed in major dictionaries are
+provided:
+\begin{center}
+\begin{tabular}{ccc}
+Manju	& Input &Latin\\
+\ManjuEntry{sy}{sy}{sy}	\\
+\ManjuEntry{cy}{cy}{cy}	\\
+\ManjuEntry{j'}{j'}{jy}	\\
+\ManjuEntry{dz}{dz}{dz}	\\
+\ManjuEntry{tsh}{tsh}{tsh}	\\
+\ManjuEntry{tshy}{tshy}{tshy}	\\
+\ManjuEntry{zr}{zr}{zr}	\\
+\end{tabular}
+\end{center}
+
+Please note that due to internal limitations of the retransliteration
+engine, \textit{jy} \mabosoo{j'} has to be entered as \texttt{j'}.
+
+\subsection{Tibetan Transliteration Character Set}
+Besides these characters, an additional small set of special characters
+is provided for rendering Tibetan transliterations as given in the
+Pentaglot dictionary:
+
+\begin{center}
+\begin{tabular}{ccc}
+Manju	& Input &Latin	\\
+\ManjuEntry{z}{z}{z}		\\
+\ManjuEntry{zh}{zh}{zh}	\\
+\ManjuEntry{ts}{ts}{ts}	\\
+\ManjuEntry{ng'}{ng'}{ng'}	\\
+\ManjuEntry{l'}{l'}{l'}		\\
+\ManjuEntry{p'}{p'}{p'}		\\
+\ManjuEntry{t'}{t'}{t'}		\\
+\end{tabular}
+\end{center}
+
+It becomes thus possible to spell out the Tibetan alphabet in
+Manju writing, as used in the Pentaglot dictionary for Tibetan
+and Uighur transliterations:
+
+\newcommand{\MT}[2]{{\tib #1} \textit{#1} \mabosoo{#2}}
+
+\newcommand{\ManjuTibetan}[8]{%
+	\tib #1 & \mabosoo{#2}&
+		\tib #3 & \mabosoo{#4}&
+			\tib #5 & \mabosoo{#6}&
+				\tib #7 & \mabosoo{#8}\\
+	\tt #1 & \tt #2 &
+		\tt #3 & \tt #4 &
+			\tt #5 & \tt #6 &
+				\tt #7 & \tt #8\\
+		}
+
+\begin{center}
+\begin{tabular}{cc|cc|cc|cc}
+\ManjuTibetan{ka}{g'a}		{kha}{k'a}	{ga}{ga}	{nga}{ng'a}
+\hline
+\ManjuTibetan{ca}{jiya}		{cha}{cia}	{ja}{ja}	{nya}{niya}
+\hline
+\ManjuTibetan{ta}{t'a}		{tha}{ta}	{da}{da}	{na}{na}
+\hline
+\ManjuTibetan{pa}{ba}		{pha}{pa}	{ba}{wa}	{ma}{ma}
+\hline
+\ManjuTibetan{tsa}{tsa}		{tsha}{tsha}	{dza}{dza}	{wa}{wa}
+\hline
+\ManjuTibetan{zha}{zha}		{za}{za}	{'}{ea}		{ya}{ya}
+\hline
+\ManjuTibetan{ra}{ra}		{la}{la}	{sha}{s'a}	{sa}{sa}
+\hline
+\ManjuTibetan{ha}{h|a}		{a}{a}		{}{}		{}{}
+\end{tabular}
+\end{center}
+
+Besides these basic representations, certain deviations exist:
+\begin{enumerate}
+	\item \MT{nga}{ng'a} is used for Tibetan initials and subscripts;
+		finals are expressed as \mabosoo{*ng}
+	\item While \MT{ha}{h|a} is used for Tibetan initial
+		{\tib ha},
+		a different form is taken for subscripted
+		\textit{ha}, as in \MT{lha}{l'|a}.
+\end{enumerate}
+
+\subsection{Special Characters}
+
+Manju\TeX\ and its progenitor Mon\TeX\ share the complete
+set of numbers and punctuation marks as well as a few special
+characters used for influencing the presentation of the writing.
+
+Provided a word should end with a non-final glyph shape then the Environment
+Marker \mabosoo{**} is used which is entered as an asterisque
+\verb-*-. This is helpful for writing abbreviated words or marking
+non-final vowels, like \mabosoo{o*} which is entered as \verb-o*-.
+
+Whenever the plethora of diacritics used in Manju writing causes
+ugly clashes between adjacent letters, then the `backbone' (mong.
+\textit{nirugu}), entered as \verb'|', can be used to stretch the
+distance between clashing letter elements, like in \mabosoo{h|a}
+which should be entered \verb-h|a- rather than \verb-ha- resulting
+in \mabosoo{ha}.
+
+\section{Outlook and Desiderata}
+
+Unfortunately, some code positions in the Metafont sources of
+\ManjuTeX\ haven't
+been frozen yet which implies that documents containing Manju text
+should be recompiled once a new version of this software is issued.
+
+In addition, the author is not happy yet with some of the
+interaction performed by certain glyph combinations. This will have
+to be refined definitely!
+
+With $\Omega$mega lurking around, \ManjuTeX\ should actually be obsolete
+work. A unified encoding comprising all Mongolian writings has been
+integrated into Unicode 3.0 and ISO 10646. The author needed a quick
+solution for ongoing lexicographical work (the Pentaglot database,
+that is) and will merge \ManjuTeX\ with the existing Mon\TeX\ system
+later. At that point, there will also be full-featured $\Omega$mega
+support.
+
+Anyway, whatever the mistakes and the shortcomings are that have 
+crept into this Manju system, I can only kindly ask you to blame me.
+
+\vspace{1cm}
+\hfill\parbox{4cm}{\it Now go forth and create beautiful Manju text!\\
+			Oliver Corff, Shenyang, April 1st, 2001}
+\end{document}

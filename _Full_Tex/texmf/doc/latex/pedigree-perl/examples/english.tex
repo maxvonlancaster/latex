@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage{pst-pdgr}
+\psset{armB=1}
+
+\begin{document}
+\begin{pspicture}(-8,-4)(6,4)
+\rput(-6, 2){\pstPerson[male, normal, belowtext=I:1, deceased]{GF1}}
+\rput(-4, 2){\pnode{GF1_m_GM1}}
+\rput(-2, 2){\pstPerson[female, asymptomatic, belowtext=I:2, deceased]{GM1}}
+\rput(0, 2){\pstPerson[male, normal, belowtext=I:3]{GF2}}
+\rput(2, 2){\pnode{GF2_m_GM2}}
+\rput(4, 2){\pstPerson[female, normal, belowtext=I:4]{GM2}}
+\rput(-5, 0){\pstPerson[female, obligatory, belowtext=II:1]{A1}}
+\rput(-3, 0){\pstPerson[male, affected, belowtext=II:2]{F1}}
+\rput(0, 0){\pnode{F1_m_M1}}
+\rput(2, 0){\pstPerson[female, normal, belowtext=II:3]{M1}}
+\rput(-5, -2){\pstPerson[female, affected, belowtext=III:1]{C1}}
+\rput(-2, -2){\pstPerson[male, affected, belowtext=III:2, proband]{P}}
+\rput(0, -2){\pstPerson[female, affected, belowtext=III:3]{S1}}
+\rput(2, -2){\pstPerson[male, normal, belowtext=III:4]{S2}}
+\pstDescent{GF1_m_GM1}{A1}
+\pstDescent{GF1_m_GM1}{F1}
+\ncline{GF1_m_GM1}{GM1}
+\ncline{GF1_m_GM1}{GF1}
+\pstDescent{GF2_m_GM2}{M1}
+\ncline{GF2_m_GM2}{GM2}
+\ncline{GF2_m_GM2}{GF2}
+\pstDescent{A1}{C1}
+\pstDescent{F1_m_M1}{P}
+\pstDescent{F1_m_M1}{S1}
+\pstDescent{F1_m_M1}{S2}
+\ncline{F1_m_M1}{M1}
+\ncline{F1_m_M1}{F1}
+\end{pspicture}
+
+\begin{description}
+\item[I:1] Joseph Smith; born: unknown; died: unknown.
+\item[I:2] Joan Smith; born: 1902/07/01; died: 1975/12/13.
+\item[I:3] Jim Brown; born: 1905/11/01.
+\item[I:4] Lisa Brown; born: 1910/03/03.
+\item[II:1] Ann Gold (Smith); born: 1941/09/02; Aunt of the proband.
+\item[II:2] Bill Smith; born: 1938/04/03.
+\item[II:3] Mary Smith (Brown); born: 1940/02/05.
+\item[III:1] Jenny Smith; born: 1969/12/03; Cousin of the proband.
+\item[III:2] John Smith; born: 1970/02/05; Evaluated 2005/12/01.
+\item[III:3] Rebecca Smith; born: 1972/12/25.
+\item[III:4] Alexander Smith; born: 1975/11/12.
+\end{description}
+\end{document}

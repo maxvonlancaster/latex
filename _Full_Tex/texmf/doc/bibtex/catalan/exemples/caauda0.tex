@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish,english,italian,catalan]{babel}
+\usepackage{natbib}
+\usepackage{url}
+\title{Exemple de l'estil bibliogràfic \textsf{caauda0}}
+\author{Robert Fuster}
+\date{15 de desembre de 2004}
+\begin{document}
+\maketitle
+Aquest és un exemple de l'estil bibliogràfic del tipus autor-data \textsf{caauda0}.
+
+Entre altres documents la bibliografia inclou dues entrades del mateix autor
+\citep{lamport2,biblamport}, el document electrònic~\citet{hyperlatex}
+i algun llibre de text, com ara~\citet{rbjcjmau}. Diversos documents 
+\citep{biblamport, btxdoc,lamport2,vafus,jcccrf,liang} fan referència al \TeX, al 
+\LaTeX{} i al \textsc{Bib}\TeX.
+\nocite{*}
+\bibliographystyle{caauda0}
+\bibliography{exemples}
+\end{document}

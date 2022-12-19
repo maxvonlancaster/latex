@@ -1,0 +1,62 @@
+% ----------------------------------------------------------------
+% -*-TeX-*- -*-Hard-*- Smart Wrapping
+% ----------------------------------------------------------------
+% ----------------------------------------------------------------
+% AMS-LaTeX definitions ******************************************
+% ----------------------------------------------------------------
+\documentclass[titlepage]{slides}
+\usepackage{amsmath}
+%\usepackage[active]{srcltx}
+% Fuzz -----------------------------------------------------------
+\hfuzz5pt % Don't bother to report overfull boxes < 5pt
+% MATH -----------------------------------------------------------
+\DeclareMathOperator{\RE}{Re}
+\DeclareMathOperator{\IM}{Im}
+\DeclareMathOperator{\ess}{ess}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\To}{\longrightarrow}
+\newcommand{\h}{\mathcal{H}}
+\newcommand{\s}{\mathcal{S}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\J}{\mathcal{J}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\BOP}{\mathbf{B}}
+\newcommand{\BH}{\mathbf{B}(\mathcal{H})}
+\newcommand{\KH}{\mathcal{K}(\mathcal{H})}
+\newcommand{\Real}{\mathbf{R}}
+\newcommand{\Complex}{\mathbf{C}}
+\newcommand{\Field}{\mathbf{F}}
+\newcommand{\RPlus}{\Real^{+}}
+\newcommand{\Polar}{\mathcal{P}_{\s}}
+\newcommand{\Poly}{\mathcal{P}(E)}
+\newcommand{\EssD}{\mathcal{D}}
+\newcommand{\Lom}{\mathcal{L}}
+\newcommand{\States}{\mathcal{T}}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\seq}[1]{\left<#1\right>}
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\essnorm}[1]{\norm{#1}_{\ess}}
+% THEOREM ENVIRONMENTS -------------------------------------------
+\newtheorem{thm}{Theorem.}
+\newtheorem{cor}[thm]{Corollary.}
+\newtheorem{con}[thm]{Conjecture.}
+\newtheorem{lem}[thm]{Lemma.}
+\newtheorem{prop}[thm]{Proposition.}
+\newtheorem{defn}[thm]{Definition.}
+\renewcommand{\thethm}{}  % unnumbered
+\pagestyle{plain}
+%%% --------------------------------------------------------------
+\begin{document}
+\title{On Invariant Subspaces of
+       Essentially Self-Adjoint Operators }
+\author{Aleksander Simoni\v{c}}
+\date{May 30, 1995}
+\maketitle
+% ----------------------------------------------------------------
+\input{Talk-Slides.tex}
+% ----------------------------------------------------------------
+\end{document}
+% ----------------------------------------------------------------

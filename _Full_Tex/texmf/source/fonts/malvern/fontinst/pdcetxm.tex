@@ -1,0 +1,110 @@
+% pdcetxm.tex 1.1.1 1994/07/20 -- macros for ETX files
+% Copyright 1993, 1994 P. Damian Cugley
+
+%%% @TeX-macro-file {
+%%%   filename       = "pdcetxm.tex",
+%%%   version        = "1.1.1",
+%%%   date           = "1994/07/20",
+%%%   package        = "Malvern 1.1",
+%%%   author         = "P. Damian Cugley",
+%%%   email          = "damian.cugley@comlab.ox.ac.uk",
+%%%   address        = "Oxford University Computing Laboratory,
+%%%                     Parks Road, Oxford  OX1 3QD, UK",
+%%%   codetable      = "USASCII",
+%%%   keywords       = "Malvern, METAFONT, font, typefont, TeX",
+%%%   supported      = "Maybe",
+%%%   abstract       = "Macros for Damian's ETX files.",
+%%%   dependencies   = "",
+%%% }
+
+%  This software is available freely but without warranty.
+%  See the file COPYING for details.
+
+%  Macro to enumerate numerals 0..9
+% #1 --  description
+%  of which set of numerals this will be -- such as "old style" or
+%  "ranging"
+% #2 -- the suffix to append to the letter to make its name 
+%  -- e.g., "oldstyle" to make "oneoldstyle", etc
+% #3  -- body of macro to typeset a sammple numberal
+%  it takes one argument, the character to be displayed
+%
+%  For eample, \pdcnumerals{ranging}{}{#1} or
+%  \pdcnumerals{old style}{oldstyle}{$\mit#1$}
+
+% pdc 1993/10/21
+
+\def\pdcnumerals#1#2%
+{
+    \edef\numeralentry##1##2%
+    {%
+	\noexpand\setslot{##1#2}
+	\noexpand\comment{The #1 digit
+	    `\noexpand\numeralsample{##2}'.}
+	\noexpand\endsetslot
+    }
+    \afterassignment\xxxpdcnumerals
+    \def\numeralsample##1%
+}
+
+\def\xxxpdcnumerals
+{
+    \numeralentry{zero}{0}
+    \numeralentry{one}{1}
+    \numeralentry{two}{2}
+    \numeralentry{three}{3}
+    \numeralentry{four}{4}
+    \numeralentry{five}{5}
+    \numeralentry{six}{6}
+    \numeralentry{seven}{7}
+    \numeralentry{eight}{8}
+    \numeralentry{nine}{9}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Macro to enumerate alphabetics
+
+% #1 --  a description of which alphabet this will be -- such as
+%   "lower case" or "capital"
+% #2 -- the suffix to append to the letter to make its name -- 
+%  e.g., "small" to make "Asmall", "Bsmall", etc.
+% #3 --  macro body to typeset a sample letter
+%  it takes one argument, the character to be displayed
+% For eample, \pdcuppercase{upper case}{}{\uppercase{#1}} or
+%  \pdclowercase{small capital}{small}{{\sc \lowercase{#1}}}
+
+% pdc 1993/10/21
+
+\newif\ifpdclowercase 
+\def\pdcuppercase{\pdclowercasefalse\pdcalphabet}
+\def\pdclowercase{\pdclowercasetrue\pdcalphabet}
+
+\def\pdcalphabet#1#2%
+{
+    \edef\alphabetentry##1##2%
+    {%
+	\noexpand\setslot{\ifpdclowercase##2\else##1\fi#2}
+	\noexpand\comment{The #1 letter
+	    `\noexpand\alphabetsample{##1}'.}
+	\noexpand\endsetslot
+    }
+    \afterassignment\xxxpdcalphabet
+    \def\alphabetsample##1%
+}
+
+\def\xxxpdcalphabet
+{
+    \alphabetentry{A}{a} \alphabetentry{B}{b} \alphabetentry{C}{c}
+    \alphabetentry{D}{d} \alphabetentry{E}{e} \alphabetentry{F}{f}
+    \alphabetentry{G}{g} \alphabetentry{H}{h} \alphabetentry{I}{i}
+    \alphabetentry{J}{j} \alphabetentry{K}{k} \alphabetentry{L}{l}
+    \alphabetentry{M}{m} \alphabetentry{N}{n} \alphabetentry{O}{o}
+    \alphabetentry{P}{p} \alphabetentry{Q}{q} \alphabetentry{R}{r}
+    \alphabetentry{S}{s} \alphabetentry{T}{t} \alphabetentry{U}{u}
+    \alphabetentry{V}{v} \alphabetentry{W}{w} \alphabetentry{X}{x}
+    \alphabetentry{Y}{y} \alphabetentry{Z}{z}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

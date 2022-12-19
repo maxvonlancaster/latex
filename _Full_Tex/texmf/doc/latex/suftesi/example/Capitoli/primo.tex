@@ -1,0 +1,130 @@
+% !TEX encoding = UTF-8 Unicode
+\chapter{Il primo capitolo della mia tesi}
+
+\chapterintro
+
+Questa è un'introduzione non numerata.
+
+
+\section{Citazioni fuori testo e note}
+
+Ecco una citazione fuori teso, o ``in display'':
+\begin{quotation}
+\lipsum[11]
+\end{quotation}
+
+Questa è una citazione di una massima:
+\begin{quote}
+Meglio un uovo oggi che una gallina domani.\footnote{Una delle massime più conosciute.}
+\end{quote}
+
+Questa è una citazione di una terzina dantesca:
+\begin{verse}
+Nel mezzo del cammin di nostra vita\\\marginpar{I primi tre versi della \emph{Divina Commedia}}
+mi ritrovai per una selva oscura,\\
+ché la diritta via era smarrita.
+\end{verse}
+
+
+\section{Documenti multilingua}
+
+\subsection{Greco antico}
+
+   \begin{otherlanguage*}{polutonikogreek}
+Th| p`anta dido`ush|
+ka'i >apolambano`ush| f`usei
+<o pepaideum`enos ka'i
+a>id`hmwn l`egei; <<d'os, <'o
+j`eleis, >ap`olabe, <'o
+j`eleic>>. L`egei d'e to~uto
+o>u katajrasun`omenos, >all'a
+peijarq~wn m`onon ka'i
+e>uno~wn a>ut~h|.
+   \end{otherlanguage*}
+   
+ \subsection{Inglese}
+ 
+ \begin{otherlanguage*}{english}
+The Categories are the clue to the discovery of, in view of these considerations, the Ideal. To avoid all misapprehension, it is necessary to explain that our concepts would thereby be made to contradict, in view of these considerations, the things in themselves. As any dedicated reader can clearly see, our sense perceptions (and to avoid all misapprehension, it is necessary to explain that this is the case) are a representation of space. Since all of natural causes are problematic, the objects in space and time are by their very nature contradictory.
+\end{otherlanguage*}
+
+
+\section{Citazioni}
+
+\cite{Ethica,Bringhurst:1996,Descartes:1897,Facchinetti:2009a,Galilei1,kant:kpv}
+
+% Section
+%****************************
+\section{Elenchi puntati e numerati e descrizioni}\label{sec:elenchi}
+
+
+\subsection{Elenchi puntati}
+\begin{itemize} 
+\item Kant
+\item Cartesio
+\item Leibniz
+\item Platone
+\end{itemize}
+
+ \begin{itemize}
+ \item[-] Kant
+ \item[-] Cartesio
+ \item[-] Leibniz
+ \item[-] Platone
+ \end{itemize}
+
+\subsection{Elenchi numerati}
+\begin{enumerate}
+ \item Kant
+ \item Cartesio
+% \item Leibniz
+% \item Platone
+ \end{enumerate}
+ 
+\subsection{Descrizioni} 
+\begin{description}
+ \item[Kant]
+ \item[Cartesio]
+ \item[Leibniz]
+ \item[Platone]
+ \end{description}
+ 
+  
+ \section{Figure e tabelle}
+
+\subsection{Inserimento delle figure}
+
+Si veda la figura \ref{fig:knuth-lamport}.
+\begin{figure}[h]
+\centering
+\includegraphics[width=3cm]{don}
+\quad
+\includegraphics[width=3cm]{lamport}
+\caption[Donald Knuth e Laslie Lamport]{Donald Knuth e Laslie Lamport, ovvero i padri di \TeX{} e \LaTeX.}
+\label{fig:knuth-lamport}
+\end{figure}
+
+
+\subsection{Inserimento di tabelle}
+
+La tabella~\vref{tab:gabbia} raccoglie le misure dei diversi elementi
+della pagina della classe \textsf{suftesi}.
+\begin{table}[h]
+\centering
+\begin{tabular}{lc}
+\toprule
+Elemento                 & Valore (pt)\\\midrule
+Giustezza                & 312 \\
+Altezza del testo        & 624 \\
+Margine interno          & 95 \\
+Margine esterno          & 190 \\
+Margine superiore        & 74 \\
+Margine inferiore        & 147 \\
+Proporzioni del testo    & $1:2$\\
+Proporzioni della pagina & $1/\sqrt{2}$\\
+\bottomrule
+\end{tabular}
+\caption[Misure degli elementi della pagina]{Valore in punti dei diversi elementi della pagina.}
+\label{tab:gabbia}
+\end{table}
+ 

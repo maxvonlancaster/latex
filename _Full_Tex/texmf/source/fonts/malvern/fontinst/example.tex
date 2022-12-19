@@ -1,0 +1,35 @@
+% example.tex -- example use of fontinst with Malvern fonts
+%%% ====================================================================
+%%%  @TeX-file {
+%%%     author          = "P. Damian Cugley",
+%%%     version         = "X",
+%%%     date            = "pdc 1994.07.20",
+%%%     filename        = "example.tex",
+%%%     address         = "Oxford University Computing Laboratory,
+%%%			   Parks Road, Oxford OX1 3QD, UK",
+%%%     email           = "Damian.Cugley@comlab.ox.ac.uk",
+%%%     codetable       = "USASCII",
+%%%     keywords        = "AFM, virtual fonts, fonts, Malvern, TeX",
+%%%     supported       = "no",
+%%%     abstract        = "Example of using fontinst with Malvern fonts.",
+%%%     package         = "",
+%%%     dependencies    = "fontinst.sty, pdcmat1.mtx, pdcmaa.etx,
+%%%     		   pdcmab.etx, pdcetxm.etx, latin.mtx, T1.etx,
+%%%			   ma55a10.pl, ma55b10.pl",
+%%%  }
+%%% ====================================================================
+
+\input fontinst.sty
+
+\needsfontinstversion{1.328}
+
+\declareencoding{MALVERN A 1.1}{pdcmaa}
+\declareencoding{MALVERN B 1.1}{pdcmab}
+
+\installfonts
+    \installfamily{T1}{fmv}{}
+    \installfont{fmvmq10}{ma55a10,ma55b10,pdcmat1,latin}
+	{T1}{T1}{fmv}{m}{n}{10}
+\endinstallfonts
+
+\bye

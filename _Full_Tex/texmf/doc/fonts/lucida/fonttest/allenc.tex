@@ -1,0 +1,30 @@
+%testfont stuff
+%
+\vsize10in
+\voffset-.5in\eject
+\let\noinit!\input testfox
+\let\xtables\xtable
+\def\head#1{\def\header{#1\par}}
+\def\FontPage #1{\vbox\bgroup\def\fontname{#1}\header\startfont\xtable \egroup\vfill}
+\def\FontPageS#1{\vbox\bgroup\def\fontname{#1}\header\startfont\xtables\egroup\vfill}
+\head{Computer Modern font}
+\FontPage{cmr10}
+\FontPage{cmcsc10}
+\FontPage{cmti10}
+\FontPage{cmss10}
+\FontPage{cmtt10}
+
+\head{Europian Computer Modern}
+\FontPage{ecrm1000}
+\FontPage{eccc1000}
+\FontPage{ecti1000}
+\FontPage{ecss1000}
+\FontPage{ectt1000}
+
+\head{Washington Cyrillic}
+\FontPage{wncyr10}
+\FontPage{wncyi10}
+\FontPage{wncyb10}
+\FontPage{wncyss10}
+\FontPage{wncysc10}
+\end

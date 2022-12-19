@@ -1,0 +1,205 @@
+%
+% The AeB Pro Family
+% http://www.acrotex.net
+% dpstory@acrotex.net
+%
+\documentclass{article}
+\usepackage[tight]{web}
+\usepackage[execJS]{eforms} % try with the preview option while your are developing your layout
+\usepackage{acrosort}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+%
+% The wrapfig package is normally not needed unless you wish to wrap text around
+% the image.
+%
+\university{\AcroTeX.Net}
+\title{The AcroSort Package}
+\author{D. P. Story}
+\email{dpstory@acrotex.net}
+\subject{Test file for the AcroSort Package}
+\keywords{Adobe Acrobat, JavaScript, LaTeX, JavaScript, sort, slicing}
+
+\theTotalTiles{20}
+\theNumRows{4}
+\theNumCols{5}
+\theImportPath{dpsweb/dpsweb}
+\theTeXImageWidth{2in}
+
+\def\AcroTeX{Acro\negthinspace\TeX}
+\newenvironment{sverbatim}
+{\par\footnotesize\verbatim}{\endverbatim}
+\newcommand{\cs}[1]{\texttt{\char`\\#1}}
+
+\parskip6pt
+\parindent0pt
+\thispagestyle{empty}
+
+\begin{document}
+
+\vspace*{-1in}\vskip0in
+
+\begin{center}
+\centering\bfseries  \Large\color{blue}The AcroSort Package\\[1ex]
+\large D. P. Story
+\end{center}
+
+\section{Introduction}
+
+
+% \ulCornerHere sets the upper left corner of where the image is to be placed.
+% \reserveSpaceByFile leaves space for the image.
+\begin{wrapfigure}{l}{\texImageWidth}%
+\ulCornerHere\reserveSpaceByFile
+
+\smallskip
+
+%
+% Simple controls, there meaning is obvious. You can changes their appearance
+% by using the option argument. See \textsf{eForms} documentation for details
+% on how to change the appearance.
+%
+
+\centering\StartSort\quad\StopSort\quad\ClearSort
+\vskip-\baselineskip
+\end{wrapfigure}%
+The \textsf{AcroSort} is a novelty {\LaTeX} package for importing a
+series of sliced images of a picture. The sliced images are randomly
+arranged, then resorted before the user's eyes using a bubble sort.
+
+\textbf{\color{blue}Requirements.} The techniques used in this
+package require Acrobat~7.0 Professional, or later. You can probably
+use \textsf{pdftex} to create the PDF document, but you need Acrobat
+Pro to import the icons into the document. Since Acrobat Pro is
+required, you may as well use the Acrobat Distiller!
+
+The folder JavaScript file \texttt{aeb\_pro.js} is used to import
+the images. This file as special JavaScript coding needed, due to
+recent (Acrobat~7.0) security restrictions on certain JavaScript
+methods.
+
+\section{Installing \texttt{aeb\_pro.js}}
+
+You need to install \texttt{aeb\_pro.js}, to do this copy this file
+to the User's \texttt{Java\-Scripts} folder. To find this folder,
+execute the script
+\begin{verbatim}
+    app.getPath("user", "javascript");
+\end{verbatim}
+in the JavaScript Debugger Console window.\footnote{Place the cursor
+on the line containing this script and press the \texttt{Ctrl+Enter}
+key.} The return value of this is the path to the
+\texttt{JavaScripts} folder; for example, on my system it returns
+\begin{verbatim}
+    /C/Documents and Settings/dps
+        /Application Data/Adobe/Acrobat/8.0/JavaScripts
+\end{verbatim}
+
+\section{The Method}
+
+As you can see from this example, the tiled images are precisely
+placed on the PDF page, this was done \emph{after} the source files
+was latexed. After we latex and bring into Acrobat, an
+\texttt{execJS} (from the \textsf{insDLJS} package, loaded by the
+\textsf{eForms} package) takes over and programmatically, using
+JavaScript, the icons are imported and the form fields are created
+and placed precisely were they are supposed to go, with the correct
+scaling. You must agree, it appears to work well.
+
+Now for the precise placement of the  tiled images. You'll note from
+this document the following lines,
+\begin{verbatim}
+    \ulCornerHere\reserveSpaceByFile
+\end{verbatim}
+The first one of these creates a form button of \texttt{0pt}
+dimension The button is placed where you want the upper left corner
+of your image to appear.  The JavaScript that is executed when the
+document is first opened following the distill gets the bounding
+rectangle of this button and lays out the tiles at that
+location. Very swave!\footnote{You can also create your form fields
+using the \textsf{eForms} package, laying them out in proper rows
+and columns, you would still need \texttt{execJS} to convert them to
+buttons that have an icon appearance. But this is not half so much
+fun, and not nearly as swave.}
+
+I sliced the image, \texttt{choo.pdf} into $20$ tiles (five columns
+and four rows)  in PDF format using the \textsf{AeB Slicing} batch
+sequence. I also created an \texttt{EPS} version of
+\texttt{choo.pdf}. This is the role the command
+\cs{reserveSpaceByFile} plays. By including graphic (in draft mode),
+{\LaTeX} can measure the size of the image by getting its bounding
+box, and leave room for the tiled images fit together; hence, even
+though the images are not part of the content of the document,
+{\LaTeX} can wrap around the image.
+
+\section{Package parameters}
+
+There are five package parameters, below are the ones used for this
+document.
+\begin{verbatim}
+    \theTotalTiles{20}
+    \theNumRows{4}
+    \theNumCols{5}
+    \theImportPath{choo/choo}
+    \theTeXImageWidth{2in}
+\end{verbatim}
+\begin{enumerate}
+\item \verb!\theTotalTiles{<number>}!: The total number of tiles
+    (slices) in the image. This command defines a macro \cs{nTotalTiles}
+    which holds the value of \texttt{<number>}.
+
+\item \verb!\theNumRows{<number>}!: The number of rows in the image.
+    This command defines a macro \cs{nRows} which holds the value of
+    \texttt{<number>}.
+
+\item \verb!\theNumCols{<number>}!: The number of columns in the
+    image. This command defines a macro \cs{nCols} which holds the value
+    of \texttt{<number>}.
+
+\item \verb!\theImportPath{<path>}! The path to the file, the end of
+    the path is the base name, without extension of the tiles. The tiles
+    are named as follows: \texttt{basename\_01}, \texttt{basename\_02},
+    \dots \texttt{basename\_10}, \texttt{basename\_11}, \dots. This is
+    the naming convention used by the \textsf{AeB Slicing} batch
+    sequence. This command defines a macro \cs{importpath} which holds
+    the value of \texttt{<path>}.
+
+\item \verb!\theTeXImageWidth{<length>}! The image is not necessarily
+    displayed using its natural dimensions. This parameter allows you to
+    specify its rescaled width. This command defines a macro
+    \cs{texImageWidth} which holds the value of \texttt{<length>}.
+
+\end{enumerate}
+
+\section{After assembly}
+
+After you latex the document and bring the newly created PDF into
+Acrobat, some JavaScript will be executed to import the icons and to
+lay out the button form fields. After things have settled down, be
+sure to \emph{save the document} before distribution.
+
+Use the \textsf{PDF Optimizer}, under the \textsf{Advance} menu, to
+reduce the size of the file. For example, the file size of this
+document after distillation was 1.89\,MB, but after running the
+PDF Optimizer on it, the file size was reduced to 176.7\,KB!
+
+\section{Limitations}
+
+This package uses much of the same code as the \textsf{AcroMemory}
+package. These two packages cannot be used together for one
+document, and it makes no sense to use them together.
+
+Only one image can be randomized and sorted per document.  The
+package can be generalized to have more than one, but the novelty
+would wear a little thin, in this case.
+
+\section{Uses}
+
+i've used this package to create birthday greetings cards for
+friends. You can use it for whatever novel idea your mind can
+conjure up! Enjoy!
+
+Now, I simply must get back to my retirement, dps
+
+
+\end{document}
